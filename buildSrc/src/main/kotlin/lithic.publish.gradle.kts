@@ -49,11 +49,17 @@ configure<PublishingExtension> {
 }
 
 signing {
-    useInMemoryPgpKeys(
-        System.getenv("SIGNING_KEY_ID"),
-        System.getenv("SIGNING_KEY"),
-        System.getenv("SIGNING_PASSWORD"))
-    sign(publishing.publications["maven"])
+    val signingKeyId = System.getenv("SIGNING_KEY_ID")
+    val signingKey = System.getenv("SIGNING_KEY")
+    val signingPassword = System.getenv("SIGNING_PASSWORD")
+    if (signingKey != null && signingPassword != null) {
+        useInMemoryPgpKeys(
+            signingKeyId,
+            signingKey,
+            signingPassword,
+        )
+        sign(publishing.publications["maven"])
+    }
 }
 
 tasks.publish {
