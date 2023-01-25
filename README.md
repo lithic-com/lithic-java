@@ -21,7 +21,7 @@ During private beta, this package is not published to a public repository. To ma
 #### Gradle
 
 ```kotlin
-implementation("com.lithic.api:lithic-java:0.0.0-alpha")
+implementation("com.lithic.api:lithic-java:0.0.1")
 ```
 
 #### Maven
@@ -30,7 +30,7 @@ implementation("com.lithic.api:lithic-java:0.0.0-alpha")
 <dependency>
     <groupId>com.lithic.api</groupId>
     <artifactId>lithic-java</artifactId>
-    <version>0.0.0-alpha</version>
+    <version>0.0.1</version>
 </dependency>
 ```
 
