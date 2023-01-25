@@ -6,6 +6,7 @@ import org.gradle.kotlin.dsl.get
 
 plugins {
     `maven-publish`
+    `signing`
 }
 
 configure<PublishingExtension> {
@@ -45,6 +46,14 @@ configure<PublishingExtension> {
             }
         }
     }
+}
+
+signing {
+    useInMemoryPgpKeys(
+        System.getenv("SIGNING_KEY_ID"),
+        System.getenv("SIGNING_KEY"),
+        System.getenv("SIGNING_PASSWORD"))
+    sign(publishing.publications["maven"])
 }
 
 tasks.publish {
