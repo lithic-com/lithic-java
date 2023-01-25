@@ -116,7 +116,7 @@ class ErrorHandlingTest {
 
         stubFor(post(anyUrl()).willReturn(ok().withBody(toJson(expected))))
 
-        assertThat(client.cards.create(params)).isEqualTo(expected)
+        assertThat(client.cards().create(params)).isEqualTo(expected)
     }
 
     @Test
@@ -159,7 +159,7 @@ class ErrorHandlingTest {
                 .willReturn(status(400).withHeader("Foo", "Bar").withBody(toJson(LITHIC_ERROR)))
         )
 
-        assertThatThrownBy({ client.cards.create(params) })
+        assertThatThrownBy({ client.cards().create(params) })
             .satisfies({ e ->
                 assertBadRequest(e, ImmutableListMultimap.of("Foo", "Bar"), LITHIC_ERROR)
             })
@@ -205,7 +205,7 @@ class ErrorHandlingTest {
                 .willReturn(status(401).withHeader("Foo", "Bar").withBody(toJson(LITHIC_ERROR)))
         )
 
-        assertThatThrownBy({ client.cards.create(params) })
+        assertThatThrownBy({ client.cards().create(params) })
             .satisfies({ e ->
                 assertUnauthorized(e, ImmutableListMultimap.of("Foo", "Bar"), LITHIC_ERROR)
             })
@@ -251,7 +251,7 @@ class ErrorHandlingTest {
                 .willReturn(status(403).withHeader("Foo", "Bar").withBody(toJson(LITHIC_ERROR)))
         )
 
-        assertThatThrownBy({ client.cards.create(params) })
+        assertThatThrownBy({ client.cards().create(params) })
             .satisfies({ e ->
                 assertPermissionDenied(e, ImmutableListMultimap.of("Foo", "Bar"), LITHIC_ERROR)
             })
@@ -297,7 +297,7 @@ class ErrorHandlingTest {
                 .willReturn(status(404).withHeader("Foo", "Bar").withBody(toJson(LITHIC_ERROR)))
         )
 
-        assertThatThrownBy({ client.cards.create(params) })
+        assertThatThrownBy({ client.cards().create(params) })
             .satisfies({ e ->
                 assertNotFound(e, ImmutableListMultimap.of("Foo", "Bar"), LITHIC_ERROR)
             })
@@ -343,7 +343,7 @@ class ErrorHandlingTest {
                 .willReturn(status(422).withHeader("Foo", "Bar").withBody(toJson(LITHIC_ERROR)))
         )
 
-        assertThatThrownBy({ client.cards.create(params) })
+        assertThatThrownBy({ client.cards().create(params) })
             .satisfies({ e ->
                 assertUnprocessableEntity(e, ImmutableListMultimap.of("Foo", "Bar"), LITHIC_ERROR)
             })
@@ -389,7 +389,7 @@ class ErrorHandlingTest {
                 .willReturn(status(429).withHeader("Foo", "Bar").withBody(toJson(LITHIC_ERROR)))
         )
 
-        assertThatThrownBy({ client.cards.create(params) })
+        assertThatThrownBy({ client.cards().create(params) })
             .satisfies({ e ->
                 assertRateLimit(e, ImmutableListMultimap.of("Foo", "Bar"), LITHIC_ERROR)
             })
@@ -435,7 +435,7 @@ class ErrorHandlingTest {
                 .willReturn(status(500).withHeader("Foo", "Bar").withBody(toJson(LITHIC_ERROR)))
         )
 
-        assertThatThrownBy({ client.cards.create(params) })
+        assertThatThrownBy({ client.cards().create(params) })
             .satisfies({ e ->
                 assertInternalServer(e, ImmutableListMultimap.of("Foo", "Bar"), LITHIC_ERROR)
             })
@@ -481,7 +481,7 @@ class ErrorHandlingTest {
                 .willReturn(status(999).withHeader("Foo", "Bar").withBody(toJson(LITHIC_ERROR)))
         )
 
-        assertThatThrownBy({ client.cards.create(params) })
+        assertThatThrownBy({ client.cards().create(params) })
             .satisfies({ e ->
                 assertUnexpectedStatusCodeException(
                     e,
@@ -529,7 +529,7 @@ class ErrorHandlingTest {
 
         stubFor(post(anyUrl()).willReturn(status(200).withBody("Not JSON")))
 
-        assertThatThrownBy({ client.cards.create(params) })
+        assertThatThrownBy({ client.cards().create(params) })
             .satisfies({ e ->
                 assertThat(e)
                     .isInstanceOf(LithicException::class.java)
@@ -574,7 +574,7 @@ class ErrorHandlingTest {
 
         stubFor(post(anyUrl()).willReturn(status(400).withBody("Not JSON")))
 
-        assertThatThrownBy({ client.cards.create(params) })
+        assertThatThrownBy({ client.cards().create(params) })
             .satisfies({ e ->
                 assertBadRequest(e, ImmutableListMultimap.of(), LithicError.builder().build())
             })

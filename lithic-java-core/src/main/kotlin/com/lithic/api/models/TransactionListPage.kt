@@ -10,7 +10,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.services.TransactionService
+import com.lithic.api.services.blocking.TransactionService
 import java.util.Objects
 import java.util.Optional
 import java.util.stream.Stream

@@ -126,7 +126,7 @@ class ServiceParamsTest {
                 .willReturn(ok(JSON_MAPPER.writeValueAsString(apiResponse)))
         )
 
-        client.cards.create(params)
+        client.cards().create(params)
 
         verify(postRequestedFor(anyUrl()))
     }
@@ -198,7 +198,7 @@ class ServiceParamsTest {
                 .willReturn(ok(JSON_MAPPER.writeValueAsString(apiResponse)))
         )
 
-        client.cards.list(params)
+        client.cards().list(params)
 
         verify(getRequestedFor(anyUrl()))
     }

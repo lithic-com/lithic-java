@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
@@ -7,7 +7,7 @@ import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.Transaction
-import com.lithic.api.models.TransactionListPage
+import com.lithic.api.models.TransactionListPageAsync
 import com.lithic.api.models.TransactionListParams
 import com.lithic.api.models.TransactionRetrieveParams
 import com.lithic.api.models.TransactionSimulateAuthorizationParams
@@ -22,9 +22,14 @@ import com.lithic.api.models.TransactionSimulateReturnReversalParams
 import com.lithic.api.models.TransactionSimulateReturnReversalResponse
 import com.lithic.api.models.TransactionSimulateVoidParams
 import com.lithic.api.models.TransactionSimulateVoidResponse
-import com.lithic.api.services.*
+import com.lithic.api.services.errorHandler
+import com.lithic.api.services.json
+import com.lithic.api.services.jsonHandler
+import com.lithic.api.services.withErrorHandler
+import java.util.concurrent.CompletableFuture
 
-class TransactionService constructor(private val clientOptions: ClientOptions) {
+class TransactionServiceAsyncImpl constructor(private val clientOptions: ClientOptions) :
+    TransactionServiceAsync {
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val retrieveHandler: Handler<Transaction> =
@@ -38,11 +43,10 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
      * [this page](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes) for more
      * information._
      */
-    @JvmOverloads
-    fun retrieve(
+    override fun retrieve(
         params: TransactionRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): Transaction {
+        requestOptions: RequestOptions
+    ): CompletableFuture<Transaction> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -51,7 +55,7 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
                 .putHeader("Authorization", clientOptions.apiKey)
                 .putAllHeaders(params.toHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response
                 .let { retrieveHandler.handle(it) }
                 .apply {
@@ -62,8 +66,8 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
         }
     }
 
-    private val listHandler: Handler<TransactionListPage.Response> =
-        jsonHandler<TransactionListPage.Response>(clientOptions.jsonMapper)
+    private val listHandler: Handler<TransactionListPageAsync.Response> =
+        jsonHandler<TransactionListPageAsync.Response>(clientOptions.jsonMapper)
             .withErrorHandler(errorHandler)
 
     /**
@@ -74,11 +78,10 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
      * [this page](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes) for more
      * information._
      */
-    @JvmOverloads
-    fun list(
+    override fun list(
         params: TransactionListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): TransactionListPage {
+        requestOptions: RequestOptions
+    ): CompletableFuture<TransactionListPageAsync> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -87,7 +90,7 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
                 .putHeader("Authorization", clientOptions.apiKey)
                 .putAllHeaders(params.toHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response
                 .let { listHandler.handle(it) }
                 .apply {
@@ -95,7 +98,7 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
                         validate()
                     }
                 }
-                .let { TransactionListPage.of(this, params, it) }
+                .let { TransactionListPageAsync.of(this, params, it) }
         }
     }
 
@@ -111,11 +114,10 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
      * modified via the [update account](https://docs.lithic.com/reference/patchaccountbytoken)
      * endpoint.
      */
-    @JvmOverloads
-    fun simulateAuthorization(
+    override fun simulateAuthorization(
         params: TransactionSimulateAuthorizationParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): TransactionSimulateAuthorizationResponse {
+        requestOptions: RequestOptions
+    ): CompletableFuture<TransactionSimulateAuthorizationResponse> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -125,7 +127,7 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
                 .putAllHeaders(params.toHeaders())
                 .body(json(clientOptions.jsonMapper, params.toBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response
                 .let { simulateAuthorizationHandler.handle(it) }
                 .apply {
@@ -146,11 +148,10 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
      * If no `amount` is supplied to this endpoint, the amount of the transaction will be captured.
      * Any transaction that has any amount completed at all do not have access to this behavior.
      */
-    @JvmOverloads
-    fun simulateClearing(
+    override fun simulateClearing(
         params: TransactionSimulateClearingParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): TransactionSimulateClearingResponse {
+        requestOptions: RequestOptions
+    ): CompletableFuture<TransactionSimulateClearingResponse> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -160,7 +161,7 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
                 .putAllHeaders(params.toHeaders())
                 .body(json(clientOptions.jsonMapper, params.toBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response
                 .let { simulateClearingHandler.handle(it) }
                 .apply {
@@ -180,11 +181,10 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
      * Simulates a credit authorization advice message from the payment network. This message
      * indicates that a credit authorization was approved on your behalf by the network.
      */
-    @JvmOverloads
-    fun simulateCreditAuthorization(
+    override fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): TransactionSimulateCreditAuthorizationResponse {
+        requestOptions: RequestOptions
+    ): CompletableFuture<TransactionSimulateCreditAuthorizationResponse> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -194,7 +194,7 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
                 .putAllHeaders(params.toHeaders())
                 .body(json(clientOptions.jsonMapper, params.toBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response
                 .let { simulateCreditAuthorizationHandler.handle(it) }
                 .apply {
@@ -213,11 +213,10 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
      * Returns (aka refunds) an amount back to a card. Returns are cleared immediately and do not
      * spend time in a `PENDING` state.
      */
-    @JvmOverloads
-    fun simulateReturn(
+    override fun simulateReturn(
         params: TransactionSimulateReturnParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): TransactionSimulateReturnResponse {
+        requestOptions: RequestOptions
+    ): CompletableFuture<TransactionSimulateReturnResponse> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -227,7 +226,7 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
                 .putAllHeaders(params.toHeaders())
                 .body(json(clientOptions.jsonMapper, params.toBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response
                 .let { simulateReturnHandler.handle(it) }
                 .apply {
@@ -247,11 +246,10 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
      * status. These can be credit authorizations that have already cleared or financial credit
      * authorizations. This endpoint will be available beginning January 4, 2023.
      */
-    @JvmOverloads
-    fun simulateReturnReversal(
+    override fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): TransactionSimulateReturnReversalResponse {
+        requestOptions: RequestOptions
+    ): CompletableFuture<TransactionSimulateReturnReversalResponse> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -261,7 +259,7 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
                 .putAllHeaders(params.toHeaders())
                 .body(json(clientOptions.jsonMapper, params.toBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response
                 .let { simulateReturnReversalHandler.handle(it) }
                 .apply {
@@ -283,11 +281,10 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
      * authorizations or credit authorization advice is not currently supported but will be added
      * soon._
      */
-    @JvmOverloads
-    fun simulateVoid(
+    override fun simulateVoid(
         params: TransactionSimulateVoidParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): TransactionSimulateVoidResponse {
+        requestOptions: RequestOptions
+    ): CompletableFuture<TransactionSimulateVoidResponse> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -297,7 +294,7 @@ class TransactionService constructor(private val clientOptions: ClientOptions) {
                 .putAllHeaders(params.toHeaders())
                 .body(json(clientOptions.jsonMapper, params.toBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response
                 .let { simulateVoidHandler.handle(it) }
                 .apply {

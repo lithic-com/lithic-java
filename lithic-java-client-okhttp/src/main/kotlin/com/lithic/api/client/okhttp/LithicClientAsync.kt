@@ -3,47 +3,53 @@ package com.lithic.api.client.okhttp
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.models.ClientApiStatusParams
 import com.lithic.api.services.*
+import com.lithic.api.services.async.*
 import java.time.Duration
+import kotlin.LazyThreadSafetyMode.PUBLICATION
 
 class LithicClientAsync private constructor(private val clientOptions: ClientOptions) {
-    @get:JvmName("accounts")
-    val accounts: AccountServiceAsync by lazy { AccountServiceAsync(clientOptions) }
+    private val accounts: AccountServiceAsync by
+        lazy(PUBLICATION) { AccountServiceAsyncImpl(clientOptions) }
+    private val accountHolders: AccountHolderServiceAsync by
+        lazy(PUBLICATION) { AccountHolderServiceAsyncImpl(clientOptions) }
+    private val authRules: AuthRuleServiceAsync by
+        lazy(PUBLICATION) { AuthRuleServiceAsyncImpl(clientOptions) }
+    private val authStreamEnrollment: AuthStreamEnrollmentServiceAsync by
+        lazy(PUBLICATION) { AuthStreamEnrollmentServiceAsyncImpl(clientOptions) }
+    private val cards: CardServiceAsync by lazy(PUBLICATION) { CardServiceAsyncImpl(clientOptions) }
+    private val fundingSources: FundingSourceServiceAsync by
+        lazy(PUBLICATION) { FundingSourceServiceAsyncImpl(clientOptions) }
+    private val transactions: TransactionServiceAsync by
+        lazy(PUBLICATION) { TransactionServiceAsyncImpl(clientOptions) }
 
-    @get:JvmName("accountHolders")
-    val accountHolders: AccountHolderServiceAsync by lazy {
-        AccountHolderServiceAsync(clientOptions)
-    }
+    private val lithicClientInternalService: LithicClientInternalServiceAsyncImpl by
+        lazy(PUBLICATION) { LithicClientInternalServiceAsyncImpl(clientOptions) }
 
-    @get:JvmName("authRules")
-    val authRules: AuthRuleServiceAsync by lazy { AuthRuleServiceAsync(clientOptions) }
+    fun accounts(): AccountServiceAsync = accounts
 
-    @get:JvmName("authStreamEnrollment")
-    val authStreamEnrollment: AuthStreamEnrollmentServiceAsync by lazy {
-        AuthStreamEnrollmentServiceAsync(clientOptions)
-    }
+    fun accountHolders(): AccountHolderServiceAsync = accountHolders
 
-    @get:JvmName("cards") val cards: CardServiceAsync by lazy { CardServiceAsync(clientOptions) }
+    fun authRules(): AuthRuleServiceAsync = authRules
 
-    @get:JvmName("fundingSources")
-    val fundingSources: FundingSourceServiceAsync by lazy {
-        FundingSourceServiceAsync(clientOptions)
-    }
+    fun authStreamEnrollment(): AuthStreamEnrollmentServiceAsync = authStreamEnrollment
 
-    @get:JvmName("transactions")
-    val transactions: TransactionServiceAsync by lazy { TransactionServiceAsync(clientOptions) }
+    fun cards(): CardServiceAsync = cards
 
-    private val lithicClientInternalService: LithicClientInternalServiceAsync by lazy {
-        LithicClientInternalServiceAsync(clientOptions)
-    }
+    fun fundingSources(): FundingSourceServiceAsync = fundingSources
+
+    fun transactions(): TransactionServiceAsync = transactions
+
+    fun lithicClientInternalService(): LithicClientInternalServiceAsync =
+        lithicClientInternalService
+
+    /** API status check */
+    fun apiStatus(params: ClientApiStatusParams) = lithicClientInternalService.apiStatus(params)
 
     companion object {
         @JvmStatic fun builder() = Builder()
 
         @JvmStatic fun fromEnv(): LithicClientAsync = builder().fromEnv().build()
     }
-
-    /** API status check */
-    fun apiStatus(params: ClientApiStatusParams) = lithicClientInternalService.apiStatus(params)
 
     class Builder {
         private var clientOptions: ClientOptions.Builder = ClientOptions.builder()

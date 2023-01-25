@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.blocking
 
 import com.lithic.api.client.okhttp.LithicClient
 import com.lithic.api.models.*
@@ -10,7 +10,7 @@ class TransactionServiceTest {
     fun callRetrieve() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val transactionService = client.transactions
+        val transactionService = client.transactions()
         val transaction =
             transactionService.retrieve(
                 TransactionRetrieveParams.builder()
@@ -25,7 +25,7 @@ class TransactionServiceTest {
     fun callList() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val transactionService = client.transactions
+        val transactionService = client.transactions()
         val response = transactionService.list(TransactionListParams.builder().build())
         println(response)
         response.data().forEach { it.validate() }
@@ -35,7 +35,7 @@ class TransactionServiceTest {
     fun callSimulateAuthorization() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val transactionService = client.transactions
+        val transactionService = client.transactions()
         val transactionSimulateAuthorizationResponse =
             transactionService.simulateAuthorization(
                 TransactionSimulateAuthorizationParams.builder()
@@ -56,7 +56,7 @@ class TransactionServiceTest {
     fun callSimulateClearing() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val transactionService = client.transactions
+        val transactionService = client.transactions()
         val transactionSimulateClearingResponse =
             transactionService.simulateClearing(
                 TransactionSimulateClearingParams.builder()
@@ -72,7 +72,7 @@ class TransactionServiceTest {
     fun callSimulateCreditAuthorization() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val transactionService = client.transactions
+        val transactionService = client.transactions()
         val transactionSimulateCreditAuthorizationResponse =
             transactionService.simulateCreditAuthorization(
                 TransactionSimulateCreditAuthorizationParams.builder()
@@ -89,7 +89,7 @@ class TransactionServiceTest {
     fun callSimulateReturn() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val transactionService = client.transactions
+        val transactionService = client.transactions()
         val transactionSimulateReturnResponse =
             transactionService.simulateReturn(
                 TransactionSimulateReturnParams.builder()
@@ -106,7 +106,7 @@ class TransactionServiceTest {
     fun callSimulateReturnReversal() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val transactionService = client.transactions
+        val transactionService = client.transactions()
         val transactionSimulateReturnReversalResponse =
             transactionService.simulateReturnReversal(
                 TransactionSimulateReturnReversalParams.builder()
@@ -121,7 +121,7 @@ class TransactionServiceTest {
     fun callSimulateVoid() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val transactionService = client.transactions
+        val transactionService = client.transactions()
         val transactionSimulateVoidResponse =
             transactionService.simulateVoid(
                 TransactionSimulateVoidParams.builder()

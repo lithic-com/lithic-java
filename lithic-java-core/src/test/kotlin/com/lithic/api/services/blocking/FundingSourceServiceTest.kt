@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.blocking
 
 import com.lithic.api.client.okhttp.LithicClient
 import com.lithic.api.models.*
@@ -10,7 +10,7 @@ class FundingSourceServiceTest {
     fun callCreate() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val fundingSourceService = client.fundingSources
+        val fundingSourceService = client.fundingSources()
         val fundingSource =
             fundingSourceService.create(
                 FundingSourceCreateParams.builder()
@@ -33,7 +33,7 @@ class FundingSourceServiceTest {
     fun callUpdate() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val fundingSourceService = client.fundingSources
+        val fundingSourceService = client.fundingSources()
         val fundingSource =
             fundingSourceService.update(
                 FundingSourceUpdateParams.builder()
@@ -50,7 +50,7 @@ class FundingSourceServiceTest {
     fun callList() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val fundingSourceService = client.fundingSources
+        val fundingSourceService = client.fundingSources()
         val response = fundingSourceService.list(FundingSourceListParams.builder().build())
         println(response)
         response.data().forEach { it.validate() }
@@ -60,7 +60,7 @@ class FundingSourceServiceTest {
     fun callVerify() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val fundingSourceService = client.fundingSources
+        val fundingSourceService = client.fundingSources()
         val fundingSource =
             fundingSourceService.verify(
                 FundingSourceVerifyParams.builder()

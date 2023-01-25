@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.blocking
 
 import com.lithic.api.client.okhttp.LithicClient
 import com.lithic.api.models.*
@@ -10,7 +10,7 @@ class AuthStreamEnrollmentServiceTest {
     fun callRetrieve() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val authStreamEnrollmentService = client.authStreamEnrollment
+        val authStreamEnrollmentService = client.authStreamEnrollment()
         val authStreamEnrollment =
             authStreamEnrollmentService.retrieve(
                 AuthStreamEnrollmentRetrieveParams.builder().build()
@@ -23,7 +23,7 @@ class AuthStreamEnrollmentServiceTest {
     fun callDisenroll() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val authStreamEnrollmentService = client.authStreamEnrollment
+        val authStreamEnrollmentService = client.authStreamEnrollment()
         authStreamEnrollmentService.disenroll(AuthStreamEnrollmentDisenrollParams.builder().build())
     }
 
@@ -34,7 +34,7 @@ class AuthStreamEnrollmentServiceTest {
     fun callEnroll() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val authStreamEnrollmentService = client.authStreamEnrollment
+        val authStreamEnrollmentService = client.authStreamEnrollment()
         authStreamEnrollmentService.enroll(
             AuthStreamEnrollmentEnrollParams.builder().webhookUrl("https://example.com").build()
         )

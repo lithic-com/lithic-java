@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
@@ -10,9 +10,15 @@ import com.lithic.api.models.AuthStreamEnrollment
 import com.lithic.api.models.AuthStreamEnrollmentDisenrollParams
 import com.lithic.api.models.AuthStreamEnrollmentEnrollParams
 import com.lithic.api.models.AuthStreamEnrollmentRetrieveParams
-import com.lithic.api.services.*
+import com.lithic.api.services.emptyHandler
+import com.lithic.api.services.errorHandler
+import com.lithic.api.services.json
+import com.lithic.api.services.jsonHandler
+import com.lithic.api.services.withErrorHandler
+import java.util.concurrent.CompletableFuture
 
-class AuthStreamEnrollmentService constructor(private val clientOptions: ClientOptions) {
+class AuthStreamEnrollmentServiceAsyncImpl constructor(private val clientOptions: ClientOptions) :
+    AuthStreamEnrollmentServiceAsync {
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val retrieveHandler: Handler<AuthStreamEnrollment> =
@@ -22,11 +28,10 @@ class AuthStreamEnrollmentService constructor(private val clientOptions: ClientO
      * Check status for whether you have enrolled in Authorization Stream Access (ASA) for your
      * program in Sandbox.
      */
-    @JvmOverloads
-    fun retrieve(
+    override fun retrieve(
         params: AuthStreamEnrollmentRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): AuthStreamEnrollment {
+        requestOptions: RequestOptions
+    ): CompletableFuture<AuthStreamEnrollment> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -35,7 +40,7 @@ class AuthStreamEnrollmentService constructor(private val clientOptions: ClientO
                 .putHeader("Authorization", clientOptions.apiKey)
                 .putAllHeaders(params.toHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response
                 .let { retrieveHandler.handle(it) }
                 .apply {
@@ -49,7 +54,10 @@ class AuthStreamEnrollmentService constructor(private val clientOptions: ClientO
     private val disenrollHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
     /** Disenroll Authorization Stream Access (ASA) in Sandbox. */
-    fun disenroll(params: AuthStreamEnrollmentDisenrollParams) {
+    override fun disenroll(
+        params: AuthStreamEnrollmentDisenrollParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<Void> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.DELETE)
@@ -59,7 +67,7 @@ class AuthStreamEnrollmentService constructor(private val clientOptions: ClientO
                 .putAllHeaders(params.toHeaders())
                 .apply { params.toBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response.let { disenrollHandler.handle(it) }
         }
     }
@@ -79,7 +87,10 @@ class AuthStreamEnrollmentService constructor(private val clientOptions: ClientO
      * In Sandbox, users can self-enroll and disenroll in ASA. In production, onboarding requires
      * manual approval and setup.
      */
-    fun enroll(params: AuthStreamEnrollmentEnrollParams) {
+    override fun enroll(
+        params: AuthStreamEnrollmentEnrollParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<Void> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -89,7 +100,7 @@ class AuthStreamEnrollmentService constructor(private val clientOptions: ClientO
                 .putAllHeaders(params.toHeaders())
                 .body(json(clientOptions.jsonMapper, params.toBody()))
                 .build()
-        clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response.let { enrollHandler.handle(it) }
         }
     }

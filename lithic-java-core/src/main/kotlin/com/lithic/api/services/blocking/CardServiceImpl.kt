@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
@@ -16,9 +16,13 @@ import com.lithic.api.models.CardProvisionResponse
 import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRetrieveParams
 import com.lithic.api.models.CardUpdateParams
-import com.lithic.api.services.*
+import com.lithic.api.services.errorHandler
+import com.lithic.api.services.json
+import com.lithic.api.services.jsonHandler
+import com.lithic.api.services.stringHandler
+import com.lithic.api.services.withErrorHandler
 
-class CardService constructor(private val clientOptions: ClientOptions) {
+class CardServiceImpl constructor(private val clientOptions: ClientOptions) : CardService {
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val createHandler: Handler<Card> =
@@ -28,11 +32,7 @@ class CardService constructor(private val clientOptions: ClientOptions) {
      * Create a new virtual or physical card. Parameters `pin`, `shipping_address`, and `product_id`
      * only apply to physical cards.
      */
-    @JvmOverloads
-    fun create(
-        params: CardCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): Card {
+    override fun create(params: CardCreateParams, requestOptions: RequestOptions): Card {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -57,11 +57,7 @@ class CardService constructor(private val clientOptions: ClientOptions) {
         jsonHandler<Card>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Get card configuration such as spend limit and state. */
-    @JvmOverloads
-    fun retrieve(
-        params: CardRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): Card {
+    override fun retrieve(params: CardRetrieveParams, requestOptions: RequestOptions): Card {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -90,11 +86,7 @@ class CardService constructor(private val clientOptions: ClientOptions) {
      *
      * _Note: setting a card to a `CLOSED` state is a final action that cannot be undone._
      */
-    @JvmOverloads
-    fun update(
-        params: CardUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): Card {
+    override fun update(params: CardUpdateParams, requestOptions: RequestOptions): Card {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
@@ -119,11 +111,7 @@ class CardService constructor(private val clientOptions: ClientOptions) {
         jsonHandler<CardListPage.Response>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** List cards. */
-    @JvmOverloads
-    fun list(
-        params: CardListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): CardListPage {
+    override fun list(params: CardListParams, requestOptions: RequestOptions): CardListPage {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -171,7 +159,7 @@ class CardService constructor(private val clientOptions: ClientOptions) {
      * iframe) on the server or make an ajax call from your front end code, but **do not ever embed
      * your API key into front end code, as doing so introduces a serious security vulnerability**.
      */
-    fun embed(params: CardEmbedParams): String {
+    override fun embed(params: CardEmbedParams, requestOptions: RequestOptions): String {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -196,10 +184,9 @@ class CardService constructor(private val clientOptions: ClientOptions) {
      * [Contact Us](https://lithic.com/contact) or your Customer Success representative for more
      * information.
      */
-    @JvmOverloads
-    fun provision(
+    override fun provision(
         params: CardProvisionParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CardProvisionResponse {
         val request =
             HttpRequest.builder()
@@ -229,11 +216,7 @@ class CardService constructor(private val clientOptions: ClientOptions) {
      *
      * Only applies to cards of type `PHYSICAL` [beta].
      */
-    @JvmOverloads
-    fun reissue(
-        params: CardReissueParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): Card {
+    override fun reissue(params: CardReissueParams, requestOptions: RequestOptions): Card {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)

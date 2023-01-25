@@ -3,42 +3,51 @@ package com.lithic.api.client.okhttp
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.models.ClientApiStatusParams
 import com.lithic.api.services.*
+import com.lithic.api.services.blocking.*
 import java.time.Duration
+import kotlin.LazyThreadSafetyMode.PUBLICATION
 
 class LithicClient private constructor(private val clientOptions: ClientOptions) {
-    @get:JvmName("accounts") val accounts: AccountService by lazy { AccountService(clientOptions) }
+    private val accounts: AccountService by lazy(PUBLICATION) { AccountServiceImpl(clientOptions) }
+    private val accountHolders: AccountHolderService by
+        lazy(PUBLICATION) { AccountHolderServiceImpl(clientOptions) }
+    private val authRules: AuthRuleService by
+        lazy(PUBLICATION) { AuthRuleServiceImpl(clientOptions) }
+    private val authStreamEnrollment: AuthStreamEnrollmentService by
+        lazy(PUBLICATION) { AuthStreamEnrollmentServiceImpl(clientOptions) }
+    private val cards: CardService by lazy(PUBLICATION) { CardServiceImpl(clientOptions) }
+    private val fundingSources: FundingSourceService by
+        lazy(PUBLICATION) { FundingSourceServiceImpl(clientOptions) }
+    private val transactions: TransactionService by
+        lazy(PUBLICATION) { TransactionServiceImpl(clientOptions) }
 
-    @get:JvmName("accountHolders")
-    val accountHolders: AccountHolderService by lazy { AccountHolderService(clientOptions) }
+    private val lithicClientInternalService: LithicClientInternalServiceImpl by
+        lazy(PUBLICATION) { LithicClientInternalServiceImpl(clientOptions) }
 
-    @get:JvmName("authRules")
-    val authRules: AuthRuleService by lazy { AuthRuleService(clientOptions) }
+    fun accounts(): AccountService = accounts
 
-    @get:JvmName("authStreamEnrollment")
-    val authStreamEnrollment: AuthStreamEnrollmentService by lazy {
-        AuthStreamEnrollmentService(clientOptions)
-    }
+    fun accountHolders(): AccountHolderService = accountHolders
 
-    @get:JvmName("cards") val cards: CardService by lazy { CardService(clientOptions) }
+    fun authRules(): AuthRuleService = authRules
 
-    @get:JvmName("fundingSources")
-    val fundingSources: FundingSourceService by lazy { FundingSourceService(clientOptions) }
+    fun authStreamEnrollment(): AuthStreamEnrollmentService = authStreamEnrollment
 
-    @get:JvmName("transactions")
-    val transactions: TransactionService by lazy { TransactionService(clientOptions) }
+    fun cards(): CardService = cards
 
-    private val lithicClientInternalService: LithicClientInternalService by lazy {
-        LithicClientInternalService(clientOptions)
-    }
+    fun fundingSources(): FundingSourceService = fundingSources
+
+    fun transactions(): TransactionService = transactions
+
+    fun lithicClientInternalService(): LithicClientInternalService = lithicClientInternalService
+
+    /** API status check */
+    fun apiStatus(params: ClientApiStatusParams) = lithicClientInternalService.apiStatus(params)
 
     companion object {
         @JvmStatic fun builder() = Builder()
 
         @JvmStatic fun fromEnv(): LithicClient = builder().fromEnv().build()
     }
-
-    /** API status check */
-    fun apiStatus(params: ClientApiStatusParams) = lithicClientInternalService.apiStatus(params)
 
     class Builder {
         private var clientOptions: ClientOptions.Builder = ClientOptions.builder()

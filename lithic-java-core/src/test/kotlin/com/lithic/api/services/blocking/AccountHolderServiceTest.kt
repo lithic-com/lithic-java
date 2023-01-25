@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.blocking
 
 import com.lithic.api.client.okhttp.LithicClient
 import com.lithic.api.models.*
@@ -9,7 +9,7 @@ class AccountHolderServiceTest {
     fun callCreate() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val accountHolderService = client.accountHolders
+        val accountHolderService = client.accountHolders()
         val accountHolder =
             accountHolderService.create(
                 AccountHolderCreateParams.builder()
@@ -119,7 +119,7 @@ class AccountHolderServiceTest {
     fun callRetrieve() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val accountHolderService = client.accountHolders
+        val accountHolderService = client.accountHolders()
         val accountHolder =
             accountHolderService.retrieve(
                 AccountHolderRetrieveParams.builder()
@@ -134,7 +134,7 @@ class AccountHolderServiceTest {
     fun callUpdate() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val accountHolderService = client.accountHolders
+        val accountHolderService = client.accountHolders()
         val accountHolderUpdateResponse =
             accountHolderService.update(
                 AccountHolderUpdateParams.builder()
@@ -151,7 +151,7 @@ class AccountHolderServiceTest {
     fun callCreateWebhook() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val accountHolderService = client.accountHolders
+        val accountHolderService = client.accountHolders()
         val accountHolderCreateWebhookResponse =
             accountHolderService.createWebhook(
                 AccountHolderCreateWebhookParams.builder().url("string").build()
@@ -164,7 +164,7 @@ class AccountHolderServiceTest {
     fun callListDocuments() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val accountHolderService = client.accountHolders
+        val accountHolderService = client.accountHolders()
         val accountHolderListDocumentsResponse =
             accountHolderService.listDocuments(
                 AccountHolderListDocumentsParams.builder()
@@ -179,7 +179,7 @@ class AccountHolderServiceTest {
     fun callResubmit() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val accountHolderService = client.accountHolders
+        val accountHolderService = client.accountHolders()
         val accountHolder =
             accountHolderService.resubmit(
                 AccountHolderResubmitParams.builder()
@@ -216,7 +216,7 @@ class AccountHolderServiceTest {
     fun callRetrieveDocument() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val accountHolderService = client.accountHolders
+        val accountHolderService = client.accountHolders()
         val accountHolderDocument =
             accountHolderService.retrieveDocument(
                 AccountHolderRetrieveDocumentParams.builder()
@@ -232,7 +232,7 @@ class AccountHolderServiceTest {
     fun callUploadDocument() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val accountHolderService = client.accountHolders
+        val accountHolderService = client.accountHolders()
         val accountHolderDocument =
             accountHolderService.uploadDocument(
                 AccountHolderUploadDocumentParams.builder()

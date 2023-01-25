@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.blocking
 
 import com.lithic.api.client.okhttp.LithicClient
 import com.lithic.api.models.*
@@ -10,7 +10,7 @@ class AuthRuleServiceTest {
     fun callCreate() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val authRuleService = client.authRules
+        val authRuleService = client.authRules()
         val authRuleCreateResponse =
             authRuleService.create(
                 AuthRuleCreateParams.builder()
@@ -32,7 +32,7 @@ class AuthRuleServiceTest {
     fun callRetrieve() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val authRuleService = client.authRules
+        val authRuleService = client.authRules()
         val authRuleRetrieveResponse =
             authRuleService.retrieve(
                 AuthRuleRetrieveParams.builder()
@@ -47,7 +47,7 @@ class AuthRuleServiceTest {
     fun callUpdate() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val authRuleService = client.authRules
+        val authRuleService = client.authRules()
         val authRuleUpdateResponse =
             authRuleService.update(
                 AuthRuleUpdateParams.builder()
@@ -67,7 +67,7 @@ class AuthRuleServiceTest {
     fun callList() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val authRuleService = client.authRules
+        val authRuleService = client.authRules()
         val response = authRuleService.list(AuthRuleListParams.builder().build())
         println(response)
         response.data().forEach { it.validate() }
@@ -77,7 +77,7 @@ class AuthRuleServiceTest {
     fun callApply() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val authRuleService = client.authRules
+        val authRuleService = client.authRules()
         val authRuleApplyResponse =
             authRuleService.apply(
                 AuthRuleApplyParams.builder()
@@ -95,7 +95,7 @@ class AuthRuleServiceTest {
     fun callRemove() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val authRuleService = client.authRules
+        val authRuleService = client.authRules()
         val authRuleRemoveResponse =
             authRuleService.remove(
                 AuthRuleRemoveParams.builder()

@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
@@ -19,10 +19,14 @@ import com.lithic.api.models.AccountHolderRetrieveParams
 import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
-import com.lithic.api.services.*
+import com.lithic.api.services.errorHandler
+import com.lithic.api.services.json
+import com.lithic.api.services.jsonHandler
+import com.lithic.api.services.withErrorHandler
 import java.util.concurrent.CompletableFuture
 
-class AccountHolderServiceAsync constructor(private val clientOptions: ClientOptions) {
+class AccountHolderServiceAsyncImpl constructor(private val clientOptions: ClientOptions) :
+    AccountHolderServiceAsync {
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val createHandler: Handler<AccountHolder> =
@@ -36,10 +40,9 @@ class AccountHolderServiceAsync constructor(private val clientOptions: ClientOpt
      * needed to complete the account creation process. This endpoint can only be used on accounts
      * that are part of the program the calling API key manages.
      */
-    @JvmOverloads
-    fun create(
+    override fun create(
         params: AccountHolderCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AccountHolder> {
         val request =
             HttpRequest.builder()
@@ -65,10 +68,9 @@ class AccountHolderServiceAsync constructor(private val clientOptions: ClientOpt
         jsonHandler<AccountHolder>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Check the current status of a KYC or KYB evaluation. */
-    @JvmOverloads
-    fun retrieve(
+    override fun retrieve(
         params: AccountHolderRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AccountHolder> {
         val request =
             HttpRequest.builder()
@@ -94,10 +96,9 @@ class AccountHolderServiceAsync constructor(private val clientOptions: ClientOpt
             .withErrorHandler(errorHandler)
 
     /** Update the contact information associated with a particular account holder. */
-    @JvmOverloads
-    fun update(
+    override fun update(
         params: AccountHolderUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AccountHolderUpdateResponse> {
         val request =
             HttpRequest.builder()
@@ -137,10 +138,9 @@ class AccountHolderServiceAsync constructor(private val clientOptions: ClientOpt
      * verification is available, the IP addresses from which KYC/KYB webhooks are sent are subject
      * to change.
      */
-    @JvmOverloads
-    fun createWebhook(
+    override fun createWebhook(
         params: AccountHolderCreateWebhookParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AccountHolderCreateWebhookResponse> {
         val request =
             HttpRequest.builder()
@@ -181,10 +181,9 @@ class AccountHolderServiceAsync constructor(private val clientOptions: ClientOpt
      * additional entry in the `required_document_uploads` list in a `PENDING` state for the
      * corresponding `image_type`.
      */
-    @JvmOverloads
-    fun listDocuments(
+    override fun listDocuments(
         params: AccountHolderListDocumentsParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AccountHolderListDocumentsResponse> {
         val request =
             HttpRequest.builder()
@@ -217,10 +216,9 @@ class AccountHolderServiceAsync constructor(private val clientOptions: ClientOpt
      * Two resubmission attempts are permitted via this endpoint before a `REJECTED` status is
      * returned and the account creation process is ended.
      */
-    @JvmOverloads
-    fun resubmit(
+    override fun resubmit(
         params: AccountHolderResubmitParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AccountHolder> {
         val request =
             HttpRequest.builder()
@@ -260,10 +258,9 @@ class AccountHolderServiceAsync constructor(private val clientOptions: ClientOpt
      * will show an additional entry in the `required_document_uploads` array in a `PENDING` state
      * for the corresponding `image_type`.
      */
-    @JvmOverloads
-    fun retrieveDocument(
+    override fun retrieveDocument(
         params: AccountHolderRetrieveDocumentParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AccountHolderDocument> {
         val request =
             HttpRequest.builder()
@@ -310,10 +307,9 @@ class AccountHolderServiceAsync constructor(private val clientOptions: ClientOpt
      * is returned and the account creation process is ended. Currently only one type of account
      * holder document is supported per KYC verification.
      */
-    @JvmOverloads
-    fun uploadDocument(
+    override fun uploadDocument(
         params: AccountHolderUploadDocumentParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AccountHolderDocument> {
         val request =
             HttpRequest.builder()

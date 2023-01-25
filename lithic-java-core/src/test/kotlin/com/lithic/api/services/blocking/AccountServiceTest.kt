@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.blocking
 
 import com.lithic.api.client.okhttp.LithicClient
 import com.lithic.api.models.*
@@ -11,7 +11,7 @@ class AccountServiceTest {
     fun callRetrieve() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val accountService = client.accounts
+        val accountService = client.accounts()
         val account =
             accountService.retrieve(
                 AccountRetrieveParams.builder()
@@ -27,7 +27,7 @@ class AccountServiceTest {
     fun callUpdate() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val accountService = client.accounts
+        val accountService = client.accounts()
         val account =
             accountService.update(
                 AccountUpdateParams.builder()
@@ -56,7 +56,7 @@ class AccountServiceTest {
     fun callList() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val accountService = client.accounts
+        val accountService = client.accounts()
         val response = accountService.list(AccountListParams.builder().build())
         println(response)
         response.data().forEach { it.validate() }

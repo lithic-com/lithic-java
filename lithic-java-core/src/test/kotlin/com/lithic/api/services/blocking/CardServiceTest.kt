@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.blocking
 
 import com.lithic.api.client.okhttp.LithicClient
 import com.lithic.api.models.*
@@ -11,7 +11,7 @@ class CardServiceTest {
     fun callCreate() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val cardService = client.cards
+        val cardService = client.cards()
         val card =
             cardService.create(
                 CardCreateParams.builder()
@@ -54,7 +54,7 @@ class CardServiceTest {
     fun callRetrieve() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val cardService = client.cards
+        val cardService = client.cards()
         val card =
             cardService.retrieve(
                 CardRetrieveParams.builder()
@@ -70,7 +70,7 @@ class CardServiceTest {
     fun callUpdate() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val cardService = client.cards
+        val cardService = client.cards()
         val card =
             cardService.update(
                 CardUpdateParams.builder()
@@ -94,7 +94,7 @@ class CardServiceTest {
     fun callList() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val cardService = client.cards
+        val cardService = client.cards()
         val response = cardService.list(CardListParams.builder().build())
         println(response)
         response.data().forEach { it.validate() }
@@ -104,7 +104,7 @@ class CardServiceTest {
     fun callEmbed() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val cardService = client.cards
+        val cardService = client.cards()
         val cardEmbedResponse =
             cardService.embed(
                 CardEmbedParams.builder().embedRequest("string").hmac("string").build()
@@ -117,7 +117,7 @@ class CardServiceTest {
     fun callProvision() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val cardService = client.cards
+        val cardService = client.cards()
         val cardProvisionResponse =
             cardService.provision(
                 CardProvisionParams.builder()
@@ -137,7 +137,7 @@ class CardServiceTest {
     fun callReissue() {
         val client =
             LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
-        val cardService = client.cards
+        val cardService = client.cards()
         val card =
             cardService.reissue(
                 CardReissueParams.builder()

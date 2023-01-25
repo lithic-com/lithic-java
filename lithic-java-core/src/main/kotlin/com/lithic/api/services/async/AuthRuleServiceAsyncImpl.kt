@@ -1,4 +1,4 @@
-package com.lithic.api.services
+package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
@@ -18,10 +18,14 @@ import com.lithic.api.models.AuthRuleRetrieveParams
 import com.lithic.api.models.AuthRuleRetrieveResponse
 import com.lithic.api.models.AuthRuleUpdateParams
 import com.lithic.api.models.AuthRuleUpdateResponse
-import com.lithic.api.services.*
+import com.lithic.api.services.errorHandler
+import com.lithic.api.services.json
+import com.lithic.api.services.jsonHandler
+import com.lithic.api.services.withErrorHandler
 import java.util.concurrent.CompletableFuture
 
-class AuthRuleServiceAsync constructor(private val clientOptions: ClientOptions) {
+class AuthRuleServiceAsyncImpl constructor(private val clientOptions: ClientOptions) :
+    AuthRuleServiceAsync {
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val createHandler: Handler<AuthRuleCreateResponse> =
@@ -31,10 +35,9 @@ class AuthRuleServiceAsync constructor(private val clientOptions: ClientOptions)
      * Creates an authorization rule (Auth Rule) and applies it at the program, account, or card
      * level.
      */
-    @JvmOverloads
-    fun create(
+    override fun create(
         params: AuthRuleCreateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AuthRuleCreateResponse> {
         val request =
             HttpRequest.builder()
@@ -64,10 +67,9 @@ class AuthRuleServiceAsync constructor(private val clientOptions: ClientOptions)
      * Detail the properties and entities (program, accounts, and cards) associated with an existing
      * authorization rule (Auth Rule).
      */
-    @JvmOverloads
-    fun retrieve(
+    override fun retrieve(
         params: AuthRuleRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AuthRuleRetrieveResponse> {
         val request =
             HttpRequest.builder()
@@ -92,10 +94,9 @@ class AuthRuleServiceAsync constructor(private val clientOptions: ClientOptions)
         jsonHandler<AuthRuleUpdateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Update the properties associated with an existing authorization rule (Auth Rule). */
-    @JvmOverloads
-    fun update(
+    override fun update(
         params: AuthRuleUpdateParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AuthRuleUpdateResponse> {
         val request =
             HttpRequest.builder()
@@ -122,10 +123,9 @@ class AuthRuleServiceAsync constructor(private val clientOptions: ClientOptions)
             .withErrorHandler(errorHandler)
 
     /** Return all of the Auth Rules under the program. */
-    @JvmOverloads
-    fun list(
+    override fun list(
         params: AuthRuleListParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AuthRuleListPageAsync> {
         val request =
             HttpRequest.builder()
@@ -151,10 +151,9 @@ class AuthRuleServiceAsync constructor(private val clientOptions: ClientOptions)
         jsonHandler<AuthRuleApplyResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Applies an existing authorization rule (Auth Rule) to an program, account, or card level. */
-    @JvmOverloads
-    fun apply(
+    override fun apply(
         params: AuthRuleApplyParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AuthRuleApplyResponse> {
         val request =
             HttpRequest.builder()
@@ -182,10 +181,9 @@ class AuthRuleServiceAsync constructor(private val clientOptions: ClientOptions)
     /**
      * Remove an existing authorization rule (Auth Rule) from an program, account, or card-level.
      */
-    @JvmOverloads
-    fun remove(
+    override fun remove(
         params: AuthRuleRemoveParams,
-        requestOptions: RequestOptions = RequestOptions.none()
+        requestOptions: RequestOptions
     ): CompletableFuture<AuthRuleRemoveResponse> {
         val request =
             HttpRequest.builder()
