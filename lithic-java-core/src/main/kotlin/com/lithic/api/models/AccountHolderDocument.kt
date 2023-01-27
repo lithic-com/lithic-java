@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -169,7 +170,7 @@ private constructor(
         }
 
         @JsonAnySetter
-        fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             this.additionalProperties.put(key, value)
         }
 
@@ -251,10 +252,12 @@ private constructor(
                 PASSPORT_CARD -> Known.PASSPORT_CARD
                 VISA -> Known.VISA
                 else ->
-                    throw IllegalArgumentException(
+                    throw LithicInvalidDataException(
                         "Unknown AccountHolderDocument.DocumentType: $value"
                     )
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     /** Represents a single image of the document to upload. */
@@ -425,7 +428,7 @@ private constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -489,10 +492,12 @@ private constructor(
                     BACK -> Known.BACK
                     FRONT -> Known.FRONT
                     else ->
-                        throw IllegalArgumentException(
+                        throw LithicInvalidDataException(
                             "Unknown AccountHolderDocument.RequiredDocumentUpload.ImageType: $value"
                         )
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
 
         class Status @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -553,10 +558,12 @@ private constructor(
                     PENDING -> Known.PENDING
                     UPLOADED -> Known.UPLOADED
                     else ->
-                        throw IllegalArgumentException(
+                        throw LithicInvalidDataException(
                             "Unknown AccountHolderDocument.RequiredDocumentUpload.Status: $value"
                         )
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
 
         class StatusReason @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -630,10 +637,12 @@ private constructor(
                     INVALID_FILE_TYPE -> Known.INVALID_FILE_TYPE
                     UNKNOWN_ERROR -> Known.UNKNOWN_ERROR
                     else ->
-                        throw IllegalArgumentException(
+                        throw LithicInvalidDataException(
                             "Unknown AccountHolderDocument.RequiredDocumentUpload.StatusReason: $value"
                         )
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
     }
 }

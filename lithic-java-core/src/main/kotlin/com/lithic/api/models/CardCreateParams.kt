@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
@@ -486,7 +487,7 @@ constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -877,10 +878,12 @@ constructor(
                 MONTHLY -> Known.MONTHLY
                 TRANSACTION -> Known.TRANSACTION
                 else ->
-                    throw IllegalArgumentException(
+                    throw LithicInvalidDataException(
                         "Unknown CardCreateBody.SpendLimitDuration: $value"
                     )
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class State @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -928,8 +931,10 @@ constructor(
             when (this) {
                 OPEN -> Known.OPEN
                 PAUSED -> Known.PAUSED
-                else -> throw IllegalArgumentException("Unknown CardCreateBody.State: $value")
+                else -> throw LithicInvalidDataException("Unknown CardCreateBody.State: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class Type @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -989,8 +994,10 @@ constructor(
                 PHYSICAL -> Known.PHYSICAL
                 MERCHANT_LOCKED -> Known.MERCHANT_LOCKED
                 SINGLE_USE -> Known.SINGLE_USE
-                else -> throw IllegalArgumentException("Unknown CardCreateBody.Type: $value")
+                else -> throw LithicInvalidDataException("Unknown CardCreateBody.Type: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class ShippingMethod @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -1046,7 +1053,11 @@ constructor(
                 STANDARD_WITH_TRACKING -> Known.STANDARD_WITH_TRACKING
                 EXPEDITED -> Known.EXPEDITED
                 else ->
-                    throw IllegalArgumentException("Unknown CardCreateBody.ShippingMethod: $value")
+                    throw LithicInvalidDataException(
+                        "Unknown CardCreateBody.ShippingMethod: $value"
+                    )
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -297,7 +298,7 @@ private constructor(
         }
 
         @JsonAnySetter
-        fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             this.additionalProperties.put(key, value)
         }
 
@@ -369,8 +370,10 @@ private constructor(
                 ENABLED -> Known.ENABLED
                 PENDING -> Known.PENDING
                 DELETED -> Known.DELETED
-                else -> throw IllegalArgumentException("Unknown FundingSource.State: $value")
+                else -> throw LithicInvalidDataException("Unknown FundingSource.State: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class Type @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -418,7 +421,9 @@ private constructor(
             when (this) {
                 DEPOSITORY_CHECKING -> Known.DEPOSITORY_CHECKING
                 DEPOSITORY_SAVINGS -> Known.DEPOSITORY_SAVINGS
-                else -> throw IllegalArgumentException("Unknown FundingSource.Type: $value")
+                else -> throw LithicInvalidDataException("Unknown FundingSource.Type: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

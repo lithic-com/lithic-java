@@ -1,6 +1,6 @@
 # Lithic Java API Library
 
-The Lithic Java SDK provides convenient access to the Lithic REST API from applications written in Java or Kotlin. It includes helper classes with helpful types and documentation for every request and response property.
+The Lithic Java SDK provides convenient access to the Lithic REST API from applications written in Java. It includes helper classes with helpful types and documentation for every request and response property.
 
 ## Documentation
 
@@ -11,12 +11,6 @@ The API documentation can be found [here](https://docs.lithic.com).
 ## Getting started
 
 ### Install dependencies
-
-During private beta, this package is not published to a public repository. To make it available as a dependency, you can either publish it to your private repository or make it available in local maven with:
-
-```sh
-./gradlew publishToMavenLocal
-```
 
 #### Gradle
 
@@ -52,9 +46,7 @@ Alternately, set the environment variable `LITHIC_API_KEY` and use `LithicClient
 LithicClient client = LithicClient.fromEnv();
 ```
 
-A `LithicInvalidDataException` will be thrown if a required client property is not provided.
-
-Read the documentation for more configuration options. See [Dependency injection](#dependency-injection) below for advice on injecting Lithic services into your application classes.
+Read the documentation for more configuration options.
 
 ---
 
@@ -110,7 +102,7 @@ card.builder().state(Card.State.CLOSED).build();
 ```
 
 Over time, the Lithic API may add new values to the property that are not yet represented by the enum type in
-this SDK. If an unrecognized value is found, the enum is set to a special sentinel value `_UNKNOWN` and you can use `value` to read the string that was received:
+this SDK. If an unrecognized value is found, the enum is set to a special sentinel value `_UNKNOWN` and you can use `asString` to read the string that was received:
 
 ```java
 switch (card.state().value()) {
@@ -123,7 +115,7 @@ switch (card.state().value()) {
         return;
     case Card.State.Value._UNKNOWN:
         // ... handle unrecognized enum value as string
-        String cardState = card.state().value();
+        String cardState = card.state().asString();
         return;
 }
 ```
@@ -144,41 +136,20 @@ In [Example: creating a resource](#example-creating-a-resource) above, we used t
 the `create` method of the `cards` service.
 
 Sometimes, the API may support other properties that are not yet supported in the Java SDK types. In that case,
-you can attach them using the `additionalProperty` method.
+you can attach them using the `putAdditionalProperty` method.
 
 ```java
 CardCreateParams params = CardCreateParams.builder()
     // ... normal properties
-    .additionalProperty("secret_param", "4242")
+    .putAdditionalProperty("secret_param", "4242")
     .build();
-```
-
-### (Kotlin) Shorthand syntax
-
-For building entities from Kotlin, you can use the following shorthand syntax:
-
-```kotlin
-val params = CardCreateParams {
-      type = CardCreateParams.Type.VIRTUAL
-}
-```
-
-The shorthand syntax is also supported directly when passing parameters to the API methods:
-
-```kotlin
-// No need to create an explicit CardCreateParams instance!
-val page = client.cards().create {
-      type = Type.VIRTUAL
-};
 ```
 
 ## Responses
 
 ### Response validation
 
-When receiving a response, the Lithic Java SDK tries to deserialize it into instances of the well-typed model classes. If the API returns a response property that doesn't match the expected type, the deserialization will still succeed and model instances will be created. However, if the client code tries to access a property that had an invalid type, a `LithicInvalidDataException` will be thrown.
-
-If you would like to immediately raise an exception if a response contains at least one unexpected type, you can call `.validate()` on the returned model.
+When receiving a response, the Lithic Java SDK will deserialize it into instances of the typed model classes. In rare cases, the API may return a response property that doesn't match the expected Java type. If you directly access the mistaken property, the SDK will throw an unchecked `LithicInvalidDataException` at runtime. If you would prefer to check in advance that that response is completely well-typed, call `.validate()` on the returned model.
 
 ```java
 Card card = client.cards().create().validate();
@@ -193,12 +164,30 @@ Model properties that are optional or allow a null value are represented as `Opt
 card.cvv().isPresent(); // false
 ```
 
-### Additional model properties
+### Response properties as JSON
 
-Sometimes, the server response may include additional properties that are not yet available in this library's types. You can access them using the model's `additionalProperties` map:
+In rare cases, you may want to access the underlying JSON value for a response property rather than using the typed version provided by
+this SDK. Each model property has a corresponding JSON version, with an underscore before the method name, which returns a `JsonField` value.
 
 ```java
-String secret = card.additionalProperties().get("secret_field");
+JsonField state() = card._state();
+
+if (state().isMissing()) {
+  // Value was not specified in the JSON response
+} else if (state().isNull()) {
+  // Value was provided as a literall null
+} else {
+  // See if value was provided as a string
+  Optional<String> jsonString = state().asString();
+}
+```
+
+### Additional model properties
+
+Sometimes, the server response may include additional properties that are not yet available in this library's types. You can access them using the model's `_additionalProperties` method:
+
+```java
+String secret = card._additionalProperties().get("secret_field");
 ```
 
 ---
@@ -298,43 +287,4 @@ Requests are made to the production environment by default. You can connect to o
 
 ```java
 LithicClient client = LithicClient.builder().fromEnv().sandbox().build()
-```
-
----
-
-## Dependency injection
-
-If you're using a dependency injection framework and are providing a `LithicClient`
-instance to it, then you can also directly inject a `CardService` instead of calling `client.create()`.
-
-### Details and example
-
-For your convenience, the client library is designed to work with all modern dependency injection frameworks that support `javax.inject` annotations, which includes Spring, Dagger and Guice. You can simply inject the services in your code as you do with all other dependencies. Here's an example with constructor injection:
-
-```java
-public class YourClass {
-  private final CardService cardsService;
-
-  @javax.inject.Inject
-  YourClass(CardService cardsService) {
-    this.cardsService = cardsService;
-  }
-
-  void yourMethod() {
-    Card card = cardsService.create();
-  }
-}
-```
-
-For this to work, you need to provide a `LithicClient` instance to your dependency injection framework. Here's an example for Dagger:
-
-```java
-@Module
-class YourDaggerModule {
-  @Provides
-  @Singleton
-  static LithicClient LithicClient() {
-    return LithicClient.create("<your private API key">);
-  }
-}
 ```

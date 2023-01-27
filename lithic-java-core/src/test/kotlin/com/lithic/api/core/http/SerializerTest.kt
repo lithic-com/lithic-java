@@ -81,7 +81,7 @@ internal class SerializerTest {
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 

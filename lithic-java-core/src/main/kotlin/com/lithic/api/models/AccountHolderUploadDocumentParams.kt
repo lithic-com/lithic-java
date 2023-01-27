@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
 
@@ -105,7 +106,7 @@ constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -299,9 +300,11 @@ constructor(
                 PASSPORT_CARD -> Known.PASSPORT_CARD
                 VISA -> Known.VISA
                 else ->
-                    throw IllegalArgumentException(
+                    throw LithicInvalidDataException(
                         "Unknown AccountHolderUploadDocumentBody.DocumentType: $value"
                     )
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

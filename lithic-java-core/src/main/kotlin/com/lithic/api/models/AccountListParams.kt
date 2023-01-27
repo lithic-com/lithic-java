@@ -148,7 +148,7 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun putAdditionalProperties(key: String, value: String) = apply {
+            fun putAdditionalProperty(key: String, value: String) = apply {
                 this.additionalProperties.put(key, value)
             }
 

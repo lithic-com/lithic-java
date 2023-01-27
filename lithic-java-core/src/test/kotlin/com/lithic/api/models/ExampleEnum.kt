@@ -3,6 +3,7 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
+import com.lithic.api.errors.LithicInvalidDataException
 
 class ExampleEnum @JsonCreator private constructor(private val value: JsonField<String>) {
     @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
@@ -55,6 +56,8 @@ class ExampleEnum @JsonCreator private constructor(private val value: JsonField<
             CLOSED -> Known.CLOSED
             OPEN -> Known.OPEN
             PAUSED -> Known.PAUSED
-            else -> throw IllegalArgumentException("Unknown ExampleEnum: $value")
+            else -> throw LithicInvalidDataException("Unknown ExampleEnum: $value")
         }
+
+    fun asString(): String = _value().asStringOrThrow()
 }

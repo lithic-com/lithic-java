@@ -194,7 +194,7 @@ final class ExampleOneOfTest {
 
         ExampleOneOf.Cat cat = ExampleOneOf.Cat.builder()
                 .name("whiskers")
-                .putAdditionalProperties("breed", JsonString.of("poodle"))
+                .putAdditionalProperty("breed", JsonString.of("poodle"))
                 .build();
 
         assertThat(value.cat()).contains(cat);
@@ -231,7 +231,7 @@ final class ExampleOneOfTest {
 
         ExampleOneOf.Cat cat = ExampleOneOf.Cat.builder()
                 .name("whiskers")
-                .putAdditionalProperties("key", JsonString.of("value"))
+                .putAdditionalProperty("key", JsonString.of("value"))
                 .build();
 
         assertThat(value.cat()).contains(cat);
@@ -345,7 +345,7 @@ final class ExampleOneOfTest {
     void toJson_additionalProperties() {
         ExampleOneOf value = ExampleOneOf.ofCat(ExampleOneOf.Cat.builder()
                 .name("whiskers")
-                .putAdditionalProperties("key", JsonString.of("value"))
+                .putAdditionalProperty("key", JsonString.of("value"))
                 .build());
 
         String json = toJson(value);

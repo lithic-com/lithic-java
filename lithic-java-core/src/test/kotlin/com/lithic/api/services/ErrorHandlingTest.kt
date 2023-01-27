@@ -39,7 +39,7 @@ class ErrorHandlingTest {
     private val API_KEY: String = "apiKey"
 
     private val LITHIC_ERROR: LithicError =
-        LithicError.builder().putAdditionalProperties("key", JsonString.of("value")).build()
+        LithicError.builder().putAdditionalProperty("key", JsonString.of("value")).build()
 
     private lateinit var client: LithicClient
 

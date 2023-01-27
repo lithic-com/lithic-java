@@ -16,6 +16,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
@@ -143,7 +144,7 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -419,7 +420,7 @@ constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -480,10 +481,12 @@ constructor(
                 when (this) {
                     BANK -> Known.BANK
                     else ->
-                        throw IllegalArgumentException(
+                        throw LithicInvalidDataException(
                             "Unknown FundingSourceCreateBody.Bank.ValidationMethod: $value"
                         )
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
     }
 
@@ -589,7 +592,7 @@ constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -648,10 +651,12 @@ constructor(
                 when (this) {
                     PLAID -> Known.PLAID
                     else ->
-                        throw IllegalArgumentException(
+                        throw LithicInvalidDataException(
                             "Unknown FundingSourceCreateBody.Plaid.ValidationMethod: $value"
                         )
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
     }
 }

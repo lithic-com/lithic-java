@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -183,7 +184,7 @@ private constructor(
         }
 
         @JsonAnySetter
-        fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             this.additionalProperties.put(key, value)
         }
 
@@ -258,8 +259,10 @@ private constructor(
                 REJECTED -> Known.REJECTED
                 PENDING_RESUBMIT -> Known.PENDING_RESUBMIT
                 PENDING_DOCUMENT -> Known.PENDING_DOCUMENT
-                else -> throw IllegalArgumentException("Unknown AccountHolder.Status: $value")
+                else -> throw LithicInvalidDataException("Unknown AccountHolder.Status: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class StatusReason @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -375,7 +378,10 @@ private constructor(
                 OTHER_VERIFICATION_FAILURE -> Known.OTHER_VERIFICATION_FAILURE
                 RISK_THRESHOLD_FAILURE -> Known.RISK_THRESHOLD_FAILURE
                 WATCHLIST_ALERT_FAILURE -> Known.WATCHLIST_ALERT_FAILURE
-                else -> throw IllegalArgumentException("Unknown AccountHolder.StatusReason: $value")
+                else ->
+                    throw LithicInvalidDataException("Unknown AccountHolder.StatusReason: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

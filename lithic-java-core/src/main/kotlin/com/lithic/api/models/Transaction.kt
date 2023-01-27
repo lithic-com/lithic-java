@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -712,7 +713,7 @@ private constructor(
         }
 
         @JsonAnySetter
-        fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             this.additionalProperties.put(key, value)
         }
 
@@ -1230,7 +1231,7 @@ private constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -1346,10 +1347,12 @@ private constructor(
                         Known.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
                     TRANSACTION_RISK_ANALYSIS -> Known.TRANSACTION_RISK_ANALYSIS
                     else ->
-                        throw IllegalArgumentException(
+                        throw LithicInvalidDataException(
                             "Unknown Transaction.CardholderAuthentication.AcquirerExemption: $value"
                         )
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
 
         class LiabilityShift
@@ -1415,10 +1418,12 @@ private constructor(
                     NONE -> Known.NONE
                     TOKEN_AUTHENTICATED -> Known.TOKEN_AUTHENTICATED
                     else ->
-                        throw IllegalArgumentException(
+                        throw LithicInvalidDataException(
                             "Unknown Transaction.CardholderAuthentication.LiabilityShift: $value"
                         )
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
 
         class VerificationAttempted
@@ -1487,10 +1492,12 @@ private constructor(
                     OTHER -> Known.OTHER
                     OTP -> Known.OTP
                     else ->
-                        throw IllegalArgumentException(
+                        throw LithicInvalidDataException(
                             "Unknown Transaction.CardholderAuthentication.VerificationAttempted: $value"
                         )
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
 
         class VerificationResult
@@ -1565,10 +1572,12 @@ private constructor(
                     REJECTED -> Known.REJECTED
                     SUCCESS -> Known.SUCCESS
                     else ->
-                        throw IllegalArgumentException(
+                        throw LithicInvalidDataException(
                             "Unknown Transaction.CardholderAuthentication.VerificationResult: $value"
                         )
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
     }
 
@@ -1964,7 +1973,7 @@ private constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -2141,8 +2150,10 @@ private constructor(
                     UNKNOWN_HOST_TIMEOUT -> Known.UNKNOWN_HOST_TIMEOUT
                     USER_TRANSACTION_LIMIT -> Known.USER_TRANSACTION_LIMIT
                     else ->
-                        throw IllegalArgumentException("Unknown Transaction.Event.Result: $value")
+                        throw LithicInvalidDataException("Unknown Transaction.Event.Result: $value")
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
 
         class Type @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -2272,8 +2283,11 @@ private constructor(
                     RETURN -> Known.RETURN
                     RETURN_REVERSAL -> Known.RETURN_REVERSAL
                     VOID -> Known.VOID
-                    else -> throw IllegalArgumentException("Unknown Transaction.Event.Type: $value")
+                    else ->
+                        throw LithicInvalidDataException("Unknown Transaction.Event.Type: $value")
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
     }
 
@@ -2419,7 +2433,7 @@ private constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -2482,8 +2496,10 @@ private constructor(
                     DEPOSITORY_CHECKING -> Known.DEPOSITORY_CHECKING
                     DEPOSITORY_SAVINGS -> Known.DEPOSITORY_SAVINGS
                     else ->
-                        throw IllegalArgumentException("Unknown Transaction.Funding.Type: $value")
+                        throw LithicInvalidDataException("Unknown Transaction.Funding.Type: $value")
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
     }
 
@@ -2683,7 +2699,7 @@ private constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -2767,8 +2783,10 @@ private constructor(
                 MASTERCARD -> Known.MASTERCARD
                 VISA -> Known.VISA
                 UNKNOWN -> Known.UNKNOWN
-                else -> throw IllegalArgumentException("Unknown Transaction.Network: $value")
+                else -> throw LithicInvalidDataException("Unknown Transaction.Network: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class Result @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -2927,8 +2945,10 @@ private constructor(
                 UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
                 UNKNOWN_HOST_TIMEOUT -> Known.UNKNOWN_HOST_TIMEOUT
                 USER_TRANSACTION_LIMIT -> Known.USER_TRANSACTION_LIMIT
-                else -> throw IllegalArgumentException("Unknown Transaction.Result: $value")
+                else -> throw LithicInvalidDataException("Unknown Transaction.Result: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class Status @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -3006,7 +3026,9 @@ private constructor(
                 SETTLED -> Known.SETTLED
                 SETTLING -> Known.SETTLING
                 VOIDED -> Known.VOIDED
-                else -> throw IllegalArgumentException("Unknown Transaction.Status: $value")
+                else -> throw LithicInvalidDataException("Unknown Transaction.Status: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

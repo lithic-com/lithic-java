@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.lithic.api.core.JsonField;
 import com.lithic.api.core.ObjectMappers;
+import com.lithic.api.errors.LithicInvalidDataException;
 import org.junit.jupiter.api.Test;
 
 final class ExampleEnumTest {
@@ -57,7 +58,7 @@ final class ExampleEnumTest {
         ExampleEnum enumValue = fromJson(json);
 
         assertThatThrownBy(enumValue::known)
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(LithicInvalidDataException.class)
                 .hasMessage("Unknown ExampleEnum: FOO");
         assertThat(enumValue.value()).isEqualTo(ExampleEnum.Value._UNKNOWN);
         assertThat(enumValue._value()).isEqualTo(JsonField.of("FOO"));
@@ -70,7 +71,7 @@ final class ExampleEnumTest {
         ExampleEnum enumValue = fromJson(json);
 
         assertThatThrownBy(enumValue::known)
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(LithicInvalidDataException.class)
                 .hasMessage("Unknown ExampleEnum: cLosED");
     }
 

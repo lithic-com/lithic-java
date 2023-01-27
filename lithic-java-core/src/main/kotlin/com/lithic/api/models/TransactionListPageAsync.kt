@@ -203,7 +203,7 @@ private constructor(
             fun totalPages(totalPages: JsonField<Long>) = apply { this.totalPages = totalPages }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 

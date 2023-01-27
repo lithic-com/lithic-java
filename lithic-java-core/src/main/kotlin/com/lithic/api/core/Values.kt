@@ -59,6 +59,12 @@ sealed class JsonField<out T : Any> {
             else -> Optional.empty()
         }
 
+    fun asStringOrThrow(): String =
+        when (this) {
+            is JsonString -> value
+            else -> throw LithicInvalidDataException("Value is not a string")
+        }
+
     fun asArray(): Optional<List<JsonValue>> =
         when (this) {
             is JsonArray -> Optional.of(values)

@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -629,7 +630,7 @@ private constructor(
         }
 
         @JsonAnySetter
-        fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             this.additionalProperties.put(key, value)
         }
 
@@ -718,8 +719,10 @@ private constructor(
                 FOREVER -> Known.FOREVER
                 MONTHLY -> Known.MONTHLY
                 TRANSACTION -> Known.TRANSACTION
-                else -> throw IllegalArgumentException("Unknown Card.SpendLimitDuration: $value")
+                else -> throw LithicInvalidDataException("Unknown Card.SpendLimitDuration: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class State @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -785,8 +788,10 @@ private constructor(
                 PAUSED -> Known.PAUSED
                 PENDING_ACTIVATION -> Known.PENDING_ACTIVATION
                 PENDING_FULFILLMENT -> Known.PENDING_FULFILLMENT
-                else -> throw IllegalArgumentException("Unknown Card.State: $value")
+                else -> throw LithicInvalidDataException("Unknown Card.State: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class Type @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -846,7 +851,9 @@ private constructor(
                 PHYSICAL -> Known.PHYSICAL
                 MERCHANT_LOCKED -> Known.MERCHANT_LOCKED
                 SINGLE_USE -> Known.SINGLE_USE
-                else -> throw IllegalArgumentException("Unknown Card.Type: $value")
+                else -> throw LithicInvalidDataException("Unknown Card.Type: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

@@ -8,6 +8,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
@@ -212,7 +213,7 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun putAdditionalProperties(key: String, value: String) = apply {
+            fun putAdditionalProperty(key: String, value: String) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -421,9 +422,11 @@ constructor(
                 APPROVED -> Known.APPROVED
                 DECLINED -> Known.DECLINED
                 else ->
-                    throw IllegalArgumentException(
+                    throw LithicInvalidDataException(
                         "Unknown TransactionListQueryParams.Result: $value"
                     )
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

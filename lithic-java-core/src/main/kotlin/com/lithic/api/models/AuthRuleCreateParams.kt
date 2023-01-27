@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
@@ -257,7 +258,7 @@ constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -503,7 +504,10 @@ constructor(
         fun known(): Known =
             when (this) {
                 ZIP_ONLY -> Known.ZIP_ONLY
-                else -> throw IllegalArgumentException("Unknown AuthRuleCreateBody.AvsType: $value")
+                else ->
+                    throw LithicInvalidDataException("Unknown AuthRuleCreateBody.AvsType: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

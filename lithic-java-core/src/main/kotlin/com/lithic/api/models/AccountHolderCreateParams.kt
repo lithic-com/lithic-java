@@ -16,6 +16,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
@@ -181,7 +182,7 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -593,7 +594,7 @@ constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -772,7 +773,7 @@ constructor(
                 }
 
                 @JsonAnySetter
-                fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                     this.additionalProperties.put(key, value)
                 }
 
@@ -938,7 +939,7 @@ constructor(
                     }
 
                     @JsonAnySetter
-                    fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                         this.additionalProperties.put(key, value)
                     }
 
@@ -1122,7 +1123,7 @@ constructor(
                 }
 
                 @JsonAnySetter
-                fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                     this.additionalProperties.put(key, value)
                 }
 
@@ -1289,7 +1290,7 @@ constructor(
                     }
 
                     @JsonAnySetter
-                    fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                         this.additionalProperties.put(key, value)
                     }
 
@@ -1358,10 +1359,12 @@ constructor(
                     KYB_BASIC -> Known.KYB_BASIC
                     KYB_BYO -> Known.KYB_BYO
                     else ->
-                        throw IllegalArgumentException(
+                        throw LithicInvalidDataException(
                             "Unknown AccountHolderCreateBody.Kyb.Workflow: $value"
                         )
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
     }
 
@@ -1488,7 +1491,7 @@ constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -1668,7 +1671,7 @@ constructor(
                 }
 
                 @JsonAnySetter
-                fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                     this.additionalProperties.put(key, value)
                 }
 
@@ -1835,7 +1838,7 @@ constructor(
                     }
 
                     @JsonAnySetter
-                    fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                         this.additionalProperties.put(key, value)
                     }
 
@@ -1910,10 +1913,12 @@ constructor(
                     KYC_BASIC -> Known.KYC_BASIC
                     KYC_BYO -> Known.KYC_BYO
                     else ->
-                        throw IllegalArgumentException(
+                        throw LithicInvalidDataException(
                             "Unknown AccountHolderCreateBody.Kyc.Workflow: $value"
                         )
                 }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
     }
 
@@ -2061,7 +2066,7 @@ constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -2227,7 +2232,7 @@ constructor(
                 }
 
                 @JsonAnySetter
-                fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                     this.additionalProperties.put(key, value)
                 }
 

@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
@@ -334,7 +335,7 @@ constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -642,10 +643,12 @@ constructor(
                 MONTHLY -> Known.MONTHLY
                 TRANSACTION -> Known.TRANSACTION
                 else ->
-                    throw IllegalArgumentException(
+                    throw LithicInvalidDataException(
                         "Unknown CardUpdateBody.SpendLimitDuration: $value"
                     )
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class State @JsonCreator private constructor(private val value: JsonField<String>) {
@@ -699,7 +702,9 @@ constructor(
                 CLOSED -> Known.CLOSED
                 OPEN -> Known.OPEN
                 PAUSED -> Known.PAUSED
-                else -> throw IllegalArgumentException("Unknown CardUpdateBody.State: $value")
+                else -> throw LithicInvalidDataException("Unknown CardUpdateBody.State: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

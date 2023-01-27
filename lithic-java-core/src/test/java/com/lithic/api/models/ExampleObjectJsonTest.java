@@ -352,7 +352,7 @@ final class ExampleObjectJsonTest {
         ExampleObject entity = ExampleObject.builder()
                 .requiredField("foo")
                 .stringField("bar")
-                .putAdditionalProperties("key", JsonString.of("value"))
+                .putAdditionalProperty("key", JsonString.of("value"))
                 .build();
 
         assertThat(toJson(entity)).isEqualTo("{\"required_field\":\"foo\",\"string_field\":\"bar\",\"key\":\"value\"}");
@@ -414,12 +414,12 @@ final class ExampleObjectJsonTest {
         ExampleObject card1 = ExampleObject.builder()
                 .requiredField("foo")
                 .stringField("bar")
-                .putAdditionalProperties("key", JsonString.of("value"))
+                .putAdditionalProperty("key", JsonString.of("value"))
                 .build();
         ExampleObject card2 = ExampleObject.builder()
                 .requiredField("foo")
                 .stringField("bar")
-                .putAdditionalProperties("key", JsonString.of("value"))
+                .putAdditionalProperty("key", JsonString.of("value"))
                 .build();
 
         assertThat(card1).isEqualTo(card2);
@@ -430,12 +430,12 @@ final class ExampleObjectJsonTest {
         ExampleObject card1 = ExampleObject.builder()
                 .requiredField("foo")
                 .stringField("bar")
-                .putAdditionalProperties("key", JsonString.of("value1"))
+                .putAdditionalProperty("key", JsonString.of("value1"))
                 .build();
         ExampleObject card2 = ExampleObject.builder()
                 .requiredField("foo")
                 .stringField("bar")
-                .putAdditionalProperties("key", JsonString.of("value2"))
+                .putAdditionalProperty("key", JsonString.of("value2"))
                 .build();
 
         assertThat(card1).isNotEqualTo(card2);

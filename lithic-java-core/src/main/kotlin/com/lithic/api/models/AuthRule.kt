@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -325,7 +326,7 @@ private constructor(
         }
 
         @JsonAnySetter
-        fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+        fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             this.additionalProperties.put(key, value)
         }
 
@@ -386,7 +387,9 @@ private constructor(
         fun known(): Known =
             when (this) {
                 ZIP_ONLY -> Known.ZIP_ONLY
-                else -> throw IllegalArgumentException("Unknown AuthRule.AvsType: $value")
+                else -> throw LithicInvalidDataException("Unknown AuthRule.AvsType: $value")
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
 
@@ -147,7 +148,7 @@ constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -339,10 +340,12 @@ constructor(
             when (this) {
                 KYC_ADVANCED -> Known.KYC_ADVANCED
                 else ->
-                    throw IllegalArgumentException(
+                    throw LithicInvalidDataException(
                         "Unknown AccountHolderResubmitBody.Workflow: $value"
                     )
             }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     /** Information on individual for whom the account is being opened and KYC is being re-run. */
@@ -503,7 +506,7 @@ constructor(
             }
 
             @JsonAnySetter
-            fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 this.additionalProperties.put(key, value)
             }
 
@@ -669,7 +672,7 @@ constructor(
                 }
 
                 @JsonAnySetter
-                fun putAdditionalProperties(key: String, value: JsonValue) = apply {
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                     this.additionalProperties.put(key, value)
                 }
 
