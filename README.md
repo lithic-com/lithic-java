@@ -42,7 +42,7 @@ Use `LithicClient.builder()` to configure the client. At a minimum you need to s
 import com.lithic.api.client.okhttp.LithicClient;
 
 LithicClient client = LithicClient.builder()
-    .apiKey("<your api key>")
+    .apiKey("<your API Key>")
     .build();
 ```
 
