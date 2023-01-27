@@ -2,6 +2,8 @@
 
 The Lithic Java SDK provides convenient access to the Lithic REST API from applications written in Java. It includes helper classes with helpful types and documentation for every request and response property.
 
+This package is currently in beta (pre-v1.0.0). We expect some breaking changes to rarely-used areas of the SDK, and appreciate your [feedback](mailto:sdk-feedback@lithic.com).
+
 ## Documentation
 
 The API documentation can be found [here](https://docs.lithic.com).
@@ -15,7 +17,7 @@ The API documentation can be found [here](https://docs.lithic.com).
 #### Gradle
 
 ```kotlin
-implementation("com.lithic.api:lithic-java:0.0.0-alpha1")
+implementation("com.lithic.api:lithic-java:0.0.1")
 ```
 
 #### Maven
@@ -24,7 +26,7 @@ implementation("com.lithic.api:lithic-java:0.0.0-alpha1")
 <dependency>
     <groupId>com.lithic.api</groupId>
     <artifactId>lithic-java</artifactId>
-    <version>0.0.0-alpha1</version>
+    <version>0.0.1</version>
 </dependency>
 ```
 
