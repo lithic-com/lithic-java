@@ -6,7 +6,7 @@ class UnauthorizedException
 constructor(
     headers: ListMultimap<String, String>,
     private val error: LithicError,
-) : LithicServiceException(headers) {
+) : LithicServiceException(headers, "${error}") {
     override fun statusCode(): Int = 401
     fun error(): LithicError = error
 }

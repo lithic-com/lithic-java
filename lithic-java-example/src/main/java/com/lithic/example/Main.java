@@ -62,6 +62,7 @@ public class Main {
         Kyc kyc = Kyc.builder()
                 .individual(individual)
                 .tosTimestamp("2022-11-16 09:00:00")
+                .kycPassedTimestamp("2022-11-16 09:00:00")
                 .workflow(Kyc.Workflow.KYC_BASIC)
                 .build();
 
