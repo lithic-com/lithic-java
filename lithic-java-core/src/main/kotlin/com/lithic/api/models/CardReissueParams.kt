@@ -26,6 +26,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun cardToken(): String = cardToken
 
     fun shippingAddress(): Optional<ShippingAddress> = Optional.ofNullable(shippingAddress)
@@ -57,6 +58,7 @@ constructor(
         private val productId: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /** If omitted, the previous shipping address will be used. */
@@ -115,10 +117,12 @@ constructor(
             "CardReissueBody{shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, productId=$productId, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var shippingAddress: ShippingAddress? = null
             private var shippingMethod: ShippingMethod? = null
             private var productId: String? = null
@@ -224,11 +228,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var cardToken: String? = null
         private var shippingAddress: ShippingAddress? = null
         private var shippingMethod: ShippingMethod? = null
@@ -328,7 +334,12 @@ constructor(
             )
     }
 
-    class ShippingMethod @JsonCreator private constructor(private val value: JsonField<String>) {
+    class ShippingMethod
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -344,6 +355,7 @@ constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val STANDARD = ShippingMethod(JsonField.of("STANDARD"))
 
             @JvmField

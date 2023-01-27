@@ -18,6 +18,7 @@ constructor(
     private val additionalQueryParams: ListMultimap<String, String>,
     private val additionalHeaders: ListMultimap<String, String>,
 ) {
+
     fun begin(): Optional<String> = Optional.ofNullable(begin)
 
     fun end(): Optional<String> = Optional.ofNullable(end)
@@ -40,6 +41,7 @@ constructor(
         private val pageSize: Long?,
         private val additionalProperties: ListMultimap<String, String>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -105,10 +107,12 @@ constructor(
             "AccountListQueryParams{begin=$begin, end=$end, page=$page, pageSize=$pageSize, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var begin: String? = null
             private var end: String? = null
             private var page: Long? = null
@@ -203,11 +207,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var begin: String? = null
         private var end: String? = null
         private var page: Long? = null

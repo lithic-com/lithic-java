@@ -15,6 +15,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     @JvmSynthetic
     internal fun toBody(): Optional<Map<String, JsonValue>> =
         if (additionalBodyProperties.isNotEmpty()) {
@@ -58,11 +59,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
         private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()

@@ -22,6 +22,7 @@ private constructor(
     private val params: CardListParams,
     private val response: Response,
 ) {
+
     fun response(): Response = response
 
     fun data(): List<Card> = response().data()
@@ -73,6 +74,7 @@ private constructor(
     fun autoPager(): AutoPager = AutoPager(this)
 
     companion object {
+
         @JvmStatic
         fun of(cardsService: CardService, params: CardListParams, response: Response) =
             CardListPage(
@@ -92,6 +94,7 @@ private constructor(
         private val totalPages: JsonField<Long>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var validated: Boolean = false
 
         fun data(): List<Card> = data.getRequired("data")
@@ -156,10 +159,12 @@ private constructor(
             "CardListPage.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var data: JsonField<List<Card>> = JsonMissing.of()
             private var page: JsonField<Long> = JsonMissing.of()
             private var totalEntries: JsonField<Long> = JsonMissing.of()
@@ -211,7 +216,11 @@ private constructor(
         }
     }
 
-    class AutoPager constructor(private val firstPage: CardListPage) : Iterable<Card> {
+    class AutoPager
+    constructor(
+        private val firstPage: CardListPage,
+    ) : Iterable<Card> {
+
         override fun iterator(): Iterator<Card> =
             sequence {
                     var page = firstPage

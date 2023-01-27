@@ -1,3 +1,5 @@
+@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
+
 package com.lithic.api.services.async
 
 import com.lithic.api.core.RequestOptions
@@ -7,8 +9,8 @@ import com.lithic.api.models.AuthStreamEnrollmentEnrollParams
 import com.lithic.api.models.AuthStreamEnrollmentRetrieveParams
 import java.util.concurrent.CompletableFuture
 
-@Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
 interface AuthStreamEnrollmentServiceAsync {
+
     /**
      * Check status for whether you have enrolled in Authorization Stream Access (ASA) for your
      * program in Sandbox.

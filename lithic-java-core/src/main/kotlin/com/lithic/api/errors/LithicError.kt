@@ -10,7 +10,11 @@ import java.util.Objects
 
 @JsonDeserialize(builder = LithicError.Builder::class)
 @NoAutoDetect
-class LithicError constructor(private val additionalProperties: Map<String, JsonValue>) {
+class LithicError
+constructor(
+    private val additionalProperties: Map<String, JsonValue>,
+) {
+
     @JsonAnyGetter fun additionalProperties(): Map<String, JsonValue> = additionalProperties
 
     fun toBuilder(): Builder = Builder()
@@ -30,10 +34,12 @@ class LithicError constructor(private val additionalProperties: Map<String, Json
     override fun toString() = "LithicError{additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         fun from(error: LithicError) = apply { additionalProperties(error.additionalProperties) }

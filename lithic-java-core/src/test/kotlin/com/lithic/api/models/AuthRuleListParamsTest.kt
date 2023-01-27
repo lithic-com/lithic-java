@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class AuthRuleListParamsTest {
+
     @Test
     fun createAuthRuleListParams() {
         AuthRuleListParams.builder().page(123L).pageSize(123L).build()

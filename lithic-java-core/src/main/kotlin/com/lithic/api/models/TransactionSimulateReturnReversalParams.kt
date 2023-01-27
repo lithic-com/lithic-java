@@ -19,6 +19,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun token(): String = token
 
     @JvmSynthetic
@@ -35,6 +36,7 @@ constructor(
         private val token: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
@@ -67,10 +69,12 @@ constructor(
             "TransactionSimulateReturnReversalBody{token=$token, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var token: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -140,11 +144,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var token: String? = null
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
         private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()

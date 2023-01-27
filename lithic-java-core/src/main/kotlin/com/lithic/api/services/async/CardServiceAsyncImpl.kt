@@ -23,8 +23,11 @@ import com.lithic.api.services.stringHandler
 import com.lithic.api.services.withErrorHandler
 import java.util.concurrent.CompletableFuture
 
-class CardServiceAsyncImpl constructor(private val clientOptions: ClientOptions) :
-    CardServiceAsync {
+class CardServiceAsyncImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : CardServiceAsync {
+
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val createHandler: Handler<Card> =

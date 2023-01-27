@@ -30,17 +30,18 @@ implementation("com.lithic.api:lithic-java:0.0.0-alpha1")
 
 ### Configure the client
 
-Use `LithicClient.builder()` to configure the client. At a minimum you need to set `.apiKey()`:
+Use `LithicOkHttpClient.builder()` to configure the client. At a minimum you need to set `.apiKey()`:
 
 ```java
-import com.lithic.api.client.okhttp.LithicClient;
+import com.lithic.api.client.LithicClient;
+import com.lithic.api.client.okhttp.LithicOkHttpClient;
 
-LithicClient client = LithicClient.builder()
+LithicClient client = LithicOkHttpClient.builder()
     .apiKey("<your API Key>")
     .build();
 ```
 
-Alternately, set the environment variable `LITHIC_API_KEY` and use `LithicClient.fromEnv()`:
+Alternately, set the environment variable `LITHIC_API_KEY` and use `LithicOkHttpClient.fromEnv()`:
 
 ```java
 LithicClient client = LithicClient.fromEnv();
@@ -56,7 +57,6 @@ To create a new card, first use the `CardCreateParams` builder to specify attrib
 then pass that to the `create` method of the `cards` service.
 
 ```java
-import com.lithic.api.client.okhttp.LithicClient;
 import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
 
@@ -72,7 +72,6 @@ The Lithic API provides a `list` method to get a paginated list of cards.
 You can retrieve the first page by:
 
 ```java
-import com.lithic.api.client.okhttp.LithicClient;
 import com.lithic.api.models.Card;
 import com.lithic.api.models.Page;
 
@@ -270,7 +269,7 @@ Requests that experience certain errors are automatically retried 2 times by def
 You can provide a `maxRetries` on the client builder to configure this:
 
 ```java
-LithicClient client = LithicClient.builder().fromEnv().maxRetries(4).build();
+LithicClient client = LithicOkHttpClient.builder().fromEnv().maxRetries(4).build();
 ```
 
 ### Timeouts
@@ -278,7 +277,7 @@ LithicClient client = LithicClient.builder().fromEnv().maxRetries(4).build();
 Requests time out after 60 seconds by default. You can configure this on the client builder:
 
 ```java
-LithicClient client = LithicClient.builder().fromEnv().timeout(Duration.ofSeconds(30)).build();
+LithicClient client = LithicOkHttpClient.builder().fromEnv().timeout(Duration.ofSeconds(30)).build();
 ```
 
 ### Environments
@@ -286,5 +285,5 @@ LithicClient client = LithicClient.builder().fromEnv().timeout(Duration.ofSecond
 Requests are made to the production environment by default. You can connect to other environments, like `sandbox`, via the client builder:
 
 ```java
-LithicClient client = LithicClient.builder().fromEnv().sandbox().build()
+LithicClient client = LithicOkHttpClient.builder().fromEnv().sandbox().build()
 ```

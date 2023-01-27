@@ -1,3 +1,5 @@
+@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
+
 package com.lithic.api.services.async
 
 import com.lithic.api.core.RequestOptions
@@ -15,8 +17,8 @@ import com.lithic.api.models.AuthRuleUpdateParams
 import com.lithic.api.models.AuthRuleUpdateResponse
 import java.util.concurrent.CompletableFuture
 
-@Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
 interface AuthRuleServiceAsync {
+
     /**
      * Creates an authorization rule (Auth Rule) and applies it at the program, account, or card
      * level.

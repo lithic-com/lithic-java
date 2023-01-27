@@ -25,6 +25,7 @@ constructor(
     private val additionalQueryParams: ListMultimap<String, String>,
     private val additionalHeaders: ListMultimap<String, String>,
 ) {
+
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
     fun cardToken(): Optional<String> = Optional.ofNullable(cardToken)
@@ -66,6 +67,7 @@ constructor(
         private val pageSize: Long?,
         private val additionalProperties: ListMultimap<String, String>,
     ) {
+
         private var hashCode: Int = 0
 
         /** Filters for transactions associated with a specific account. */
@@ -152,10 +154,12 @@ constructor(
             "TransactionListQueryParams{accountToken=$accountToken, cardToken=$cardToken, result=$result, begin=$begin, end=$end, page=$page, pageSize=$pageSize, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var accountToken: String? = null
             private var cardToken: String? = null
             private var result: Result? = null
@@ -277,11 +281,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var accountToken: String? = null
         private var cardToken: String? = null
         private var result: Result? = null
@@ -376,7 +382,12 @@ constructor(
             )
     }
 
-    class Result @JsonCreator private constructor(private val value: JsonField<String>) {
+    class Result
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -392,6 +403,7 @@ constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
 
             @JvmField val DECLINED = Result(JsonField.of("DECLINED"))

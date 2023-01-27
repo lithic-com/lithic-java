@@ -4,6 +4,7 @@ import com.lithic.api.models.*
 import org.junit.jupiter.api.Test
 
 class AuthStreamEnrollmentDisenrollParamsTest {
+
     @Test
     fun createAuthStreamEnrollmentDisenrollParams() {
         AuthStreamEnrollmentDisenrollParams.builder().build()

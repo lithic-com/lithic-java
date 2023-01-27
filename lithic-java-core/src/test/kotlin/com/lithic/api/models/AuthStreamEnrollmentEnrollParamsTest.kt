@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class AuthStreamEnrollmentEnrollParamsTest {
+
     @Test
     fun createAuthStreamEnrollmentEnrollParams() {
         AuthStreamEnrollmentEnrollParams.builder().webhookUrl("https://example.com").build()

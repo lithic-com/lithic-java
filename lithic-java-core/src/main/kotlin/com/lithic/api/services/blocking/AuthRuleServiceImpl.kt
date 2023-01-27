@@ -23,7 +23,11 @@ import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
 
-class AuthRuleServiceImpl constructor(private val clientOptions: ClientOptions) : AuthRuleService {
+class AuthRuleServiceImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : AuthRuleService {
+
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val createHandler: Handler<AuthRuleCreateResponse> =

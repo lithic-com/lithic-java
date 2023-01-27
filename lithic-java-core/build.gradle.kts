@@ -11,7 +11,6 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.14.1")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
-    implementation("com.squareup.okhttp3:okhttp:4.10.0")
 
     testImplementation(kotlin("test"))
     testImplementation(project(":lithic-java-client-okhttp"))

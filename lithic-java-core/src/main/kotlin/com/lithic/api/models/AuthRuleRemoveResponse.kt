@@ -23,6 +23,7 @@ private constructor(
     private val programLevel: JsonField<Boolean>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -96,10 +97,12 @@ private constructor(
         "AuthRuleRemoveResponse{accountTokens=$accountTokens, cardTokens=$cardTokens, previousAuthRuleTokens=$previousAuthRuleTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var accountTokens: JsonField<List<String>> = JsonMissing.of()
         private var cardTokens: JsonField<List<String>> = JsonMissing.of()
         private var previousAuthRuleTokens: JsonField<List<String>> = JsonMissing.of()

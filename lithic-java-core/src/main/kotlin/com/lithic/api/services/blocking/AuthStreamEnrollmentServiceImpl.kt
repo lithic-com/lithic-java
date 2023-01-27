@@ -16,8 +16,11 @@ import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
 
-class AuthStreamEnrollmentServiceImpl constructor(private val clientOptions: ClientOptions) :
-    AuthStreamEnrollmentService {
+class AuthStreamEnrollmentServiceImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : AuthStreamEnrollmentService {
+
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val retrieveHandler: Handler<AuthStreamEnrollment> =

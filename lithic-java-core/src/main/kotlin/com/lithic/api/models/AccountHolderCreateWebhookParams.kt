@@ -19,6 +19,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun url(): String = url
 
     @JvmSynthetic
@@ -35,6 +36,7 @@ constructor(
         private val url: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /** URL to receive webhook requests. Must be a valid HTTPS address. */
@@ -67,10 +69,12 @@ constructor(
             "AccountHolderCreateWebhookBody{url=$url, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var url: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -136,11 +140,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var url: String? = null
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
         private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()

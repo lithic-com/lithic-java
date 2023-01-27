@@ -20,6 +20,7 @@ private constructor(
     private val message: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -62,10 +63,12 @@ private constructor(
         "ApiStatus{message=$message, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var message: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 

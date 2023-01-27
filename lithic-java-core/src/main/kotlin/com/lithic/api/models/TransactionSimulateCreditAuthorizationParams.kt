@@ -21,6 +21,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun amount(): Long = amount
 
     fun descriptor(): String = descriptor
@@ -48,6 +49,7 @@ constructor(
         private val pan: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -98,10 +100,12 @@ constructor(
             "TransactionSimulateCreditAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var amount: Long? = null
             private var descriptor: String? = null
             private var pan: String? = null
@@ -195,11 +199,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var amount: Long? = null
         private var descriptor: String? = null
         private var pan: String? = null

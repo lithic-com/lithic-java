@@ -11,7 +11,9 @@ private constructor(
     @get:JvmName("responseValidation") val responseValidation: Boolean,
     @get:JvmName("apiKey") val apiKey: String,
 ) {
+
     companion object {
+
         const val PRODUCTION_URL = "https://api.lithic.com/v1"
 
         const val SANDBOX_URL = "https://sandbox.lithic.com/v1"
@@ -22,6 +24,7 @@ private constructor(
     }
 
     class Builder {
+
         private var httpClient: HttpClient? = null
         private var jsonMapper: JsonMapper? = null
         private var responseValidation: Boolean = false

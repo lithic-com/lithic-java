@@ -16,7 +16,11 @@ import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
 
-class AccountServiceImpl constructor(private val clientOptions: ClientOptions) : AccountService {
+class AccountServiceImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : AccountService {
+
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val retrieveHandler: Handler<Account> =

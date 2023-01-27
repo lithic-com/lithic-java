@@ -16,6 +16,7 @@ constructor(
     private val additionalQueryParams: ListMultimap<String, String>,
     private val additionalHeaders: ListMultimap<String, String>,
 ) {
+
     fun page(): Optional<Long> = Optional.ofNullable(page)
 
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
@@ -32,6 +33,7 @@ constructor(
         private val pageSize: Long?,
         private val additionalProperties: ListMultimap<String, String>,
     ) {
+
         private var hashCode: Int = 0
 
         /** Page (for pagination). */
@@ -79,10 +81,12 @@ constructor(
             "AuthRuleListQueryParams{page=$page, pageSize=$pageSize, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var page: Long? = null
             private var pageSize: Long? = null
             private var additionalProperties: ArrayListMultimap<String, String> =
@@ -155,11 +159,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var page: Long? = null
         private var pageSize: Long? = null
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()

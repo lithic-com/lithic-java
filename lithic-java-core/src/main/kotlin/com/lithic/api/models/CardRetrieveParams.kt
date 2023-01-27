@@ -16,6 +16,7 @@ constructor(
     private val additionalQueryParams: ListMultimap<String, String>,
     private val additionalHeaders: ListMultimap<String, String>,
 ) {
+
     fun cardToken(): String = cardToken
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
@@ -38,6 +39,7 @@ constructor(
         private val accountToken: String?,
         private val additionalProperties: ListMultimap<String, String>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -80,10 +82,12 @@ constructor(
             "CardRetrieveQueryParams{accountToken=$accountToken, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var accountToken: String? = null
             private var additionalProperties: ArrayListMultimap<String, String> =
                 ArrayListMultimap.create()
@@ -152,11 +156,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var cardToken: String? = null
         private var accountToken: String? = null
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()

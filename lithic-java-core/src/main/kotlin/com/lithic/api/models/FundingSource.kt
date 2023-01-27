@@ -28,6 +28,7 @@ private constructor(
     private val type: JsonField<Type>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -171,10 +172,12 @@ private constructor(
         "FundingSource{accountName=$accountName, created=$created, lastFour=$lastFour, nickname=$nickname, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var accountName: JsonField<String> = JsonMissing.of()
         private var created: JsonField<String> = JsonMissing.of()
         private var lastFour: JsonField<String> = JsonMissing.of()
@@ -319,7 +322,12 @@ private constructor(
             )
     }
 
-    class State @JsonCreator private constructor(private val value: JsonField<String>) {
+    class State
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -335,6 +343,7 @@ private constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val ENABLED = State(JsonField.of("ENABLED"))
 
             @JvmField val PENDING = State(JsonField.of("PENDING"))
@@ -376,7 +385,12 @@ private constructor(
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class Type @JsonCreator private constructor(private val value: JsonField<String>) {
+    class Type
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -392,6 +406,7 @@ private constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val DEPOSITORY_CHECKING = Type(JsonField.of("DEPOSITORY_CHECKING"))
 
             @JvmField val DEPOSITORY_SAVINGS = Type(JsonField.of("DEPOSITORY_SAVINGS"))

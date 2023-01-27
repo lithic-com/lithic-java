@@ -24,6 +24,7 @@ private constructor(
     private val targetOrigin: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -146,10 +147,12 @@ private constructor(
         "EmbedRequestParams{accountToken=$accountToken, css=$css, expiration=$expiration, token=$token, targetOrigin=$targetOrigin, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var accountToken: JsonField<String> = JsonMissing.of()
         private var css: JsonField<String> = JsonMissing.of()
         private var expiration: JsonField<String> = JsonMissing.of()

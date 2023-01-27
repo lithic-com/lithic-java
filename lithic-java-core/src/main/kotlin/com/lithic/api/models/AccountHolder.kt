@@ -25,6 +25,7 @@ private constructor(
     private val statusReasons: JsonField<List<StatusReason>>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -112,10 +113,12 @@ private constructor(
         "AccountHolder{token=$token, accountToken=$accountToken, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var token: JsonField<String> = JsonMissing.of()
         private var accountToken: JsonField<String> = JsonMissing.of()
         private var status: JsonField<Status> = JsonMissing.of()
@@ -202,7 +205,12 @@ private constructor(
             )
     }
 
-    class Status @JsonCreator private constructor(private val value: JsonField<String>) {
+    class Status
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -218,6 +226,7 @@ private constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val ACCEPTED = Status(JsonField.of("ACCEPTED"))
 
             @JvmField val REJECTED = Status(JsonField.of("REJECTED"))
@@ -265,7 +274,12 @@ private constructor(
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class StatusReason @JsonCreator private constructor(private val value: JsonField<String>) {
+    class StatusReason
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -281,6 +295,7 @@ private constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField
             val ADDRESS_VERIFICATION_FAILURE =
                 StatusReason(JsonField.of("ADDRESS_VERIFICATION_FAILURE"))

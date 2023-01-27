@@ -19,6 +19,7 @@ constructor(
     private val additionalQueryParams: ListMultimap<String, String>,
     private val additionalHeaders: ListMultimap<String, String>,
 ) {
+
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
     fun begin(): Optional<String> = Optional.ofNullable(begin)
@@ -45,6 +46,7 @@ constructor(
         private val pageSize: Long?,
         private val additionalProperties: ListMultimap<String, String>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -121,10 +123,12 @@ constructor(
             "CardListQueryParams{accountToken=$accountToken, begin=$begin, end=$end, page=$page, pageSize=$pageSize, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var accountToken: String? = null
             private var begin: String? = null
             private var end: String? = null
@@ -232,11 +236,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var accountToken: String? = null
         private var begin: String? = null
         private var end: String? = null

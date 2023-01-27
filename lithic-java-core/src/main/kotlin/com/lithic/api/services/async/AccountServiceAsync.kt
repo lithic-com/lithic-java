@@ -1,3 +1,5 @@
+@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
+
 package com.lithic.api.services.async
 
 import com.lithic.api.core.RequestOptions
@@ -8,8 +10,8 @@ import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountUpdateParams
 import java.util.concurrent.CompletableFuture
 
-@Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
 interface AccountServiceAsync {
+
     /** Get account configuration such as spend limits. */
     @JvmOverloads
     fun retrieve(

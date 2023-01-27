@@ -28,6 +28,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun cardToken(): String = cardToken
 
     fun digitalWallet(): Optional<DigitalWallet> = Optional.ofNullable(digitalWallet)
@@ -72,6 +73,7 @@ constructor(
         private val accountToken: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /** Name of digital wallet provider. */
@@ -137,10 +139,12 @@ constructor(
             "CardProvisionBody{digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, certificate=$certificate, accountToken=$accountToken, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var digitalWallet: DigitalWallet? = null
             private var nonce: String? = null
             private var nonceSignature: String? = null
@@ -263,11 +267,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var cardToken: String? = null
         private var digitalWallet: DigitalWallet? = null
         private var nonce: String? = null
@@ -374,7 +380,12 @@ constructor(
             )
     }
 
-    class DigitalWallet @JsonCreator private constructor(private val value: JsonField<String>) {
+    class DigitalWallet
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -390,6 +401,7 @@ constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val APPLE_PAY = DigitalWallet(JsonField.of("APPLE_PAY"))
 
             @JvmField val GOOGLE_PAY = DigitalWallet(JsonField.of("GOOGLE_PAY"))

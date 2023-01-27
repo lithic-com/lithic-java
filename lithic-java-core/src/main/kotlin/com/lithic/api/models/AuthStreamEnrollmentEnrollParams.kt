@@ -20,6 +20,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun webhookUrl(): Optional<String> = Optional.ofNullable(webhookUrl)
 
     @JvmSynthetic
@@ -36,6 +37,7 @@ constructor(
         private val webhookUrl: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /** A user-specified url to receive and respond to ASA request. */
@@ -68,10 +70,12 @@ constructor(
             "AuthStreamEnrollmentEnrollBody{webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var webhookUrl: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -138,11 +142,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var webhookUrl: String? = null
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
         private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()

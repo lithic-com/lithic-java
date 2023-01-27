@@ -14,7 +14,8 @@ import com.github.tomakehurst.wiremock.client.WireMock.verify
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import com.google.common.collect.ArrayListMultimap
-import com.lithic.api.client.okhttp.LithicClient
+import com.lithic.api.client.LithicClient
+import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.core.JsonString
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
@@ -26,6 +27,7 @@ import org.junit.jupiter.api.Test
 
 @WireMockTest
 class ServiceParamsTest {
+
     private val JSON_MAPPER: JsonMapper = jsonMapper()
 
     private val API_KEY: String = "apiKey"
@@ -35,7 +37,10 @@ class ServiceParamsTest {
     @BeforeEach
     fun beforeEach(wmRuntimeInfo: WireMockRuntimeInfo) {
         client =
-            LithicClient.builder().apiKey(API_KEY).baseUrl(wmRuntimeInfo.getHttpBaseUrl()).build()
+            LithicOkHttpClient.builder()
+                .apiKey(API_KEY)
+                .baseUrl(wmRuntimeInfo.getHttpBaseUrl())
+                .build()
     }
 
     @Test

@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class AuthStreamEnrollmentTest {
+
     @Test
     fun createAuthStreamEnrollment() {
         val authStreamEnrollment = AuthStreamEnrollment.builder().enrolled(true).build()

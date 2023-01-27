@@ -29,6 +29,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun bank(): Optional<Bank> = Optional.ofNullable(bank)
 
     fun plaid(): Optional<Plaid> = Optional.ofNullable(plaid)
@@ -48,9 +49,11 @@ constructor(
         private val plaid: Plaid?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         class Serializer : BaseSerializer<FundingSourceCreateBody>(FundingSourceCreateBody::class) {
+
             override fun serialize(
                 value: FundingSourceCreateBody,
                 generator: JsonGenerator,
@@ -120,10 +123,12 @@ constructor(
             "FundingSourceCreateBody{bank=$bank, plaid=$plaid, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var bank: Bank? = null
             private var plaid: Plaid? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -196,11 +201,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var bank: Bank? = null
         private var plaid: Plaid? = null
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
@@ -300,6 +307,7 @@ constructor(
         private val routingNumber: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         @JsonProperty("validation_method")
@@ -364,10 +372,12 @@ constructor(
             "Bank{validationMethod=$validationMethod, accountName=$accountName, accountNumber=$accountNumber, accountToken=$accountToken, routingNumber=$routingNumber, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var validationMethod: ValidationMethod? = null
             private var accountName: String? = null
             private var accountNumber: String? = null
@@ -441,7 +451,10 @@ constructor(
 
         class ValidationMethod
         @JsonCreator
-        private constructor(private val value: JsonField<String>) {
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
@@ -457,6 +470,7 @@ constructor(
             override fun toString() = value.toString()
 
             companion object {
+
                 @JvmField val BANK = ValidationMethod(JsonField.of("BANK"))
 
                 @JvmStatic fun of(value: String) = ValidationMethod(JsonField.of(value))
@@ -498,6 +512,7 @@ constructor(
         private val processorToken: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         @JsonProperty("validation_method")
@@ -549,10 +564,12 @@ constructor(
             "Plaid{validationMethod=$validationMethod, accountToken=$accountToken, processorToken=$processorToken, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var validationMethod: ValidationMethod? = null
             private var accountToken: String? = null
             private var processorToken: String? = null
@@ -611,7 +628,10 @@ constructor(
 
         class ValidationMethod
         @JsonCreator
-        private constructor(private val value: JsonField<String>) {
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
@@ -627,6 +647,7 @@ constructor(
             override fun toString() = value.toString()
 
             companion object {
+
                 @JvmField val PLAID = ValidationMethod(JsonField.of("PLAID"))
 
                 @JvmStatic fun of(value: String) = ValidationMethod(JsonField.of(value))

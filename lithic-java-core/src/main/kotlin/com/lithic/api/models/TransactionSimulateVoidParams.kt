@@ -25,6 +25,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun amount(): Optional<Long> = Optional.ofNullable(amount)
 
     fun token(): String = token
@@ -47,6 +48,7 @@ constructor(
         private val type: Type?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -101,10 +103,12 @@ constructor(
             "TransactionSimulateVoidBody{amount=$amount, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var amount: Long? = null
             private var token: String? = null
             private var type: Type? = null
@@ -197,11 +201,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var amount: Long? = null
         private var token: String? = null
         private var type: Type? = null
@@ -288,7 +294,12 @@ constructor(
             )
     }
 
-    class Type @JsonCreator private constructor(private val value: JsonField<String>) {
+    class Type
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -304,6 +315,7 @@ constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val AUTHORIZATION_EXPIRY = Type(JsonField.of("AUTHORIZATION_EXPIRY"))
 
             @JvmField val AUTHORIZATION_REVERSAL = Type(JsonField.of("AUTHORIZATION_REVERSAL"))

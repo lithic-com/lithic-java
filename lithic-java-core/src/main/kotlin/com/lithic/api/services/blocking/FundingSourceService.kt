@@ -1,3 +1,5 @@
+@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
+
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.RequestOptions
@@ -8,8 +10,8 @@ import com.lithic.api.models.FundingSourceListParams
 import com.lithic.api.models.FundingSourceUpdateParams
 import com.lithic.api.models.FundingSourceVerifyParams
 
-@Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
 interface FundingSourceService {
+
     /**
      * Add a funding source using bank routing and account numbers or via Plaid.
      *

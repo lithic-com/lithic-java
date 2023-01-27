@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class CardProvisionParamsTest {
+
     @Test
     fun createCardProvisionParams() {
         CardProvisionParams.builder()

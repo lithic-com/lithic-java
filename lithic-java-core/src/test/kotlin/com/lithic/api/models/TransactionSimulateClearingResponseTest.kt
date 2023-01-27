@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class TransactionSimulateClearingResponseTest {
+
     @Test
     fun createTransactionSimulateClearingResponse() {
         val transactionSimulateClearingResponse =

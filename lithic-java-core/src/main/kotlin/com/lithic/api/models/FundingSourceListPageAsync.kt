@@ -21,6 +21,7 @@ private constructor(
     private val params: FundingSourceListParams,
     private val response: Response,
 ) {
+
     fun response(): Response = response
 
     fun data(): List<FundingSource> = response().data()
@@ -75,6 +76,7 @@ private constructor(
     }
 
     companion object {
+
         @JvmStatic
         fun of(
             fundingSourcesService: FundingSourceServiceAsync,
@@ -98,6 +100,7 @@ private constructor(
         private val totalPages: JsonField<Long>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var validated: Boolean = false
 
         fun data(): List<FundingSource> = data.getRequired("data")
@@ -162,10 +165,12 @@ private constructor(
             "FundingSourceListPageAsync.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var data: JsonField<List<FundingSource>> = JsonMissing.of()
             private var page: JsonField<Long> = JsonMissing.of()
             private var totalEntries: JsonField<Long> = JsonMissing.of()

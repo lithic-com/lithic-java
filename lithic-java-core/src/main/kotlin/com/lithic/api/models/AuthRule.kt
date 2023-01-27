@@ -29,6 +29,7 @@ private constructor(
     private val programLevel: JsonField<Boolean>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -183,10 +184,12 @@ private constructor(
         "AuthRule{allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, avsType=$avsType, accountTokens=$accountTokens, cardTokens=$cardTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var allowedMcc: JsonField<List<String>> = JsonMissing.of()
         private var blockedMcc: JsonField<List<String>> = JsonMissing.of()
         private var allowedCountries: JsonField<List<String>> = JsonMissing.of()
@@ -348,7 +351,12 @@ private constructor(
             )
     }
 
-    class AvsType @JsonCreator private constructor(private val value: JsonField<String>) {
+    class AvsType
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -364,6 +372,7 @@ private constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val ZIP_ONLY = AvsType(JsonField.of("ZIP_ONLY"))
 
             @JvmStatic fun of(value: String) = AvsType(JsonField.of(value))

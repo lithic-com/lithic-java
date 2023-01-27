@@ -25,6 +25,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun accountHolderToken(): String = accountHolderToken
 
     fun workflow(): Workflow = workflow
@@ -56,6 +57,7 @@ constructor(
         private val individual: Individual?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         @JsonProperty("workflow") fun workflow(): Workflow? = workflow
@@ -107,10 +109,12 @@ constructor(
             "AccountHolderResubmitBody{workflow=$workflow, tosTimestamp=$tosTimestamp, individual=$individual, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var workflow: Workflow? = null
             private var tosTimestamp: String? = null
             private var individual: Individual? = null
@@ -205,11 +209,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var accountHolderToken: String? = null
         private var workflow: Workflow? = null
         private var tosTimestamp: String? = null
@@ -300,7 +306,12 @@ constructor(
             )
     }
 
-    class Workflow @JsonCreator private constructor(private val value: JsonField<String>) {
+    class Workflow
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -316,6 +327,7 @@ constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val KYC_ADVANCED = Workflow(JsonField.of("KYC_ADVANCED"))
 
             @JvmStatic fun of(value: String) = Workflow(JsonField.of(value))
@@ -361,6 +373,7 @@ constructor(
         private val phoneNumber: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -438,10 +451,12 @@ constructor(
             "Individual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var address: Address? = null
             private var dob: String? = null
             private var email: String? = null
@@ -542,6 +557,7 @@ constructor(
             private val state: String?,
             private val additionalProperties: Map<String, JsonValue>,
         ) {
+
             private var hashCode: Int = 0
 
             /** Valid deliverable address (no PO boxes). */
@@ -612,10 +628,12 @@ constructor(
                 "Address{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 
             companion object {
+
                 @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
+
                 private var address1: String? = null
                 private var address2: String? = null
                 private var city: String? = null

@@ -17,8 +17,11 @@ import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
 import java.util.concurrent.CompletableFuture
 
-class AuthStreamEnrollmentServiceAsyncImpl constructor(private val clientOptions: ClientOptions) :
-    AuthStreamEnrollmentServiceAsync {
+class AuthStreamEnrollmentServiceAsyncImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : AuthStreamEnrollmentServiceAsync {
+
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val retrieveHandler: Handler<AuthStreamEnrollment> =

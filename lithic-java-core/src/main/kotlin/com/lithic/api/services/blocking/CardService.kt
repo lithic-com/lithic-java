@@ -1,3 +1,5 @@
+@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
+
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.RequestOptions
@@ -12,8 +14,8 @@ import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRetrieveParams
 import com.lithic.api.models.CardUpdateParams
 
-@Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
 interface CardService {
+
     /**
      * Create a new virtual or physical card. Parameters `pin`, `shipping_address`, and `product_id`
      * only apply to physical cards.

@@ -25,6 +25,7 @@ private constructor(
     private val authRuleTokens: JsonField<List<String>>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -127,10 +128,12 @@ private constructor(
         "Account{spendLimit=$spendLimit, state=$state, token=$token, authRuleTokens=$authRuleTokens, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var spendLimit: JsonField<SpendLimit> = JsonMissing.of()
         private var state: JsonField<State> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
@@ -246,6 +249,7 @@ private constructor(
         private val lifetime: JsonField<Long>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var validated: Boolean = false
 
         private var hashCode: Int = 0
@@ -312,10 +316,12 @@ private constructor(
             "SpendLimit{daily=$daily, monthly=$monthly, lifetime=$lifetime, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var daily: JsonField<Long> = JsonMissing.of()
             private var monthly: JsonField<Long> = JsonMissing.of()
             private var lifetime: JsonField<Long> = JsonMissing.of()
@@ -377,7 +383,12 @@ private constructor(
         }
     }
 
-    class State @JsonCreator private constructor(private val value: JsonField<String>) {
+    class State
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -393,6 +404,7 @@ private constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val ACTIVE = State(JsonField.of("ACTIVE"))
 
             @JvmField val PAUSED = State(JsonField.of("PAUSED"))

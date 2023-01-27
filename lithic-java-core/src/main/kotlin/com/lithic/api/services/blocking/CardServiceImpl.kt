@@ -22,7 +22,11 @@ import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.stringHandler
 import com.lithic.api.services.withErrorHandler
 
-class CardServiceImpl constructor(private val clientOptions: ClientOptions) : CardService {
+class CardServiceImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : CardService {
+
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val createHandler: Handler<Card> =

@@ -30,6 +30,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun kyb(): Optional<Kyb> = Optional.ofNullable(kyb)
 
     fun kyc(): Optional<Kyc> = Optional.ofNullable(kyc)
@@ -52,9 +53,11 @@ constructor(
         private val kycExempt: KycExempt?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         class Serializer : BaseSerializer<AccountHolderCreateBody>(AccountHolderCreateBody::class) {
+
             override fun serialize(
                 value: AccountHolderCreateBody,
                 generator: JsonGenerator,
@@ -154,10 +157,12 @@ constructor(
             "AccountHolderCreateBody{kyb=$kyb, kyc=$kyc, kycExempt=$kycExempt, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var kyb: Kyb? = null
             private var kyc: Kyc? = null
             private var kycExempt: KycExempt? = null
@@ -237,11 +242,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var kyb: Kyb? = null
         private var kyc: Kyc? = null
         private var kycExempt: KycExempt? = null
@@ -358,6 +365,7 @@ constructor(
         private val workflow: Workflow?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /** Information for business for which the account is being opened and KYB is being run. */
@@ -472,10 +480,12 @@ constructor(
             "Kyb{businessEntity=$businessEntity, beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, controlPerson=$controlPerson, kybPassedTimestamp=$kybPassedTimestamp, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var businessEntity: BusinessEntity? = null
             private var beneficialOwnerEntities: List<BusinessEntity>? = null
             private var beneficialOwnerIndividuals: List<Individual>? = null
@@ -629,6 +639,7 @@ constructor(
             private val phoneNumbers: List<String>?,
             private val additionalProperties: Map<String, JsonValue>,
         ) {
+
             private var hashCode: Int = 0
 
             /**
@@ -700,10 +711,12 @@ constructor(
                 "BusinessEntity{address=$address, dbaBusinessName=$dbaBusinessName, governmentId=$governmentId, legalBusinessName=$legalBusinessName, parentCompany=$parentCompany, phoneNumbers=$phoneNumbers, additionalProperties=$additionalProperties}"
 
             companion object {
+
                 @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
+
                 private var address: Address? = null
                 private var dbaBusinessName: String? = null
                 private var governmentId: String? = null
@@ -809,6 +822,7 @@ constructor(
                 private val state: String?,
                 private val additionalProperties: Map<String, JsonValue>,
             ) {
+
                 private var hashCode: Int = 0
 
                 /** Valid deliverable address (no PO boxes). */
@@ -879,10 +893,12 @@ constructor(
                     "Address{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 
                 companion object {
+
                     @JvmStatic fun builder() = Builder()
                 }
 
                 class Builder {
+
                     private var address1: String? = null
                     private var address2: String? = null
                     private var city: String? = null
@@ -974,6 +990,7 @@ constructor(
             private val phoneNumber: String?,
             private val additionalProperties: Map<String, JsonValue>,
         ) {
+
             private var hashCode: Int = 0
 
             /**
@@ -1051,10 +1068,12 @@ constructor(
                 "Individual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
 
             companion object {
+
                 @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
+
                 private var address: Address? = null
                 private var dob: String? = null
                 private var email: String? = null
@@ -1160,6 +1179,7 @@ constructor(
                 private val state: String?,
                 private val additionalProperties: Map<String, JsonValue>,
             ) {
+
                 private var hashCode: Int = 0
 
                 /** Valid deliverable address (no PO boxes). */
@@ -1230,10 +1250,12 @@ constructor(
                     "Address{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 
                 companion object {
+
                     @JvmStatic fun builder() = Builder()
                 }
 
                 class Builder {
+
                     private var address1: String? = null
                     private var address2: String? = null
                     private var city: String? = null
@@ -1313,7 +1335,12 @@ constructor(
             }
         }
 
-        class Workflow @JsonCreator private constructor(private val value: JsonField<String>) {
+        class Workflow
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
@@ -1329,6 +1356,7 @@ constructor(
             override fun toString() = value.toString()
 
             companion object {
+
                 @JvmField val KYB_BASIC = Workflow(JsonField.of("KYB_BASIC"))
 
                 @JvmField val KYB_BYO = Workflow(JsonField.of("KYB_BYO"))
@@ -1377,6 +1405,7 @@ constructor(
         private val workflow: Workflow?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /** Information on individual for whom the account is being opened and KYC is being run. */
@@ -1437,10 +1466,12 @@ constructor(
             "Kyc{individual=$individual, kycPassedTimestamp=$kycPassedTimestamp, tosTimestamp=$tosTimestamp, workflow=$workflow, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var individual: Individual? = null
             private var kycPassedTimestamp: String? = null
             private var tosTimestamp: String? = null
@@ -1522,6 +1553,7 @@ constructor(
             private val phoneNumber: String?,
             private val additionalProperties: Map<String, JsonValue>,
         ) {
+
             private var hashCode: Int = 0
 
             /**
@@ -1599,10 +1631,12 @@ constructor(
                 "Individual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
 
             companion object {
+
                 @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
+
                 private var address: Address? = null
                 private var dob: String? = null
                 private var email: String? = null
@@ -1708,6 +1742,7 @@ constructor(
                 private val state: String?,
                 private val additionalProperties: Map<String, JsonValue>,
             ) {
+
                 private var hashCode: Int = 0
 
                 /** Valid deliverable address (no PO boxes). */
@@ -1778,10 +1813,12 @@ constructor(
                     "Address{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 
                 companion object {
+
                     @JvmStatic fun builder() = Builder()
                 }
 
                 class Builder {
+
                     private var address1: String? = null
                     private var address2: String? = null
                     private var city: String? = null
@@ -1861,7 +1898,12 @@ constructor(
             }
         }
 
-        class Workflow @JsonCreator private constructor(private val value: JsonField<String>) {
+        class Workflow
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
@@ -1877,6 +1919,7 @@ constructor(
             override fun toString() = value.toString()
 
             companion object {
+
                 @JvmField val KYC_ADVANCED = Workflow(JsonField.of("KYC_ADVANCED"))
 
                 @JvmField val KYC_BASIC = Workflow(JsonField.of("KYC_BASIC"))
@@ -1934,6 +1977,7 @@ constructor(
         private val address: Address?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
@@ -2003,10 +2047,12 @@ constructor(
             "KycExempt{workflow=$workflow, kycExemptionType=$kycExemptionType, firstName=$firstName, lastName=$lastName, email=$email, phoneNumber=$phoneNumber, address=$address, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var workflow: String? = null
             private var kycExemptionType: String? = null
             private var firstName: String? = null
@@ -2102,6 +2148,7 @@ constructor(
             private val state: String?,
             private val additionalProperties: Map<String, JsonValue>,
         ) {
+
             private var hashCode: Int = 0
 
             /** Valid deliverable address (no PO boxes). */
@@ -2172,10 +2219,12 @@ constructor(
                 "Address{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 
             companion object {
+
                 @JvmStatic fun builder() = Builder()
             }
 
             class Builder {
+
                 private var address1: String? = null
                 private var address2: String? = null
                 private var city: String? = null

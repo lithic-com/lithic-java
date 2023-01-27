@@ -21,6 +21,7 @@ private constructor(
     private val params: AuthRuleListParams,
     private val response: Response,
 ) {
+
     fun response(): Response = response
 
     fun data(): List<AuthRule> = response().data()
@@ -72,6 +73,7 @@ private constructor(
     }
 
     companion object {
+
         @JvmStatic
         fun of(
             authRulesService: AuthRuleServiceAsync,
@@ -95,6 +97,7 @@ private constructor(
         private val totalPages: JsonField<Long>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var validated: Boolean = false
 
         fun data(): List<AuthRule> = data.getRequired("data")
@@ -159,10 +162,12 @@ private constructor(
             "AuthRuleListPageAsync.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var data: JsonField<List<AuthRule>> = JsonMissing.of()
             private var page: JsonField<Long> = JsonMissing.of()
             private var totalEntries: JsonField<Long> = JsonMissing.of()

@@ -1,3 +1,5 @@
+@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
+
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.RequestOptions
@@ -7,8 +9,8 @@ import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountUpdateParams
 
-@Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
 interface AccountService {
+
     /** Get account configuration such as spend limits. */
     @JvmOverloads
     fun retrieve(

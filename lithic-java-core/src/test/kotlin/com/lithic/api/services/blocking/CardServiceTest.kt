@@ -1,16 +1,20 @@
 package com.lithic.api.services.blocking
 
-import com.lithic.api.client.okhttp.LithicClient
+import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
 import com.lithic.api.models.CardListParams
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class CardServiceTest {
+
     @Test
     fun callCreate() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val cardService = client.cards()
         val card =
             cardService.create(
@@ -53,7 +57,10 @@ class CardServiceTest {
     @Test
     fun callRetrieve() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val cardService = client.cards()
         val card =
             cardService.retrieve(
@@ -69,7 +76,10 @@ class CardServiceTest {
     @Test
     fun callUpdate() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val cardService = client.cards()
         val card =
             cardService.update(
@@ -93,7 +103,10 @@ class CardServiceTest {
     @Test
     fun callList() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val cardService = client.cards()
         val response = cardService.list(CardListParams.builder().build())
         println(response)
@@ -103,7 +116,10 @@ class CardServiceTest {
     @Test
     fun callEmbed() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val cardService = client.cards()
         val cardEmbedResponse =
             cardService.embed(
@@ -116,7 +132,10 @@ class CardServiceTest {
     @Test
     fun callProvision() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val cardService = client.cards()
         val cardProvisionResponse =
             cardService.provision(
@@ -136,7 +155,10 @@ class CardServiceTest {
     @Test
     fun callReissue() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val cardService = client.cards()
         val card =
             cardService.reissue(

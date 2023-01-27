@@ -28,8 +28,11 @@ import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
 import java.util.concurrent.CompletableFuture
 
-class TransactionServiceAsyncImpl constructor(private val clientOptions: ClientOptions) :
-    TransactionServiceAsync {
+class TransactionServiceAsyncImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : TransactionServiceAsync {
+
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val retrieveHandler: Handler<Transaction> =

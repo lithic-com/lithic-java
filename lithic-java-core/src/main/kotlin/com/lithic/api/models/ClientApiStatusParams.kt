@@ -12,6 +12,7 @@ constructor(
     private val additionalQueryParams: ListMultimap<String, String>,
     private val additionalHeaders: ListMultimap<String, String>,
 ) {
+
     @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
     @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
@@ -40,11 +41,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
         private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()
 

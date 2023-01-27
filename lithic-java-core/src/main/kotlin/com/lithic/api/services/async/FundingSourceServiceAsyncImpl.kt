@@ -18,8 +18,11 @@ import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
 import java.util.concurrent.CompletableFuture
 
-class FundingSourceServiceAsyncImpl constructor(private val clientOptions: ClientOptions) :
-    FundingSourceServiceAsync {
+class FundingSourceServiceAsyncImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : FundingSourceServiceAsync {
+
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val createHandler: Handler<FundingSource> =

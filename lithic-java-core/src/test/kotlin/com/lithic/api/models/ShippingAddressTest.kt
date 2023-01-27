@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class ShippingAddressTest {
+
     @Test
     fun createShippingAddress() {
         val shippingAddress =

@@ -1,15 +1,19 @@
 package com.lithic.api.services.blocking
 
-import com.lithic.api.client.okhttp.LithicClient
+import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
 import com.lithic.api.models.FundingSourceListParams
 import org.junit.jupiter.api.Test
 
 class FundingSourceServiceTest {
+
     @Test
     fun callCreate() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val fundingSourceService = client.fundingSources()
         val fundingSource =
             fundingSourceService.create(
@@ -32,7 +36,10 @@ class FundingSourceServiceTest {
     @Test
     fun callUpdate() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val fundingSourceService = client.fundingSources()
         val fundingSource =
             fundingSourceService.update(
@@ -49,7 +56,10 @@ class FundingSourceServiceTest {
     @Test
     fun callList() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val fundingSourceService = client.fundingSources()
         val response = fundingSourceService.list(FundingSourceListParams.builder().build())
         println(response)
@@ -59,7 +69,10 @@ class FundingSourceServiceTest {
     @Test
     fun callVerify() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val fundingSourceService = client.fundingSources()
         val fundingSource =
             fundingSourceService.verify(

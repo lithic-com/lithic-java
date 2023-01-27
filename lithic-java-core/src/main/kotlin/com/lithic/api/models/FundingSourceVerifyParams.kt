@@ -22,6 +22,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun fundingSourceToken(): String = fundingSourceToken
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
@@ -50,6 +51,7 @@ constructor(
         private val microDeposits: List<Long>?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -96,10 +98,12 @@ constructor(
             "FundingSourceVerifyBody{accountToken=$accountToken, microDeposits=$microDeposits, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var accountToken: String? = null
             private var microDeposits: List<Long>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -186,11 +190,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var fundingSourceToken: String? = null
         private var accountToken: String? = null
         private var microDeposits: List<Long>? = null

@@ -23,6 +23,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun authRuleToken(): String = authRuleToken
 
     fun cardTokens(): Optional<List<String>> = Optional.ofNullable(cardTokens)
@@ -54,6 +55,7 @@ constructor(
         private val programLevel: Boolean?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -106,10 +108,12 @@ constructor(
             "AuthRuleApplyBody{cardTokens=$cardTokens, accountTokens=$accountTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var cardTokens: List<String>? = null
             private var accountTokens: List<String>? = null
             private var programLevel: Boolean? = null
@@ -206,11 +210,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var authRuleToken: String? = null
         private var cardTokens: List<String>? = null
         private var accountTokens: List<String>? = null

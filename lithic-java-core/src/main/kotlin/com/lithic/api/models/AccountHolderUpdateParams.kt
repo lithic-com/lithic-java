@@ -22,6 +22,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun accountHolderToken(): String = accountHolderToken
 
     fun email(): Optional<String> = Optional.ofNullable(email)
@@ -50,6 +51,7 @@ constructor(
         private val phoneNumber: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -98,10 +100,12 @@ constructor(
             "AccountHolderUpdateBody{email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var email: String? = null
             private var phoneNumber: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -187,11 +191,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var accountHolderToken: String? = null
         private var email: String? = null
         private var phoneNumber: String? = null

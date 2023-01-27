@@ -23,6 +23,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun accountHolderToken(): String = accountHolderToken
 
     fun documentType(): DocumentType = documentType
@@ -48,6 +49,7 @@ constructor(
         private val documentType: DocumentType?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /** Type of the document to upload. */
@@ -80,10 +82,12 @@ constructor(
             "AccountHolderUploadDocumentBody{documentType=$documentType, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var documentType: DocumentType? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -157,11 +161,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var accountHolderToken: String? = null
         private var documentType: DocumentType? = null
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
@@ -236,7 +242,12 @@ constructor(
             )
     }
 
-    class DocumentType @JsonCreator private constructor(private val value: JsonField<String>) {
+    class DocumentType
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -252,6 +263,7 @@ constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val COMMERCIAL_LICENSE = DocumentType(JsonField.of("commercial_license"))
 
             @JvmField val DRIVERS_LICENSE = DocumentType(JsonField.of("drivers_license"))

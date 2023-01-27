@@ -22,6 +22,7 @@ private constructor(
     private val params: AuthRuleListParams,
     private val response: Response,
 ) {
+
     fun response(): Response = response
 
     fun data(): List<AuthRule> = response().data()
@@ -73,6 +74,7 @@ private constructor(
     fun autoPager(): AutoPager = AutoPager(this)
 
     companion object {
+
         @JvmStatic
         fun of(authRulesService: AuthRuleService, params: AuthRuleListParams, response: Response) =
             AuthRuleListPage(
@@ -92,6 +94,7 @@ private constructor(
         private val totalPages: JsonField<Long>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var validated: Boolean = false
 
         fun data(): List<AuthRule> = data.getRequired("data")
@@ -156,10 +159,12 @@ private constructor(
             "AuthRuleListPage.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var data: JsonField<List<AuthRule>> = JsonMissing.of()
             private var page: JsonField<Long> = JsonMissing.of()
             private var totalEntries: JsonField<Long> = JsonMissing.of()
@@ -212,7 +217,11 @@ private constructor(
         }
     }
 
-    class AutoPager constructor(private val firstPage: AuthRuleListPage) : Iterable<AuthRule> {
+    class AutoPager
+    constructor(
+        private val firstPage: AuthRuleListPage,
+    ) : Iterable<AuthRule> {
+
         override fun iterator(): Iterator<AuthRule> =
             sequence {
                     var page = firstPage

@@ -1,16 +1,20 @@
 package com.lithic.api.services.blocking
 
-import com.lithic.api.client.okhttp.LithicClient
+import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
 import com.lithic.api.models.AccountListParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class AccountServiceTest {
+
     @Test
     fun callRetrieve() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val accountService = client.accounts()
         val account =
             accountService.retrieve(
@@ -26,7 +30,10 @@ class AccountServiceTest {
     @Test
     fun callUpdate() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val accountService = client.accounts()
         val account =
             accountService.update(
@@ -55,7 +62,10 @@ class AccountServiceTest {
     @Test
     fun callList() {
         val client =
-            LithicClient.builder().baseUrl("http://127.0.0.1:4010").apiKey("test-api-key").build()
+            LithicOkHttpClient.builder()
+                .baseUrl("http://127.0.0.1:4010")
+                .apiKey("test-api-key")
+                .build()
         val accountService = client.accounts()
         val response = accountService.list(AccountListParams.builder().build())
         println(response)

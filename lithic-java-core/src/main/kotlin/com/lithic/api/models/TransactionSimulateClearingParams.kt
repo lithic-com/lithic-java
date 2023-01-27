@@ -21,6 +21,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun amount(): Optional<Long> = Optional.ofNullable(amount)
 
     fun token(): String = token
@@ -40,6 +41,7 @@ constructor(
         private val token: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -88,10 +90,12 @@ constructor(
             "TransactionSimulateClearingBody{amount=$amount, token=$token, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var amount: Long? = null
             private var token: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -175,11 +179,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var amount: Long? = null
         private var token: String? = null
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()

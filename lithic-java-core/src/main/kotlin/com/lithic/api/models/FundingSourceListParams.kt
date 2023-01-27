@@ -17,6 +17,7 @@ constructor(
     private val additionalQueryParams: ListMultimap<String, String>,
     private val additionalHeaders: ListMultimap<String, String>,
 ) {
+
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
     fun page(): Optional<Long> = Optional.ofNullable(page)
@@ -37,6 +38,7 @@ constructor(
         private val pageSize: Long?,
         private val additionalProperties: ListMultimap<String, String>,
     ) {
+
         private var hashCode: Int = 0
 
         fun accountToken(): String? = accountToken
@@ -89,10 +91,12 @@ constructor(
             "FundingSourceListQueryParams{accountToken=$accountToken, page=$page, pageSize=$pageSize, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var accountToken: String? = null
             private var page: Long? = null
             private var pageSize: Long? = null
@@ -172,11 +176,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var accountToken: String? = null
         private var page: Long? = null
         private var pageSize: Long? = null

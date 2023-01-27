@@ -42,6 +42,7 @@ private constructor(
     private val digitalCardArtToken: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -336,10 +337,12 @@ private constructor(
         "Card{created=$created, cvv=$cvv, funding=$funding, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, lastFour=$lastFour, memo=$memo, pan=$pan, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, authRuleTokens=$authRuleTokens, token=$token, type=$type, digitalCardArtToken=$digitalCardArtToken, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var created: JsonField<String> = JsonMissing.of()
         private var cvv: JsonField<String> = JsonMissing.of()
         private var funding: JsonField<FundingSource> = JsonMissing.of()
@@ -662,7 +665,10 @@ private constructor(
 
     class SpendLimitDuration
     @JsonCreator
-    private constructor(private val value: JsonField<String>) {
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -678,6 +684,7 @@ private constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val ANNUALLY = SpendLimitDuration(JsonField.of("ANNUALLY"))
 
             @JvmField val FOREVER = SpendLimitDuration(JsonField.of("FOREVER"))
@@ -725,7 +732,12 @@ private constructor(
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class State @JsonCreator private constructor(private val value: JsonField<String>) {
+    class State
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -741,6 +753,7 @@ private constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val CLOSED = State(JsonField.of("CLOSED"))
 
             @JvmField val OPEN = State(JsonField.of("OPEN"))
@@ -794,7 +807,12 @@ private constructor(
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class Type @JsonCreator private constructor(private val value: JsonField<String>) {
+    class Type
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -810,6 +828,7 @@ private constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val VIRTUAL = Type(JsonField.of("VIRTUAL"))
 
             @JvmField val PHYSICAL = Type(JsonField.of("PHYSICAL"))

@@ -26,6 +26,7 @@ private constructor(
     private val token: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -106,10 +107,12 @@ private constructor(
         "AccountHolderDocument{accountHolderToken=$accountHolderToken, documentType=$documentType, requiredDocumentUploads=$requiredDocumentUploads, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var accountHolderToken: JsonField<String> = JsonMissing.of()
         private var documentType: JsonField<DocumentType> = JsonMissing.of()
         private var requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>> =
@@ -188,7 +191,12 @@ private constructor(
             )
     }
 
-    class DocumentType @JsonCreator private constructor(private val value: JsonField<String>) {
+    class DocumentType
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -204,6 +212,7 @@ private constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val COMMERCIAL_LICENSE = DocumentType(JsonField.of("commercial_license"))
 
             @JvmField val DRIVERS_LICENSE = DocumentType(JsonField.of("drivers_license"))
@@ -271,6 +280,7 @@ private constructor(
         private val uploadUrl: JsonField<String>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var validated: Boolean = false
 
         private var hashCode: Int = 0
@@ -358,10 +368,12 @@ private constructor(
             "RequiredDocumentUpload{imageType=$imageType, status=$status, statusReasons=$statusReasons, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var imageType: JsonField<ImageType> = JsonMissing.of()
             private var status: JsonField<Status> = JsonMissing.of()
             private var statusReasons: JsonField<List<StatusReason>> = JsonMissing.of()
@@ -446,7 +458,12 @@ private constructor(
                 )
         }
 
-        class ImageType @JsonCreator private constructor(private val value: JsonField<String>) {
+        class ImageType
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
@@ -462,6 +479,7 @@ private constructor(
             override fun toString() = value.toString()
 
             companion object {
+
                 @JvmField val BACK = ImageType(JsonField.of("back"))
 
                 @JvmField val FRONT = ImageType(JsonField.of("front"))
@@ -500,7 +518,12 @@ private constructor(
             fun asString(): String = _value().asStringOrThrow()
         }
 
-        class Status @JsonCreator private constructor(private val value: JsonField<String>) {
+        class Status
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
@@ -516,6 +539,7 @@ private constructor(
             override fun toString() = value.toString()
 
             companion object {
+
                 @JvmField val COMPLETED = Status(JsonField.of("COMPLETED"))
 
                 @JvmField val FAILED = Status(JsonField.of("FAILED"))
@@ -566,7 +590,12 @@ private constructor(
             fun asString(): String = _value().asStringOrThrow()
         }
 
-        class StatusReason @JsonCreator private constructor(private val value: JsonField<String>) {
+        class StatusReason
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
@@ -582,6 +611,7 @@ private constructor(
             override fun toString() = value.toString()
 
             companion object {
+
                 @JvmField val BACK_IMAGE_BLURRY = StatusReason(JsonField.of("BACK_IMAGE_BLURRY"))
 
                 @JvmField

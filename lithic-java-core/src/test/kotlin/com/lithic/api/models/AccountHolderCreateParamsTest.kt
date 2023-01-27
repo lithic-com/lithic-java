@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class AccountHolderCreateParamsTest {
+
     @Test
     fun createAccountHolderCreateParams() {
         AccountHolderCreateParams.builder()

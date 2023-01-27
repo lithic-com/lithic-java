@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class AccountRetrieveParamsTest {
+
     @Test
     fun createAccountRetrieveParams() {
         AccountRetrieveParams.builder().accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()

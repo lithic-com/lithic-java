@@ -33,6 +33,7 @@ private constructor(
     private val petName: String? = null,
     private val _json: JsonValue? = null,
 ) {
+
     fun cat(): Optional<Cat> = Optional.ofNullable(cat)
     fun dog(): Optional<Dog> = Optional.ofNullable(dog)
     fun cats(): Optional<List<Cat>> = Optional.ofNullable(cats)
@@ -93,6 +94,7 @@ private constructor(
     }
 
     companion object {
+
         @JvmStatic fun ofCat(cat: Cat) = ExampleOneOf(cat = cat)
 
         @JvmStatic fun ofDog(dog: Dog) = ExampleOneOf(dog = dog)
@@ -103,6 +105,7 @@ private constructor(
     }
 
     interface Visitor<out T> {
+
         fun visitCat(cat: Cat): T
 
         fun visitDog(dog: Dog): T
@@ -117,6 +120,7 @@ private constructor(
     }
 
     class Deserializer : BaseDeserializer<ExampleOneOf>(ExampleOneOf::class) {
+
         override fun ObjectCodec.deserialize(node: JsonNode): ExampleOneOf {
             val json = JsonValue.fromJsonNode(node)
             tryDeserialize(node, jacksonTypeRef<Cat>()) { it.validate() }
@@ -140,6 +144,7 @@ private constructor(
     }
 
     class Serializer : BaseSerializer<ExampleOneOf>(ExampleOneOf::class) {
+
         override fun serialize(
             value: ExampleOneOf,
             generator: JsonGenerator,
@@ -163,6 +168,7 @@ private constructor(
         private val name: JsonField<String>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var validated: Boolean = false
 
         private var hashCode: Int = 0
@@ -204,10 +210,12 @@ private constructor(
         override fun toString() = "Cat{name=$name, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var name: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -248,6 +256,7 @@ private constructor(
         private val breed: JsonField<String>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var validated: Boolean = false
 
         private var hashCode: Int = 0
@@ -289,10 +298,12 @@ private constructor(
         override fun toString() = "Dog{breed=$breed, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var breed: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 

@@ -20,6 +20,7 @@ private constructor(
     private val debuggingRequestId: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -67,10 +68,12 @@ private constructor(
         "TransactionSimulateVoidResponse{debuggingRequestId=$debuggingRequestId, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var debuggingRequestId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 

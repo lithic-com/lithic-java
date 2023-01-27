@@ -24,8 +24,11 @@ import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
 import java.util.concurrent.CompletableFuture
 
-class AuthRuleServiceAsyncImpl constructor(private val clientOptions: ClientOptions) :
-    AuthRuleServiceAsync {
+class AuthRuleServiceAsyncImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : AuthRuleServiceAsync {
+
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val createHandler: Handler<AuthRuleCreateResponse> =

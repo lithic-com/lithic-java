@@ -30,6 +30,7 @@ private constructor(
     private val phoneNumber: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -203,10 +204,12 @@ private constructor(
         "ShippingAddress{firstName=$firstName, lastName=$lastName, line2Text=$line2Text, address1=$address1, address2=$address2, city=$city, state=$state, postalCode=$postalCode, country=$country, email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var firstName: JsonField<String> = JsonMissing.of()
         private var lastName: JsonField<String> = JsonMissing.of()
         private var line2Text: JsonField<String> = JsonMissing.of()

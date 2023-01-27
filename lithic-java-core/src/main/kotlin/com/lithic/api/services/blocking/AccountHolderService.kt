@@ -1,3 +1,5 @@
+@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
+
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.RequestOptions
@@ -15,8 +17,8 @@ import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
 
-@Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
 interface AccountHolderService {
+
     /**
      * Run an individual or business's information through the Customer Identification Program (CIP)
      * and return an `account_token` if the status is accepted or pending (i.e., further action

@@ -30,6 +30,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun allowedMcc(): Optional<List<String>> = Optional.ofNullable(allowedMcc)
 
     fun blockedMcc(): Optional<List<String>> = Optional.ofNullable(blockedMcc)
@@ -77,6 +78,7 @@ constructor(
         private val programLevel: Boolean?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /** Merchant category codes for which the Auth Rule permits transactions. */
@@ -166,10 +168,12 @@ constructor(
             "AuthRuleCreateBody{allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, avsType=$avsType, accountTokens=$accountTokens, cardTokens=$cardTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var allowedMcc: List<String>? = null
             private var blockedMcc: List<String>? = null
             private var allowedCountries: List<String>? = null
@@ -328,11 +332,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var allowedMcc: List<String>? = null
         private var blockedMcc: List<String>? = null
         private var allowedCountries: List<String>? = null
@@ -465,7 +471,12 @@ constructor(
             )
     }
 
-    class AvsType @JsonCreator private constructor(private val value: JsonField<String>) {
+    class AvsType
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -481,6 +492,7 @@ constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val ZIP_ONLY = AvsType(JsonField.of("ZIP_ONLY"))
 
             @JvmStatic fun of(value: String) = AvsType(JsonField.of(value))

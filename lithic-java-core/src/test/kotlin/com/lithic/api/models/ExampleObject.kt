@@ -24,6 +24,7 @@ private constructor(
     private val nestedObject: JsonField<NestedObject>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -102,10 +103,12 @@ private constructor(
         "ExampleObject{stringField=$stringField, numberField=$numberField, integerField=$integerField, requiredField=$requiredField, nestedObject=$nestedObject, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var stringField: JsonField<String> = JsonMissing.of()
         private var numberField: JsonField<Double> = JsonMissing.of()
         private var integerField: JsonField<Long> = JsonMissing.of()
@@ -190,6 +193,7 @@ private constructor(
         private val b: JsonField<String>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var validated: Boolean = false
 
         private var hashCode: Int = 0
@@ -243,10 +247,12 @@ private constructor(
             "NestedObject{a=$a, b=$b, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var a: JsonField<String> = JsonMissing.of()
             private var b: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()

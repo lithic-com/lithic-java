@@ -22,6 +22,7 @@ private constructor(
     private val params: TransactionListParams,
     private val response: Response,
 ) {
+
     fun response(): Response = response
 
     fun data(): List<Transaction> = response().data()
@@ -76,6 +77,7 @@ private constructor(
     fun autoPager(): AutoPager = AutoPager(this)
 
     companion object {
+
         @JvmStatic
         fun of(
             transactionsService: TransactionService,
@@ -99,6 +101,7 @@ private constructor(
         private val totalPages: JsonField<Long>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var validated: Boolean = false
 
         fun data(): List<Transaction> = data.getRequired("data")
@@ -163,10 +166,12 @@ private constructor(
             "TransactionListPage.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var data: JsonField<List<Transaction>> = JsonMissing.of()
             private var page: JsonField<Long> = JsonMissing.of()
             private var totalEntries: JsonField<Long> = JsonMissing.of()
@@ -219,8 +224,11 @@ private constructor(
         }
     }
 
-    class AutoPager constructor(private val firstPage: TransactionListPage) :
-        Iterable<Transaction> {
+    class AutoPager
+    constructor(
+        private val firstPage: TransactionListPage,
+    ) : Iterable<Transaction> {
+
         override fun iterator(): Iterator<Transaction> =
             sequence {
                     var page = firstPage

@@ -20,6 +20,7 @@ private constructor(
     private val enrolled: JsonField<Boolean>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
+
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
@@ -64,10 +65,12 @@ private constructor(
         "AuthStreamEnrollment{enrolled=$enrolled, additionalProperties=$additionalProperties}"
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
+
         private var enrolled: JsonField<Boolean> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 

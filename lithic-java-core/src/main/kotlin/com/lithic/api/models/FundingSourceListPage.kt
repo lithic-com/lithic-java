@@ -22,6 +22,7 @@ private constructor(
     private val params: FundingSourceListParams,
     private val response: Response,
 ) {
+
     fun response(): Response = response
 
     fun data(): List<FundingSource> = response().data()
@@ -76,6 +77,7 @@ private constructor(
     fun autoPager(): AutoPager = AutoPager(this)
 
     companion object {
+
         @JvmStatic
         fun of(
             fundingSourcesService: FundingSourceService,
@@ -99,6 +101,7 @@ private constructor(
         private val totalPages: JsonField<Long>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var validated: Boolean = false
 
         fun data(): List<FundingSource> = data.getRequired("data")
@@ -163,10 +166,12 @@ private constructor(
             "FundingSourceListPage.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var data: JsonField<List<FundingSource>> = JsonMissing.of()
             private var page: JsonField<Long> = JsonMissing.of()
             private var totalEntries: JsonField<Long> = JsonMissing.of()
@@ -219,8 +224,11 @@ private constructor(
         }
     }
 
-    class AutoPager constructor(private val firstPage: FundingSourceListPage) :
-        Iterable<FundingSource> {
+    class AutoPager
+    constructor(
+        private val firstPage: FundingSourceListPage,
+    ) : Iterable<FundingSource> {
+
         override fun iterator(): Iterator<FundingSource> =
             sequence {
                     var page = firstPage

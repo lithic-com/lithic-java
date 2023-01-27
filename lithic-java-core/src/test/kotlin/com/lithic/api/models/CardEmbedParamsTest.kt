@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class CardEmbedParamsTest {
+
     @Test
     fun createCardEmbedParams() {
         CardEmbedParams.builder().embedRequest("string").hmac("string").build()

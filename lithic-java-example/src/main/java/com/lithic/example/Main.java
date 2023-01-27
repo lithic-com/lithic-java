@@ -1,6 +1,7 @@
 package com.lithic.example;
 
-import com.lithic.api.client.okhttp.LithicClient;
+import com.lithic.api.client.LithicClient;
+import com.lithic.api.client.okhttp.LithicOkHttpClient;
 import com.lithic.api.models.*;
 import com.lithic.api.models.AccountHolderCreateParams.Kyc;
 import com.lithic.api.models.Card;
@@ -14,7 +15,7 @@ public class Main {
     static final String SANDBOX_API_KEY = "5344d81a-da4a-4843-bce5-5495e79096b3";
 
     static final LithicClient client =
-            LithicClient.builder().sandbox().apiKey(SANDBOX_API_KEY).build();
+            LithicOkHttpClient.builder().sandbox().apiKey(SANDBOX_API_KEY).build();
 
     public static void main(String[] args) {
         System.out.println("Creating an account");

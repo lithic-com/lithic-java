@@ -28,6 +28,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun accountToken(): String = accountToken
 
     fun dailySpendLimit(): Optional<Long> = Optional.ofNullable(dailySpendLimit)
@@ -73,6 +74,7 @@ constructor(
         private val state: State?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -149,10 +151,12 @@ constructor(
             "AccountUpdateBody{dailySpendLimit=$dailySpendLimit, lifetimeSpendLimit=$lifetimeSpendLimit, monthlySpendLimit=$monthlySpendLimit, verificationAddress=$verificationAddress, state=$state, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var dailySpendLimit: Long? = null
             private var lifetimeSpendLimit: Long? = null
             private var monthlySpendLimit: Long? = null
@@ -285,11 +289,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var accountToken: String? = null
         private var dailySpendLimit: Long? = null
         private var lifetimeSpendLimit: Long? = null
@@ -427,6 +433,7 @@ constructor(
         private val country: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         @JsonProperty("address1") fun address1(): String? = address1
@@ -482,10 +489,12 @@ constructor(
             "VerificationAddress{address1=$address1, address2=$address2, city=$city, state=$state, postalCode=$postalCode, country=$country, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var address1: String? = null
             private var address2: String? = null
             private var city: String? = null
@@ -547,7 +556,12 @@ constructor(
         }
     }
 
-    class State @JsonCreator private constructor(private val value: JsonField<String>) {
+    class State
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -563,6 +577,7 @@ constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val ACTIVE = State(JsonField.of("ACTIVE"))
 
             @JvmField val PAUSED = State(JsonField.of("PAUSED"))

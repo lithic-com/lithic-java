@@ -29,6 +29,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun amount(): Long = amount
 
     fun descriptor(): String = descriptor
@@ -72,6 +73,7 @@ constructor(
         private val partialApprovalCapable: Boolean?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -166,10 +168,12 @@ constructor(
             "TransactionSimulateAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, partialApprovalCapable=$partialApprovalCapable, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var amount: Long? = null
             private var descriptor: String? = null
             private var pan: String? = null
@@ -327,11 +331,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var amount: Long? = null
         private var descriptor: String? = null
         private var pan: String? = null
@@ -470,7 +476,12 @@ constructor(
             )
     }
 
-    class Status @JsonCreator private constructor(private val value: JsonField<String>) {
+    class Status
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -486,6 +497,7 @@ constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val AUTHORIZATION = Status(JsonField.of("AUTHORIZATION"))
 
             @JvmField val BALANCE_INQUIRY = Status(JsonField.of("BALANCE_INQUIRY"))

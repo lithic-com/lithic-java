@@ -11,7 +11,8 @@ import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import com.google.common.collect.ImmutableListMultimap
 import com.google.common.collect.ListMultimap
-import com.lithic.api.client.okhttp.LithicClient
+import com.lithic.api.client.LithicClient
+import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.core.JsonString
 import com.lithic.api.core.jsonMapper
 import com.lithic.api.errors.BadRequestException
@@ -34,6 +35,7 @@ import org.junit.jupiter.api.Test
 
 @WireMockTest
 class ErrorHandlingTest {
+
     private val JSON_MAPPER: JsonMapper = jsonMapper()
 
     private val API_KEY: String = "apiKey"
@@ -46,7 +48,10 @@ class ErrorHandlingTest {
     @BeforeEach
     fun beforeEach(wmRuntimeInfo: WireMockRuntimeInfo) {
         client =
-            LithicClient.builder().apiKey(API_KEY).baseUrl(wmRuntimeInfo.getHttpBaseUrl()).build()
+            LithicOkHttpClient.builder()
+                .apiKey(API_KEY)
+                .baseUrl(wmRuntimeInfo.getHttpBaseUrl())
+                .build()
     }
 
     @Test

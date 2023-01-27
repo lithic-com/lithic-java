@@ -1,3 +1,5 @@
+@file:Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
+
 package com.lithic.api.services.async
 
 import com.lithic.api.core.RequestOptions
@@ -13,8 +15,8 @@ import com.lithic.api.models.CardRetrieveParams
 import com.lithic.api.models.CardUpdateParams
 import java.util.concurrent.CompletableFuture
 
-@Suppress("OVERLOADS_INTERFACE") // See https://youtrack.jetbrains.com/issue/KT-36102
 interface CardServiceAsync {
+
     /**
      * Create a new virtual or physical card. Parameters `pin`, `shipping_address`, and `product_id`
      * only apply to physical cards.

@@ -14,6 +14,7 @@ constructor(
     private val additionalQueryParams: ListMultimap<String, String>,
     private val additionalHeaders: ListMultimap<String, String>,
 ) {
+
     fun accountHolderToken(): String = accountHolderToken
 
     fun documentToken(): String = documentToken
@@ -61,11 +62,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var accountHolderToken: String? = null
         private var documentToken: String? = null
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()

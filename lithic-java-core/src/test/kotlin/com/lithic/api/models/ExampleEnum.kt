@@ -5,7 +5,12 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.errors.LithicInvalidDataException
 
-class ExampleEnum @JsonCreator private constructor(private val value: JsonField<String>) {
+class ExampleEnum
+@JsonCreator
+private constructor(
+    private val value: JsonField<String>,
+) {
+
     @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
     override fun equals(other: Any?): Boolean {
@@ -21,6 +26,7 @@ class ExampleEnum @JsonCreator private constructor(private val value: JsonField<
     override fun toString() = value.toString()
 
     companion object {
+
         @JvmField val CLOSED = ExampleEnum(JsonField.of("CLOSED"))
 
         @JvmField val OPEN = ExampleEnum(JsonField.of("OPEN"))

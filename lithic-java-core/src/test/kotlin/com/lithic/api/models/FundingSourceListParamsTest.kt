@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class FundingSourceListParamsTest {
+
     @Test
     fun createFundingSourceListParams() {
         FundingSourceListParams.builder()

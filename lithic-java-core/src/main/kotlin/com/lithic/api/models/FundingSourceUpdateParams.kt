@@ -25,6 +25,7 @@ constructor(
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
+
     fun fundingSourceToken(): String = fundingSourceToken
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
@@ -53,6 +54,7 @@ constructor(
         private val state: State?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
+
         private var hashCode: Int = 0
 
         /**
@@ -106,10 +108,12 @@ constructor(
             "FundingSourceUpdateBody{accountToken=$accountToken, state=$state, additionalProperties=$additionalProperties}"
 
         companion object {
+
             @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
+
             private var accountToken: String? = null
             private var state: State? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -200,11 +204,13 @@ constructor(
     fun toBuilder() = Builder().from(this)
 
     companion object {
+
         @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
     class Builder {
+
         private var fundingSourceToken: String? = null
         private var accountToken: String? = null
         private var state: State? = null
@@ -296,7 +302,12 @@ constructor(
             )
     }
 
-    class State @JsonCreator private constructor(private val value: JsonField<String>) {
+    class State
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
@@ -312,6 +323,7 @@ constructor(
         override fun toString() = value.toString()
 
         companion object {
+
             @JvmField val DELETED = State(JsonField.of("DELETED"))
 
             @JvmField val ENABLED = State(JsonField.of("ENABLED"))

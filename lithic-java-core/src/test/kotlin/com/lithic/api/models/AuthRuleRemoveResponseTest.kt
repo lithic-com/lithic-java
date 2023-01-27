@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class AuthRuleRemoveResponseTest {
+
     @Test
     fun createAuthRuleRemoveResponse() {
         val authRuleRemoveResponse =
