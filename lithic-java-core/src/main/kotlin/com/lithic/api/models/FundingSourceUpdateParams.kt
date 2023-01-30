@@ -293,7 +293,9 @@ constructor(
 
         fun build(): FundingSourceUpdateParams =
             FundingSourceUpdateParams(
-                fundingSourceToken!!,
+                checkNotNull(fundingSourceToken) {
+                    "Property `fundingSourceToken` is required but was not set"
+                },
                 accountToken,
                 state,
                 additionalQueryParams.toUnmodifiable(),

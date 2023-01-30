@@ -108,7 +108,9 @@ constructor(
 
         fun build(): AccountHolderListDocumentsParams =
             AccountHolderListDocumentsParams(
-                accountHolderToken!!,
+                checkNotNull(accountHolderToken) {
+                    "Property `accountHolderToken` is required but was not set"
+                },
                 additionalQueryParams.toUnmodifiable(),
                 additionalHeaders.toUnmodifiable(),
             )

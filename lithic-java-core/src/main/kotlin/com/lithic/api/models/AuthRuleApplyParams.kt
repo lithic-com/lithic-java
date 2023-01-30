@@ -298,7 +298,9 @@ constructor(
 
         fun build(): AuthRuleApplyParams =
             AuthRuleApplyParams(
-                authRuleToken!!,
+                checkNotNull(authRuleToken) {
+                    "Property `authRuleToken` is required but was not set"
+                },
                 cardTokens?.toUnmodifiable(),
                 accountTokens?.toUnmodifiable(),
                 programLevel,

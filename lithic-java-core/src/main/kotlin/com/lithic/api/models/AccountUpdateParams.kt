@@ -406,7 +406,9 @@ constructor(
 
         fun build(): AccountUpdateParams =
             AccountUpdateParams(
-                accountToken!!,
+                checkNotNull(accountToken) {
+                    "Property `accountToken` is required but was not set"
+                },
                 dailySpendLimit,
                 lifetimeSpendLimit,
                 monthlySpendLimit,

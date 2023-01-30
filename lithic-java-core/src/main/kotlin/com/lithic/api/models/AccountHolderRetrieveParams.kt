@@ -107,7 +107,9 @@ constructor(
 
         fun build(): AccountHolderRetrieveParams =
             AccountHolderRetrieveParams(
-                accountHolderToken!!,
+                checkNotNull(accountHolderToken) {
+                    "Property `accountHolderToken` is required but was not set"
+                },
                 additionalQueryParams.toUnmodifiable(),
                 additionalHeaders.toUnmodifiable(),
             )

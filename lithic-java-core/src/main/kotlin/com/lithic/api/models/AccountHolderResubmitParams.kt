@@ -162,9 +162,13 @@ constructor(
 
             fun build(): AccountHolderResubmitBody =
                 AccountHolderResubmitBody(
-                    workflow!!,
-                    tosTimestamp!!,
-                    individual!!,
+                    checkNotNull(workflow) { "Property `workflow` is required but was not set" },
+                    checkNotNull(tosTimestamp) {
+                        "Property `tosTimestamp` is required but was not set"
+                    },
+                    checkNotNull(individual) {
+                        "Property `individual` is required but was not set"
+                    },
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -296,10 +300,14 @@ constructor(
 
         fun build(): AccountHolderResubmitParams =
             AccountHolderResubmitParams(
-                accountHolderToken!!,
-                workflow!!,
-                tosTimestamp!!,
-                individual!!,
+                checkNotNull(accountHolderToken) {
+                    "Property `accountHolderToken` is required but was not set"
+                },
+                checkNotNull(workflow) { "Property `workflow` is required but was not set" },
+                checkNotNull(tosTimestamp) {
+                    "Property `tosTimestamp` is required but was not set"
+                },
+                checkNotNull(individual) { "Property `individual` is required but was not set" },
                 additionalQueryParams.toUnmodifiable(),
                 additionalHeaders.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),
@@ -531,185 +539,19 @@ constructor(
 
             fun build(): Individual =
                 Individual(
-                    address!!,
-                    dob!!,
-                    email!!,
-                    firstName!!,
-                    governmentId!!,
-                    lastName!!,
-                    phoneNumber!!,
+                    checkNotNull(address) { "Property `address` is required but was not set" },
+                    checkNotNull(dob) { "Property `dob` is required but was not set" },
+                    checkNotNull(email) { "Property `email` is required but was not set" },
+                    checkNotNull(firstName) { "Property `firstName` is required but was not set" },
+                    checkNotNull(governmentId) {
+                        "Property `governmentId` is required but was not set"
+                    },
+                    checkNotNull(lastName) { "Property `lastName` is required but was not set" },
+                    checkNotNull(phoneNumber) {
+                        "Property `phoneNumber` is required but was not set"
+                    },
                     additionalProperties.toUnmodifiable(),
                 )
-        }
-
-        /**
-         * Individual's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
-         * APO/FPO are acceptable. Only USA addresses are currently supported.
-         */
-        @NoAutoDetect
-        class Address
-        private constructor(
-            private val address1: String?,
-            private val address2: String?,
-            private val city: String?,
-            private val country: String?,
-            private val postalCode: String?,
-            private val state: String?,
-            private val additionalProperties: Map<String, JsonValue>,
-        ) {
-
-            private var hashCode: Int = 0
-
-            /** Valid deliverable address (no PO boxes). */
-            @JsonProperty("address1") fun address1(): String? = address1
-
-            /** Unit or apartment number (if applicable). */
-            @JsonProperty("address2") fun address2(): String? = address2
-
-            /** Name of city. */
-            @JsonProperty("city") fun city(): String? = city
-
-            /**
-             * Valid country code. Only USA is currently supported, entered in uppercase ISO 3166-1
-             * alpha-3 three-character format.
-             */
-            @JsonProperty("country") fun country(): String? = country
-
-            /**
-             * Valid postal code. Only USA ZIP codes are currently supported, entered as a
-             * five-digit ZIP or nine-digit ZIP+4.
-             */
-            @JsonProperty("postal_code") fun postalCode(): String? = postalCode
-
-            /**
-             * Valid state code. Only USA state codes are currently supported, entered in uppercase
-             * ISO 3166-2 two-character format.
-             */
-            @JsonProperty("state") fun state(): String? = state
-
-            @JsonAnyGetter
-            @ExcludeMissing
-            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-            fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Address &&
-                    address1 == other.address1 &&
-                    address2 == other.address2 &&
-                    city == other.city &&
-                    country == other.country &&
-                    postalCode == other.postalCode &&
-                    state == other.state &&
-                    additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            address1,
-                            address2,
-                            city,
-                            country,
-                            postalCode,
-                            state,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "Address{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
-
-            companion object {
-
-                @JvmStatic fun builder() = Builder()
-            }
-
-            class Builder {
-
-                private var address1: String? = null
-                private var address2: String? = null
-                private var city: String? = null
-                private var country: String? = null
-                private var postalCode: String? = null
-                private var state: String? = null
-                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-                @JvmSynthetic
-                internal fun from(address: Address) = apply {
-                    this.address1 = address.address1
-                    this.address2 = address.address2
-                    this.city = address.city
-                    this.country = address.country
-                    this.postalCode = address.postalCode
-                    this.state = address.state
-                    additionalProperties(address.additionalProperties)
-                }
-
-                /** Valid deliverable address (no PO boxes). */
-                @JsonProperty("address1")
-                fun address1(address1: String) = apply { this.address1 = address1 }
-
-                /** Unit or apartment number (if applicable). */
-                @JsonProperty("address2")
-                fun address2(address2: String) = apply { this.address2 = address2 }
-
-                /** Name of city. */
-                @JsonProperty("city") fun city(city: String) = apply { this.city = city }
-
-                /**
-                 * Valid country code. Only USA is currently supported, entered in uppercase ISO
-                 * 3166-1 alpha-3 three-character format.
-                 */
-                @JsonProperty("country")
-                fun country(country: String) = apply { this.country = country }
-
-                /**
-                 * Valid postal code. Only USA ZIP codes are currently supported, entered as a
-                 * five-digit ZIP or nine-digit ZIP+4.
-                 */
-                @JsonProperty("postal_code")
-                fun postalCode(postalCode: String) = apply { this.postalCode = postalCode }
-
-                /**
-                 * Valid state code. Only USA state codes are currently supported, entered in
-                 * uppercase ISO 3166-2 two-character format.
-                 */
-                @JsonProperty("state") fun state(state: String) = apply { this.state = state }
-
-                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                    this.additionalProperties.clear()
-                    this.additionalProperties.putAll(additionalProperties)
-                }
-
-                @JsonAnySetter
-                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    this.additionalProperties.put(key, value)
-                }
-
-                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
-                    apply {
-                        this.additionalProperties.putAll(additionalProperties)
-                    }
-
-                fun build(): Address =
-                    Address(
-                        address1!!,
-                        address2,
-                        city!!,
-                        country!!,
-                        postalCode!!,
-                        state!!,
-                        additionalProperties.toUnmodifiable(),
-                    )
-            }
         }
     }
 }

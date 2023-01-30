@@ -389,7 +389,9 @@ constructor(
 
         fun build(): AuthRuleUpdateParams =
             AuthRuleUpdateParams(
-                authRuleToken!!,
+                checkNotNull(authRuleToken) {
+                    "Property `authRuleToken` is required but was not set"
+                },
                 allowedMcc?.toUnmodifiable(),
                 blockedMcc?.toUnmodifiable(),
                 allowedCountries?.toUnmodifiable(),

@@ -120,7 +120,9 @@ constructor(
 
             fun build(): AccountHolderUploadDocumentBody =
                 AccountHolderUploadDocumentBody(
-                    documentType!!,
+                    checkNotNull(documentType) {
+                        "Property `documentType` is required but was not set"
+                    },
                     additionalProperties.toUnmodifiable()
                 )
         }
@@ -234,8 +236,12 @@ constructor(
 
         fun build(): AccountHolderUploadDocumentParams =
             AccountHolderUploadDocumentParams(
-                accountHolderToken!!,
-                documentType!!,
+                checkNotNull(accountHolderToken) {
+                    "Property `accountHolderToken` is required but was not set"
+                },
+                checkNotNull(documentType) {
+                    "Property `documentType` is required but was not set"
+                },
                 additionalQueryParams.toUnmodifiable(),
                 additionalHeaders.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

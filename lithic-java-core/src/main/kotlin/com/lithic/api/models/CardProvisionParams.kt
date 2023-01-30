@@ -368,7 +368,7 @@ constructor(
 
         fun build(): CardProvisionParams =
             CardProvisionParams(
-                cardToken!!,
+                checkNotNull(cardToken) { "Property `cardToken` is required but was not set" },
                 digitalWallet,
                 nonce,
                 nonceSignature,

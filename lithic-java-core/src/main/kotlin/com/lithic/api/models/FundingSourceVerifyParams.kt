@@ -147,7 +147,10 @@ constructor(
             fun build(): FundingSourceVerifyBody =
                 FundingSourceVerifyBody(
                     accountToken,
-                    microDeposits!!.toUnmodifiable(),
+                    checkNotNull(microDeposits) {
+                            "Property `microDeposits` is required but was not set"
+                        }
+                        .toUnmodifiable(),
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -272,9 +275,14 @@ constructor(
 
         fun build(): FundingSourceVerifyParams =
             FundingSourceVerifyParams(
-                fundingSourceToken!!,
+                checkNotNull(fundingSourceToken) {
+                    "Property `fundingSourceToken` is required but was not set"
+                },
                 accountToken,
-                microDeposits!!.toUnmodifiable(),
+                checkNotNull(microDeposits) {
+                        "Property `microDeposits` is required but was not set"
+                    }
+                    .toUnmodifiable(),
                 additionalQueryParams.toUnmodifiable(),
                 additionalHeaders.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

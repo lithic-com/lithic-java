@@ -41,7 +41,7 @@ public class Main {
     }
 
     public static Account createAccount() {
-        Kyc.Individual.Address address = Kyc.Individual.Address.builder()
+        Address address = Address.builder()
                 .address1("Smith Street 42")
                 .city("New York")
                 .country("USA")

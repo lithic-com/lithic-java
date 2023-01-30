@@ -14,7 +14,7 @@ class AccountHolderCreateParamsTest {
                     .businessEntity(
                         AccountHolderCreateParams.Kyb.BusinessEntity.builder()
                             .address(
-                                AccountHolderCreateParams.Kyb.BusinessEntity.Address.builder()
+                                Address.builder()
                                     .address1("123 Old Forest Way")
                                     .address2("string")
                                     .city("Omaha")
@@ -34,7 +34,7 @@ class AccountHolderCreateParamsTest {
                         listOf(
                             AccountHolderCreateParams.Kyb.BusinessEntity.builder()
                                 .address(
-                                    AccountHolderCreateParams.Kyb.BusinessEntity.Address.builder()
+                                    Address.builder()
                                         .address1("123 Old Forest Way")
                                         .address2("string")
                                         .city("Omaha")
@@ -55,7 +55,7 @@ class AccountHolderCreateParamsTest {
                         listOf(
                             AccountHolderCreateParams.Kyb.Individual.builder()
                                 .address(
-                                    AccountHolderCreateParams.Kyb.Individual.Address.builder()
+                                    Address.builder()
                                         .address1("123 Old Forest Way")
                                         .address2("string")
                                         .city("Omaha")
@@ -76,7 +76,7 @@ class AccountHolderCreateParamsTest {
                     .controlPerson(
                         AccountHolderCreateParams.Kyb.Individual.builder()
                             .address(
-                                AccountHolderCreateParams.Kyb.Individual.Address.builder()
+                                Address.builder()
                                     .address1("123 Old Forest Way")
                                     .address2("string")
                                     .city("Omaha")
@@ -114,7 +114,7 @@ class AccountHolderCreateParamsTest {
                         .businessEntity(
                             AccountHolderCreateParams.Kyb.BusinessEntity.builder()
                                 .address(
-                                    AccountHolderCreateParams.Kyb.BusinessEntity.Address.builder()
+                                    Address.builder()
                                         .address1("123 Old Forest Way")
                                         .address2("string")
                                         .city("Omaha")
@@ -134,8 +134,7 @@ class AccountHolderCreateParamsTest {
                             listOf(
                                 AccountHolderCreateParams.Kyb.BusinessEntity.builder()
                                     .address(
-                                        AccountHolderCreateParams.Kyb.BusinessEntity.Address
-                                            .builder()
+                                        Address.builder()
                                             .address1("123 Old Forest Way")
                                             .address2("string")
                                             .city("Omaha")
@@ -156,7 +155,7 @@ class AccountHolderCreateParamsTest {
                             listOf(
                                 AccountHolderCreateParams.Kyb.Individual.builder()
                                     .address(
-                                        AccountHolderCreateParams.Kyb.Individual.Address.builder()
+                                        Address.builder()
                                             .address1("123 Old Forest Way")
                                             .address2("string")
                                             .city("Omaha")
@@ -177,7 +176,7 @@ class AccountHolderCreateParamsTest {
                         .controlPerson(
                             AccountHolderCreateParams.Kyb.Individual.builder()
                                 .address(
-                                    AccountHolderCreateParams.Kyb.Individual.Address.builder()
+                                    Address.builder()
                                         .address1("123 Old Forest Way")
                                         .address2("string")
                                         .city("Omaha")

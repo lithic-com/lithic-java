@@ -275,7 +275,9 @@ constructor(
 
         fun build(): AccountHolderUpdateParams =
             AccountHolderUpdateParams(
-                accountHolderToken!!,
+                checkNotNull(accountHolderToken) {
+                    "Property `accountHolderToken` is required but was not set"
+                },
                 email,
                 phoneNumber,
                 additionalQueryParams.toUnmodifiable(),

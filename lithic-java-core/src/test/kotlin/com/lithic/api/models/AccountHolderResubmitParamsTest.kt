@@ -15,7 +15,7 @@ class AccountHolderResubmitParamsTest {
             .individual(
                 AccountHolderResubmitParams.Individual.builder()
                     .address(
-                        AccountHolderResubmitParams.Individual.Address.builder()
+                        Address.builder()
                             .address1("123 Old Forest Way")
                             .address2("string")
                             .city("Omaha")
@@ -45,7 +45,7 @@ class AccountHolderResubmitParamsTest {
                 .individual(
                     AccountHolderResubmitParams.Individual.builder()
                         .address(
-                            AccountHolderResubmitParams.Individual.Address.builder()
+                            Address.builder()
                                 .address1("123 Old Forest Way")
                                 .address2("string")
                                 .city("Omaha")
@@ -71,7 +71,7 @@ class AccountHolderResubmitParamsTest {
             .isEqualTo(
                 AccountHolderResubmitParams.Individual.builder()
                     .address(
-                        AccountHolderResubmitParams.Individual.Address.builder()
+                        Address.builder()
                             .address1("123 Old Forest Way")
                             .address2("string")
                             .city("Omaha")
@@ -100,7 +100,7 @@ class AccountHolderResubmitParamsTest {
                 .individual(
                     AccountHolderResubmitParams.Individual.builder()
                         .address(
-                            AccountHolderResubmitParams.Individual.Address.builder()
+                            Address.builder()
                                 .address1("123 Old Forest Way")
                                 .city("Omaha")
                                 .country("USA")
@@ -125,7 +125,7 @@ class AccountHolderResubmitParamsTest {
             .isEqualTo(
                 AccountHolderResubmitParams.Individual.builder()
                     .address(
-                        AccountHolderResubmitParams.Individual.Address.builder()
+                        Address.builder()
                             .address1("123 Old Forest Way")
                             .city("Omaha")
                             .country("USA")
@@ -153,7 +153,7 @@ class AccountHolderResubmitParamsTest {
                 .individual(
                     AccountHolderResubmitParams.Individual.builder()
                         .address(
-                            AccountHolderResubmitParams.Individual.Address.builder()
+                            Address.builder()
                                 .address1("123 Old Forest Way")
                                 .city("Omaha")
                                 .country("USA")

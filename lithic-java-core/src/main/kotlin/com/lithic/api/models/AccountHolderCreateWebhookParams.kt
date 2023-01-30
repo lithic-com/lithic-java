@@ -103,7 +103,10 @@ constructor(
             }
 
             fun build(): AccountHolderCreateWebhookBody =
-                AccountHolderCreateWebhookBody(url!!, additionalProperties.toUnmodifiable())
+                AccountHolderCreateWebhookBody(
+                    checkNotNull(url) { "Property `url` is required but was not set" },
+                    additionalProperties.toUnmodifiable()
+                )
         }
     }
 
@@ -207,7 +210,7 @@ constructor(
 
         fun build(): AccountHolderCreateWebhookParams =
             AccountHolderCreateWebhookParams(
-                url!!,
+                checkNotNull(url) { "Property `url` is required but was not set" },
                 additionalQueryParams.toUnmodifiable(),
                 additionalHeaders.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

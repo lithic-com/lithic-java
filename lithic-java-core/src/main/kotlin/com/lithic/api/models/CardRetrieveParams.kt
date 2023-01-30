@@ -215,7 +215,7 @@ constructor(
 
         fun build(): CardRetrieveParams =
             CardRetrieveParams(
-                cardToken!!,
+                checkNotNull(cardToken) { "Property `cardToken` is required but was not set" },
                 accountToken,
                 additionalQueryParams.toUnmodifiable(),
                 additionalHeaders.toUnmodifiable(),

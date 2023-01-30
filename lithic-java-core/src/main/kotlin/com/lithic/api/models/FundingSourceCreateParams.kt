@@ -440,11 +440,17 @@ constructor(
 
             fun build(): Bank =
                 Bank(
-                    validationMethod!!,
+                    checkNotNull(validationMethod) {
+                        "Property `validationMethod` is required but was not set"
+                    },
                     accountName,
-                    accountNumber!!,
+                    checkNotNull(accountNumber) {
+                        "Property `accountNumber` is required but was not set"
+                    },
                     accountToken,
-                    routingNumber!!,
+                    checkNotNull(routingNumber) {
+                        "Property `routingNumber` is required but was not set"
+                    },
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -619,9 +625,13 @@ constructor(
 
             fun build(): Plaid =
                 Plaid(
-                    validationMethod!!,
+                    checkNotNull(validationMethod) {
+                        "Property `validationMethod` is required but was not set"
+                    },
                     accountToken,
-                    processorToken!!,
+                    checkNotNull(processorToken) {
+                        "Property `processorToken` is required but was not set"
+                    },
                     additionalProperties.toUnmodifiable(),
                 )
         }
