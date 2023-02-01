@@ -4,24 +4,23 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.services.blocking.AccountService
 import java.util.Objects
 import java.util.Optional
+import java.util.Spliterator
+import java.util.Spliterators
+import java.util.concurrent.CompletableFuture
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.models.Account
+import com.lithic.api.services.blocking.AccountService
 
-class AccountListPage
-private constructor(
-    private val accountsService: AccountService,
-    private val params: AccountListParams,
-    private val response: Response,
-) {
+class AccountListPage private constructor(private val accountsService: AccountService,private val params: AccountListParams,private val response: Response,) {
 
     fun response(): Response = response
 
@@ -34,41 +33,38 @@ private constructor(
     fun totalPages(): Long = response().totalPages()
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is AccountListPage &&
-            accountsService == other.accountsService &&
-            params == other.params &&
-            response == other.response
+      return other is AccountListPage &&
+          accountsService == other.accountsService &&
+          params == other.params &&
+          response == other.response
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountsService,
-            params,
-            response,
-        )
+      return Objects.hash(
+          accountsService,
+          params,
+          response,
+      )
     }
 
-    override fun toString() =
-        "AccountListPage{accountsService=$accountsService, params=$params, response=$response}"
+    override fun toString() = "AccountListPage{accountsService=$accountsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = this.data().isNotEmpty() && this.page() < this.totalPages()
 
     fun getNextPageParams(): Optional<AccountListParams> {
-        return if (hasNextPage()) {
-            Optional.of(
-                AccountListParams.builder().from(params).page(params.page().orElse(0) + 1).build()
-            )
-        } else {
-            Optional.empty()
-        }
+      return if (hasNextPage()) {
+        Optional.of(AccountListParams.builder().from(params).page(params.page().orElse(0) + 1).build())
+      } else {
+        Optional.empty()
+      }
     }
 
     fun getNextPage(): Optional<AccountListPage> {
-        return getNextPageParams().map { accountsService.list(it) }
+      return getNextPageParams().map { accountsService.list(it) }
     }
 
     fun autoPager(): AutoPager = AutoPager(this)
@@ -76,24 +72,16 @@ private constructor(
     companion object {
 
         @JvmStatic
-        fun of(accountsService: AccountService, params: AccountListParams, response: Response) =
-            AccountListPage(
-                accountsService,
-                params,
-                response,
-            )
+        fun of(accountsService: AccountService, params: AccountListParams, response: Response) = AccountListPage(
+            accountsService,
+            params,
+            response,
+        )
     }
 
     @JsonDeserialize(builder = Response.Builder::class)
     @NoAutoDetect
-    class Response
-    constructor(
-        private val data: JsonField<List<Account>>,
-        private val page: JsonField<Long>,
-        private val totalEntries: JsonField<Long>,
-        private val totalPages: JsonField<Long>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class Response constructor(private val data: JsonField<List<Account>>,private val page: JsonField<Long>,private val totalEntries: JsonField<Long>,private val totalPages: JsonField<Long>,private val additionalProperties: Map<String, JsonValue>,) {
 
         private var validated: Boolean = false
 
@@ -108,7 +96,8 @@ private constructor(
         @JsonProperty("data")
         fun _data(): Optional<JsonField<List<Account>>> = Optional.ofNullable(data)
 
-        @JsonProperty("page") fun _page(): Optional<JsonField<Long>> = Optional.ofNullable(page)
+        @JsonProperty("page")
+        fun _page(): Optional<JsonField<Long>> = Optional.ofNullable(page)
 
         @JsonProperty("total_entries")
         fun _totalEntries(): Optional<JsonField<Long>> = Optional.ofNullable(totalEntries)
@@ -122,45 +111,45 @@ private constructor(
 
         fun validate() = apply {
             if (!validated) {
-                data().forEach { it.validate() }
-                page()
-                totalEntries()
-                totalPages()
-                validated = true
+              data().forEach { it.validate() }
+              page()
+              totalEntries()
+              totalPages()
+              validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is Response &&
-                data == other.data &&
-                page == other.page &&
-                totalEntries == other.totalEntries &&
-                totalPages == other.totalPages &&
-                additionalProperties == other.additionalProperties
+          return other is Response &&
+              data == other.data &&
+              page == other.page &&
+              totalEntries == other.totalEntries &&
+              totalPages == other.totalPages &&
+              additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            return Objects.hash(
-                data,
-                page,
-                totalEntries,
-                totalPages,
-                additionalProperties,
-            )
+          return Objects.hash(
+              data,
+              page,
+              totalEntries,
+              totalPages,
+              additionalProperties,
+          )
         }
 
-        override fun toString() =
-            "AccountListPage.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
+        override fun toString() = "AccountListPage.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {
@@ -187,14 +176,13 @@ private constructor(
 
             fun page(page: Long) = page(JsonField.of(page))
 
-            @JsonProperty("page") fun page(page: JsonField<Long>) = apply { this.page = page }
+            @JsonProperty("page")
+            fun page(page: JsonField<Long>) = apply { this.page = page }
 
             fun totalEntries(totalEntries: Long) = totalEntries(JsonField.of(totalEntries))
 
             @JsonProperty("total_entries")
-            fun totalEntries(totalEntries: JsonField<Long>) = apply {
-                this.totalEntries = totalEntries
-            }
+            fun totalEntries(totalEntries: JsonField<Long>) = apply { this.totalEntries = totalEntries }
 
             fun totalPages(totalPages: Long) = totalPages(JsonField.of(totalPages))
 
@@ -206,38 +194,33 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    page,
-                    totalEntries,
-                    totalPages,
-                    additionalProperties.toUnmodifiable(),
-                )
+            fun build() = Response(
+                data,
+                page,
+                totalEntries,
+                totalPages,
+                additionalProperties.toUnmodifiable(),
+            )
         }
     }
 
-    class AutoPager
-    constructor(
-        private val firstPage: AccountListPage,
-    ) : Iterable<Account> {
+    class AutoPager constructor(private val firstPage: AccountListPage,) : Iterable<Account> {
 
-        override fun iterator(): Iterator<Account> =
-            sequence {
-                    var page = firstPage
-                    var index = 0
-                    while (true) {
-                        while (index >= page.data().size) {
-                            page = page.getNextPage().orElse(null) ?: return@sequence
-                            index = 0
-                        }
-                        yield(page.data()[index++])
-                    }
-                }
-                .iterator()
+        override fun iterator(): Iterator<Account> = sequence {
+            var page = firstPage
+            var index = 0
+            while (true) {
+              while (index >= page.data().size) {
+                page = page.getNextPage().orElse(null) ?: return@sequence
+                index = 0
+              }
+              yield(page.data()[index++])
+            }
+        }
+        .iterator()
 
         fun stream(): Stream<Account> {
-            return StreamSupport.stream(spliterator(), false)
+          return StreamSupport.stream(spliterator(), false)
         }
     }
 }

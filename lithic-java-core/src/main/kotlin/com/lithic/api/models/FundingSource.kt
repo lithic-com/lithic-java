@@ -3,49 +3,51 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.errors.LithicInvalidDataException
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.google.common.collect.ArrayListMultimap
+import com.google.common.collect.ListMultimap
+import com.google.common.collect.Multimaps
 import java.util.Objects
 import java.util.Optional
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
 
 @JsonDeserialize(builder = FundingSource.Builder::class)
 @NoAutoDetect
-class FundingSource
-private constructor(
-    private val accountName: JsonField<String>,
-    private val created: JsonField<String>,
-    private val lastFour: JsonField<String>,
-    private val nickname: JsonField<String>,
-    private val state: JsonField<State>,
-    private val token: JsonField<String>,
-    private val type: JsonField<Type>,
-    private val additionalProperties: Map<String, JsonValue>,
-) {
+class FundingSource private constructor(private val accountName: JsonField<String>,private val created: JsonField<String>,private val lastFour: JsonField<String>,private val nickname: JsonField<String>,private val state: JsonField<State>,private val token: JsonField<String>,private val type: JsonField<Type>,private val additionalProperties: Map<String, JsonValue>,) {
 
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
 
     /** Account name identifying the funding source. This may be `null`. */
-    fun accountName(): Optional<String> =
-        Optional.ofNullable(accountName.getNullable("account_name"))
+    fun accountName(): Optional<String> = Optional.ofNullable(accountName.getNullable("account_name"))
 
     /**
-     * An ISO 8601 string representing when this funding source was added to the Lithic account.
-     * This may be `null`. UTC time zone.
+     * An ISO 8601 string representing when this funding source was added to the Lithic
+     * account. This may be `null`. UTC time zone.
      */
     fun created(): String = created.getRequired("created")
 
     /**
-     * The last 4 digits of the account (e.g. bank account, debit card) associated with this
-     * FundingAccount. This may be null.
+     * The last 4 digits of the account (e.g. bank account, debit card) associated with
+     * this FundingAccount. This may be null.
      */
     fun lastFour(): String = lastFour.getRequired("last_four")
 
@@ -57,9 +59,10 @@ private constructor(
      *
      * Funding source states:
      *
-     * - `ENABLED` - The funding account is available to use for card creation and transactions.
-     * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-     * verification.
+     * - `ENABLED` - The funding account is available to use for card creation and
+     *   transactions.
+     * - `PENDING` - The funding account is still being verified e.g. bank
+     *   micro-deposits verification.
      * - `DELETED` - The founding account has been deleted.
      */
     fun state(): State = state.getRequired("state")
@@ -76,37 +79,50 @@ private constructor(
     fun type(): Type = type.getRequired("type")
 
     /** Account name identifying the funding source. This may be `null`. */
-    @JsonProperty("account_name") @ExcludeMissing fun _accountName() = accountName
+    @JsonProperty("account_name")
+    @ExcludeMissing
+    fun _accountName() = accountName
 
     /**
-     * An ISO 8601 string representing when this funding source was added to the Lithic account.
-     * This may be `null`. UTC time zone.
+     * An ISO 8601 string representing when this funding source was added to the Lithic
+     * account. This may be `null`. UTC time zone.
      */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created")
+    @ExcludeMissing
+    fun _created() = created
 
     /**
-     * The last 4 digits of the account (e.g. bank account, debit card) associated with this
-     * FundingAccount. This may be null.
+     * The last 4 digits of the account (e.g. bank account, debit card) associated with
+     * this FundingAccount. This may be null.
      */
-    @JsonProperty("last_four") @ExcludeMissing fun _lastFour() = lastFour
+    @JsonProperty("last_four")
+    @ExcludeMissing
+    fun _lastFour() = lastFour
 
     /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
-    @JsonProperty("nickname") @ExcludeMissing fun _nickname() = nickname
+    @JsonProperty("nickname")
+    @ExcludeMissing
+    fun _nickname() = nickname
 
     /**
      * State of funding source.
      *
      * Funding source states:
      *
-     * - `ENABLED` - The funding account is available to use for card creation and transactions.
-     * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-     * verification.
+     * - `ENABLED` - The funding account is available to use for card creation and
+     *   transactions.
+     * - `PENDING` - The funding account is still being verified e.g. bank
+     *   micro-deposits verification.
      * - `DELETED` - The founding account has been deleted.
      */
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
+    @JsonProperty("state")
+    @ExcludeMissing
+    fun _state() = state
 
     /** A globally unique identifier for this FundingAccount. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token")
+    @ExcludeMissing
+    fun _token() = token
 
     /**
      * Types of funding source:
@@ -114,7 +130,9 @@ private constructor(
      * - `DEPOSITORY_CHECKING` - Bank checking account.
      * - `DEPOSITORY_SAVINGS` - Bank savings account.
      */
-    @JsonProperty("type") @ExcludeMissing fun _type() = type
+    @JsonProperty("type")
+    @ExcludeMissing
+    fun _type() = type
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -122,58 +140,57 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
-            accountName()
-            created()
-            lastFour()
-            nickname()
-            state()
-            token()
-            type()
-            validated = true
+          accountName()
+          created()
+          lastFour()
+          nickname()
+          state()
+          token()
+          type()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is FundingSource &&
-            accountName == other.accountName &&
-            created == other.created &&
-            lastFour == other.lastFour &&
-            nickname == other.nickname &&
-            state == other.state &&
-            token == other.token &&
-            type == other.type &&
-            additionalProperties == other.additionalProperties
+      return other is FundingSource &&
+          accountName == other.accountName &&
+          created == other.created &&
+          lastFour == other.lastFour &&
+          nickname == other.nickname &&
+          state == other.state &&
+          token == other.token &&
+          type == other.type &&
+          additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountName,
-                    created,
-                    lastFour,
-                    nickname,
-                    state,
-                    token,
-                    type,
-                    additionalProperties,
-                )
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(
+            accountName,
+            created,
+            lastFour,
+            nickname,
+            state,
+            token,
+            type,
+            additionalProperties,
+        )
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "FundingSource{accountName=$accountName, created=$created, lastFour=$lastFour, nickname=$nickname, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
+    override fun toString() = "FundingSource{accountName=$accountName, created=$created, lastFour=$lastFour, nickname=$nickname, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -205,35 +222,41 @@ private constructor(
         /** Account name identifying the funding source. This may be `null`. */
         @JsonProperty("account_name")
         @ExcludeMissing
-        fun accountName(accountName: JsonField<String>) = apply { this.accountName = accountName }
+        fun accountName(accountName: JsonField<String>) = apply {
+            this.accountName = accountName
+        }
 
         /**
-         * An ISO 8601 string representing when this funding source was added to the Lithic account.
-         * This may be `null`. UTC time zone.
+         * An ISO 8601 string representing when this funding source was added to the Lithic
+         * account. This may be `null`. UTC time zone.
          */
         fun created(created: String) = created(JsonField.of(created))
 
         /**
-         * An ISO 8601 string representing when this funding source was added to the Lithic account.
-         * This may be `null`. UTC time zone.
+         * An ISO 8601 string representing when this funding source was added to the Lithic
+         * account. This may be `null`. UTC time zone.
          */
         @JsonProperty("created")
         @ExcludeMissing
-        fun created(created: JsonField<String>) = apply { this.created = created }
+        fun created(created: JsonField<String>) = apply {
+            this.created = created
+        }
 
         /**
-         * The last 4 digits of the account (e.g. bank account, debit card) associated with this
-         * FundingAccount. This may be null.
+         * The last 4 digits of the account (e.g. bank account, debit card) associated with
+         * this FundingAccount. This may be null.
          */
         fun lastFour(lastFour: String) = lastFour(JsonField.of(lastFour))
 
         /**
-         * The last 4 digits of the account (e.g. bank account, debit card) associated with this
-         * FundingAccount. This may be null.
+         * The last 4 digits of the account (e.g. bank account, debit card) associated with
+         * this FundingAccount. This may be null.
          */
         @JsonProperty("last_four")
         @ExcludeMissing
-        fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
+        fun lastFour(lastFour: JsonField<String>) = apply {
+            this.lastFour = lastFour
+        }
 
         /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
         fun nickname(nickname: String) = nickname(JsonField.of(nickname))
@@ -241,16 +264,19 @@ private constructor(
         /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
         @JsonProperty("nickname")
         @ExcludeMissing
-        fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
+        fun nickname(nickname: JsonField<String>) = apply {
+            this.nickname = nickname
+        }
 
         /**
          * State of funding source.
          *
          * Funding source states:
          *
-         * - `ENABLED` - The funding account is available to use for card creation and transactions.
-         * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-         * verification.
+         * - `ENABLED` - The funding account is available to use for card creation and
+         *   transactions.
+         * - `PENDING` - The funding account is still being verified e.g. bank
+         *   micro-deposits verification.
          * - `DELETED` - The founding account has been deleted.
          */
         fun state(state: State) = state(JsonField.of(state))
@@ -260,14 +286,17 @@ private constructor(
          *
          * Funding source states:
          *
-         * - `ENABLED` - The funding account is available to use for card creation and transactions.
-         * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-         * verification.
+         * - `ENABLED` - The funding account is available to use for card creation and
+         *   transactions.
+         * - `PENDING` - The funding account is still being verified e.g. bank
+         *   micro-deposits verification.
          * - `DELETED` - The founding account has been deleted.
          */
         @JsonProperty("state")
         @ExcludeMissing
-        fun state(state: JsonField<State>) = apply { this.state = state }
+        fun state(state: JsonField<State>) = apply {
+            this.state = state
+        }
 
         /** A globally unique identifier for this FundingAccount. */
         fun token(token: String) = token(JsonField.of(token))
@@ -275,7 +304,9 @@ private constructor(
         /** A globally unique identifier for this FundingAccount. */
         @JsonProperty("token")
         @ExcludeMissing
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /**
          * Types of funding source:
@@ -293,7 +324,9 @@ private constructor(
          */
         @JsonProperty("type")
         @ExcludeMissing
-        fun type(type: JsonField<Type>) = apply { this.type = type }
+        fun type(type: JsonField<Type>) = apply {
+            this.type = type
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -309,33 +342,30 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): FundingSource =
-            FundingSource(
-                accountName,
-                created,
-                lastFour,
-                nickname,
-                state,
-                token,
-                type,
-                additionalProperties.toUnmodifiable(),
-            )
+        fun build(): FundingSource = FundingSource(
+            accountName,
+            created,
+            lastFour,
+            nickname,
+            state,
+            token,
+            type,
+            additionalProperties.toUnmodifiable(),
+        )
     }
 
-    class State
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
+    class State @JsonCreator private constructor(private val value: JsonField<String>,) {
 
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue
+        fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is State && value == other.value
+          return other is State &&
+              value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -366,39 +396,35 @@ private constructor(
             _UNKNOWN,
         }
 
-        fun value(): Value =
-            when (this) {
-                ENABLED -> Value.ENABLED
-                PENDING -> Value.PENDING
-                DELETED -> Value.DELETED
-                else -> Value._UNKNOWN
-            }
+        fun value(): Value = when (this) {
+            ENABLED -> Value.ENABLED
+            PENDING -> Value.PENDING
+            DELETED -> Value.DELETED
+            else -> Value._UNKNOWN
+        }
 
-        fun known(): Known =
-            when (this) {
-                ENABLED -> Known.ENABLED
-                PENDING -> Known.PENDING
-                DELETED -> Known.DELETED
-                else -> throw LithicInvalidDataException("Unknown FundingSource.State: $value")
-            }
+        fun known(): Known = when (this) {
+            ENABLED -> Known.ENABLED
+            PENDING -> Known.PENDING
+            DELETED -> Known.DELETED
+            else -> throw LithicInvalidDataException("Unknown FundingSource.State: $value")
+        }
 
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class Type
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
+    class Type @JsonCreator private constructor(private val value: JsonField<String>,) {
 
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue
+        fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is Type && value == other.value
+          return other is Type &&
+              value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -425,19 +451,17 @@ private constructor(
             _UNKNOWN,
         }
 
-        fun value(): Value =
-            when (this) {
-                DEPOSITORY_CHECKING -> Value.DEPOSITORY_CHECKING
-                DEPOSITORY_SAVINGS -> Value.DEPOSITORY_SAVINGS
-                else -> Value._UNKNOWN
-            }
+        fun value(): Value = when (this) {
+            DEPOSITORY_CHECKING -> Value.DEPOSITORY_CHECKING
+            DEPOSITORY_SAVINGS -> Value.DEPOSITORY_SAVINGS
+            else -> Value._UNKNOWN
+        }
 
-        fun known(): Known =
-            when (this) {
-                DEPOSITORY_CHECKING -> Known.DEPOSITORY_CHECKING
-                DEPOSITORY_SAVINGS -> Known.DEPOSITORY_SAVINGS
-                else -> throw LithicInvalidDataException("Unknown FundingSource.Type: $value")
-            }
+        fun known(): Known = when (this) {
+            DEPOSITORY_CHECKING -> Known.DEPOSITORY_CHECKING
+            DEPOSITORY_SAVINGS -> Known.DEPOSITORY_SAVINGS
+            else -> throw LithicInvalidDataException("Unknown FundingSource.Type: $value")
+        }
 
         fun asString(): String = _value().asStringOrThrow()
     }

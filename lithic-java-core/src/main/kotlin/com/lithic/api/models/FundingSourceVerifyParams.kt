@@ -2,26 +2,33 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.models.*
+import com.google.common.collect.Multimaps
 import java.util.Objects
 import java.util.Optional
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.models.*
 
-class FundingSourceVerifyParams
-constructor(
-    private val fundingSourceToken: String,
-    private val accountToken: String?,
-    private val microDeposits: List<Long>,
-    private val additionalQueryParams: ListMultimap<String, String>,
-    private val additionalHeaders: ListMultimap<String, String>,
-    private val additionalBodyProperties: Map<String, JsonValue>,
-) {
+class FundingSourceVerifyParams constructor(private val fundingSourceToken: String,private val accountToken: String?,private val microDeposits: List<Long>,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,private val additionalBodyProperties: Map<String, JsonValue>,) {
 
     fun fundingSourceToken(): String = fundingSourceToken
 
@@ -30,40 +37,43 @@ constructor(
     fun microDeposits(): List<Long> = microDeposits
 
     @JvmSynthetic
-    internal fun toBody(): FundingSourceVerifyBody =
-        FundingSourceVerifyBody(accountToken, microDeposits, additionalBodyProperties)
+    internal fun toBody(): FundingSourceVerifyBody = FundingSourceVerifyBody(
+        accountToken,
+        microDeposits,
+        additionalBodyProperties
+    )
 
-    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic
+    internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
-    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic
+    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-        return when (index) {
-            0 -> fundingSourceToken
-            else -> ""
-        }
+      return when (index) {
+          0 -> fundingSourceToken
+          else -> ""
+      }
     }
 
     @NoAutoDetect
-    class FundingSourceVerifyBody
-    internal constructor(
-        private val accountToken: String?,
-        private val microDeposits: List<Long>?,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class FundingSourceVerifyBody internal constructor(private val accountToken: String?,private val microDeposits: List<Long>?,private val additionalProperties: Map<String, JsonValue>,) {
 
         private var hashCode: Int = 0
 
         /**
-         * Only required for multi-account users. Token identifying the account that the bank
-         * account will be associated with. Only applicable if using account holder enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-         * information.
+         * Only required for multi-account users. Token identifying the account that the
+         * bank account will be associated with. Only applicable if using account holder
+         * enrollment. See
+         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for
+         * more information.
          */
-        @JsonProperty("account_token") fun accountToken(): String? = accountToken
+        @JsonProperty("account_token")
+        fun accountToken(): String? = accountToken
 
         /** An array of dollar amounts (in cents) received in two credit transactions. */
-        @JsonProperty("micro_deposits") fun microDeposits(): List<Long>? = microDeposits
+        @JsonProperty("micro_deposits")
+        fun microDeposits(): List<Long>? = microDeposits
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -72,34 +82,33 @@ constructor(
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is FundingSourceVerifyBody &&
-                accountToken == other.accountToken &&
-                microDeposits == other.microDeposits &&
-                additionalProperties == other.additionalProperties
+          return other is FundingSourceVerifyBody &&
+              accountToken == other.accountToken &&
+              microDeposits == other.microDeposits &&
+              additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        accountToken,
-                        microDeposits,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
+          if (hashCode == 0) {
+            hashCode = Objects.hash(
+                accountToken,
+                microDeposits,
+                additionalProperties,
+            )
+          }
+          return hashCode
         }
 
-        override fun toString() =
-            "FundingSourceVerifyBody{accountToken=$accountToken, microDeposits=$microDeposits, additionalProperties=$additionalProperties}"
+        override fun toString() = "FundingSourceVerifyBody{accountToken=$accountToken, microDeposits=$microDeposits, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {
@@ -116,13 +125,16 @@ constructor(
             }
 
             /**
-             * Only required for multi-account users. Token identifying the account that the bank
-             * account will be associated with. Only applicable if using account holder enrollment.
-             * See [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for
+             * Only required for multi-account users. Token identifying the account that the
+             * bank account will be associated with. Only applicable if using account holder
+             * enrollment. See
+             * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for
              * more information.
              */
             @JsonProperty("account_token")
-            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+            fun accountToken(accountToken: String) = apply {
+                this.accountToken = accountToken
+            }
 
             /** An array of dollar amounts (in cents) received in two credit transactions. */
             @JsonProperty("micro_deposits")
@@ -144,15 +156,11 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): FundingSourceVerifyBody =
-                FundingSourceVerifyBody(
-                    accountToken,
-                    checkNotNull(microDeposits) {
-                            "Property `microDeposits` is required but was not set"
-                        }
-                        .toUnmodifiable(),
-                    additionalProperties.toUnmodifiable(),
-                )
+            fun build(): FundingSourceVerifyBody = FundingSourceVerifyBody(
+                accountToken,
+                checkNotNull(microDeposits) { "Property `microDeposits` is required but was not set" }.toUnmodifiable(),
+                additionalProperties.toUnmodifiable(),
+            )
         }
     }
 
@@ -163,38 +171,38 @@ constructor(
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is FundingSourceVerifyParams &&
-            fundingSourceToken == other.fundingSourceToken &&
-            accountToken == other.accountToken &&
-            microDeposits == other.microDeposits &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+      return other is FundingSourceVerifyParams &&
+          fundingSourceToken == other.fundingSourceToken &&
+          accountToken == other.accountToken &&
+          microDeposits == other.microDeposits &&
+          additionalQueryParams == other.additionalQueryParams &&
+          additionalHeaders == other.additionalHeaders &&
+          additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            fundingSourceToken,
-            accountToken,
-            microDeposits,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+      return Objects.hash(
+          fundingSourceToken,
+          accountToken,
+          microDeposits,
+          additionalQueryParams,
+          additionalHeaders,
+          additionalBodyProperties,
+      )
     }
 
-    override fun toString() =
-        "FundingSourceVerifyParams{fundingSourceToken=$fundingSourceToken, accountToken=$accountToken, microDeposits=$microDeposits, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() = "FundingSourceVerifyParams{fundingSourceToken=$fundingSourceToken, accountToken=$accountToken, microDeposits=$microDeposits, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -217,15 +225,14 @@ constructor(
             additionalBodyProperties(fundingSourceVerifyParams.additionalBodyProperties)
         }
 
-        fun fundingSourceToken(fundingSourceToken: String) = apply {
-            this.fundingSourceToken = fundingSourceToken
-        }
+        fun fundingSourceToken(fundingSourceToken: String) = apply { this.fundingSourceToken = fundingSourceToken }
 
         /**
-         * Only required for multi-account users. Token identifying the account that the bank
-         * account will be associated with. Only applicable if using account holder enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-         * information.
+         * Only required for multi-account users. Token identifying the account that the
+         * bank account will be associated with. Only applicable if using account holder
+         * enrollment. See
+         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for
+         * more information.
          */
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
@@ -237,23 +244,18 @@ constructor(
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply {
-            this.additionalQueryParams.put(key, value)
-        }
+        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
 
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
-            apply {
-                this.additionalQueryParams.putAll(additionalQueryParams)
-            }
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
+            this.additionalQueryParams.putAll(additionalQueryParams)
+        }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply {
-            this.additionalHeaders.put(key, value)
-        }
+        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
@@ -264,28 +266,19 @@ constructor(
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
-            this.additionalBodyProperties.put(key, value)
+        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply { this.additionalBodyProperties.put(key, value) }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
-
-        fun build(): FundingSourceVerifyParams =
-            FundingSourceVerifyParams(
-                checkNotNull(fundingSourceToken) {
-                    "Property `fundingSourceToken` is required but was not set"
-                },
-                accountToken,
-                checkNotNull(microDeposits) {
-                        "Property `microDeposits` is required but was not set"
-                    }
-                    .toUnmodifiable(),
-                additionalQueryParams.toUnmodifiable(),
-                additionalHeaders.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
-            )
+        fun build(): FundingSourceVerifyParams = FundingSourceVerifyParams(
+            checkNotNull(fundingSourceToken) { "Property `fundingSourceToken` is required but was not set" },
+            accountToken,
+            checkNotNull(microDeposits) { "Property `microDeposits` is required but was not set" }.toUnmodifiable(),
+            additionalQueryParams.toUnmodifiable(),
+            additionalHeaders.toUnmodifiable(),
+            additionalBodyProperties.toUnmodifiable(),
+        )
     }
 }

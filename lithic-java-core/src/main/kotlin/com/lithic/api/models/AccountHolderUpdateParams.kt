@@ -2,26 +2,33 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.models.*
+import com.google.common.collect.Multimaps
 import java.util.Objects
 import java.util.Optional
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.models.*
 
-class AccountHolderUpdateParams
-constructor(
-    private val accountHolderToken: String,
-    private val email: String?,
-    private val phoneNumber: String?,
-    private val additionalQueryParams: ListMultimap<String, String>,
-    private val additionalHeaders: ListMultimap<String, String>,
-    private val additionalBodyProperties: Map<String, JsonValue>,
-) {
+class AccountHolderUpdateParams constructor(private val accountHolderToken: String,private val email: String?,private val phoneNumber: String?,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,private val additionalBodyProperties: Map<String, JsonValue>,) {
 
     fun accountHolderToken(): String = accountHolderToken
 
@@ -30,42 +37,45 @@ constructor(
     fun phoneNumber(): Optional<String> = Optional.ofNullable(phoneNumber)
 
     @JvmSynthetic
-    internal fun toBody(): AccountHolderUpdateBody =
-        AccountHolderUpdateBody(email, phoneNumber, additionalBodyProperties)
+    internal fun toBody(): AccountHolderUpdateBody = AccountHolderUpdateBody(
+        email,
+        phoneNumber,
+        additionalBodyProperties
+    )
 
-    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic
+    internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
-    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic
+    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-        return when (index) {
-            0 -> accountHolderToken
-            else -> ""
-        }
+      return when (index) {
+          0 -> accountHolderToken
+          else -> ""
+      }
     }
 
     @NoAutoDetect
-    class AccountHolderUpdateBody
-    internal constructor(
-        private val email: String?,
-        private val phoneNumber: String?,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class AccountHolderUpdateBody internal constructor(private val email: String?,private val phoneNumber: String?,private val additionalProperties: Map<String, JsonValue>,) {
 
         private var hashCode: Int = 0
 
         /**
-         * Account holder's email address. The primary purpose of this field is for cardholder
-         * identification and verification during the digital wallet tokenization process.
+         * Account holder's email address. The primary purpose of this field is for
+         * cardholder identification and verification during the digital wallet
+         * tokenization process.
          */
-        @JsonProperty("email") fun email(): String? = email
+        @JsonProperty("email")
+        fun email(): String? = email
 
         /**
-         * Account holder's phone number, entered in E.164 format. The primary purpose of this field
-         * is for cardholder identification and verification during the digital wallet tokenization
-         * process.
+         * Account holder's phone number, entered in E.164 format. The primary purpose of
+         * this field is for cardholder identification and verification during the digital
+         * wallet tokenization process.
          */
-        @JsonProperty("phone_number") fun phoneNumber(): String? = phoneNumber
+        @JsonProperty("phone_number")
+        fun phoneNumber(): String? = phoneNumber
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -74,34 +84,33 @@ constructor(
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is AccountHolderUpdateBody &&
-                email == other.email &&
-                phoneNumber == other.phoneNumber &&
-                additionalProperties == other.additionalProperties
+          return other is AccountHolderUpdateBody &&
+              email == other.email &&
+              phoneNumber == other.phoneNumber &&
+              additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        email,
-                        phoneNumber,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
+          if (hashCode == 0) {
+            hashCode = Objects.hash(
+                email,
+                phoneNumber,
+                additionalProperties,
+            )
+          }
+          return hashCode
         }
 
-        override fun toString() =
-            "AccountHolderUpdateBody{email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
+        override fun toString() = "AccountHolderUpdateBody{email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {
@@ -118,18 +127,24 @@ constructor(
             }
 
             /**
-             * Account holder's email address. The primary purpose of this field is for cardholder
-             * identification and verification during the digital wallet tokenization process.
-             */
-            @JsonProperty("email") fun email(email: String) = apply { this.email = email }
-
-            /**
-             * Account holder's phone number, entered in E.164 format. The primary purpose of this
-             * field is for cardholder identification and verification during the digital wallet
+             * Account holder's email address. The primary purpose of this field is for
+             * cardholder identification and verification during the digital wallet
              * tokenization process.
              */
+            @JsonProperty("email")
+            fun email(email: String) = apply {
+                this.email = email
+            }
+
+            /**
+             * Account holder's phone number, entered in E.164 format. The primary purpose of
+             * this field is for cardholder identification and verification during the digital
+             * wallet tokenization process.
+             */
             @JsonProperty("phone_number")
-            fun phoneNumber(phoneNumber: String) = apply { this.phoneNumber = phoneNumber }
+            fun phoneNumber(phoneNumber: String) = apply {
+                this.phoneNumber = phoneNumber
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -145,12 +160,11 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): AccountHolderUpdateBody =
-                AccountHolderUpdateBody(
-                    email,
-                    phoneNumber,
-                    additionalProperties.toUnmodifiable(),
-                )
+            fun build(): AccountHolderUpdateBody = AccountHolderUpdateBody(
+                email,
+                phoneNumber,
+                additionalProperties.toUnmodifiable(),
+            )
         }
     }
 
@@ -161,38 +175,38 @@ constructor(
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is AccountHolderUpdateParams &&
-            accountHolderToken == other.accountHolderToken &&
-            email == other.email &&
-            phoneNumber == other.phoneNumber &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+      return other is AccountHolderUpdateParams &&
+          accountHolderToken == other.accountHolderToken &&
+          email == other.email &&
+          phoneNumber == other.phoneNumber &&
+          additionalQueryParams == other.additionalQueryParams &&
+          additionalHeaders == other.additionalHeaders &&
+          additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountHolderToken,
-            email,
-            phoneNumber,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+      return Objects.hash(
+          accountHolderToken,
+          email,
+          phoneNumber,
+          additionalQueryParams,
+          additionalHeaders,
+          additionalBodyProperties,
+      )
     }
 
-    override fun toString() =
-        "AccountHolderUpdateParams{accountHolderToken=$accountHolderToken, email=$email, phoneNumber=$phoneNumber, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() = "AccountHolderUpdateParams{accountHolderToken=$accountHolderToken, email=$email, phoneNumber=$phoneNumber, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -215,20 +229,19 @@ constructor(
             additionalBodyProperties(accountHolderUpdateParams.additionalBodyProperties)
         }
 
-        fun accountHolderToken(accountHolderToken: String) = apply {
-            this.accountHolderToken = accountHolderToken
-        }
+        fun accountHolderToken(accountHolderToken: String) = apply { this.accountHolderToken = accountHolderToken }
 
         /**
-         * Account holder's email address. The primary purpose of this field is for cardholder
-         * identification and verification during the digital wallet tokenization process.
+         * Account holder's email address. The primary purpose of this field is for
+         * cardholder identification and verification during the digital wallet
+         * tokenization process.
          */
         fun email(email: String) = apply { this.email = email }
 
         /**
-         * Account holder's phone number, entered in E.164 format. The primary purpose of this field
-         * is for cardholder identification and verification during the digital wallet tokenization
-         * process.
+         * Account holder's phone number, entered in E.164 format. The primary purpose of
+         * this field is for cardholder identification and verification during the digital
+         * wallet tokenization process.
          */
         fun phoneNumber(phoneNumber: String) = apply { this.phoneNumber = phoneNumber }
 
@@ -237,23 +250,18 @@ constructor(
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply {
-            this.additionalQueryParams.put(key, value)
-        }
+        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
 
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
-            apply {
-                this.additionalQueryParams.putAll(additionalQueryParams)
-            }
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
+            this.additionalQueryParams.putAll(additionalQueryParams)
+        }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply {
-            this.additionalHeaders.put(key, value)
-        }
+        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
@@ -264,25 +272,19 @@ constructor(
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
-            this.additionalBodyProperties.put(key, value)
+        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply { this.additionalBodyProperties.put(key, value) }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
-
-        fun build(): AccountHolderUpdateParams =
-            AccountHolderUpdateParams(
-                checkNotNull(accountHolderToken) {
-                    "Property `accountHolderToken` is required but was not set"
-                },
-                email,
-                phoneNumber,
-                additionalQueryParams.toUnmodifiable(),
-                additionalHeaders.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
-            )
+        fun build(): AccountHolderUpdateParams = AccountHolderUpdateParams(
+            checkNotNull(accountHolderToken) { "Property `accountHolderToken` is required but was not set" },
+            email,
+            phoneNumber,
+            additionalQueryParams.toUnmodifiable(),
+            additionalHeaders.toUnmodifiable(),
+            additionalBodyProperties.toUnmodifiable(),
+        )
     }
 }

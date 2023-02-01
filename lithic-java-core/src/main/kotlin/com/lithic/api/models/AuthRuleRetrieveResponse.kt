@@ -2,24 +2,35 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.google.common.collect.ArrayListMultimap
+import com.google.common.collect.ListMultimap
+import com.google.common.collect.Multimaps
 import java.util.Objects
 import java.util.Optional
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
 
 @JsonDeserialize(builder = AuthRuleRetrieveResponse.Builder::class)
 @NoAutoDetect
-class AuthRuleRetrieveResponse
-private constructor(
-    private val data: JsonField<List<AuthRule>>,
-    private val additionalProperties: Map<String, JsonValue>,
-) {
+class AuthRuleRetrieveResponse private constructor(private val data: JsonField<List<AuthRule>>,private val additionalProperties: Map<String, JsonValue>,) {
 
     private var validated: Boolean = false
 
@@ -27,7 +38,9 @@ private constructor(
 
     fun data(): Optional<List<AuthRule>> = Optional.ofNullable(data.getNullable("data"))
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data")
+    @ExcludeMissing
+    fun _data() = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -35,36 +48,36 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
-            data().map { it.forEach { it.validate() } }
-            validated = true
+          data().map { it.forEach { it.validate() } }
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is AuthRuleRetrieveResponse &&
-            data == other.data &&
-            additionalProperties == other.additionalProperties
+      return other is AuthRuleRetrieveResponse &&
+          data == other.data &&
+          additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = Objects.hash(data, additionalProperties)
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(data, additionalProperties)
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "AuthRuleRetrieveResponse{data=$data, additionalProperties=$additionalProperties}"
+    override fun toString() = "AuthRuleRetrieveResponse{data=$data, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -82,7 +95,9 @@ private constructor(
 
         @JsonProperty("data")
         @ExcludeMissing
-        fun data(data: JsonField<List<AuthRule>>) = apply { this.data = data }
+        fun data(data: JsonField<List<AuthRule>>) = apply {
+            this.data = data
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -98,10 +113,6 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): AuthRuleRetrieveResponse =
-            AuthRuleRetrieveResponse(
-                data.map { it.toUnmodifiable() },
-                additionalProperties.toUnmodifiable()
-            )
+        fun build(): AuthRuleRetrieveResponse = AuthRuleRetrieveResponse(data.map { it.toUnmodifiable() }, additionalProperties.toUnmodifiable())
     }
 }

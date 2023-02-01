@@ -2,26 +2,35 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.google.common.collect.ArrayListMultimap
+import com.google.common.collect.ListMultimap
+import com.google.common.collect.Multimaps
 import java.util.Objects
 import java.util.Optional
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
 
 @JsonDeserialize(builder = AccountHolderUpdateResponse.Builder::class)
 @NoAutoDetect
-class AccountHolderUpdateResponse
-private constructor(
-    private val token: JsonField<String>,
-    private val email: JsonField<String>,
-    private val phoneNumber: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
-) {
+class AccountHolderUpdateResponse private constructor(private val token: JsonField<String>,private val email: JsonField<String>,private val phoneNumber: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
 
     private var validated: Boolean = false
 
@@ -34,17 +43,22 @@ private constructor(
     fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
 
     /** The newly updated phone_number for the account holder */
-    fun phoneNumber(): Optional<String> =
-        Optional.ofNullable(phoneNumber.getNullable("phone_number"))
+    fun phoneNumber(): Optional<String> = Optional.ofNullable(phoneNumber.getNullable("phone_number"))
 
     /** The token for the account holder that was updated */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token")
+    @ExcludeMissing
+    fun _token() = token
 
     /** The newly updated email for the account holder */
-    @JsonProperty("email") @ExcludeMissing fun _email() = email
+    @JsonProperty("email")
+    @ExcludeMissing
+    fun _email() = email
 
     /** The newly updated phone_number for the account holder */
-    @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
+    @JsonProperty("phone_number")
+    @ExcludeMissing
+    fun _phoneNumber() = phoneNumber
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -52,46 +66,45 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
-            token()
-            email()
-            phoneNumber()
-            validated = true
+          token()
+          email()
+          phoneNumber()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is AccountHolderUpdateResponse &&
-            token == other.token &&
-            email == other.email &&
-            phoneNumber == other.phoneNumber &&
-            additionalProperties == other.additionalProperties
+      return other is AccountHolderUpdateResponse &&
+          token == other.token &&
+          email == other.email &&
+          phoneNumber == other.phoneNumber &&
+          additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    token,
-                    email,
-                    phoneNumber,
-                    additionalProperties,
-                )
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(
+            token,
+            email,
+            phoneNumber,
+            additionalProperties,
+        )
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "AccountHolderUpdateResponse{token=$token, email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
+    override fun toString() = "AccountHolderUpdateResponse{token=$token, email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -115,7 +128,9 @@ private constructor(
         /** The token for the account holder that was updated */
         @JsonProperty("token")
         @ExcludeMissing
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /** The newly updated email for the account holder */
         fun email(email: String) = email(JsonField.of(email))
@@ -123,7 +138,9 @@ private constructor(
         /** The newly updated email for the account holder */
         @JsonProperty("email")
         @ExcludeMissing
-        fun email(email: JsonField<String>) = apply { this.email = email }
+        fun email(email: JsonField<String>) = apply {
+            this.email = email
+        }
 
         /** The newly updated phone_number for the account holder */
         fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
@@ -131,7 +148,9 @@ private constructor(
         /** The newly updated phone_number for the account holder */
         @JsonProperty("phone_number")
         @ExcludeMissing
-        fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
+        fun phoneNumber(phoneNumber: JsonField<String>) = apply {
+            this.phoneNumber = phoneNumber
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -147,12 +166,11 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): AccountHolderUpdateResponse =
-            AccountHolderUpdateResponse(
-                token,
-                email,
-                phoneNumber,
-                additionalProperties.toUnmodifiable(),
-            )
+        fun build(): AccountHolderUpdateResponse = AccountHolderUpdateResponse(
+            token,
+            email,
+            phoneNumber,
+            additionalProperties.toUnmodifiable(),
+        )
     }
 }

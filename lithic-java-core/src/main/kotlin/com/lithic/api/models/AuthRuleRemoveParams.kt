@@ -2,26 +2,33 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.models.*
+import com.google.common.collect.Multimaps
 import java.util.Objects
 import java.util.Optional
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.models.*
 
-class AuthRuleRemoveParams
-constructor(
-    private val cardTokens: List<String>?,
-    private val accountTokens: List<String>?,
-    private val programLevel: Boolean?,
-    private val additionalQueryParams: ListMultimap<String, String>,
-    private val additionalHeaders: ListMultimap<String, String>,
-    private val additionalBodyProperties: Map<String, JsonValue>,
-) {
+class AuthRuleRemoveParams constructor(private val cardTokens: List<String>?,private val accountTokens: List<String>?,private val programLevel: Boolean?,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,private val additionalBodyProperties: Map<String, JsonValue>,) {
 
     fun cardTokens(): Optional<List<String>> = Optional.ofNullable(cardTokens)
 
@@ -30,38 +37,42 @@ constructor(
     fun programLevel(): Optional<Boolean> = Optional.ofNullable(programLevel)
 
     @JvmSynthetic
-    internal fun toBody(): AuthRuleRemoveBody =
-        AuthRuleRemoveBody(cardTokens, accountTokens, programLevel, additionalBodyProperties)
+    internal fun toBody(): AuthRuleRemoveBody = AuthRuleRemoveBody(
+        cardTokens,
+        accountTokens,
+        programLevel,
+        additionalBodyProperties
+    )
 
-    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic
+    internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
-    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic
+    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
     @NoAutoDetect
-    class AuthRuleRemoveBody
-    internal constructor(
-        private val cardTokens: List<String>?,
-        private val accountTokens: List<String>?,
-        private val programLevel: Boolean?,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class AuthRuleRemoveBody internal constructor(private val cardTokens: List<String>?,private val accountTokens: List<String>?,private val programLevel: Boolean?,private val additionalProperties: Map<String, JsonValue>,) {
 
         private var hashCode: Int = 0
 
         /**
-         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
-         * only this field or `account_tokens` can be provided for a given Auth Rule.
+         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note
+         * that only this field or `account_tokens` can be provided for a given Auth Rule.
          */
-        @JsonProperty("card_tokens") fun cardTokens(): List<String>? = cardTokens
+        @JsonProperty("card_tokens")
+        fun cardTokens(): List<String>? = cardTokens
 
         /**
-         * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
-         * that only this field or `card_tokens` can be provided for a given Auth Rule.
+         * Array of account_token(s) identifying the accounts that the Auth Rule applies
+         * to. Note that only this field or `card_tokens` can be provided for a given Auth
+         * Rule.
          */
-        @JsonProperty("account_tokens") fun accountTokens(): List<String>? = accountTokens
+        @JsonProperty("account_tokens")
+        fun accountTokens(): List<String>? = accountTokens
 
         /** Boolean indicating whether the Auth Rule is applied at the program level. */
-        @JsonProperty("program_level") fun programLevel(): Boolean? = programLevel
+        @JsonProperty("program_level")
+        fun programLevel(): Boolean? = programLevel
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -70,36 +81,35 @@ constructor(
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is AuthRuleRemoveBody &&
-                cardTokens == other.cardTokens &&
-                accountTokens == other.accountTokens &&
-                programLevel == other.programLevel &&
-                additionalProperties == other.additionalProperties
+          return other is AuthRuleRemoveBody &&
+              cardTokens == other.cardTokens &&
+              accountTokens == other.accountTokens &&
+              programLevel == other.programLevel &&
+              additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        cardTokens,
-                        accountTokens,
-                        programLevel,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
+          if (hashCode == 0) {
+            hashCode = Objects.hash(
+                cardTokens,
+                accountTokens,
+                programLevel,
+                additionalProperties,
+            )
+          }
+          return hashCode
         }
 
-        override fun toString() =
-            "AuthRuleRemoveBody{cardTokens=$cardTokens, accountTokens=$accountTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
+        override fun toString() = "AuthRuleRemoveBody{cardTokens=$cardTokens, accountTokens=$accountTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {
@@ -118,15 +128,18 @@ constructor(
             }
 
             /**
-             * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
-             * only this field or `account_tokens` can be provided for a given Auth Rule.
+             * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note
+             * that only this field or `account_tokens` can be provided for a given Auth Rule.
              */
             @JsonProperty("card_tokens")
-            fun cardTokens(cardTokens: List<String>) = apply { this.cardTokens = cardTokens }
+            fun cardTokens(cardTokens: List<String>) = apply {
+                this.cardTokens = cardTokens
+            }
 
             /**
-             * Array of account_token(s) identifying the accounts that the Auth Rule applies to.
-             * Note that only this field or `card_tokens` can be provided for a given Auth Rule.
+             * Array of account_token(s) identifying the accounts that the Auth Rule applies
+             * to. Note that only this field or `card_tokens` can be provided for a given Auth
+             * Rule.
              */
             @JsonProperty("account_tokens")
             fun accountTokens(accountTokens: List<String>) = apply {
@@ -135,7 +148,9 @@ constructor(
 
             /** Boolean indicating whether the Auth Rule is applied at the program level. */
             @JsonProperty("program_level")
-            fun programLevel(programLevel: Boolean) = apply { this.programLevel = programLevel }
+            fun programLevel(programLevel: Boolean) = apply {
+                this.programLevel = programLevel
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -151,13 +166,12 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): AuthRuleRemoveBody =
-                AuthRuleRemoveBody(
-                    cardTokens?.toUnmodifiable(),
-                    accountTokens?.toUnmodifiable(),
-                    programLevel,
-                    additionalProperties.toUnmodifiable(),
-                )
+            fun build(): AuthRuleRemoveBody = AuthRuleRemoveBody(
+                cardTokens?.toUnmodifiable(),
+                accountTokens?.toUnmodifiable(),
+                programLevel,
+                additionalProperties.toUnmodifiable(),
+            )
         }
     }
 
@@ -168,38 +182,38 @@ constructor(
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is AuthRuleRemoveParams &&
-            cardTokens == other.cardTokens &&
-            accountTokens == other.accountTokens &&
-            programLevel == other.programLevel &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+      return other is AuthRuleRemoveParams &&
+          cardTokens == other.cardTokens &&
+          accountTokens == other.accountTokens &&
+          programLevel == other.programLevel &&
+          additionalQueryParams == other.additionalQueryParams &&
+          additionalHeaders == other.additionalHeaders &&
+          additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            cardTokens,
-            accountTokens,
-            programLevel,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+      return Objects.hash(
+          cardTokens,
+          accountTokens,
+          programLevel,
+          additionalQueryParams,
+          additionalHeaders,
+          additionalBodyProperties,
+      )
     }
 
-    override fun toString() =
-        "AuthRuleRemoveParams{cardTokens=$cardTokens, accountTokens=$accountTokens, programLevel=$programLevel, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() = "AuthRuleRemoveParams{cardTokens=$cardTokens, accountTokens=$accountTokens, programLevel=$programLevel, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -223,18 +237,17 @@ constructor(
         }
 
         /**
-         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
-         * only this field or `account_tokens` can be provided for a given Auth Rule.
+         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note
+         * that only this field or `account_tokens` can be provided for a given Auth Rule.
          */
         fun cardTokens(cardTokens: List<String>) = apply { this.cardTokens = cardTokens }
 
         /**
-         * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
-         * that only this field or `card_tokens` can be provided for a given Auth Rule.
+         * Array of account_token(s) identifying the accounts that the Auth Rule applies
+         * to. Note that only this field or `card_tokens` can be provided for a given Auth
+         * Rule.
          */
-        fun accountTokens(accountTokens: List<String>) = apply {
-            this.accountTokens = accountTokens
-        }
+        fun accountTokens(accountTokens: List<String>) = apply { this.accountTokens = accountTokens }
 
         /** Boolean indicating whether the Auth Rule is applied at the program level. */
         fun programLevel(programLevel: Boolean) = apply { this.programLevel = programLevel }
@@ -244,23 +257,18 @@ constructor(
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply {
-            this.additionalQueryParams.put(key, value)
-        }
+        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
 
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
-            apply {
-                this.additionalQueryParams.putAll(additionalQueryParams)
-            }
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
+            this.additionalQueryParams.putAll(additionalQueryParams)
+        }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply {
-            this.additionalHeaders.put(key, value)
-        }
+        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
@@ -271,23 +279,19 @@ constructor(
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
-            this.additionalBodyProperties.put(key, value)
+        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply { this.additionalBodyProperties.put(key, value) }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
-
-        fun build(): AuthRuleRemoveParams =
-            AuthRuleRemoveParams(
-                cardTokens?.toUnmodifiable(),
-                accountTokens?.toUnmodifiable(),
-                programLevel,
-                additionalQueryParams.toUnmodifiable(),
-                additionalHeaders.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
-            )
+        fun build(): AuthRuleRemoveParams = AuthRuleRemoveParams(
+            cardTokens?.toUnmodifiable(),
+            accountTokens?.toUnmodifiable(),
+            programLevel,
+            additionalQueryParams.toUnmodifiable(),
+            additionalHeaders.toUnmodifiable(),
+            additionalBodyProperties.toUnmodifiable(),
+        )
     }
 }

@@ -2,32 +2,42 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.google.common.collect.ArrayListMultimap
+import com.google.common.collect.ListMultimap
+import com.google.common.collect.Multimaps
 import java.util.Objects
 import java.util.Optional
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
 
 @JsonDeserialize(builder = TransactionSimulateVoidResponse.Builder::class)
 @NoAutoDetect
-class TransactionSimulateVoidResponse
-private constructor(
-    private val debuggingRequestId: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
-) {
+class TransactionSimulateVoidResponse private constructor(private val debuggingRequestId: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
 
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
 
     /** Debugging request ID to share with Lithic Support team. */
-    fun debuggingRequestId(): Optional<String> =
-        Optional.ofNullable(debuggingRequestId.getNullable("debugging_request_id"))
+    fun debuggingRequestId(): Optional<String> = Optional.ofNullable(debuggingRequestId.getNullable("debugging_request_id"))
 
     /** Debugging request ID to share with Lithic Support team. */
     @JsonProperty("debugging_request_id")
@@ -40,36 +50,36 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
-            debuggingRequestId()
-            validated = true
+          debuggingRequestId()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is TransactionSimulateVoidResponse &&
-            debuggingRequestId == other.debuggingRequestId &&
-            additionalProperties == other.additionalProperties
+      return other is TransactionSimulateVoidResponse &&
+          debuggingRequestId == other.debuggingRequestId &&
+          additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = Objects.hash(debuggingRequestId, additionalProperties)
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(debuggingRequestId, additionalProperties)
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "TransactionSimulateVoidResponse{debuggingRequestId=$debuggingRequestId, additionalProperties=$additionalProperties}"
+    override fun toString() = "TransactionSimulateVoidResponse{debuggingRequestId=$debuggingRequestId, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -78,15 +88,13 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(transactionSimulateVoidResponse: TransactionSimulateVoidResponse) =
-            apply {
-                this.debuggingRequestId = transactionSimulateVoidResponse.debuggingRequestId
-                additionalProperties(transactionSimulateVoidResponse.additionalProperties)
-            }
+        internal fun from(transactionSimulateVoidResponse: TransactionSimulateVoidResponse) = apply {
+            this.debuggingRequestId = transactionSimulateVoidResponse.debuggingRequestId
+            additionalProperties(transactionSimulateVoidResponse.additionalProperties)
+        }
 
         /** Debugging request ID to share with Lithic Support team. */
-        fun debuggingRequestId(debuggingRequestId: String) =
-            debuggingRequestId(JsonField.of(debuggingRequestId))
+        fun debuggingRequestId(debuggingRequestId: String) = debuggingRequestId(JsonField.of(debuggingRequestId))
 
         /** Debugging request ID to share with Lithic Support team. */
         @JsonProperty("debugging_request_id")
@@ -109,10 +117,6 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): TransactionSimulateVoidResponse =
-            TransactionSimulateVoidResponse(
-                debuggingRequestId,
-                additionalProperties.toUnmodifiable()
-            )
+        fun build(): TransactionSimulateVoidResponse = TransactionSimulateVoidResponse(debuggingRequestId, additionalProperties.toUnmodifiable())
     }
 }
