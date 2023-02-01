@@ -3,32 +3,28 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import com.google.common.collect.Multimaps
-import java.util.Objects
-import java.util.Optional
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
+import java.util.Objects
+import java.util.Optional
 
-class FundingSourceUpdateParams constructor(private val fundingSourceToken: String,private val accountToken: String?,private val state: State?,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class FundingSourceUpdateParams
+constructor(
+    private val fundingSourceToken: String,
+    private val accountToken: String?,
+    private val state: State?,
+    private val additionalQueryParams: ListMultimap<String, String>,
+    private val additionalHeaders: ListMultimap<String, String>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun fundingSourceToken(): String = fundingSourceToken
 
@@ -37,50 +33,47 @@ class FundingSourceUpdateParams constructor(private val fundingSourceToken: Stri
     fun state(): Optional<State> = Optional.ofNullable(state)
 
     @JvmSynthetic
-    internal fun toBody(): FundingSourceUpdateBody = FundingSourceUpdateBody(
-        accountToken,
-        state,
-        additionalBodyProperties
-    )
+    internal fun toBody(): FundingSourceUpdateBody =
+        FundingSourceUpdateBody(accountToken, state, additionalBodyProperties)
 
-    @JvmSynthetic
-    internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-      return when (index) {
-          0 -> fundingSourceToken
-          else -> ""
-      }
+        return when (index) {
+            0 -> fundingSourceToken
+            else -> ""
+        }
     }
 
     @NoAutoDetect
-    class FundingSourceUpdateBody internal constructor(private val accountToken: String?,private val state: State?,private val additionalProperties: Map<String, JsonValue>,) {
+    class FundingSourceUpdateBody
+    internal constructor(
+        private val accountToken: String?,
+        private val state: State?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /**
-         * Only required for multi-account users. Token identifying the account that the
-         * bank account will be associated with. Only applicable if using account holder
-         * enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for
-         * more information.
+         * Only required for multi-account users. Token identifying the account that the bank
+         * account will be associated with. Only applicable if using account holder enrollment. See
+         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
+         * information.
          */
-        @JsonProperty("account_token")
-        fun accountToken(): String? = accountToken
+        @JsonProperty("account_token") fun accountToken(): String? = accountToken
 
         /**
          * The desired state of the bank account.
          *
-         * If a bank account is set to `DELETED`, all cards linked to this account will no
-         * longer be associated with it. If there are no other bank accounts in state
-         * `ENABLED` on the account, authorizations will not be accepted on the card until
-         * a new funding account is added.
+         * If a bank account is set to `DELETED`, all cards linked to this account will no longer be
+         * associated with it. If there are no other bank accounts in state `ENABLED` on the
+         * account, authorizations will not be accepted on the card until a new funding account is
+         * added.
          */
-        @JsonProperty("state")
-        fun state(): State? = state
+        @JsonProperty("state") fun state(): State? = state
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -89,33 +82,34 @@ class FundingSourceUpdateParams constructor(private val fundingSourceToken: Stri
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is FundingSourceUpdateBody &&
-              accountToken == other.accountToken &&
-              state == other.state &&
-              additionalProperties == other.additionalProperties
+            return other is FundingSourceUpdateBody &&
+                accountToken == other.accountToken &&
+                state == other.state &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                accountToken,
-                state,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        accountToken,
+                        state,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "FundingSourceUpdateBody{accountToken=$accountToken, state=$state, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "FundingSourceUpdateBody{accountToken=$accountToken, state=$state, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -132,29 +126,23 @@ class FundingSourceUpdateParams constructor(private val fundingSourceToken: Stri
             }
 
             /**
-             * Only required for multi-account users. Token identifying the account that the
-             * bank account will be associated with. Only applicable if using account holder
-             * enrollment. See
-             * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for
+             * Only required for multi-account users. Token identifying the account that the bank
+             * account will be associated with. Only applicable if using account holder enrollment.
+             * See [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for
              * more information.
              */
             @JsonProperty("account_token")
-            fun accountToken(accountToken: String) = apply {
-                this.accountToken = accountToken
-            }
+            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
             /**
              * The desired state of the bank account.
              *
              * If a bank account is set to `DELETED`, all cards linked to this account will no
-             * longer be associated with it. If there are no other bank accounts in state
-             * `ENABLED` on the account, authorizations will not be accepted on the card until
-             * a new funding account is added.
+             * longer be associated with it. If there are no other bank accounts in state `ENABLED`
+             * on the account, authorizations will not be accepted on the card until a new funding
+             * account is added.
              */
-            @JsonProperty("state")
-            fun state(state: State) = apply {
-                this.state = state
-            }
+            @JsonProperty("state") fun state(state: State) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -170,11 +158,12 @@ class FundingSourceUpdateParams constructor(private val fundingSourceToken: Stri
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): FundingSourceUpdateBody = FundingSourceUpdateBody(
-                accountToken,
-                state,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): FundingSourceUpdateBody =
+                FundingSourceUpdateBody(
+                    accountToken,
+                    state,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -185,38 +174,38 @@ class FundingSourceUpdateParams constructor(private val fundingSourceToken: Stri
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is FundingSourceUpdateParams &&
-          fundingSourceToken == other.fundingSourceToken &&
-          accountToken == other.accountToken &&
-          state == other.state &&
-          additionalQueryParams == other.additionalQueryParams &&
-          additionalHeaders == other.additionalHeaders &&
-          additionalBodyProperties == other.additionalBodyProperties
+        return other is FundingSourceUpdateParams &&
+            fundingSourceToken == other.fundingSourceToken &&
+            accountToken == other.accountToken &&
+            state == other.state &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          fundingSourceToken,
-          accountToken,
-          state,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            fundingSourceToken,
+            accountToken,
+            state,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "FundingSourceUpdateParams{fundingSourceToken=$fundingSourceToken, accountToken=$accountToken, state=$state, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "FundingSourceUpdateParams{fundingSourceToken=$fundingSourceToken, accountToken=$accountToken, state=$state, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -239,24 +228,25 @@ class FundingSourceUpdateParams constructor(private val fundingSourceToken: Stri
             additionalBodyProperties(fundingSourceUpdateParams.additionalBodyProperties)
         }
 
-        fun fundingSourceToken(fundingSourceToken: String) = apply { this.fundingSourceToken = fundingSourceToken }
+        fun fundingSourceToken(fundingSourceToken: String) = apply {
+            this.fundingSourceToken = fundingSourceToken
+        }
 
         /**
-         * Only required for multi-account users. Token identifying the account that the
-         * bank account will be associated with. Only applicable if using account holder
-         * enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for
-         * more information.
+         * Only required for multi-account users. Token identifying the account that the bank
+         * account will be associated with. Only applicable if using account holder enrollment. See
+         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
+         * information.
          */
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
         /**
          * The desired state of the bank account.
          *
-         * If a bank account is set to `DELETED`, all cards linked to this account will no
-         * longer be associated with it. If there are no other bank accounts in state
-         * `ENABLED` on the account, authorizations will not be accepted on the card until
-         * a new funding account is added.
+         * If a bank account is set to `DELETED`, all cards linked to this account will no longer be
+         * associated with it. If there are no other bank accounts in state `ENABLED` on the
+         * account, authorizations will not be accepted on the card until a new funding account is
+         * added.
          */
         fun state(state: State) = apply { this.state = state }
 
@@ -265,18 +255,23 @@ class FundingSourceUpdateParams constructor(private val fundingSourceToken: Stri
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
+        fun putAdditionalQueryParams(key: String, value: String) = apply {
+            this.additionalQueryParams.put(key, value)
         }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
+        fun putAdditionalHeaders(key: String, value: String) = apply {
+            this.additionalHeaders.put(key, value)
+        }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
@@ -287,34 +282,42 @@ class FundingSourceUpdateParams constructor(private val fundingSourceToken: Stri
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply { this.additionalBodyProperties.put(key, value) }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
+            this.additionalBodyProperties.put(key, value)
         }
 
-        fun build(): FundingSourceUpdateParams = FundingSourceUpdateParams(
-            checkNotNull(fundingSourceToken) { "Property `fundingSourceToken` is required but was not set" },
-            accountToken,
-            state,
-            additionalQueryParams.toUnmodifiable(),
-            additionalHeaders.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
+
+        fun build(): FundingSourceUpdateParams =
+            FundingSourceUpdateParams(
+                checkNotNull(fundingSourceToken) {
+                    "Property `fundingSourceToken` is required but was not set"
+                },
+                accountToken,
+                state,
+                additionalQueryParams.toUnmodifiable(),
+                additionalHeaders.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 
-    class State @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class State
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is State &&
-              value == other.value
+            return other is State && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -341,17 +344,22 @@ class FundingSourceUpdateParams constructor(private val fundingSourceToken: Stri
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            DELETED -> Value.DELETED
-            ENABLED -> Value.ENABLED
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                DELETED -> Value.DELETED
+                ENABLED -> Value.ENABLED
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            DELETED -> Known.DELETED
-            ENABLED -> Known.ENABLED
-            else -> throw LithicInvalidDataException("Unknown FundingSourceUpdateBody.State: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                DELETED -> Known.DELETED
+                ENABLED -> Known.ENABLED
+                else ->
+                    throw LithicInvalidDataException(
+                        "Unknown FundingSourceUpdateBody.State: $value"
+                    )
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }

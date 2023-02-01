@@ -3,32 +3,40 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import com.google.common.collect.Multimaps
-import java.util.Objects
-import java.util.Optional
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
+import java.util.Objects
+import java.util.Optional
 
-class CardCreateParams constructor(private val accountToken: String?,private val cardProgramToken: String?,private val expMonth: String?,private val expYear: String?,private val fundingToken: String?,private val memo: String?,private val spendLimit: Long?,private val spendLimitDuration: SpendLimitDuration?,private val state: State?,private val type: Type,private val pin: String?,private val digitalCardArtToken: String?,private val productId: String?,private val shippingAddress: ShippingAddress?,private val shippingMethod: ShippingMethod?,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class CardCreateParams
+constructor(
+    private val accountToken: String?,
+    private val cardProgramToken: String?,
+    private val expMonth: String?,
+    private val expYear: String?,
+    private val fundingToken: String?,
+    private val memo: String?,
+    private val spendLimit: Long?,
+    private val spendLimitDuration: SpendLimitDuration?,
+    private val state: State?,
+    private val type: Type,
+    private val pin: String?,
+    private val digitalCardArtToken: String?,
+    private val productId: String?,
+    private val shippingAddress: ShippingAddress?,
+    private val shippingMethod: ShippingMethod?,
+    private val additionalQueryParams: ListMultimap<String, String>,
+    private val additionalHeaders: ListMultimap<String, String>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
@@ -61,105 +69,112 @@ class CardCreateParams constructor(private val accountToken: String?,private val
     fun shippingMethod(): Optional<ShippingMethod> = Optional.ofNullable(shippingMethod)
 
     @JvmSynthetic
-    internal fun toBody(): CardCreateBody = CardCreateBody(
-        accountToken,
-        cardProgramToken,
-        expMonth,
-        expYear,
-        fundingToken,
-        memo,
-        spendLimit,
-        spendLimitDuration,
-        state,
-        type,
-        pin,
-        digitalCardArtToken,
-        productId,
-        shippingAddress,
-        shippingMethod,
-        additionalBodyProperties
-    )
+    internal fun toBody(): CardCreateBody =
+        CardCreateBody(
+            accountToken,
+            cardProgramToken,
+            expMonth,
+            expYear,
+            fundingToken,
+            memo,
+            spendLimit,
+            spendLimitDuration,
+            state,
+            type,
+            pin,
+            digitalCardArtToken,
+            productId,
+            shippingAddress,
+            shippingMethod,
+            additionalBodyProperties
+        )
 
-    @JvmSynthetic
-    internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
     @NoAutoDetect
-    class CardCreateBody internal constructor(private val accountToken: String?,private val cardProgramToken: String?,private val expMonth: String?,private val expYear: String?,private val fundingToken: String?,private val memo: String?,private val spendLimit: Long?,private val spendLimitDuration: SpendLimitDuration?,private val state: State?,private val type: Type?,private val pin: String?,private val digitalCardArtToken: String?,private val productId: String?,private val shippingAddress: ShippingAddress?,private val shippingMethod: ShippingMethod?,private val additionalProperties: Map<String, JsonValue>,) {
+    class CardCreateBody
+    internal constructor(
+        private val accountToken: String?,
+        private val cardProgramToken: String?,
+        private val expMonth: String?,
+        private val expYear: String?,
+        private val fundingToken: String?,
+        private val memo: String?,
+        private val spendLimit: Long?,
+        private val spendLimitDuration: SpendLimitDuration?,
+        private val state: State?,
+        private val type: Type?,
+        private val pin: String?,
+        private val digitalCardArtToken: String?,
+        private val productId: String?,
+        private val shippingAddress: ShippingAddress?,
+        private val shippingMethod: ShippingMethod?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /**
-         * Only required for multi-account users. Token identifying the account the card
-         * will be associated with. Only applicable if using account holder enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for
-         * more information.
+         * Only required for multi-account users. Token identifying the account the card will be
+         * associated with. Only applicable if using account holder enrollment. See
+         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
+         * information.
          */
-        @JsonProperty("account_token")
-        fun accountToken(): String? = accountToken
+        @JsonProperty("account_token") fun accountToken(): String? = accountToken
 
         /**
-         * For physical card programs with more than one BIN range. This must be configured
-         * with Lithic before use. Identifies the card program/BIN range under which to
-         * create the card. If omitted, will utilize the program's default
-         * `card_program_token`. In Sandbox, use 00000000-0000-0000-1000-000000000000 and
-         * 00000000-0000-0000-2000-000000000000 to test creating cards on specific card
-         * programs.
+         * For physical card programs with more than one BIN range. This must be configured with
+         * Lithic before use. Identifies the card program/BIN range under which to create the card.
+         * If omitted, will utilize the program's default `card_program_token`. In Sandbox, use
+         * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
+         * creating cards on specific card programs.
          */
-        @JsonProperty("card_program_token")
-        fun cardProgramToken(): String? = cardProgramToken
+        @JsonProperty("card_program_token") fun cardProgramToken(): String? = cardProgramToken
 
         /**
-         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided,
-         * an expiration date will be generated.
+         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date will be generated.
          */
-        @JsonProperty("exp_month")
-        fun expMonth(): String? = expMonth
+        @JsonProperty("exp_month") fun expMonth(): String? = expMonth
 
         /**
-         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is
-         * provided, an expiration date will be generated.
+         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date will be generated.
          */
-        @JsonProperty("exp_year")
-        fun expYear(): String? = expYear
+        @JsonProperty("exp_year") fun expYear(): String? = expYear
 
         /**
-         * The token for the desired `FundingAccount` to use when making transactions with
-         * this card.
+         * The token for the desired `FundingAccount` to use when making transactions with this
+         * card.
          */
-        @JsonProperty("funding_token")
-        fun fundingToken(): String? = fundingToken
+        @JsonProperty("funding_token") fun fundingToken(): String? = fundingToken
 
         /**
-         * Friendly name to identify the card. We recommend against using this field to
-         * store JSON data as it can cause unexpected behavior.
+         * Friendly name to identify the card. We recommend against using this field to store JSON
+         * data as it can cause unexpected behavior.
          */
-        @JsonProperty("memo")
-        fun memo(): String? = memo
+        @JsonProperty("memo") fun memo(): String? = memo
 
         /**
-         * Amount (in cents) to limit approved authorizations. Transaction requests above
-         * the spend limit will be declined. Note that a spend limit of 0 is effectively no
-         * limit, and should only be used to reset or remove a prior limit. Only a limit of
-         * 1 or above will result in declined transactions due to checks against the card
-         * limit.
+         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
+         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
+         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
+         * declined transactions due to checks against the card limit.
          */
-        @JsonProperty("spend_limit")
-        fun spendLimit(): Long? = spendLimit
+        @JsonProperty("spend_limit") fun spendLimit(): Long? = spendLimit
 
         /**
          * Spend limit duration values:
          *
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar
-         *   year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime
-         *   of the card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the
-         *   trailing month. Month is calculated as this calendar date one month prior.
+         * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar year.
+         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
+         * card.
+         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
+         * Month is calculated as this calendar date one month prior.
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         *   transaction is under the spend limit.
+         * transaction is under the spend limit.
          */
         @JsonProperty("spend_limit_duration")
         fun spendLimitDuration(): SpendLimitDuration? = spendLimitDuration
@@ -167,73 +182,61 @@ class CardCreateParams constructor(private val accountToken: String?,private val
         /**
          * Card state values:
          *
-         * - `OPEN` - Card will approve authorizations (if they match card and account
-         *   parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later
-         *   time.
+         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        @JsonProperty("state")
-        fun state(): State? = state
+        @JsonProperty("state") fun state(): State? = state
 
         /**
          * Card types:
          *
-         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
-         *   wallet like Apple Pay or Google Pay (if the card program is digital
-         *   wallet-enabled).
-         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
-         *   branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality.
-         *   Reach out at [lithic.com/contact](https://lithic.com/contact) for more
-         *   information.
+         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
+         * like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
+         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+         * credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
+         * [lithic.com/contact](https://lithic.com/contact) for more information.
          * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
-         *   successfully authorizes the card.
-         * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful
-         *   authorization.
+         * successfully authorizes the card.
+         * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful authorization.
          */
-        @JsonProperty("type")
-        fun type(): Type? = type
+        @JsonProperty("type") fun type(): Type? = type
 
         /**
-         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
-         * `VIRTUAL`. See
+         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
+         * See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
          */
-        @JsonProperty("pin")
-        fun pin(): String? = pin
+        @JsonProperty("pin") fun pin(): String? = pin
 
         /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet
-         * after tokenization. This artwork must be approved by Mastercard and configured
-         * by Lithic to use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         * Specifies the digital card art to be displayed in the user’s digital wallet after
+         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
+         * .
          */
         @JsonProperty("digital_card_art_token")
         fun digitalCardArtToken(): String? = digitalCardArtToken
 
         /**
-         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic
-         * before use. Specifies the configuration (i.e., physical card art) that the card
-         * should be manufactured with.
+         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
+         * use. Specifies the configuration (i.e., physical card art) that the card should be
+         * manufactured with.
          */
-        @JsonProperty("product_id")
-        fun productId(): String? = productId
+        @JsonProperty("product_id") fun productId(): String? = productId
 
-        @JsonProperty("shipping_address")
-        fun shippingAddress(): ShippingAddress? = shippingAddress
+        @JsonProperty("shipping_address") fun shippingAddress(): ShippingAddress? = shippingAddress
 
         /**
-         * Shipping method for the card. Only applies to cards of type PHYSICAL [beta]. Use
-         * of options besides `STANDARD` require additional permissions.
+         * Shipping method for the card. Only applies to cards of type PHYSICAL [beta]. Use of
+         * options besides `STANDARD` require additional permissions.
          *
-         * - `STANDARD` - USPS regular mail or similar international option, with no
-         *   tracking
-         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option,
-         *   with tracking
-         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
-         *   tracking
+         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+         * tracking
+         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
          */
-        @JsonProperty("shipping_method")
-        fun shippingMethod(): ShippingMethod? = shippingMethod
+        @JsonProperty("shipping_method") fun shippingMethod(): ShippingMethod? = shippingMethod
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -242,59 +245,60 @@ class CardCreateParams constructor(private val accountToken: String?,private val
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is CardCreateBody &&
-              accountToken == other.accountToken &&
-              cardProgramToken == other.cardProgramToken &&
-              expMonth == other.expMonth &&
-              expYear == other.expYear &&
-              fundingToken == other.fundingToken &&
-              memo == other.memo &&
-              spendLimit == other.spendLimit &&
-              spendLimitDuration == other.spendLimitDuration &&
-              state == other.state &&
-              type == other.type &&
-              pin == other.pin &&
-              digitalCardArtToken == other.digitalCardArtToken &&
-              productId == other.productId &&
-              shippingAddress == other.shippingAddress &&
-              shippingMethod == other.shippingMethod &&
-              additionalProperties == other.additionalProperties
+            return other is CardCreateBody &&
+                accountToken == other.accountToken &&
+                cardProgramToken == other.cardProgramToken &&
+                expMonth == other.expMonth &&
+                expYear == other.expYear &&
+                fundingToken == other.fundingToken &&
+                memo == other.memo &&
+                spendLimit == other.spendLimit &&
+                spendLimitDuration == other.spendLimitDuration &&
+                state == other.state &&
+                type == other.type &&
+                pin == other.pin &&
+                digitalCardArtToken == other.digitalCardArtToken &&
+                productId == other.productId &&
+                shippingAddress == other.shippingAddress &&
+                shippingMethod == other.shippingMethod &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                accountToken,
-                cardProgramToken,
-                expMonth,
-                expYear,
-                fundingToken,
-                memo,
-                spendLimit,
-                spendLimitDuration,
-                state,
-                type,
-                pin,
-                digitalCardArtToken,
-                productId,
-                shippingAddress,
-                shippingMethod,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        accountToken,
+                        cardProgramToken,
+                        expMonth,
+                        expYear,
+                        fundingToken,
+                        memo,
+                        spendLimit,
+                        spendLimitDuration,
+                        state,
+                        type,
+                        pin,
+                        digitalCardArtToken,
+                        productId,
+                        shippingAddress,
+                        shippingMethod,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "CardCreateBody{accountToken=$accountToken, cardProgramToken=$cardProgramToken, expMonth=$expMonth, expYear=$expYear, fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, pin=$pin, digitalCardArtToken=$digitalCardArtToken, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "CardCreateBody{accountToken=$accountToken, cardProgramToken=$cardProgramToken, expMonth=$expMonth, expYear=$expYear, fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, pin=$pin, digitalCardArtToken=$digitalCardArtToken, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -337,21 +341,19 @@ class CardCreateParams constructor(private val accountToken: String?,private val
             }
 
             /**
-             * Only required for multi-account users. Token identifying the account the card
-             * will be associated with. Only applicable if using account holder enrollment. See
-             * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for
-             * more information.
+             * Only required for multi-account users. Token identifying the account the card will be
+             * associated with. Only applicable if using account holder enrollment. See
+             * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
+             * information.
              */
             @JsonProperty("account_token")
-            fun accountToken(accountToken: String) = apply {
-                this.accountToken = accountToken
-            }
+            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
             /**
-             * For physical card programs with more than one BIN range. This must be configured
-             * with Lithic before use. Identifies the card program/BIN range under which to
-             * create the card. If omitted, will utilize the program's default
-             * `card_program_token`. In Sandbox, use 00000000-0000-0000-1000-000000000000 and
+             * For physical card programs with more than one BIN range. This must be configured with
+             * Lithic before use. Identifies the card program/BIN range under which to create the
+             * card. If omitted, will utilize the program's default `card_program_token`. In
+             * Sandbox, use 00000000-0000-0000-1000-000000000000 and
              * 00000000-0000-0000-2000-000000000000 to test creating cards on specific card
              * programs.
              */
@@ -361,64 +363,51 @@ class CardCreateParams constructor(private val accountToken: String?,private val
             }
 
             /**
-             * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided,
-             * an expiration date will be generated.
+             * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+             * expiration date will be generated.
              */
             @JsonProperty("exp_month")
-            fun expMonth(expMonth: String) = apply {
-                this.expMonth = expMonth
-            }
+            fun expMonth(expMonth: String) = apply { this.expMonth = expMonth }
 
             /**
-             * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is
-             * provided, an expiration date will be generated.
+             * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+             * expiration date will be generated.
              */
             @JsonProperty("exp_year")
-            fun expYear(expYear: String) = apply {
-                this.expYear = expYear
-            }
+            fun expYear(expYear: String) = apply { this.expYear = expYear }
 
             /**
-             * The token for the desired `FundingAccount` to use when making transactions with
-             * this card.
+             * The token for the desired `FundingAccount` to use when making transactions with this
+             * card.
              */
             @JsonProperty("funding_token")
-            fun fundingToken(fundingToken: String) = apply {
-                this.fundingToken = fundingToken
-            }
+            fun fundingToken(fundingToken: String) = apply { this.fundingToken = fundingToken }
 
             /**
-             * Friendly name to identify the card. We recommend against using this field to
-             * store JSON data as it can cause unexpected behavior.
+             * Friendly name to identify the card. We recommend against using this field to store
+             * JSON data as it can cause unexpected behavior.
              */
-            @JsonProperty("memo")
-            fun memo(memo: String) = apply {
-                this.memo = memo
-            }
+            @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
 
             /**
-             * Amount (in cents) to limit approved authorizations. Transaction requests above
-             * the spend limit will be declined. Note that a spend limit of 0 is effectively no
-             * limit, and should only be used to reset or remove a prior limit. Only a limit of
-             * 1 or above will result in declined transactions due to checks against the card
-             * limit.
+             * Amount (in cents) to limit approved authorizations. Transaction requests above the
+             * spend limit will be declined. Note that a spend limit of 0 is effectively no limit,
+             * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
+             * will result in declined transactions due to checks against the card limit.
              */
             @JsonProperty("spend_limit")
-            fun spendLimit(spendLimit: Long) = apply {
-                this.spendLimit = spendLimit
-            }
+            fun spendLimit(spendLimit: Long) = apply { this.spendLimit = spendLimit }
 
             /**
              * Spend limit duration values:
              *
-             * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar
-             *   year.
-             * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime
-             *   of the card.
-             * - `MONTHLY` - Card will authorize transactions up to spend limit for the
-             *   trailing month. Month is calculated as this calendar date one month prior.
+             * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar year.
+             * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
+             * the card.
+             * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
+             * month. Month is calculated as this calendar date one month prior.
              * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-             *   transaction is under the spend limit.
+             * transaction is under the spend limit.
              */
             @JsonProperty("spend_limit_duration")
             fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
@@ -429,50 +418,39 @@ class CardCreateParams constructor(private val accountToken: String?,private val
              * Card state values:
              *
              * - `OPEN` - Card will approve authorizations (if they match card and account
-             *   parameters).
-             * - `PAUSED` - Card will decline authorizations, but can be resumed at a later
-             *   time.
+             * parameters).
+             * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
-            @JsonProperty("state")
-            fun state(state: State) = apply {
-                this.state = state
-            }
+            @JsonProperty("state") fun state(state: State) = apply { this.state = state }
 
             /**
              * Card types:
              *
              * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
-             *   wallet like Apple Pay or Google Pay (if the card program is digital
-             *   wallet-enabled).
+             * wallet like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
              * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
-             *   branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality.
-             *   Reach out at [lithic.com/contact](https://lithic.com/contact) for more
-             *   information.
+             * branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach
+             * out at [lithic.com/contact](https://lithic.com/contact) for more information.
              * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
-             *   successfully authorizes the card.
-             * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful
-             *   authorization.
+             * successfully authorizes the card.
+             * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful authorization.
              */
-            @JsonProperty("type")
-            fun type(type: Type) = apply {
-                this.type = type
-            }
+            @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
 
             /**
              * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
              * `VIRTUAL`. See
-             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
+             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise)
+             * .
              */
-            @JsonProperty("pin")
-            fun pin(pin: String) = apply {
-                this.pin = pin
-            }
+            @JsonProperty("pin") fun pin(pin: String) = apply { this.pin = pin }
 
             /**
-             * Specifies the digital card art to be displayed in the user’s digital wallet
-             * after tokenization. This artwork must be approved by Mastercard and configured
-             * by Lithic to use. See
-             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+             * Specifies the digital card art to be displayed in the user’s digital wallet after
+             * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+             * use. See
+             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
+             * .
              */
             @JsonProperty("digital_card_art_token")
             fun digitalCardArtToken(digitalCardArtToken: String) = apply {
@@ -485,9 +463,7 @@ class CardCreateParams constructor(private val accountToken: String?,private val
              * should be manufactured with.
              */
             @JsonProperty("product_id")
-            fun productId(productId: String) = apply {
-                this.productId = productId
-            }
+            fun productId(productId: String) = apply { this.productId = productId }
 
             @JsonProperty("shipping_address")
             fun shippingAddress(shippingAddress: ShippingAddress) = apply {
@@ -495,15 +471,14 @@ class CardCreateParams constructor(private val accountToken: String?,private val
             }
 
             /**
-             * Shipping method for the card. Only applies to cards of type PHYSICAL [beta]. Use
-             * of options besides `STANDARD` require additional permissions.
+             * Shipping method for the card. Only applies to cards of type PHYSICAL [beta]. Use of
+             * options besides `STANDARD` require additional permissions.
              *
-             * - `STANDARD` - USPS regular mail or similar international option, with no
-             *   tracking
-             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option,
-             *   with tracking
+             * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+             * tracking
              * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
-             *   tracking
+             * tracking
              */
             @JsonProperty("shipping_method")
             fun shippingMethod(shippingMethod: ShippingMethod) = apply {
@@ -524,24 +499,25 @@ class CardCreateParams constructor(private val accountToken: String?,private val
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): CardCreateBody = CardCreateBody(
-                accountToken,
-                cardProgramToken,
-                expMonth,
-                expYear,
-                fundingToken,
-                memo,
-                spendLimit,
-                spendLimitDuration,
-                state,
-                checkNotNull(type) { "Property `type` is required but was not set" },
-                pin,
-                digitalCardArtToken,
-                productId,
-                shippingAddress,
-                shippingMethod,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): CardCreateBody =
+                CardCreateBody(
+                    accountToken,
+                    cardProgramToken,
+                    expMonth,
+                    expYear,
+                    fundingToken,
+                    memo,
+                    spendLimit,
+                    spendLimitDuration,
+                    state,
+                    checkNotNull(type) { "Property `type` is required but was not set" },
+                    pin,
+                    digitalCardArtToken,
+                    productId,
+                    shippingAddress,
+                    shippingMethod,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -552,62 +528,62 @@ class CardCreateParams constructor(private val accountToken: String?,private val
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is CardCreateParams &&
-          accountToken == other.accountToken &&
-          cardProgramToken == other.cardProgramToken &&
-          expMonth == other.expMonth &&
-          expYear == other.expYear &&
-          fundingToken == other.fundingToken &&
-          memo == other.memo &&
-          spendLimit == other.spendLimit &&
-          spendLimitDuration == other.spendLimitDuration &&
-          state == other.state &&
-          type == other.type &&
-          pin == other.pin &&
-          digitalCardArtToken == other.digitalCardArtToken &&
-          productId == other.productId &&
-          shippingAddress == other.shippingAddress &&
-          shippingMethod == other.shippingMethod &&
-          additionalQueryParams == other.additionalQueryParams &&
-          additionalHeaders == other.additionalHeaders &&
-          additionalBodyProperties == other.additionalBodyProperties
+        return other is CardCreateParams &&
+            accountToken == other.accountToken &&
+            cardProgramToken == other.cardProgramToken &&
+            expMonth == other.expMonth &&
+            expYear == other.expYear &&
+            fundingToken == other.fundingToken &&
+            memo == other.memo &&
+            spendLimit == other.spendLimit &&
+            spendLimitDuration == other.spendLimitDuration &&
+            state == other.state &&
+            type == other.type &&
+            pin == other.pin &&
+            digitalCardArtToken == other.digitalCardArtToken &&
+            productId == other.productId &&
+            shippingAddress == other.shippingAddress &&
+            shippingMethod == other.shippingMethod &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          accountToken,
-          cardProgramToken,
-          expMonth,
-          expYear,
-          fundingToken,
-          memo,
-          spendLimit,
-          spendLimitDuration,
-          state,
-          type,
-          pin,
-          digitalCardArtToken,
-          productId,
-          shippingAddress,
-          shippingMethod,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            accountToken,
+            cardProgramToken,
+            expMonth,
+            expYear,
+            fundingToken,
+            memo,
+            spendLimit,
+            spendLimitDuration,
+            state,
+            type,
+            pin,
+            digitalCardArtToken,
+            productId,
+            shippingAddress,
+            shippingMethod,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "CardCreateParams{accountToken=$accountToken, cardProgramToken=$cardProgramToken, expMonth=$expMonth, expYear=$expYear, fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, pin=$pin, digitalCardArtToken=$digitalCardArtToken, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "CardCreateParams{accountToken=$accountToken, cardProgramToken=$cardProgramToken, expMonth=$expMonth, expYear=$expYear, fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, pin=$pin, digitalCardArtToken=$digitalCardArtToken, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -655,151 +631,157 @@ class CardCreateParams constructor(private val accountToken: String?,private val
         }
 
         /**
-         * Only required for multi-account users. Token identifying the account the card
-         * will be associated with. Only applicable if using account holder enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for
-         * more information.
+         * Only required for multi-account users. Token identifying the account the card will be
+         * associated with. Only applicable if using account holder enrollment. See
+         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
+         * information.
          */
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
         /**
-         * For physical card programs with more than one BIN range. This must be configured
-         * with Lithic before use. Identifies the card program/BIN range under which to
-         * create the card. If omitted, will utilize the program's default
-         * `card_program_token`. In Sandbox, use 00000000-0000-0000-1000-000000000000 and
-         * 00000000-0000-0000-2000-000000000000 to test creating cards on specific card
-         * programs.
+         * For physical card programs with more than one BIN range. This must be configured with
+         * Lithic before use. Identifies the card program/BIN range under which to create the card.
+         * If omitted, will utilize the program's default `card_program_token`. In Sandbox, use
+         * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
+         * creating cards on specific card programs.
          */
-        fun cardProgramToken(cardProgramToken: String) = apply { this.cardProgramToken = cardProgramToken }
+        fun cardProgramToken(cardProgramToken: String) = apply {
+            this.cardProgramToken = cardProgramToken
+        }
 
         /**
-         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided,
-         * an expiration date will be generated.
+         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date will be generated.
          */
         fun expMonth(expMonth: String) = apply { this.expMonth = expMonth }
 
         /**
-         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is
-         * provided, an expiration date will be generated.
+         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date will be generated.
          */
         fun expYear(expYear: String) = apply { this.expYear = expYear }
 
         /**
-         * The token for the desired `FundingAccount` to use when making transactions with
-         * this card.
+         * The token for the desired `FundingAccount` to use when making transactions with this
+         * card.
          */
         fun fundingToken(fundingToken: String) = apply { this.fundingToken = fundingToken }
 
         /**
-         * Friendly name to identify the card. We recommend against using this field to
-         * store JSON data as it can cause unexpected behavior.
+         * Friendly name to identify the card. We recommend against using this field to store JSON
+         * data as it can cause unexpected behavior.
          */
         fun memo(memo: String) = apply { this.memo = memo }
 
         /**
-         * Amount (in cents) to limit approved authorizations. Transaction requests above
-         * the spend limit will be declined. Note that a spend limit of 0 is effectively no
-         * limit, and should only be used to reset or remove a prior limit. Only a limit of
-         * 1 or above will result in declined transactions due to checks against the card
-         * limit.
+         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
+         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
+         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
+         * declined transactions due to checks against the card limit.
          */
         fun spendLimit(spendLimit: Long) = apply { this.spendLimit = spendLimit }
 
         /**
          * Spend limit duration values:
          *
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar
-         *   year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime
-         *   of the card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the
-         *   trailing month. Month is calculated as this calendar date one month prior.
+         * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar year.
+         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
+         * card.
+         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
+         * Month is calculated as this calendar date one month prior.
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         *   transaction is under the spend limit.
+         * transaction is under the spend limit.
          */
-        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply { this.spendLimitDuration = spendLimitDuration }
+        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
+            this.spendLimitDuration = spendLimitDuration
+        }
 
         /**
          * Card state values:
          *
-         * - `OPEN` - Card will approve authorizations (if they match card and account
-         *   parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later
-         *   time.
+         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
         fun state(state: State) = apply { this.state = state }
 
         /**
          * Card types:
          *
-         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
-         *   wallet like Apple Pay or Google Pay (if the card program is digital
-         *   wallet-enabled).
-         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
-         *   branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality.
-         *   Reach out at [lithic.com/contact](https://lithic.com/contact) for more
-         *   information.
+         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
+         * like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
+         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+         * credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
+         * [lithic.com/contact](https://lithic.com/contact) for more information.
          * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
-         *   successfully authorizes the card.
-         * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful
-         *   authorization.
+         * successfully authorizes the card.
+         * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful authorization.
          */
         fun type(type: Type) = apply { this.type = type }
 
         /**
-         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
-         * `VIRTUAL`. See
+         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
+         * See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
          */
         fun pin(pin: String) = apply { this.pin = pin }
 
         /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet
-         * after tokenization. This artwork must be approved by Mastercard and configured
-         * by Lithic to use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         * Specifies the digital card art to be displayed in the user’s digital wallet after
+         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
+         * .
          */
-        fun digitalCardArtToken(digitalCardArtToken: String) = apply { this.digitalCardArtToken = digitalCardArtToken }
+        fun digitalCardArtToken(digitalCardArtToken: String) = apply {
+            this.digitalCardArtToken = digitalCardArtToken
+        }
 
         /**
-         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic
-         * before use. Specifies the configuration (i.e., physical card art) that the card
-         * should be manufactured with.
+         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
+         * use. Specifies the configuration (i.e., physical card art) that the card should be
+         * manufactured with.
          */
         fun productId(productId: String) = apply { this.productId = productId }
 
-        fun shippingAddress(shippingAddress: ShippingAddress) = apply { this.shippingAddress = shippingAddress }
+        fun shippingAddress(shippingAddress: ShippingAddress) = apply {
+            this.shippingAddress = shippingAddress
+        }
 
         /**
-         * Shipping method for the card. Only applies to cards of type PHYSICAL [beta]. Use
-         * of options besides `STANDARD` require additional permissions.
+         * Shipping method for the card. Only applies to cards of type PHYSICAL [beta]. Use of
+         * options besides `STANDARD` require additional permissions.
          *
-         * - `STANDARD` - USPS regular mail or similar international option, with no
-         *   tracking
-         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option,
-         *   with tracking
-         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
-         *   tracking
+         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+         * tracking
+         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
          */
-        fun shippingMethod(shippingMethod: ShippingMethod) = apply { this.shippingMethod = shippingMethod }
+        fun shippingMethod(shippingMethod: ShippingMethod) = apply {
+            this.shippingMethod = shippingMethod
+        }
 
         fun additionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
             this.additionalQueryParams.clear()
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
+        fun putAdditionalQueryParams(key: String, value: String) = apply {
+            this.additionalQueryParams.put(key, value)
         }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
+        fun putAdditionalHeaders(key: String, value: String) = apply {
+            this.additionalHeaders.put(key, value)
+        }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
@@ -810,46 +792,52 @@ class CardCreateParams constructor(private val accountToken: String?,private val
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply { this.additionalBodyProperties.put(key, value) }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
+            this.additionalBodyProperties.put(key, value)
         }
 
-        fun build(): CardCreateParams = CardCreateParams(
-            accountToken,
-            cardProgramToken,
-            expMonth,
-            expYear,
-            fundingToken,
-            memo,
-            spendLimit,
-            spendLimitDuration,
-            state,
-            checkNotNull(type) { "Property `type` is required but was not set" },
-            pin,
-            digitalCardArtToken,
-            productId,
-            shippingAddress,
-            shippingMethod,
-            additionalQueryParams.toUnmodifiable(),
-            additionalHeaders.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
+
+        fun build(): CardCreateParams =
+            CardCreateParams(
+                accountToken,
+                cardProgramToken,
+                expMonth,
+                expYear,
+                fundingToken,
+                memo,
+                spendLimit,
+                spendLimitDuration,
+                state,
+                checkNotNull(type) { "Property `type` is required but was not set" },
+                pin,
+                digitalCardArtToken,
+                productId,
+                shippingAddress,
+                shippingMethod,
+                additionalQueryParams.toUnmodifiable(),
+                additionalHeaders.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 
-    class State @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class State
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is State &&
-              value == other.value
+            return other is State && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -876,33 +864,37 @@ class CardCreateParams constructor(private val accountToken: String?,private val
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            OPEN -> Value.OPEN
-            PAUSED -> Value.PAUSED
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                OPEN -> Value.OPEN
+                PAUSED -> Value.PAUSED
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            OPEN -> Known.OPEN
-            PAUSED -> Known.PAUSED
-            else -> throw LithicInvalidDataException("Unknown CardCreateBody.State: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                OPEN -> Known.OPEN
+                PAUSED -> Known.PAUSED
+                else -> throw LithicInvalidDataException("Unknown CardCreateBody.State: $value")
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class Type @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class Type
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Type &&
-              value == other.value
+            return other is Type && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -937,37 +929,41 @@ class CardCreateParams constructor(private val accountToken: String?,private val
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            VIRTUAL -> Value.VIRTUAL
-            PHYSICAL -> Value.PHYSICAL
-            MERCHANT_LOCKED -> Value.MERCHANT_LOCKED
-            SINGLE_USE -> Value.SINGLE_USE
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                VIRTUAL -> Value.VIRTUAL
+                PHYSICAL -> Value.PHYSICAL
+                MERCHANT_LOCKED -> Value.MERCHANT_LOCKED
+                SINGLE_USE -> Value.SINGLE_USE
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            VIRTUAL -> Known.VIRTUAL
-            PHYSICAL -> Known.PHYSICAL
-            MERCHANT_LOCKED -> Known.MERCHANT_LOCKED
-            SINGLE_USE -> Known.SINGLE_USE
-            else -> throw LithicInvalidDataException("Unknown CardCreateBody.Type: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                VIRTUAL -> Known.VIRTUAL
+                PHYSICAL -> Known.PHYSICAL
+                MERCHANT_LOCKED -> Known.MERCHANT_LOCKED
+                SINGLE_USE -> Known.SINGLE_USE
+                else -> throw LithicInvalidDataException("Unknown CardCreateBody.Type: $value")
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class ShippingMethod @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class ShippingMethod
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is ShippingMethod &&
-              value == other.value
+            return other is ShippingMethod && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -978,7 +974,8 @@ class CardCreateParams constructor(private val accountToken: String?,private val
 
             @JvmField val STANDARD = ShippingMethod(JsonField.of("STANDARD"))
 
-            @JvmField val STANDARD_WITH_TRACKING = ShippingMethod(JsonField.of("STANDARD_WITH_TRACKING"))
+            @JvmField
+            val STANDARD_WITH_TRACKING = ShippingMethod(JsonField.of("STANDARD_WITH_TRACKING"))
 
             @JvmField val EXPEDITED = ShippingMethod(JsonField.of("EXPEDITED"))
 
@@ -998,19 +995,24 @@ class CardCreateParams constructor(private val accountToken: String?,private val
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            STANDARD -> Value.STANDARD
-            STANDARD_WITH_TRACKING -> Value.STANDARD_WITH_TRACKING
-            EXPEDITED -> Value.EXPEDITED
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                STANDARD -> Value.STANDARD
+                STANDARD_WITH_TRACKING -> Value.STANDARD_WITH_TRACKING
+                EXPEDITED -> Value.EXPEDITED
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            STANDARD -> Known.STANDARD
-            STANDARD_WITH_TRACKING -> Known.STANDARD_WITH_TRACKING
-            EXPEDITED -> Known.EXPEDITED
-            else -> throw LithicInvalidDataException("Unknown CardCreateBody.ShippingMethod: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                STANDARD -> Known.STANDARD
+                STANDARD_WITH_TRACKING -> Known.STANDARD_WITH_TRACKING
+                EXPEDITED -> Known.EXPEDITED
+                else ->
+                    throw LithicInvalidDataException(
+                        "Unknown CardCreateBody.ShippingMethod: $value"
+                    )
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }

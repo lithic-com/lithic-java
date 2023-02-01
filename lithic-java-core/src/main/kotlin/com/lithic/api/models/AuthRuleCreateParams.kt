@@ -3,32 +3,33 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import com.google.common.collect.Multimaps
-import java.util.Objects
-import java.util.Optional
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
+import java.util.Objects
+import java.util.Optional
 
-class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,private val blockedMcc: List<String>?,private val allowedCountries: List<String>?,private val blockedCountries: List<String>?,private val avsType: AvsType?,private val accountTokens: List<String>?,private val cardTokens: List<String>?,private val programLevel: Boolean?,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class AuthRuleCreateParams
+constructor(
+    private val allowedMcc: List<String>?,
+    private val blockedMcc: List<String>?,
+    private val allowedCountries: List<String>?,
+    private val blockedCountries: List<String>?,
+    private val avsType: AvsType?,
+    private val accountTokens: List<String>?,
+    private val cardTokens: List<String>?,
+    private val programLevel: Boolean?,
+    private val additionalQueryParams: ListMultimap<String, String>,
+    private val additionalHeaders: ListMultimap<String, String>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun allowedMcc(): Optional<List<String>> = Optional.ofNullable(allowedMcc)
 
@@ -47,83 +48,80 @@ class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,pri
     fun programLevel(): Optional<Boolean> = Optional.ofNullable(programLevel)
 
     @JvmSynthetic
-    internal fun toBody(): AuthRuleCreateBody = AuthRuleCreateBody(
-        allowedMcc,
-        blockedMcc,
-        allowedCountries,
-        blockedCountries,
-        avsType,
-        accountTokens,
-        cardTokens,
-        programLevel,
-        additionalBodyProperties
-    )
+    internal fun toBody(): AuthRuleCreateBody =
+        AuthRuleCreateBody(
+            allowedMcc,
+            blockedMcc,
+            allowedCountries,
+            blockedCountries,
+            avsType,
+            accountTokens,
+            cardTokens,
+            programLevel,
+            additionalBodyProperties
+        )
 
-    @JvmSynthetic
-    internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
     @NoAutoDetect
-    class AuthRuleCreateBody internal constructor(private val allowedMcc: List<String>?,private val blockedMcc: List<String>?,private val allowedCountries: List<String>?,private val blockedCountries: List<String>?,private val avsType: AvsType?,private val accountTokens: List<String>?,private val cardTokens: List<String>?,private val programLevel: Boolean?,private val additionalProperties: Map<String, JsonValue>,) {
+    class AuthRuleCreateBody
+    internal constructor(
+        private val allowedMcc: List<String>?,
+        private val blockedMcc: List<String>?,
+        private val allowedCountries: List<String>?,
+        private val blockedCountries: List<String>?,
+        private val avsType: AvsType?,
+        private val accountTokens: List<String>?,
+        private val cardTokens: List<String>?,
+        private val programLevel: Boolean?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /** Merchant category codes for which the Auth Rule permits transactions. */
-        @JsonProperty("allowed_mcc")
-        fun allowedMcc(): List<String>? = allowedMcc
+        @JsonProperty("allowed_mcc") fun allowedMcc(): List<String>? = allowedMcc
+
+        /** Merchant category codes for which the Auth Rule automatically declines transactions. */
+        @JsonProperty("blocked_mcc") fun blockedMcc(): List<String>? = blockedMcc
 
         /**
-         * Merchant category codes for which the Auth Rule automatically declines
-         * transactions.
+         * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a list
+         * of countries in which all transactions are blocked; "allowing" those countries in an Auth
+         * Rule does not override the Lithic-wide restrictions.
          */
-        @JsonProperty("blocked_mcc")
-        fun blockedMcc(): List<String>? = blockedMcc
-
-        /**
-         * Countries in which the Auth Rule permits transactions. Note that Lithic
-         * maintains a list of countries in which all transactions are blocked; "allowing"
-         * those countries in an Auth Rule does not override the Lithic-wide restrictions.
-         */
-        @JsonProperty("allowed_countries")
-        fun allowedCountries(): List<String>? = allowedCountries
+        @JsonProperty("allowed_countries") fun allowedCountries(): List<String>? = allowedCountries
 
         /** Countries in which the Auth Rule automatically declines transactions. */
-        @JsonProperty("blocked_countries")
-        fun blockedCountries(): List<String>? = blockedCountries
+        @JsonProperty("blocked_countries") fun blockedCountries(): List<String>? = blockedCountries
 
         /**
-         * Address verification to confirm that postal code entered at point of transaction
-         * (if applicable) matches the postal code on file for a given card. Since this
-         * check is performed against the address submitted via the Enroll Consumer
-         * endpoint, it should only be used in cases where card users are enrolled with
-         * their own accounts. Available values:
+         * Address verification to confirm that postal code entered at point of transaction (if
+         * applicable) matches the postal code on file for a given card. Since this check is
+         * performed against the address submitted via the Enroll Consumer endpoint, it should only
+         * be used in cases where card users are enrolled with their own accounts. Available values:
          *
-         * - `ZIP_ONLY` - AVS check is performed to confirm ZIP code entered at point of
-         *   transaction (if applicable) matches address on file.
+         * - `ZIP_ONLY` - AVS check is performed to confirm ZIP code entered at point of transaction
+         * (if applicable) matches address on file.
          */
-        @JsonProperty("avs_type")
-        fun avsType(): AvsType? = avsType
+        @JsonProperty("avs_type") fun avsType(): AvsType? = avsType
 
         /**
-         * Array of account_token(s) identifying the accounts that the Auth Rule applies
-         * to. Note that only this field or `card_tokens` can be provided for a given Auth
-         * Rule.
+         * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
+         * that only this field or `card_tokens` can be provided for a given Auth Rule.
          */
-        @JsonProperty("account_tokens")
-        fun accountTokens(): List<String>? = accountTokens
+        @JsonProperty("account_tokens") fun accountTokens(): List<String>? = accountTokens
 
         /**
-         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note
-         * that only this field or `account_tokens` can be provided for a given Auth Rule.
+         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
+         * only this field or `account_tokens` can be provided for a given Auth Rule.
          */
-        @JsonProperty("card_tokens")
-        fun cardTokens(): List<String>? = cardTokens
+        @JsonProperty("card_tokens") fun cardTokens(): List<String>? = cardTokens
 
         /** Boolean indicating whether the Auth Rule is applied at the program level. */
-        @JsonProperty("program_level")
-        fun programLevel(): Boolean? = programLevel
+        @JsonProperty("program_level") fun programLevel(): Boolean? = programLevel
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -132,45 +130,46 @@ class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,pri
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is AuthRuleCreateBody &&
-              allowedMcc == other.allowedMcc &&
-              blockedMcc == other.blockedMcc &&
-              allowedCountries == other.allowedCountries &&
-              blockedCountries == other.blockedCountries &&
-              avsType == other.avsType &&
-              accountTokens == other.accountTokens &&
-              cardTokens == other.cardTokens &&
-              programLevel == other.programLevel &&
-              additionalProperties == other.additionalProperties
+            return other is AuthRuleCreateBody &&
+                allowedMcc == other.allowedMcc &&
+                blockedMcc == other.blockedMcc &&
+                allowedCountries == other.allowedCountries &&
+                blockedCountries == other.blockedCountries &&
+                avsType == other.avsType &&
+                accountTokens == other.accountTokens &&
+                cardTokens == other.cardTokens &&
+                programLevel == other.programLevel &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                allowedMcc,
-                blockedMcc,
-                allowedCountries,
-                blockedCountries,
-                avsType,
-                accountTokens,
-                cardTokens,
-                programLevel,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        allowedMcc,
+                        blockedMcc,
+                        allowedCountries,
+                        blockedCountries,
+                        avsType,
+                        accountTokens,
+                        cardTokens,
+                        programLevel,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "AuthRuleCreateBody{allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, avsType=$avsType, accountTokens=$accountTokens, cardTokens=$cardTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "AuthRuleCreateBody{allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, avsType=$avsType, accountTokens=$accountTokens, cardTokens=$cardTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -200,23 +199,18 @@ class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,pri
 
             /** Merchant category codes for which the Auth Rule permits transactions. */
             @JsonProperty("allowed_mcc")
-            fun allowedMcc(allowedMcc: List<String>) = apply {
-                this.allowedMcc = allowedMcc
-            }
+            fun allowedMcc(allowedMcc: List<String>) = apply { this.allowedMcc = allowedMcc }
 
             /**
-             * Merchant category codes for which the Auth Rule automatically declines
-             * transactions.
+             * Merchant category codes for which the Auth Rule automatically declines transactions.
              */
             @JsonProperty("blocked_mcc")
-            fun blockedMcc(blockedMcc: List<String>) = apply {
-                this.blockedMcc = blockedMcc
-            }
+            fun blockedMcc(blockedMcc: List<String>) = apply { this.blockedMcc = blockedMcc }
 
             /**
-             * Countries in which the Auth Rule permits transactions. Note that Lithic
-             * maintains a list of countries in which all transactions are blocked; "allowing"
-             * those countries in an Auth Rule does not override the Lithic-wide restrictions.
+             * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a
+             * list of countries in which all transactions are blocked; "allowing" those countries
+             * in an Auth Rule does not override the Lithic-wide restrictions.
              */
             @JsonProperty("allowed_countries")
             fun allowedCountries(allowedCountries: List<String>) = apply {
@@ -230,24 +224,21 @@ class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,pri
             }
 
             /**
-             * Address verification to confirm that postal code entered at point of transaction
-             * (if applicable) matches the postal code on file for a given card. Since this
-             * check is performed against the address submitted via the Enroll Consumer
-             * endpoint, it should only be used in cases where card users are enrolled with
-             * their own accounts. Available values:
+             * Address verification to confirm that postal code entered at point of transaction (if
+             * applicable) matches the postal code on file for a given card. Since this check is
+             * performed against the address submitted via the Enroll Consumer endpoint, it should
+             * only be used in cases where card users are enrolled with their own accounts.
+             * Available values:
              *
              * - `ZIP_ONLY` - AVS check is performed to confirm ZIP code entered at point of
-             *   transaction (if applicable) matches address on file.
+             * transaction (if applicable) matches address on file.
              */
             @JsonProperty("avs_type")
-            fun avsType(avsType: AvsType) = apply {
-                this.avsType = avsType
-            }
+            fun avsType(avsType: AvsType) = apply { this.avsType = avsType }
 
             /**
-             * Array of account_token(s) identifying the accounts that the Auth Rule applies
-             * to. Note that only this field or `card_tokens` can be provided for a given Auth
-             * Rule.
+             * Array of account_token(s) identifying the accounts that the Auth Rule applies to.
+             * Note that only this field or `card_tokens` can be provided for a given Auth Rule.
              */
             @JsonProperty("account_tokens")
             fun accountTokens(accountTokens: List<String>) = apply {
@@ -255,19 +246,15 @@ class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,pri
             }
 
             /**
-             * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note
-             * that only this field or `account_tokens` can be provided for a given Auth Rule.
+             * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
+             * only this field or `account_tokens` can be provided for a given Auth Rule.
              */
             @JsonProperty("card_tokens")
-            fun cardTokens(cardTokens: List<String>) = apply {
-                this.cardTokens = cardTokens
-            }
+            fun cardTokens(cardTokens: List<String>) = apply { this.cardTokens = cardTokens }
 
             /** Boolean indicating whether the Auth Rule is applied at the program level. */
             @JsonProperty("program_level")
-            fun programLevel(programLevel: Boolean) = apply {
-                this.programLevel = programLevel
-            }
+            fun programLevel(programLevel: Boolean) = apply { this.programLevel = programLevel }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -283,17 +270,18 @@ class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,pri
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): AuthRuleCreateBody = AuthRuleCreateBody(
-                allowedMcc?.toUnmodifiable(),
-                blockedMcc?.toUnmodifiable(),
-                allowedCountries?.toUnmodifiable(),
-                blockedCountries?.toUnmodifiable(),
-                avsType,
-                accountTokens?.toUnmodifiable(),
-                cardTokens?.toUnmodifiable(),
-                programLevel,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): AuthRuleCreateBody =
+                AuthRuleCreateBody(
+                    allowedMcc?.toUnmodifiable(),
+                    blockedMcc?.toUnmodifiable(),
+                    allowedCountries?.toUnmodifiable(),
+                    blockedCountries?.toUnmodifiable(),
+                    avsType,
+                    accountTokens?.toUnmodifiable(),
+                    cardTokens?.toUnmodifiable(),
+                    programLevel,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -304,48 +292,48 @@ class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,pri
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is AuthRuleCreateParams &&
-          allowedMcc == other.allowedMcc &&
-          blockedMcc == other.blockedMcc &&
-          allowedCountries == other.allowedCountries &&
-          blockedCountries == other.blockedCountries &&
-          avsType == other.avsType &&
-          accountTokens == other.accountTokens &&
-          cardTokens == other.cardTokens &&
-          programLevel == other.programLevel &&
-          additionalQueryParams == other.additionalQueryParams &&
-          additionalHeaders == other.additionalHeaders &&
-          additionalBodyProperties == other.additionalBodyProperties
+        return other is AuthRuleCreateParams &&
+            allowedMcc == other.allowedMcc &&
+            blockedMcc == other.blockedMcc &&
+            allowedCountries == other.allowedCountries &&
+            blockedCountries == other.blockedCountries &&
+            avsType == other.avsType &&
+            accountTokens == other.accountTokens &&
+            cardTokens == other.cardTokens &&
+            programLevel == other.programLevel &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          allowedMcc,
-          blockedMcc,
-          allowedCountries,
-          blockedCountries,
-          avsType,
-          accountTokens,
-          cardTokens,
-          programLevel,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            allowedMcc,
+            blockedMcc,
+            allowedCountries,
+            blockedCountries,
+            avsType,
+            accountTokens,
+            cardTokens,
+            programLevel,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "AuthRuleCreateParams{allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, avsType=$avsType, accountTokens=$accountTokens, cardTokens=$cardTokens, programLevel=$programLevel, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "AuthRuleCreateParams{allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, avsType=$avsType, accountTokens=$accountTokens, cardTokens=$cardTokens, programLevel=$programLevel, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -381,44 +369,45 @@ class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,pri
         /** Merchant category codes for which the Auth Rule permits transactions. */
         fun allowedMcc(allowedMcc: List<String>) = apply { this.allowedMcc = allowedMcc }
 
-        /**
-         * Merchant category codes for which the Auth Rule automatically declines
-         * transactions.
-         */
+        /** Merchant category codes for which the Auth Rule automatically declines transactions. */
         fun blockedMcc(blockedMcc: List<String>) = apply { this.blockedMcc = blockedMcc }
 
         /**
-         * Countries in which the Auth Rule permits transactions. Note that Lithic
-         * maintains a list of countries in which all transactions are blocked; "allowing"
-         * those countries in an Auth Rule does not override the Lithic-wide restrictions.
+         * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a list
+         * of countries in which all transactions are blocked; "allowing" those countries in an Auth
+         * Rule does not override the Lithic-wide restrictions.
          */
-        fun allowedCountries(allowedCountries: List<String>) = apply { this.allowedCountries = allowedCountries }
+        fun allowedCountries(allowedCountries: List<String>) = apply {
+            this.allowedCountries = allowedCountries
+        }
 
         /** Countries in which the Auth Rule automatically declines transactions. */
-        fun blockedCountries(blockedCountries: List<String>) = apply { this.blockedCountries = blockedCountries }
+        fun blockedCountries(blockedCountries: List<String>) = apply {
+            this.blockedCountries = blockedCountries
+        }
 
         /**
-         * Address verification to confirm that postal code entered at point of transaction
-         * (if applicable) matches the postal code on file for a given card. Since this
-         * check is performed against the address submitted via the Enroll Consumer
-         * endpoint, it should only be used in cases where card users are enrolled with
-         * their own accounts. Available values:
+         * Address verification to confirm that postal code entered at point of transaction (if
+         * applicable) matches the postal code on file for a given card. Since this check is
+         * performed against the address submitted via the Enroll Consumer endpoint, it should only
+         * be used in cases where card users are enrolled with their own accounts. Available values:
          *
-         * - `ZIP_ONLY` - AVS check is performed to confirm ZIP code entered at point of
-         *   transaction (if applicable) matches address on file.
+         * - `ZIP_ONLY` - AVS check is performed to confirm ZIP code entered at point of transaction
+         * (if applicable) matches address on file.
          */
         fun avsType(avsType: AvsType) = apply { this.avsType = avsType }
 
         /**
-         * Array of account_token(s) identifying the accounts that the Auth Rule applies
-         * to. Note that only this field or `card_tokens` can be provided for a given Auth
-         * Rule.
+         * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
+         * that only this field or `card_tokens` can be provided for a given Auth Rule.
          */
-        fun accountTokens(accountTokens: List<String>) = apply { this.accountTokens = accountTokens }
+        fun accountTokens(accountTokens: List<String>) = apply {
+            this.accountTokens = accountTokens
+        }
 
         /**
-         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note
-         * that only this field or `account_tokens` can be provided for a given Auth Rule.
+         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
+         * only this field or `account_tokens` can be provided for a given Auth Rule.
          */
         fun cardTokens(cardTokens: List<String>) = apply { this.cardTokens = cardTokens }
 
@@ -430,18 +419,23 @@ class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,pri
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
+        fun putAdditionalQueryParams(key: String, value: String) = apply {
+            this.additionalQueryParams.put(key, value)
         }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
+        fun putAdditionalHeaders(key: String, value: String) = apply {
+            this.additionalHeaders.put(key, value)
+        }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
@@ -452,39 +446,45 @@ class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,pri
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply { this.additionalBodyProperties.put(key, value) }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
+            this.additionalBodyProperties.put(key, value)
         }
 
-        fun build(): AuthRuleCreateParams = AuthRuleCreateParams(
-            allowedMcc?.toUnmodifiable(),
-            blockedMcc?.toUnmodifiable(),
-            allowedCountries?.toUnmodifiable(),
-            blockedCountries?.toUnmodifiable(),
-            avsType,
-            accountTokens?.toUnmodifiable(),
-            cardTokens?.toUnmodifiable(),
-            programLevel,
-            additionalQueryParams.toUnmodifiable(),
-            additionalHeaders.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
+
+        fun build(): AuthRuleCreateParams =
+            AuthRuleCreateParams(
+                allowedMcc?.toUnmodifiable(),
+                blockedMcc?.toUnmodifiable(),
+                allowedCountries?.toUnmodifiable(),
+                blockedCountries?.toUnmodifiable(),
+                avsType,
+                accountTokens?.toUnmodifiable(),
+                cardTokens?.toUnmodifiable(),
+                programLevel,
+                additionalQueryParams.toUnmodifiable(),
+                additionalHeaders.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 
-    class AvsType @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class AvsType
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is AvsType &&
-              value == other.value
+            return other is AvsType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -507,15 +507,18 @@ class AuthRuleCreateParams constructor(private val allowedMcc: List<String>?,pri
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            ZIP_ONLY -> Value.ZIP_ONLY
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                ZIP_ONLY -> Value.ZIP_ONLY
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            ZIP_ONLY -> Known.ZIP_ONLY
-            else -> throw LithicInvalidDataException("Unknown AuthRuleCreateBody.AvsType: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                ZIP_ONLY -> Known.ZIP_ONLY
+                else ->
+                    throw LithicInvalidDataException("Unknown AuthRuleCreateBody.AvsType: $value")
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }

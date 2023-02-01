@@ -3,32 +3,29 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import com.google.common.collect.Multimaps
-import java.util.Objects
-import java.util.Optional
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
+import java.util.Objects
+import java.util.Optional
 
-class CardReissueParams constructor(private val cardToken: String,private val shippingAddress: ShippingAddress?,private val shippingMethod: ShippingMethod?,private val productId: String?,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class CardReissueParams
+constructor(
+    private val cardToken: String,
+    private val shippingAddress: ShippingAddress?,
+    private val shippingMethod: ShippingMethod?,
+    private val productId: String?,
+    private val additionalQueryParams: ListMultimap<String, String>,
+    private val additionalHeaders: ListMultimap<String, String>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun cardToken(): String = cardToken
 
@@ -39,56 +36,51 @@ class CardReissueParams constructor(private val cardToken: String,private val sh
     fun productId(): Optional<String> = Optional.ofNullable(productId)
 
     @JvmSynthetic
-    internal fun toBody(): CardReissueBody = CardReissueBody(
-        shippingAddress,
-        shippingMethod,
-        productId,
-        additionalBodyProperties
-    )
+    internal fun toBody(): CardReissueBody =
+        CardReissueBody(shippingAddress, shippingMethod, productId, additionalBodyProperties)
 
-    @JvmSynthetic
-    internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-      return when (index) {
-          0 -> cardToken
-          else -> ""
-      }
+        return when (index) {
+            0 -> cardToken
+            else -> ""
+        }
     }
 
     @NoAutoDetect
-    class CardReissueBody internal constructor(private val shippingAddress: ShippingAddress?,private val shippingMethod: ShippingMethod?,private val productId: String?,private val additionalProperties: Map<String, JsonValue>,) {
+    class CardReissueBody
+    internal constructor(
+        private val shippingAddress: ShippingAddress?,
+        private val shippingMethod: ShippingMethod?,
+        private val productId: String?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /** If omitted, the previous shipping address will be used. */
-        @JsonProperty("shipping_address")
-        fun shippingAddress(): ShippingAddress? = shippingAddress
+        @JsonProperty("shipping_address") fun shippingAddress(): ShippingAddress? = shippingAddress
 
         /**
-         * Shipping method for the card. Use of options besides `STANDARD` require
-         * additional permissions.
+         * Shipping method for the card. Use of options besides `STANDARD` require additional
+         * permissions.
          *
-         * - `STANDARD` - USPS regular mail or similar international option, with no
-         *   tracking
-         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option,
-         *   with tracking
-         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
-         *   tracking
+         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+         * tracking
+         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
          */
-        @JsonProperty("shipping_method")
-        fun shippingMethod(): ShippingMethod? = shippingMethod
+        @JsonProperty("shipping_method") fun shippingMethod(): ShippingMethod? = shippingMethod
 
         /**
-         * Specifies the configuration (e.g. physical card art) that the card should be
-         * manufactured with, and only applies to cards of type `PHYSICAL` [beta]. This
-         * must be configured with Lithic before use.
+         * Specifies the configuration (e.g. physical card art) that the card should be manufactured
+         * with, and only applies to cards of type `PHYSICAL` [beta]. This must be configured with
+         * Lithic before use.
          */
-        @JsonProperty("product_id")
-        fun productId(): String? = productId
+        @JsonProperty("product_id") fun productId(): String? = productId
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -97,35 +89,36 @@ class CardReissueParams constructor(private val cardToken: String,private val sh
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is CardReissueBody &&
-              shippingAddress == other.shippingAddress &&
-              shippingMethod == other.shippingMethod &&
-              productId == other.productId &&
-              additionalProperties == other.additionalProperties
+            return other is CardReissueBody &&
+                shippingAddress == other.shippingAddress &&
+                shippingMethod == other.shippingMethod &&
+                productId == other.productId &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                shippingAddress,
-                shippingMethod,
-                productId,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        shippingAddress,
+                        shippingMethod,
+                        productId,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "CardReissueBody{shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, productId=$productId, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "CardReissueBody{shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, productId=$productId, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -150,15 +143,14 @@ class CardReissueParams constructor(private val cardToken: String,private val sh
             }
 
             /**
-             * Shipping method for the card. Use of options besides `STANDARD` require
-             * additional permissions.
+             * Shipping method for the card. Use of options besides `STANDARD` require additional
+             * permissions.
              *
-             * - `STANDARD` - USPS regular mail or similar international option, with no
-             *   tracking
-             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option,
-             *   with tracking
+             * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+             * tracking
              * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
-             *   tracking
+             * tracking
              */
             @JsonProperty("shipping_method")
             fun shippingMethod(shippingMethod: ShippingMethod) = apply {
@@ -167,13 +159,11 @@ class CardReissueParams constructor(private val cardToken: String,private val sh
 
             /**
              * Specifies the configuration (e.g. physical card art) that the card should be
-             * manufactured with, and only applies to cards of type `PHYSICAL` [beta]. This
-             * must be configured with Lithic before use.
+             * manufactured with, and only applies to cards of type `PHYSICAL` [beta]. This must be
+             * configured with Lithic before use.
              */
             @JsonProperty("product_id")
-            fun productId(productId: String) = apply {
-                this.productId = productId
-            }
+            fun productId(productId: String) = apply { this.productId = productId }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -189,12 +179,13 @@ class CardReissueParams constructor(private val cardToken: String,private val sh
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): CardReissueBody = CardReissueBody(
-                shippingAddress,
-                shippingMethod,
-                productId,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): CardReissueBody =
+                CardReissueBody(
+                    shippingAddress,
+                    shippingMethod,
+                    productId,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -205,40 +196,40 @@ class CardReissueParams constructor(private val cardToken: String,private val sh
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is CardReissueParams &&
-          cardToken == other.cardToken &&
-          shippingAddress == other.shippingAddress &&
-          shippingMethod == other.shippingMethod &&
-          productId == other.productId &&
-          additionalQueryParams == other.additionalQueryParams &&
-          additionalHeaders == other.additionalHeaders &&
-          additionalBodyProperties == other.additionalBodyProperties
+        return other is CardReissueParams &&
+            cardToken == other.cardToken &&
+            shippingAddress == other.shippingAddress &&
+            shippingMethod == other.shippingMethod &&
+            productId == other.productId &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          cardToken,
-          shippingAddress,
-          shippingMethod,
-          productId,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            cardToken,
+            shippingAddress,
+            shippingMethod,
+            productId,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "CardReissueParams{cardToken=$cardToken, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, productId=$productId, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "CardReissueParams{cardToken=$cardToken, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, productId=$productId, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -266,25 +257,27 @@ class CardReissueParams constructor(private val cardToken: String,private val sh
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
 
         /** If omitted, the previous shipping address will be used. */
-        fun shippingAddress(shippingAddress: ShippingAddress) = apply { this.shippingAddress = shippingAddress }
+        fun shippingAddress(shippingAddress: ShippingAddress) = apply {
+            this.shippingAddress = shippingAddress
+        }
 
         /**
-         * Shipping method for the card. Use of options besides `STANDARD` require
-         * additional permissions.
+         * Shipping method for the card. Use of options besides `STANDARD` require additional
+         * permissions.
          *
-         * - `STANDARD` - USPS regular mail or similar international option, with no
-         *   tracking
-         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option,
-         *   with tracking
-         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
-         *   tracking
+         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+         * tracking
+         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
          */
-        fun shippingMethod(shippingMethod: ShippingMethod) = apply { this.shippingMethod = shippingMethod }
+        fun shippingMethod(shippingMethod: ShippingMethod) = apply {
+            this.shippingMethod = shippingMethod
+        }
 
         /**
-         * Specifies the configuration (e.g. physical card art) that the card should be
-         * manufactured with, and only applies to cards of type `PHYSICAL` [beta]. This
-         * must be configured with Lithic before use.
+         * Specifies the configuration (e.g. physical card art) that the card should be manufactured
+         * with, and only applies to cards of type `PHYSICAL` [beta]. This must be configured with
+         * Lithic before use.
          */
         fun productId(productId: String) = apply { this.productId = productId }
 
@@ -293,18 +286,23 @@ class CardReissueParams constructor(private val cardToken: String,private val sh
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
+        fun putAdditionalQueryParams(key: String, value: String) = apply {
+            this.additionalQueryParams.put(key, value)
         }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
+        fun putAdditionalHeaders(key: String, value: String) = apply {
+            this.additionalHeaders.put(key, value)
+        }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
@@ -315,35 +313,41 @@ class CardReissueParams constructor(private val cardToken: String,private val sh
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply { this.additionalBodyProperties.put(key, value) }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
+            this.additionalBodyProperties.put(key, value)
         }
 
-        fun build(): CardReissueParams = CardReissueParams(
-            checkNotNull(cardToken) { "Property `cardToken` is required but was not set" },
-            shippingAddress,
-            shippingMethod,
-            productId,
-            additionalQueryParams.toUnmodifiable(),
-            additionalHeaders.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
+
+        fun build(): CardReissueParams =
+            CardReissueParams(
+                checkNotNull(cardToken) { "Property `cardToken` is required but was not set" },
+                shippingAddress,
+                shippingMethod,
+                productId,
+                additionalQueryParams.toUnmodifiable(),
+                additionalHeaders.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 
-    class ShippingMethod @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class ShippingMethod
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is ShippingMethod &&
-              value == other.value
+            return other is ShippingMethod && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -354,7 +358,8 @@ class CardReissueParams constructor(private val cardToken: String,private val sh
 
             @JvmField val STANDARD = ShippingMethod(JsonField.of("STANDARD"))
 
-            @JvmField val STANDARD_WITH_TRACKING = ShippingMethod(JsonField.of("STANDARD_WITH_TRACKING"))
+            @JvmField
+            val STANDARD_WITH_TRACKING = ShippingMethod(JsonField.of("STANDARD_WITH_TRACKING"))
 
             @JvmField val EXPEDITED = ShippingMethod(JsonField.of("EXPEDITED"))
 
@@ -374,19 +379,24 @@ class CardReissueParams constructor(private val cardToken: String,private val sh
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            STANDARD -> Value.STANDARD
-            STANDARD_WITH_TRACKING -> Value.STANDARD_WITH_TRACKING
-            EXPEDITED -> Value.EXPEDITED
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                STANDARD -> Value.STANDARD
+                STANDARD_WITH_TRACKING -> Value.STANDARD_WITH_TRACKING
+                EXPEDITED -> Value.EXPEDITED
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            STANDARD -> Known.STANDARD
-            STANDARD_WITH_TRACKING -> Known.STANDARD_WITH_TRACKING
-            EXPEDITED -> Known.EXPEDITED
-            else -> throw LithicInvalidDataException("Unknown CardReissueBody.ShippingMethod: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                STANDARD -> Known.STANDARD
+                STANDARD_WITH_TRACKING -> Known.STANDARD_WITH_TRACKING
+                EXPEDITED -> Known.EXPEDITED
+                else ->
+                    throw LithicInvalidDataException(
+                        "Unknown CardReissueBody.ShippingMethod: $value"
+                    )
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }

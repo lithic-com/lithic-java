@@ -4,23 +4,24 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import java.util.Objects
-import java.util.Optional
-import java.util.Spliterator
-import java.util.Spliterators
-import java.util.concurrent.CompletableFuture
-import java.util.stream.Stream
-import java.util.stream.StreamSupport
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.models.Transaction
 import com.lithic.api.services.blocking.TransactionService
+import java.util.Objects
+import java.util.Optional
+import java.util.stream.Stream
+import java.util.stream.StreamSupport
 
-class TransactionListPage private constructor(private val transactionsService: TransactionService,private val params: TransactionListParams,private val response: Response,) {
+class TransactionListPage
+private constructor(
+    private val transactionsService: TransactionService,
+    private val params: TransactionListParams,
+    private val response: Response,
+) {
 
     fun response(): Response = response
 
@@ -33,38 +34,44 @@ class TransactionListPage private constructor(private val transactionsService: T
     fun totalPages(): Long = response().totalPages()
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is TransactionListPage &&
-          transactionsService == other.transactionsService &&
-          params == other.params &&
-          response == other.response
+        return other is TransactionListPage &&
+            transactionsService == other.transactionsService &&
+            params == other.params &&
+            response == other.response
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          transactionsService,
-          params,
-          response,
-      )
+        return Objects.hash(
+            transactionsService,
+            params,
+            response,
+        )
     }
 
-    override fun toString() = "TransactionListPage{transactionsService=$transactionsService, params=$params, response=$response}"
+    override fun toString() =
+        "TransactionListPage{transactionsService=$transactionsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean = this.data().isNotEmpty() && this.page() < this.totalPages()
 
     fun getNextPageParams(): Optional<TransactionListParams> {
-      return if (hasNextPage()) {
-        Optional.of(TransactionListParams.builder().from(params).page(params.page().orElse(0) + 1).build())
-      } else {
-        Optional.empty()
-      }
+        return if (hasNextPage()) {
+            Optional.of(
+                TransactionListParams.builder()
+                    .from(params)
+                    .page(params.page().orElse(0) + 1)
+                    .build()
+            )
+        } else {
+            Optional.empty()
+        }
     }
 
     fun getNextPage(): Optional<TransactionListPage> {
-      return getNextPageParams().map { transactionsService.list(it) }
+        return getNextPageParams().map { transactionsService.list(it) }
     }
 
     fun autoPager(): AutoPager = AutoPager(this)
@@ -72,16 +79,28 @@ class TransactionListPage private constructor(private val transactionsService: T
     companion object {
 
         @JvmStatic
-        fun of(transactionsService: TransactionService, params: TransactionListParams, response: Response) = TransactionListPage(
-            transactionsService,
-            params,
-            response,
-        )
+        fun of(
+            transactionsService: TransactionService,
+            params: TransactionListParams,
+            response: Response
+        ) =
+            TransactionListPage(
+                transactionsService,
+                params,
+                response,
+            )
     }
 
     @JsonDeserialize(builder = Response.Builder::class)
     @NoAutoDetect
-    class Response constructor(private val data: JsonField<List<Transaction>>,private val page: JsonField<Long>,private val totalEntries: JsonField<Long>,private val totalPages: JsonField<Long>,private val additionalProperties: Map<String, JsonValue>,) {
+    class Response
+    constructor(
+        private val data: JsonField<List<Transaction>>,
+        private val page: JsonField<Long>,
+        private val totalEntries: JsonField<Long>,
+        private val totalPages: JsonField<Long>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
@@ -96,8 +115,7 @@ class TransactionListPage private constructor(private val transactionsService: T
         @JsonProperty("data")
         fun _data(): Optional<JsonField<List<Transaction>>> = Optional.ofNullable(data)
 
-        @JsonProperty("page")
-        fun _page(): Optional<JsonField<Long>> = Optional.ofNullable(page)
+        @JsonProperty("page") fun _page(): Optional<JsonField<Long>> = Optional.ofNullable(page)
 
         @JsonProperty("total_entries")
         fun _totalEntries(): Optional<JsonField<Long>> = Optional.ofNullable(totalEntries)
@@ -111,45 +129,45 @@ class TransactionListPage private constructor(private val transactionsService: T
 
         fun validate() = apply {
             if (!validated) {
-              data().forEach { it.validate() }
-              page()
-              totalEntries()
-              totalPages()
-              validated = true
+                data().forEach { it.validate() }
+                page()
+                totalEntries()
+                totalPages()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Response &&
-              data == other.data &&
-              page == other.page &&
-              totalEntries == other.totalEntries &&
-              totalPages == other.totalPages &&
-              additionalProperties == other.additionalProperties
+            return other is Response &&
+                data == other.data &&
+                page == other.page &&
+                totalEntries == other.totalEntries &&
+                totalPages == other.totalPages &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          return Objects.hash(
-              data,
-              page,
-              totalEntries,
-              totalPages,
-              additionalProperties,
-          )
+            return Objects.hash(
+                data,
+                page,
+                totalEntries,
+                totalPages,
+                additionalProperties,
+            )
         }
 
-        override fun toString() = "TransactionListPage.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "TransactionListPage.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -176,13 +194,14 @@ class TransactionListPage private constructor(private val transactionsService: T
 
             fun page(page: Long) = page(JsonField.of(page))
 
-            @JsonProperty("page")
-            fun page(page: JsonField<Long>) = apply { this.page = page }
+            @JsonProperty("page") fun page(page: JsonField<Long>) = apply { this.page = page }
 
             fun totalEntries(totalEntries: Long) = totalEntries(JsonField.of(totalEntries))
 
             @JsonProperty("total_entries")
-            fun totalEntries(totalEntries: JsonField<Long>) = apply { this.totalEntries = totalEntries }
+            fun totalEntries(totalEntries: JsonField<Long>) = apply {
+                this.totalEntries = totalEntries
+            }
 
             fun totalPages(totalPages: Long) = totalPages(JsonField.of(totalPages))
 
@@ -194,33 +213,38 @@ class TransactionListPage private constructor(private val transactionsService: T
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() = Response(
-                data,
-                page,
-                totalEntries,
-                totalPages,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build() =
+                Response(
+                    data,
+                    page,
+                    totalEntries,
+                    totalPages,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
-    class AutoPager constructor(private val firstPage: TransactionListPage,) : Iterable<Transaction> {
+    class AutoPager
+    constructor(
+        private val firstPage: TransactionListPage,
+    ) : Iterable<Transaction> {
 
-        override fun iterator(): Iterator<Transaction> = sequence {
-            var page = firstPage
-            var index = 0
-            while (true) {
-              while (index >= page.data().size) {
-                page = page.getNextPage().orElse(null) ?: return@sequence
-                index = 0
-              }
-              yield(page.data()[index++])
-            }
-        }
-        .iterator()
+        override fun iterator(): Iterator<Transaction> =
+            sequence {
+                    var page = firstPage
+                    var index = 0
+                    while (true) {
+                        while (index >= page.data().size) {
+                            page = page.getNextPage().orElse(null) ?: return@sequence
+                            index = 0
+                        }
+                        yield(page.data()[index++])
+                    }
+                }
+                .iterator()
 
         fun stream(): Stream<Transaction> {
-          return StreamSupport.stream(spliterator(), false)
+            return StreamSupport.stream(spliterator(), false)
         }
     }
 }

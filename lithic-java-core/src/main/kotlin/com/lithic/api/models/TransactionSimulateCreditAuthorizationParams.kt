@@ -2,33 +2,25 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import com.google.common.collect.Multimaps
-import java.util.Objects
-import java.util.Optional
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
+import java.util.Objects
 
-class TransactionSimulateCreditAuthorizationParams constructor(private val amount: Long,private val descriptor: String,private val pan: String,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class TransactionSimulateCreditAuthorizationParams
+constructor(
+    private val amount: Long,
+    private val descriptor: String,
+    private val pan: String,
+    private val additionalQueryParams: ListMultimap<String, String>,
+    private val additionalHeaders: ListMultimap<String, String>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun amount(): Long = amount
 
@@ -37,39 +29,41 @@ class TransactionSimulateCreditAuthorizationParams constructor(private val amoun
     fun pan(): String = pan
 
     @JvmSynthetic
-    internal fun toBody(): TransactionSimulateCreditAuthorizationBody = TransactionSimulateCreditAuthorizationBody(
-        amount,
-        descriptor,
-        pan,
-        additionalBodyProperties
-    )
+    internal fun toBody(): TransactionSimulateCreditAuthorizationBody =
+        TransactionSimulateCreditAuthorizationBody(
+            amount,
+            descriptor,
+            pan,
+            additionalBodyProperties
+        )
 
-    @JvmSynthetic
-    internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
     @NoAutoDetect
-    class TransactionSimulateCreditAuthorizationBody internal constructor(private val amount: Long?,private val descriptor: String?,private val pan: String?,private val additionalProperties: Map<String, JsonValue>,) {
+    class TransactionSimulateCreditAuthorizationBody
+    internal constructor(
+        private val amount: Long?,
+        private val descriptor: String?,
+        private val pan: String?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /**
-         * Amount (in cents). Any value entered will be converted into a negative amount in
-         * the simulated transaction. For example, entering 100 in this field will appear
-         * as a -100 amount in the transaction.
+         * Amount (in cents). Any value entered will be converted into a negative amount in the
+         * simulated transaction. For example, entering 100 in this field will appear as a -100
+         * amount in the transaction.
          */
-        @JsonProperty("amount")
-        fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Long? = amount
 
         /** Merchant descriptor. */
-        @JsonProperty("descriptor")
-        fun descriptor(): String? = descriptor
+        @JsonProperty("descriptor") fun descriptor(): String? = descriptor
 
         /** Sixteen digit card number. */
-        @JsonProperty("pan")
-        fun pan(): String? = pan
+        @JsonProperty("pan") fun pan(): String? = pan
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -78,35 +72,36 @@ class TransactionSimulateCreditAuthorizationParams constructor(private val amoun
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is TransactionSimulateCreditAuthorizationBody &&
-              amount == other.amount &&
-              descriptor == other.descriptor &&
-              pan == other.pan &&
-              additionalProperties == other.additionalProperties
+            return other is TransactionSimulateCreditAuthorizationBody &&
+                amount == other.amount &&
+                descriptor == other.descriptor &&
+                pan == other.pan &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                amount,
-                descriptor,
-                pan,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        descriptor,
+                        pan,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "TransactionSimulateCreditAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "TransactionSimulateCreditAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -117,34 +112,31 @@ class TransactionSimulateCreditAuthorizationParams constructor(private val amoun
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(transactionSimulateCreditAuthorizationBody: TransactionSimulateCreditAuthorizationBody) = apply {
+            internal fun from(
+                transactionSimulateCreditAuthorizationBody:
+                    TransactionSimulateCreditAuthorizationBody
+            ) = apply {
                 this.amount = transactionSimulateCreditAuthorizationBody.amount
                 this.descriptor = transactionSimulateCreditAuthorizationBody.descriptor
                 this.pan = transactionSimulateCreditAuthorizationBody.pan
-                additionalProperties(transactionSimulateCreditAuthorizationBody.additionalProperties)
+                additionalProperties(
+                    transactionSimulateCreditAuthorizationBody.additionalProperties
+                )
             }
 
             /**
-             * Amount (in cents). Any value entered will be converted into a negative amount in
-             * the simulated transaction. For example, entering 100 in this field will appear
-             * as a -100 amount in the transaction.
+             * Amount (in cents). Any value entered will be converted into a negative amount in the
+             * simulated transaction. For example, entering 100 in this field will appear as a -100
+             * amount in the transaction.
              */
-            @JsonProperty("amount")
-            fun amount(amount: Long) = apply {
-                this.amount = amount
-            }
+            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
 
             /** Merchant descriptor. */
             @JsonProperty("descriptor")
-            fun descriptor(descriptor: String) = apply {
-                this.descriptor = descriptor
-            }
+            fun descriptor(descriptor: String) = apply { this.descriptor = descriptor }
 
             /** Sixteen digit card number. */
-            @JsonProperty("pan")
-            fun pan(pan: String) = apply {
-                this.pan = pan
-            }
+            @JsonProperty("pan") fun pan(pan: String) = apply { this.pan = pan }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -160,12 +152,15 @@ class TransactionSimulateCreditAuthorizationParams constructor(private val amoun
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): TransactionSimulateCreditAuthorizationBody = TransactionSimulateCreditAuthorizationBody(
-                checkNotNull(amount) { "Property `amount` is required but was not set" },
-                checkNotNull(descriptor) { "Property `descriptor` is required but was not set" },
-                checkNotNull(pan) { "Property `pan` is required but was not set" },
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): TransactionSimulateCreditAuthorizationBody =
+                TransactionSimulateCreditAuthorizationBody(
+                    checkNotNull(amount) { "Property `amount` is required but was not set" },
+                    checkNotNull(descriptor) {
+                        "Property `descriptor` is required but was not set"
+                    },
+                    checkNotNull(pan) { "Property `pan` is required but was not set" },
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -176,38 +171,38 @@ class TransactionSimulateCreditAuthorizationParams constructor(private val amoun
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is TransactionSimulateCreditAuthorizationParams &&
-          amount == other.amount &&
-          descriptor == other.descriptor &&
-          pan == other.pan &&
-          additionalQueryParams == other.additionalQueryParams &&
-          additionalHeaders == other.additionalHeaders &&
-          additionalBodyProperties == other.additionalBodyProperties
+        return other is TransactionSimulateCreditAuthorizationParams &&
+            amount == other.amount &&
+            descriptor == other.descriptor &&
+            pan == other.pan &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          amount,
-          descriptor,
-          pan,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            amount,
+            descriptor,
+            pan,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "TransactionSimulateCreditAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "TransactionSimulateCreditAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -221,19 +216,26 @@ class TransactionSimulateCreditAuthorizationParams constructor(private val amoun
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(transactionSimulateCreditAuthorizationParams: TransactionSimulateCreditAuthorizationParams) = apply {
+        internal fun from(
+            transactionSimulateCreditAuthorizationParams:
+                TransactionSimulateCreditAuthorizationParams
+        ) = apply {
             this.amount = transactionSimulateCreditAuthorizationParams.amount
             this.descriptor = transactionSimulateCreditAuthorizationParams.descriptor
             this.pan = transactionSimulateCreditAuthorizationParams.pan
-            additionalQueryParams(transactionSimulateCreditAuthorizationParams.additionalQueryParams)
+            additionalQueryParams(
+                transactionSimulateCreditAuthorizationParams.additionalQueryParams
+            )
             additionalHeaders(transactionSimulateCreditAuthorizationParams.additionalHeaders)
-            additionalBodyProperties(transactionSimulateCreditAuthorizationParams.additionalBodyProperties)
+            additionalBodyProperties(
+                transactionSimulateCreditAuthorizationParams.additionalBodyProperties
+            )
         }
 
         /**
-         * Amount (in cents). Any value entered will be converted into a negative amount in
-         * the simulated transaction. For example, entering 100 in this field will appear
-         * as a -100 amount in the transaction.
+         * Amount (in cents). Any value entered will be converted into a negative amount in the
+         * simulated transaction. For example, entering 100 in this field will appear as a -100
+         * amount in the transaction.
          */
         fun amount(amount: Long) = apply { this.amount = amount }
 
@@ -248,18 +250,23 @@ class TransactionSimulateCreditAuthorizationParams constructor(private val amoun
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
+        fun putAdditionalQueryParams(key: String, value: String) = apply {
+            this.additionalQueryParams.put(key, value)
         }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
+        fun putAdditionalHeaders(key: String, value: String) = apply {
+            this.additionalHeaders.put(key, value)
+        }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
@@ -270,19 +277,23 @@ class TransactionSimulateCreditAuthorizationParams constructor(private val amoun
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply { this.additionalBodyProperties.put(key, value) }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
+            this.additionalBodyProperties.put(key, value)
         }
 
-        fun build(): TransactionSimulateCreditAuthorizationParams = TransactionSimulateCreditAuthorizationParams(
-            checkNotNull(amount) { "Property `amount` is required but was not set" },
-            checkNotNull(descriptor) { "Property `descriptor` is required but was not set" },
-            checkNotNull(pan) { "Property `pan` is required but was not set" },
-            additionalQueryParams.toUnmodifiable(),
-            additionalHeaders.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
+
+        fun build(): TransactionSimulateCreditAuthorizationParams =
+            TransactionSimulateCreditAuthorizationParams(
+                checkNotNull(amount) { "Property `amount` is required but was not set" },
+                checkNotNull(descriptor) { "Property `descriptor` is required but was not set" },
+                checkNotNull(pan) { "Property `pan` is required but was not set" },
+                additionalQueryParams.toUnmodifiable(),
+                additionalHeaders.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 }

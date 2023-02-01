@@ -1,34 +1,30 @@
 package com.lithic.api.models
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
 import com.google.common.collect.Multimaps
-import java.util.Objects
-import java.util.Optional
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
+import java.util.Objects
+import java.util.Optional
 
-class TransactionListParams constructor(private val accountToken: String?,private val cardToken: String?,private val result: Result?,private val begin: String?,private val end: String?,private val page: Long?,private val pageSize: Long?,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,) {
+class TransactionListParams
+constructor(
+    private val accountToken: String?,
+    private val cardToken: String?,
+    private val result: Result?,
+    private val begin: String?,
+    private val end: String?,
+    private val page: Long?,
+    private val pageSize: Long?,
+    private val additionalQueryParams: ListMultimap<String, String>,
+    private val additionalHeaders: ListMultimap<String, String>,
+) {
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
@@ -45,21 +41,32 @@ class TransactionListParams constructor(private val accountToken: String?,privat
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
     @JvmSynthetic
-    internal fun toQueryParams(): ListMultimap<String, String> = TransactionListQueryParams(
-        accountToken,
-        cardToken,
-        result,
-        begin,
-        end,
-        page,
-        pageSize,
-        additionalQueryParams
-    ).toQueryParams()
+    internal fun toQueryParams(): ListMultimap<String, String> =
+        TransactionListQueryParams(
+                accountToken,
+                cardToken,
+                result,
+                begin,
+                end,
+                page,
+                pageSize,
+                additionalQueryParams
+            )
+            .toQueryParams()
 
-    @JvmSynthetic
-    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
-    class TransactionListQueryParams internal constructor(private val accountToken: String?,private val cardToken: String?,private val result: Result?,private val begin: String?,private val end: String?,private val page: Long?,private val pageSize: Long?,private val additionalProperties: ListMultimap<String, String>,) {
+    class TransactionListQueryParams
+    internal constructor(
+        private val accountToken: String?,
+        private val cardToken: String?,
+        private val result: Result?,
+        private val begin: String?,
+        private val end: String?,
+        private val page: Long?,
+        private val pageSize: Long?,
+        private val additionalProperties: ListMultimap<String, String>,
+    ) {
 
         private var hashCode: Int = 0
 
@@ -70,20 +77,20 @@ class TransactionListParams constructor(private val accountToken: String?,privat
         fun cardToken(): String? = cardToken
 
         /**
-         * Filters for transactions using transaction result field. Can filter by
-         * `APPROVED`, and `DECLINED`.
+         * Filters for transactions using transaction result field. Can filter by `APPROVED`, and
+         * `DECLINED`.
          */
         fun result(): Result? = result
 
         /**
-         * Date string in 8601 format. Only entries created after the specified date will
-         * be included. UTC time zone.
+         * Date string in 8601 format. Only entries created after the specified date will be
+         * included. UTC time zone.
          */
         fun begin(): String? = begin
 
         /**
-         * Date string in 8601 format. Only entries created before the specified date will
-         * be included. UTC time zone.
+         * Date string in 8601 format. Only entries created before the specified date will be
+         * included. UTC time zone.
          */
         fun end(): String? = end
 
@@ -96,58 +103,59 @@ class TransactionListParams constructor(private val accountToken: String?,privat
         fun _additionalProperties(): ListMultimap<String, String> = additionalProperties
 
         fun toQueryParams(): ListMultimap<String, String> {
-          val params = ArrayListMultimap.create<String, String>()
-          this.accountToken()?.let { params.put("account_token", it.toString()) }
-          this.cardToken()?.let { params.put("card_token", it.toString()) }
-          this.result()?.let { params.put("result", it.toString()) }
-          this.begin()?.let { params.put("begin", it.toString()) }
-          this.end()?.let { params.put("end", it.toString()) }
-          this.page()?.let { params.put("page", it.toString()) }
-          this.pageSize()?.let { params.put("page_size", it.toString()) }
-          params.putAll(additionalProperties)
-          return Multimaps.unmodifiableListMultimap(params)
+            val params = ArrayListMultimap.create<String, String>()
+            this.accountToken()?.let { params.put("account_token", it.toString()) }
+            this.cardToken()?.let { params.put("card_token", it.toString()) }
+            this.result()?.let { params.put("result", it.toString()) }
+            this.begin()?.let { params.put("begin", it.toString()) }
+            this.end()?.let { params.put("end", it.toString()) }
+            this.page()?.let { params.put("page", it.toString()) }
+            this.pageSize()?.let { params.put("page_size", it.toString()) }
+            params.putAll(additionalProperties)
+            return Multimaps.unmodifiableListMultimap(params)
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is TransactionListQueryParams &&
-              accountToken == other.accountToken &&
-              cardToken == other.cardToken &&
-              result == other.result &&
-              begin == other.begin &&
-              end == other.end &&
-              page == other.page &&
-              pageSize == other.pageSize &&
-              additionalProperties == other.additionalProperties
+            return other is TransactionListQueryParams &&
+                accountToken == other.accountToken &&
+                cardToken == other.cardToken &&
+                result == other.result &&
+                begin == other.begin &&
+                end == other.end &&
+                page == other.page &&
+                pageSize == other.pageSize &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                accountToken,
-                cardToken,
-                result,
-                begin,
-                end,
-                page,
-                pageSize,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        accountToken,
+                        cardToken,
+                        result,
+                        begin,
+                        end,
+                        page,
+                        pageSize,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "TransactionListQueryParams{accountToken=$accountToken, cardToken=$cardToken, result=$result, begin=$begin, end=$end, page=$page, pageSize=$pageSize, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "TransactionListQueryParams{accountToken=$accountToken, cardToken=$cardToken, result=$result, begin=$begin, end=$end, page=$page, pageSize=$pageSize, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -159,7 +167,8 @@ class TransactionListParams constructor(private val accountToken: String?,privat
             private var end: String? = null
             private var page: Long? = null
             private var pageSize: Long? = null
-            private var additionalProperties: ArrayListMultimap<String, String> = ArrayListMultimap.create()
+            private var additionalProperties: ArrayListMultimap<String, String> =
+                ArrayListMultimap.create()
 
             @JvmSynthetic
             internal fun from(transactionListQueryParams: TransactionListQueryParams) = apply {
@@ -174,48 +183,34 @@ class TransactionListParams constructor(private val accountToken: String?,privat
             }
 
             /** Filters for transactions associated with a specific account. */
-            fun accountToken(accountToken: String) = apply {
-                this.accountToken = accountToken
-            }
+            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
             /** Filters for transactions associated with a specific card. */
-            fun cardToken(cardToken: String) = apply {
-                this.cardToken = cardToken
-            }
+            fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
 
             /**
-             * Filters for transactions using transaction result field. Can filter by
-             * `APPROVED`, and `DECLINED`.
+             * Filters for transactions using transaction result field. Can filter by `APPROVED`,
+             * and `DECLINED`.
              */
-            fun result(result: Result) = apply {
-                this.result = result
-            }
+            fun result(result: Result) = apply { this.result = result }
 
             /**
-             * Date string in 8601 format. Only entries created after the specified date will
-             * be included. UTC time zone.
+             * Date string in 8601 format. Only entries created after the specified date will be
+             * included. UTC time zone.
              */
-            fun begin(begin: String) = apply {
-                this.begin = begin
-            }
+            fun begin(begin: String) = apply { this.begin = begin }
 
             /**
-             * Date string in 8601 format. Only entries created before the specified date will
-             * be included. UTC time zone.
+             * Date string in 8601 format. Only entries created before the specified date will be
+             * included. UTC time zone.
              */
-            fun end(end: String) = apply {
-                this.end = end
-            }
+            fun end(end: String) = apply { this.end = end }
 
             /** Page (for pagination). */
-            fun page(page: Long) = apply {
-                this.page = page
-            }
+            fun page(page: Long) = apply { this.page = page }
 
             /** Page size (for pagination). */
-            fun pageSize(pageSize: Long) = apply {
-                this.pageSize = pageSize
-            }
+            fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
 
             fun additionalProperties(additionalProperties: ListMultimap<String, String>) = apply {
                 this.additionalProperties.clear()
@@ -226,20 +221,22 @@ class TransactionListParams constructor(private val accountToken: String?,privat
                 this.additionalProperties.put(key, value)
             }
 
-            fun putAllAdditionalProperties(additionalProperties: ListMultimap<String, String>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
+            fun putAllAdditionalProperties(additionalProperties: ListMultimap<String, String>) =
+                apply {
+                    this.additionalProperties.putAll(additionalProperties)
+                }
 
-            fun build(): TransactionListQueryParams = TransactionListQueryParams(
-                accountToken,
-                cardToken,
-                result,
-                begin,
-                end,
-                page,
-                pageSize,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): TransactionListQueryParams =
+                TransactionListQueryParams(
+                    accountToken,
+                    cardToken,
+                    result,
+                    begin,
+                    end,
+                    page,
+                    pageSize,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -248,44 +245,44 @@ class TransactionListParams constructor(private val accountToken: String?,privat
     fun _additionalHeaders(): ListMultimap<String, String> = additionalHeaders
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is TransactionListParams &&
-          accountToken == other.accountToken &&
-          cardToken == other.cardToken &&
-          result == other.result &&
-          begin == other.begin &&
-          end == other.end &&
-          page == other.page &&
-          pageSize == other.pageSize &&
-          additionalQueryParams == other.additionalQueryParams &&
-          additionalHeaders == other.additionalHeaders
+        return other is TransactionListParams &&
+            accountToken == other.accountToken &&
+            cardToken == other.cardToken &&
+            result == other.result &&
+            begin == other.begin &&
+            end == other.end &&
+            page == other.page &&
+            pageSize == other.pageSize &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          accountToken,
-          cardToken,
-          result,
-          begin,
-          end,
-          page,
-          pageSize,
-          additionalQueryParams,
-          additionalHeaders,
-      )
+        return Objects.hash(
+            accountToken,
+            cardToken,
+            result,
+            begin,
+            end,
+            page,
+            pageSize,
+            additionalQueryParams,
+            additionalHeaders,
+        )
     }
 
-    override fun toString() = "TransactionListParams{accountToken=$accountToken, cardToken=$cardToken, result=$result, begin=$begin, end=$end, page=$page, pageSize=$pageSize, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+    override fun toString() =
+        "TransactionListParams{accountToken=$accountToken, cardToken=$cardToken, result=$result, begin=$begin, end=$end, page=$page, pageSize=$pageSize, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -321,20 +318,20 @@ class TransactionListParams constructor(private val accountToken: String?,privat
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
 
         /**
-         * Filters for transactions using transaction result field. Can filter by
-         * `APPROVED`, and `DECLINED`.
+         * Filters for transactions using transaction result field. Can filter by `APPROVED`, and
+         * `DECLINED`.
          */
         fun result(result: Result) = apply { this.result = result }
 
         /**
-         * Date string in 8601 format. Only entries created after the specified date will
-         * be included. UTC time zone.
+         * Date string in 8601 format. Only entries created after the specified date will be
+         * included. UTC time zone.
          */
         fun begin(begin: String) = apply { this.begin = begin }
 
         /**
-         * Date string in 8601 format. Only entries created before the specified date will
-         * be included. UTC time zone.
+         * Date string in 8601 format. Only entries created before the specified date will be
+         * included. UTC time zone.
          */
         fun end(end: String) = apply { this.end = end }
 
@@ -349,48 +346,56 @@ class TransactionListParams constructor(private val accountToken: String?,privat
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
+        fun putAdditionalQueryParams(key: String, value: String) = apply {
+            this.additionalQueryParams.put(key, value)
         }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
+        fun putAdditionalHeaders(key: String, value: String) = apply {
+            this.additionalHeaders.put(key, value)
+        }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun build(): TransactionListParams = TransactionListParams(
-            accountToken,
-            cardToken,
-            result,
-            begin,
-            end,
-            page,
-            pageSize,
-            additionalQueryParams.toUnmodifiable(),
-            additionalHeaders.toUnmodifiable(),
-        )
+        fun build(): TransactionListParams =
+            TransactionListParams(
+                accountToken,
+                cardToken,
+                result,
+                begin,
+                end,
+                page,
+                pageSize,
+                additionalQueryParams.toUnmodifiable(),
+                additionalHeaders.toUnmodifiable(),
+            )
     }
 
-    class Result @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class Result
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Result &&
-              value == other.value
+            return other is Result && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -417,17 +422,22 @@ class TransactionListParams constructor(private val accountToken: String?,privat
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            APPROVED -> Value.APPROVED
-            DECLINED -> Value.DECLINED
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                APPROVED -> Value.APPROVED
+                DECLINED -> Value.DECLINED
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            APPROVED -> Known.APPROVED
-            DECLINED -> Known.DECLINED
-            else -> throw LithicInvalidDataException("Unknown TransactionListQueryParams.Result: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                APPROVED -> Known.APPROVED
+                DECLINED -> Known.DECLINED
+                else ->
+                    throw LithicInvalidDataException(
+                        "Unknown TransactionListQueryParams.Result: $value"
+                    )
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }

@@ -4,23 +4,23 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import java.util.Objects
-import java.util.Optional
-import java.util.Spliterator
-import java.util.Spliterators
-import java.util.concurrent.CompletableFuture
-import java.util.stream.Stream
-import java.util.stream.StreamSupport
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.models.FundingSource
 import com.lithic.api.services.async.FundingSourceServiceAsync
+import java.util.Objects
+import java.util.Optional
+import java.util.concurrent.CompletableFuture
 
-class FundingSourceListPageAsync private constructor(private val fundingSourcesService: FundingSourceServiceAsync,private val params: FundingSourceListParams,private val response: Response,) {
+class FundingSourceListPageAsync
+private constructor(
+    private val fundingSourcesService: FundingSourceServiceAsync,
+    private val params: FundingSourceListParams,
+    private val response: Response,
+) {
 
     fun response(): Response = response
 
@@ -33,57 +33,73 @@ class FundingSourceListPageAsync private constructor(private val fundingSourcesS
     fun totalPages(): Long = response().totalPages()
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is FundingSourceListPageAsync &&
-          fundingSourcesService == other.fundingSourcesService &&
-          params == other.params &&
-          response == other.response
+        return other is FundingSourceListPageAsync &&
+            fundingSourcesService == other.fundingSourcesService &&
+            params == other.params &&
+            response == other.response
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          fundingSourcesService,
-          params,
-          response,
-      )
-    }
-
-    override fun toString() = "FundingSourceListPageAsync{fundingSourcesService=$fundingSourcesService, params=$params, response=$response}"
-
-    fun hasNextPage(): Boolean = this.data().isNotEmpty() && this.page() < this.totalPages()
-
-    fun getNextPageParams(): Optional<FundingSourceListParams> {
-      return if (hasNextPage()) {
-        Optional.of(FundingSourceListParams.builder().from(params).page(params.page().orElse(0) + 1).build())
-      } else {
-        Optional.empty()
-      }
-    }
-
-    fun getNextPage(): CompletableFuture<Optional<FundingSourceListPageAsync>> {
-      return getNextPageParams().map {
-        fundingSourcesService.list(it).thenApply { Optional.of(it) }
-      }.orElseGet {
-          CompletableFuture.completedFuture(Optional.empty())
-      }
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun of(fundingSourcesService: FundingSourceServiceAsync, params: FundingSourceListParams, response: Response) = FundingSourceListPageAsync(
+        return Objects.hash(
             fundingSourcesService,
             params,
             response,
         )
     }
 
+    override fun toString() =
+        "FundingSourceListPageAsync{fundingSourcesService=$fundingSourcesService, params=$params, response=$response}"
+
+    fun hasNextPage(): Boolean = this.data().isNotEmpty() && this.page() < this.totalPages()
+
+    fun getNextPageParams(): Optional<FundingSourceListParams> {
+        return if (hasNextPage()) {
+            Optional.of(
+                FundingSourceListParams.builder()
+                    .from(params)
+                    .page(params.page().orElse(0) + 1)
+                    .build()
+            )
+        } else {
+            Optional.empty()
+        }
+    }
+
+    fun getNextPage(): CompletableFuture<Optional<FundingSourceListPageAsync>> {
+        return getNextPageParams()
+            .map { fundingSourcesService.list(it).thenApply { Optional.of(it) } }
+            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun of(
+            fundingSourcesService: FundingSourceServiceAsync,
+            params: FundingSourceListParams,
+            response: Response
+        ) =
+            FundingSourceListPageAsync(
+                fundingSourcesService,
+                params,
+                response,
+            )
+    }
+
     @JsonDeserialize(builder = Response.Builder::class)
     @NoAutoDetect
-    class Response constructor(private val data: JsonField<List<FundingSource>>,private val page: JsonField<Long>,private val totalEntries: JsonField<Long>,private val totalPages: JsonField<Long>,private val additionalProperties: Map<String, JsonValue>,) {
+    class Response
+    constructor(
+        private val data: JsonField<List<FundingSource>>,
+        private val page: JsonField<Long>,
+        private val totalEntries: JsonField<Long>,
+        private val totalPages: JsonField<Long>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
@@ -98,8 +114,7 @@ class FundingSourceListPageAsync private constructor(private val fundingSourcesS
         @JsonProperty("data")
         fun _data(): Optional<JsonField<List<FundingSource>>> = Optional.ofNullable(data)
 
-        @JsonProperty("page")
-        fun _page(): Optional<JsonField<Long>> = Optional.ofNullable(page)
+        @JsonProperty("page") fun _page(): Optional<JsonField<Long>> = Optional.ofNullable(page)
 
         @JsonProperty("total_entries")
         fun _totalEntries(): Optional<JsonField<Long>> = Optional.ofNullable(totalEntries)
@@ -113,45 +128,45 @@ class FundingSourceListPageAsync private constructor(private val fundingSourcesS
 
         fun validate() = apply {
             if (!validated) {
-              data().forEach { it.validate() }
-              page()
-              totalEntries()
-              totalPages()
-              validated = true
+                data().forEach { it.validate() }
+                page()
+                totalEntries()
+                totalPages()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Response &&
-              data == other.data &&
-              page == other.page &&
-              totalEntries == other.totalEntries &&
-              totalPages == other.totalPages &&
-              additionalProperties == other.additionalProperties
+            return other is Response &&
+                data == other.data &&
+                page == other.page &&
+                totalEntries == other.totalEntries &&
+                totalPages == other.totalPages &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          return Objects.hash(
-              data,
-              page,
-              totalEntries,
-              totalPages,
-              additionalProperties,
-          )
+            return Objects.hash(
+                data,
+                page,
+                totalEntries,
+                totalPages,
+                additionalProperties,
+            )
         }
 
-        override fun toString() = "FundingSourceListPageAsync.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "FundingSourceListPageAsync.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -178,13 +193,14 @@ class FundingSourceListPageAsync private constructor(private val fundingSourcesS
 
             fun page(page: Long) = page(JsonField.of(page))
 
-            @JsonProperty("page")
-            fun page(page: JsonField<Long>) = apply { this.page = page }
+            @JsonProperty("page") fun page(page: JsonField<Long>) = apply { this.page = page }
 
             fun totalEntries(totalEntries: Long) = totalEntries(JsonField.of(totalEntries))
 
             @JsonProperty("total_entries")
-            fun totalEntries(totalEntries: JsonField<Long>) = apply { this.totalEntries = totalEntries }
+            fun totalEntries(totalEntries: JsonField<Long>) = apply {
+                this.totalEntries = totalEntries
+            }
 
             fun totalPages(totalPages: Long) = totalPages(JsonField.of(totalPages))
 
@@ -196,13 +212,14 @@ class FundingSourceListPageAsync private constructor(private val fundingSourcesS
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() = Response(
-                data,
-                page,
-                totalEntries,
-                totalPages,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build() =
+                Response(
+                    data,
+                    page,
+                    totalEntries,
+                    totalPages,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 }

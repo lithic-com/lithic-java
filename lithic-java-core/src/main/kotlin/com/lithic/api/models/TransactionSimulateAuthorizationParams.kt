@@ -3,32 +3,32 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import com.google.common.collect.Multimaps
-import java.util.Objects
-import java.util.Optional
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
+import java.util.Objects
+import java.util.Optional
 
-class TransactionSimulateAuthorizationParams constructor(private val amount: Long,private val descriptor: String,private val pan: String,private val status: Status?,private val merchantCurrency: String?,private val merchantAmount: Long?,private val partialApprovalCapable: Boolean?,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class TransactionSimulateAuthorizationParams
+constructor(
+    private val amount: Long,
+    private val descriptor: String,
+    private val pan: String,
+    private val status: Status?,
+    private val merchantCurrency: String?,
+    private val merchantAmount: Long?,
+    private val partialApprovalCapable: Boolean?,
+    private val additionalQueryParams: ListMultimap<String, String>,
+    private val additionalHeaders: ListMultimap<String, String>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun amount(): Long = amount
 
@@ -45,82 +45,82 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
     fun partialApprovalCapable(): Optional<Boolean> = Optional.ofNullable(partialApprovalCapable)
 
     @JvmSynthetic
-    internal fun toBody(): TransactionSimulateAuthorizationBody = TransactionSimulateAuthorizationBody(
-        amount,
-        descriptor,
-        pan,
-        status,
-        merchantCurrency,
-        merchantAmount,
-        partialApprovalCapable,
-        additionalBodyProperties
-    )
+    internal fun toBody(): TransactionSimulateAuthorizationBody =
+        TransactionSimulateAuthorizationBody(
+            amount,
+            descriptor,
+            pan,
+            status,
+            merchantCurrency,
+            merchantAmount,
+            partialApprovalCapable,
+            additionalBodyProperties
+        )
 
-    @JvmSynthetic
-    internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
     @NoAutoDetect
-    class TransactionSimulateAuthorizationBody internal constructor(private val amount: Long?,private val descriptor: String?,private val pan: String?,private val status: Status?,private val merchantCurrency: String?,private val merchantAmount: Long?,private val partialApprovalCapable: Boolean?,private val additionalProperties: Map<String, JsonValue>,) {
+    class TransactionSimulateAuthorizationBody
+    internal constructor(
+        private val amount: Long?,
+        private val descriptor: String?,
+        private val pan: String?,
+        private val status: Status?,
+        private val merchantCurrency: String?,
+        private val merchantAmount: Long?,
+        private val partialApprovalCapable: Boolean?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /**
          * Amount (in cents) to authorize. For credit authorizations and financial credit
-         * authorizations, any value entered will be converted into a negative amount in
-         * the simulated transaction. For example, entering 100 in this field will appear
-         * as a -100 amount in the transaction. For balance inquiries, this field must be
-         * set to 0.
+         * authorizations, any value entered will be converted into a negative amount in the
+         * simulated transaction. For example, entering 100 in this field will appear as a -100
+         * amount in the transaction. For balance inquiries, this field must be set to 0.
          */
-        @JsonProperty("amount")
-        fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Long? = amount
 
         /** Merchant descriptor. */
-        @JsonProperty("descriptor")
-        fun descriptor(): String? = descriptor
+        @JsonProperty("descriptor") fun descriptor(): String? = descriptor
 
         /** Sixteen digit card number. */
-        @JsonProperty("pan")
-        fun pan(): String? = pan
+        @JsonProperty("pan") fun pan(): String? = pan
 
         /**
          * Type of event to simulate.
          *
-         * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent
-         *   clearing step is required to settle the transaction.
-         * - `BALANCE_INQUIRY` is a $0 authorization that includes a request for the
-         *   balance held on the card, and is most typically seen when a cardholder
-         *   requests to view a card's balance at an ATM.
-         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize
-         *   a refund or credit, meaning a subsequent clearing step is required to settle
-         *   the transaction.
-         * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit
-         *   funds immediately (such as an ATM withdrawal), and no subsequent clearing is
-         *   required to settle the transaction.
-         * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant
-         *   to credit funds immediately, and no subsequent clearing is required to settle
-         *   the transaction.
+         * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
+         * step is required to settle the transaction.
+         * - `BALANCE_INQUIRY` is a $0 authorization that includes a request for the balance held on
+         * the card, and is most typically seen when a cardholder requests to view a card's balance
+         * at an ATM.
+         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund
+         * or credit, meaning a subsequent clearing step is required to settle the transaction.
+         * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
+         * immediately (such as an ATM withdrawal), and no subsequent clearing is required to settle
+         * the transaction.
+         * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
+         * funds immediately, and no subsequent clearing is required to settle the transaction.
          */
-        @JsonProperty("status")
-        fun status(): Status? = status
+        @JsonProperty("status") fun status(): Status? = status
 
         /** 3-digit alphabetic ISO 4217 currency code. */
-        @JsonProperty("merchant_currency")
-        fun merchantCurrency(): String? = merchantCurrency
+        @JsonProperty("merchant_currency") fun merchantCurrency(): String? = merchantCurrency
 
         /**
-         * Amount of the transaction to be simulated in currency specified in
-         * merchant_currency, including any acquirer fees.
+         * Amount of the transaction to be simulated in currency specified in merchant_currency,
+         * including any acquirer fees.
          */
-        @JsonProperty("merchant_amount")
-        fun merchantAmount(): Long? = merchantAmount
+        @JsonProperty("merchant_amount") fun merchantAmount(): Long? = merchantAmount
 
         /**
-         * Set to true if the terminal is capable of partial approval otherwise false.
-         * Partial approval is when part of a transaction is approved and another payment
-         * must be used for the remainder.
+         * Set to true if the terminal is capable of partial approval otherwise false. Partial
+         * approval is when part of a transaction is approved and another payment must be used for
+         * the remainder.
          */
         @JsonProperty("partial_approval_capable")
         fun partialApprovalCapable(): Boolean? = partialApprovalCapable
@@ -132,43 +132,44 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is TransactionSimulateAuthorizationBody &&
-              amount == other.amount &&
-              descriptor == other.descriptor &&
-              pan == other.pan &&
-              status == other.status &&
-              merchantCurrency == other.merchantCurrency &&
-              merchantAmount == other.merchantAmount &&
-              partialApprovalCapable == other.partialApprovalCapable &&
-              additionalProperties == other.additionalProperties
+            return other is TransactionSimulateAuthorizationBody &&
+                amount == other.amount &&
+                descriptor == other.descriptor &&
+                pan == other.pan &&
+                status == other.status &&
+                merchantCurrency == other.merchantCurrency &&
+                merchantAmount == other.merchantAmount &&
+                partialApprovalCapable == other.partialApprovalCapable &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                amount,
-                descriptor,
-                pan,
-                status,
-                merchantCurrency,
-                merchantAmount,
-                partialApprovalCapable,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        descriptor,
+                        pan,
+                        status,
+                        merchantCurrency,
+                        merchantAmount,
+                        partialApprovalCapable,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "TransactionSimulateAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, partialApprovalCapable=$partialApprovalCapable, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "TransactionSimulateAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, partialApprovalCapable=$partialApprovalCapable, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -183,63 +184,54 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(transactionSimulateAuthorizationBody: TransactionSimulateAuthorizationBody) = apply {
+            internal fun from(
+                transactionSimulateAuthorizationBody: TransactionSimulateAuthorizationBody
+            ) = apply {
                 this.amount = transactionSimulateAuthorizationBody.amount
                 this.descriptor = transactionSimulateAuthorizationBody.descriptor
                 this.pan = transactionSimulateAuthorizationBody.pan
                 this.status = transactionSimulateAuthorizationBody.status
                 this.merchantCurrency = transactionSimulateAuthorizationBody.merchantCurrency
                 this.merchantAmount = transactionSimulateAuthorizationBody.merchantAmount
-                this.partialApprovalCapable = transactionSimulateAuthorizationBody.partialApprovalCapable
+                this.partialApprovalCapable =
+                    transactionSimulateAuthorizationBody.partialApprovalCapable
                 additionalProperties(transactionSimulateAuthorizationBody.additionalProperties)
             }
 
             /**
              * Amount (in cents) to authorize. For credit authorizations and financial credit
-             * authorizations, any value entered will be converted into a negative amount in
-             * the simulated transaction. For example, entering 100 in this field will appear
-             * as a -100 amount in the transaction. For balance inquiries, this field must be
-             * set to 0.
+             * authorizations, any value entered will be converted into a negative amount in the
+             * simulated transaction. For example, entering 100 in this field will appear as a -100
+             * amount in the transaction. For balance inquiries, this field must be set to 0.
              */
-            @JsonProperty("amount")
-            fun amount(amount: Long) = apply {
-                this.amount = amount
-            }
+            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
 
             /** Merchant descriptor. */
             @JsonProperty("descriptor")
-            fun descriptor(descriptor: String) = apply {
-                this.descriptor = descriptor
-            }
+            fun descriptor(descriptor: String) = apply { this.descriptor = descriptor }
 
             /** Sixteen digit card number. */
-            @JsonProperty("pan")
-            fun pan(pan: String) = apply {
-                this.pan = pan
-            }
+            @JsonProperty("pan") fun pan(pan: String) = apply { this.pan = pan }
 
             /**
              * Type of event to simulate.
              *
              * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent
-             *   clearing step is required to settle the transaction.
-             * - `BALANCE_INQUIRY` is a $0 authorization that includes a request for the
-             *   balance held on the card, and is most typically seen when a cardholder
-             *   requests to view a card's balance at an ATM.
-             * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize
-             *   a refund or credit, meaning a subsequent clearing step is required to settle
-             *   the transaction.
+             * clearing step is required to settle the transaction.
+             * - `BALANCE_INQUIRY` is a $0 authorization that includes a request for the balance
+             * held on the card, and is most typically seen when a cardholder requests to view a
+             * card's balance at an ATM.
+             * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a
+             * refund or credit, meaning a subsequent clearing step is required to settle the
+             * transaction.
              * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit
-             *   funds immediately (such as an ATM withdrawal), and no subsequent clearing is
-             *   required to settle the transaction.
-             * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant
-             *   to credit funds immediately, and no subsequent clearing is required to settle
-             *   the transaction.
+             * funds immediately (such as an ATM withdrawal), and no subsequent clearing is required
+             * to settle the transaction.
+             * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to
+             * credit funds immediately, and no subsequent clearing is required to settle the
+             * transaction.
              */
-            @JsonProperty("status")
-            fun status(status: Status) = apply {
-                this.status = status
-            }
+            @JsonProperty("status") fun status(status: Status) = apply { this.status = status }
 
             /** 3-digit alphabetic ISO 4217 currency code. */
             @JsonProperty("merchant_currency")
@@ -248,8 +240,8 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
             }
 
             /**
-             * Amount of the transaction to be simulated in currency specified in
-             * merchant_currency, including any acquirer fees.
+             * Amount of the transaction to be simulated in currency specified in merchant_currency,
+             * including any acquirer fees.
              */
             @JsonProperty("merchant_amount")
             fun merchantAmount(merchantAmount: Long) = apply {
@@ -257,9 +249,9 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
             }
 
             /**
-             * Set to true if the terminal is capable of partial approval otherwise false.
-             * Partial approval is when part of a transaction is approved and another payment
-             * must be used for the remainder.
+             * Set to true if the terminal is capable of partial approval otherwise false. Partial
+             * approval is when part of a transaction is approved and another payment must be used
+             * for the remainder.
              */
             @JsonProperty("partial_approval_capable")
             fun partialApprovalCapable(partialApprovalCapable: Boolean) = apply {
@@ -280,16 +272,19 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): TransactionSimulateAuthorizationBody = TransactionSimulateAuthorizationBody(
-                checkNotNull(amount) { "Property `amount` is required but was not set" },
-                checkNotNull(descriptor) { "Property `descriptor` is required but was not set" },
-                checkNotNull(pan) { "Property `pan` is required but was not set" },
-                status,
-                merchantCurrency,
-                merchantAmount,
-                partialApprovalCapable,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): TransactionSimulateAuthorizationBody =
+                TransactionSimulateAuthorizationBody(
+                    checkNotNull(amount) { "Property `amount` is required but was not set" },
+                    checkNotNull(descriptor) {
+                        "Property `descriptor` is required but was not set"
+                    },
+                    checkNotNull(pan) { "Property `pan` is required but was not set" },
+                    status,
+                    merchantCurrency,
+                    merchantAmount,
+                    partialApprovalCapable,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -300,46 +295,46 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is TransactionSimulateAuthorizationParams &&
-          amount == other.amount &&
-          descriptor == other.descriptor &&
-          pan == other.pan &&
-          status == other.status &&
-          merchantCurrency == other.merchantCurrency &&
-          merchantAmount == other.merchantAmount &&
-          partialApprovalCapable == other.partialApprovalCapable &&
-          additionalQueryParams == other.additionalQueryParams &&
-          additionalHeaders == other.additionalHeaders &&
-          additionalBodyProperties == other.additionalBodyProperties
+        return other is TransactionSimulateAuthorizationParams &&
+            amount == other.amount &&
+            descriptor == other.descriptor &&
+            pan == other.pan &&
+            status == other.status &&
+            merchantCurrency == other.merchantCurrency &&
+            merchantAmount == other.merchantAmount &&
+            partialApprovalCapable == other.partialApprovalCapable &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          amount,
-          descriptor,
-          pan,
-          status,
-          merchantCurrency,
-          merchantAmount,
-          partialApprovalCapable,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            amount,
+            descriptor,
+            pan,
+            status,
+            merchantCurrency,
+            merchantAmount,
+            partialApprovalCapable,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, partialApprovalCapable=$partialApprovalCapable, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, partialApprovalCapable=$partialApprovalCapable, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -357,25 +352,29 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(transactionSimulateAuthorizationParams: TransactionSimulateAuthorizationParams) = apply {
+        internal fun from(
+            transactionSimulateAuthorizationParams: TransactionSimulateAuthorizationParams
+        ) = apply {
             this.amount = transactionSimulateAuthorizationParams.amount
             this.descriptor = transactionSimulateAuthorizationParams.descriptor
             this.pan = transactionSimulateAuthorizationParams.pan
             this.status = transactionSimulateAuthorizationParams.status
             this.merchantCurrency = transactionSimulateAuthorizationParams.merchantCurrency
             this.merchantAmount = transactionSimulateAuthorizationParams.merchantAmount
-            this.partialApprovalCapable = transactionSimulateAuthorizationParams.partialApprovalCapable
+            this.partialApprovalCapable =
+                transactionSimulateAuthorizationParams.partialApprovalCapable
             additionalQueryParams(transactionSimulateAuthorizationParams.additionalQueryParams)
             additionalHeaders(transactionSimulateAuthorizationParams.additionalHeaders)
-            additionalBodyProperties(transactionSimulateAuthorizationParams.additionalBodyProperties)
+            additionalBodyProperties(
+                transactionSimulateAuthorizationParams.additionalBodyProperties
+            )
         }
 
         /**
          * Amount (in cents) to authorize. For credit authorizations and financial credit
-         * authorizations, any value entered will be converted into a negative amount in
-         * the simulated transaction. For example, entering 100 in this field will appear
-         * as a -100 amount in the transaction. For balance inquiries, this field must be
-         * set to 0.
+         * authorizations, any value entered will be converted into a negative amount in the
+         * simulated transaction. For example, entering 100 in this field will appear as a -100
+         * amount in the transaction. For balance inquiries, this field must be set to 0.
          */
         fun amount(amount: Long) = apply { this.amount = amount }
 
@@ -388,56 +387,63 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
         /**
          * Type of event to simulate.
          *
-         * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent
-         *   clearing step is required to settle the transaction.
-         * - `BALANCE_INQUIRY` is a $0 authorization that includes a request for the
-         *   balance held on the card, and is most typically seen when a cardholder
-         *   requests to view a card's balance at an ATM.
-         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize
-         *   a refund or credit, meaning a subsequent clearing step is required to settle
-         *   the transaction.
-         * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit
-         *   funds immediately (such as an ATM withdrawal), and no subsequent clearing is
-         *   required to settle the transaction.
-         * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant
-         *   to credit funds immediately, and no subsequent clearing is required to settle
-         *   the transaction.
+         * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
+         * step is required to settle the transaction.
+         * - `BALANCE_INQUIRY` is a $0 authorization that includes a request for the balance held on
+         * the card, and is most typically seen when a cardholder requests to view a card's balance
+         * at an ATM.
+         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund
+         * or credit, meaning a subsequent clearing step is required to settle the transaction.
+         * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
+         * immediately (such as an ATM withdrawal), and no subsequent clearing is required to settle
+         * the transaction.
+         * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
+         * funds immediately, and no subsequent clearing is required to settle the transaction.
          */
         fun status(status: Status) = apply { this.status = status }
 
         /** 3-digit alphabetic ISO 4217 currency code. */
-        fun merchantCurrency(merchantCurrency: String) = apply { this.merchantCurrency = merchantCurrency }
+        fun merchantCurrency(merchantCurrency: String) = apply {
+            this.merchantCurrency = merchantCurrency
+        }
 
         /**
-         * Amount of the transaction to be simulated in currency specified in
-         * merchant_currency, including any acquirer fees.
+         * Amount of the transaction to be simulated in currency specified in merchant_currency,
+         * including any acquirer fees.
          */
         fun merchantAmount(merchantAmount: Long) = apply { this.merchantAmount = merchantAmount }
 
         /**
-         * Set to true if the terminal is capable of partial approval otherwise false.
-         * Partial approval is when part of a transaction is approved and another payment
-         * must be used for the remainder.
+         * Set to true if the terminal is capable of partial approval otherwise false. Partial
+         * approval is when part of a transaction is approved and another payment must be used for
+         * the remainder.
          */
-        fun partialApprovalCapable(partialApprovalCapable: Boolean) = apply { this.partialApprovalCapable = partialApprovalCapable }
+        fun partialApprovalCapable(partialApprovalCapable: Boolean) = apply {
+            this.partialApprovalCapable = partialApprovalCapable
+        }
 
         fun additionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
             this.additionalQueryParams.clear()
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
+        fun putAdditionalQueryParams(key: String, value: String) = apply {
+            this.additionalQueryParams.put(key, value)
         }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
+        fun putAdditionalHeaders(key: String, value: String) = apply {
+            this.additionalHeaders.put(key, value)
+        }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
@@ -448,38 +454,44 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply { this.additionalBodyProperties.put(key, value) }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
+            this.additionalBodyProperties.put(key, value)
         }
 
-        fun build(): TransactionSimulateAuthorizationParams = TransactionSimulateAuthorizationParams(
-            checkNotNull(amount) { "Property `amount` is required but was not set" },
-            checkNotNull(descriptor) { "Property `descriptor` is required but was not set" },
-            checkNotNull(pan) { "Property `pan` is required but was not set" },
-            status,
-            merchantCurrency,
-            merchantAmount,
-            partialApprovalCapable,
-            additionalQueryParams.toUnmodifiable(),
-            additionalHeaders.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
+
+        fun build(): TransactionSimulateAuthorizationParams =
+            TransactionSimulateAuthorizationParams(
+                checkNotNull(amount) { "Property `amount` is required but was not set" },
+                checkNotNull(descriptor) { "Property `descriptor` is required but was not set" },
+                checkNotNull(pan) { "Property `pan` is required but was not set" },
+                status,
+                merchantCurrency,
+                merchantAmount,
+                partialApprovalCapable,
+                additionalQueryParams.toUnmodifiable(),
+                additionalHeaders.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 
-    class Status @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class Status
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Status &&
-              value == other.value
+            return other is Status && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -496,7 +508,9 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
 
             @JvmField val FINANCIAL_AUTHORIZATION = Status(JsonField.of("FINANCIAL_AUTHORIZATION"))
 
-            @JvmField val FINANCIAL_CREDIT_AUTHORIZATION = Status(JsonField.of("FINANCIAL_CREDIT_AUTHORIZATION"))
+            @JvmField
+            val FINANCIAL_CREDIT_AUTHORIZATION =
+                Status(JsonField.of("FINANCIAL_CREDIT_AUTHORIZATION"))
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
@@ -518,23 +532,28 @@ class TransactionSimulateAuthorizationParams constructor(private val amount: Lon
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            AUTHORIZATION -> Value.AUTHORIZATION
-            BALANCE_INQUIRY -> Value.BALANCE_INQUIRY
-            CREDIT_AUTHORIZATION -> Value.CREDIT_AUTHORIZATION
-            FINANCIAL_AUTHORIZATION -> Value.FINANCIAL_AUTHORIZATION
-            FINANCIAL_CREDIT_AUTHORIZATION -> Value.FINANCIAL_CREDIT_AUTHORIZATION
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                AUTHORIZATION -> Value.AUTHORIZATION
+                BALANCE_INQUIRY -> Value.BALANCE_INQUIRY
+                CREDIT_AUTHORIZATION -> Value.CREDIT_AUTHORIZATION
+                FINANCIAL_AUTHORIZATION -> Value.FINANCIAL_AUTHORIZATION
+                FINANCIAL_CREDIT_AUTHORIZATION -> Value.FINANCIAL_CREDIT_AUTHORIZATION
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            AUTHORIZATION -> Known.AUTHORIZATION
-            BALANCE_INQUIRY -> Known.BALANCE_INQUIRY
-            CREDIT_AUTHORIZATION -> Known.CREDIT_AUTHORIZATION
-            FINANCIAL_AUTHORIZATION -> Known.FINANCIAL_AUTHORIZATION
-            FINANCIAL_CREDIT_AUTHORIZATION -> Known.FINANCIAL_CREDIT_AUTHORIZATION
-            else -> throw LithicInvalidDataException("Unknown TransactionSimulateAuthorizationBody.Status: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                AUTHORIZATION -> Known.AUTHORIZATION
+                BALANCE_INQUIRY -> Known.BALANCE_INQUIRY
+                CREDIT_AUTHORIZATION -> Known.CREDIT_AUTHORIZATION
+                FINANCIAL_AUTHORIZATION -> Known.FINANCIAL_AUTHORIZATION
+                FINANCIAL_CREDIT_AUTHORIZATION -> Known.FINANCIAL_CREDIT_AUTHORIZATION
+                else ->
+                    throw LithicInvalidDataException(
+                        "Unknown TransactionSimulateAuthorizationBody.Status: $value"
+                    )
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }

@@ -2,56 +2,46 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import com.google.common.collect.Multimaps
-import java.util.Objects
-import java.util.Optional
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
+import java.util.Objects
+import java.util.Optional
 
-class AuthStreamEnrollmentEnrollParams constructor(private val webhookUrl: String?,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class AuthStreamEnrollmentEnrollParams
+constructor(
+    private val webhookUrl: String?,
+    private val additionalQueryParams: ListMultimap<String, String>,
+    private val additionalHeaders: ListMultimap<String, String>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun webhookUrl(): Optional<String> = Optional.ofNullable(webhookUrl)
 
     @JvmSynthetic
-    internal fun toBody(): AuthStreamEnrollmentEnrollBody = AuthStreamEnrollmentEnrollBody(
-        webhookUrl,
-        additionalBodyProperties
-    )
+    internal fun toBody(): AuthStreamEnrollmentEnrollBody =
+        AuthStreamEnrollmentEnrollBody(webhookUrl, additionalBodyProperties)
 
-    @JvmSynthetic
-    internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
     @NoAutoDetect
-    class AuthStreamEnrollmentEnrollBody internal constructor(private val webhookUrl: String?,private val additionalProperties: Map<String, JsonValue>,) {
+    class AuthStreamEnrollmentEnrollBody
+    internal constructor(
+        private val webhookUrl: String?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /** A user-specified url to receive and respond to ASA request. */
-        @JsonProperty("webhook_url")
-        fun webhookUrl(): String? = webhookUrl
+        @JsonProperty("webhook_url") fun webhookUrl(): String? = webhookUrl
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -60,28 +50,28 @@ class AuthStreamEnrollmentEnrollParams constructor(private val webhookUrl: Strin
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is AuthStreamEnrollmentEnrollBody &&
-              webhookUrl == other.webhookUrl &&
-              additionalProperties == other.additionalProperties
+            return other is AuthStreamEnrollmentEnrollBody &&
+                webhookUrl == other.webhookUrl &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(webhookUrl, additionalProperties)
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode = Objects.hash(webhookUrl, additionalProperties)
+            }
+            return hashCode
         }
 
-        override fun toString() = "AuthStreamEnrollmentEnrollBody{webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "AuthStreamEnrollmentEnrollBody{webhookUrl=$webhookUrl, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -90,16 +80,15 @@ class AuthStreamEnrollmentEnrollParams constructor(private val webhookUrl: Strin
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(authStreamEnrollmentEnrollBody: AuthStreamEnrollmentEnrollBody) = apply {
-                this.webhookUrl = authStreamEnrollmentEnrollBody.webhookUrl
-                additionalProperties(authStreamEnrollmentEnrollBody.additionalProperties)
-            }
+            internal fun from(authStreamEnrollmentEnrollBody: AuthStreamEnrollmentEnrollBody) =
+                apply {
+                    this.webhookUrl = authStreamEnrollmentEnrollBody.webhookUrl
+                    additionalProperties(authStreamEnrollmentEnrollBody.additionalProperties)
+                }
 
             /** A user-specified url to receive and respond to ASA request. */
             @JsonProperty("webhook_url")
-            fun webhookUrl(webhookUrl: String) = apply {
-                this.webhookUrl = webhookUrl
-            }
+            fun webhookUrl(webhookUrl: String) = apply { this.webhookUrl = webhookUrl }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -115,7 +104,8 @@ class AuthStreamEnrollmentEnrollParams constructor(private val webhookUrl: Strin
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): AuthStreamEnrollmentEnrollBody = AuthStreamEnrollmentEnrollBody(webhookUrl, additionalProperties.toUnmodifiable())
+            fun build(): AuthStreamEnrollmentEnrollBody =
+                AuthStreamEnrollmentEnrollBody(webhookUrl, additionalProperties.toUnmodifiable())
         }
     }
 
@@ -126,34 +116,34 @@ class AuthStreamEnrollmentEnrollParams constructor(private val webhookUrl: Strin
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is AuthStreamEnrollmentEnrollParams &&
-          webhookUrl == other.webhookUrl &&
-          additionalQueryParams == other.additionalQueryParams &&
-          additionalHeaders == other.additionalHeaders &&
-          additionalBodyProperties == other.additionalBodyProperties
+        return other is AuthStreamEnrollmentEnrollParams &&
+            webhookUrl == other.webhookUrl &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          webhookUrl,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            webhookUrl,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "AuthStreamEnrollmentEnrollParams{webhookUrl=$webhookUrl, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "AuthStreamEnrollmentEnrollParams{webhookUrl=$webhookUrl, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -165,12 +155,13 @@ class AuthStreamEnrollmentEnrollParams constructor(private val webhookUrl: Strin
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(authStreamEnrollmentEnrollParams: AuthStreamEnrollmentEnrollParams) = apply {
-            this.webhookUrl = authStreamEnrollmentEnrollParams.webhookUrl
-            additionalQueryParams(authStreamEnrollmentEnrollParams.additionalQueryParams)
-            additionalHeaders(authStreamEnrollmentEnrollParams.additionalHeaders)
-            additionalBodyProperties(authStreamEnrollmentEnrollParams.additionalBodyProperties)
-        }
+        internal fun from(authStreamEnrollmentEnrollParams: AuthStreamEnrollmentEnrollParams) =
+            apply {
+                this.webhookUrl = authStreamEnrollmentEnrollParams.webhookUrl
+                additionalQueryParams(authStreamEnrollmentEnrollParams.additionalQueryParams)
+                additionalHeaders(authStreamEnrollmentEnrollParams.additionalHeaders)
+                additionalBodyProperties(authStreamEnrollmentEnrollParams.additionalBodyProperties)
+            }
 
         /** A user-specified url to receive and respond to ASA request. */
         fun webhookUrl(webhookUrl: String) = apply { this.webhookUrl = webhookUrl }
@@ -180,18 +171,23 @@ class AuthStreamEnrollmentEnrollParams constructor(private val webhookUrl: Strin
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
+        fun putAdditionalQueryParams(key: String, value: String) = apply {
+            this.additionalQueryParams.put(key, value)
         }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
+        fun putAdditionalHeaders(key: String, value: String) = apply {
+            this.additionalHeaders.put(key, value)
+        }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
@@ -202,17 +198,21 @@ class AuthStreamEnrollmentEnrollParams constructor(private val webhookUrl: Strin
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply { this.additionalBodyProperties.put(key, value) }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
+            this.additionalBodyProperties.put(key, value)
         }
 
-        fun build(): AuthStreamEnrollmentEnrollParams = AuthStreamEnrollmentEnrollParams(
-            webhookUrl,
-            additionalQueryParams.toUnmodifiable(),
-            additionalHeaders.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
+
+        fun build(): AuthStreamEnrollmentEnrollParams =
+            AuthStreamEnrollmentEnrollParams(
+                webhookUrl,
+                additionalQueryParams.toUnmodifiable(),
+                additionalHeaders.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 }

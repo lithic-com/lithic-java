@@ -3,32 +3,28 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
-import com.google.common.collect.Multimaps
-import java.util.Objects
-import java.util.Optional
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
+import java.util.Objects
+import java.util.Optional
 
-class TransactionSimulateVoidParams constructor(private val amount: Long?,private val token: String,private val type: Type?,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class TransactionSimulateVoidParams
+constructor(
+    private val amount: Long?,
+    private val token: String,
+    private val type: Type?,
+    private val additionalQueryParams: ListMultimap<String, String>,
+    private val additionalHeaders: ListMultimap<String, String>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun amount(): Optional<Long> = Optional.ofNullable(amount)
 
@@ -37,44 +33,40 @@ class TransactionSimulateVoidParams constructor(private val amount: Long?,privat
     fun type(): Optional<Type> = Optional.ofNullable(type)
 
     @JvmSynthetic
-    internal fun toBody(): TransactionSimulateVoidBody = TransactionSimulateVoidBody(
-        amount,
-        token,
-        type,
-        additionalBodyProperties
-    )
+    internal fun toBody(): TransactionSimulateVoidBody =
+        TransactionSimulateVoidBody(amount, token, type, additionalBodyProperties)
 
-    @JvmSynthetic
-    internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
     @NoAutoDetect
-    class TransactionSimulateVoidBody internal constructor(private val amount: Long?,private val token: String?,private val type: Type?,private val additionalProperties: Map<String, JsonValue>,) {
+    class TransactionSimulateVoidBody
+    internal constructor(
+        private val amount: Long?,
+        private val token: String?,
+        private val type: Type?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /**
-         * Amount (in cents) to void. Typically this will match the original authorization,
-         * but may be less.
+         * Amount (in cents) to void. Typically this will match the original authorization, but may
+         * be less.
          */
-        @JsonProperty("amount")
-        fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Long? = amount
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
-        @JsonProperty("token")
-        fun token(): String? = token
+        @JsonProperty("token") fun token(): String? = token
 
         /**
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
          *
-         * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed
-         *   by Lithic.
+         * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
          */
-        @JsonProperty("type")
-        fun type(): Type? = type
+        @JsonProperty("type") fun type(): Type? = type
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -83,35 +75,36 @@ class TransactionSimulateVoidParams constructor(private val amount: Long?,privat
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is TransactionSimulateVoidBody &&
-              amount == other.amount &&
-              token == other.token &&
-              type == other.type &&
-              additionalProperties == other.additionalProperties
+            return other is TransactionSimulateVoidBody &&
+                amount == other.amount &&
+                token == other.token &&
+                type == other.type &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                amount,
-                token,
-                type,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        token,
+                        type,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "TransactionSimulateVoidBody{amount=$amount, token=$token, type=$type, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "TransactionSimulateVoidBody{amount=$amount, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -130,31 +123,22 @@ class TransactionSimulateVoidParams constructor(private val amount: Long?,privat
             }
 
             /**
-             * Amount (in cents) to void. Typically this will match the original authorization,
-             * but may be less.
+             * Amount (in cents) to void. Typically this will match the original authorization, but
+             * may be less.
              */
-            @JsonProperty("amount")
-            fun amount(amount: Long) = apply {
-                this.amount = amount
-            }
+            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
 
             /** The transaction token returned from the /v1/simulate/authorize response. */
-            @JsonProperty("token")
-            fun token(token: String) = apply {
-                this.token = token
-            }
+            @JsonProperty("token") fun token(token: String) = apply { this.token = token }
 
             /**
              * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
              *
-             * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed
-             *   by Lithic.
+             * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by
+             * Lithic.
              * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
              */
-            @JsonProperty("type")
-            fun type(type: Type) = apply {
-                this.type = type
-            }
+            @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -170,12 +154,13 @@ class TransactionSimulateVoidParams constructor(private val amount: Long?,privat
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): TransactionSimulateVoidBody = TransactionSimulateVoidBody(
-                amount,
-                checkNotNull(token) { "Property `token` is required but was not set" },
-                type,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): TransactionSimulateVoidBody =
+                TransactionSimulateVoidBody(
+                    amount,
+                    checkNotNull(token) { "Property `token` is required but was not set" },
+                    type,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -186,38 +171,38 @@ class TransactionSimulateVoidParams constructor(private val amount: Long?,privat
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is TransactionSimulateVoidParams &&
-          amount == other.amount &&
-          token == other.token &&
-          type == other.type &&
-          additionalQueryParams == other.additionalQueryParams &&
-          additionalHeaders == other.additionalHeaders &&
-          additionalBodyProperties == other.additionalBodyProperties
+        return other is TransactionSimulateVoidParams &&
+            amount == other.amount &&
+            token == other.token &&
+            type == other.type &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          amount,
-          token,
-          type,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            amount,
+            token,
+            type,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "TransactionSimulateVoidParams{amount=$amount, token=$token, type=$type, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "TransactionSimulateVoidParams{amount=$amount, token=$token, type=$type, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -241,8 +226,8 @@ class TransactionSimulateVoidParams constructor(private val amount: Long?,privat
         }
 
         /**
-         * Amount (in cents) to void. Typically this will match the original authorization,
-         * but may be less.
+         * Amount (in cents) to void. Typically this will match the original authorization, but may
+         * be less.
          */
         fun amount(amount: Long) = apply { this.amount = amount }
 
@@ -252,8 +237,7 @@ class TransactionSimulateVoidParams constructor(private val amount: Long?,privat
         /**
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
          *
-         * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed
-         *   by Lithic.
+         * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
          */
         fun type(type: Type) = apply { this.type = type }
@@ -263,18 +247,23 @@ class TransactionSimulateVoidParams constructor(private val amount: Long?,privat
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
+        fun putAdditionalQueryParams(key: String, value: String) = apply {
+            this.additionalQueryParams.put(key, value)
         }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
+        fun putAdditionalHeaders(key: String, value: String) = apply {
+            this.additionalHeaders.put(key, value)
+        }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
@@ -285,34 +274,40 @@ class TransactionSimulateVoidParams constructor(private val amount: Long?,privat
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply { this.additionalBodyProperties.put(key, value) }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
+            this.additionalBodyProperties.put(key, value)
         }
 
-        fun build(): TransactionSimulateVoidParams = TransactionSimulateVoidParams(
-            amount,
-            checkNotNull(token) { "Property `token` is required but was not set" },
-            type,
-            additionalQueryParams.toUnmodifiable(),
-            additionalHeaders.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
+
+        fun build(): TransactionSimulateVoidParams =
+            TransactionSimulateVoidParams(
+                amount,
+                checkNotNull(token) { "Property `token` is required but was not set" },
+                type,
+                additionalQueryParams.toUnmodifiable(),
+                additionalHeaders.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 
-    class Type @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class Type
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Type &&
-              value == other.value
+            return other is Type && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -339,17 +334,22 @@ class TransactionSimulateVoidParams constructor(private val amount: Long?,privat
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            AUTHORIZATION_EXPIRY -> Value.AUTHORIZATION_EXPIRY
-            AUTHORIZATION_REVERSAL -> Value.AUTHORIZATION_REVERSAL
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                AUTHORIZATION_EXPIRY -> Value.AUTHORIZATION_EXPIRY
+                AUTHORIZATION_REVERSAL -> Value.AUTHORIZATION_REVERSAL
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            AUTHORIZATION_EXPIRY -> Known.AUTHORIZATION_EXPIRY
-            AUTHORIZATION_REVERSAL -> Known.AUTHORIZATION_REVERSAL
-            else -> throw LithicInvalidDataException("Unknown TransactionSimulateVoidBody.Type: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                AUTHORIZATION_EXPIRY -> Known.AUTHORIZATION_EXPIRY
+                AUTHORIZATION_REVERSAL -> Known.AUTHORIZATION_REVERSAL
+                else ->
+                    throw LithicInvalidDataException(
+                        "Unknown TransactionSimulateVoidBody.Type: $value"
+                    )
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }

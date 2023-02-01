@@ -2,63 +2,53 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import com.google.common.collect.ArrayListMultimap
-import com.google.common.collect.ListMultimap
-import com.google.common.collect.Multimaps
-import java.util.Objects
-import java.util.Optional
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.toUnmodifiable
+import java.util.Objects
+import java.util.Optional
 
 @JsonDeserialize(builder = AuthRuleRemoveResponse.Builder::class)
 @NoAutoDetect
-class AuthRuleRemoveResponse private constructor(private val accountTokens: JsonField<List<String>>,private val cardTokens: JsonField<List<String>>,private val previousAuthRuleTokens: JsonField<List<String>>,private val programLevel: JsonField<Boolean>,private val additionalProperties: Map<String, JsonValue>,) {
+class AuthRuleRemoveResponse
+private constructor(
+    private val accountTokens: JsonField<List<String>>,
+    private val cardTokens: JsonField<List<String>>,
+    private val previousAuthRuleTokens: JsonField<List<String>>,
+    private val programLevel: JsonField<Boolean>,
+    private val additionalProperties: Map<String, JsonValue>,
+) {
 
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
 
-    fun accountTokens(): Optional<List<String>> = Optional.ofNullable(accountTokens.getNullable("account_tokens"))
+    fun accountTokens(): Optional<List<String>> =
+        Optional.ofNullable(accountTokens.getNullable("account_tokens"))
 
-    fun cardTokens(): Optional<List<String>> = Optional.ofNullable(cardTokens.getNullable("card_tokens"))
+    fun cardTokens(): Optional<List<String>> =
+        Optional.ofNullable(cardTokens.getNullable("card_tokens"))
 
-    fun previousAuthRuleTokens(): Optional<List<String>> = Optional.ofNullable(previousAuthRuleTokens.getNullable("previous_auth_rule_tokens"))
+    fun previousAuthRuleTokens(): Optional<List<String>> =
+        Optional.ofNullable(previousAuthRuleTokens.getNullable("previous_auth_rule_tokens"))
 
-    fun programLevel(): Optional<Boolean> = Optional.ofNullable(programLevel.getNullable("program_level"))
+    fun programLevel(): Optional<Boolean> =
+        Optional.ofNullable(programLevel.getNullable("program_level"))
 
-    @JsonProperty("account_tokens")
-    @ExcludeMissing
-    fun _accountTokens() = accountTokens
+    @JsonProperty("account_tokens") @ExcludeMissing fun _accountTokens() = accountTokens
 
-    @JsonProperty("card_tokens")
-    @ExcludeMissing
-    fun _cardTokens() = cardTokens
+    @JsonProperty("card_tokens") @ExcludeMissing fun _cardTokens() = cardTokens
 
     @JsonProperty("previous_auth_rule_tokens")
     @ExcludeMissing
     fun _previousAuthRuleTokens() = previousAuthRuleTokens
 
-    @JsonProperty("program_level")
-    @ExcludeMissing
-    fun _programLevel() = programLevel
+    @JsonProperty("program_level") @ExcludeMissing fun _programLevel() = programLevel
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -66,48 +56,49 @@ class AuthRuleRemoveResponse private constructor(private val accountTokens: Json
 
     fun validate() = apply {
         if (!validated) {
-          accountTokens()
-          cardTokens()
-          previousAuthRuleTokens()
-          programLevel()
-          validated = true
+            accountTokens()
+            cardTokens()
+            previousAuthRuleTokens()
+            programLevel()
+            validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is AuthRuleRemoveResponse &&
-          accountTokens == other.accountTokens &&
-          cardTokens == other.cardTokens &&
-          previousAuthRuleTokens == other.previousAuthRuleTokens &&
-          programLevel == other.programLevel &&
-          additionalProperties == other.additionalProperties
+        return other is AuthRuleRemoveResponse &&
+            accountTokens == other.accountTokens &&
+            cardTokens == other.cardTokens &&
+            previousAuthRuleTokens == other.previousAuthRuleTokens &&
+            programLevel == other.programLevel &&
+            additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-      if (hashCode == 0) {
-        hashCode = Objects.hash(
-            accountTokens,
-            cardTokens,
-            previousAuthRuleTokens,
-            programLevel,
-            additionalProperties,
-        )
-      }
-      return hashCode
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    accountTokens,
+                    cardTokens,
+                    previousAuthRuleTokens,
+                    programLevel,
+                    additionalProperties,
+                )
+        }
+        return hashCode
     }
 
-    override fun toString() = "AuthRuleRemoveResponse{accountTokens=$accountTokens, cardTokens=$cardTokens, previousAuthRuleTokens=$previousAuthRuleTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
+    override fun toString() =
+        "AuthRuleRemoveResponse{accountTokens=$accountTokens, cardTokens=$cardTokens, previousAuthRuleTokens=$previousAuthRuleTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
@@ -139,11 +130,10 @@ class AuthRuleRemoveResponse private constructor(private val accountTokens: Json
 
         @JsonProperty("card_tokens")
         @ExcludeMissing
-        fun cardTokens(cardTokens: JsonField<List<String>>) = apply {
-            this.cardTokens = cardTokens
-        }
+        fun cardTokens(cardTokens: JsonField<List<String>>) = apply { this.cardTokens = cardTokens }
 
-        fun previousAuthRuleTokens(previousAuthRuleTokens: List<String>) = previousAuthRuleTokens(JsonField.of(previousAuthRuleTokens))
+        fun previousAuthRuleTokens(previousAuthRuleTokens: List<String>) =
+            previousAuthRuleTokens(JsonField.of(previousAuthRuleTokens))
 
         @JsonProperty("previous_auth_rule_tokens")
         @ExcludeMissing
@@ -173,12 +163,13 @@ class AuthRuleRemoveResponse private constructor(private val accountTokens: Json
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): AuthRuleRemoveResponse = AuthRuleRemoveResponse(
-            accountTokens.map { it.toUnmodifiable() },
-            cardTokens.map { it.toUnmodifiable() },
-            previousAuthRuleTokens.map { it.toUnmodifiable() },
-            programLevel,
-            additionalProperties.toUnmodifiable(),
-        )
+        fun build(): AuthRuleRemoveResponse =
+            AuthRuleRemoveResponse(
+                accountTokens.map { it.toUnmodifiable() },
+                cardTokens.map { it.toUnmodifiable() },
+                previousAuthRuleTokens.map { it.toUnmodifiable() },
+                programLevel,
+                additionalProperties.toUnmodifiable(),
+            )
     }
 }

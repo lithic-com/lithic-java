@@ -1,50 +1,38 @@
 package com.lithic.api.models
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
 import com.google.common.collect.Multimaps
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 
-class CardEmbedParams constructor(private val embedRequest: String?,private val hmac: String?,private val additionalQueryParams: ListMultimap<String, String>,private val additionalHeaders: ListMultimap<String, String>,) {
+class CardEmbedParams
+constructor(
+    private val embedRequest: String?,
+    private val hmac: String?,
+    private val additionalQueryParams: ListMultimap<String, String>,
+    private val additionalHeaders: ListMultimap<String, String>,
+) {
 
     fun embedRequest(): Optional<String> = Optional.ofNullable(embedRequest)
 
     fun hmac(): Optional<String> = Optional.ofNullable(hmac)
 
     @JvmSynthetic
-    internal fun toQueryParams(): ListMultimap<String, String> = CardEmbedQueryParams(
-        embedRequest,
-        hmac,
-        additionalQueryParams
-    ).toQueryParams()
+    internal fun toQueryParams(): ListMultimap<String, String> =
+        CardEmbedQueryParams(embedRequest, hmac, additionalQueryParams).toQueryParams()
 
-    @JvmSynthetic
-    internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
 
-    class CardEmbedQueryParams internal constructor(private val embedRequest: String?,private val hmac: String?,private val additionalProperties: ListMultimap<String, String>,) {
+    class CardEmbedQueryParams
+    internal constructor(
+        private val embedRequest: String?,
+        private val hmac: String?,
+        private val additionalProperties: ListMultimap<String, String>,
+    ) {
 
         private var hashCode: Int = 0
 
@@ -57,50 +45,52 @@ class CardEmbedParams constructor(private val embedRequest: String?,private val 
         fun _additionalProperties(): ListMultimap<String, String> = additionalProperties
 
         fun toQueryParams(): ListMultimap<String, String> {
-          val params = ArrayListMultimap.create<String, String>()
-          this.embedRequest()?.let { params.put("embed_request", it.toString()) }
-          this.hmac()?.let { params.put("hmac", it.toString()) }
-          params.putAll(additionalProperties)
-          return Multimaps.unmodifiableListMultimap(params)
+            val params = ArrayListMultimap.create<String, String>()
+            this.embedRequest()?.let { params.put("embed_request", it.toString()) }
+            this.hmac()?.let { params.put("hmac", it.toString()) }
+            params.putAll(additionalProperties)
+            return Multimaps.unmodifiableListMultimap(params)
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is CardEmbedQueryParams &&
-              embedRequest == other.embedRequest &&
-              hmac == other.hmac &&
-              additionalProperties == other.additionalProperties
+            return other is CardEmbedQueryParams &&
+                embedRequest == other.embedRequest &&
+                hmac == other.hmac &&
+                additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                embedRequest,
-                hmac,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        embedRequest,
+                        hmac,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "CardEmbedQueryParams{embedRequest=$embedRequest, hmac=$hmac, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "CardEmbedQueryParams{embedRequest=$embedRequest, hmac=$hmac, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
 
             private var embedRequest: String? = null
             private var hmac: String? = null
-            private var additionalProperties: ArrayListMultimap<String, String> = ArrayListMultimap.create()
+            private var additionalProperties: ArrayListMultimap<String, String> =
+                ArrayListMultimap.create()
 
             @JvmSynthetic
             internal fun from(cardEmbedQueryParams: CardEmbedQueryParams) = apply {
@@ -110,14 +100,10 @@ class CardEmbedParams constructor(private val embedRequest: String?,private val 
             }
 
             /** A base64 encoded JSON string of an EmbedRequest to specify which card to load. */
-            fun embedRequest(embedRequest: String) = apply {
-                this.embedRequest = embedRequest
-            }
+            fun embedRequest(embedRequest: String) = apply { this.embedRequest = embedRequest }
 
             /** SHA2 HMAC of the embed_request JSON string with base64 digest. */
-            fun hmac(hmac: String) = apply {
-                this.hmac = hmac
-            }
+            fun hmac(hmac: String) = apply { this.hmac = hmac }
 
             fun additionalProperties(additionalProperties: ListMultimap<String, String>) = apply {
                 this.additionalProperties.clear()
@@ -128,15 +114,17 @@ class CardEmbedParams constructor(private val embedRequest: String?,private val 
                 this.additionalProperties.put(key, value)
             }
 
-            fun putAllAdditionalProperties(additionalProperties: ListMultimap<String, String>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
+            fun putAllAdditionalProperties(additionalProperties: ListMultimap<String, String>) =
+                apply {
+                    this.additionalProperties.putAll(additionalProperties)
+                }
 
-            fun build(): CardEmbedQueryParams = CardEmbedQueryParams(
-                embedRequest,
-                hmac,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): CardEmbedQueryParams =
+                CardEmbedQueryParams(
+                    embedRequest,
+                    hmac,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -145,34 +133,34 @@ class CardEmbedParams constructor(private val embedRequest: String?,private val 
     fun _additionalHeaders(): ListMultimap<String, String> = additionalHeaders
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is CardEmbedParams &&
-          embedRequest == other.embedRequest &&
-          hmac == other.hmac &&
-          additionalQueryParams == other.additionalQueryParams &&
-          additionalHeaders == other.additionalHeaders
+        return other is CardEmbedParams &&
+            embedRequest == other.embedRequest &&
+            hmac == other.hmac &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          embedRequest,
-          hmac,
-          additionalQueryParams,
-          additionalHeaders,
-      )
+        return Objects.hash(
+            embedRequest,
+            hmac,
+            additionalQueryParams,
+            additionalHeaders,
+        )
     }
 
-    override fun toString() = "CardEmbedParams{embedRequest=$embedRequest, hmac=$hmac, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+    override fun toString() =
+        "CardEmbedParams{embedRequest=$embedRequest, hmac=$hmac, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -202,28 +190,34 @@ class CardEmbedParams constructor(private val embedRequest: String?,private val 
             this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply { this.additionalQueryParams.put(key, value) }
-
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
-            this.additionalQueryParams.putAll(additionalQueryParams)
+        fun putAdditionalQueryParams(key: String, value: String) = apply {
+            this.additionalQueryParams.put(key, value)
         }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
+            apply {
+                this.additionalQueryParams.putAll(additionalQueryParams)
+            }
 
         fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.clear()
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply { this.additionalHeaders.put(key, value) }
+        fun putAdditionalHeaders(key: String, value: String) = apply {
+            this.additionalHeaders.put(key, value)
+        }
 
         fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
             this.additionalHeaders.putAll(additionalHeaders)
         }
 
-        fun build(): CardEmbedParams = CardEmbedParams(
-            embedRequest,
-            hmac,
-            additionalQueryParams.toUnmodifiable(),
-            additionalHeaders.toUnmodifiable(),
-        )
+        fun build(): CardEmbedParams =
+            CardEmbedParams(
+                embedRequest,
+                hmac,
+                additionalQueryParams.toUnmodifiable(),
+                additionalHeaders.toUnmodifiable(),
+            )
     }
 }
