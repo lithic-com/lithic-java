@@ -17,7 +17,7 @@ The API documentation can be found [here](https://docs.lithic.com).
 #### Gradle
 
 ```kotlin
-implementation("com.lithic.api:lithic-java:0.0.2")
+implementation("com.lithic.api:lithic-java:0.0.4")
 ```
 
 #### Maven
@@ -26,7 +26,7 @@ implementation("com.lithic.api:lithic-java:0.0.2")
 <dependency>
     <groupId>com.lithic.api</groupId>
     <artifactId>lithic-java</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.4</version>
 </dependency>
 ```
 
