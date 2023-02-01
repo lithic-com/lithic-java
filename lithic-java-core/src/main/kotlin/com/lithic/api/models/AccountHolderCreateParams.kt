@@ -1501,8 +1501,8 @@ constructor(
     @NoAutoDetect
     class KycExempt
     private constructor(
-        private val workflow: String?,
-        private val kycExemptionType: String?,
+        private val workflow: Workflow?,
+        private val kycExemptionType: KycExemptionType?,
         private val firstName: String?,
         private val lastName: String?,
         private val email: String?,
@@ -1514,10 +1514,11 @@ constructor(
         private var hashCode: Int = 0
 
         /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
-        @JsonProperty("workflow") fun workflow(): String? = workflow
+        @JsonProperty("workflow") fun workflow(): Workflow? = workflow
 
         /** Specifies the type of KYC Exempt user */
-        @JsonProperty("kyc_exemption_type") fun kycExemptionType(): String? = kycExemptionType
+        @JsonProperty("kyc_exemption_type")
+        fun kycExemptionType(): KycExemptionType? = kycExemptionType
 
         /** The KYC Exempt user's first name */
         @JsonProperty("first_name") fun firstName(): String? = firstName
@@ -1586,8 +1587,8 @@ constructor(
 
         class Builder {
 
-            private var workflow: String? = null
-            private var kycExemptionType: String? = null
+            private var workflow: Workflow? = null
+            private var kycExemptionType: KycExemptionType? = null
             private var firstName: String? = null
             private var lastName: String? = null
             private var email: String? = null
@@ -1609,11 +1610,11 @@ constructor(
 
             /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
             @JsonProperty("workflow")
-            fun workflow(workflow: String) = apply { this.workflow = workflow }
+            fun workflow(workflow: Workflow) = apply { this.workflow = workflow }
 
             /** Specifies the type of KYC Exempt user */
             @JsonProperty("kyc_exemption_type")
-            fun kycExemptionType(kycExemptionType: String) = apply {
+            fun kycExemptionType(kycExemptionType: KycExemptionType) = apply {
                 this.kycExemptionType = kycExemptionType
             }
 
@@ -1668,6 +1669,121 @@ constructor(
                     address,
                     additionalProperties.toUnmodifiable(),
                 )
+        }
+
+        class Workflow
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Workflow && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val KYC_EXEMPT = Workflow(JsonField.of("KYC_EXEMPT"))
+
+                @JvmStatic fun of(value: String) = Workflow(JsonField.of(value))
+            }
+
+            enum class Known {
+                KYC_EXEMPT,
+            }
+
+            enum class Value {
+                KYC_EXEMPT,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    KYC_EXEMPT -> Value.KYC_EXEMPT
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    KYC_EXEMPT -> Known.KYC_EXEMPT
+                    else ->
+                        throw LithicInvalidDataException(
+                            "Unknown AccountHolderCreateBody.KycExempt.Workflow: $value"
+                        )
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
+
+        class KycExemptionType
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is KycExemptionType && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val AUTHORIZED_USER = KycExemptionType(JsonField.of("AUTHORIZED_USER"))
+
+                @JvmField
+                val PREPAID_CARD_USER = KycExemptionType(JsonField.of("PREPAID_CARD_USER"))
+
+                @JvmStatic fun of(value: String) = KycExemptionType(JsonField.of(value))
+            }
+
+            enum class Known {
+                AUTHORIZED_USER,
+                PREPAID_CARD_USER,
+            }
+
+            enum class Value {
+                AUTHORIZED_USER,
+                PREPAID_CARD_USER,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    AUTHORIZED_USER -> Value.AUTHORIZED_USER
+                    PREPAID_CARD_USER -> Value.PREPAID_CARD_USER
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    AUTHORIZED_USER -> Known.AUTHORIZED_USER
+                    PREPAID_CARD_USER -> Known.PREPAID_CARD_USER
+                    else ->
+                        throw LithicInvalidDataException(
+                            "Unknown AccountHolderCreateBody.KycExempt.KycExemptionType: $value"
+                        )
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
     }
 }

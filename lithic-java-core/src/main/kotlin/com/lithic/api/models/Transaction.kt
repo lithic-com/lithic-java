@@ -98,7 +98,7 @@ private constructor(
 
     /**
      * Note this field will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)).
+     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      * Card used in this transaction.
      */
     fun card(): Optional<Card> = Optional.ofNullable(card.getNullable("card"))
@@ -106,7 +106,7 @@ private constructor(
     /**
      * Token for the card used in this transaction. Note this field is not yet included. It will be
      * added as part of the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)).
+     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      */
     fun cardToken(): Optional<String> = Optional.ofNullable(cardToken.getNullable("card_token"))
 
@@ -118,7 +118,7 @@ private constructor(
 
     /**
      * Note this field will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)). A
+     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A
      * list of objects that describe how this transaction was funded, with the `amount` represented
      * in cents. A reference to the funding account for the `card` that made this transaction may
      * appear here and the `token` will match the `token` for the funding account in the `card`
@@ -149,14 +149,14 @@ private constructor(
      * Status types:
      *
      * - `BOUNCED` - The transaction was bounced. Note this value will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)).
+     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      * - `DECLINED` - The transaction was declined.
      * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant.
      * - `SETTLED` - The transaction is complete.
      * - `SETTLING` - The merchant has completed the transaction and the funding source is being
      * debited. Note this value will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)).
+     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      * - `VOIDED` - The merchant has voided the previously pending authorization.
      */
     fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
@@ -216,7 +216,7 @@ private constructor(
 
     /**
      * Note this field will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)).
+     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      * Card used in this transaction.
      */
     @JsonProperty("card") @ExcludeMissing fun _card() = card
@@ -224,7 +224,7 @@ private constructor(
     /**
      * Token for the card used in this transaction. Note this field is not yet included. It will be
      * added as part of the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)).
+     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      */
     @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
 
@@ -236,7 +236,7 @@ private constructor(
 
     /**
      * Note this field will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)). A
+     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A
      * list of objects that describe how this transaction was funded, with the `amount` represented
      * in cents. A reference to the funding account for the `card` that made this transaction may
      * appear here and the `token` will match the `token` for the funding account in the `card`
@@ -266,14 +266,14 @@ private constructor(
      * Status types:
      *
      * - `BOUNCED` - The transaction was bounced. Note this value will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)).
+     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      * - `DECLINED` - The transaction was declined.
      * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant.
      * - `SETTLED` - The transaction is complete.
      * - `SETTLING` - The merchant has completed the transaction and the funding source is being
      * debited. Note this value will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)).
+     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      * - `VOIDED` - The merchant has voided the previously pending authorization.
      */
     @JsonProperty("status") @ExcludeMissing fun _status() = status
@@ -548,15 +548,15 @@ private constructor(
 
         /**
          * Note this field will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ). Card used in this transaction.
+         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
+         * Card used in this transaction.
          */
         fun card(card: Card) = card(JsonField.of(card))
 
         /**
          * Note this field will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ). Card used in this transaction.
+         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
+         * Card used in this transaction.
          */
         @JsonProperty("card")
         @ExcludeMissing
@@ -565,16 +565,14 @@ private constructor(
         /**
          * Token for the card used in this transaction. Note this field is not yet included. It will
          * be added as part of the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ).
+         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
          */
         fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
 
         /**
          * Token for the card used in this transaction. Note this field is not yet included. It will
          * be added as part of the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ).
+         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
          */
         @JsonProperty("card_token")
         @ExcludeMissing
@@ -598,8 +596,8 @@ private constructor(
 
         /**
          * Note this field will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ). A list of objects that describe how this transaction was funded, with the `amount`
+         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
+         * A list of objects that describe how this transaction was funded, with the `amount`
          * represented in cents. A reference to the funding account for the `card` that made this
          * transaction may appear here and the `token` will match the `token` for the funding
          * account in the `card` field.
@@ -608,8 +606,8 @@ private constructor(
 
         /**
          * Note this field will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ). A list of objects that describe how this transaction was funded, with the `amount`
+         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
+         * A list of objects that describe how this transaction was funded, with the `amount`
          * represented in cents. A reference to the funding account for the `card` that made this
          * transaction may appear here and the `token` will match the `token` for the funding
          * account in the `card` field.
@@ -668,16 +666,14 @@ private constructor(
          * Status types:
          *
          * - `BOUNCED` - The transaction was bounced. Note this value will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ).
+         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
          * - `DECLINED` - The transaction was declined.
          * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
          * - `PENDING` - Authorization is pending completion from the merchant.
          * - `SETTLED` - The transaction is complete.
          * - `SETTLING` - The merchant has completed the transaction and the funding source is being
          * debited. Note this value will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ).
+         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
          * - `VOIDED` - The merchant has voided the previously pending authorization.
          */
         fun status(status: Status) = status(JsonField.of(status))
@@ -686,16 +682,14 @@ private constructor(
          * Status types:
          *
          * - `BOUNCED` - The transaction was bounced. Note this value will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ).
+         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
          * - `DECLINED` - The transaction was declined.
          * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
          * - `PENDING` - Authorization is pending completion from the merchant.
          * - `SETTLED` - The transaction is complete.
          * - `SETTLING` - The merchant has completed the transaction and the funding source is being
          * debited. Note this value will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ).
+         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
          * - `VOIDED` - The merchant has voided the previously pending authorization.
          */
         @JsonProperty("status")
@@ -1687,10 +1681,9 @@ private constructor(
          * - `RETURN` - A refund has been processed on the transaction.
          * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
          * incorrect refund).
-         * - `VOID` - (Note this value will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ). A transaction has been voided (e.g., when a merchant reverses an incorrect
-         * authorization).
+         * - `VOID` - Note this value will be removed with the February API changes (see
+         * https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A transaction has been
+         * voided (e.g., when a merchant reverses an incorrect authorization).
          */
         fun type(): Type = type.getRequired("type")
 
@@ -1758,10 +1751,9 @@ private constructor(
          * - `RETURN` - A refund has been processed on the transaction.
          * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
          * incorrect refund).
-         * - `VOID` - (Note this value will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-         * ). A transaction has been voided (e.g., when a merchant reverses an incorrect
-         * authorization).
+         * - `VOID` - Note this value will be removed with the February API changes (see
+         * https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A transaction has been
+         * voided (e.g., when a merchant reverses an incorrect authorization).
          */
         @JsonProperty("type") @ExcludeMissing fun _type() = type
 
@@ -1954,10 +1946,9 @@ private constructor(
              * - `RETURN` - A refund has been processed on the transaction.
              * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
              * incorrect refund).
-             * - `VOID` - (Note this value will be removed with the
-             * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-             * ). A transaction has been voided (e.g., when a merchant reverses an incorrect
-             * authorization).
+             * - `VOID` - Note this value will be removed with the February API changes (see
+             * https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A transaction has
+             * been voided (e.g., when a merchant reverses an incorrect authorization).
              */
             fun type(type: Type) = type(JsonField.of(type))
 
@@ -1983,10 +1974,9 @@ private constructor(
              * - `RETURN` - A refund has been processed on the transaction.
              * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
              * incorrect refund).
-             * - `VOID` - (Note this value will be removed with the
-             * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)
-             * ). A transaction has been voided (e.g., when a merchant reverses an incorrect
-             * authorization).
+             * - `VOID` - Note this value will be removed with the February API changes (see
+             * https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A transaction has
+             * been voided (e.g., when a merchant reverses an incorrect authorization).
              */
             @JsonProperty("type")
             @ExcludeMissing

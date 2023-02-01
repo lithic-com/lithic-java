@@ -17,7 +17,7 @@ import java.util.Optional
 
 /**
  * Note this field will be removed with the
- * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes)). Card
+ * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). Card
  * used in this transaction.
  */
 @JsonDeserialize(builder = Card.Builder::class)

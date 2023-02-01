@@ -11,12 +11,14 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
 import java.util.Objects
+import java.util.Optional
 
 class TransactionSimulateCreditAuthorizationParams
 constructor(
     private val amount: Long,
     private val descriptor: String,
     private val pan: String,
+    private val merchantAcceptorId: String?,
     private val additionalQueryParams: ListMultimap<String, String>,
     private val additionalHeaders: ListMultimap<String, String>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -28,12 +30,15 @@ constructor(
 
     fun pan(): String = pan
 
+    fun merchantAcceptorId(): Optional<String> = Optional.ofNullable(merchantAcceptorId)
+
     @JvmSynthetic
     internal fun toBody(): TransactionSimulateCreditAuthorizationBody =
         TransactionSimulateCreditAuthorizationBody(
             amount,
             descriptor,
             pan,
+            merchantAcceptorId,
             additionalBodyProperties
         )
 
@@ -47,6 +52,7 @@ constructor(
         private val amount: Long?,
         private val descriptor: String?,
         private val pan: String?,
+        private val merchantAcceptorId: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -65,6 +71,9 @@ constructor(
         /** Sixteen digit card number. */
         @JsonProperty("pan") fun pan(): String? = pan
 
+        /** Unique identifier to identify the payment card acceptor. */
+        @JsonProperty("merchant_acceptor_id") fun merchantAcceptorId(): String? = merchantAcceptorId
+
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -80,6 +89,7 @@ constructor(
                 amount == other.amount &&
                 descriptor == other.descriptor &&
                 pan == other.pan &&
+                merchantAcceptorId == other.merchantAcceptorId &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -90,6 +100,7 @@ constructor(
                         amount,
                         descriptor,
                         pan,
+                        merchantAcceptorId,
                         additionalProperties,
                     )
             }
@@ -97,7 +108,7 @@ constructor(
         }
 
         override fun toString() =
-            "TransactionSimulateCreditAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, additionalProperties=$additionalProperties}"
+            "TransactionSimulateCreditAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, merchantAcceptorId=$merchantAcceptorId, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -109,6 +120,7 @@ constructor(
             private var amount: Long? = null
             private var descriptor: String? = null
             private var pan: String? = null
+            private var merchantAcceptorId: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -119,6 +131,8 @@ constructor(
                 this.amount = transactionSimulateCreditAuthorizationBody.amount
                 this.descriptor = transactionSimulateCreditAuthorizationBody.descriptor
                 this.pan = transactionSimulateCreditAuthorizationBody.pan
+                this.merchantAcceptorId =
+                    transactionSimulateCreditAuthorizationBody.merchantAcceptorId
                 additionalProperties(
                     transactionSimulateCreditAuthorizationBody.additionalProperties
                 )
@@ -137,6 +151,12 @@ constructor(
 
             /** Sixteen digit card number. */
             @JsonProperty("pan") fun pan(pan: String) = apply { this.pan = pan }
+
+            /** Unique identifier to identify the payment card acceptor. */
+            @JsonProperty("merchant_acceptor_id")
+            fun merchantAcceptorId(merchantAcceptorId: String) = apply {
+                this.merchantAcceptorId = merchantAcceptorId
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -159,6 +179,7 @@ constructor(
                         "Property `descriptor` is required but was not set"
                     },
                     checkNotNull(pan) { "Property `pan` is required but was not set" },
+                    merchantAcceptorId,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -179,6 +200,7 @@ constructor(
             amount == other.amount &&
             descriptor == other.descriptor &&
             pan == other.pan &&
+            merchantAcceptorId == other.merchantAcceptorId &&
             additionalQueryParams == other.additionalQueryParams &&
             additionalHeaders == other.additionalHeaders &&
             additionalBodyProperties == other.additionalBodyProperties
@@ -189,6 +211,7 @@ constructor(
             amount,
             descriptor,
             pan,
+            merchantAcceptorId,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -196,7 +219,7 @@ constructor(
     }
 
     override fun toString() =
-        "TransactionSimulateCreditAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "TransactionSimulateCreditAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, merchantAcceptorId=$merchantAcceptorId, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -211,6 +234,7 @@ constructor(
         private var amount: Long? = null
         private var descriptor: String? = null
         private var pan: String? = null
+        private var merchantAcceptorId: String? = null
         private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
         private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -223,6 +247,8 @@ constructor(
             this.amount = transactionSimulateCreditAuthorizationParams.amount
             this.descriptor = transactionSimulateCreditAuthorizationParams.descriptor
             this.pan = transactionSimulateCreditAuthorizationParams.pan
+            this.merchantAcceptorId =
+                transactionSimulateCreditAuthorizationParams.merchantAcceptorId
             additionalQueryParams(
                 transactionSimulateCreditAuthorizationParams.additionalQueryParams
             )
@@ -244,6 +270,11 @@ constructor(
 
         /** Sixteen digit card number. */
         fun pan(pan: String) = apply { this.pan = pan }
+
+        /** Unique identifier to identify the payment card acceptor. */
+        fun merchantAcceptorId(merchantAcceptorId: String) = apply {
+            this.merchantAcceptorId = merchantAcceptorId
+        }
 
         fun additionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
             this.additionalQueryParams.clear()
@@ -291,6 +322,7 @@ constructor(
                 checkNotNull(amount) { "Property `amount` is required but was not set" },
                 checkNotNull(descriptor) { "Property `descriptor` is required but was not set" },
                 checkNotNull(pan) { "Property `pan` is required but was not set" },
+                merchantAcceptorId,
                 additionalQueryParams.toUnmodifiable(),
                 additionalHeaders.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

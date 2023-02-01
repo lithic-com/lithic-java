@@ -12,6 +12,7 @@ class TransactionSimulateCreditAuthorizationParamsTest {
             .amount(123L)
             .descriptor("COFFEE SHOP")
             .pan("4111111289144142")
+            .merchantAcceptorId("XRKGDPOWEWQRRWU")
             .build()
     }
 
@@ -22,12 +23,14 @@ class TransactionSimulateCreditAuthorizationParamsTest {
                 .amount(123L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
+                .merchantAcceptorId("XRKGDPOWEWQRRWU")
                 .build()
         val body = params.toBody()
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(123L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
+        assertThat(body.merchantAcceptorId()).isEqualTo("XRKGDPOWEWQRRWU")
     }
 
     @Test

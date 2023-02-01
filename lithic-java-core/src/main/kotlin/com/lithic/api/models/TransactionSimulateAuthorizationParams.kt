@@ -22,6 +22,7 @@ constructor(
     private val descriptor: String,
     private val pan: String,
     private val status: Status?,
+    private val merchantAcceptorId: String?,
     private val merchantCurrency: String?,
     private val merchantAmount: Long?,
     private val partialApprovalCapable: Boolean?,
@@ -38,6 +39,8 @@ constructor(
 
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
+    fun merchantAcceptorId(): Optional<String> = Optional.ofNullable(merchantAcceptorId)
+
     fun merchantCurrency(): Optional<String> = Optional.ofNullable(merchantCurrency)
 
     fun merchantAmount(): Optional<Long> = Optional.ofNullable(merchantAmount)
@@ -51,6 +54,7 @@ constructor(
             descriptor,
             pan,
             status,
+            merchantAcceptorId,
             merchantCurrency,
             merchantAmount,
             partialApprovalCapable,
@@ -68,6 +72,7 @@ constructor(
         private val descriptor: String?,
         private val pan: String?,
         private val status: Status?,
+        private val merchantAcceptorId: String?,
         private val merchantCurrency: String?,
         private val merchantAmount: Long?,
         private val partialApprovalCapable: Boolean?,
@@ -108,6 +113,9 @@ constructor(
          */
         @JsonProperty("status") fun status(): Status? = status
 
+        /** Unique identifier to identify the payment card acceptor. */
+        @JsonProperty("merchant_acceptor_id") fun merchantAcceptorId(): String? = merchantAcceptorId
+
         /** 3-digit alphabetic ISO 4217 currency code. */
         @JsonProperty("merchant_currency") fun merchantCurrency(): String? = merchantCurrency
 
@@ -141,6 +149,7 @@ constructor(
                 descriptor == other.descriptor &&
                 pan == other.pan &&
                 status == other.status &&
+                merchantAcceptorId == other.merchantAcceptorId &&
                 merchantCurrency == other.merchantCurrency &&
                 merchantAmount == other.merchantAmount &&
                 partialApprovalCapable == other.partialApprovalCapable &&
@@ -155,6 +164,7 @@ constructor(
                         descriptor,
                         pan,
                         status,
+                        merchantAcceptorId,
                         merchantCurrency,
                         merchantAmount,
                         partialApprovalCapable,
@@ -165,7 +175,7 @@ constructor(
         }
 
         override fun toString() =
-            "TransactionSimulateAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, partialApprovalCapable=$partialApprovalCapable, additionalProperties=$additionalProperties}"
+            "TransactionSimulateAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantAcceptorId=$merchantAcceptorId, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, partialApprovalCapable=$partialApprovalCapable, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -178,6 +188,7 @@ constructor(
             private var descriptor: String? = null
             private var pan: String? = null
             private var status: Status? = null
+            private var merchantAcceptorId: String? = null
             private var merchantCurrency: String? = null
             private var merchantAmount: Long? = null
             private var partialApprovalCapable: Boolean? = null
@@ -191,6 +202,7 @@ constructor(
                 this.descriptor = transactionSimulateAuthorizationBody.descriptor
                 this.pan = transactionSimulateAuthorizationBody.pan
                 this.status = transactionSimulateAuthorizationBody.status
+                this.merchantAcceptorId = transactionSimulateAuthorizationBody.merchantAcceptorId
                 this.merchantCurrency = transactionSimulateAuthorizationBody.merchantCurrency
                 this.merchantAmount = transactionSimulateAuthorizationBody.merchantAmount
                 this.partialApprovalCapable =
@@ -232,6 +244,12 @@ constructor(
              * transaction.
              */
             @JsonProperty("status") fun status(status: Status) = apply { this.status = status }
+
+            /** Unique identifier to identify the payment card acceptor. */
+            @JsonProperty("merchant_acceptor_id")
+            fun merchantAcceptorId(merchantAcceptorId: String) = apply {
+                this.merchantAcceptorId = merchantAcceptorId
+            }
 
             /** 3-digit alphabetic ISO 4217 currency code. */
             @JsonProperty("merchant_currency")
@@ -280,6 +298,7 @@ constructor(
                     },
                     checkNotNull(pan) { "Property `pan` is required but was not set" },
                     status,
+                    merchantAcceptorId,
                     merchantCurrency,
                     merchantAmount,
                     partialApprovalCapable,
@@ -304,6 +323,7 @@ constructor(
             descriptor == other.descriptor &&
             pan == other.pan &&
             status == other.status &&
+            merchantAcceptorId == other.merchantAcceptorId &&
             merchantCurrency == other.merchantCurrency &&
             merchantAmount == other.merchantAmount &&
             partialApprovalCapable == other.partialApprovalCapable &&
@@ -318,6 +338,7 @@ constructor(
             descriptor,
             pan,
             status,
+            merchantAcceptorId,
             merchantCurrency,
             merchantAmount,
             partialApprovalCapable,
@@ -328,7 +349,7 @@ constructor(
     }
 
     override fun toString() =
-        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, partialApprovalCapable=$partialApprovalCapable, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantAcceptorId=$merchantAcceptorId, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, partialApprovalCapable=$partialApprovalCapable, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -344,6 +365,7 @@ constructor(
         private var descriptor: String? = null
         private var pan: String? = null
         private var status: Status? = null
+        private var merchantAcceptorId: String? = null
         private var merchantCurrency: String? = null
         private var merchantAmount: Long? = null
         private var partialApprovalCapable: Boolean? = null
@@ -359,6 +381,7 @@ constructor(
             this.descriptor = transactionSimulateAuthorizationParams.descriptor
             this.pan = transactionSimulateAuthorizationParams.pan
             this.status = transactionSimulateAuthorizationParams.status
+            this.merchantAcceptorId = transactionSimulateAuthorizationParams.merchantAcceptorId
             this.merchantCurrency = transactionSimulateAuthorizationParams.merchantCurrency
             this.merchantAmount = transactionSimulateAuthorizationParams.merchantAmount
             this.partialApprovalCapable =
@@ -401,6 +424,11 @@ constructor(
          * funds immediately, and no subsequent clearing is required to settle the transaction.
          */
         fun status(status: Status) = apply { this.status = status }
+
+        /** Unique identifier to identify the payment card acceptor. */
+        fun merchantAcceptorId(merchantAcceptorId: String) = apply {
+            this.merchantAcceptorId = merchantAcceptorId
+        }
 
         /** 3-digit alphabetic ISO 4217 currency code. */
         fun merchantCurrency(merchantCurrency: String) = apply {
@@ -469,6 +497,7 @@ constructor(
                 checkNotNull(descriptor) { "Property `descriptor` is required but was not set" },
                 checkNotNull(pan) { "Property `pan` is required but was not set" },
                 status,
+                merchantAcceptorId,
                 merchantCurrency,
                 merchantAmount,
                 partialApprovalCapable,
