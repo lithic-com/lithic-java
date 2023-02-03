@@ -29,6 +29,10 @@ class LithicOkHttpClient private constructor() {
 
         fun maxRetries(maxRetries: Int) = apply { this.clientOptions.maxRetries(maxRetries) }
 
+        fun responseValidation(responseValidation: Boolean) = apply {
+            this.clientOptions.responseValidation(responseValidation)
+        }
+
         fun apiKey(apiKey: String): Builder = apply { clientOptions.apiKey(apiKey) }
 
         fun fromEnv(): Builder = apply { clientOptions.fromEnv() }
