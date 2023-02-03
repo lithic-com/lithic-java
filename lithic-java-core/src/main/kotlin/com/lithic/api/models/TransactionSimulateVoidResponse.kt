@@ -53,8 +53,8 @@ private constructor(
         }
 
         return other is TransactionSimulateVoidResponse &&
-            debuggingRequestId == other.debuggingRequestId &&
-            additionalProperties == other.additionalProperties
+            this.debuggingRequestId == other.debuggingRequestId &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {

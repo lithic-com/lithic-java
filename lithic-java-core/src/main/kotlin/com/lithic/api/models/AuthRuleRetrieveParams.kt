@@ -37,9 +37,9 @@ constructor(
         }
 
         return other is AuthRuleRetrieveParams &&
-            authRuleToken == other.authRuleToken &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders
+            this.authRuleToken == other.authRuleToken &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {

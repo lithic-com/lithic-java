@@ -102,9 +102,9 @@ constructor(
             }
 
             return other is FundingSourceCreateBody &&
-                bank == other.bank &&
-                plaid == other.plaid &&
-                additionalProperties == other.additionalProperties
+                this.bank == other.bank &&
+                this.plaid == other.plaid &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -178,11 +178,11 @@ constructor(
         }
 
         return other is FundingSourceCreateParams &&
-            bank == other.bank &&
-            plaid == other.plaid &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.bank == other.bank &&
+            this.plaid == other.plaid &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -345,12 +345,12 @@ constructor(
             }
 
             return other is Bank &&
-                validationMethod == other.validationMethod &&
-                accountName == other.accountName &&
-                accountNumber == other.accountNumber &&
-                accountToken == other.accountToken &&
-                routingNumber == other.routingNumber &&
-                additionalProperties == other.additionalProperties
+                this.validationMethod == other.validationMethod &&
+                this.accountName == other.accountName &&
+                this.accountNumber == other.accountNumber &&
+                this.accountToken == other.accountToken &&
+                this.routingNumber == other.routingNumber &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -468,7 +468,7 @@ constructor(
                     return true
                 }
 
-                return other is ValidationMethod && value == other.value
+                return other is ValidationMethod && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -547,10 +547,10 @@ constructor(
             }
 
             return other is Plaid &&
-                validationMethod == other.validationMethod &&
-                accountToken == other.accountToken &&
-                processorToken == other.processorToken &&
-                additionalProperties == other.additionalProperties
+                this.validationMethod == other.validationMethod &&
+                this.accountToken == other.accountToken &&
+                this.processorToken == other.processorToken &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -649,7 +649,7 @@ constructor(
                     return true
                 }
 
-                return other is ValidationMethod && value == other.value
+                return other is ValidationMethod && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()

@@ -18,7 +18,7 @@ private constructor(
             return true
         }
 
-        return other is SpendLimitDuration && value == other.value
+        return other is SpendLimitDuration && this.value == other.value
     }
 
     override fun hashCode() = value.hashCode()

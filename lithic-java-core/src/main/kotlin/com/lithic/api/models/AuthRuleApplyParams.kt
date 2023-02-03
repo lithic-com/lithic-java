@@ -85,10 +85,10 @@ constructor(
             }
 
             return other is AuthRuleApplyBody &&
-                cardTokens == other.cardTokens &&
-                accountTokens == other.accountTokens &&
-                programLevel == other.programLevel &&
-                additionalProperties == other.additionalProperties
+                this.cardTokens == other.cardTokens &&
+                this.accountTokens == other.accountTokens &&
+                this.programLevel == other.programLevel &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -183,13 +183,13 @@ constructor(
         }
 
         return other is AuthRuleApplyParams &&
-            authRuleToken == other.authRuleToken &&
-            cardTokens == other.cardTokens &&
-            accountTokens == other.accountTokens &&
-            programLevel == other.programLevel &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.authRuleToken == other.authRuleToken &&
+            this.cardTokens == other.cardTokens &&
+            this.accountTokens == other.accountTokens &&
+            this.programLevel == other.programLevel &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {

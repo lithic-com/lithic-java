@@ -48,8 +48,8 @@ private constructor(
         }
 
         return other is AuthRuleCreateResponse &&
-            data == other.data &&
-            additionalProperties == other.additionalProperties
+            this.data == other.data &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {

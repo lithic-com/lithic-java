@@ -61,9 +61,9 @@ private constructor(
         }
 
         return other is TransactionSimulateReturnResponse &&
-            debuggingRequestId == other.debuggingRequestId &&
-            token == other.token &&
-            additionalProperties == other.additionalProperties
+            this.debuggingRequestId == other.debuggingRequestId &&
+            this.token == other.token &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {

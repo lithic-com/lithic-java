@@ -120,12 +120,12 @@ private constructor(
         }
 
         return other is EmbedRequestParams &&
-            accountToken == other.accountToken &&
-            css == other.css &&
-            expiration == other.expiration &&
-            token == other.token &&
-            targetOrigin == other.targetOrigin &&
-            additionalProperties == other.additionalProperties
+            this.accountToken == other.accountToken &&
+            this.css == other.css &&
+            this.expiration == other.expiration &&
+            this.token == other.token &&
+            this.targetOrigin == other.targetOrigin &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {

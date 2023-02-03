@@ -94,10 +94,10 @@ constructor(
             }
 
             return other is CardReissueBody &&
-                shippingAddress == other.shippingAddress &&
-                shippingMethod == other.shippingMethod &&
-                productId == other.productId &&
-                additionalProperties == other.additionalProperties
+                this.shippingAddress == other.shippingAddress &&
+                this.shippingMethod == other.shippingMethod &&
+                this.productId == other.productId &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -201,13 +201,13 @@ constructor(
         }
 
         return other is CardReissueParams &&
-            cardToken == other.cardToken &&
-            shippingAddress == other.shippingAddress &&
-            shippingMethod == other.shippingMethod &&
-            productId == other.productId &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.cardToken == other.cardToken &&
+            this.shippingAddress == other.shippingAddress &&
+            this.shippingMethod == other.shippingMethod &&
+            this.productId == other.productId &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -347,7 +347,7 @@ constructor(
                 return true
             }
 
-            return other is ShippingMethod && value == other.value
+            return other is ShippingMethod && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

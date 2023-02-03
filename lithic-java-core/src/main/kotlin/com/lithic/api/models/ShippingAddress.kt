@@ -165,18 +165,18 @@ private constructor(
         }
 
         return other is ShippingAddress &&
-            firstName == other.firstName &&
-            lastName == other.lastName &&
-            line2Text == other.line2Text &&
-            address1 == other.address1 &&
-            address2 == other.address2 &&
-            city == other.city &&
-            state == other.state &&
-            postalCode == other.postalCode &&
-            country == other.country &&
-            email == other.email &&
-            phoneNumber == other.phoneNumber &&
-            additionalProperties == other.additionalProperties
+            this.firstName == other.firstName &&
+            this.lastName == other.lastName &&
+            this.line2Text == other.line2Text &&
+            this.address1 == other.address1 &&
+            this.address2 == other.address2 &&
+            this.city == other.city &&
+            this.state == other.state &&
+            this.postalCode == other.postalCode &&
+            this.country == other.country &&
+            this.email == other.email &&
+            this.phoneNumber == other.phoneNumber &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {

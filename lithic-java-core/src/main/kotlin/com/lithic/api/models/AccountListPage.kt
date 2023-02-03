@@ -39,9 +39,9 @@ private constructor(
         }
 
         return other is AccountListPage &&
-            accountsService == other.accountsService &&
-            params == other.params &&
-            response == other.response
+            this.accountsService == other.accountsService &&
+            this.params == other.params &&
+            this.response == other.response
     }
 
     override fun hashCode(): Int {
@@ -138,11 +138,11 @@ private constructor(
             }
 
             return other is Response &&
-                data == other.data &&
-                page == other.page &&
-                totalEntries == other.totalEntries &&
-                totalPages == other.totalPages &&
-                additionalProperties == other.additionalProperties
+                this.data == other.data &&
+                this.page == other.page &&
+                this.totalEntries == other.totalEntries &&
+                this.totalPages == other.totalPages &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {

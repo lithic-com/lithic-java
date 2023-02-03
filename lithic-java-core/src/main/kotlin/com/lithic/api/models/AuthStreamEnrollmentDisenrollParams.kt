@@ -40,9 +40,9 @@ constructor(
         }
 
         return other is AuthStreamEnrollmentDisenrollParams &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {

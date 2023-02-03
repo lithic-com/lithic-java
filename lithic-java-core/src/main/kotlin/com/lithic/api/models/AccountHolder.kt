@@ -88,11 +88,11 @@ private constructor(
         }
 
         return other is AccountHolder &&
-            token == other.token &&
-            accountToken == other.accountToken &&
-            status == other.status &&
-            statusReasons == other.statusReasons &&
-            additionalProperties == other.additionalProperties
+            this.token == other.token &&
+            this.accountToken == other.accountToken &&
+            this.status == other.status &&
+            this.statusReasons == other.statusReasons &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
@@ -218,7 +218,7 @@ private constructor(
                 return true
             }
 
-            return other is Status && value == other.value
+            return other is Status && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -287,7 +287,7 @@ private constructor(
                 return true
             }
 
-            return other is StatusReason && value == other.value
+            return other is StatusReason && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

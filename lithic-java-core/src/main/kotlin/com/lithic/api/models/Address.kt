@@ -108,13 +108,13 @@ private constructor(
         }
 
         return other is Address &&
-            address1 == other.address1 &&
-            address2 == other.address2 &&
-            city == other.city &&
-            country == other.country &&
-            postalCode == other.postalCode &&
-            state == other.state &&
-            additionalProperties == other.additionalProperties
+            this.address1 == other.address1 &&
+            this.address2 == other.address2 &&
+            this.city == other.city &&
+            this.country == other.country &&
+            this.postalCode == other.postalCode &&
+            this.state == other.state &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {

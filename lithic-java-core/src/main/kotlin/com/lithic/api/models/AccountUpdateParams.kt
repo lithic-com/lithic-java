@@ -124,12 +124,12 @@ constructor(
             }
 
             return other is AccountUpdateBody &&
-                dailySpendLimit == other.dailySpendLimit &&
-                lifetimeSpendLimit == other.lifetimeSpendLimit &&
-                monthlySpendLimit == other.monthlySpendLimit &&
-                verificationAddress == other.verificationAddress &&
-                state == other.state &&
-                additionalProperties == other.additionalProperties
+                this.dailySpendLimit == other.dailySpendLimit &&
+                this.lifetimeSpendLimit == other.lifetimeSpendLimit &&
+                this.monthlySpendLimit == other.monthlySpendLimit &&
+                this.verificationAddress == other.verificationAddress &&
+                this.state == other.state &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -258,15 +258,15 @@ constructor(
         }
 
         return other is AccountUpdateParams &&
-            accountToken == other.accountToken &&
-            dailySpendLimit == other.dailySpendLimit &&
-            lifetimeSpendLimit == other.lifetimeSpendLimit &&
-            monthlySpendLimit == other.monthlySpendLimit &&
-            verificationAddress == other.verificationAddress &&
-            state == other.state &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.accountToken == other.accountToken &&
+            this.dailySpendLimit == other.dailySpendLimit &&
+            this.lifetimeSpendLimit == other.lifetimeSpendLimit &&
+            this.monthlySpendLimit == other.monthlySpendLimit &&
+            this.verificationAddress == other.verificationAddress &&
+            this.state == other.state &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -462,13 +462,13 @@ constructor(
             }
 
             return other is VerificationAddress &&
-                address1 == other.address1 &&
-                address2 == other.address2 &&
-                city == other.city &&
-                state == other.state &&
-                postalCode == other.postalCode &&
-                country == other.country &&
-                additionalProperties == other.additionalProperties
+                this.address1 == other.address1 &&
+                this.address2 == other.address2 &&
+                this.city == other.city &&
+                this.state == other.state &&
+                this.postalCode == other.postalCode &&
+                this.country == other.country &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -571,7 +571,7 @@ constructor(
                 return true
             }
 
-            return other is State && value == other.value
+            return other is State && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

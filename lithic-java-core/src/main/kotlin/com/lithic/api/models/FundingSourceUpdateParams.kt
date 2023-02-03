@@ -87,9 +87,9 @@ constructor(
             }
 
             return other is FundingSourceUpdateBody &&
-                accountToken == other.accountToken &&
-                state == other.state &&
-                additionalProperties == other.additionalProperties
+                this.accountToken == other.accountToken &&
+                this.state == other.state &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -179,12 +179,12 @@ constructor(
         }
 
         return other is FundingSourceUpdateParams &&
-            fundingSourceToken == other.fundingSourceToken &&
-            accountToken == other.accountToken &&
-            state == other.state &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.fundingSourceToken == other.fundingSourceToken &&
+            this.accountToken == other.accountToken &&
+            this.state == other.state &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -317,7 +317,7 @@ constructor(
                 return true
             }
 
-            return other is State && value == other.value
+            return other is State && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

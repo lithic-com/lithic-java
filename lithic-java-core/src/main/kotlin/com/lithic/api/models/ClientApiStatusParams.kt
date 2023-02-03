@@ -27,8 +27,8 @@ constructor(
         }
 
         return other is ClientApiStatusParams &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {

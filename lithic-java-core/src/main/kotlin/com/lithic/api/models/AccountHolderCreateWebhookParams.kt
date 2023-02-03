@@ -54,8 +54,8 @@ constructor(
             }
 
             return other is AccountHolderCreateWebhookBody &&
-                url == other.url &&
-                additionalProperties == other.additionalProperties
+                this.url == other.url &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -122,10 +122,10 @@ constructor(
         }
 
         return other is AccountHolderCreateWebhookParams &&
-            url == other.url &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.url == other.url &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {

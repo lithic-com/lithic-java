@@ -182,16 +182,16 @@ constructor(
             }
 
             return other is CardUpdateBody &&
-                accountToken == other.accountToken &&
-                fundingToken == other.fundingToken &&
-                memo == other.memo &&
-                spendLimit == other.spendLimit &&
-                spendLimitDuration == other.spendLimitDuration &&
-                authRuleToken == other.authRuleToken &&
-                state == other.state &&
-                pin == other.pin &&
-                digitalCardArtToken == other.digitalCardArtToken &&
-                additionalProperties == other.additionalProperties
+                this.accountToken == other.accountToken &&
+                this.fundingToken == other.fundingToken &&
+                this.memo == other.memo &&
+                this.spendLimit == other.spendLimit &&
+                this.spendLimitDuration == other.spendLimitDuration &&
+                this.authRuleToken == other.authRuleToken &&
+                this.state == other.state &&
+                this.pin == other.pin &&
+                this.digitalCardArtToken == other.digitalCardArtToken &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -375,19 +375,19 @@ constructor(
         }
 
         return other is CardUpdateParams &&
-            cardToken == other.cardToken &&
-            accountToken == other.accountToken &&
-            fundingToken == other.fundingToken &&
-            memo == other.memo &&
-            spendLimit == other.spendLimit &&
-            spendLimitDuration == other.spendLimitDuration &&
-            authRuleToken == other.authRuleToken &&
-            state == other.state &&
-            pin == other.pin &&
-            digitalCardArtToken == other.digitalCardArtToken &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.cardToken == other.cardToken &&
+            this.accountToken == other.accountToken &&
+            this.fundingToken == other.fundingToken &&
+            this.memo == other.memo &&
+            this.spendLimit == other.spendLimit &&
+            this.spendLimitDuration == other.spendLimitDuration &&
+            this.authRuleToken == other.authRuleToken &&
+            this.state == other.state &&
+            this.pin == other.pin &&
+            this.digitalCardArtToken == other.digitalCardArtToken &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -602,7 +602,7 @@ constructor(
                 return true
             }
 
-            return other is State && value == other.value
+            return other is State && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

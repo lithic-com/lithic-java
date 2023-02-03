@@ -18,7 +18,7 @@ private constructor(
             return true
         }
 
-        return other is ExampleEnum && value == other.value
+        return other is ExampleEnum && this.value == other.value
     }
 
     override fun hashCode() = value.hashCode()

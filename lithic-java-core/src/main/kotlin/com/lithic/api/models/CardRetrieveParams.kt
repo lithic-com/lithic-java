@@ -67,8 +67,8 @@ constructor(
             }
 
             return other is CardRetrieveQueryParams &&
-                accountToken == other.accountToken &&
-                additionalProperties == other.additionalProperties
+                this.accountToken == other.accountToken &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -135,10 +135,10 @@ constructor(
         }
 
         return other is CardRetrieveParams &&
-            cardToken == other.cardToken &&
-            accountToken == other.accountToken &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders
+            this.cardToken == other.cardToken &&
+            this.accountToken == other.accountToken &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {

@@ -86,10 +86,10 @@ constructor(
             }
 
             return other is AccountHolderResubmitBody &&
-                workflow == other.workflow &&
-                tosTimestamp == other.tosTimestamp &&
-                individual == other.individual &&
-                additionalProperties == other.additionalProperties
+                this.workflow == other.workflow &&
+                this.tosTimestamp == other.tosTimestamp &&
+                this.individual == other.individual &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -186,13 +186,13 @@ constructor(
         }
 
         return other is AccountHolderResubmitParams &&
-            accountHolderToken == other.accountHolderToken &&
-            workflow == other.workflow &&
-            tosTimestamp == other.tosTimestamp &&
-            individual == other.individual &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.accountHolderToken == other.accountHolderToken &&
+            this.workflow == other.workflow &&
+            this.tosTimestamp == other.tosTimestamp &&
+            this.individual == other.individual &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -327,7 +327,7 @@ constructor(
                 return true
             }
 
-            return other is Workflow && value == other.value
+            return other is Workflow && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -428,14 +428,14 @@ constructor(
             }
 
             return other is Individual &&
-                address == other.address &&
-                dob == other.dob &&
-                email == other.email &&
-                firstName == other.firstName &&
-                governmentId == other.governmentId &&
-                lastName == other.lastName &&
-                phoneNumber == other.phoneNumber &&
-                additionalProperties == other.additionalProperties
+                this.address == other.address &&
+                this.dob == other.dob &&
+                this.email == other.email &&
+                this.firstName == other.firstName &&
+                this.governmentId == other.governmentId &&
+                this.lastName == other.lastName &&
+                this.phoneNumber == other.phoneNumber &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {

@@ -60,9 +60,9 @@ constructor(
             }
 
             return other is AuthRuleListQueryParams &&
-                page == other.page &&
-                pageSize == other.pageSize &&
-                additionalProperties == other.additionalProperties
+                this.page == other.page &&
+                this.pageSize == other.pageSize &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -138,10 +138,10 @@ constructor(
         }
 
         return other is AuthRuleListParams &&
-            page == other.page &&
-            pageSize == other.pageSize &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders
+            this.page == other.page &&
+            this.pageSize == other.pageSize &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {

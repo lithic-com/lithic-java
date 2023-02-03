@@ -68,10 +68,10 @@ constructor(
             }
 
             return other is TransactionSimulateReturnBody &&
-                amount == other.amount &&
-                descriptor == other.descriptor &&
-                pan == other.pan &&
-                additionalProperties == other.additionalProperties
+                this.amount == other.amount &&
+                this.descriptor == other.descriptor &&
+                this.pan == other.pan &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -159,12 +159,12 @@ constructor(
         }
 
         return other is TransactionSimulateReturnParams &&
-            amount == other.amount &&
-            descriptor == other.descriptor &&
-            pan == other.pan &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.amount == other.amount &&
+            this.descriptor == other.descriptor &&
+            this.pan == other.pan &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {

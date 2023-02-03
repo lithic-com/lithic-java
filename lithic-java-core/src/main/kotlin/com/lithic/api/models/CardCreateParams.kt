@@ -250,22 +250,22 @@ constructor(
             }
 
             return other is CardCreateBody &&
-                accountToken == other.accountToken &&
-                cardProgramToken == other.cardProgramToken &&
-                expMonth == other.expMonth &&
-                expYear == other.expYear &&
-                fundingToken == other.fundingToken &&
-                memo == other.memo &&
-                spendLimit == other.spendLimit &&
-                spendLimitDuration == other.spendLimitDuration &&
-                state == other.state &&
-                type == other.type &&
-                pin == other.pin &&
-                digitalCardArtToken == other.digitalCardArtToken &&
-                productId == other.productId &&
-                shippingAddress == other.shippingAddress &&
-                shippingMethod == other.shippingMethod &&
-                additionalProperties == other.additionalProperties
+                this.accountToken == other.accountToken &&
+                this.cardProgramToken == other.cardProgramToken &&
+                this.expMonth == other.expMonth &&
+                this.expYear == other.expYear &&
+                this.fundingToken == other.fundingToken &&
+                this.memo == other.memo &&
+                this.spendLimit == other.spendLimit &&
+                this.spendLimitDuration == other.spendLimitDuration &&
+                this.state == other.state &&
+                this.type == other.type &&
+                this.pin == other.pin &&
+                this.digitalCardArtToken == other.digitalCardArtToken &&
+                this.productId == other.productId &&
+                this.shippingAddress == other.shippingAddress &&
+                this.shippingMethod == other.shippingMethod &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -533,24 +533,24 @@ constructor(
         }
 
         return other is CardCreateParams &&
-            accountToken == other.accountToken &&
-            cardProgramToken == other.cardProgramToken &&
-            expMonth == other.expMonth &&
-            expYear == other.expYear &&
-            fundingToken == other.fundingToken &&
-            memo == other.memo &&
-            spendLimit == other.spendLimit &&
-            spendLimitDuration == other.spendLimitDuration &&
-            state == other.state &&
-            type == other.type &&
-            pin == other.pin &&
-            digitalCardArtToken == other.digitalCardArtToken &&
-            productId == other.productId &&
-            shippingAddress == other.shippingAddress &&
-            shippingMethod == other.shippingMethod &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.accountToken == other.accountToken &&
+            this.cardProgramToken == other.cardProgramToken &&
+            this.expMonth == other.expMonth &&
+            this.expYear == other.expYear &&
+            this.fundingToken == other.fundingToken &&
+            this.memo == other.memo &&
+            this.spendLimit == other.spendLimit &&
+            this.spendLimitDuration == other.spendLimitDuration &&
+            this.state == other.state &&
+            this.type == other.type &&
+            this.pin == other.pin &&
+            this.digitalCardArtToken == other.digitalCardArtToken &&
+            this.productId == other.productId &&
+            this.shippingAddress == other.shippingAddress &&
+            this.shippingMethod == other.shippingMethod &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -837,7 +837,7 @@ constructor(
                 return true
             }
 
-            return other is State && value == other.value
+            return other is State && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -894,7 +894,7 @@ constructor(
                 return true
             }
 
-            return other is Type && value == other.value
+            return other is Type && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -963,7 +963,7 @@ constructor(
                 return true
             }
 
-            return other is ShippingMethod && value == other.value
+            return other is ShippingMethod && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

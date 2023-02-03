@@ -72,11 +72,11 @@ private constructor(
         }
 
         return other is AuthRuleRemoveResponse &&
-            accountTokens == other.accountTokens &&
-            cardTokens == other.cardTokens &&
-            previousAuthRuleTokens == other.previousAuthRuleTokens &&
-            programLevel == other.programLevel &&
-            additionalProperties == other.additionalProperties
+            this.accountTokens == other.accountTokens &&
+            this.cardTokens == other.cardTokens &&
+            this.previousAuthRuleTokens == other.previousAuthRuleTokens &&
+            this.programLevel == other.programLevel &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {

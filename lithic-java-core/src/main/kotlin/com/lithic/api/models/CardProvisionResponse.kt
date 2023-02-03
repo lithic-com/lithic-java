@@ -51,8 +51,8 @@ private constructor(
         }
 
         return other is CardProvisionResponse &&
-            provisioningPayload == other.provisioningPayload &&
-            additionalProperties == other.additionalProperties
+            this.provisioningPayload == other.provisioningPayload &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {

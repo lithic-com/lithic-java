@@ -67,10 +67,10 @@ private constructor(
         }
 
         return other is AccountHolderUpdateResponse &&
-            token == other.token &&
-            email == other.email &&
-            phoneNumber == other.phoneNumber &&
-            additionalProperties == other.additionalProperties
+            this.token == other.token &&
+            this.email == other.email &&
+            this.phoneNumber == other.phoneNumber &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {

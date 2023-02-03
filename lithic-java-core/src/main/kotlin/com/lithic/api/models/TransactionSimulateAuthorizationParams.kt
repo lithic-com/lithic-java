@@ -145,15 +145,15 @@ constructor(
             }
 
             return other is TransactionSimulateAuthorizationBody &&
-                amount == other.amount &&
-                descriptor == other.descriptor &&
-                pan == other.pan &&
-                status == other.status &&
-                merchantAcceptorId == other.merchantAcceptorId &&
-                merchantCurrency == other.merchantCurrency &&
-                merchantAmount == other.merchantAmount &&
-                partialApprovalCapable == other.partialApprovalCapable &&
-                additionalProperties == other.additionalProperties
+                this.amount == other.amount &&
+                this.descriptor == other.descriptor &&
+                this.pan == other.pan &&
+                this.status == other.status &&
+                this.merchantAcceptorId == other.merchantAcceptorId &&
+                this.merchantCurrency == other.merchantCurrency &&
+                this.merchantAmount == other.merchantAmount &&
+                this.partialApprovalCapable == other.partialApprovalCapable &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -319,17 +319,17 @@ constructor(
         }
 
         return other is TransactionSimulateAuthorizationParams &&
-            amount == other.amount &&
-            descriptor == other.descriptor &&
-            pan == other.pan &&
-            status == other.status &&
-            merchantAcceptorId == other.merchantAcceptorId &&
-            merchantCurrency == other.merchantCurrency &&
-            merchantAmount == other.merchantAmount &&
-            partialApprovalCapable == other.partialApprovalCapable &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.amount == other.amount &&
+            this.descriptor == other.descriptor &&
+            this.pan == other.pan &&
+            this.status == other.status &&
+            this.merchantAcceptorId == other.merchantAcceptorId &&
+            this.merchantCurrency == other.merchantCurrency &&
+            this.merchantAmount == other.merchantAmount &&
+            this.partialApprovalCapable == other.partialApprovalCapable &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -520,7 +520,7 @@ constructor(
                 return true
             }
 
-            return other is Status && value == other.value
+            return other is Status && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

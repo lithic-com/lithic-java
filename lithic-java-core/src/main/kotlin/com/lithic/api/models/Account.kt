@@ -103,11 +103,11 @@ private constructor(
         }
 
         return other is Account &&
-            spendLimit == other.spendLimit &&
-            state == other.state &&
-            token == other.token &&
-            authRuleTokens == other.authRuleTokens &&
-            additionalProperties == other.additionalProperties
+            this.spendLimit == other.spendLimit &&
+            this.state == other.state &&
+            this.token == other.token &&
+            this.authRuleTokens == other.authRuleTokens &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
@@ -293,10 +293,10 @@ private constructor(
             }
 
             return other is SpendLimit &&
-                daily == other.daily &&
-                monthly == other.monthly &&
-                lifetime == other.lifetime &&
-                additionalProperties == other.additionalProperties
+                this.daily == other.daily &&
+                this.monthly == other.monthly &&
+                this.lifetime == other.lifetime &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -396,7 +396,7 @@ private constructor(
                 return true
             }
 
-            return other is State && value == other.value
+            return other is State && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

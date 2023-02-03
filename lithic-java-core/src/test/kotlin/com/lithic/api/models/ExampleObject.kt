@@ -76,12 +76,12 @@ private constructor(
         }
 
         return other is ExampleObject &&
-            stringField == other.stringField &&
-            numberField == other.numberField &&
-            integerField == other.integerField &&
-            requiredField == other.requiredField &&
-            nestedObject == other.nestedObject &&
-            additionalProperties == other.additionalProperties
+            this.stringField == other.stringField &&
+            this.numberField == other.numberField &&
+            this.integerField == other.integerField &&
+            this.requiredField == other.requiredField &&
+            this.nestedObject == other.nestedObject &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
@@ -226,9 +226,9 @@ private constructor(
             }
 
             return other is NestedObject &&
-                a == other.a &&
-                b == other.b &&
-                additionalProperties == other.additionalProperties
+                this.a == other.a &&
+                this.b == other.b &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {

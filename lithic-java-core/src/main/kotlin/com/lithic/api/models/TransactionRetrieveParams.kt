@@ -37,9 +37,9 @@ constructor(
         }
 
         return other is TransactionRetrieveParams &&
-            transactionToken == other.transactionToken &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders
+            this.transactionToken == other.transactionToken &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {

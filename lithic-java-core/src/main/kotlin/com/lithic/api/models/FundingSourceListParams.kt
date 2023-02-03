@@ -68,10 +68,10 @@ constructor(
             }
 
             return other is FundingSourceListQueryParams &&
-                accountToken == other.accountToken &&
-                page == other.page &&
-                pageSize == other.pageSize &&
-                additionalProperties == other.additionalProperties
+                this.accountToken == other.accountToken &&
+                this.page == other.page &&
+                this.pageSize == other.pageSize &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -153,11 +153,11 @@ constructor(
         }
 
         return other is FundingSourceListParams &&
-            accountToken == other.accountToken &&
-            page == other.page &&
-            pageSize == other.pageSize &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders
+            this.accountToken == other.accountToken &&
+            this.page == other.page &&
+            this.pageSize == other.pageSize &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {

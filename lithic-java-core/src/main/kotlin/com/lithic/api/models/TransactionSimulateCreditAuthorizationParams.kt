@@ -86,11 +86,11 @@ constructor(
             }
 
             return other is TransactionSimulateCreditAuthorizationBody &&
-                amount == other.amount &&
-                descriptor == other.descriptor &&
-                pan == other.pan &&
-                merchantAcceptorId == other.merchantAcceptorId &&
-                additionalProperties == other.additionalProperties
+                this.amount == other.amount &&
+                this.descriptor == other.descriptor &&
+                this.pan == other.pan &&
+                this.merchantAcceptorId == other.merchantAcceptorId &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -197,13 +197,13 @@ constructor(
         }
 
         return other is TransactionSimulateCreditAuthorizationParams &&
-            amount == other.amount &&
-            descriptor == other.descriptor &&
-            pan == other.pan &&
-            merchantAcceptorId == other.merchantAcceptorId &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.amount == other.amount &&
+            this.descriptor == other.descriptor &&
+            this.pan == other.pan &&
+            this.merchantAcceptorId == other.merchantAcceptorId &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {

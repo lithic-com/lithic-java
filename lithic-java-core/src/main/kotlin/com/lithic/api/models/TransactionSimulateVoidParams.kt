@@ -80,10 +80,10 @@ constructor(
             }
 
             return other is TransactionSimulateVoidBody &&
-                amount == other.amount &&
-                token == other.token &&
-                type == other.type &&
-                additionalProperties == other.additionalProperties
+                this.amount == other.amount &&
+                this.token == other.token &&
+                this.type == other.type &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -176,12 +176,12 @@ constructor(
         }
 
         return other is TransactionSimulateVoidParams &&
-            amount == other.amount &&
-            token == other.token &&
-            type == other.type &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.amount == other.amount &&
+            this.token == other.token &&
+            this.type == other.type &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -307,7 +307,7 @@ constructor(
                 return true
             }
 
-            return other is Type && value == other.value
+            return other is Type && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

@@ -37,9 +37,9 @@ constructor(
         }
 
         return other is AccountHolderListDocumentsParams &&
-            accountHolderToken == other.accountHolderToken &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders
+            this.accountHolderToken == other.accountHolderToken &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {

@@ -67,8 +67,8 @@ constructor(
             }
 
             return other is AccountHolderUploadDocumentBody &&
-                documentType == other.documentType &&
-                additionalProperties == other.additionalProperties
+                this.documentType == other.documentType &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -140,11 +140,11 @@ constructor(
         }
 
         return other is AccountHolderUploadDocumentParams &&
-            accountHolderToken == other.accountHolderToken &&
-            documentType == other.documentType &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.accountHolderToken == other.accountHolderToken &&
+            this.documentType == other.documentType &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -261,7 +261,7 @@ constructor(
                 return true
             }
 
-            return other is DocumentType && value == other.value
+            return other is DocumentType && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

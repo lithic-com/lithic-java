@@ -112,12 +112,12 @@ constructor(
             }
 
             return other is CardProvisionBody &&
-                digitalWallet == other.digitalWallet &&
-                nonce == other.nonce &&
-                nonceSignature == other.nonceSignature &&
-                certificate == other.certificate &&
-                accountToken == other.accountToken &&
-                additionalProperties == other.additionalProperties
+                this.digitalWallet == other.digitalWallet &&
+                this.nonce == other.nonce &&
+                this.nonceSignature == other.nonceSignature &&
+                this.certificate == other.certificate &&
+                this.accountToken == other.accountToken &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -236,15 +236,15 @@ constructor(
         }
 
         return other is CardProvisionParams &&
-            cardToken == other.cardToken &&
-            digitalWallet == other.digitalWallet &&
-            nonce == other.nonce &&
-            nonceSignature == other.nonceSignature &&
-            certificate == other.certificate &&
-            accountToken == other.accountToken &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.cardToken == other.cardToken &&
+            this.digitalWallet == other.digitalWallet &&
+            this.nonce == other.nonce &&
+            this.nonceSignature == other.nonceSignature &&
+            this.certificate == other.certificate &&
+            this.accountToken == other.accountToken &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -393,7 +393,7 @@ constructor(
                 return true
             }
 
-            return other is DigitalWallet && value == other.value
+            return other is DigitalWallet && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

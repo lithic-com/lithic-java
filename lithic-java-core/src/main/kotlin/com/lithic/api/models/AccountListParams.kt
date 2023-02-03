@@ -82,11 +82,11 @@ constructor(
             }
 
             return other is AccountListQueryParams &&
-                begin == other.begin &&
-                end == other.end &&
-                page == other.page &&
-                pageSize == other.pageSize &&
-                additionalProperties == other.additionalProperties
+                this.begin == other.begin &&
+                this.end == other.end &&
+                this.page == other.page &&
+                this.pageSize == other.pageSize &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -182,12 +182,12 @@ constructor(
         }
 
         return other is AccountListParams &&
-            begin == other.begin &&
-            end == other.end &&
-            page == other.page &&
-            pageSize == other.pageSize &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders
+            this.begin == other.begin &&
+            this.end == other.end &&
+            this.page == other.page &&
+            this.pageSize == other.pageSize &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {

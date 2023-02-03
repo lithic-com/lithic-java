@@ -48,8 +48,8 @@ private constructor(
         }
 
         return other is ApiStatus &&
-            message == other.message &&
-            additionalProperties == other.additionalProperties
+            this.message == other.message &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {

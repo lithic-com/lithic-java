@@ -288,23 +288,23 @@ private constructor(
         }
 
         return other is Card &&
-            created == other.created &&
-            cvv == other.cvv &&
-            funding == other.funding &&
-            expMonth == other.expMonth &&
-            expYear == other.expYear &&
-            hostname == other.hostname &&
-            lastFour == other.lastFour &&
-            memo == other.memo &&
-            pan == other.pan &&
-            spendLimit == other.spendLimit &&
-            spendLimitDuration == other.spendLimitDuration &&
-            state == other.state &&
-            authRuleTokens == other.authRuleTokens &&
-            token == other.token &&
-            type == other.type &&
-            digitalCardArtToken == other.digitalCardArtToken &&
-            additionalProperties == other.additionalProperties
+            this.created == other.created &&
+            this.cvv == other.cvv &&
+            this.funding == other.funding &&
+            this.expMonth == other.expMonth &&
+            this.expYear == other.expYear &&
+            this.hostname == other.hostname &&
+            this.lastFour == other.lastFour &&
+            this.memo == other.memo &&
+            this.pan == other.pan &&
+            this.spendLimit == other.spendLimit &&
+            this.spendLimitDuration == other.spendLimitDuration &&
+            this.state == other.state &&
+            this.authRuleTokens == other.authRuleTokens &&
+            this.token == other.token &&
+            this.type == other.type &&
+            this.digitalCardArtToken == other.digitalCardArtToken &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
@@ -676,7 +676,7 @@ private constructor(
                 return true
             }
 
-            return other is State && value == other.value
+            return other is State && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -751,7 +751,7 @@ private constructor(
                 return true
             }
 
-            return other is Type && value == other.value
+            return other is Type && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

@@ -69,9 +69,9 @@ constructor(
             }
 
             return other is TransactionSimulateClearingBody &&
-                amount == other.amount &&
-                token == other.token &&
-                additionalProperties == other.additionalProperties
+                this.amount == other.amount &&
+                this.token == other.token &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -156,11 +156,11 @@ constructor(
         }
 
         return other is TransactionSimulateClearingParams &&
-            amount == other.amount &&
-            token == other.token &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.amount == other.amount &&
+            this.token == other.token &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {

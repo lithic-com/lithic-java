@@ -77,9 +77,9 @@ constructor(
             }
 
             return other is FundingSourceVerifyBody &&
-                accountToken == other.accountToken &&
-                microDeposits == other.microDeposits &&
-                additionalProperties == other.additionalProperties
+                this.accountToken == other.accountToken &&
+                this.microDeposits == other.microDeposits &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -168,12 +168,12 @@ constructor(
         }
 
         return other is FundingSourceVerifyParams &&
-            fundingSourceToken == other.fundingSourceToken &&
-            accountToken == other.accountToken &&
-            microDeposits == other.microDeposits &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.fundingSourceToken == other.fundingSourceToken &&
+            this.accountToken == other.accountToken &&
+            this.microDeposits == other.microDeposits &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {

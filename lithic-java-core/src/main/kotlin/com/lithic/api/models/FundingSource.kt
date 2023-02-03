@@ -141,14 +141,14 @@ private constructor(
         }
 
         return other is FundingSource &&
-            accountName == other.accountName &&
-            created == other.created &&
-            lastFour == other.lastFour &&
-            nickname == other.nickname &&
-            state == other.state &&
-            token == other.token &&
-            type == other.type &&
-            additionalProperties == other.additionalProperties
+            this.accountName == other.accountName &&
+            this.created == other.created &&
+            this.lastFour == other.lastFour &&
+            this.nickname == other.nickname &&
+            this.state == other.state &&
+            this.token == other.token &&
+            this.type == other.type &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
@@ -335,7 +335,7 @@ private constructor(
                 return true
             }
 
-            return other is State && value == other.value
+            return other is State && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -398,7 +398,7 @@ private constructor(
                 return true
             }
 
-            return other is Type && value == other.value
+            return other is Type && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

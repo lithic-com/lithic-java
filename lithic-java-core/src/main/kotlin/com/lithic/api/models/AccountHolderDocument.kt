@@ -82,11 +82,11 @@ private constructor(
         }
 
         return other is AccountHolderDocument &&
-            accountHolderToken == other.accountHolderToken &&
-            documentType == other.documentType &&
-            requiredDocumentUploads == other.requiredDocumentUploads &&
-            token == other.token &&
-            additionalProperties == other.additionalProperties
+            this.accountHolderToken == other.accountHolderToken &&
+            this.documentType == other.documentType &&
+            this.requiredDocumentUploads == other.requiredDocumentUploads &&
+            this.token == other.token &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
@@ -204,7 +204,7 @@ private constructor(
                 return true
             }
 
-            return other is DocumentType && value == other.value
+            return other is DocumentType && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -343,11 +343,11 @@ private constructor(
             }
 
             return other is RequiredDocumentUpload &&
-                imageType == other.imageType &&
-                status == other.status &&
-                statusReasons == other.statusReasons &&
-                uploadUrl == other.uploadUrl &&
-                additionalProperties == other.additionalProperties
+                this.imageType == other.imageType &&
+                this.status == other.status &&
+                this.statusReasons == other.statusReasons &&
+                this.uploadUrl == other.uploadUrl &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -471,7 +471,7 @@ private constructor(
                     return true
                 }
 
-                return other is ImageType && value == other.value
+                return other is ImageType && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -531,7 +531,7 @@ private constructor(
                     return true
                 }
 
-                return other is Status && value == other.value
+                return other is Status && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -603,7 +603,7 @@ private constructor(
                     return true
                 }
 
-                return other is StatusReason && value == other.value
+                return other is StatusReason && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()

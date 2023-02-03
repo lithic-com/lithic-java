@@ -37,9 +37,9 @@ constructor(
         }
 
         return other is AccountRetrieveParams &&
-            accountToken == other.accountToken &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders
+            this.accountToken == other.accountToken &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {

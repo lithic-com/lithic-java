@@ -41,10 +41,10 @@ constructor(
         }
 
         return other is AccountHolderRetrieveDocumentParams &&
-            accountHolderToken == other.accountHolderToken &&
-            documentToken == other.documentToken &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders
+            this.accountHolderToken == other.accountHolderToken &&
+            this.documentToken == other.documentToken &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {

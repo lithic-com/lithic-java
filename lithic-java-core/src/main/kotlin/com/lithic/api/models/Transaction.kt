@@ -318,26 +318,26 @@ private constructor(
         }
 
         return other is Transaction &&
-            acquirerReferenceNumber == other.acquirerReferenceNumber &&
-            amount == other.amount &&
-            authorizationAmount == other.authorizationAmount &&
-            cardholderAuthentication == other.cardholderAuthentication &&
-            merchantAmount == other.merchantAmount &&
-            merchantAuthorizationAmount == other.merchantAuthorizationAmount &&
-            merchantCurrency == other.merchantCurrency &&
-            authorizationCode == other.authorizationCode &&
-            card == other.card &&
-            cardToken == other.cardToken &&
-            created == other.created &&
-            events == other.events &&
-            funding == other.funding &&
-            merchant == other.merchant &&
-            network == other.network &&
-            result == other.result &&
-            settledAmount == other.settledAmount &&
-            status == other.status &&
-            token == other.token &&
-            additionalProperties == other.additionalProperties
+            this.acquirerReferenceNumber == other.acquirerReferenceNumber &&
+            this.amount == other.amount &&
+            this.authorizationAmount == other.authorizationAmount &&
+            this.cardholderAuthentication == other.cardholderAuthentication &&
+            this.merchantAmount == other.merchantAmount &&
+            this.merchantAuthorizationAmount == other.merchantAuthorizationAmount &&
+            this.merchantCurrency == other.merchantCurrency &&
+            this.authorizationCode == other.authorizationCode &&
+            this.card == other.card &&
+            this.cardToken == other.cardToken &&
+            this.created == other.created &&
+            this.events == other.events &&
+            this.funding == other.funding &&
+            this.merchant == other.merchant &&
+            this.network == other.network &&
+            this.result == other.result &&
+            this.settledAmount == other.settledAmount &&
+            this.status == other.status &&
+            this.token == other.token &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
@@ -968,12 +968,12 @@ private constructor(
             }
 
             return other is CardholderAuthentication &&
-                _3dsVersion == other._3dsVersion &&
-                acquirerExemption == other.acquirerExemption &&
-                liabilityShift == other.liabilityShift &&
-                verificationAttempted == other.verificationAttempted &&
-                verificationResult == other.verificationResult &&
-                additionalProperties == other.additionalProperties
+                this._3dsVersion == other._3dsVersion &&
+                this.acquirerExemption == other.acquirerExemption &&
+                this.liabilityShift == other.liabilityShift &&
+                this.verificationAttempted == other.verificationAttempted &&
+                this.verificationResult == other.verificationResult &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -1263,7 +1263,7 @@ private constructor(
                     return true
                 }
 
-                return other is AcquirerExemption && value == other.value
+                return other is AcquirerExemption && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1372,7 +1372,7 @@ private constructor(
                     return true
                 }
 
-                return other is LiabilityShift && value == other.value
+                return other is LiabilityShift && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1447,7 +1447,7 @@ private constructor(
                     return true
                 }
 
-                return other is VerificationAttempted && value == other.value
+                return other is VerificationAttempted && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1525,7 +1525,7 @@ private constructor(
                     return true
                 }
 
-                return other is VerificationResult && value == other.value
+                return other is VerificationResult && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1780,12 +1780,12 @@ private constructor(
             }
 
             return other is Event &&
-                amount == other.amount &&
-                created == other.created &&
-                result == other.result &&
-                token == other.token &&
-                type == other.type &&
-                additionalProperties == other.additionalProperties
+                this.amount == other.amount &&
+                this.created == other.created &&
+                this.result == other.result &&
+                this.token == other.token &&
+                this.type == other.type &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -2020,7 +2020,7 @@ private constructor(
                     return true
                 }
 
-                return other is Result && value == other.value
+                return other is Result && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2190,7 +2190,7 @@ private constructor(
                     return true
                 }
 
-                return other is Type && value == other.value
+                return other is Type && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2381,10 +2381,10 @@ private constructor(
             }
 
             return other is Funding &&
-                amount == other.amount &&
-                token == other.token &&
-                type == other.type &&
-                additionalProperties == other.additionalProperties
+                this.amount == other.amount &&
+                this.token == other.token &&
+                this.type == other.type &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -2493,7 +2493,7 @@ private constructor(
                     return true
                 }
 
-                return other is Type && value == other.value
+                return other is Type && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2624,13 +2624,13 @@ private constructor(
             }
 
             return other is Merchant &&
-                acceptorId == other.acceptorId &&
-                city == other.city &&
-                country == other.country &&
-                descriptor == other.descriptor &&
-                mcc == other.mcc &&
-                state == other.state &&
-                additionalProperties == other.additionalProperties
+                this.acceptorId == other.acceptorId &&
+                this.city == other.city &&
+                this.country == other.country &&
+                this.descriptor == other.descriptor &&
+                this.mcc == other.mcc &&
+                this.state == other.state &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -2772,7 +2772,7 @@ private constructor(
                 return true
             }
 
-            return other is Network && value == other.value
+            return other is Network && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2847,7 +2847,7 @@ private constructor(
                 return true
             }
 
-            return other is Result && value == other.value
+            return other is Result && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -3015,7 +3015,7 @@ private constructor(
                 return true
             }
 
-            return other is Status && value == other.value
+            return other is Status && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

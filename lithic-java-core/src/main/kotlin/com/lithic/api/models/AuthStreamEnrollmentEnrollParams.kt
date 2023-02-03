@@ -55,8 +55,8 @@ constructor(
             }
 
             return other is AuthStreamEnrollmentEnrollBody &&
-                webhookUrl == other.webhookUrl &&
-                additionalProperties == other.additionalProperties
+                this.webhookUrl == other.webhookUrl &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -121,10 +121,10 @@ constructor(
         }
 
         return other is AuthStreamEnrollmentEnrollParams &&
-            webhookUrl == other.webhookUrl &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.webhookUrl == other.webhookUrl &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {

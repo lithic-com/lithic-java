@@ -134,10 +134,10 @@ constructor(
             }
 
             return other is AccountHolderCreateBody &&
-                kyb == other.kyb &&
-                kyc == other.kyc &&
-                kycExempt == other.kycExempt &&
-                additionalProperties == other.additionalProperties
+                this.kyb == other.kyb &&
+                this.kyc == other.kyc &&
+                this.kycExempt == other.kycExempt &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -217,12 +217,12 @@ constructor(
         }
 
         return other is AccountHolderCreateParams &&
-            kyb == other.kyb &&
-            kyc == other.kyc &&
-            kycExempt == other.kycExempt &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.kyb == other.kyb &&
+            this.kyc == other.kyc &&
+            this.kycExempt == other.kycExempt &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -445,16 +445,16 @@ constructor(
             }
 
             return other is Kyb &&
-                businessEntity == other.businessEntity &&
-                beneficialOwnerEntities == other.beneficialOwnerEntities &&
-                beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
-                controlPerson == other.controlPerson &&
-                kybPassedTimestamp == other.kybPassedTimestamp &&
-                natureOfBusiness == other.natureOfBusiness &&
-                tosTimestamp == other.tosTimestamp &&
-                websiteUrl == other.websiteUrl &&
-                workflow == other.workflow &&
-                additionalProperties == other.additionalProperties
+                this.businessEntity == other.businessEntity &&
+                this.beneficialOwnerEntities == other.beneficialOwnerEntities &&
+                this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
+                this.controlPerson == other.controlPerson &&
+                this.kybPassedTimestamp == other.kybPassedTimestamp &&
+                this.natureOfBusiness == other.natureOfBusiness &&
+                this.tosTimestamp == other.tosTimestamp &&
+                this.websiteUrl == other.websiteUrl &&
+                this.workflow == other.workflow &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -698,13 +698,13 @@ constructor(
                 }
 
                 return other is BusinessEntity &&
-                    address == other.address &&
-                    dbaBusinessName == other.dbaBusinessName &&
-                    governmentId == other.governmentId &&
-                    legalBusinessName == other.legalBusinessName &&
-                    parentCompany == other.parentCompany &&
-                    phoneNumbers == other.phoneNumbers &&
-                    additionalProperties == other.additionalProperties
+                    this.address == other.address &&
+                    this.dbaBusinessName == other.dbaBusinessName &&
+                    this.governmentId == other.governmentId &&
+                    this.legalBusinessName == other.legalBusinessName &&
+                    this.parentCompany == other.parentCompany &&
+                    this.phoneNumbers == other.phoneNumbers &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
@@ -890,14 +890,14 @@ constructor(
                 }
 
                 return other is Individual &&
-                    address == other.address &&
-                    dob == other.dob &&
-                    email == other.email &&
-                    firstName == other.firstName &&
-                    governmentId == other.governmentId &&
-                    lastName == other.lastName &&
-                    phoneNumber == other.phoneNumber &&
-                    additionalProperties == other.additionalProperties
+                    this.address == other.address &&
+                    this.dob == other.dob &&
+                    this.email == other.email &&
+                    this.firstName == other.firstName &&
+                    this.governmentId == other.governmentId &&
+                    this.lastName == other.lastName &&
+                    this.phoneNumber == other.phoneNumber &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
@@ -1039,7 +1039,7 @@ constructor(
                     return true
                 }
 
-                return other is Workflow && value == other.value
+                return other is Workflow && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1132,11 +1132,11 @@ constructor(
             }
 
             return other is Kyc &&
-                individual == other.individual &&
-                kycPassedTimestamp == other.kycPassedTimestamp &&
-                tosTimestamp == other.tosTimestamp &&
-                workflow == other.workflow &&
-                additionalProperties == other.additionalProperties
+                this.individual == other.individual &&
+                this.kycPassedTimestamp == other.kycPassedTimestamp &&
+                this.tosTimestamp == other.tosTimestamp &&
+                this.workflow == other.workflow &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -1295,14 +1295,14 @@ constructor(
                 }
 
                 return other is Individual &&
-                    address == other.address &&
-                    dob == other.dob &&
-                    email == other.email &&
-                    firstName == other.firstName &&
-                    governmentId == other.governmentId &&
-                    lastName == other.lastName &&
-                    phoneNumber == other.phoneNumber &&
-                    additionalProperties == other.additionalProperties
+                    this.address == other.address &&
+                    this.dob == other.dob &&
+                    this.email == other.email &&
+                    this.firstName == other.firstName &&
+                    this.governmentId == other.governmentId &&
+                    this.lastName == other.lastName &&
+                    this.phoneNumber == other.phoneNumber &&
+                    this.additionalProperties == other.additionalProperties
             }
 
             override fun hashCode(): Int {
@@ -1444,7 +1444,7 @@ constructor(
                     return true
                 }
 
-                return other is Workflow && value == other.value
+                return other is Workflow && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1550,14 +1550,14 @@ constructor(
             }
 
             return other is KycExempt &&
-                workflow == other.workflow &&
-                kycExemptionType == other.kycExemptionType &&
-                firstName == other.firstName &&
-                lastName == other.lastName &&
-                email == other.email &&
-                phoneNumber == other.phoneNumber &&
-                address == other.address &&
-                additionalProperties == other.additionalProperties
+                this.workflow == other.workflow &&
+                this.kycExemptionType == other.kycExemptionType &&
+                this.firstName == other.firstName &&
+                this.lastName == other.lastName &&
+                this.email == other.email &&
+                this.phoneNumber == other.phoneNumber &&
+                this.address == other.address &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -1684,7 +1684,7 @@ constructor(
                     return true
                 }
 
-                return other is Workflow && value == other.value
+                return other is Workflow && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1738,7 +1738,7 @@ constructor(
                     return true
                 }
 
-                return other is KycExemptionType && value == other.value
+                return other is KycExemptionType && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()

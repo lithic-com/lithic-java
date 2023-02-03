@@ -48,8 +48,8 @@ private constructor(
         }
 
         return other is AccountHolderCreateWebhookResponse &&
-            data == other.data &&
-            additionalProperties == other.additionalProperties
+            this.data == other.data &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
@@ -146,8 +146,8 @@ private constructor(
             }
 
             return other is Data &&
-                hmacToken == other.hmacToken &&
-                additionalProperties == other.additionalProperties
+                this.hmacToken == other.hmacToken &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {

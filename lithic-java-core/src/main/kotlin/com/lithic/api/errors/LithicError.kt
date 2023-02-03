@@ -24,7 +24,7 @@ constructor(
             return true
         }
 
-        return other is LithicError && additionalProperties == other.additionalProperties
+        return other is LithicError && this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {

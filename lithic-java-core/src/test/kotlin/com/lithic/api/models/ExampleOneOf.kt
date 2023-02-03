@@ -67,10 +67,10 @@ private constructor(
         }
 
         return other is ExampleOneOf &&
-            cat == other.cat &&
-            dog == other.dog &&
-            cats == other.cats &&
-            petName == other.petName
+            this.cat == other.cat &&
+            this.dog == other.dog &&
+            this.cats == other.cats &&
+            this.petName == other.petName
     }
 
     override fun hashCode(): Int {
@@ -196,8 +196,8 @@ private constructor(
             }
 
             return other is Cat &&
-                name == other.name &&
-                additionalProperties == other.additionalProperties
+                this.name == other.name &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -284,8 +284,8 @@ private constructor(
             }
 
             return other is Dog &&
-                breed == other.breed &&
-                additionalProperties == other.additionalProperties
+                this.breed == other.breed &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {

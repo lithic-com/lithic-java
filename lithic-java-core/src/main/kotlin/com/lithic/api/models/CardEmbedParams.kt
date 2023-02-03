@@ -60,9 +60,9 @@ constructor(
             }
 
             return other is CardEmbedQueryParams &&
-                embedRequest == other.embedRequest &&
-                hmac == other.hmac &&
-                additionalProperties == other.additionalProperties
+                this.embedRequest == other.embedRequest &&
+                this.hmac == other.hmac &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -138,10 +138,10 @@ constructor(
         }
 
         return other is CardEmbedParams &&
-            embedRequest == other.embedRequest &&
-            hmac == other.hmac &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders
+            this.embedRequest == other.embedRequest &&
+            this.hmac == other.hmac &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {

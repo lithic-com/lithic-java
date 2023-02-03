@@ -79,9 +79,9 @@ constructor(
             }
 
             return other is AccountHolderUpdateBody &&
-                email == other.email &&
-                phoneNumber == other.phoneNumber &&
-                additionalProperties == other.additionalProperties
+                this.email == other.email &&
+                this.phoneNumber == other.phoneNumber &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -166,12 +166,12 @@ constructor(
         }
 
         return other is AccountHolderUpdateParams &&
-            accountHolderToken == other.accountHolderToken &&
-            email == other.email &&
-            phoneNumber == other.phoneNumber &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.accountHolderToken == other.accountHolderToken &&
+            this.email == other.email &&
+            this.phoneNumber == other.phoneNumber &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {

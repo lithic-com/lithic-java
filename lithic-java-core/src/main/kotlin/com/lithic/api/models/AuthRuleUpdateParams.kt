@@ -119,12 +119,12 @@ constructor(
             }
 
             return other is AuthRuleUpdateBody &&
-                allowedMcc == other.allowedMcc &&
-                blockedMcc == other.blockedMcc &&
-                allowedCountries == other.allowedCountries &&
-                blockedCountries == other.blockedCountries &&
-                avsType == other.avsType &&
-                additionalProperties == other.additionalProperties
+                this.allowedMcc == other.allowedMcc &&
+                this.blockedMcc == other.blockedMcc &&
+                this.allowedCountries == other.allowedCountries &&
+                this.blockedCountries == other.blockedCountries &&
+                this.avsType == other.avsType &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
@@ -248,15 +248,15 @@ constructor(
         }
 
         return other is AuthRuleUpdateParams &&
-            authRuleToken == other.authRuleToken &&
-            allowedMcc == other.allowedMcc &&
-            blockedMcc == other.blockedMcc &&
-            allowedCountries == other.allowedCountries &&
-            blockedCountries == other.blockedCountries &&
-            avsType == other.avsType &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalHeaders == other.additionalHeaders &&
-            additionalBodyProperties == other.additionalBodyProperties
+            this.authRuleToken == other.authRuleToken &&
+            this.allowedMcc == other.allowedMcc &&
+            this.blockedMcc == other.blockedMcc &&
+            this.allowedCountries == other.allowedCountries &&
+            this.blockedCountries == other.blockedCountries &&
+            this.avsType == other.avsType &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -416,7 +416,7 @@ constructor(
                 return true
             }
 
-            return other is AvsType && value == other.value
+            return other is AvsType && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()

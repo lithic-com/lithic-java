@@ -50,8 +50,8 @@ private constructor(
         }
 
         return other is AuthStreamEnrollment &&
-            enrolled == other.enrolled &&
-            additionalProperties == other.additionalProperties
+            this.enrolled == other.enrolled &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
