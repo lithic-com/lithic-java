@@ -83,7 +83,10 @@ sealed class JsonField<out T : Any> {
             is KnownValue -> value
             is JsonMissing -> throw LithicInvalidDataException("'${name}' is not set")
             is JsonNull -> throw LithicInvalidDataException("'${name}' is null")
-            else -> throw LithicInvalidDataException("'${name}' is invalid")
+            else ->
+                throw LithicInvalidDataException(
+                    "'${name}' is invalid; received ${this.toString()}"
+                )
         }
 
     @JvmSynthetic
@@ -92,7 +95,10 @@ sealed class JsonField<out T : Any> {
             is KnownValue -> value
             is JsonMissing -> null
             is JsonNull -> null
-            else -> throw LithicInvalidDataException("'${name}' is invalid")
+            else ->
+                throw LithicInvalidDataException(
+                    "'${name}' is invalid; received ${this.toString()}"
+                )
         }
 
     @JvmSynthetic
