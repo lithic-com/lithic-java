@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class Main {
-    static final String SANDBOX_API_KEY = "5344d81a-da4a-4843-bce5-5495e79096b3";
+    static final String SANDBOX_API_KEY = System.getenv("LITHIC_API_KEY");
 
     static final LithicClient client =
             LithicOkHttpClient.builder().sandbox().apiKey(SANDBOX_API_KEY).build();
