@@ -23,7 +23,7 @@ class TestServerExtension : BeforeAllCallback {
                     $ npm install -g @stoplight/prism-cli
 
                   With yarn:
-                    $ global add @stoplight/prism-cli
+                    $ yarn global add @stoplight/prism-cli
 
                 2. Run the mock server
 
