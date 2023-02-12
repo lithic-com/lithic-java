@@ -1,16 +1,19 @@
 package com.lithic.api.services.blocking
 
+import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(TestServerExtension::class)
 class AccountHolderServiceTest {
 
     @Test
     fun callCreate() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val accountHolderService = client.accountHolders()
@@ -120,7 +123,7 @@ class AccountHolderServiceTest {
     fun callRetrieve() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val accountHolderService = client.accountHolders()
@@ -138,7 +141,7 @@ class AccountHolderServiceTest {
     fun callUpdate() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val accountHolderService = client.accountHolders()
@@ -158,7 +161,7 @@ class AccountHolderServiceTest {
     fun callCreateWebhook() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val accountHolderService = client.accountHolders()
@@ -174,7 +177,7 @@ class AccountHolderServiceTest {
     fun callListDocuments() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val accountHolderService = client.accountHolders()
@@ -192,7 +195,7 @@ class AccountHolderServiceTest {
     fun callResubmit() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val accountHolderService = client.accountHolders()
@@ -232,7 +235,7 @@ class AccountHolderServiceTest {
     fun callRetrieveDocument() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val accountHolderService = client.accountHolders()
@@ -251,7 +254,7 @@ class AccountHolderServiceTest {
     fun callUploadDocument() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val accountHolderService = client.accountHolders()

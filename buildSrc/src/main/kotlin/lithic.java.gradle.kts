@@ -34,17 +34,7 @@ tasks.withType<JavaCompile> {
     options.compilerArgs.add("-Werror")
 }
 
-task<Exec>("checkTestServer") {
-    if (System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")) {
-        commandLine("powershell", "-nologo", "..\\gradle\\check-test-server.ps1")
-    } else {
-        commandLine("bash", "../gradle/check-test-server")
-    }
-}
-
 tasks.test {
-    dependsOn("checkTestServer")
-
     useJUnitPlatform()
 
     testLogging {

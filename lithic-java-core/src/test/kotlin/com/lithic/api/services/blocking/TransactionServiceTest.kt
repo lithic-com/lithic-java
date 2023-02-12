@@ -1,17 +1,20 @@
 package com.lithic.api.services.blocking
 
+import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
 import com.lithic.api.models.TransactionListParams
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(TestServerExtension::class)
 class TransactionServiceTest {
 
     @Test
     fun callRetrieve() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val transactionService = client.transactions()
@@ -29,7 +32,7 @@ class TransactionServiceTest {
     fun callList() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val transactionService = client.transactions()
@@ -42,7 +45,7 @@ class TransactionServiceTest {
     fun callSimulateAuthorization() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val transactionService = client.transactions()
@@ -67,7 +70,7 @@ class TransactionServiceTest {
     fun callSimulateClearing() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val transactionService = client.transactions()
@@ -86,7 +89,7 @@ class TransactionServiceTest {
     fun callSimulateCreditAuthorization() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val transactionService = client.transactions()
@@ -107,7 +110,7 @@ class TransactionServiceTest {
     fun callSimulateReturn() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val transactionService = client.transactions()
@@ -127,7 +130,7 @@ class TransactionServiceTest {
     fun callSimulateReturnReversal() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val transactionService = client.transactions()
@@ -145,7 +148,7 @@ class TransactionServiceTest {
     fun callSimulateVoid() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val transactionService = client.transactions()

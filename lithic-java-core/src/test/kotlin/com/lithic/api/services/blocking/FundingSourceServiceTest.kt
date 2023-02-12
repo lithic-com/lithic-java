@@ -1,17 +1,20 @@
 package com.lithic.api.services.blocking
 
+import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
 import com.lithic.api.models.FundingSourceListParams
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
+@ExtendWith(TestServerExtension::class)
 class FundingSourceServiceTest {
 
     @Test
     fun callCreate() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val fundingSourceService = client.fundingSources()
@@ -37,7 +40,7 @@ class FundingSourceServiceTest {
     fun callUpdate() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val fundingSourceService = client.fundingSources()
@@ -57,7 +60,7 @@ class FundingSourceServiceTest {
     fun callList() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val fundingSourceService = client.fundingSources()
@@ -70,7 +73,7 @@ class FundingSourceServiceTest {
     fun callVerify() {
         val client =
             LithicOkHttpClient.builder()
-                .baseUrl("http://127.0.0.1:4010")
+                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
                 .build()
         val fundingSourceService = client.fundingSources()
