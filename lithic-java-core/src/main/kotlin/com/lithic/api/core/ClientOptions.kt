@@ -1,6 +1,9 @@
 package com.lithic.api.core
 
 import com.fasterxml.jackson.databind.json.JsonMapper
+import com.google.common.collect.ArrayListMultimap
+import com.google.common.collect.ListMultimap
+import com.google.common.collect.Multimap
 import com.lithic.api.core.http.HttpClient
 import com.lithic.api.core.http.RetryingHttpClient
 
@@ -8,6 +11,7 @@ class ClientOptions
 private constructor(
     @get:JvmName("httpClient") val httpClient: HttpClient,
     @get:JvmName("jsonMapper") val jsonMapper: JsonMapper,
+    @get:JvmName("headers") val headers: ListMultimap<String, String>,
     @get:JvmName("responseValidation") val responseValidation: Boolean,
     @get:JvmName("apiKey") val apiKey: String,
 ) {
@@ -27,13 +31,39 @@ private constructor(
 
         private var httpClient: HttpClient? = null
         private var jsonMapper: JsonMapper? = null
+        private var headers: ListMultimap<String, String> = ArrayListMultimap.create()
         private var responseValidation: Boolean = false
         private var maxRetries: Int = 2
         private var apiKey: String? = null
 
+        init {
+            headers.put("X-Stainless-Lang", "java")
+            headers.put("X-Stainless-Arch", getOsArch())
+            headers.put("X-Stainless-OS", getOsName())
+            headers.put("X-Stainless-OS-Version", getOsVersion())
+            headers.put("X-Stainless-Package-Version", getPackageVersion())
+            headers.put("X-Stainless-Runtime-Version", getJavaVersion())
+        }
+
         fun httpClient(httpClient: HttpClient) = apply { this.httpClient = httpClient }
 
-        fun jsonMapper(jsonMapper: JsonMapper): Builder = apply { this.jsonMapper = jsonMapper }
+        fun jsonMapper(jsonMapper: JsonMapper) = apply { this.jsonMapper = jsonMapper }
+
+        fun putHeader(name: String, value: String) = apply {
+            this.headers.replaceValues(name, listOf(value))
+        }
+
+        fun putHeaders(name: String, values: Iterable<String>) = apply {
+            this.headers.replaceValues(name, values)
+        }
+
+        fun putAllHeaders(headers: Map<String, Iterable<String>>) = apply {
+            headers.forEach(this::putHeaders)
+        }
+
+        fun putAllHeaders(headers: Multimap<String, String>) = apply {
+            headers.asMap().forEach(this::putHeaders)
+        }
 
         fun responseValidation(responseValidation: Boolean) = apply {
             this.responseValidation = responseValidation
@@ -52,6 +82,7 @@ private constructor(
                     .maxRetries(maxRetries)
                     .build(),
                 jsonMapper ?: jsonMapper(),
+                headers.toUnmodifiable(),
                 responseValidation,
                 checkNotNull(this.apiKey) {
                     "Missing string value for 'apiKey'. A value can be specified either by calling 'apiKey()' or by using the client method 'fromEnv()' and the environment variable 'LITHIC_API_KEY'."

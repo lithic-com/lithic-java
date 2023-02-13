@@ -34,6 +34,15 @@ tasks.withType<JavaCompile> {
     options.compilerArgs.add("-Werror")
 }
 
+tasks.jar {
+    manifest {
+        attributes(mapOf(
+            "Implementation-Title" to project.name,
+            "Implementation-Version" to project.version
+        ))
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 

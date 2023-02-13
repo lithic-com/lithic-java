@@ -1,5 +1,6 @@
 package com.lithic.api.client.okhttp
 
+import com.google.common.collect.Multimap
 import com.lithic.api.client.LithicClient
 import com.lithic.api.client.LithicClientImpl
 import com.lithic.api.core.ClientOptions
@@ -27,11 +28,25 @@ class LithicOkHttpClient private constructor() {
 
         fun timeout(timeout: Duration) = apply { this.timeout = timeout }
 
-        fun maxRetries(maxRetries: Int) = apply { this.clientOptions.maxRetries(maxRetries) }
+        fun putHeader(name: String, value: String) = apply { clientOptions.putHeader(name, value) }
+
+        fun putHeaders(name: String, values: Iterable<String>) = apply {
+            clientOptions.putHeaders(name, values)
+        }
+
+        fun putAllHeaders(headers: Map<String, Iterable<String>>) = apply {
+            clientOptions.putAllHeaders(headers)
+        }
+
+        fun putAllHeaders(headers: Multimap<String, String>) = apply {
+            clientOptions.putAllHeaders(headers)
+        }
 
         fun responseValidation(responseValidation: Boolean) = apply {
-            this.clientOptions.responseValidation(responseValidation)
+            clientOptions.responseValidation(responseValidation)
         }
+
+        fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
 
         fun apiKey(apiKey: String): Builder = apply { clientOptions.apiKey(apiKey) }
 

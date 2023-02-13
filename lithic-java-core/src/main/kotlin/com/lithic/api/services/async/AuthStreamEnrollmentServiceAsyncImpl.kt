@@ -41,6 +41,7 @@ constructor(
                 .addPathSegments("auth_stream")
                 .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
+                .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.executeAsync(request).thenApply { response ->
@@ -67,6 +68,7 @@ constructor(
                 .addPathSegments("auth_stream")
                 .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
+                .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
@@ -100,6 +102,7 @@ constructor(
                 .addPathSegments("auth_stream")
                 .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
+                .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()

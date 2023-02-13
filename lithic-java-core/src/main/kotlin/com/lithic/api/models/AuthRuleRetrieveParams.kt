@@ -79,40 +79,40 @@ constructor(
             putAllQueryParams(additionalQueryParams)
         }
 
-        fun putQueryParam(key: String, value: String) = apply {
-            this.additionalQueryParams.getOrPut(key) { mutableListOf() }.add(value)
+        fun putQueryParam(name: String, value: String) = apply {
+            this.additionalQueryParams.getOrPut(name) { mutableListOf() }.add(value)
         }
 
-        fun putQueryParam(key: String, value: List<String>) = apply {
-            this.additionalQueryParams.getOrPut(key) { mutableListOf() }.addAll(value)
+        fun putQueryParams(name: String, values: Iterable<String>) = apply {
+            this.additionalQueryParams.getOrPut(name) { mutableListOf() }.addAll(values)
         }
 
-        fun putAllQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
-            additionalQueryParams.forEach(this::putQueryParam)
+        fun putAllQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
+            additionalQueryParams.forEach(this::putQueryParams)
         }
 
-        fun removeQueryParam(key: String) = apply {
-            this.additionalQueryParams.put(key, mutableListOf())
+        fun removeQueryParam(name: String) = apply {
+            this.additionalQueryParams.put(name, mutableListOf())
         }
 
-        fun additionalHeaders(additionalHeaders: Map<String, List<String>>) = apply {
+        fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
             this.additionalHeaders.clear()
             putAllHeaders(additionalHeaders)
         }
 
-        fun putHeader(key: String, value: String) = apply {
-            this.additionalHeaders.getOrPut(key) { mutableListOf() }.add(value)
+        fun putHeader(name: String, value: String) = apply {
+            this.additionalHeaders.getOrPut(name) { mutableListOf() }.add(value)
         }
 
-        fun putHeader(key: String, value: List<String>) = apply {
-            this.additionalHeaders.getOrPut(key) { mutableListOf() }.addAll(value)
+        fun putHeaders(name: String, values: Iterable<String>) = apply {
+            this.additionalHeaders.getOrPut(name) { mutableListOf() }.addAll(values)
         }
 
-        fun putAllHeaders(additionalHeaders: Map<String, List<String>>) = apply {
-            additionalHeaders.forEach(this::putHeader)
+        fun putAllHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(key: String) = apply { this.additionalHeaders.put(key, mutableListOf()) }
+        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
         fun build(): AuthRuleRetrieveParams =
             AuthRuleRetrieveParams(
