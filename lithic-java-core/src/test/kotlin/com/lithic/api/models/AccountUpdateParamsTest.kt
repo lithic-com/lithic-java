@@ -28,7 +28,7 @@ class AccountUpdateParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             AccountUpdateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -47,7 +47,7 @@ class AccountUpdateParamsTest {
                 )
                 .state(AccountUpdateParams.State.ACTIVE)
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.dailySpendLimit()).isEqualTo(123L)
         assertThat(body.lifetimeSpendLimit()).isEqualTo(123L)
@@ -67,12 +67,12 @@ class AccountUpdateParamsTest {
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params =
             AccountUpdateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
     }
 

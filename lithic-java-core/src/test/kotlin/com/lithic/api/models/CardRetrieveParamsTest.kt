@@ -1,6 +1,5 @@
 package com.lithic.api.models
 
-import com.google.common.collect.ArrayListMultimap
 import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -16,23 +15,23 @@ class CardRetrieveParamsTest {
     }
 
     @Test
-    fun toQueryParams() {
+    fun getQueryParams() {
         val params =
             CardRetrieveParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val expected = ArrayListMultimap.create<String, String>()
-        expected.put("account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(params.toQueryParams()).isEqualTo(expected)
+        val expected = mutableMapOf<String, List<String>>()
+        expected.put("account_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+        assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 
     @Test
-    fun toQueryParamsWithoutOptionalFields() {
+    fun getQueryParamsWithoutOptionalFields() {
         val params =
             CardRetrieveParams.builder().cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
-        val expected = ArrayListMultimap.create<String, String>()
-        assertThat(params.toQueryParams()).isEqualTo(expected)
+        val expected = mutableMapOf<String, List<String>>()
+        assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 
     @Test

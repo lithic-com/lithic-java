@@ -53,9 +53,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("transactions", params.getPathParam(0))
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
+                .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -88,9 +88,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("transactions")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
+                .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -124,10 +124,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("simulate", "authorize")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -158,10 +158,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("simulate", "clearing")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -191,10 +191,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("simulate", "credit_authorization_advice")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -223,10 +223,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("simulate", "return")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -256,10 +256,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("simulate", "return_reversal")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -291,10 +291,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("simulate", "void")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response

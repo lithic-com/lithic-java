@@ -1,6 +1,5 @@
 package com.lithic.api.models
 
-import com.google.common.collect.ArrayListMultimap
 import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -13,18 +12,18 @@ class CardEmbedParamsTest {
     }
 
     @Test
-    fun toQueryParams() {
+    fun getQueryParams() {
         val params = CardEmbedParams.builder().embedRequest("string").hmac("string").build()
-        val expected = ArrayListMultimap.create<String, String>()
-        expected.put("embed_request", "string")
-        expected.put("hmac", "string")
-        assertThat(params.toQueryParams()).isEqualTo(expected)
+        val expected = mutableMapOf<String, List<String>>()
+        expected.put("embed_request", listOf("string"))
+        expected.put("hmac", listOf("string"))
+        assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 
     @Test
-    fun toQueryParamsWithoutOptionalFields() {
+    fun getQueryParamsWithoutOptionalFields() {
         val params = CardEmbedParams.builder().build()
-        val expected = ArrayListMultimap.create<String, String>()
-        assertThat(params.toQueryParams()).isEqualTo(expected)
+        val expected = mutableMapOf<String, List<String>>()
+        assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 }

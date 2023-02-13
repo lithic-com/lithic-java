@@ -12,17 +12,17 @@ class AccountHolderCreateWebhookParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params = AccountHolderCreateWebhookParams.builder().url("string").build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.url()).isEqualTo("string")
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params = AccountHolderCreateWebhookParams.builder().url("string").build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.url()).isEqualTo("string")
     }

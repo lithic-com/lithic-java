@@ -23,7 +23,7 @@ class CardUpdateParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             CardUpdateParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -37,7 +37,7 @@ class CardUpdateParamsTest {
                 .pin("string")
                 .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.accountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.fundingToken()).isEqualTo("ecbd1d58-0299-48b3-84da-6ed7f5bf9ec1")
@@ -51,10 +51,10 @@ class CardUpdateParamsTest {
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params =
             CardUpdateParams.builder().cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
     }
 

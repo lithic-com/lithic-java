@@ -16,26 +16,26 @@ class FundingSourceUpdateParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             FundingSourceUpdateParams.builder()
                 .fundingSourceToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .state(FundingSourceUpdateParams.State.DELETED)
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.accountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.state()).isEqualTo(FundingSourceUpdateParams.State.DELETED)
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params =
             FundingSourceUpdateParams.builder()
                 .fundingSourceToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
     }
 

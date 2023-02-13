@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.google.common.collect.ArrayListMultimap
-import com.google.common.collect.ListMultimap
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
@@ -24,8 +22,8 @@ constructor(
     private val allowedCountries: List<String>?,
     private val blockedCountries: List<String>?,
     private val avsType: AvsType?,
-    private val additionalQueryParams: ListMultimap<String, String>,
-    private val additionalHeaders: ListMultimap<String, String>,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
@@ -42,19 +40,20 @@ constructor(
     fun avsType(): Optional<AvsType> = Optional.ofNullable(avsType)
 
     @JvmSynthetic
-    internal fun toBody(): AuthRuleUpdateBody =
-        AuthRuleUpdateBody(
+    internal fun getBody(): AuthRuleUpdateBody {
+        return AuthRuleUpdateBody(
             allowedMcc,
             blockedMcc,
             allowedCountries,
             blockedCountries,
             avsType,
-            additionalBodyProperties
+            additionalBodyProperties,
         )
+    }
 
-    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun getPathParam(index: Int): String {
         return when (index) {
@@ -236,9 +235,9 @@ constructor(
         }
     }
 
-    fun _additionalQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    fun _additionalHeaders(): ListMultimap<String, String> = additionalHeaders
+    fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
@@ -292,8 +291,8 @@ constructor(
         private var allowedCountries: List<String>? = null
         private var blockedCountries: List<String>? = null
         private var avsType: AvsType? = null
-        private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
-        private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()
+        private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
+        private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -346,39 +345,52 @@ constructor(
          */
         fun avsType(avsType: AvsType) = apply { this.avsType = avsType }
 
-        fun additionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
+        fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
-            this.additionalQueryParams.putAll(additionalQueryParams)
+            putAllQueryParams(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply {
-            this.additionalQueryParams.put(key, value)
+        fun putQueryParam(key: String, value: String) = apply {
+            this.additionalQueryParams.getOrPut(key) { mutableListOf() }.add(value)
         }
 
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
-            apply {
-                this.additionalQueryParams.putAll(additionalQueryParams)
-            }
+        fun putQueryParam(key: String, value: List<String>) = apply {
+            this.additionalQueryParams.getOrPut(key) { mutableListOf() }.addAll(value)
+        }
 
-        fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
+        fun putAllQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
+            additionalQueryParams.forEach(this::putQueryParam)
+        }
+
+        fun removeQueryParam(key: String) = apply {
+            this.additionalQueryParams.put(key, mutableListOf())
+        }
+
+        fun additionalHeaders(additionalHeaders: Map<String, List<String>>) = apply {
             this.additionalHeaders.clear()
-            this.additionalHeaders.putAll(additionalHeaders)
+            putAllHeaders(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply {
-            this.additionalHeaders.put(key, value)
+        fun putHeader(key: String, value: String) = apply {
+            this.additionalHeaders.getOrPut(key) { mutableListOf() }.add(value)
         }
 
-        fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
-            this.additionalHeaders.putAll(additionalHeaders)
+        fun putHeader(key: String, value: List<String>) = apply {
+            this.additionalHeaders.getOrPut(key) { mutableListOf() }.addAll(value)
         }
+
+        fun putAllHeaders(additionalHeaders: Map<String, List<String>>) = apply {
+            additionalHeaders.forEach(this::putHeader)
+        }
+
+        fun removeHeader(key: String) = apply { this.additionalHeaders.put(key, mutableListOf()) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             this.additionalBodyProperties.clear()
             this.additionalBodyProperties.putAll(additionalBodyProperties)
         }
 
-        fun putAdditionalBodyProperties(key: String, value: JsonValue) = apply {
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
             this.additionalBodyProperties.put(key, value)
         }
 
@@ -397,8 +409,8 @@ constructor(
                 allowedCountries?.toUnmodifiable(),
                 blockedCountries?.toUnmodifiable(),
                 avsType,
-                additionalQueryParams.toUnmodifiable(),
-                additionalHeaders.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),
             )
     }

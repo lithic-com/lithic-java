@@ -19,7 +19,7 @@ class CardProvisionParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             CardProvisionParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -29,7 +29,7 @@ class CardProvisionParamsTest {
                 .certificate("U3RhaW5sZXNzIHJvY2tz")
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.digitalWallet()).isEqualTo(CardProvisionParams.DigitalWallet.APPLE_PAY)
         assertThat(body.nonce()).isEqualTo("U3RhaW5sZXNzIHJvY2tz")
@@ -39,10 +39,10 @@ class CardProvisionParamsTest {
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params =
             CardProvisionParams.builder().cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
     }
 

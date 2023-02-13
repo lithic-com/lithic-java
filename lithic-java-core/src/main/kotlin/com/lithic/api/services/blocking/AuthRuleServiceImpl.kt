@@ -45,10 +45,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("auth_rules")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -77,9 +77,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("auth_rules", params.getPathParam(0))
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
+                .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -104,10 +104,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.PUT)
                 .addPathSegments("auth_rules", params.getPathParam(0))
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -133,9 +133,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("auth_rules")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
+                .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -161,10 +161,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("auth_rules", params.getPathParam(0), "apply")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -191,10 +191,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.DELETE)
                 .addPathSegments("auth_rules", "remove")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response

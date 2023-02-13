@@ -13,7 +13,6 @@ import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.verify
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
-import com.google.common.collect.ArrayListMultimap
 import com.lithic.api.client.LithicClient
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.core.JsonString
@@ -45,13 +44,13 @@ class ServiceParamsTest {
 
     @Test
     fun cardsCreateWithAdditionalParams() {
-        val additionalHeaders = ArrayListMultimap.create<String, String>()
+        val additionalHeaders = mutableMapOf<String, List<String>>()
 
-        additionalHeaders.put("x-test-header", "abc1234")
+        additionalHeaders.put("x-test-header", listOf("abc1234"))
 
-        val additionalQueryParams = ArrayListMultimap.create<String, String>()
+        val additionalQueryParams = mutableMapOf<String, List<String>>()
 
-        additionalQueryParams.put("test_query_param", "def567")
+        additionalQueryParams.put("test_query_param", listOf("def567"))
 
         val additionalBodyProperties = mutableMapOf<String, JsonValue>()
 
@@ -138,13 +137,13 @@ class ServiceParamsTest {
 
     @Test
     fun cardsListWithAdditionalParams() {
-        val additionalHeaders = ArrayListMultimap.create<String, String>()
+        val additionalHeaders = mutableMapOf<String, List<String>>()
 
-        additionalHeaders.put("x-test-header", "abc1234")
+        additionalHeaders.put("x-test-header", listOf("abc1234"))
 
-        val additionalQueryParams = ArrayListMultimap.create<String, String>()
+        val additionalQueryParams = mutableMapOf<String, List<String>>()
 
-        additionalQueryParams.put("test_query_param", "def567")
+        additionalQueryParams.put("test_query_param", listOf("def567"))
 
         val params =
             CardListParams.builder()

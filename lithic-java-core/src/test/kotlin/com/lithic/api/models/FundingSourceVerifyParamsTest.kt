@@ -16,27 +16,27 @@ class FundingSourceVerifyParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             FundingSourceVerifyParams.builder()
                 .fundingSourceToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .microDeposits(listOf(123L))
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.accountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.microDeposits()).isEqualTo(listOf(123L))
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params =
             FundingSourceVerifyParams.builder()
                 .fundingSourceToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .microDeposits(listOf(123L))
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.microDeposits()).isEqualTo(listOf(123L))
     }

@@ -22,7 +22,7 @@ class FundingSourceCreateParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             FundingSourceCreateParams.builder()
                 .forBank(
@@ -35,14 +35,14 @@ class FundingSourceCreateParamsTest {
                         .build()
                 )
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params = FundingSourceCreateParams.builder().build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
     }
 }

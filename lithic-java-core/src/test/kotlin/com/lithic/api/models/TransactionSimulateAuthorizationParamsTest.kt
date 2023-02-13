@@ -21,7 +21,7 @@ class TransactionSimulateAuthorizationParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             TransactionSimulateAuthorizationParams.builder()
                 .amount(123L)
@@ -33,7 +33,7 @@ class TransactionSimulateAuthorizationParamsTest {
                 .merchantAmount(123L)
                 .partialApprovalCapable(true)
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(123L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
@@ -47,14 +47,14 @@ class TransactionSimulateAuthorizationParamsTest {
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params =
             TransactionSimulateAuthorizationParams.builder()
                 .amount(123L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.amount()).isEqualTo(123L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")

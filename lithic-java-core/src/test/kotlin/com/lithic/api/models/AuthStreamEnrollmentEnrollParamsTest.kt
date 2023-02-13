@@ -12,18 +12,18 @@ class AuthStreamEnrollmentEnrollParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             AuthStreamEnrollmentEnrollParams.builder().webhookUrl("https://example.com").build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.webhookUrl()).isEqualTo("https://example.com")
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params = AuthStreamEnrollmentEnrollParams.builder().build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
     }
 }

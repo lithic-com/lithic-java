@@ -50,10 +50,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("account_holders")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -78,9 +78,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("account_holders", params.getPathParam(0))
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
+                .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -106,10 +106,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
                 .addPathSegments("account_holders", params.getPathParam(0))
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -148,10 +148,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("webhooks", "account_holders")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -191,9 +191,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("account_holders", params.getPathParam(0), "documents")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
+                .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -226,10 +226,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("account_holders", params.getPathParam(0), "resubmit")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -273,9 +273,9 @@ constructor(
                     "documents",
                     params.getPathParam(1)
                 )
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
+                .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -317,10 +317,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("account_holders", params.getPathParam(0), "documents")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response

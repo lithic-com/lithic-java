@@ -41,16 +41,36 @@ private constructor(
             }
         }
 
-        fun putQueryParam(name: String, value: String) = apply { this.queryParams.put(name, value) }
-
-        fun putAllQueryParams(queryParams: Multimap<String, String>) = apply {
-            this.queryParams.putAll(queryParams)
+        fun putQueryParam(name: String, value: String) = apply {
+            this.queryParams.replaceValues(name, listOf(value))
         }
 
-        fun putHeader(name: String, value: String) = apply { this.headers.put(name, value) }
+        fun putQueryParams(name: String, values: Iterable<String>) = apply {
+            this.queryParams.replaceValues(name, values)
+        }
+
+        fun putAllQueryParams(queryParams: Map<String, Iterable<String>>) = apply {
+            queryParams.forEach(this::putQueryParams)
+        }
+
+        fun putAllQueryParams(queryParams: Multimap<String, String>) = apply {
+            queryParams.asMap().forEach(this::putQueryParams)
+        }
+
+        fun putHeader(name: String, value: String) = apply {
+            this.headers.replaceValues(name, listOf(value))
+        }
+
+        fun putHeaders(name: String, values: Iterable<String>) = apply {
+            this.headers.replaceValues(name, values)
+        }
+
+        fun putAllHeaders(headers: Map<String, Iterable<String>>) = apply {
+            headers.forEach(this::putHeaders)
+        }
 
         fun putAllHeaders(headers: Multimap<String, String>) = apply {
-            this.headers.putAll(headers)
+            headers.asMap().forEach(this::putHeaders)
         }
 
         fun body(body: HttpRequestBody) = apply { this.body = body }

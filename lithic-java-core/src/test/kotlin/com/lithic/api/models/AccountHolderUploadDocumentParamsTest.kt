@@ -15,26 +15,26 @@ class AccountHolderUploadDocumentParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             AccountHolderUploadDocumentParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .documentType(AccountHolderUploadDocumentParams.DocumentType.COMMERCIAL_LICENSE)
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.documentType())
             .isEqualTo(AccountHolderUploadDocumentParams.DocumentType.COMMERCIAL_LICENSE)
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params =
             AccountHolderUploadDocumentParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .documentType(AccountHolderUploadDocumentParams.DocumentType.COMMERCIAL_LICENSE)
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.documentType())
             .isEqualTo(AccountHolderUploadDocumentParams.DocumentType.COMMERCIAL_LICENSE)

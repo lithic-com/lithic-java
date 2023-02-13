@@ -16,14 +16,14 @@ class AuthRuleRemoveParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             AuthRuleRemoveParams.builder()
                 .cardTokens(listOf("string"))
                 .accountTokens(listOf("string"))
                 .programLevel(true)
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.cardTokens()).isEqualTo(listOf("string"))
         assertThat(body.accountTokens()).isEqualTo(listOf("string"))
@@ -31,9 +31,9 @@ class AuthRuleRemoveParamsTest {
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params = AuthRuleRemoveParams.builder().build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
     }
 }

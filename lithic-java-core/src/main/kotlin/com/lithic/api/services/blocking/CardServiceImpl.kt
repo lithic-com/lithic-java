@@ -41,10 +41,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("cards")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -66,9 +66,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("cards", params.getPathParam(0))
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
+                .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -95,10 +95,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
                 .addPathSegments("cards", params.getPathParam(0))
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -120,9 +120,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("cards")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
+                .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -168,9 +168,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("embed", "card")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
+                .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response.let { embedHandler.handle(it) }
@@ -196,10 +196,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("cards", params.getPathParam(0), "provision")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -225,10 +225,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("cards", params.getPathParam(0), "reissue")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response

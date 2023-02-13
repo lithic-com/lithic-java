@@ -31,7 +31,7 @@ class CardReissueParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             CardReissueParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -53,7 +53,7 @@ class CardReissueParamsTest {
                 .shippingMethod(CardReissueParams.ShippingMethod.STANDARD)
                 .productId("string")
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.shippingAddress())
             .isEqualTo(
@@ -76,10 +76,10 @@ class CardReissueParamsTest {
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params =
             CardReissueParams.builder().cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
     }
 

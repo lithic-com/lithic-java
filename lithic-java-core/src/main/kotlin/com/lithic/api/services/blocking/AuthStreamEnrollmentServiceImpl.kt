@@ -38,9 +38,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("auth_stream")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
+                .putAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request).let { response ->
             response
@@ -64,10 +64,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.DELETE)
                 .addPathSegments("auth_stream")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .apply { params.toBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .putAllHeaders(params.getHeaders())
+                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
         clientOptions.httpClient.execute(request).let { response ->
             response.let { disenrollHandler.handle(it) }
@@ -94,10 +94,10 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("auth_stream")
-                .putAllQueryParams(params.toQueryParams())
+                .putAllQueryParams(params.getQueryParams())
                 .putHeader("Authorization", clientOptions.apiKey)
-                .putAllHeaders(params.toHeaders())
-                .body(json(clientOptions.jsonMapper, params.toBody()))
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         clientOptions.httpClient.execute(request).let { response ->
             response.let { enrollHandler.handle(it) }

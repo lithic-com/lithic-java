@@ -1,6 +1,5 @@
 package com.lithic.api.models
 
-import com.google.common.collect.ArrayListMultimap
 import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -13,18 +12,18 @@ class AuthRuleListParamsTest {
     }
 
     @Test
-    fun toQueryParams() {
+    fun getQueryParams() {
         val params = AuthRuleListParams.builder().page(123L).pageSize(123L).build()
-        val expected = ArrayListMultimap.create<String, String>()
-        expected.put("page", "123")
-        expected.put("page_size", "123")
-        assertThat(params.toQueryParams()).isEqualTo(expected)
+        val expected = mutableMapOf<String, List<String>>()
+        expected.put("page", listOf("123"))
+        expected.put("page_size", listOf("123"))
+        assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 
     @Test
-    fun toQueryParamsWithoutOptionalFields() {
+    fun getQueryParamsWithoutOptionalFields() {
         val params = AuthRuleListParams.builder().build()
-        val expected = ArrayListMultimap.create<String, String>()
-        assertThat(params.toQueryParams()).isEqualTo(expected)
+        val expected = mutableMapOf<String, List<String>>()
+        assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 }

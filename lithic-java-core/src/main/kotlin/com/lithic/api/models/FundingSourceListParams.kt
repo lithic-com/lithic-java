@@ -1,8 +1,5 @@
 package com.lithic.api.models
 
-import com.google.common.collect.ArrayListMultimap
-import com.google.common.collect.ListMultimap
-import com.google.common.collect.Multimaps
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
@@ -14,8 +11,8 @@ constructor(
     private val accountToken: String?,
     private val page: Long?,
     private val pageSize: Long?,
-    private val additionalQueryParams: ListMultimap<String, String>,
-    private val additionalHeaders: ListMultimap<String, String>,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
 ) {
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
@@ -25,127 +22,20 @@ constructor(
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
     @JvmSynthetic
-    internal fun toQueryParams(): ListMultimap<String, String> =
-        FundingSourceListQueryParams(accountToken, page, pageSize, additionalQueryParams)
-            .toQueryParams()
-
-    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
-
-    class FundingSourceListQueryParams
-    internal constructor(
-        private val accountToken: String?,
-        private val page: Long?,
-        private val pageSize: Long?,
-        private val additionalProperties: ListMultimap<String, String>,
-    ) {
-
-        private var hashCode: Int = 0
-
-        fun accountToken(): String? = accountToken
-
-        /** Page (for pagination). */
-        fun page(): Long? = page
-
-        /** Page size (for pagination). */
-        fun pageSize(): Long? = pageSize
-
-        fun _additionalProperties(): ListMultimap<String, String> = additionalProperties
-
-        fun toQueryParams(): ListMultimap<String, String> {
-            val params = ArrayListMultimap.create<String, String>()
-            this.accountToken()?.let { params.put("account_token", it.toString()) }
-            this.page()?.let { params.put("page", it.toString()) }
-            this.pageSize()?.let { params.put("page_size", it.toString()) }
-            params.putAll(additionalProperties)
-            return Multimaps.unmodifiableListMultimap(params)
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is FundingSourceListQueryParams &&
-                this.accountToken == other.accountToken &&
-                this.page == other.page &&
-                this.pageSize == other.pageSize &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        accountToken,
-                        page,
-                        pageSize,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "FundingSourceListQueryParams{accountToken=$accountToken, page=$page, pageSize=$pageSize, additionalProperties=$additionalProperties}"
-
-        companion object {
-
-            @JvmStatic fun builder() = Builder()
-        }
-
-        class Builder {
-
-            private var accountToken: String? = null
-            private var page: Long? = null
-            private var pageSize: Long? = null
-            private var additionalProperties: ArrayListMultimap<String, String> =
-                ArrayListMultimap.create()
-
-            @JvmSynthetic
-            internal fun from(fundingSourceListQueryParams: FundingSourceListQueryParams) = apply {
-                this.accountToken = fundingSourceListQueryParams.accountToken
-                this.page = fundingSourceListQueryParams.page
-                this.pageSize = fundingSourceListQueryParams.pageSize
-                additionalProperties(fundingSourceListQueryParams.additionalProperties)
-            }
-
-            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
-
-            /** Page (for pagination). */
-            fun page(page: Long) = apply { this.page = page }
-
-            /** Page size (for pagination). */
-            fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
-
-            fun additionalProperties(additionalProperties: ListMultimap<String, String>) = apply {
-                this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun putAdditionalProperty(key: String, value: String) = apply {
-                this.additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: ListMultimap<String, String>) =
-                apply {
-                    this.additionalProperties.putAll(additionalProperties)
-                }
-
-            fun build(): FundingSourceListQueryParams =
-                FundingSourceListQueryParams(
-                    accountToken,
-                    page,
-                    pageSize,
-                    additionalProperties.toUnmodifiable(),
-                )
-        }
+    internal fun getQueryParams(): Map<String, List<String>> {
+        val params = mutableMapOf<String, List<String>>()
+        this.accountToken?.let { params.put("account_token", listOf(it.toString())) }
+        this.page?.let { params.put("page", listOf(it.toString())) }
+        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
+        params.putAll(additionalQueryParams)
+        return params.toUnmodifiable()
     }
 
-    fun _additionalQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
-    fun _additionalHeaders(): ListMultimap<String, String> = additionalHeaders
+    fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
+
+    fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -186,8 +76,8 @@ constructor(
         private var accountToken: String? = null
         private var page: Long? = null
         private var pageSize: Long? = null
-        private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
-        private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()
+        private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
+        private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(fundingSourceListParams: FundingSourceListParams) = apply {
@@ -206,40 +96,53 @@ constructor(
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
 
-        fun additionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
+        fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
-            this.additionalQueryParams.putAll(additionalQueryParams)
+            putAllQueryParams(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply {
-            this.additionalQueryParams.put(key, value)
+        fun putQueryParam(key: String, value: String) = apply {
+            this.additionalQueryParams.getOrPut(key) { mutableListOf() }.add(value)
         }
 
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
-            apply {
-                this.additionalQueryParams.putAll(additionalQueryParams)
-            }
+        fun putQueryParam(key: String, value: List<String>) = apply {
+            this.additionalQueryParams.getOrPut(key) { mutableListOf() }.addAll(value)
+        }
 
-        fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
+        fun putAllQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
+            additionalQueryParams.forEach(this::putQueryParam)
+        }
+
+        fun removeQueryParam(key: String) = apply {
+            this.additionalQueryParams.put(key, mutableListOf())
+        }
+
+        fun additionalHeaders(additionalHeaders: Map<String, List<String>>) = apply {
             this.additionalHeaders.clear()
-            this.additionalHeaders.putAll(additionalHeaders)
+            putAllHeaders(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply {
-            this.additionalHeaders.put(key, value)
+        fun putHeader(key: String, value: String) = apply {
+            this.additionalHeaders.getOrPut(key) { mutableListOf() }.add(value)
         }
 
-        fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
-            this.additionalHeaders.putAll(additionalHeaders)
+        fun putHeader(key: String, value: List<String>) = apply {
+            this.additionalHeaders.getOrPut(key) { mutableListOf() }.addAll(value)
         }
+
+        fun putAllHeaders(additionalHeaders: Map<String, List<String>>) = apply {
+            additionalHeaders.forEach(this::putHeader)
+        }
+
+        fun removeHeader(key: String) = apply { this.additionalHeaders.put(key, mutableListOf()) }
 
         fun build(): FundingSourceListParams =
             FundingSourceListParams(
                 accountToken,
                 page,
                 pageSize,
-                additionalQueryParams.toUnmodifiable(),
-                additionalHeaders.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )
     }
 }

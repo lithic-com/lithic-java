@@ -42,7 +42,7 @@ class CardCreateParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             CardCreateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -75,7 +75,7 @@ class CardCreateParamsTest {
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.accountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.cardProgramToken()).isEqualTo("00000000-0000-0000-1000-000000000000")
@@ -110,9 +110,9 @@ class CardCreateParamsTest {
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params = CardCreateParams.builder().type(CardCreateParams.Type.VIRTUAL).build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.type()).isEqualTo(CardCreateParams.Type.VIRTUAL)
     }

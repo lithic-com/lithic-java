@@ -1,7 +1,5 @@
 package com.lithic.api.models
 
-import com.google.common.collect.ArrayListMultimap
-import com.google.common.collect.ListMultimap
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
@@ -10,15 +8,15 @@ import java.util.Objects
 class AccountHolderListDocumentsParams
 constructor(
     private val accountHolderToken: String,
-    private val additionalQueryParams: ListMultimap<String, String>,
-    private val additionalHeaders: ListMultimap<String, String>,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
 ) {
 
     fun accountHolderToken(): String = accountHolderToken
 
-    @JvmSynthetic internal fun toQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    @JvmSynthetic internal fun toHeaders(): ListMultimap<String, String> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun getPathParam(index: Int): String {
         return when (index) {
@@ -27,9 +25,9 @@ constructor(
         }
     }
 
-    fun _additionalQueryParams(): ListMultimap<String, String> = additionalQueryParams
+    fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    fun _additionalHeaders(): ListMultimap<String, String> = additionalHeaders
+    fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -64,8 +62,8 @@ constructor(
     class Builder {
 
         private var accountHolderToken: String? = null
-        private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
-        private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()
+        private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
+        private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(accountHolderListDocumentsParams: AccountHolderListDocumentsParams) =
@@ -79,40 +77,53 @@ constructor(
             this.accountHolderToken = accountHolderToken
         }
 
-        fun additionalQueryParams(additionalQueryParams: ListMultimap<String, String>) = apply {
+        fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
-            this.additionalQueryParams.putAll(additionalQueryParams)
+            putAllQueryParams(additionalQueryParams)
         }
 
-        fun putAdditionalQueryParams(key: String, value: String) = apply {
-            this.additionalQueryParams.put(key, value)
+        fun putQueryParam(key: String, value: String) = apply {
+            this.additionalQueryParams.getOrPut(key) { mutableListOf() }.add(value)
         }
 
-        fun putAllAdditionalQueryParams(additionalQueryParams: ListMultimap<String, String>) =
-            apply {
-                this.additionalQueryParams.putAll(additionalQueryParams)
-            }
+        fun putQueryParam(key: String, value: List<String>) = apply {
+            this.additionalQueryParams.getOrPut(key) { mutableListOf() }.addAll(value)
+        }
 
-        fun additionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
+        fun putAllQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
+            additionalQueryParams.forEach(this::putQueryParam)
+        }
+
+        fun removeQueryParam(key: String) = apply {
+            this.additionalQueryParams.put(key, mutableListOf())
+        }
+
+        fun additionalHeaders(additionalHeaders: Map<String, List<String>>) = apply {
             this.additionalHeaders.clear()
-            this.additionalHeaders.putAll(additionalHeaders)
+            putAllHeaders(additionalHeaders)
         }
 
-        fun putAdditionalHeaders(key: String, value: String) = apply {
-            this.additionalHeaders.put(key, value)
+        fun putHeader(key: String, value: String) = apply {
+            this.additionalHeaders.getOrPut(key) { mutableListOf() }.add(value)
         }
 
-        fun putAllAdditionalHeaders(additionalHeaders: ListMultimap<String, String>) = apply {
-            this.additionalHeaders.putAll(additionalHeaders)
+        fun putHeader(key: String, value: List<String>) = apply {
+            this.additionalHeaders.getOrPut(key) { mutableListOf() }.addAll(value)
         }
+
+        fun putAllHeaders(additionalHeaders: Map<String, List<String>>) = apply {
+            additionalHeaders.forEach(this::putHeader)
+        }
+
+        fun removeHeader(key: String) = apply { this.additionalHeaders.put(key, mutableListOf()) }
 
         fun build(): AccountHolderListDocumentsParams =
             AccountHolderListDocumentsParams(
                 checkNotNull(accountHolderToken) {
                     "Property `accountHolderToken` is required but was not set"
                 },
-                additionalQueryParams.toUnmodifiable(),
-                additionalHeaders.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )
     }
 }

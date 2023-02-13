@@ -36,7 +36,7 @@ class AccountHolderResubmitParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             AccountHolderResubmitParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -63,7 +63,7 @@ class AccountHolderResubmitParamsTest {
                         .build()
                 )
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.workflow()).isEqualTo(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
         assertThat(body.tosTimestamp()).isEqualTo("2022-03-08 08:00:00")
@@ -91,7 +91,7 @@ class AccountHolderResubmitParamsTest {
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params =
             AccountHolderResubmitParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -117,7 +117,7 @@ class AccountHolderResubmitParamsTest {
                         .build()
                 )
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.workflow()).isEqualTo(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
         assertThat(body.tosTimestamp()).isEqualTo("2022-03-08 08:00:00")

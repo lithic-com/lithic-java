@@ -21,7 +21,7 @@ class AuthRuleCreateParamsTest {
     }
 
     @Test
-    fun toBody() {
+    fun getBody() {
         val params =
             AuthRuleCreateParams.builder()
                 .allowedMcc(listOf("string"))
@@ -33,7 +33,7 @@ class AuthRuleCreateParamsTest {
                 .cardTokens(listOf("string"))
                 .programLevel(true)
                 .build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.allowedMcc()).isEqualTo(listOf("string"))
         assertThat(body.blockedMcc()).isEqualTo(listOf("string"))
@@ -46,9 +46,9 @@ class AuthRuleCreateParamsTest {
     }
 
     @Test
-    fun toBodyWithoutOptionalFields() {
+    fun getBodyWithoutOptionalFields() {
         val params = AuthRuleCreateParams.builder().build()
-        val body = params.toBody()
+        val body = params.getBody()
         assertThat(body).isNotNull
     }
 }
