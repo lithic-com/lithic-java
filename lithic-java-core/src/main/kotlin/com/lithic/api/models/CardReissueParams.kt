@@ -341,7 +341,7 @@ constructor(
 
         fun build(): CardReissueParams =
             CardReissueParams(
-                checkNotNull(cardToken) { "Property `cardToken` is required but was not set" },
+                checkNotNull(cardToken) { "`cardToken` is required but was not set" },
                 shippingAddress,
                 shippingMethod,
                 productId,

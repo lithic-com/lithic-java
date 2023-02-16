@@ -116,9 +116,7 @@ constructor(
 
         fun build(): AccountRetrieveParams =
             AccountRetrieveParams(
-                checkNotNull(accountToken) {
-                    "Property `accountToken` is required but was not set"
-                },
+                checkNotNull(accountToken) { "`accountToken` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

@@ -166,13 +166,9 @@ constructor(
 
             fun build(): AccountHolderResubmitBody =
                 AccountHolderResubmitBody(
-                    checkNotNull(workflow) { "Property `workflow` is required but was not set" },
-                    checkNotNull(tosTimestamp) {
-                        "Property `tosTimestamp` is required but was not set"
-                    },
-                    checkNotNull(individual) {
-                        "Property `individual` is required but was not set"
-                    },
+                    checkNotNull(workflow) { "`workflow` is required but was not set" },
+                    checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
+                    checkNotNull(individual) { "`individual` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -318,13 +314,11 @@ constructor(
         fun build(): AccountHolderResubmitParams =
             AccountHolderResubmitParams(
                 checkNotNull(accountHolderToken) {
-                    "Property `accountHolderToken` is required but was not set"
+                    "`accountHolderToken` is required but was not set"
                 },
-                checkNotNull(workflow) { "Property `workflow` is required but was not set" },
-                checkNotNull(tosTimestamp) {
-                    "Property `tosTimestamp` is required but was not set"
-                },
-                checkNotNull(individual) { "Property `individual` is required but was not set" },
+                checkNotNull(workflow) { "`workflow` is required but was not set" },
+                checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
+                checkNotNull(individual) { "`individual` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),
@@ -556,17 +550,13 @@ constructor(
 
             fun build(): Individual =
                 Individual(
-                    checkNotNull(address) { "Property `address` is required but was not set" },
-                    checkNotNull(dob) { "Property `dob` is required but was not set" },
-                    checkNotNull(email) { "Property `email` is required but was not set" },
-                    checkNotNull(firstName) { "Property `firstName` is required but was not set" },
-                    checkNotNull(governmentId) {
-                        "Property `governmentId` is required but was not set"
-                    },
-                    checkNotNull(lastName) { "Property `lastName` is required but was not set" },
-                    checkNotNull(phoneNumber) {
-                        "Property `phoneNumber` is required but was not set"
-                    },
+                    checkNotNull(address) { "`address` is required but was not set" },
+                    checkNotNull(dob) { "`dob` is required but was not set" },
+                    checkNotNull(email) { "`email` is required but was not set" },
+                    checkNotNull(firstName) { "`firstName` is required but was not set" },
+                    checkNotNull(governmentId) { "`governmentId` is required but was not set" },
+                    checkNotNull(lastName) { "`lastName` is required but was not set" },
+                    checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
         }

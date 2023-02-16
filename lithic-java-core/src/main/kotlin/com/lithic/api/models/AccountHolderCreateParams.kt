@@ -631,31 +631,23 @@ constructor(
 
             fun build(): Kyb =
                 Kyb(
-                    checkNotNull(businessEntity) {
-                        "Property `businessEntity` is required but was not set"
-                    },
+                    checkNotNull(businessEntity) { "`businessEntity` is required but was not set" },
                     checkNotNull(beneficialOwnerEntities) {
-                            "Property `beneficialOwnerEntities` is required but was not set"
+                            "`beneficialOwnerEntities` is required but was not set"
                         }
                         .toUnmodifiable(),
                     checkNotNull(beneficialOwnerIndividuals) {
-                            "Property `beneficialOwnerIndividuals` is required but was not set"
+                            "`beneficialOwnerIndividuals` is required but was not set"
                         }
                         .toUnmodifiable(),
-                    checkNotNull(controlPerson) {
-                        "Property `controlPerson` is required but was not set"
-                    },
+                    checkNotNull(controlPerson) { "`controlPerson` is required but was not set" },
                     kybPassedTimestamp,
                     checkNotNull(natureOfBusiness) {
-                        "Property `natureOfBusiness` is required but was not set"
+                        "`natureOfBusiness` is required but was not set"
                     },
-                    checkNotNull(tosTimestamp) {
-                        "Property `tosTimestamp` is required but was not set"
-                    },
-                    checkNotNull(websiteUrl) {
-                        "Property `websiteUrl` is required but was not set"
-                    },
-                    checkNotNull(workflow) { "Property `workflow` is required but was not set" },
+                    checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
+                    checkNotNull(websiteUrl) { "`websiteUrl` is required but was not set" },
+                    checkNotNull(workflow) { "`workflow` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -830,18 +822,14 @@ constructor(
 
                 fun build(): BusinessEntity =
                     BusinessEntity(
-                        checkNotNull(address) { "Property `address` is required but was not set" },
+                        checkNotNull(address) { "`address` is required but was not set" },
                         dbaBusinessName,
-                        checkNotNull(governmentId) {
-                            "Property `governmentId` is required but was not set"
-                        },
+                        checkNotNull(governmentId) { "`governmentId` is required but was not set" },
                         checkNotNull(legalBusinessName) {
-                            "Property `legalBusinessName` is required but was not set"
+                            "`legalBusinessName` is required but was not set"
                         },
                         parentCompany,
-                        checkNotNull(phoneNumbers) {
-                                "Property `phoneNumbers` is required but was not set"
-                            }
+                        checkNotNull(phoneNumbers) { "`phoneNumbers` is required but was not set" }
                             .toUnmodifiable(),
                         additionalProperties.toUnmodifiable(),
                     )
@@ -1023,21 +1011,13 @@ constructor(
 
                 fun build(): Individual =
                     Individual(
-                        checkNotNull(address) { "Property `address` is required but was not set" },
-                        checkNotNull(dob) { "Property `dob` is required but was not set" },
-                        checkNotNull(email) { "Property `email` is required but was not set" },
-                        checkNotNull(firstName) {
-                            "Property `firstName` is required but was not set"
-                        },
-                        checkNotNull(governmentId) {
-                            "Property `governmentId` is required but was not set"
-                        },
-                        checkNotNull(lastName) {
-                            "Property `lastName` is required but was not set"
-                        },
-                        checkNotNull(phoneNumber) {
-                            "Property `phoneNumber` is required but was not set"
-                        },
+                        checkNotNull(address) { "`address` is required but was not set" },
+                        checkNotNull(dob) { "`dob` is required but was not set" },
+                        checkNotNull(email) { "`email` is required but was not set" },
+                        checkNotNull(firstName) { "`firstName` is required but was not set" },
+                        checkNotNull(governmentId) { "`governmentId` is required but was not set" },
+                        checkNotNull(lastName) { "`lastName` is required but was not set" },
+                        checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
                         additionalProperties.toUnmodifiable(),
                     )
             }
@@ -1240,14 +1220,10 @@ constructor(
 
             fun build(): Kyc =
                 Kyc(
-                    checkNotNull(individual) {
-                        "Property `individual` is required but was not set"
-                    },
+                    checkNotNull(individual) { "`individual` is required but was not set" },
                     kycPassedTimestamp,
-                    checkNotNull(tosTimestamp) {
-                        "Property `tosTimestamp` is required but was not set"
-                    },
-                    checkNotNull(workflow) { "Property `workflow` is required but was not set" },
+                    checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
+                    checkNotNull(workflow) { "`workflow` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -1428,21 +1404,13 @@ constructor(
 
                 fun build(): Individual =
                     Individual(
-                        checkNotNull(address) { "Property `address` is required but was not set" },
-                        checkNotNull(dob) { "Property `dob` is required but was not set" },
-                        checkNotNull(email) { "Property `email` is required but was not set" },
-                        checkNotNull(firstName) {
-                            "Property `firstName` is required but was not set"
-                        },
-                        checkNotNull(governmentId) {
-                            "Property `governmentId` is required but was not set"
-                        },
-                        checkNotNull(lastName) {
-                            "Property `lastName` is required but was not set"
-                        },
-                        checkNotNull(phoneNumber) {
-                            "Property `phoneNumber` is required but was not set"
-                        },
+                        checkNotNull(address) { "`address` is required but was not set" },
+                        checkNotNull(dob) { "`dob` is required but was not set" },
+                        checkNotNull(email) { "`email` is required but was not set" },
+                        checkNotNull(firstName) { "`firstName` is required but was not set" },
+                        checkNotNull(governmentId) { "`governmentId` is required but was not set" },
+                        checkNotNull(lastName) { "`lastName` is required but was not set" },
+                        checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
                         additionalProperties.toUnmodifiable(),
                     )
             }
@@ -1673,16 +1641,14 @@ constructor(
 
             fun build(): KycExempt =
                 KycExempt(
-                    checkNotNull(workflow) { "Property `workflow` is required but was not set" },
+                    checkNotNull(workflow) { "`workflow` is required but was not set" },
                     checkNotNull(kycExemptionType) {
-                        "Property `kycExemptionType` is required but was not set"
+                        "`kycExemptionType` is required but was not set"
                     },
-                    checkNotNull(firstName) { "Property `firstName` is required but was not set" },
-                    checkNotNull(lastName) { "Property `lastName` is required but was not set" },
-                    checkNotNull(email) { "Property `email` is required but was not set" },
-                    checkNotNull(phoneNumber) {
-                        "Property `phoneNumber` is required but was not set"
-                    },
+                    checkNotNull(firstName) { "`firstName` is required but was not set" },
+                    checkNotNull(lastName) { "`lastName` is required but was not set" },
+                    checkNotNull(email) { "`email` is required but was not set" },
+                    checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
                     address,
                     additionalProperties.toUnmodifiable(),
                 )

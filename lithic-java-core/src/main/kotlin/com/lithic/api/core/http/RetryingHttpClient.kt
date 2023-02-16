@@ -19,7 +19,7 @@ import kotlin.math.pow
 
 class RetryingHttpClient
 private constructor(
-    private val delegate: HttpClient,
+    private val httpClient: HttpClient,
     private val maxRetries: Int,
     private val idempotencyHeader: String?,
 ) : HttpClient {
@@ -28,7 +28,7 @@ private constructor(
         request: HttpRequest,
     ): HttpResponse {
         if (!isRetryable(request) || maxRetries <= 0) {
-            return delegate.execute(request)
+            return httpClient.execute(request)
         }
 
         maybeAddIdempotencyHeader(request)
@@ -38,7 +38,7 @@ private constructor(
         while (true) {
             val response =
                 try {
-                    val response = delegate.execute(request)
+                    val response = httpClient.execute(request)
                     if (++retries > maxRetries || !shouldRetry(response)) {
                         return response
                     }
@@ -61,7 +61,7 @@ private constructor(
         request: HttpRequest,
     ): CompletableFuture<HttpResponse> {
         if (!isRetryable(request) || maxRetries <= 0) {
-            return delegate.executeAsync(request)
+            return httpClient.executeAsync(request)
         }
 
         maybeAddIdempotencyHeader(request)
@@ -89,7 +89,7 @@ private constructor(
 
                         val backoffMillis = getRetryBackoffMillis(retries, response)
                         return sleepAsync(backoffMillis).thenCompose {
-                            wrap(delegate.executeAsync(request))
+                            wrap(httpClient.executeAsync(request))
                         }
                     },
                     MoreExecutors.directExecutor()
@@ -97,11 +97,11 @@ private constructor(
                 .thenCompose(Function.identity())
         }
 
-        return wrap(delegate.executeAsync(request))
+        return wrap(httpClient.executeAsync(request))
     }
 
     override fun close() {
-        delegate.close()
+        httpClient.close()
     }
 
     private fun isRetryable(request: HttpRequest): Boolean {
@@ -202,11 +202,11 @@ private constructor(
 
     class Builder {
 
-        private var delegate: HttpClient? = null
+        private var httpClient: HttpClient? = null
         private var maxRetries: Int = 2
         private var idempotencyHeader: String? = null
 
-        fun delegate(delegate: HttpClient) = apply { this.delegate = delegate }
+        fun httpClient(httpClient: HttpClient) = apply { this.httpClient = httpClient }
 
         fun maxRetries(maxRetries: Int) = apply { this.maxRetries = maxRetries }
 
@@ -214,7 +214,7 @@ private constructor(
 
         fun build(): HttpClient =
             RetryingHttpClient(
-                checkNotNull(delegate) { "HTTP client is required but was not set" },
+                checkNotNull(httpClient) { "`httpClient` is required but was not set" },
                 maxRetries,
                 idempotencyHeader,
             )

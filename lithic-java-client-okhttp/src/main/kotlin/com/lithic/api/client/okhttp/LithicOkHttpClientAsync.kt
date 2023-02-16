@@ -1,6 +1,5 @@
 package com.lithic.api.client.okhttp
 
-import com.google.common.collect.Multimap
 import com.lithic.api.client.LithicClientAsync
 import com.lithic.api.client.LithicClientAsyncImpl
 import com.lithic.api.core.ClientOptions
@@ -26,7 +25,11 @@ class LithicOkHttpClientAsync private constructor() {
 
         fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl }
 
-        fun timeout(timeout: Duration) = apply { this.timeout = timeout }
+        fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
+
+        fun headers(headers: Map<String, Iterable<String>>) = apply {
+            clientOptions.headers(headers)
+        }
 
         fun putHeader(name: String, value: String) = apply { clientOptions.putHeader(name, value) }
 
@@ -38,19 +41,17 @@ class LithicOkHttpClientAsync private constructor() {
             clientOptions.putAllHeaders(headers)
         }
 
-        fun putAllHeaders(headers: Multimap<String, String>) = apply {
-            clientOptions.putAllHeaders(headers)
-        }
+        fun removeHeader(name: String) = apply { clientOptions.removeHeader(name) }
+
+        fun timeout(timeout: Duration) = apply { this.timeout = timeout }
+
+        fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
 
         fun responseValidation(responseValidation: Boolean) = apply {
             clientOptions.responseValidation(responseValidation)
         }
 
-        fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
-
-        fun apiKey(apiKey: String): Builder = apply { clientOptions.apiKey(apiKey) }
-
-        fun fromEnv(): Builder = apply { clientOptions.fromEnv() }
+        fun fromEnv() = apply { clientOptions.fromEnv() }
 
         fun build(): LithicClientAsync {
             return LithicClientAsyncImpl(

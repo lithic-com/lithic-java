@@ -164,7 +164,7 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
 
             return OkHttpClient(
                 okHttpClient.build(),
-                checkNotNull(baseUrl) { "Base URL is required but was not set" },
+                checkNotNull(baseUrl) { "`baseUrl` is required but was not set" },
             )
         }
     }

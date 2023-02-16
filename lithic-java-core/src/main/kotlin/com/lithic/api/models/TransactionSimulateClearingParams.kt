@@ -141,7 +141,7 @@ constructor(
             fun build(): TransactionSimulateClearingBody =
                 TransactionSimulateClearingBody(
                     amount,
-                    checkNotNull(token) { "Property `token` is required but was not set" },
+                    checkNotNull(token) { "`token` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -275,7 +275,7 @@ constructor(
         fun build(): TransactionSimulateClearingParams =
             TransactionSimulateClearingParams(
                 amount,
-                checkNotNull(token) { "Property `token` is required but was not set" },
+                checkNotNull(token) { "`token` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

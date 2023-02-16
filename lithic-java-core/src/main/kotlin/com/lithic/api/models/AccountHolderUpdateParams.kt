@@ -292,7 +292,7 @@ constructor(
         fun build(): AccountHolderUpdateParams =
             AccountHolderUpdateParams(
                 checkNotNull(accountHolderToken) {
-                    "Property `accountHolderToken` is required but was not set"
+                    "`accountHolderToken` is required but was not set"
                 },
                 email,
                 phoneNumber,

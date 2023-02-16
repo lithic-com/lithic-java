@@ -141,11 +141,9 @@ constructor(
 
             fun build(): TransactionSimulateReturnBody =
                 TransactionSimulateReturnBody(
-                    checkNotNull(amount) { "Property `amount` is required but was not set" },
-                    checkNotNull(descriptor) {
-                        "Property `descriptor` is required but was not set"
-                    },
-                    checkNotNull(pan) { "Property `pan` is required but was not set" },
+                    checkNotNull(amount) { "`amount` is required but was not set" },
+                    checkNotNull(descriptor) { "`descriptor` is required but was not set" },
+                    checkNotNull(pan) { "`pan` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -278,9 +276,9 @@ constructor(
 
         fun build(): TransactionSimulateReturnParams =
             TransactionSimulateReturnParams(
-                checkNotNull(amount) { "Property `amount` is required but was not set" },
-                checkNotNull(descriptor) { "Property `descriptor` is required but was not set" },
-                checkNotNull(pan) { "Property `pan` is required but was not set" },
+                checkNotNull(amount) { "`amount` is required but was not set" },
+                checkNotNull(descriptor) { "`descriptor` is required but was not set" },
+                checkNotNull(pan) { "`pan` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

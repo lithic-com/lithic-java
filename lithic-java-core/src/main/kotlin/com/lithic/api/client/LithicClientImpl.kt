@@ -66,7 +66,6 @@ constructor(
                 .method(HttpMethod.GET)
                 .addPathSegments("status")
                 .putAllQueryParams(params.getQueryParams())
-                .putHeader("Authorization", clientOptions.apiKey)
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .build()

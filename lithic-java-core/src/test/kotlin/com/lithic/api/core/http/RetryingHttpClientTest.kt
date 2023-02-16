@@ -11,10 +11,12 @@ import org.junit.jupiter.api.Test
 
 @WireMockTest
 internal class RetryingHttpClientTest {
-    private var client: HttpClient? = null
+
+    private lateinit var httpClient: HttpClient
+
     @BeforeEach
     fun beforeEach(wmRuntimeInfo: WireMockRuntimeInfo) {
-        client = OkHttpClient.builder().baseUrl(wmRuntimeInfo.httpBaseUrl).build()
+        httpClient = OkHttpClient.builder().baseUrl(wmRuntimeInfo.httpBaseUrl).build()
         resetAllScenarios()
     }
 
@@ -24,7 +26,7 @@ internal class RetryingHttpClientTest {
         val request =
             HttpRequest.builder().method(HttpMethod.POST).addPathSegment("something").build()
         stubFor(post(urlPathEqualTo("/something")).willReturn(ok()))
-        val retryingClient = RetryingHttpClient.builder().delegate(client!!).build()
+        val retryingClient = RetryingHttpClient.builder().httpClient(httpClient).build()
         val response = retryingClient.execute(request)
         assertThat(response.statusCode()).isEqualTo(200)
         verify(1, postRequestedFor(urlPathEqualTo("/something")))
@@ -42,7 +44,7 @@ internal class RetryingHttpClientTest {
         )
         val retryingClient =
             RetryingHttpClient.builder()
-                .delegate(client!!)
+                .httpClient(httpClient)
                 .idempotencyHeader("X-Some-Header")
                 .build()
         val response = retryingClient.execute(request)
@@ -78,7 +80,7 @@ internal class RetryingHttpClientTest {
                 .willReturn(ok())
                 .willSetStateTo("COMPLETED")
         )
-        val retryingClient = RetryingHttpClient.builder().delegate(client!!).build()
+        val retryingClient = RetryingHttpClient.builder().httpClient(httpClient).build()
         val response = retryingClient.execute(request)
         assertThat(response.statusCode()).isEqualTo(200)
         verify(3, postRequestedFor(urlPathEqualTo("/something")))

@@ -118,9 +118,7 @@ constructor(
 
         fun build(): TransactionRetrieveParams =
             TransactionRetrieveParams(
-                checkNotNull(transactionToken) {
-                    "Property `transactionToken` is required but was not set"
-                },
+                checkNotNull(transactionToken) { "`transactionToken` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

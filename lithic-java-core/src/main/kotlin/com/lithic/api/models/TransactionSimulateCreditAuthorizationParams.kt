@@ -173,11 +173,9 @@ constructor(
 
             fun build(): TransactionSimulateCreditAuthorizationBody =
                 TransactionSimulateCreditAuthorizationBody(
-                    checkNotNull(amount) { "Property `amount` is required but was not set" },
-                    checkNotNull(descriptor) {
-                        "Property `descriptor` is required but was not set"
-                    },
-                    checkNotNull(pan) { "Property `pan` is required but was not set" },
+                    checkNotNull(amount) { "`amount` is required but was not set" },
+                    checkNotNull(descriptor) { "`descriptor` is required but was not set" },
+                    checkNotNull(pan) { "`pan` is required but was not set" },
                     merchantAcceptorId,
                     additionalProperties.toUnmodifiable(),
                 )
@@ -331,9 +329,9 @@ constructor(
 
         fun build(): TransactionSimulateCreditAuthorizationParams =
             TransactionSimulateCreditAuthorizationParams(
-                checkNotNull(amount) { "Property `amount` is required but was not set" },
-                checkNotNull(descriptor) { "Property `descriptor` is required but was not set" },
-                checkNotNull(pan) { "Property `pan` is required but was not set" },
+                checkNotNull(amount) { "`amount` is required but was not set" },
+                checkNotNull(descriptor) { "`descriptor` is required but was not set" },
+                checkNotNull(pan) { "`pan` is required but was not set" },
                 merchantAcceptorId,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),

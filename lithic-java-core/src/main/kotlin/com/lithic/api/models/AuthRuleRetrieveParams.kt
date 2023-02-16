@@ -116,9 +116,7 @@ constructor(
 
         fun build(): AuthRuleRetrieveParams =
             AuthRuleRetrieveParams(
-                checkNotNull(authRuleToken) {
-                    "Property `authRuleToken` is required but was not set"
-                },
+                checkNotNull(authRuleToken) { "`authRuleToken` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

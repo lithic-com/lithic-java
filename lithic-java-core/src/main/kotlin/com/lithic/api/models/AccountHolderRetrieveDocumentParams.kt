@@ -131,11 +131,9 @@ constructor(
         fun build(): AccountHolderRetrieveDocumentParams =
             AccountHolderRetrieveDocumentParams(
                 checkNotNull(accountHolderToken) {
-                    "Property `accountHolderToken` is required but was not set"
+                    "`accountHolderToken` is required but was not set"
                 },
-                checkNotNull(documentToken) {
-                    "Property `documentToken` is required but was not set"
-                },
+                checkNotNull(documentToken) { "`documentToken` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

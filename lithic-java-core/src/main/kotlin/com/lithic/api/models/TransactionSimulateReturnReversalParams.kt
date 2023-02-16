@@ -104,7 +104,7 @@ constructor(
 
             fun build(): TransactionSimulateReturnReversalBody =
                 TransactionSimulateReturnReversalBody(
-                    checkNotNull(token) { "Property `token` is required but was not set" },
+                    checkNotNull(token) { "`token` is required but was not set" },
                     additionalProperties.toUnmodifiable()
                 )
         }
@@ -226,7 +226,7 @@ constructor(
 
         fun build(): TransactionSimulateReturnReversalParams =
             TransactionSimulateReturnReversalParams(
-                checkNotNull(token) { "Property `token` is required but was not set" },
+                checkNotNull(token) { "`token` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

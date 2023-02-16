@@ -39,7 +39,6 @@ constructor(
                 .method(HttpMethod.GET)
                 .addPathSegments("auth_stream")
                 .putAllQueryParams(params.getQueryParams())
-                .putHeader("Authorization", clientOptions.apiKey)
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .build()
@@ -66,7 +65,6 @@ constructor(
                 .method(HttpMethod.DELETE)
                 .addPathSegments("auth_stream")
                 .putAllQueryParams(params.getQueryParams())
-                .putHeader("Authorization", clientOptions.apiKey)
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
@@ -97,7 +95,6 @@ constructor(
                 .method(HttpMethod.POST)
                 .addPathSegments("auth_stream")
                 .putAllQueryParams(params.getQueryParams())
-                .putHeader("Authorization", clientOptions.apiKey)
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))

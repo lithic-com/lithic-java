@@ -585,7 +585,7 @@ constructor(
 
         fun build(): CardUpdateParams =
             CardUpdateParams(
-                checkNotNull(cardToken) { "Property `cardToken` is required but was not set" },
+                checkNotNull(cardToken) { "`cardToken` is required but was not set" },
                 accountToken,
                 fundingToken,
                 memo,

@@ -17,7 +17,7 @@ constructor(
 
     @JsonAnyGetter fun additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun toBuilder(): Builder = Builder()
+    fun toBuilder() = Builder()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

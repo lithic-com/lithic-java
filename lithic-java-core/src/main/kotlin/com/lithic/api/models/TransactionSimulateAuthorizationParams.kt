@@ -291,11 +291,9 @@ constructor(
 
             fun build(): TransactionSimulateAuthorizationBody =
                 TransactionSimulateAuthorizationBody(
-                    checkNotNull(amount) { "Property `amount` is required but was not set" },
-                    checkNotNull(descriptor) {
-                        "Property `descriptor` is required but was not set"
-                    },
-                    checkNotNull(pan) { "Property `pan` is required but was not set" },
+                    checkNotNull(amount) { "`amount` is required but was not set" },
+                    checkNotNull(descriptor) { "`descriptor` is required but was not set" },
+                    checkNotNull(pan) { "`pan` is required but was not set" },
                     status,
                     merchantAcceptorId,
                     merchantCurrency,
@@ -505,9 +503,9 @@ constructor(
 
         fun build(): TransactionSimulateAuthorizationParams =
             TransactionSimulateAuthorizationParams(
-                checkNotNull(amount) { "Property `amount` is required but was not set" },
-                checkNotNull(descriptor) { "Property `descriptor` is required but was not set" },
-                checkNotNull(pan) { "Property `pan` is required but was not set" },
+                checkNotNull(amount) { "`amount` is required but was not set" },
+                checkNotNull(descriptor) { "`descriptor` is required but was not set" },
+                checkNotNull(pan) { "`pan` is required but was not set" },
                 status,
                 merchantAcceptorId,
                 merchantCurrency,

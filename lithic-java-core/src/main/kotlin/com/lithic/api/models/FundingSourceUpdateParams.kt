@@ -310,7 +310,7 @@ constructor(
         fun build(): FundingSourceUpdateParams =
             FundingSourceUpdateParams(
                 checkNotNull(fundingSourceToken) {
-                    "Property `fundingSourceToken` is required but was not set"
+                    "`fundingSourceToken` is required but was not set"
                 },
                 accountToken,
                 state,

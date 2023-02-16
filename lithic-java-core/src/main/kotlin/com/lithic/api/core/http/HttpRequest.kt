@@ -77,7 +77,7 @@ private constructor(
 
         fun build(): HttpRequest =
             HttpRequest(
-                checkNotNull(method) { "Method is required but was not set" },
+                checkNotNull(method) { "`method` is required but was not set" },
                 pathSegments.toUnmodifiable(),
                 queryParams.toUnmodifiable(),
                 headers,
