@@ -34,6 +34,8 @@ constructor(
 
     private val cards: CardServiceAsync by lazy { CardServiceAsyncImpl(clientOptions) }
 
+    private val events: EventServiceAsync by lazy { EventServiceAsyncImpl(clientOptions) }
+
     private val fundingSources: FundingSourceServiceAsync by lazy {
         FundingSourceServiceAsyncImpl(clientOptions)
     }
@@ -51,6 +53,8 @@ constructor(
     override fun authStreamEnrollment(): AuthStreamEnrollmentServiceAsync = authStreamEnrollment
 
     override fun cards(): CardServiceAsync = cards
+
+    override fun events(): EventServiceAsync = events
 
     override fun fundingSources(): FundingSourceServiceAsync = fundingSources
 

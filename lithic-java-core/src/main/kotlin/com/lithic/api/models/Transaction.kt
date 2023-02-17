@@ -27,11 +27,9 @@ private constructor(
     private val merchantAuthorizationAmount: JsonField<Long>,
     private val merchantCurrency: JsonField<String>,
     private val authorizationCode: JsonField<String>,
-    private val card: JsonField<Card>,
     private val cardToken: JsonField<String>,
     private val created: JsonField<String>,
-    private val events: JsonField<List<Event>>,
-    private val funding: JsonField<List<Funding>>,
+    private val events: JsonField<List<TransactionEvent>>,
     private val merchant: JsonField<Merchant>,
     private val network: JsonField<Network>,
     private val result: JsonField<Result>,
@@ -96,35 +94,15 @@ private constructor(
     fun authorizationCode(): Optional<String> =
         Optional.ofNullable(authorizationCode.getNullable("authorization_code"))
 
-    /**
-     * Note this field will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
-     * Card used in this transaction.
-     */
-    fun card(): Optional<Card> = Optional.ofNullable(card.getNullable("card"))
-
-    /**
-     * Token for the card used in this transaction. Note this field is not yet included. It will be
-     * added as part of the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
-     */
+    /** Token for the card used in this transaction. */
     fun cardToken(): Optional<String> = Optional.ofNullable(cardToken.getNullable("card_token"))
 
     /** Date and time when the transaction first occurred. UTC time zone. */
     fun created(): Optional<String> = Optional.ofNullable(created.getNullable("created"))
 
     /** A list of all events that have modified this transaction. */
-    fun events(): Optional<List<Event>> = Optional.ofNullable(events.getNullable("events"))
-
-    /**
-     * Note this field will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A
-     * list of objects that describe how this transaction was funded, with the `amount` represented
-     * in cents. A reference to the funding account for the `card` that made this transaction may
-     * appear here and the `token` will match the `token` for the funding account in the `card`
-     * field.
-     */
-    fun funding(): Optional<List<Funding>> = Optional.ofNullable(funding.getNullable("funding"))
+    fun events(): Optional<List<TransactionEvent>> =
+        Optional.ofNullable(events.getNullable("events"))
 
     fun merchant(): Optional<Merchant> = Optional.ofNullable(merchant.getNullable("merchant"))
 
@@ -148,15 +126,10 @@ private constructor(
     /**
      * Status types:
      *
-     * - `BOUNCED` - The transaction was bounced. Note this value will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      * - `DECLINED` - The transaction was declined.
      * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant.
      * - `SETTLED` - The transaction is complete.
-     * - `SETTLING` - The merchant has completed the transaction and the funding source is being
-     * debited. Note this value will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      * - `VOIDED` - The merchant has voided the previously pending authorization.
      */
     fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
@@ -214,18 +187,7 @@ private constructor(
      */
     @JsonProperty("authorization_code") @ExcludeMissing fun _authorizationCode() = authorizationCode
 
-    /**
-     * Note this field will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
-     * Card used in this transaction.
-     */
-    @JsonProperty("card") @ExcludeMissing fun _card() = card
-
-    /**
-     * Token for the card used in this transaction. Note this field is not yet included. It will be
-     * added as part of the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
-     */
+    /** Token for the card used in this transaction. */
     @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
 
     /** Date and time when the transaction first occurred. UTC time zone. */
@@ -233,16 +195,6 @@ private constructor(
 
     /** A list of all events that have modified this transaction. */
     @JsonProperty("events") @ExcludeMissing fun _events() = events
-
-    /**
-     * Note this field will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A
-     * list of objects that describe how this transaction was funded, with the `amount` represented
-     * in cents. A reference to the funding account for the `card` that made this transaction may
-     * appear here and the `token` will match the `token` for the funding account in the `card`
-     * field.
-     */
-    @JsonProperty("funding") @ExcludeMissing fun _funding() = funding
 
     @JsonProperty("merchant") @ExcludeMissing fun _merchant() = merchant
 
@@ -265,15 +217,10 @@ private constructor(
     /**
      * Status types:
      *
-     * - `BOUNCED` - The transaction was bounced. Note this value will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      * - `DECLINED` - The transaction was declined.
      * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant.
      * - `SETTLED` - The transaction is complete.
-     * - `SETTLING` - The merchant has completed the transaction and the funding source is being
-     * debited. Note this value will be removed with the
-     * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
      * - `VOIDED` - The merchant has voided the previously pending authorization.
      */
     @JsonProperty("status") @ExcludeMissing fun _status() = status
@@ -295,11 +242,9 @@ private constructor(
             merchantAuthorizationAmount()
             merchantCurrency()
             authorizationCode()
-            card().map { it.validate() }
             cardToken()
             created()
             events().map { it.forEach { it.validate() } }
-            funding().map { it.forEach { it.validate() } }
             merchant().map { it.validate() }
             network()
             result()
@@ -326,11 +271,9 @@ private constructor(
             this.merchantAuthorizationAmount == other.merchantAuthorizationAmount &&
             this.merchantCurrency == other.merchantCurrency &&
             this.authorizationCode == other.authorizationCode &&
-            this.card == other.card &&
             this.cardToken == other.cardToken &&
             this.created == other.created &&
             this.events == other.events &&
-            this.funding == other.funding &&
             this.merchant == other.merchant &&
             this.network == other.network &&
             this.result == other.result &&
@@ -352,11 +295,9 @@ private constructor(
                     merchantAuthorizationAmount,
                     merchantCurrency,
                     authorizationCode,
-                    card,
                     cardToken,
                     created,
                     events,
-                    funding,
                     merchant,
                     network,
                     result,
@@ -370,7 +311,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Transaction{acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, authorizationAmount=$authorizationAmount, cardholderAuthentication=$cardholderAuthentication, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, authorizationCode=$authorizationCode, card=$card, cardToken=$cardToken, created=$created, events=$events, funding=$funding, merchant=$merchant, network=$network, result=$result, settledAmount=$settledAmount, status=$status, token=$token, additionalProperties=$additionalProperties}"
+        "Transaction{acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, authorizationAmount=$authorizationAmount, cardholderAuthentication=$cardholderAuthentication, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, authorizationCode=$authorizationCode, cardToken=$cardToken, created=$created, events=$events, merchant=$merchant, network=$network, result=$result, settledAmount=$settledAmount, status=$status, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -387,11 +328,9 @@ private constructor(
         private var merchantAuthorizationAmount: JsonField<Long> = JsonMissing.of()
         private var merchantCurrency: JsonField<String> = JsonMissing.of()
         private var authorizationCode: JsonField<String> = JsonMissing.of()
-        private var card: JsonField<Card> = JsonMissing.of()
         private var cardToken: JsonField<String> = JsonMissing.of()
         private var created: JsonField<String> = JsonMissing.of()
-        private var events: JsonField<List<Event>> = JsonMissing.of()
-        private var funding: JsonField<List<Funding>> = JsonMissing.of()
+        private var events: JsonField<List<TransactionEvent>> = JsonMissing.of()
         private var merchant: JsonField<Merchant> = JsonMissing.of()
         private var network: JsonField<Network> = JsonMissing.of()
         private var result: JsonField<Result> = JsonMissing.of()
@@ -410,11 +349,9 @@ private constructor(
             this.merchantAuthorizationAmount = transaction.merchantAuthorizationAmount
             this.merchantCurrency = transaction.merchantCurrency
             this.authorizationCode = transaction.authorizationCode
-            this.card = transaction.card
             this.cardToken = transaction.cardToken
             this.created = transaction.created
             this.events = transaction.events
-            this.funding = transaction.funding
             this.merchant = transaction.merchant
             this.network = transaction.network
             this.result = transaction.result
@@ -546,34 +483,10 @@ private constructor(
             this.authorizationCode = authorizationCode
         }
 
-        /**
-         * Note this field will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
-         * Card used in this transaction.
-         */
-        fun card(card: Card) = card(JsonField.of(card))
-
-        /**
-         * Note this field will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
-         * Card used in this transaction.
-         */
-        @JsonProperty("card")
-        @ExcludeMissing
-        fun card(card: JsonField<Card>) = apply { this.card = card }
-
-        /**
-         * Token for the card used in this transaction. Note this field is not yet included. It will
-         * be added as part of the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
-         */
+        /** Token for the card used in this transaction. */
         fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
 
-        /**
-         * Token for the card used in this transaction. Note this field is not yet included. It will
-         * be added as part of the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
-         */
+        /** Token for the card used in this transaction. */
         @JsonProperty("card_token")
         @ExcludeMissing
         fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
@@ -587,34 +500,12 @@ private constructor(
         fun created(created: JsonField<String>) = apply { this.created = created }
 
         /** A list of all events that have modified this transaction. */
-        fun events(events: List<Event>) = events(JsonField.of(events))
+        fun events(events: List<TransactionEvent>) = events(JsonField.of(events))
 
         /** A list of all events that have modified this transaction. */
         @JsonProperty("events")
         @ExcludeMissing
-        fun events(events: JsonField<List<Event>>) = apply { this.events = events }
-
-        /**
-         * Note this field will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
-         * A list of objects that describe how this transaction was funded, with the `amount`
-         * represented in cents. A reference to the funding account for the `card` that made this
-         * transaction may appear here and the `token` will match the `token` for the funding
-         * account in the `card` field.
-         */
-        fun funding(funding: List<Funding>) = funding(JsonField.of(funding))
-
-        /**
-         * Note this field will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
-         * A list of objects that describe how this transaction was funded, with the `amount`
-         * represented in cents. A reference to the funding account for the `card` that made this
-         * transaction may appear here and the `token` will match the `token` for the funding
-         * account in the `card` field.
-         */
-        @JsonProperty("funding")
-        @ExcludeMissing
-        fun funding(funding: JsonField<List<Funding>>) = apply { this.funding = funding }
+        fun events(events: JsonField<List<TransactionEvent>>) = apply { this.events = events }
 
         fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
 
@@ -665,15 +556,10 @@ private constructor(
         /**
          * Status types:
          *
-         * - `BOUNCED` - The transaction was bounced. Note this value will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
          * - `DECLINED` - The transaction was declined.
          * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
          * - `PENDING` - Authorization is pending completion from the merchant.
          * - `SETTLED` - The transaction is complete.
-         * - `SETTLING` - The merchant has completed the transaction and the funding source is being
-         * debited. Note this value will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
          * - `VOIDED` - The merchant has voided the previously pending authorization.
          */
         fun status(status: Status) = status(JsonField.of(status))
@@ -681,15 +567,10 @@ private constructor(
         /**
          * Status types:
          *
-         * - `BOUNCED` - The transaction was bounced. Note this value will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
          * - `DECLINED` - The transaction was declined.
          * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
          * - `PENDING` - Authorization is pending completion from the merchant.
          * - `SETTLED` - The transaction is complete.
-         * - `SETTLING` - The merchant has completed the transaction and the funding source is being
-         * debited. Note this value will be removed with the
-         * [February API changes](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes).
          * - `VOIDED` - The merchant has voided the previously pending authorization.
          */
         @JsonProperty("status")
@@ -728,11 +609,9 @@ private constructor(
                 merchantAuthorizationAmount,
                 merchantCurrency,
                 authorizationCode,
-                card,
                 cardToken,
                 created,
                 events.map { it.toUnmodifiable() },
-                funding.map { it.toUnmodifiable() },
                 merchant,
                 network,
                 result,
@@ -1601,9 +1480,9 @@ private constructor(
      * A single card transaction may include multiple events that affect the transaction state and
      * lifecycle.
      */
-    @JsonDeserialize(builder = Event.Builder::class)
+    @JsonDeserialize(builder = TransactionEvent.Builder::class)
     @NoAutoDetect
-    class Event
+    class TransactionEvent
     private constructor(
         private val amount: JsonField<Long>,
         private val created: JsonField<String>,
@@ -1681,9 +1560,6 @@ private constructor(
          * - `RETURN` - A refund has been processed on the transaction.
          * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
          * incorrect refund).
-         * - `VOID` - Note this value will be removed with the February API changes (see
-         * https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A transaction has been
-         * voided (e.g., when a merchant reverses an incorrect authorization).
          */
         fun type(): Type = type.getRequired("type")
 
@@ -1751,9 +1627,6 @@ private constructor(
          * - `RETURN` - A refund has been processed on the transaction.
          * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
          * incorrect refund).
-         * - `VOID` - Note this value will be removed with the February API changes (see
-         * https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A transaction has been
-         * voided (e.g., when a merchant reverses an incorrect authorization).
          */
         @JsonProperty("type") @ExcludeMissing fun _type() = type
 
@@ -1779,7 +1652,7 @@ private constructor(
                 return true
             }
 
-            return other is Event &&
+            return other is TransactionEvent &&
                 this.amount == other.amount &&
                 this.created == other.created &&
                 this.result == other.result &&
@@ -1804,7 +1677,7 @@ private constructor(
         }
 
         override fun toString() =
-            "Event{amount=$amount, created=$created, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
+            "TransactionEvent{amount=$amount, created=$created, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1821,13 +1694,13 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(event: Event) = apply {
-                this.amount = event.amount
-                this.created = event.created
-                this.result = event.result
-                this.token = event.token
-                this.type = event.type
-                additionalProperties(event.additionalProperties)
+            internal fun from(transactionEvent: TransactionEvent) = apply {
+                this.amount = transactionEvent.amount
+                this.created = transactionEvent.created
+                this.result = transactionEvent.result
+                this.token = transactionEvent.token
+                this.type = transactionEvent.type
+                additionalProperties(transactionEvent.additionalProperties)
             }
 
             /** Amount of the transaction event (in cents), including any acquirer fees. */
@@ -1946,9 +1819,6 @@ private constructor(
              * - `RETURN` - A refund has been processed on the transaction.
              * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
              * incorrect refund).
-             * - `VOID` - Note this value will be removed with the February API changes (see
-             * https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A transaction has
-             * been voided (e.g., when a merchant reverses an incorrect authorization).
              */
             fun type(type: Type) = type(JsonField.of(type))
 
@@ -1974,9 +1844,6 @@ private constructor(
              * - `RETURN` - A refund has been processed on the transaction.
              * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
              * incorrect refund).
-             * - `VOID` - Note this value will be removed with the February API changes (see
-             * https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes). A transaction has
-             * been voided (e.g., when a merchant reverses an incorrect authorization).
              */
             @JsonProperty("type")
             @ExcludeMissing
@@ -1996,8 +1863,8 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Event =
-                Event(
+            fun build(): TransactionEvent =
+                TransactionEvent(
                     amount,
                     created,
                     result,
@@ -2171,7 +2038,9 @@ private constructor(
                     UNKNOWN_HOST_TIMEOUT -> Known.UNKNOWN_HOST_TIMEOUT
                     USER_TRANSACTION_LIMIT -> Known.USER_TRANSACTION_LIMIT
                     else ->
-                        throw LithicInvalidDataException("Unknown Transaction.Event.Result: $value")
+                        throw LithicInvalidDataException(
+                            "Unknown Transaction.TransactionEvent.Result: $value"
+                        )
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -2311,228 +2180,9 @@ private constructor(
                     RETURN_REVERSAL -> Known.RETURN_REVERSAL
                     VOID -> Known.VOID
                     else ->
-                        throw LithicInvalidDataException("Unknown Transaction.Event.Type: $value")
-                }
-
-            fun asString(): String = _value().asStringOrThrow()
-        }
-    }
-
-    @JsonDeserialize(builder = Funding.Builder::class)
-    @NoAutoDetect
-    class Funding
-    private constructor(
-        private val amount: JsonField<Long>,
-        private val token: JsonField<String>,
-        private val type: JsonField<Type>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
-
-        private var validated: Boolean = false
-
-        private var hashCode: Int = 0
-
-        /** Amount of the transaction event, including any acquirer fees. */
-        fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
-
-        /** Funding account token. */
-        fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
-
-        /**
-         * Types of funding:
-         *
-         * - `DEPOSITORY_CHECKING` - Bank checking account.
-         * - `DEPOSITORY_SAVINGS` - Bank savings account.
-         */
-        fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
-
-        /** Amount of the transaction event, including any acquirer fees. */
-        @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
-
-        /** Funding account token. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
-
-        /**
-         * Types of funding:
-         *
-         * - `DEPOSITORY_CHECKING` - Bank checking account.
-         * - `DEPOSITORY_SAVINGS` - Bank savings account.
-         */
-        @JsonProperty("type") @ExcludeMissing fun _type() = type
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        fun validate() = apply {
-            if (!validated) {
-                amount()
-                token()
-                type()
-                validated = true
-            }
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Funding &&
-                this.amount == other.amount &&
-                this.token == other.token &&
-                this.type == other.type &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        amount,
-                        token,
-                        type,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Funding{amount=$amount, token=$token, type=$type, additionalProperties=$additionalProperties}"
-
-        companion object {
-
-            @JvmStatic fun builder() = Builder()
-        }
-
-        class Builder {
-
-            private var amount: JsonField<Long> = JsonMissing.of()
-            private var token: JsonField<String> = JsonMissing.of()
-            private var type: JsonField<Type> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(funding: Funding) = apply {
-                this.amount = funding.amount
-                this.token = funding.token
-                this.type = funding.type
-                additionalProperties(funding.additionalProperties)
-            }
-
-            /** Amount of the transaction event, including any acquirer fees. */
-            fun amount(amount: Long) = amount(JsonField.of(amount))
-
-            /** Amount of the transaction event, including any acquirer fees. */
-            @JsonProperty("amount")
-            @ExcludeMissing
-            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
-
-            /** Funding account token. */
-            fun token(token: String) = token(JsonField.of(token))
-
-            /** Funding account token. */
-            @JsonProperty("token")
-            @ExcludeMissing
-            fun token(token: JsonField<String>) = apply { this.token = token }
-
-            /**
-             * Types of funding:
-             *
-             * - `DEPOSITORY_CHECKING` - Bank checking account.
-             * - `DEPOSITORY_SAVINGS` - Bank savings account.
-             */
-            fun type(type: Type) = type(JsonField.of(type))
-
-            /**
-             * Types of funding:
-             *
-             * - `DEPOSITORY_CHECKING` - Bank checking account.
-             * - `DEPOSITORY_SAVINGS` - Bank savings account.
-             */
-            @JsonProperty("type")
-            @ExcludeMissing
-            fun type(type: JsonField<Type>) = apply { this.type = type }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            @JsonAnySetter
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun build(): Funding =
-                Funding(
-                    amount,
-                    token,
-                    type,
-                    additionalProperties.toUnmodifiable(),
-                )
-        }
-
-        class Type
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) {
-
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is Type && this.value == other.value
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
-            companion object {
-
-                @JvmField val DEPOSITORY_CHECKING = Type(JsonField.of("DEPOSITORY_CHECKING"))
-
-                @JvmField val DEPOSITORY_SAVINGS = Type(JsonField.of("DEPOSITORY_SAVINGS"))
-
-                @JvmStatic fun of(value: String) = Type(JsonField.of(value))
-            }
-
-            enum class Known {
-                DEPOSITORY_CHECKING,
-                DEPOSITORY_SAVINGS,
-            }
-
-            enum class Value {
-                DEPOSITORY_CHECKING,
-                DEPOSITORY_SAVINGS,
-                _UNKNOWN,
-            }
-
-            fun value(): Value =
-                when (this) {
-                    DEPOSITORY_CHECKING -> Value.DEPOSITORY_CHECKING
-                    DEPOSITORY_SAVINGS -> Value.DEPOSITORY_SAVINGS
-                    else -> Value._UNKNOWN
-                }
-
-            fun known(): Known =
-                when (this) {
-                    DEPOSITORY_CHECKING -> Known.DEPOSITORY_CHECKING
-                    DEPOSITORY_SAVINGS -> Known.DEPOSITORY_SAVINGS
-                    else ->
-                        throw LithicInvalidDataException("Unknown Transaction.Funding.Type: $value")
+                        throw LithicInvalidDataException(
+                            "Unknown Transaction.TransactionEvent.Type: $value"
+                        )
                 }
 
             fun asString(): String = _value().asStringOrThrow()

@@ -37,14 +37,7 @@ constructor(
     private val retrieveHandler: Handler<Transaction> =
         jsonHandler<Transaction>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
-    /**
-     * Get specific transaction.
-     *
-     * _Note that the transaction object returned via this endpoint will be changing in Sandbox on
-     * January 4, 2023 and in Production on February 8, 2023. Please refer to
-     * [this page](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes) for more
-     * information._
-     */
+    /** Get specific transaction. */
     override fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions
@@ -72,14 +65,7 @@ constructor(
         jsonHandler<TransactionListPage.Response>(clientOptions.jsonMapper)
             .withErrorHandler(errorHandler)
 
-    /**
-     * List transactions.
-     *
-     * _Note that the transaction object returned via this endpoint will be changing in Sandbox on
-     * January 4, 2023 and in Production on February 8, 2023. Please refer to
-     * [this page](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes) for more
-     * information._
-     */
+    /** List transactions. */
     override fun list(
         params: TransactionListParams,
         requestOptions: RequestOptions
@@ -246,7 +232,7 @@ constructor(
     /**
      * Voids a settled credit transaction – i.e., a transaction with a negative amount and `SETTLED`
      * status. These can be credit authorizations that have already cleared or financial credit
-     * authorizations. This endpoint will be available beginning January 4, 2023.
+     * authorizations.
      */
     override fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,

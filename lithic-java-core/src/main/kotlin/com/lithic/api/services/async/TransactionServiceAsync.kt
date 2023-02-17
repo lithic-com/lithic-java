@@ -23,28 +23,14 @@ import java.util.concurrent.CompletableFuture
 
 interface TransactionServiceAsync {
 
-    /**
-     * Get specific transaction.
-     *
-     * _Note that the transaction object returned via this endpoint will be changing in Sandbox on
-     * January 4, 2023 and in Production on February 8, 2023. Please refer to
-     * [this page](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes) for more
-     * information._
-     */
+    /** Get specific transaction. */
     @JvmOverloads
     fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<Transaction>
 
-    /**
-     * List transactions.
-     *
-     * _Note that the transaction object returned via this endpoint will be changing in Sandbox on
-     * January 4, 2023 and in Production on February 8, 2023. Please refer to
-     * [this page](https://docs.lithic.com/docs/guide-to-q1-2023-lithic-api-changes) for more
-     * information._
-     */
+    /** List transactions. */
     @JvmOverloads
     fun list(
         params: TransactionListParams,
@@ -100,7 +86,7 @@ interface TransactionServiceAsync {
     /**
      * Voids a settled credit transaction – i.e., a transaction with a negative amount and `SETTLED`
      * status. These can be credit authorizations that have already cleared or financial credit
-     * authorizations. This endpoint will be available beginning January 4, 2023.
+     * authorizations.
      */
     @JvmOverloads
     fun simulateReturnReversal(

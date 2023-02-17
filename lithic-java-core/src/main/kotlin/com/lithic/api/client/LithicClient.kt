@@ -18,6 +18,8 @@ interface LithicClient {
 
     fun cards(): CardService
 
+    fun events(): EventService
+
     fun fundingSources(): FundingSourceService
 
     fun transactions(): TransactionService
