@@ -93,7 +93,9 @@ class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.delete(
-            EventsSubscriptionDeleteParams.builder().eventSubscriptionToken("string").build()
+            EventsSubscriptionDeleteParams.builder()
+                .eventSubscriptionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
         )
     }
 
