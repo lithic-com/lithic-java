@@ -26,6 +26,7 @@ class AuthStreamEnrollmentServiceTest {
         authStreamEnrollment.validate()
     }
 
+    @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
     fun callDisenroll() {
         val client =
@@ -37,9 +38,7 @@ class AuthStreamEnrollmentServiceTest {
         authStreamEnrollmentService.disenroll(AuthStreamEnrollmentDisenrollParams.builder().build())
     }
 
-    @Disabled(
-        "skipped: currently no good way to test endpoints defining callbacks, Prism mock server will fail trying to reach the provided callback url"
-    )
+    @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
     fun callEnroll() {
         val client =
