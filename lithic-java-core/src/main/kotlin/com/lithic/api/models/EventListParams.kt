@@ -17,7 +17,7 @@ constructor(
     private val pageSize: Long?,
     private val startingAfter: String?,
     private val endingBefore: String?,
-    private val eventTypes: List<EventType>?,
+    private val eventTypes: EventTypes?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
@@ -32,7 +32,7 @@ constructor(
 
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
-    fun eventTypes(): Optional<List<EventType>> = Optional.ofNullable(eventTypes)
+    fun eventTypes(): Optional<EventTypes> = Optional.ofNullable(eventTypes)
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
@@ -42,7 +42,7 @@ constructor(
         this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
         this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
-        this.eventTypes?.let { params.put("event_types", listOf(it.joinToString(separator = ","))) }
+        this.eventTypes?.let { params.put("event_types", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
@@ -100,7 +100,7 @@ constructor(
         private var pageSize: Long? = null
         private var startingAfter: String? = null
         private var endingBefore: String? = null
-        private var eventTypes: List<EventType>? = null
+        private var eventTypes: EventTypes? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
@@ -143,7 +143,7 @@ constructor(
          */
         fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
-        fun eventTypes(eventTypes: List<EventType>) = apply { this.eventTypes = eventTypes }
+        fun eventTypes(eventTypes: EventTypes) = apply { this.eventTypes = eventTypes }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -192,13 +192,13 @@ constructor(
                 pageSize,
                 startingAfter,
                 endingBefore,
-                eventTypes?.toUnmodifiable(),
+                eventTypes,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )
     }
 
-    class EventType
+    class EventTypes
     @JsonCreator
     private constructor(
         private val value: JsonField<String>,
@@ -211,7 +211,7 @@ constructor(
                 return true
             }
 
-            return other is EventType && this.value == other.value
+            return other is EventTypes && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -220,13 +220,13 @@ constructor(
 
         companion object {
 
-            @JvmField val DISPUTE_UPDATED = EventType(JsonField.of("dispute.updated"))
+            @JvmField val DISPUTE_UPDATED = EventTypes(JsonField.of("dispute.updated"))
 
             @JvmField
             val DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST =
-                EventType(JsonField.of("digital_wallet.token_approval_request"))
+                EventTypes(JsonField.of("digital_wallet.token_approval_request"))
 
-            @JvmStatic fun of(value: String) = EventType(JsonField.of(value))
+            @JvmStatic fun of(value: String) = EventTypes(JsonField.of(value))
         }
 
         enum class Known {
@@ -253,7 +253,7 @@ constructor(
                 DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST -> Known.DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST
                 else ->
                     throw LithicInvalidDataException(
-                        "Unknown EventListQueryParams.EventType: $value"
+                        "Unknown EventListQueryParams.EventTypes: $value"
                     )
             }
 

@@ -4,6 +4,7 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
 import com.lithic.api.models.EventsSubscriptionListParams
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -82,6 +83,7 @@ class SubscriptionServiceTest {
         response.data().forEach { it.validate() }
     }
 
+    @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
     fun callDelete() {
         val client =
@@ -91,10 +93,13 @@ class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.delete(
-            EventsSubscriptionDeleteParams.builder().eventSubscriptionToken("string").build()
+            EventsSubscriptionDeleteParams.builder()
+                .eventSubscriptionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
         )
     }
 
+    @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
     fun callRecover() {
         val client =
@@ -112,6 +117,7 @@ class SubscriptionServiceTest {
         )
     }
 
+    @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
     fun callReplayMissing() {
         val client =
@@ -147,6 +153,7 @@ class SubscriptionServiceTest {
         subscriptionRetrieveSecretResponse.validate()
     }
 
+    @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
     @Test
     fun callRotateSecret() {
         val client =
