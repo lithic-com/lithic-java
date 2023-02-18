@@ -10,8 +10,8 @@ class EventsSubscriptionListParamsTest {
     fun createEventsSubscriptionListParams() {
         EventsSubscriptionListParams.builder()
             .pageSize(123L)
-            .startingAfter("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .endingBefore("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .startingAfter("string")
+            .endingBefore("string")
             .build()
     }
 
@@ -20,13 +20,13 @@ class EventsSubscriptionListParamsTest {
         val params =
             EventsSubscriptionListParams.builder()
                 .pageSize(123L)
-                .startingAfter("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .endingBefore("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .startingAfter("string")
+                .endingBefore("string")
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put("page_size", listOf("123"))
-        expected.put("starting_after", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
-        expected.put("ending_before", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+        expected.put("starting_after", listOf("string"))
+        expected.put("ending_before", listOf("string"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 
