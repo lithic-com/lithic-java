@@ -54,16 +54,22 @@ private constructor(
     override fun toString() =
         "CardListPageAsync{cardsService=$cardsService, params=$params, response=$response}"
 
-    fun hasNextPage(): Boolean = this.data().isNotEmpty() && this.page() < this.totalPages()
+    fun hasNextPage(): Boolean {
+        if (data().isEmpty()) {
+            return false
+        }
+
+        return page() < totalPages()
+    }
 
     fun getNextPageParams(): Optional<CardListParams> {
-        return if (hasNextPage()) {
-            Optional.of(
-                CardListParams.builder().from(params).page(params.page().orElse(0) + 1).build()
-            )
-        } else {
-            Optional.empty()
+        if (!hasNextPage()) {
+            return Optional.empty()
         }
+
+        return Optional.of(
+            CardListParams.builder().from(params).page(params.page().orElse(0) + 1).build()
+        )
     }
 
     fun getNextPage(): CompletableFuture<Optional<CardListPageAsync>> {

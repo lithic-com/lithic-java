@@ -54,16 +54,22 @@ private constructor(
     override fun toString() =
         "AuthRuleListPageAsync{authRulesService=$authRulesService, params=$params, response=$response}"
 
-    fun hasNextPage(): Boolean = this.data().isNotEmpty() && this.page() < this.totalPages()
+    fun hasNextPage(): Boolean {
+        if (data().isEmpty()) {
+            return false
+        }
+
+        return page() < totalPages()
+    }
 
     fun getNextPageParams(): Optional<AuthRuleListParams> {
-        return if (hasNextPage()) {
-            Optional.of(
-                AuthRuleListParams.builder().from(params).page(params.page().orElse(0) + 1).build()
-            )
-        } else {
-            Optional.empty()
+        if (!hasNextPage()) {
+            return Optional.empty()
         }
+
+        return Optional.of(
+            AuthRuleListParams.builder().from(params).page(params.page().orElse(0) + 1).build()
+        )
     }
 
     fun getNextPage(): CompletableFuture<Optional<AuthRuleListPageAsync>> {

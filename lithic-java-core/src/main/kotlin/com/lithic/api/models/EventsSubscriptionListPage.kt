@@ -51,10 +51,30 @@ private constructor(
     override fun toString() =
         "EventsSubscriptionListPage{subscriptionsService=$subscriptionsService, params=$params, response=$response}"
 
-    fun hasNextPage(): Boolean = this.data().isNotEmpty()
+    fun hasNextPage(): Boolean {
+        return data().isEmpty()
+    }
 
     fun getNextPageParams(): Optional<EventsSubscriptionListParams> {
-        return Optional.empty()
+        if (!hasNextPage()) {
+            return Optional.empty()
+        }
+
+        return if (params.endingBefore().isPresent) {
+            Optional.of(
+                EventsSubscriptionListParams.builder()
+                    .from(params)
+                    .endingBefore(data().first().token())
+                    .build()
+            )
+        } else {
+            Optional.of(
+                EventsSubscriptionListParams.builder()
+                    .from(params)
+                    .startingAfter(data().last().token())
+                    .build()
+            )
+        }
     }
 
     fun getNextPage(): Optional<EventsSubscriptionListPage> {

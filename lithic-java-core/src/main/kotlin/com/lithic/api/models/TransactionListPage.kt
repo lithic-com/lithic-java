@@ -55,19 +55,22 @@ private constructor(
     override fun toString() =
         "TransactionListPage{transactionsService=$transactionsService, params=$params, response=$response}"
 
-    fun hasNextPage(): Boolean = this.data().isNotEmpty() && this.page() < this.totalPages()
+    fun hasNextPage(): Boolean {
+        if (data().isEmpty()) {
+            return false
+        }
+
+        return page() < totalPages()
+    }
 
     fun getNextPageParams(): Optional<TransactionListParams> {
-        return if (hasNextPage()) {
-            Optional.of(
-                TransactionListParams.builder()
-                    .from(params)
-                    .page(params.page().orElse(0) + 1)
-                    .build()
-            )
-        } else {
-            Optional.empty()
+        if (!hasNextPage()) {
+            return Optional.empty()
         }
+
+        return Optional.of(
+            TransactionListParams.builder().from(params).page(params.page().orElse(0) + 1).build()
+        )
     }
 
     fun getNextPage(): Optional<TransactionListPage> {

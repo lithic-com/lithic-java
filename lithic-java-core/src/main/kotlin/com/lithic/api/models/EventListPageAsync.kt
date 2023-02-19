@@ -50,10 +50,24 @@ private constructor(
     override fun toString() =
         "EventListPageAsync{eventsService=$eventsService, params=$params, response=$response}"
 
-    fun hasNextPage(): Boolean = this.data().isNotEmpty()
+    fun hasNextPage(): Boolean {
+        return data().isEmpty()
+    }
 
     fun getNextPageParams(): Optional<EventListParams> {
-        return Optional.empty()
+        if (!hasNextPage()) {
+            return Optional.empty()
+        }
+
+        return if (params.endingBefore().isPresent) {
+            Optional.of(
+                EventListParams.builder().from(params).endingBefore(data().first().token()).build()
+            )
+        } else {
+            Optional.of(
+                EventListParams.builder().from(params).startingAfter(data().last().token()).build()
+            )
+        }
     }
 
     fun getNextPage(): CompletableFuture<Optional<EventListPageAsync>> {
