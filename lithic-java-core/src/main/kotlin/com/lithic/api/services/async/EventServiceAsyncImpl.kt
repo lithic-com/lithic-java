@@ -7,6 +7,8 @@ import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.Event
+import com.lithic.api.models.EventListPageAsync
+import com.lithic.api.models.EventListParams
 import com.lithic.api.models.EventRetrieveParams
 import com.lithic.api.services.async.events.SubscriptionServiceAsync
 import com.lithic.api.services.async.events.SubscriptionServiceAsyncImpl
@@ -52,6 +54,35 @@ constructor(
                         validate()
                     }
                 }
+        }
+    }
+
+    private val listHandler: Handler<EventListPageAsync.Response> =
+        jsonHandler<EventListPageAsync.Response>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** List all events. */
+    override fun list(
+        params: EventListParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<EventListPageAsync> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.GET)
+                .addPathSegments("events")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .build()
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
+            response
+                .let { listHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+                .let { EventListPageAsync.of(this, params, it) }
         }
     }
 }
