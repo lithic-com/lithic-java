@@ -5,13 +5,16 @@ import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
 import com.lithic.api.core.http.HttpClient
 import com.lithic.api.core.http.RetryingHttpClient
+import java.time.Clock
 
 class ClientOptions
 private constructor(
     @get:JvmName("httpClient") val httpClient: HttpClient,
     @get:JvmName("jsonMapper") val jsonMapper: JsonMapper,
+    @get:JvmName("clock") val clock: Clock,
     @get:JvmName("headers") val headers: ListMultimap<String, String>,
     @get:JvmName("responseValidation") val responseValidation: Boolean,
+    @get:JvmName("webhookSecret") val webhookSecret: String?,
 ) {
 
     companion object {
@@ -29,14 +32,18 @@ private constructor(
 
         private var httpClient: HttpClient? = null
         private var jsonMapper: JsonMapper? = null
+        private var clock: Clock? = null
         private var headers: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var responseValidation: Boolean = false
         private var maxRetries: Int = 2
         private var apiKey: String? = null
+        private var webhookSecret: String? = null
 
         fun httpClient(httpClient: HttpClient) = apply { this.httpClient = httpClient }
 
         fun jsonMapper(jsonMapper: JsonMapper) = apply { this.jsonMapper = jsonMapper }
+
+        fun clock(clock: Clock) = apply { this.clock = clock }
 
         fun headers(headers: Map<String, Iterable<String>>) = apply {
             this.headers.clear()
@@ -65,7 +72,12 @@ private constructor(
 
         fun apiKey(apiKey: String) = apply { this.apiKey = apiKey }
 
-        fun fromEnv() = apply { System.getenv("LITHIC_API_KEY")?.let { apiKey(it) } }
+        fun webhookSecret(webhookSecret: String?) = apply { this.webhookSecret = webhookSecret }
+
+        fun fromEnv() = apply {
+            System.getenv("LITHIC_API_KEY")?.let { apiKey(it) }
+            System.getenv("LITHIC_WEBHOOK_SECRET")?.let { webhookSecret(it) }
+        }
 
         fun build(): ClientOptions {
             checkNotNull(httpClient) { "`httpClient` is required but was not set" }
@@ -87,8 +99,10 @@ private constructor(
                     .maxRetries(maxRetries)
                     .build(),
                 jsonMapper ?: jsonMapper(),
+                clock ?: Clock.systemUTC(),
                 headers.toUnmodifiable(),
                 responseValidation,
+                webhookSecret,
             )
         }
     }

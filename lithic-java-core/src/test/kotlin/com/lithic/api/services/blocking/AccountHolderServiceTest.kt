@@ -15,6 +15,7 @@ class AccountHolderServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolder =
@@ -125,6 +126,7 @@ class AccountHolderServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolder =
@@ -143,6 +145,7 @@ class AccountHolderServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolderUpdateResponse =
@@ -163,6 +166,7 @@ class AccountHolderServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolderCreateWebhookResponse =
@@ -179,6 +183,7 @@ class AccountHolderServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolderListDocumentsResponse =
@@ -197,6 +202,7 @@ class AccountHolderServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolder =
@@ -237,6 +243,7 @@ class AccountHolderServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolderDocument =
@@ -256,6 +263,7 @@ class AccountHolderServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolderDocument =

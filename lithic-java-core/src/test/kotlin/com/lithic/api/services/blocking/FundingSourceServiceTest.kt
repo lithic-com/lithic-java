@@ -16,6 +16,7 @@ class FundingSourceServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val fundingSourceService = client.fundingSources()
         val fundingSource =
@@ -42,6 +43,7 @@ class FundingSourceServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val fundingSourceService = client.fundingSources()
         val fundingSource =
@@ -62,6 +64,7 @@ class FundingSourceServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val fundingSourceService = client.fundingSources()
         val response = fundingSourceService.list(FundingSourceListParams.builder().build())
@@ -75,6 +78,7 @@ class FundingSourceServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val fundingSourceService = client.fundingSources()
         val fundingSource =

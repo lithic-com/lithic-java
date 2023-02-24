@@ -41,6 +41,8 @@ constructor(
 
     private val transactions: TransactionService by lazy { TransactionServiceImpl(clientOptions) }
 
+    private val webhooks: WebhookService by lazy { WebhookServiceImpl(clientOptions) }
+
     override fun accounts(): AccountService = accounts
 
     override fun accountHolders(): AccountHolderService = accountHolders
@@ -56,6 +58,8 @@ constructor(
     override fun fundingSources(): FundingSourceService = fundingSources
 
     override fun transactions(): TransactionService = transactions
+
+    override fun webhooks(): WebhookService = webhooks
 
     private val apiStatusHandler: Handler<ApiStatus> =
         jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

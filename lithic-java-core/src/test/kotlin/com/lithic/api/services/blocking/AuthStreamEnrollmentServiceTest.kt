@@ -16,6 +16,7 @@ class AuthStreamEnrollmentServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val authStreamEnrollmentService = client.authStreamEnrollment()
         val authStreamEnrollment =
@@ -33,6 +34,7 @@ class AuthStreamEnrollmentServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val authStreamEnrollmentService = client.authStreamEnrollment()
         authStreamEnrollmentService.disenroll(AuthStreamEnrollmentDisenrollParams.builder().build())
@@ -45,6 +47,7 @@ class AuthStreamEnrollmentServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val authStreamEnrollmentService = client.authStreamEnrollment()
         authStreamEnrollmentService.enroll(

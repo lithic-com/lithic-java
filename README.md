@@ -43,11 +43,22 @@ LithicClient client = LithicOkHttpClient.builder()
     .build();
 ```
 
-Alternately, set the environment variable `LITHIC_API_KEY` and use `LithicOkHttpClient.fromEnv()`:
+Alternately, use `LithicOkHttpClient.fromEnv()` to read client arguments from environment variables:
 
 ```java
 LithicClient client = LithicClient.fromEnv();
+
+// Note: you can also call fromEnv() from the client builder, for example if you need to set additional properties
+LithicClient client = LithicOkHttpClient.builder()
+    .fromEnv()
+    // ... set properties on the builder
+    .build();
 ```
+
+| Property      | Environment variable    | Required | Default value |
+| ------------- | ----------------------- | -------- | ------------- |
+| apiKey        | `LITHIC_API_KEY`        | true     | —             |
+| webhookSecret | `LITHIC_WEBHOOK_SECRET` | false    | —             |
 
 Read the documentation for more configuration options.
 

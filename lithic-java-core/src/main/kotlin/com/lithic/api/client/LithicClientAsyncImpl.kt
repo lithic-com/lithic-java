@@ -44,6 +44,8 @@ constructor(
         TransactionServiceAsyncImpl(clientOptions)
     }
 
+    private val webhooks: WebhookServiceAsync by lazy { WebhookServiceAsyncImpl(clientOptions) }
+
     override fun accounts(): AccountServiceAsync = accounts
 
     override fun accountHolders(): AccountHolderServiceAsync = accountHolders
@@ -59,6 +61,8 @@ constructor(
     override fun fundingSources(): FundingSourceServiceAsync = fundingSources
 
     override fun transactions(): TransactionServiceAsync = transactions
+
+    override fun webhooks(): WebhookServiceAsync = webhooks
 
     private val apiStatusHandler: Handler<ApiStatus> =
         jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

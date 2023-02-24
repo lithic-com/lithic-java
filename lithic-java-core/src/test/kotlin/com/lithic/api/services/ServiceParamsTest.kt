@@ -39,6 +39,7 @@ class ServiceParamsTest {
             LithicOkHttpClient.builder()
                 .apiKey(API_KEY)
                 .baseUrl(wmRuntimeInfo.getHttpBaseUrl())
+                .webhookSecret("string")
                 .build()
     }
 

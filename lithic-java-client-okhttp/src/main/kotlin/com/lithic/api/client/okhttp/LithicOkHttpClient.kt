@@ -1,8 +1,10 @@
 package com.lithic.api.client.okhttp
 
+import com.fasterxml.jackson.databind.json.JsonMapper
 import com.lithic.api.client.LithicClient
 import com.lithic.api.client.LithicClientImpl
 import com.lithic.api.core.ClientOptions
+import java.time.Clock
 import java.time.Duration
 
 class LithicOkHttpClient private constructor() {
@@ -24,6 +26,10 @@ class LithicOkHttpClient private constructor() {
         fun sandbox() = apply { baseUrl(ClientOptions.SANDBOX_URL) }
 
         fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl }
+
+        fun jsonMapper(jsonMapper: JsonMapper) = apply { clientOptions.jsonMapper(jsonMapper) }
+
+        fun clock(clock: Clock) = apply { clientOptions.clock(clock) }
 
         fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
 
@@ -49,6 +55,10 @@ class LithicOkHttpClient private constructor() {
 
         fun responseValidation(responseValidation: Boolean) = apply {
             clientOptions.responseValidation(responseValidation)
+        }
+
+        fun webhookSecret(webhookSecret: String?) = apply {
+            clientOptions.webhookSecret(webhookSecret)
         }
 
         fun fromEnv() = apply { clientOptions.fromEnv() }

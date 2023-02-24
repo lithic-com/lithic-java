@@ -16,6 +16,7 @@ class AuthRuleServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val authRuleService = client.authRules()
         val authRuleCreateResponse =
@@ -41,6 +42,7 @@ class AuthRuleServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val authRuleService = client.authRules()
         val authRuleRetrieveResponse =
@@ -59,6 +61,7 @@ class AuthRuleServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val authRuleService = client.authRules()
         val authRuleUpdateResponse =
@@ -82,6 +85,7 @@ class AuthRuleServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val authRuleService = client.authRules()
         val response = authRuleService.list(AuthRuleListParams.builder().build())
@@ -95,6 +99,7 @@ class AuthRuleServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val authRuleService = client.authRules()
         val authRuleApplyResponse =
@@ -116,6 +121,7 @@ class AuthRuleServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
+                .webhookSecret("string")
                 .build()
         val authRuleService = client.authRules()
         val authRuleRemoveResponse =

@@ -24,6 +24,8 @@ interface LithicClient {
 
     fun transactions(): TransactionService
 
+    fun webhooks(): WebhookService
+
     /** API status check */
     @JvmOverloads
     fun apiStatus(
