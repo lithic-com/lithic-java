@@ -39,7 +39,6 @@ class WebhookServiceTest {
 
         val event = client.webhooks().unwrap(payload, headers, null)
 
-        // TODO: assert payload
         assertThat(event).isNotNull()
     }
 
