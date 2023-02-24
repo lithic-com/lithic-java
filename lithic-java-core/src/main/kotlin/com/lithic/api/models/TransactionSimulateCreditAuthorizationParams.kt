@@ -17,6 +17,7 @@ constructor(
     private val descriptor: String,
     private val pan: String,
     private val merchantAcceptorId: String?,
+    private val mcc: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -30,6 +31,8 @@ constructor(
 
     fun merchantAcceptorId(): Optional<String> = Optional.ofNullable(merchantAcceptorId)
 
+    fun mcc(): Optional<String> = Optional.ofNullable(mcc)
+
     @JvmSynthetic
     internal fun getBody(): TransactionSimulateCreditAuthorizationBody {
         return TransactionSimulateCreditAuthorizationBody(
@@ -37,6 +40,7 @@ constructor(
             descriptor,
             pan,
             merchantAcceptorId,
+            mcc,
             additionalBodyProperties,
         )
     }
@@ -52,6 +56,7 @@ constructor(
         private val descriptor: String?,
         private val pan: String?,
         private val merchantAcceptorId: String?,
+        private val mcc: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -73,6 +78,13 @@ constructor(
         /** Unique identifier to identify the payment card acceptor. */
         @JsonProperty("merchant_acceptor_id") fun merchantAcceptorId(): String? = merchantAcceptorId
 
+        /**
+         * Merchant category code for the transaction to be simulated. A four-digit number listed in
+         * ISO 18245. Supported merchant category codes can be found
+         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         */
+        @JsonProperty("mcc") fun mcc(): String? = mcc
+
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -89,6 +101,7 @@ constructor(
                 this.descriptor == other.descriptor &&
                 this.pan == other.pan &&
                 this.merchantAcceptorId == other.merchantAcceptorId &&
+                this.mcc == other.mcc &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -100,6 +113,7 @@ constructor(
                         descriptor,
                         pan,
                         merchantAcceptorId,
+                        mcc,
                         additionalProperties,
                     )
             }
@@ -107,7 +121,7 @@ constructor(
         }
 
         override fun toString() =
-            "TransactionSimulateCreditAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, merchantAcceptorId=$merchantAcceptorId, additionalProperties=$additionalProperties}"
+            "TransactionSimulateCreditAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, merchantAcceptorId=$merchantAcceptorId, mcc=$mcc, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -120,6 +134,7 @@ constructor(
             private var descriptor: String? = null
             private var pan: String? = null
             private var merchantAcceptorId: String? = null
+            private var mcc: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -132,6 +147,7 @@ constructor(
                 this.pan = transactionSimulateCreditAuthorizationBody.pan
                 this.merchantAcceptorId =
                     transactionSimulateCreditAuthorizationBody.merchantAcceptorId
+                this.mcc = transactionSimulateCreditAuthorizationBody.mcc
                 additionalProperties(
                     transactionSimulateCreditAuthorizationBody.additionalProperties
                 )
@@ -157,6 +173,13 @@ constructor(
                 this.merchantAcceptorId = merchantAcceptorId
             }
 
+            /**
+             * Merchant category code for the transaction to be simulated. A four-digit number
+             * listed in ISO 18245. Supported merchant category codes can be found
+             * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+             */
+            @JsonProperty("mcc") fun mcc(mcc: String) = apply { this.mcc = mcc }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 this.additionalProperties.putAll(additionalProperties)
@@ -177,6 +200,7 @@ constructor(
                     checkNotNull(descriptor) { "`descriptor` is required but was not set" },
                     checkNotNull(pan) { "`pan` is required but was not set" },
                     merchantAcceptorId,
+                    mcc,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -198,6 +222,7 @@ constructor(
             this.descriptor == other.descriptor &&
             this.pan == other.pan &&
             this.merchantAcceptorId == other.merchantAcceptorId &&
+            this.mcc == other.mcc &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -209,6 +234,7 @@ constructor(
             descriptor,
             pan,
             merchantAcceptorId,
+            mcc,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -216,7 +242,7 @@ constructor(
     }
 
     override fun toString() =
-        "TransactionSimulateCreditAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, merchantAcceptorId=$merchantAcceptorId, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "TransactionSimulateCreditAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, merchantAcceptorId=$merchantAcceptorId, mcc=$mcc, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -232,6 +258,7 @@ constructor(
         private var descriptor: String? = null
         private var pan: String? = null
         private var merchantAcceptorId: String? = null
+        private var mcc: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -246,6 +273,7 @@ constructor(
             this.pan = transactionSimulateCreditAuthorizationParams.pan
             this.merchantAcceptorId =
                 transactionSimulateCreditAuthorizationParams.merchantAcceptorId
+            this.mcc = transactionSimulateCreditAuthorizationParams.mcc
             additionalQueryParams(
                 transactionSimulateCreditAuthorizationParams.additionalQueryParams
             )
@@ -272,6 +300,13 @@ constructor(
         fun merchantAcceptorId(merchantAcceptorId: String) = apply {
             this.merchantAcceptorId = merchantAcceptorId
         }
+
+        /**
+         * Merchant category code for the transaction to be simulated. A four-digit number listed in
+         * ISO 18245. Supported merchant category codes can be found
+         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         */
+        fun mcc(mcc: String) = apply { this.mcc = mcc }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -333,6 +368,7 @@ constructor(
                 checkNotNull(descriptor) { "`descriptor` is required but was not set" },
                 checkNotNull(pan) { "`pan` is required but was not set" },
                 merchantAcceptorId,
+                mcc,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

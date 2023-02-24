@@ -23,6 +23,7 @@ constructor(
     private val merchantAcceptorId: String?,
     private val merchantCurrency: String?,
     private val merchantAmount: Long?,
+    private val mcc: String?,
     private val partialApprovalCapable: Boolean?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
@@ -43,6 +44,8 @@ constructor(
 
     fun merchantAmount(): Optional<Long> = Optional.ofNullable(merchantAmount)
 
+    fun mcc(): Optional<String> = Optional.ofNullable(mcc)
+
     fun partialApprovalCapable(): Optional<Boolean> = Optional.ofNullable(partialApprovalCapable)
 
     @JvmSynthetic
@@ -55,6 +58,7 @@ constructor(
             merchantAcceptorId,
             merchantCurrency,
             merchantAmount,
+            mcc,
             partialApprovalCapable,
             additionalBodyProperties,
         )
@@ -74,6 +78,7 @@ constructor(
         private val merchantAcceptorId: String?,
         private val merchantCurrency: String?,
         private val merchantAmount: Long?,
+        private val mcc: String?,
         private val partialApprovalCapable: Boolean?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
@@ -125,6 +130,13 @@ constructor(
         @JsonProperty("merchant_amount") fun merchantAmount(): Long? = merchantAmount
 
         /**
+         * Merchant category code for the transaction to be simulated. A four-digit number listed in
+         * ISO 18245. Supported merchant category codes can be found
+         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         */
+        @JsonProperty("mcc") fun mcc(): String? = mcc
+
+        /**
          * Set to true if the terminal is capable of partial approval otherwise false. Partial
          * approval is when part of a transaction is approved and another payment must be used for
          * the remainder.
@@ -151,6 +163,7 @@ constructor(
                 this.merchantAcceptorId == other.merchantAcceptorId &&
                 this.merchantCurrency == other.merchantCurrency &&
                 this.merchantAmount == other.merchantAmount &&
+                this.mcc == other.mcc &&
                 this.partialApprovalCapable == other.partialApprovalCapable &&
                 this.additionalProperties == other.additionalProperties
         }
@@ -166,6 +179,7 @@ constructor(
                         merchantAcceptorId,
                         merchantCurrency,
                         merchantAmount,
+                        mcc,
                         partialApprovalCapable,
                         additionalProperties,
                     )
@@ -174,7 +188,7 @@ constructor(
         }
 
         override fun toString() =
-            "TransactionSimulateAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantAcceptorId=$merchantAcceptorId, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, partialApprovalCapable=$partialApprovalCapable, additionalProperties=$additionalProperties}"
+            "TransactionSimulateAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantAcceptorId=$merchantAcceptorId, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, mcc=$mcc, partialApprovalCapable=$partialApprovalCapable, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -190,6 +204,7 @@ constructor(
             private var merchantAcceptorId: String? = null
             private var merchantCurrency: String? = null
             private var merchantAmount: Long? = null
+            private var mcc: String? = null
             private var partialApprovalCapable: Boolean? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -204,6 +219,7 @@ constructor(
                 this.merchantAcceptorId = transactionSimulateAuthorizationBody.merchantAcceptorId
                 this.merchantCurrency = transactionSimulateAuthorizationBody.merchantCurrency
                 this.merchantAmount = transactionSimulateAuthorizationBody.merchantAmount
+                this.mcc = transactionSimulateAuthorizationBody.mcc
                 this.partialApprovalCapable =
                     transactionSimulateAuthorizationBody.partialApprovalCapable
                 additionalProperties(transactionSimulateAuthorizationBody.additionalProperties)
@@ -266,6 +282,13 @@ constructor(
             }
 
             /**
+             * Merchant category code for the transaction to be simulated. A four-digit number
+             * listed in ISO 18245. Supported merchant category codes can be found
+             * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+             */
+            @JsonProperty("mcc") fun mcc(mcc: String) = apply { this.mcc = mcc }
+
+            /**
              * Set to true if the terminal is capable of partial approval otherwise false. Partial
              * approval is when part of a transaction is approved and another payment must be used
              * for the remainder.
@@ -298,6 +321,7 @@ constructor(
                     merchantAcceptorId,
                     merchantCurrency,
                     merchantAmount,
+                    mcc,
                     partialApprovalCapable,
                     additionalProperties.toUnmodifiable(),
                 )
@@ -323,6 +347,7 @@ constructor(
             this.merchantAcceptorId == other.merchantAcceptorId &&
             this.merchantCurrency == other.merchantCurrency &&
             this.merchantAmount == other.merchantAmount &&
+            this.mcc == other.mcc &&
             this.partialApprovalCapable == other.partialApprovalCapable &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
@@ -338,6 +363,7 @@ constructor(
             merchantAcceptorId,
             merchantCurrency,
             merchantAmount,
+            mcc,
             partialApprovalCapable,
             additionalQueryParams,
             additionalHeaders,
@@ -346,7 +372,7 @@ constructor(
     }
 
     override fun toString() =
-        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantAcceptorId=$merchantAcceptorId, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, partialApprovalCapable=$partialApprovalCapable, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, status=$status, merchantAcceptorId=$merchantAcceptorId, merchantCurrency=$merchantCurrency, merchantAmount=$merchantAmount, mcc=$mcc, partialApprovalCapable=$partialApprovalCapable, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -365,6 +391,7 @@ constructor(
         private var merchantAcceptorId: String? = null
         private var merchantCurrency: String? = null
         private var merchantAmount: Long? = null
+        private var mcc: String? = null
         private var partialApprovalCapable: Boolean? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -381,6 +408,7 @@ constructor(
             this.merchantAcceptorId = transactionSimulateAuthorizationParams.merchantAcceptorId
             this.merchantCurrency = transactionSimulateAuthorizationParams.merchantCurrency
             this.merchantAmount = transactionSimulateAuthorizationParams.merchantAmount
+            this.mcc = transactionSimulateAuthorizationParams.mcc
             this.partialApprovalCapable =
                 transactionSimulateAuthorizationParams.partialApprovalCapable
             additionalQueryParams(transactionSimulateAuthorizationParams.additionalQueryParams)
@@ -437,6 +465,13 @@ constructor(
          * including any acquirer fees.
          */
         fun merchantAmount(merchantAmount: Long) = apply { this.merchantAmount = merchantAmount }
+
+        /**
+         * Merchant category code for the transaction to be simulated. A four-digit number listed in
+         * ISO 18245. Supported merchant category codes can be found
+         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         */
+        fun mcc(mcc: String) = apply { this.mcc = mcc }
 
         /**
          * Set to true if the terminal is capable of partial approval otherwise false. Partial
@@ -510,6 +545,7 @@ constructor(
                 merchantAcceptorId,
                 merchantCurrency,
                 merchantAmount,
+                mcc,
                 partialApprovalCapable,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),

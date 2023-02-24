@@ -16,6 +16,7 @@ class TransactionSimulateAuthorizationParamsTest {
             .merchantAcceptorId("OODKZAPJVN4YS7O")
             .merchantCurrency("GBP")
             .merchantAmount(123L)
+            .mcc("5812")
             .partialApprovalCapable(true)
             .build()
     }
@@ -31,6 +32,7 @@ class TransactionSimulateAuthorizationParamsTest {
                 .merchantAcceptorId("OODKZAPJVN4YS7O")
                 .merchantCurrency("GBP")
                 .merchantAmount(123L)
+                .mcc("5812")
                 .partialApprovalCapable(true)
                 .build()
         val body = params.getBody()
@@ -43,6 +45,7 @@ class TransactionSimulateAuthorizationParamsTest {
         assertThat(body.merchantAcceptorId()).isEqualTo("OODKZAPJVN4YS7O")
         assertThat(body.merchantCurrency()).isEqualTo("GBP")
         assertThat(body.merchantAmount()).isEqualTo(123L)
+        assertThat(body.mcc()).isEqualTo("5812")
         assertThat(body.partialApprovalCapable()).isEqualTo(true)
     }
 
