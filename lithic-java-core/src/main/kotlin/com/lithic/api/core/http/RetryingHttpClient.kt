@@ -56,7 +56,8 @@ private constructor(
                     null
                 }
 
-            Thread.sleep(getRetryBackoffMillis(retries, response))
+            val backoffMillis = getRetryBackoffMillis(retries, response)
+            Thread.sleep(backoffMillis)
         }
     }
 
@@ -90,7 +91,8 @@ private constructor(
                             }
                         }
 
-                        return sleepAsync(getRetryBackoffMillis(retries, response)).thenCompose {
+                        val backoffMillis = getRetryBackoffMillis(retries, response)
+                        return sleepAsync(backoffMillis).thenCompose {
                             wrap(httpClient.executeAsync(request))
                         }
                     },
