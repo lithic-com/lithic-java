@@ -98,7 +98,6 @@ internal class SerializerTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun serializeBooleanPrefixedWithIs() {
         val value = ClassWithBooleanFieldPrefixedWithIs.builder().isActive(true).build()
         assertThat(jsonMapper().writeValueAsString(value)).isEqualTo("{\"is_active\":true}")

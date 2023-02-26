@@ -32,7 +32,7 @@ private constructor(
 
         private var httpClient: HttpClient? = null
         private var jsonMapper: JsonMapper? = null
-        private var clock: Clock? = null
+        private var clock: Clock = Clock.systemUTC()
         private var headers: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var responseValidation: Boolean = false
         private var maxRetries: Int = 2
@@ -96,10 +96,11 @@ private constructor(
             return ClientOptions(
                 RetryingHttpClient.builder()
                     .httpClient(httpClient!!)
+                    .clock(clock)
                     .maxRetries(maxRetries)
                     .build(),
                 jsonMapper ?: jsonMapper(),
-                clock ?: Clock.systemUTC(),
+                clock,
                 headers.toUnmodifiable(),
                 responseValidation,
                 webhookSecret,

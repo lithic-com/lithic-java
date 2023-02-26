@@ -4,8 +4,8 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 internal class HttpRequestTest {
+
     @Test
-    @Throws(Exception::class)
     fun caseInsensitiveHeadersAccessors() {
         val request =
             HttpRequest.builder()

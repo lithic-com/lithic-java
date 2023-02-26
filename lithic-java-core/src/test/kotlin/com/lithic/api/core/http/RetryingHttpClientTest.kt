@@ -21,7 +21,6 @@ internal class RetryingHttpClientTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun byDefaultShouldNotAddIdempotencyHeaderToRequest() {
         val request =
             HttpRequest.builder().method(HttpMethod.POST).addPathSegment("something").build()
@@ -33,7 +32,6 @@ internal class RetryingHttpClientTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun whenProvidedShouldAddIdempotencyHeaderToRequest() {
         val request =
             HttpRequest.builder().method(HttpMethod.POST).addPathSegment("something").build()
@@ -53,7 +51,6 @@ internal class RetryingHttpClientTest {
     }
 
     @Test
-    @Throws(Exception::class)
     fun retryAfterHeader() {
         val request =
             HttpRequest.builder().method(HttpMethod.POST).addPathSegment("something").build()

@@ -5,10 +5,13 @@ package com.lithic.api.core.http
 import com.google.common.util.concurrent.MoreExecutors
 import com.lithic.api.errors.LithicIoException
 import java.io.IOException
-import java.time.ZonedDateTime
+import java.time.Clock
+import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoUnit
+import java.util.Timer
+import java.util.TimerTask
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ThreadLocalRandom
@@ -20,6 +23,7 @@ import kotlin.math.pow
 class RetryingHttpClient
 private constructor(
     private val httpClient: HttpClient,
+    private val clock: Clock,
     private val maxRetries: Int,
     private val idempotencyHeader: String?,
 ) : HttpClient {
@@ -52,8 +56,7 @@ private constructor(
                     null
                 }
 
-            val backoffMillis = getRetryBackoffMillis(retries, response)
-            Thread.sleep(backoffMillis)
+            Thread.sleep(getRetryBackoffMillis(retries, response))
         }
     }
 
@@ -87,8 +90,7 @@ private constructor(
                             }
                         }
 
-                        val backoffMillis = getRetryBackoffMillis(retries, response)
-                        return sleepAsync(backoffMillis).thenCompose {
+                        return sleepAsync(getRetryBackoffMillis(retries, response)).thenCompose {
                             wrap(httpClient.executeAsync(request))
                         }
                     },
@@ -149,38 +151,27 @@ private constructor(
     private fun getRetryBackoffMillis(retries: Int, response: HttpResponse?): Long {
         // About the Retry-After header:
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
-        val retryAfter: Long =
-            when (val header = response?.headers()?.get("retry-after")?.getOrNull(0)) {
-                null -> -1L
-                else ->
-                    // When given as delay-seconds
-                    // - parse as Double in case the value has a floating point
-                    // - then convert to Long, the loss of precision is acceptable, Retry-After is
-                    // expected to be used with
-                    //   integers
-                    header.toDoubleOrNull()?.toLong()
-
-                    // When given as http-date
+        val retryAfter =
+            response?.headers()?.get("Retry-After")?.getOrNull(0)?.let { retryAfter ->
+                retryAfter.toLongOrNull()
                     ?: try {
-                            ChronoUnit.SECONDS.between(
-                                ZonedDateTime.now(),
-                                ZonedDateTime.from(
-                                    DateTimeFormatter.RFC_1123_DATE_TIME.parse(header)
-                                )
-                            )
-                        } catch (e: DateTimeParseException) {
-                            -1L
-                        }
+                        ChronoUnit.SECONDS.between(
+                            OffsetDateTime.now(clock),
+                            OffsetDateTime.parse(retryAfter, DateTimeFormatter.RFC_1123_DATE_TIME)
+                        )
+                    } catch (e: DateTimeParseException) {
+                        null
+                    }
             }
 
         // If the API asks us to wait a certain amount of time (and it's a reasonable amount), just
         // do what it says.
-        if (retryAfter in 1..60) {
+        if (retryAfter != null && retryAfter in 1..60) {
             return TimeUnit.SECONDS.toMillis(retryAfter)
         }
 
         // Apply exponential backoff, but not more than the max.
-        val backoffSeconds = min(INITIAL_RETRY_DELAY * 2.0.pow(retries - 1), MAX_RETRY_DELAY)
+        val backoffSeconds = min(0.5 * 2.0.pow(retries - 1), 2.0)
 
         // Apply some jitter
         val jitter = ThreadLocalRandom.current().nextDouble()
@@ -189,13 +180,21 @@ private constructor(
     }
 
     private fun sleepAsync(millis: Long): CompletableFuture<Void> {
-        return CompletableFuture.runAsync { Thread.sleep(millis) }
+        val future = CompletableFuture<Void>()
+        TIMER.schedule(
+            object : TimerTask() {
+                override fun run() {
+                    future.complete(null)
+                }
+            },
+            millis
+        )
+        return future
     }
 
     companion object {
 
-        private const val INITIAL_RETRY_DELAY: Double = 0.5
-        private const val MAX_RETRY_DELAY: Double = 2.0
+        private val TIMER = Timer("RetryingHttpClient", true)
 
         @JvmStatic fun builder() = Builder()
     }
@@ -203,10 +202,13 @@ private constructor(
     class Builder {
 
         private var httpClient: HttpClient? = null
+        private var clock: Clock = Clock.systemUTC()
         private var maxRetries: Int = 2
         private var idempotencyHeader: String? = null
 
         fun httpClient(httpClient: HttpClient) = apply { this.httpClient = httpClient }
+
+        fun clock(clock: Clock) = apply { this.clock = clock }
 
         fun maxRetries(maxRetries: Int) = apply { this.maxRetries = maxRetries }
 
@@ -215,6 +217,7 @@ private constructor(
         fun build(): HttpClient =
             RetryingHttpClient(
                 checkNotNull(httpClient) { "`httpClient` is required but was not set" },
+                clock,
                 maxRetries,
                 idempotencyHeader,
             )

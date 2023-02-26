@@ -34,9 +34,8 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
     ): HttpResponse {
         val call = okHttpClient.newCall(request.toRequest())
 
-        try {
-            val response = call.execute()
-            return response.toResponse()
+        return try {
+            call.execute().toResponse()
         } catch (e: IOException) {
             throw LithicIoException("Request failed", e)
         } finally {
