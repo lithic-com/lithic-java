@@ -251,6 +251,16 @@ while (page != null) {
 
 ---
 
+---
+
+## Webhook Verification
+
+We provide helper methods for verifying that a webhook request came from Lithic, and not a malicious third party.
+
+You can use `lithic.webhooks().verifySignature(body, headers, secret?)` or `lithic.webhooks().unwrap(body, headers, secret?) -> Event`.
+
+---
+
 ## Error handling
 
 This library throws exceptions in a single hierarchy for easy handling:
