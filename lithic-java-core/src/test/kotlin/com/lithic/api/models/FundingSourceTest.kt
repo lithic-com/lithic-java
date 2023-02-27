@@ -1,5 +1,6 @@
 package com.lithic.api.models
 
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,7 +11,7 @@ class FundingSourceTest {
         val fundingSource =
             FundingSource.builder()
                 .accountName("string")
-                .created("2019-12-27T18:11:19.117Z")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .lastFour("xxxx")
                 .nickname("x")
                 .state(FundingSource.State.ENABLED)
@@ -19,7 +20,8 @@ class FundingSourceTest {
                 .build()
         assertThat(fundingSource).isNotNull
         assertThat(fundingSource.accountName()).contains("string")
-        assertThat(fundingSource.created()).isEqualTo("2019-12-27T18:11:19.117Z")
+        assertThat(fundingSource.created())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(fundingSource.lastFour()).isEqualTo("xxxx")
         assertThat(fundingSource.nickname()).contains("x")
         assertThat(fundingSource.state()).isEqualTo(FundingSource.State.ENABLED)

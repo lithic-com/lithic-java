@@ -4,6 +4,7 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
 import com.lithic.api.models.EventsSubscriptionListParams
+import java.time.OffsetDateTime
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -115,8 +116,8 @@ class SubscriptionServiceTest {
         subscriptionService.recover(
             EventsSubscriptionRecoverParams.builder()
                 .eventSubscriptionToken("string")
-                .begin("2019-12-27T18:11:19.117Z")
-                .end("2019-12-27T18:11:19.117Z")
+                .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
         )
     }
@@ -134,8 +135,8 @@ class SubscriptionServiceTest {
         subscriptionService.replayMissing(
             EventsSubscriptionReplayMissingParams.builder()
                 .eventSubscriptionToken("string")
-                .begin("2019-12-27T18:11:19.117Z")
-                .end("2019-12-27T18:11:19.117Z")
+                .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
         )
     }

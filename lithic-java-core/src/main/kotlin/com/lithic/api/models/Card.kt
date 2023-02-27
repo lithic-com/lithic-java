@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
@@ -19,7 +20,7 @@ import java.util.Optional
 @NoAutoDetect
 class Card
 private constructor(
-    private val created: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
     private val cvv: JsonField<String>,
     private val funding: JsonField<FundingSource>,
     private val expMonth: JsonField<String>,
@@ -43,7 +44,7 @@ private constructor(
     private var hashCode: Int = 0
 
     /** An ISO 8601 timestamp for when the card was created. UTC time zone. */
-    fun created(): String = created.getRequired("created")
+    fun created(): OffsetDateTime = created.getRequired("created")
 
     /** Three digit cvv printed on the back of the card. */
     fun cvv(): Optional<String> = Optional.ofNullable(cvv.getNullable("cvv"))
@@ -338,7 +339,7 @@ private constructor(
 
     class Builder {
 
-        private var created: JsonField<String> = JsonMissing.of()
+        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var cvv: JsonField<String> = JsonMissing.of()
         private var funding: JsonField<FundingSource> = JsonMissing.of()
         private var expMonth: JsonField<String> = JsonMissing.of()
@@ -378,12 +379,12 @@ private constructor(
         }
 
         /** An ISO 8601 timestamp for when the card was created. UTC time zone. */
-        fun created(created: String) = created(JsonField.of(created))
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** An ISO 8601 timestamp for when the card was created. UTC time zone. */
         @JsonProperty("created")
         @ExcludeMissing
-        fun created(created: JsonField<String>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Three digit cvv printed on the back of the card. */
         fun cvv(cvv: String) = cvv(JsonField.of(cvv))

@@ -1,5 +1,6 @@
 package com.lithic.api.models
 
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -11,7 +12,7 @@ class EmbedRequestParamsTest {
             EmbedRequestParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .css("string")
-                .expiration("2019-12-27T18:11:19.117Z")
+                .expiration(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .targetOrigin("string")
                 .build()
@@ -19,7 +20,8 @@ class EmbedRequestParamsTest {
         assertThat(embedRequestParams.accountToken())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(embedRequestParams.css()).contains("string")
-        assertThat(embedRequestParams.expiration()).contains("2019-12-27T18:11:19.117Z")
+        assertThat(embedRequestParams.expiration())
+            .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(embedRequestParams.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(embedRequestParams.targetOrigin()).contains("string")
     }

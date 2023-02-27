@@ -1,6 +1,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.models.*
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -9,8 +10,8 @@ class EventListParamsTest {
     @Test
     fun createEventListParams() {
         EventListParams.builder()
-            .begin("2019-12-27T18:11:19.117Z")
-            .end("2019-12-27T18:11:19.117Z")
+            .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+            .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .pageSize(123L)
             .startingAfter("string")
             .endingBefore("string")
@@ -22,8 +23,8 @@ class EventListParamsTest {
     fun getQueryParams() {
         val params =
             EventListParams.builder()
-                .begin("2019-12-27T18:11:19.117Z")
-                .end("2019-12-27T18:11:19.117Z")
+                .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .pageSize(123L)
                 .startingAfter("string")
                 .endingBefore("string")

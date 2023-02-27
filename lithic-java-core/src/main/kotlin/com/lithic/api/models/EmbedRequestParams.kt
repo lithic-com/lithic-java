@@ -10,6 +10,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
@@ -19,7 +20,7 @@ class EmbedRequestParams
 private constructor(
     private val accountToken: JsonField<String>,
     private val css: JsonField<String>,
-    private val expiration: JsonField<String>,
+    private val expiration: JsonField<OffsetDateTime>,
     private val token: JsonField<String>,
     private val targetOrigin: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
@@ -50,7 +51,8 @@ private constructor(
      * `expiration`, in the event that a malicious user gets a copy of your request in transit, they
      * will be able to obtain the response data indefinitely.
      */
-    fun expiration(): Optional<String> = Optional.ofNullable(expiration.getNullable("expiration"))
+    fun expiration(): Optional<OffsetDateTime> =
+        Optional.ofNullable(expiration.getNullable("expiration"))
 
     /** Globally unique identifier for the card to be displayed. */
     fun token(): String = token.getRequired("token")
@@ -155,7 +157,7 @@ private constructor(
 
         private var accountToken: JsonField<String> = JsonMissing.of()
         private var css: JsonField<String> = JsonMissing.of()
-        private var expiration: JsonField<String> = JsonMissing.of()
+        private var expiration: JsonField<OffsetDateTime> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
         private var targetOrigin: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -205,7 +207,7 @@ private constructor(
          * `expiration`, in the event that a malicious user gets a copy of your request in transit,
          * they will be able to obtain the response data indefinitely.
          */
-        fun expiration(expiration: String) = expiration(JsonField.of(expiration))
+        fun expiration(expiration: OffsetDateTime) = expiration(JsonField.of(expiration))
 
         /**
          * An ISO 8601 timestamp for when the request should expire. UTC time zone.
@@ -220,7 +222,9 @@ private constructor(
          */
         @JsonProperty("expiration")
         @ExcludeMissing
-        fun expiration(expiration: JsonField<String>) = apply { this.expiration = expiration }
+        fun expiration(expiration: JsonField<OffsetDateTime>) = apply {
+            this.expiration = expiration
+        }
 
         /** Globally unique identifier for the card to be displayed. */
         fun token(token: String) = token(JsonField.of(token))

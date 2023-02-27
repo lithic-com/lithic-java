@@ -21,6 +21,7 @@ import com.lithic.api.core.jsonMapper
 import com.lithic.api.models.*
 import com.lithic.api.models.CardListPage
 import com.lithic.api.models.CardListParams
+import java.time.OffsetDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -95,12 +96,12 @@ class ServiceParamsTest {
 
         val apiResponse =
             Card.builder()
-                .created("2021-06-28T22:53:15Z")
+                .created(OffsetDateTime.parse("2021-06-28T22:53:15Z"))
                 .cvv("776")
                 .funding(
                     FundingSource.builder()
                         .accountName("string")
-                        .created("2019-12-27T18:11:19.117Z")
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .lastFour("xxxx")
                         .nickname("x")
                         .state(FundingSource.State.ENABLED)
@@ -149,8 +150,8 @@ class ServiceParamsTest {
         val params =
             CardListParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .begin("2019-12-27T18:11:19.117Z")
-                .end("2019-12-27T18:11:19.117Z")
+                .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .page(123L)
                 .pageSize(123L)
                 .additionalHeaders(additionalHeaders)
@@ -162,12 +163,12 @@ class ServiceParamsTest {
                 .data(
                     listOf(
                         Card.builder()
-                            .created("2021-06-28T22:53:15Z")
+                            .created(OffsetDateTime.parse("2021-06-28T22:53:15Z"))
                             .cvv("776")
                             .funding(
                                 FundingSource.builder()
                                     .accountName("string")
-                                    .created("2019-12-27T18:11:19.117Z")
+                                    .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                     .lastFour("xxxx")
                                     .nickname("x")
                                     .state(FundingSource.State.ENABLED)

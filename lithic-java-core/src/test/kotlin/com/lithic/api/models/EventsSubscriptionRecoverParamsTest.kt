@@ -1,6 +1,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.models.*
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,8 +11,8 @@ class EventsSubscriptionRecoverParamsTest {
     fun createEventsSubscriptionRecoverParams() {
         EventsSubscriptionRecoverParams.builder()
             .eventSubscriptionToken("string")
-            .begin("2019-12-27T18:11:19.117Z")
-            .end("2019-12-27T18:11:19.117Z")
+            .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+            .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .build()
     }
 
@@ -20,8 +21,8 @@ class EventsSubscriptionRecoverParamsTest {
         val params =
             EventsSubscriptionRecoverParams.builder()
                 .eventSubscriptionToken("string")
-                .begin("2019-12-27T18:11:19.117Z")
-                .end("2019-12-27T18:11:19.117Z")
+                .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put("begin", listOf("2019-12-27T18:11:19.117Z"))

@@ -1,6 +1,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.models.*
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -9,8 +10,8 @@ class AccountListParamsTest {
     @Test
     fun createAccountListParams() {
         AccountListParams.builder()
-            .begin("2019-12-27T18:11:19.117Z")
-            .end("2019-12-27T18:11:19.117Z")
+            .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+            .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .page(123L)
             .pageSize(123L)
             .build()
@@ -20,8 +21,8 @@ class AccountListParamsTest {
     fun getQueryParams() {
         val params =
             AccountListParams.builder()
-                .begin("2019-12-27T18:11:19.117Z")
-                .end("2019-12-27T18:11:19.117Z")
+                .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .page(123L)
                 .pageSize(123L)
                 .build()

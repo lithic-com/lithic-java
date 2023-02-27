@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
@@ -20,7 +21,7 @@ import java.util.Optional
 class FundingSource
 private constructor(
     private val accountName: JsonField<String>,
-    private val created: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
     private val lastFour: JsonField<String>,
     private val nickname: JsonField<String>,
     private val state: JsonField<State>,
@@ -41,7 +42,7 @@ private constructor(
      * An ISO 8601 string representing when this funding source was added to the Lithic account.
      * This may be `null`. UTC time zone.
      */
-    fun created(): String = created.getRequired("created")
+    fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
      * The last 4 digits of the account (e.g. bank account, debit card) associated with this
@@ -179,7 +180,7 @@ private constructor(
     class Builder {
 
         private var accountName: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<String> = JsonMissing.of()
+        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var lastFour: JsonField<String> = JsonMissing.of()
         private var nickname: JsonField<String> = JsonMissing.of()
         private var state: JsonField<State> = JsonMissing.of()
@@ -211,7 +212,7 @@ private constructor(
          * An ISO 8601 string representing when this funding source was added to the Lithic account.
          * This may be `null`. UTC time zone.
          */
-        fun created(created: String) = created(JsonField.of(created))
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /**
          * An ISO 8601 string representing when this funding source was added to the Lithic account.
@@ -219,7 +220,7 @@ private constructor(
          */
         @JsonProperty("created")
         @ExcludeMissing
-        fun created(created: JsonField<String>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
          * The last 4 digits of the account (e.g. bank account, debit card) associated with this

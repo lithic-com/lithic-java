@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
@@ -28,7 +29,7 @@ private constructor(
     private val merchantCurrency: JsonField<String>,
     private val authorizationCode: JsonField<String>,
     private val cardToken: JsonField<String>,
-    private val created: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
     private val events: JsonField<List<TransactionEvent>>,
     private val merchant: JsonField<Merchant>,
     private val network: JsonField<Network>,
@@ -98,7 +99,7 @@ private constructor(
     fun cardToken(): Optional<String> = Optional.ofNullable(cardToken.getNullable("card_token"))
 
     /** Date and time when the transaction first occurred. UTC time zone. */
-    fun created(): Optional<String> = Optional.ofNullable(created.getNullable("created"))
+    fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
 
     /** A list of all events that have modified this transaction. */
     fun events(): Optional<List<TransactionEvent>> =
@@ -329,7 +330,7 @@ private constructor(
         private var merchantCurrency: JsonField<String> = JsonMissing.of()
         private var authorizationCode: JsonField<String> = JsonMissing.of()
         private var cardToken: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<String> = JsonMissing.of()
+        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var events: JsonField<List<TransactionEvent>> = JsonMissing.of()
         private var merchant: JsonField<Merchant> = JsonMissing.of()
         private var network: JsonField<Network> = JsonMissing.of()
@@ -492,12 +493,12 @@ private constructor(
         fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         /** Date and time when the transaction first occurred. UTC time zone. */
-        fun created(created: String) = created(JsonField.of(created))
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** Date and time when the transaction first occurred. UTC time zone. */
         @JsonProperty("created")
         @ExcludeMissing
-        fun created(created: JsonField<String>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** A list of all events that have modified this transaction. */
         fun events(events: List<TransactionEvent>) = events(JsonField.of(events))
@@ -1485,7 +1486,7 @@ private constructor(
     class TransactionEvent
     private constructor(
         private val amount: JsonField<Long>,
-        private val created: JsonField<String>,
+        private val created: JsonField<OffsetDateTime>,
         private val result: JsonField<Result>,
         private val token: JsonField<String>,
         private val type: JsonField<Type>,
@@ -1500,7 +1501,7 @@ private constructor(
         fun amount(): Long = amount.getRequired("amount")
 
         /** ISO 8601 date and time this event entered the system. UTC time zone. */
-        fun created(): String = created.getRequired("created")
+        fun created(): OffsetDateTime = created.getRequired("created")
 
         /**
          * `APPROVED` or decline reason.
@@ -1687,7 +1688,7 @@ private constructor(
         class Builder {
 
             private var amount: JsonField<Long> = JsonMissing.of()
-            private var created: JsonField<String> = JsonMissing.of()
+            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
             private var result: JsonField<Result> = JsonMissing.of()
             private var token: JsonField<String> = JsonMissing.of()
             private var type: JsonField<Type> = JsonMissing.of()
@@ -1712,12 +1713,12 @@ private constructor(
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** ISO 8601 date and time this event entered the system. UTC time zone. */
-            fun created(created: String) = created(JsonField.of(created))
+            fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
             /** ISO 8601 date and time this event entered the system. UTC time zone. */
             @JsonProperty("created")
             @ExcludeMissing
-            fun created(created: JsonField<String>) = apply { this.created = created }
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /**
              * `APPROVED` or decline reason.

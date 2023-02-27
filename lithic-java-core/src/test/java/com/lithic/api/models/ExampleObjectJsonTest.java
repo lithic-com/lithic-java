@@ -115,7 +115,7 @@ final class ExampleObjectJsonTest {
 
         assertThatThrownBy(entity::requiredField)
                 .isInstanceOf(LithicInvalidDataException.class)
-                .hasMessage("'required_field' is invalid; received {key=value}");
+                .hasMessage("'required_field' is invalid, received {key=value}");
         assertThat(entity._requiredField()).isEqualTo(JsonValue.from(ImmutableMap.of("key", "value")));
     }
 
@@ -127,7 +127,7 @@ final class ExampleObjectJsonTest {
 
         assertThatThrownBy(entity::validate)
                 .isInstanceOf(LithicInvalidDataException.class)
-                .hasMessage("'required_field' is invalid; received {key=value}");
+                .hasMessage("'required_field' is invalid, received {key=value}");
     }
 
     @Test
@@ -198,7 +198,7 @@ final class ExampleObjectJsonTest {
 
         assertThatThrownBy(entity::stringField)
                 .isInstanceOf(LithicInvalidDataException.class)
-                .hasMessage("'string_field' is invalid; received {key=value}");
+                .hasMessage("'string_field' is invalid, received {key=value}");
         assertThat(entity._stringField()).isEqualTo(JsonObject.of(ImmutableMap.of("key", JsonString.of("value"))));
     }
 
@@ -210,7 +210,7 @@ final class ExampleObjectJsonTest {
 
         assertThatThrownBy(entity::validate)
                 .isInstanceOf(LithicInvalidDataException.class)
-                .hasMessage("'string_field' is invalid; received {key=value}");
+                .hasMessage("'string_field' is invalid, received {key=value}");
     }
 
     @Test
@@ -242,7 +242,7 @@ final class ExampleObjectJsonTest {
         assertThat(entity.nestedObject().get().a()).contains("foo");
         assertThatThrownBy(entity.nestedObject().get()::b)
                 .isInstanceOf(LithicInvalidDataException.class)
-                .hasMessage("'b' is invalid; received [42]");
+                .hasMessage("'b' is invalid, received [42]");
         assertThat(entity.nestedObject().get()._b()).isEqualTo(JsonArray.of(ImmutableList.of(JsonNumber.of(42))));
     }
 
@@ -254,7 +254,7 @@ final class ExampleObjectJsonTest {
 
         assertThatThrownBy(entity::validate)
                 .isInstanceOf(LithicInvalidDataException.class)
-                .hasMessage("'b' is invalid; received []");
+                .hasMessage("'b' is invalid, received []");
     }
 
     @Test
@@ -392,7 +392,7 @@ final class ExampleObjectJsonTest {
 
         assertThatThrownBy(entity::validate)
                 .isInstanceOf(LithicInvalidDataException.class)
-                .hasMessage("'required_field' is invalid; received {key=value}");
+                .hasMessage("'required_field' is invalid, received {key=value}");
     }
 
     @Test

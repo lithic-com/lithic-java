@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.time.OffsetDateTime
 import java.util.Objects
 
 /** A single event that affects the transaction state and lifecycle. */
@@ -22,7 +23,7 @@ private constructor(
     private val token: JsonField<String>,
     private val eventType: JsonField<EventType>,
     private val payload: JsonField<Payload>,
-    private val created: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -49,7 +50,7 @@ private constructor(
      *
      * If no timezone is specified, UTC will be used.
      */
-    fun created(): String = created.getRequired("created")
+    fun created(): OffsetDateTime = created.getRequired("created")
 
     /** Globally unique identifier. */
     @JsonProperty("token") @ExcludeMissing fun _token() = token
@@ -128,7 +129,7 @@ private constructor(
         private var token: JsonField<String> = JsonMissing.of()
         private var eventType: JsonField<EventType> = JsonMissing.of()
         private var payload: JsonField<Payload> = JsonMissing.of()
-        private var created: JsonField<String> = JsonMissing.of()
+        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -179,7 +180,7 @@ private constructor(
          *
          * If no timezone is specified, UTC will be used.
          */
-        fun created(created: String) = created(JsonField.of(created))
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /**
          * An ISO 8601 timestamp for when the event was created. UTC time zone.
@@ -188,7 +189,7 @@ private constructor(
          */
         @JsonProperty("created")
         @ExcludeMissing
-        fun created(created: JsonField<String>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()

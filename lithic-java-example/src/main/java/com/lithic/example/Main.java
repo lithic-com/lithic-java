@@ -5,9 +5,8 @@ import com.lithic.api.client.okhttp.LithicOkHttpClient;
 import com.lithic.api.models.*;
 import com.lithic.api.models.AccountHolderCreateParams.Kyc;
 import com.lithic.api.models.Card;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -110,8 +109,9 @@ public class Main {
     }
 
     public static Stream<Card> cardsCreatedLastWeek() {
-        String begin = ZonedDateTime.now(ZoneOffset.UTC).minusDays(7).format(DateTimeFormatter.ISO_INSTANT);
-        CardListParams params = CardListParams.builder().begin(begin).build();
+        CardListParams params = CardListParams.builder()
+                .begin(OffsetDateTime.now(ZoneOffset.UTC).minusDays(7))
+                .build();
         return client.cards().list(params).autoPager().stream();
     }
 }

@@ -1,5 +1,6 @@
 package com.lithic.api.models
 
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -35,12 +36,12 @@ class TransactionTest {
                 .merchantCurrency("string")
                 .authorizationCode("xxxxxx")
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .created("2019-12-27T18:11:19.117Z")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .events(
                     listOf(
                         Transaction.TransactionEvent.builder()
                             .amount(123L)
-                            .created("2018-05-29 21:16:05")
+                            .created(OffsetDateTime.parse("2018-05-29T21:16:05Z"))
                             .result(Transaction.TransactionEvent.Result.ACCOUNT_STATE_TRANSACTION)
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
@@ -91,12 +92,12 @@ class TransactionTest {
         assertThat(transaction.merchantCurrency()).contains("string")
         assertThat(transaction.authorizationCode()).contains("xxxxxx")
         assertThat(transaction.cardToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(transaction.created()).contains("2019-12-27T18:11:19.117Z")
+        assertThat(transaction.created()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(transaction.events().get())
             .containsExactly(
                 Transaction.TransactionEvent.builder()
                     .amount(123L)
-                    .created("2018-05-29 21:16:05")
+                    .created(OffsetDateTime.parse("2018-05-29T21:16:05Z"))
                     .result(Transaction.TransactionEvent.Result.ACCOUNT_STATE_TRANSACTION)
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .type(Transaction.TransactionEvent.Type.AUTHORIZATION)

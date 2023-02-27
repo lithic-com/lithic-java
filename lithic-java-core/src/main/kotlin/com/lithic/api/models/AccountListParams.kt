@@ -3,22 +3,23 @@ package com.lithic.api.models
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
 class AccountListParams
 constructor(
-    private val begin: String?,
-    private val end: String?,
+    private val begin: OffsetDateTime?,
+    private val end: OffsetDateTime?,
     private val page: Long?,
     private val pageSize: Long?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
-    fun begin(): Optional<String> = Optional.ofNullable(begin)
+    fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
 
-    fun end(): Optional<String> = Optional.ofNullable(end)
+    fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
     fun page(): Optional<Long> = Optional.ofNullable(page)
 
@@ -79,8 +80,8 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var begin: String? = null
-        private var end: String? = null
+        private var begin: OffsetDateTime? = null
+        private var end: OffsetDateTime? = null
         private var page: Long? = null
         private var pageSize: Long? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -100,13 +101,13 @@ constructor(
          * Date string in 8601 format. Only entries created after the specified date will be
          * included. UTC time zone.
          */
-        fun begin(begin: String) = apply { this.begin = begin }
+        fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
 
         /**
          * Date string in 8601 format. Only entries created before the specified date will be
          * included. UTC time zone.
          */
-        fun end(end: String) = apply { this.end = end }
+        fun end(end: OffsetDateTime) = apply { this.end = end }
 
         /** Page (for pagination). */
         fun page(page: Long) = apply { this.page = page }

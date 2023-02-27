@@ -3,6 +3,7 @@
 package com.lithic.api.core
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.cfg.CoercionAction.Fail
 import com.fasterxml.jackson.databind.cfg.CoercionInputShape.Integer
@@ -16,6 +17,7 @@ fun jsonMapper(): JsonMapper =
         .addModule(Jdk8Module())
         .addModule(JavaTimeModule())
         .serializationInclusion(JsonInclude.Include.NON_ABSENT)
+        .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
         .disable(SerializationFeature.FLUSH_AFTER_WRITE_VALUE)
         .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         .disable(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS)

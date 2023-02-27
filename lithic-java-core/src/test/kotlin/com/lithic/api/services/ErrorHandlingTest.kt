@@ -26,6 +26,7 @@ import com.lithic.api.errors.UnauthorizedException
 import com.lithic.api.errors.UnexpectedStatusCodeException
 import com.lithic.api.errors.UnprocessableEntityException
 import com.lithic.api.models.*
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.assertj.core.api.InstanceOfAssertFactories
@@ -92,12 +93,12 @@ class ErrorHandlingTest {
 
         val expected =
             Card.builder()
-                .created("2021-06-28T22:53:15Z")
+                .created(OffsetDateTime.parse("2021-06-28T22:53:15Z"))
                 .cvv("776")
                 .funding(
                     FundingSource.builder()
                         .accountName("string")
-                        .created("2019-12-27T18:11:19.117Z")
+                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .lastFour("xxxx")
                         .nickname("x")
                         .state(FundingSource.State.ENABLED)
