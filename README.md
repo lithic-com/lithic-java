@@ -4,6 +4,8 @@ The Lithic Java SDK provides convenient access to the Lithic REST API from appli
 
 This package is currently in beta (pre-v1.0.0). We expect some breaking changes to rarely-used areas of the SDK, and appreciate your [feedback](mailto:sdk-feedback@lithic.com).
 
+The Lithic Java SDK is similar to the Lithic Kotlin SDK but with minor differences that make it more ergonomic for use in Java, such as `Optional` instead of nullable values, `Stream` instead of `Sequence`, and `CompletableFuture` instead of suspend functions.
+
 ## Documentation
 
 The API documentation can be found [here](https://docs.lithic.com).
@@ -46,7 +48,7 @@ LithicClient client = LithicOkHttpClient.builder()
 Alternately, use `LithicOkHttpClient.fromEnv()` to read client arguments from environment variables:
 
 ```java
-LithicClient client = LithicClient.fromEnv();
+LithicClient client = LithicOkHttpClient.fromEnv();
 
 // Note: you can also call fromEnv() from the client builder, for example if you need to set additional properties
 LithicClient client = LithicOkHttpClient.builder()
@@ -119,16 +121,13 @@ this SDK. If an unrecognized value is found, the enum is set to a special sentin
 ```java
 switch (card.state().value()) {
     case Card.State.Value.CLOSED:
-    case Card.State.Value.OPEN:
-    case Card.State.Value.PAUSED:
-    case Card.State.Value.PENDING_ACTIVATION:
-    case Card.State.Value.PENDING_FULFILLMENT:
         // ... handle recognized enum values
-        return;
+        break;
+    ...
     case Card.State.Value._UNKNOWN:
-        // ... handle unrecognized enum value as string
         String cardState = card.state().asString();
-        return;
+        // ... handle unrecognized enum value as string
+        break;
 }
 ```
 
@@ -173,7 +172,7 @@ Model properties that are optional or allow a null value are represented as `Opt
 
 ```java
 // Card.cvv() returns Optional<String>
-card.cvv().isPresent(); // false
+card.cvv().isPresent(); // false;
 ```
 
 ### Response properties as JSON
@@ -187,7 +186,7 @@ JsonField state() = card._state();
 if (state().isMissing()) {
   // Value was not specified in the JSON response
 } else if (state().isNull()) {
-  // Value was provided as a literall null
+  // Value was provided as a literal null
 } else {
   // See if value was provided as a string
   Optional<String> jsonString = state().asString();
@@ -223,8 +222,8 @@ for (Card card : page.autoPager()) {
 
 // As a Stream:
 client.cards().list(params).autoPager().stream()
-  .limit(50)
-  .forEach(card -> System.out.println(card));
+    .limit(50)
+    .forEach(card -> System.out.println(card));
 ```
 
 Note that fetching each page blocks the current thread.
@@ -239,13 +238,11 @@ A page of results has a `data()` method to fetch the list of objects, as well as
 ```java
 CardListPage page = client.cards().list(params);
 while (page != null) {
-  System.out.println(page.FIXME());
+    for (Card card : page.data()) {
+        System.out.println(card);
+    }
 
-  for (Card card : page.data()) {
-    System.out.println(card);
-  }
-
-  page = page.getNextPage().orElse(null);
+    page = page.getNextPage().orElse(null);
 }
 ```
 
@@ -292,7 +289,10 @@ Requests that experience certain errors are automatically retried 2 times by def
 You can provide a `maxRetries` on the client builder to configure this:
 
 ```java
-LithicClient client = LithicOkHttpClient.builder().fromEnv().maxRetries(4).build();
+LithicClient client = LithicOkHttpClient.builder()
+    .fromEnv()
+    .maxRetries(4)
+    .build();
 ```
 
 ### Timeouts
@@ -300,7 +300,10 @@ LithicClient client = LithicOkHttpClient.builder().fromEnv().maxRetries(4).build
 Requests time out after 60 seconds by default. You can configure this on the client builder:
 
 ```java
-LithicClient client = LithicOkHttpClient.builder().fromEnv().timeout(Duration.ofSeconds(30)).build();
+LithicClient client = LithicOkHttpClient.builder()
+    .fromEnv()
+    .timeout(Duration.ofSeconds(30))
+    .build();
 ```
 
 ### Environments
@@ -308,5 +311,8 @@ LithicClient client = LithicOkHttpClient.builder().fromEnv().timeout(Duration.of
 Requests are made to the production environment by default. You can connect to other environments, like `sandbox`, via the client builder:
 
 ```java
-LithicClient client = LithicOkHttpClient.builder().fromEnv().sandbox().build()
+LithicClient client = LithicOkHttpClient.builder()
+    .fromEnv()
+    .sandbox()
+    .build();
 ```
