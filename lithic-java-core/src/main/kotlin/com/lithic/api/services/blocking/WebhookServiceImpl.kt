@@ -3,10 +3,10 @@ package com.lithic.api.services.blocking
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.google.common.collect.ListMultimap
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.errors.LithicException
-import com.lithic.api.models.Event
 import com.lithic.api.services.errorHandler
 import java.security.MessageDigest
 import java.time.Duration
@@ -26,10 +26,10 @@ constructor(
         payload: String,
         headers: ListMultimap<String, String>,
         secret: String?
-    ): Event {
+    ): JsonValue {
         verifySignature(payload, headers, secret)
         return try {
-            clientOptions.jsonMapper.readValue(payload, Event::class.java)
+            clientOptions.jsonMapper.readValue(payload, JsonValue::class.java)
         } catch (e: JsonProcessingException) {
             throw LithicException("Invalid event payload", e)
         }

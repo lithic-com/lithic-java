@@ -3,11 +3,11 @@
 package com.lithic.api.services.blocking
 
 import com.google.common.collect.ListMultimap
-import com.lithic.api.models.Event
+import com.lithic.api.core.JsonValue
 
 interface WebhookService {
 
-    fun unwrap(payload: String, headers: ListMultimap<String, String>, secret: String?): Event
+    fun unwrap(payload: String, headers: ListMultimap<String, String>, secret: String?): JsonValue
 
     fun verifySignature(payload: String, headers: ListMultimap<String, String>, secret: String?)
 }
