@@ -34,6 +34,8 @@ private constructor(
     private val _json: JsonValue? = null,
 ) {
 
+    private var validated: Boolean = false
+
     fun cat(): Optional<Cat> = Optional.ofNullable(cat)
     fun dog(): Optional<Dog> = Optional.ofNullable(dog)
     fun cats(): Optional<List<Cat>> = Optional.ofNullable(cats)
@@ -58,6 +60,18 @@ private constructor(
             cats != null -> visitor.visitCats(cats)
             petName != null -> visitor.visitPetName(petName)
             else -> visitor.unknown(_json)
+        }
+    }
+
+    fun validate() = apply {
+        if (!validated) {
+            if (cat == null && dog == null && cats == null && petName == null) {
+                throw LithicInvalidDataException("Unknown ExampleOneOf: $_json")
+            }
+            cat?.validate()
+            dog?.validate()
+            cats?.forEach { it.validate() }
+            validated = true
         }
     }
 
@@ -115,7 +129,7 @@ private constructor(
         fun visitPetName(petName: String): T
 
         fun unknown(json: JsonValue?): T {
-            throw LithicInvalidDataException("Unknown ExampleOneOf value")
+            throw LithicInvalidDataException("Unknown ExampleOneOf: $json")
         }
     }
 

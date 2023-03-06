@@ -380,7 +380,7 @@ private constructor(
                 ENABLED -> Known.ENABLED
                 PENDING -> Known.PENDING
                 DELETED -> Known.DELETED
-                else -> throw LithicInvalidDataException("Unknown FundingSource.State: $value")
+                else -> throw LithicInvalidDataException("Unknown State: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
@@ -437,7 +437,7 @@ private constructor(
             when (this) {
                 DEPOSITORY_CHECKING -> Known.DEPOSITORY_CHECKING
                 DEPOSITORY_SAVINGS -> Known.DEPOSITORY_SAVINGS
-                else -> throw LithicInvalidDataException("Unknown FundingSource.Type: $value")
+                else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

@@ -1230,10 +1230,7 @@ private constructor(
                     STRONG_CUSTOMER_AUTHENTICATION_DELEGATION ->
                         Known.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
                     TRANSACTION_RISK_ANALYSIS -> Known.TRANSACTION_RISK_ANALYSIS
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown Transaction.CardholderAuthentication.AcquirerExemption: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown AcquirerExemption: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -1305,10 +1302,7 @@ private constructor(
                     ACQUIRER_EXEMPTION -> Known.ACQUIRER_EXEMPTION
                     NONE -> Known.NONE
                     TOKEN_AUTHENTICATED -> Known.TOKEN_AUTHENTICATED
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown Transaction.CardholderAuthentication.LiabilityShift: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown LiabilityShift: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -1384,9 +1378,7 @@ private constructor(
                     OTHER -> Known.OTHER
                     OTP -> Known.OTP
                     else ->
-                        throw LithicInvalidDataException(
-                            "Unknown Transaction.CardholderAuthentication.VerificationAttempted: $value"
-                        )
+                        throw LithicInvalidDataException("Unknown VerificationAttempted: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -1467,10 +1459,7 @@ private constructor(
                     NOT_ATTEMPTED -> Known.NOT_ATTEMPTED
                     REJECTED -> Known.REJECTED
                     SUCCESS -> Known.SUCCESS
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown Transaction.CardholderAuthentication.VerificationResult: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown VerificationResult: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -2038,10 +2027,7 @@ private constructor(
                     UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
                     UNKNOWN_HOST_TIMEOUT -> Known.UNKNOWN_HOST_TIMEOUT
                     USER_TRANSACTION_LIMIT -> Known.USER_TRANSACTION_LIMIT
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown Transaction.TransactionEvent.Result: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown Result: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -2180,10 +2166,7 @@ private constructor(
                     RETURN -> Known.RETURN
                     RETURN_REVERSAL -> Known.RETURN_REVERSAL
                     VOID -> Known.VOID
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown Transaction.TransactionEvent.Type: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown Type: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -2479,7 +2462,7 @@ private constructor(
                 MASTERCARD -> Known.MASTERCARD
                 VISA -> Known.VISA
                 UNKNOWN -> Known.UNKNOWN
-                else -> throw LithicInvalidDataException("Unknown Transaction.Network: $value")
+                else -> throw LithicInvalidDataException("Unknown Network: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
@@ -2647,7 +2630,7 @@ private constructor(
                 UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
                 UNKNOWN_HOST_TIMEOUT -> Known.UNKNOWN_HOST_TIMEOUT
                 USER_TRANSACTION_LIMIT -> Known.USER_TRANSACTION_LIMIT
-                else -> throw LithicInvalidDataException("Unknown Transaction.Result: $value")
+                else -> throw LithicInvalidDataException("Unknown Result: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
@@ -2734,7 +2717,7 @@ private constructor(
                 SETTLED -> Known.SETTLED
                 SETTLING -> Known.SETTLING
                 VOIDED -> Known.VOIDED
-                else -> throw LithicInvalidDataException("Unknown Transaction.Status: $value")
+                else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

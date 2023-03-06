@@ -409,10 +409,7 @@ constructor(
                 STANDARD -> Known.STANDARD
                 STANDARD_WITH_TRACKING -> Known.STANDARD_WITH_TRACKING
                 EXPEDITED -> Known.EXPEDITED
-                else ->
-                    throw LithicInvalidDataException(
-                        "Unknown CardReissueBody.ShippingMethod: $value"
-                    )
+                else -> throw LithicInvalidDataException("Unknown ShippingMethod: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

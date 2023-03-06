@@ -434,7 +434,7 @@ private constructor(
             when (this) {
                 ACTIVE -> Known.ACTIVE
                 PAUSED -> Known.PAUSED
-                else -> throw LithicInvalidDataException("Unknown Account.State: $value")
+                else -> throw LithicInvalidDataException("Unknown State: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

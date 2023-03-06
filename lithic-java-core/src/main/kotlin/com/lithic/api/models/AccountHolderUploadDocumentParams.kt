@@ -325,10 +325,7 @@ constructor(
                 PASSPORT -> Known.PASSPORT
                 PASSPORT_CARD -> Known.PASSPORT_CARD
                 VISA -> Known.VISA
-                else ->
-                    throw LithicInvalidDataException(
-                        "Unknown AccountHolderUploadDocumentBody.DocumentType: $value"
-                    )
+                else -> throw LithicInvalidDataException("Unknown DocumentType: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

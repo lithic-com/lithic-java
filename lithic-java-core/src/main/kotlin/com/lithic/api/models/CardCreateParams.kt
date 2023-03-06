@@ -887,7 +887,7 @@ constructor(
             when (this) {
                 OPEN -> Known.OPEN
                 PAUSED -> Known.PAUSED
-                else -> throw LithicInvalidDataException("Unknown CardCreateBody.State: $value")
+                else -> throw LithicInvalidDataException("Unknown State: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
@@ -956,7 +956,7 @@ constructor(
                 PHYSICAL -> Known.PHYSICAL
                 MERCHANT_LOCKED -> Known.MERCHANT_LOCKED
                 SINGLE_USE -> Known.SINGLE_USE
-                else -> throw LithicInvalidDataException("Unknown CardCreateBody.Type: $value")
+                else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
@@ -1020,10 +1020,7 @@ constructor(
                 STANDARD -> Known.STANDARD
                 STANDARD_WITH_TRACKING -> Known.STANDARD_WITH_TRACKING
                 EXPEDITED -> Known.EXPEDITED
-                else ->
-                    throw LithicInvalidDataException(
-                        "Unknown CardCreateBody.ShippingMethod: $value"
-                    )
+                else -> throw LithicInvalidDataException("Unknown ShippingMethod: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

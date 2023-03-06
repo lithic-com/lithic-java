@@ -512,10 +512,7 @@ constructor(
             fun known(): Known =
                 when (this) {
                     BANK -> Known.BANK
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown FundingSourceCreateBody.Bank.ValidationMethod: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown ValidationMethod: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -691,10 +688,7 @@ constructor(
             fun known(): Known =
                 when (this) {
                     PLAID -> Known.PLAID
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown FundingSourceCreateBody.Plaid.ValidationMethod: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown ValidationMethod: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()

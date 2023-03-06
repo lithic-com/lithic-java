@@ -260,10 +260,7 @@ private constructor(
                 PASSPORT -> Known.PASSPORT
                 PASSPORT_CARD -> Known.PASSPORT_CARD
                 VISA -> Known.VISA
-                else ->
-                    throw LithicInvalidDataException(
-                        "Unknown AccountHolderDocument.DocumentType: $value"
-                    )
+                else -> throw LithicInvalidDataException("Unknown DocumentType: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
@@ -509,10 +506,7 @@ private constructor(
                 when (this) {
                     BACK -> Known.BACK
                     FRONT -> Known.FRONT
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown AccountHolderDocument.RequiredDocumentUpload.ImageType: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown ImageType: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -581,10 +575,7 @@ private constructor(
                     FAILED -> Known.FAILED
                     PENDING -> Known.PENDING
                     UPLOADED -> Known.UPLOADED
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown AccountHolderDocument.RequiredDocumentUpload.Status: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown Status: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -666,10 +657,7 @@ private constructor(
                     FRONT_IMAGE_GLARE -> Known.FRONT_IMAGE_GLARE
                     INVALID_FILE_TYPE -> Known.INVALID_FILE_TYPE
                     UNKNOWN_ERROR -> Known.UNKNOWN_ERROR
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown AccountHolderDocument.RequiredDocumentUpload.StatusReason: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown StatusReason: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()

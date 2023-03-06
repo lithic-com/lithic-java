@@ -658,7 +658,7 @@ constructor(
                 CLOSED -> Known.CLOSED
                 OPEN -> Known.OPEN
                 PAUSED -> Known.PAUSED
-                else -> throw LithicInvalidDataException("Unknown CardUpdateBody.State: $value")
+                else -> throw LithicInvalidDataException("Unknown State: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

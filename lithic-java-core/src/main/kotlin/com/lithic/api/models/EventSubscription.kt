@@ -248,8 +248,7 @@ private constructor(
             when (this) {
                 DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
                 DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST -> Known.DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST
-                else ->
-                    throw LithicInvalidDataException("Unknown EventSubscription.EventType: $value")
+                else -> throw LithicInvalidDataException("Unknown EventType: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

@@ -396,7 +396,7 @@ final class ExampleOneOfTest {
 
         assertThatThrownBy(() -> fromJson("{}").accept(visitor))
                 .isInstanceOf(LithicInvalidDataException.class)
-                .hasMessage("Unknown ExampleOneOf value");
+                .hasMessage("Unknown ExampleOneOf: {}");
     }
 
     private ExampleOneOf fromJson(String json) {

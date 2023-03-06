@@ -268,7 +268,7 @@ private constructor(
                 REJECTED -> Known.REJECTED
                 PENDING_RESUBMIT -> Known.PENDING_RESUBMIT
                 PENDING_DOCUMENT -> Known.PENDING_DOCUMENT
-                else -> throw LithicInvalidDataException("Unknown AccountHolder.Status: $value")
+                else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
@@ -393,8 +393,7 @@ private constructor(
                 OTHER_VERIFICATION_FAILURE -> Known.OTHER_VERIFICATION_FAILURE
                 RISK_THRESHOLD_FAILURE -> Known.RISK_THRESHOLD_FAILURE
                 WATCHLIST_ALERT_FAILURE -> Known.WATCHLIST_ALERT_FAILURE
-                else ->
-                    throw LithicInvalidDataException("Unknown AccountHolder.StatusReason: $value")
+                else -> throw LithicInvalidDataException("Unknown StatusReason: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

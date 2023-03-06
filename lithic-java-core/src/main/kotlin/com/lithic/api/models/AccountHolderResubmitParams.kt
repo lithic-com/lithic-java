@@ -370,10 +370,7 @@ constructor(
         fun known(): Known =
             when (this) {
                 KYC_ADVANCED -> Known.KYC_ADVANCED
-                else ->
-                    throw LithicInvalidDataException(
-                        "Unknown AccountHolderResubmitBody.Workflow: $value"
-                    )
+                else -> throw LithicInvalidDataException("Unknown Workflow: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

@@ -449,10 +449,7 @@ constructor(
                 APPLE_PAY -> Known.APPLE_PAY
                 GOOGLE_PAY -> Known.GOOGLE_PAY
                 SAMSUNG_PAY -> Known.SAMSUNG_PAY
-                else ->
-                    throw LithicInvalidDataException(
-                        "Unknown CardProvisionBody.DigitalWallet: $value"
-                    )
+                else -> throw LithicInvalidDataException("Unknown DigitalWallet: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

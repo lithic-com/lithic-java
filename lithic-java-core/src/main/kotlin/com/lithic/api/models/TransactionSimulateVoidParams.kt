@@ -362,10 +362,7 @@ constructor(
             when (this) {
                 AUTHORIZATION_EXPIRY -> Known.AUTHORIZATION_EXPIRY
                 AUTHORIZATION_REVERSAL -> Known.AUTHORIZATION_REVERSAL
-                else ->
-                    throw LithicInvalidDataException(
-                        "Unknown TransactionSimulateVoidBody.Type: $value"
-                    )
+                else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

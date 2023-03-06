@@ -260,10 +260,7 @@ constructor(
             when (this) {
                 APPROVED -> Known.APPROVED
                 DECLINED -> Known.DECLINED
-                else ->
-                    throw LithicInvalidDataException(
-                        "Unknown TransactionListQueryParams.Result: $value"
-                    )
+                else -> throw LithicInvalidDataException("Unknown Result: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

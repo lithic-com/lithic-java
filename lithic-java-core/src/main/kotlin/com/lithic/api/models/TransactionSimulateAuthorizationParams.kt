@@ -624,10 +624,7 @@ constructor(
                 CREDIT_AUTHORIZATION -> Known.CREDIT_AUTHORIZATION
                 FINANCIAL_AUTHORIZATION -> Known.FINANCIAL_AUTHORIZATION
                 FINANCIAL_CREDIT_AUTHORIZATION -> Known.FINANCIAL_CREDIT_AUTHORIZATION
-                else ->
-                    throw LithicInvalidDataException(
-                        "Unknown TransactionSimulateAuthorizationBody.Status: $value"
-                    )
+                else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

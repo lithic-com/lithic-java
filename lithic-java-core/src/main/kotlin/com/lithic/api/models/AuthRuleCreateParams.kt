@@ -528,8 +528,7 @@ constructor(
         fun known(): Known =
             when (this) {
                 ZIP_ONLY -> Known.ZIP_ONLY
-                else ->
-                    throw LithicInvalidDataException("Unknown AuthRuleCreateBody.AvsType: $value")
+                else -> throw LithicInvalidDataException("Unknown AvsType: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

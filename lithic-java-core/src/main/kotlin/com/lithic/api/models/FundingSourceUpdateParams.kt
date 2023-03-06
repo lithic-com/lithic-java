@@ -371,10 +371,7 @@ constructor(
             when (this) {
                 DELETED -> Known.DELETED
                 ENABLED -> Known.ENABLED
-                else ->
-                    throw LithicInvalidDataException(
-                        "Unknown FundingSourceUpdateBody.State: $value"
-                    )
+                else -> throw LithicInvalidDataException("Unknown State: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

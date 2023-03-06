@@ -1074,10 +1074,7 @@ constructor(
                 when (this) {
                     KYB_BASIC -> Known.KYB_BASIC
                     KYB_BYO -> Known.KYB_BYO
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown AccountHolderCreateBody.Kyb.Workflow: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown Workflow: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -1473,10 +1470,7 @@ constructor(
                     KYC_ADVANCED -> Known.KYC_ADVANCED
                     KYC_BASIC -> Known.KYC_BASIC
                     KYC_BYO -> Known.KYC_BYO
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown AccountHolderCreateBody.Kyc.Workflow: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown Workflow: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -1699,10 +1693,7 @@ constructor(
             fun known(): Known =
                 when (this) {
                     KYC_EXEMPT -> Known.KYC_EXEMPT
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown AccountHolderCreateBody.KycExempt.Workflow: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown Workflow: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -1760,10 +1751,7 @@ constructor(
                 when (this) {
                     AUTHORIZED_USER -> Known.AUTHORIZED_USER
                     PREPAID_CARD_USER -> Known.PREPAID_CARD_USER
-                    else ->
-                        throw LithicInvalidDataException(
-                            "Unknown AccountHolderCreateBody.KycExempt.KycExemptionType: $value"
-                        )
+                    else -> throw LithicInvalidDataException("Unknown KycExemptionType: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()

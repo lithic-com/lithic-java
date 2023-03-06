@@ -619,7 +619,7 @@ constructor(
             when (this) {
                 ACTIVE -> Known.ACTIVE
                 PAUSED -> Known.PAUSED
-                else -> throw LithicInvalidDataException("Unknown AccountUpdateBody.State: $value")
+                else -> throw LithicInvalidDataException("Unknown State: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

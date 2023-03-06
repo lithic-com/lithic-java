@@ -728,7 +728,7 @@ private constructor(
                 PAUSED -> Known.PAUSED
                 PENDING_ACTIVATION -> Known.PENDING_ACTIVATION
                 PENDING_FULFILLMENT -> Known.PENDING_FULFILLMENT
-                else -> throw LithicInvalidDataException("Unknown Card.State: $value")
+                else -> throw LithicInvalidDataException("Unknown State: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
@@ -797,7 +797,7 @@ private constructor(
                 PHYSICAL -> Known.PHYSICAL
                 MERCHANT_LOCKED -> Known.MERCHANT_LOCKED
                 SINGLE_USE -> Known.SINGLE_USE
-                else -> throw LithicInvalidDataException("Unknown Card.Type: $value")
+                else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
