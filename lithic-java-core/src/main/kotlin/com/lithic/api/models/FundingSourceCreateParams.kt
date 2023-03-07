@@ -5,8 +5,13 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.BaseDeserializer
 import com.lithic.api.core.BaseSerializer
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -25,7 +30,6 @@ constructor(
     private val plaid: Plaid?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun bank(): Optional<Bank> = Optional.ofNullable(bank)
@@ -34,70 +38,40 @@ constructor(
 
     @JvmSynthetic
     internal fun getBody(): FundingSourceCreateBody {
-        return FundingSourceCreateBody(
-            bank,
-            plaid,
-            additionalBodyProperties,
-        )
+        return FundingSourceCreateBody(bank, plaid)
     }
 
     @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
+    @JsonDeserialize(using = FundingSourceCreateBody.Deserializer::class)
     @JsonSerialize(using = FundingSourceCreateBody.Serializer::class)
     class FundingSourceCreateBody
     internal constructor(
-        private val bank: Bank?,
-        private val plaid: Plaid?,
-        private val additionalProperties: Map<String, JsonValue>,
+        private val bank: Bank? = null,
+        private val plaid: Plaid? = null,
+        private val _json: JsonValue? = null,
     ) {
 
-        private var hashCode: Int = 0
+        fun bank(): Optional<Bank> = Optional.ofNullable(bank)
+        fun plaid(): Optional<Plaid> = Optional.ofNullable(plaid)
 
-        class Serializer : BaseSerializer<FundingSourceCreateBody>(FundingSourceCreateBody::class) {
+        fun isBank(): Boolean = bank != null
+        fun isPlaid(): Boolean = plaid != null
 
-            override fun serialize(
-                value: FundingSourceCreateBody,
-                generator: JsonGenerator,
-                provider: SerializerProvider
-            ) {
-                generator.writeStartObject()
-                when {
-                    value.bank != null -> {
-                        generator.writeObjectField(
-                            "validation_method",
-                            value.bank.validationMethod()
-                        )
-                        generator.writeObjectField("account_name", value.bank.accountName())
-                        generator.writeObjectField("account_number", value.bank.accountNumber())
-                        generator.writeObjectField("account_token", value.bank.accountToken())
-                        generator.writeObjectField("routing_number", value.bank.routingNumber())
-                    }
-                    value.plaid != null -> {
-                        generator.writeObjectField(
-                            "validation_method",
-                            value.plaid.validationMethod()
-                        )
-                        generator.writeObjectField("account_token", value.plaid.accountToken())
-                        generator.writeObjectField("processor_token", value.plaid.processorToken())
-                    }
-                    else -> throw IllegalStateException("Invalid FundingSourceCreateBody")
-                }
-                for (entry in value.additionalProperties.entries) {
-                    generator.writeObjectField(entry.key, entry.value)
-                }
-                generator.writeEndObject()
+        fun asBank(): Bank = bank.getOrThrow("bank")
+        fun asPlaid(): Plaid = plaid.getOrThrow("plaid")
+
+        fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+        fun <T> accept(visitor: Visitor<T>): T {
+            return when {
+                bank != null -> visitor.visitBank(bank)
+                plaid != null -> visitor.visitPlaid(plaid)
+                else -> visitor.unknown(_json)
             }
         }
-
-        fun bank(): Bank? = bank
-
-        fun plaid(): Plaid? = plaid
-
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -106,74 +80,76 @@ constructor(
 
             return other is FundingSourceCreateBody &&
                 this.bank == other.bank &&
-                this.plaid == other.plaid &&
-                this.additionalProperties == other.additionalProperties
+                this.plaid == other.plaid
         }
 
         override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        bank,
-                        plaid,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
+            return Objects.hash(bank, plaid)
         }
 
-        override fun toString() =
-            "FundingSourceCreateBody{bank=$bank, plaid=$plaid, additionalProperties=$additionalProperties}"
+        override fun toString(): String {
+            return when {
+                bank != null -> "FundingSourceCreateBody{bank=$bank}"
+                plaid != null -> "FundingSourceCreateBody{plaid=$plaid}"
+                _json != null -> "FundingSourceCreateBody{_unknown=$_json}"
+                else -> throw IllegalStateException("Invalid FundingSourceCreateBody")
+            }
+        }
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic fun ofBank(bank: Bank) = FundingSourceCreateBody(bank = bank)
+
+            @JvmStatic fun ofPlaid(plaid: Plaid) = FundingSourceCreateBody(plaid = plaid)
         }
 
-        class Builder {
+        interface Visitor<out T> {
 
-            private var bank: Bank? = null
-            private var plaid: Plaid? = null
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+            fun visitBank(bank: Bank): T
 
-            @JvmSynthetic
-            internal fun from(fundingSourceCreateBody: FundingSourceCreateBody) = apply {
-                this.bank = fundingSourceCreateBody.bank
-                this.plaid = fundingSourceCreateBody.plaid
-                additionalProperties(fundingSourceCreateBody.additionalProperties)
+            fun visitPlaid(plaid: Plaid): T
+
+            fun unknown(json: JsonValue?): T {
+                throw LithicInvalidDataException("Unknown FundingSourceCreateBody: $json")
             }
+        }
 
-            fun bank(bank: Bank) = apply { this.bank = bank }
+        class Deserializer :
+            BaseDeserializer<FundingSourceCreateBody>(FundingSourceCreateBody::class) {
 
-            fun plaid(plaid: Plaid) = apply { this.plaid = plaid }
+            override fun ObjectCodec.deserialize(node: JsonNode): FundingSourceCreateBody {
+                val json = JsonValue.fromJsonNode(node)
+                tryDeserialize(node, jacksonTypeRef<Bank>())?.let {
+                    return FundingSourceCreateBody(bank = it, _json = json)
+                }
+                tryDeserialize(node, jacksonTypeRef<Plaid>())?.let {
+                    return FundingSourceCreateBody(plaid = it, _json = json)
+                }
 
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                return FundingSourceCreateBody(_json = json)
             }
+        }
 
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+        class Serializer : BaseSerializer<FundingSourceCreateBody>(FundingSourceCreateBody::class) {
+
+            override fun serialize(
+                value: FundingSourceCreateBody,
+                generator: JsonGenerator,
+                provider: SerializerProvider
+            ) {
+                when {
+                    value.bank != null -> generator.writeObject(value.bank)
+                    value.plaid != null -> generator.writeObject(value.plaid)
+                    value._json != null -> generator.writeObject(value._json)
+                    else -> throw IllegalStateException("Invalid FundingSourceCreateBody")
+                }
             }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun build(): FundingSourceCreateBody =
-                FundingSourceCreateBody(
-                    bank,
-                    plaid,
-                    additionalProperties.toUnmodifiable(),
-                )
         }
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
 
     fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -184,8 +160,7 @@ constructor(
             this.bank == other.bank &&
             this.plaid == other.plaid &&
             this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
@@ -194,12 +169,11 @@ constructor(
             plaid,
             additionalQueryParams,
             additionalHeaders,
-            additionalBodyProperties,
         )
     }
 
     override fun toString() =
-        "FundingSourceCreateParams{bank=$bank, plaid=$plaid, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "FundingSourceCreateParams{bank=$bank, plaid=$plaid, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -215,7 +189,6 @@ constructor(
         private var plaid: Plaid? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(fundingSourceCreateParams: FundingSourceCreateParams) = apply {
@@ -223,29 +196,14 @@ constructor(
             this.plaid = fundingSourceCreateParams.plaid
             additionalQueryParams(fundingSourceCreateParams.additionalQueryParams)
             additionalHeaders(fundingSourceCreateParams.additionalHeaders)
-            additionalBodyProperties(fundingSourceCreateParams.additionalBodyProperties)
         }
-
-        fun isBank(): Boolean = bank != null
-        fun isPlaid(): Boolean = plaid != null
-
-        fun asBank(): Bank? = bank.getOrThrow("bank")
-        fun asPlaid(): Plaid? = plaid.getOrThrow("plaid")
 
         fun forBank(bank: Bank) = apply {
-            if (isPlaid()) {
-                throw IllegalArgumentException(
-                    "Params already set to another variant. FundingSourceCreateBody: ${this}"
-                )
-            }
             this.bank = bank
+            this.plaid = null
         }
         fun forPlaid(plaid: Plaid) = apply {
-            if (isBank()) {
-                throw IllegalArgumentException(
-                    "Params already set to another variant. FundingSourceCreateBody: ${this}"
-                )
-            }
+            this.bank = null
             this.plaid = plaid
         }
 
@@ -289,30 +247,16 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            this.additionalBodyProperties.put(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
-
         fun build(): FundingSourceCreateParams =
             FundingSourceCreateParams(
                 bank,
                 plaid,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
             )
     }
 
+    @JsonDeserialize(builder = Bank.Builder::class)
     @NoAutoDetect
     class Bank
     private constructor(
@@ -519,6 +463,7 @@ constructor(
         }
     }
 
+    @JsonDeserialize(builder = Plaid.Builder::class)
     @NoAutoDetect
     class Plaid
     private constructor(

@@ -5,8 +5,13 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import com.lithic.api.core.BaseDeserializer
 import com.lithic.api.core.BaseSerializer
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -26,7 +31,6 @@ constructor(
     private val kycExempt: KycExempt?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun kyb(): Optional<Kyb> = Optional.ofNullable(kyb)
@@ -41,7 +45,6 @@ constructor(
             kyb,
             kyc,
             kycExempt,
-            additionalBodyProperties,
         )
     }
 
@@ -49,88 +52,38 @@ constructor(
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
+    @JsonDeserialize(using = AccountHolderCreateBody.Deserializer::class)
     @JsonSerialize(using = AccountHolderCreateBody.Serializer::class)
     class AccountHolderCreateBody
     internal constructor(
-        private val kyb: Kyb?,
-        private val kyc: Kyc?,
-        private val kycExempt: KycExempt?,
-        private val additionalProperties: Map<String, JsonValue>,
+        private val kyb: Kyb? = null,
+        private val kyc: Kyc? = null,
+        private val kycExempt: KycExempt? = null,
+        private val _json: JsonValue? = null,
     ) {
 
-        private var hashCode: Int = 0
+        fun kyb(): Optional<Kyb> = Optional.ofNullable(kyb)
+        fun kyc(): Optional<Kyc> = Optional.ofNullable(kyc)
+        fun kycExempt(): Optional<KycExempt> = Optional.ofNullable(kycExempt)
 
-        class Serializer : BaseSerializer<AccountHolderCreateBody>(AccountHolderCreateBody::class) {
+        fun isKyb(): Boolean = kyb != null
+        fun isKyc(): Boolean = kyc != null
+        fun isKycExempt(): Boolean = kycExempt != null
 
-            override fun serialize(
-                value: AccountHolderCreateBody,
-                generator: JsonGenerator,
-                provider: SerializerProvider
-            ) {
-                generator.writeStartObject()
-                when {
-                    value.kyb != null -> {
-                        generator.writeObjectField("business_entity", value.kyb.businessEntity())
-                        generator.writeObjectField(
-                            "beneficial_owner_entities",
-                            value.kyb.beneficialOwnerEntities()
-                        )
-                        generator.writeObjectField(
-                            "beneficial_owner_individuals",
-                            value.kyb.beneficialOwnerIndividuals()
-                        )
-                        generator.writeObjectField("control_person", value.kyb.controlPerson())
-                        generator.writeObjectField(
-                            "kyb_passed_timestamp",
-                            value.kyb.kybPassedTimestamp()
-                        )
-                        generator.writeObjectField(
-                            "nature_of_business",
-                            value.kyb.natureOfBusiness()
-                        )
-                        generator.writeObjectField("tos_timestamp", value.kyb.tosTimestamp())
-                        generator.writeObjectField("website_url", value.kyb.websiteUrl())
-                        generator.writeObjectField("workflow", value.kyb.workflow())
-                    }
-                    value.kyc != null -> {
-                        generator.writeObjectField("individual", value.kyc.individual())
-                        generator.writeObjectField(
-                            "kyc_passed_timestamp",
-                            value.kyc.kycPassedTimestamp()
-                        )
-                        generator.writeObjectField("tos_timestamp", value.kyc.tosTimestamp())
-                        generator.writeObjectField("workflow", value.kyc.workflow())
-                    }
-                    value.kycExempt != null -> {
-                        generator.writeObjectField("workflow", value.kycExempt.workflow())
-                        generator.writeObjectField(
-                            "kyc_exemption_type",
-                            value.kycExempt.kycExemptionType()
-                        )
-                        generator.writeObjectField("first_name", value.kycExempt.firstName())
-                        generator.writeObjectField("last_name", value.kycExempt.lastName())
-                        generator.writeObjectField("email", value.kycExempt.email())
-                        generator.writeObjectField("phone_number", value.kycExempt.phoneNumber())
-                        generator.writeObjectField("address", value.kycExempt.address())
-                    }
-                    else -> throw IllegalStateException("Invalid AccountHolderCreateBody")
-                }
-                for (entry in value.additionalProperties.entries) {
-                    generator.writeObjectField(entry.key, entry.value)
-                }
-                generator.writeEndObject()
+        fun asKyb(): Kyb = kyb.getOrThrow("kyb")
+        fun asKyc(): Kyc = kyc.getOrThrow("kyc")
+        fun asKycExempt(): KycExempt = kycExempt.getOrThrow("kycExempt")
+
+        fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+        fun <T> accept(visitor: Visitor<T>): T {
+            return when {
+                kyb != null -> visitor.visitKyb(kyb)
+                kyc != null -> visitor.visitKyc(kyc)
+                kycExempt != null -> visitor.visitKycExempt(kycExempt)
+                else -> visitor.unknown(_json)
             }
         }
-
-        fun kyb(): Kyb? = kyb
-
-        fun kyc(): Kyc? = kyc
-
-        fun kycExempt(): KycExempt? = kycExempt
-
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -140,80 +93,90 @@ constructor(
             return other is AccountHolderCreateBody &&
                 this.kyb == other.kyb &&
                 this.kyc == other.kyc &&
-                this.kycExempt == other.kycExempt &&
-                this.additionalProperties == other.additionalProperties
+                this.kycExempt == other.kycExempt
         }
 
         override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        kyb,
-                        kyc,
-                        kycExempt,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
+            return Objects.hash(
+                kyb,
+                kyc,
+                kycExempt,
+            )
         }
 
-        override fun toString() =
-            "AccountHolderCreateBody{kyb=$kyb, kyc=$kyc, kycExempt=$kycExempt, additionalProperties=$additionalProperties}"
+        override fun toString(): String {
+            return when {
+                kyb != null -> "AccountHolderCreateBody{kyb=$kyb}"
+                kyc != null -> "AccountHolderCreateBody{kyc=$kyc}"
+                kycExempt != null -> "AccountHolderCreateBody{kycExempt=$kycExempt}"
+                _json != null -> "AccountHolderCreateBody{_unknown=$_json}"
+                else -> throw IllegalStateException("Invalid AccountHolderCreateBody")
+            }
+        }
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic fun ofKyb(kyb: Kyb) = AccountHolderCreateBody(kyb = kyb)
+
+            @JvmStatic fun ofKyc(kyc: Kyc) = AccountHolderCreateBody(kyc = kyc)
+
+            @JvmStatic
+            fun ofKycExempt(kycExempt: KycExempt) = AccountHolderCreateBody(kycExempt = kycExempt)
         }
 
-        class Builder {
+        interface Visitor<out T> {
 
-            private var kyb: Kyb? = null
-            private var kyc: Kyc? = null
-            private var kycExempt: KycExempt? = null
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+            fun visitKyb(kyb: Kyb): T
 
-            @JvmSynthetic
-            internal fun from(accountHolderCreateBody: AccountHolderCreateBody) = apply {
-                this.kyb = accountHolderCreateBody.kyb
-                this.kyc = accountHolderCreateBody.kyc
-                this.kycExempt = accountHolderCreateBody.kycExempt
-                additionalProperties(accountHolderCreateBody.additionalProperties)
+            fun visitKyc(kyc: Kyc): T
+
+            fun visitKycExempt(kycExempt: KycExempt): T
+
+            fun unknown(json: JsonValue?): T {
+                throw LithicInvalidDataException("Unknown AccountHolderCreateBody: $json")
             }
+        }
 
-            fun kyb(kyb: Kyb) = apply { this.kyb = kyb }
+        class Deserializer :
+            BaseDeserializer<AccountHolderCreateBody>(AccountHolderCreateBody::class) {
 
-            fun kyc(kyc: Kyc) = apply { this.kyc = kyc }
+            override fun ObjectCodec.deserialize(node: JsonNode): AccountHolderCreateBody {
+                val json = JsonValue.fromJsonNode(node)
+                tryDeserialize(node, jacksonTypeRef<Kyb>())?.let {
+                    return AccountHolderCreateBody(kyb = it, _json = json)
+                }
+                tryDeserialize(node, jacksonTypeRef<Kyc>())?.let {
+                    return AccountHolderCreateBody(kyc = it, _json = json)
+                }
+                tryDeserialize(node, jacksonTypeRef<KycExempt>())?.let {
+                    return AccountHolderCreateBody(kycExempt = it, _json = json)
+                }
 
-            fun kycExempt(kycExempt: KycExempt) = apply { this.kycExempt = kycExempt }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                return AccountHolderCreateBody(_json = json)
             }
+        }
 
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+        class Serializer : BaseSerializer<AccountHolderCreateBody>(AccountHolderCreateBody::class) {
+
+            override fun serialize(
+                value: AccountHolderCreateBody,
+                generator: JsonGenerator,
+                provider: SerializerProvider
+            ) {
+                when {
+                    value.kyb != null -> generator.writeObject(value.kyb)
+                    value.kyc != null -> generator.writeObject(value.kyc)
+                    value.kycExempt != null -> generator.writeObject(value.kycExempt)
+                    value._json != null -> generator.writeObject(value._json)
+                    else -> throw IllegalStateException("Invalid AccountHolderCreateBody")
+                }
             }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun build(): AccountHolderCreateBody =
-                AccountHolderCreateBody(
-                    kyb,
-                    kyc,
-                    kycExempt,
-                    additionalProperties.toUnmodifiable(),
-                )
         }
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
 
     fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -225,8 +188,7 @@ constructor(
             this.kyc == other.kyc &&
             this.kycExempt == other.kycExempt &&
             this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
@@ -236,12 +198,11 @@ constructor(
             kycExempt,
             additionalQueryParams,
             additionalHeaders,
-            additionalBodyProperties,
         )
     }
 
     override fun toString() =
-        "AccountHolderCreateParams{kyb=$kyb, kyc=$kyc, kycExempt=$kycExempt, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "AccountHolderCreateParams{kyb=$kyb, kyc=$kyc, kycExempt=$kycExempt, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -258,7 +219,6 @@ constructor(
         private var kycExempt: KycExempt? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(accountHolderCreateParams: AccountHolderCreateParams) = apply {
@@ -267,39 +227,21 @@ constructor(
             this.kycExempt = accountHolderCreateParams.kycExempt
             additionalQueryParams(accountHolderCreateParams.additionalQueryParams)
             additionalHeaders(accountHolderCreateParams.additionalHeaders)
-            additionalBodyProperties(accountHolderCreateParams.additionalBodyProperties)
         }
-
-        fun isKyb(): Boolean = kyb != null
-        fun isKyc(): Boolean = kyc != null
-        fun isKycExempt(): Boolean = kycExempt != null
-
-        fun asKyb(): Kyb? = kyb.getOrThrow("kyb")
-        fun asKyc(): Kyc? = kyc.getOrThrow("kyc")
-        fun asKycExempt(): KycExempt? = kycExempt.getOrThrow("kycExempt")
 
         fun forKyb(kyb: Kyb) = apply {
-            if (isKyc() || isKycExempt()) {
-                throw IllegalArgumentException(
-                    "Params already set to another variant. AccountHolderCreateBody: ${this}"
-                )
-            }
             this.kyb = kyb
+            this.kyc = null
+            this.kycExempt = null
         }
         fun forKyc(kyc: Kyc) = apply {
-            if (isKyb() || isKycExempt()) {
-                throw IllegalArgumentException(
-                    "Params already set to another variant. AccountHolderCreateBody: ${this}"
-                )
-            }
+            this.kyb = null
             this.kyc = kyc
+            this.kycExempt = null
         }
         fun forKycExempt(kycExempt: KycExempt) = apply {
-            if (isKyb() || isKyc()) {
-                throw IllegalArgumentException(
-                    "Params already set to another variant. AccountHolderCreateBody: ${this}"
-                )
-            }
+            this.kyb = null
+            this.kyc = null
             this.kycExempt = kycExempt
         }
 
@@ -343,20 +285,6 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            this.additionalBodyProperties.put(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
-
         fun build(): AccountHolderCreateParams =
             AccountHolderCreateParams(
                 kyb,
@@ -364,10 +292,10 @@ constructor(
                 kycExempt,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
             )
     }
 
+    @JsonDeserialize(builder = Kyb.Builder::class)
     @NoAutoDetect
     class Kyb
     private constructor(
@@ -653,6 +581,7 @@ constructor(
         }
 
         /** Information for business for which the account is being opened and KYB is being run. */
+        @JsonDeserialize(builder = BusinessEntity.Builder::class)
         @NoAutoDetect
         class BusinessEntity
         private constructor(
@@ -836,6 +765,7 @@ constructor(
             }
         }
 
+        @JsonDeserialize(builder = Individual.Builder::class)
         @NoAutoDetect
         class Individual
         private constructor(
@@ -1081,6 +1011,7 @@ constructor(
         }
     }
 
+    @JsonDeserialize(builder = Kyc.Builder::class)
     @NoAutoDetect
     class Kyc
     private constructor(
@@ -1226,6 +1157,7 @@ constructor(
         }
 
         /** Information on individual for whom the account is being opened and KYC is being run. */
+        @JsonDeserialize(builder = Individual.Builder::class)
         @NoAutoDetect
         class Individual
         private constructor(
@@ -1477,6 +1409,7 @@ constructor(
         }
     }
 
+    @JsonDeserialize(builder = KycExempt.Builder::class)
     @NoAutoDetect
     class KycExempt
     private constructor(

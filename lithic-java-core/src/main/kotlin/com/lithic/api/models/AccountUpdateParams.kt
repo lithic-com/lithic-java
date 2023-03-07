@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
@@ -63,6 +64,7 @@ constructor(
         }
     }
 
+    @JsonDeserialize(builder = AccountUpdateBody.Builder::class)
     @NoAutoDetect
     class AccountUpdateBody
     internal constructor(
@@ -434,6 +436,7 @@ constructor(
      * Address used during Address Verification Service (AVS) checks during transactions if enabled
      * via Auth Rules.
      */
+    @JsonDeserialize(builder = VerificationAddress.Builder::class)
     @NoAutoDetect
     class VerificationAddress
     private constructor(

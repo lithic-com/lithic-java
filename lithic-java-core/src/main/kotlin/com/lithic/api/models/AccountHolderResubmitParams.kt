@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
@@ -53,6 +54,7 @@ constructor(
         }
     }
 
+    @JsonDeserialize(builder = AccountHolderResubmitBody.Builder::class)
     @NoAutoDetect
     class AccountHolderResubmitBody
     internal constructor(
@@ -377,6 +379,7 @@ constructor(
     }
 
     /** Information on individual for whom the account is being opened and KYC is being re-run. */
+    @JsonDeserialize(builder = Individual.Builder::class)
     @NoAutoDetect
     class Individual
     private constructor(
