@@ -98,6 +98,7 @@ private constructor(
                     .httpClient(httpClient!!)
                     .clock(clock)
                     .maxRetries(maxRetries)
+                    .idempotencyHeader("Idempotency-Token")
                     .build(),
                 jsonMapper ?: jsonMapper(),
                 clock,
