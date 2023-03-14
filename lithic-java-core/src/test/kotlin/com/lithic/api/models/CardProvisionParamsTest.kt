@@ -14,7 +14,6 @@ class CardProvisionParamsTest {
             .nonce("U3RhaW5sZXNzIHJvY2tz")
             .nonceSignature("U3RhaW5sZXNzIHJvY2tz")
             .certificate("U3RhaW5sZXNzIHJvY2tz")
-            .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
 
@@ -27,7 +26,6 @@ class CardProvisionParamsTest {
                 .nonce("U3RhaW5sZXNzIHJvY2tz")
                 .nonceSignature("U3RhaW5sZXNzIHJvY2tz")
                 .certificate("U3RhaW5sZXNzIHJvY2tz")
-                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -35,7 +33,6 @@ class CardProvisionParamsTest {
         assertThat(body.nonce()).isEqualTo("U3RhaW5sZXNzIHJvY2tz")
         assertThat(body.nonceSignature()).isEqualTo("U3RhaW5sZXNzIHJvY2tz")
         assertThat(body.certificate()).isEqualTo("U3RhaW5sZXNzIHJvY2tz")
-        assertThat(body.accountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test

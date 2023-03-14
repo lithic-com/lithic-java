@@ -1489,7 +1489,7 @@ private constructor(
         /** Amount of the transaction event (in cents), including any acquirer fees. */
         fun amount(): Long = amount.getRequired("amount")
 
-        /** ISO 8601 date and time this event entered the system. UTC time zone. */
+        /** RFC 3339 date and time this event entered the system. UTC time zone. */
         fun created(): OffsetDateTime = created.getRequired("created")
 
         /**
@@ -1556,7 +1556,7 @@ private constructor(
         /** Amount of the transaction event (in cents), including any acquirer fees. */
         @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
-        /** ISO 8601 date and time this event entered the system. UTC time zone. */
+        /** RFC 3339 date and time this event entered the system. UTC time zone. */
         @JsonProperty("created") @ExcludeMissing fun _created() = created
 
         /**
@@ -1701,10 +1701,10 @@ private constructor(
             @ExcludeMissing
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-            /** ISO 8601 date and time this event entered the system. UTC time zone. */
+            /** RFC 3339 date and time this event entered the system. UTC time zone. */
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-            /** ISO 8601 date and time this event entered the system. UTC time zone. */
+            /** RFC 3339 date and time this event entered the system. UTC time zone. */
             @JsonProperty("created")
             @ExcludeMissing
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }

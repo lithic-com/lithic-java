@@ -18,7 +18,6 @@ import java.util.Optional
 @NoAutoDetect
 class EmbedRequestParams
 private constructor(
-    private val accountToken: JsonField<String>,
     private val css: JsonField<String>,
     private val expiration: JsonField<OffsetDateTime>,
     private val token: JsonField<String>,
@@ -30,10 +29,6 @@ private constructor(
 
     private var hashCode: Int = 0
 
-    /** Only needs to be included if one or more end-users have been enrolled. */
-    fun accountToken(): Optional<String> =
-        Optional.ofNullable(accountToken.getNullable("account_token"))
-
     /**
      * A publicly available URI, so the white-labeled card element can be styled with the client's
      * branding.
@@ -41,7 +36,7 @@ private constructor(
     fun css(): Optional<String> = Optional.ofNullable(css.getNullable("css"))
 
     /**
-     * An ISO 8601 timestamp for when the request should expire. UTC time zone.
+     * An RFC 3339 timestamp for when the request should expire. UTC time zone.
      *
      * If no timezone is specified, UTC will be used. If payload does not contain an expiration, the
      * request will never expire.
@@ -66,9 +61,6 @@ private constructor(
     fun targetOrigin(): Optional<String> =
         Optional.ofNullable(targetOrigin.getNullable("target_origin"))
 
-    /** Only needs to be included if one or more end-users have been enrolled. */
-    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
-
     /**
      * A publicly available URI, so the white-labeled card element can be styled with the client's
      * branding.
@@ -76,7 +68,7 @@ private constructor(
     @JsonProperty("css") @ExcludeMissing fun _css() = css
 
     /**
-     * An ISO 8601 timestamp for when the request should expire. UTC time zone.
+     * An RFC 3339 timestamp for when the request should expire. UTC time zone.
      *
      * If no timezone is specified, UTC will be used. If payload does not contain an expiration, the
      * request will never expire.
@@ -105,7 +97,6 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
-            accountToken()
             css()
             expiration()
             token()
@@ -122,7 +113,6 @@ private constructor(
         }
 
         return other is EmbedRequestParams &&
-            this.accountToken == other.accountToken &&
             this.css == other.css &&
             this.expiration == other.expiration &&
             this.token == other.token &&
@@ -134,7 +124,6 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
-                    accountToken,
                     css,
                     expiration,
                     token,
@@ -146,7 +135,7 @@ private constructor(
     }
 
     override fun toString() =
-        "EmbedRequestParams{accountToken=$accountToken, css=$css, expiration=$expiration, token=$token, targetOrigin=$targetOrigin, additionalProperties=$additionalProperties}"
+        "EmbedRequestParams{css=$css, expiration=$expiration, token=$token, targetOrigin=$targetOrigin, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -155,7 +144,6 @@ private constructor(
 
     class Builder {
 
-        private var accountToken: JsonField<String> = JsonMissing.of()
         private var css: JsonField<String> = JsonMissing.of()
         private var expiration: JsonField<OffsetDateTime> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
@@ -164,22 +152,11 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(embedRequestParams: EmbedRequestParams) = apply {
-            this.accountToken = embedRequestParams.accountToken
             this.css = embedRequestParams.css
             this.expiration = embedRequestParams.expiration
             this.token = embedRequestParams.token
             this.targetOrigin = embedRequestParams.targetOrigin
             additionalProperties(embedRequestParams.additionalProperties)
-        }
-
-        /** Only needs to be included if one or more end-users have been enrolled. */
-        fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
-
-        /** Only needs to be included if one or more end-users have been enrolled. */
-        @JsonProperty("account_token")
-        @ExcludeMissing
-        fun accountToken(accountToken: JsonField<String>) = apply {
-            this.accountToken = accountToken
         }
 
         /**
@@ -197,7 +174,7 @@ private constructor(
         fun css(css: JsonField<String>) = apply { this.css = css }
 
         /**
-         * An ISO 8601 timestamp for when the request should expire. UTC time zone.
+         * An RFC 3339 timestamp for when the request should expire. UTC time zone.
          *
          * If no timezone is specified, UTC will be used. If payload does not contain an expiration,
          * the request will never expire.
@@ -210,7 +187,7 @@ private constructor(
         fun expiration(expiration: OffsetDateTime) = expiration(JsonField.of(expiration))
 
         /**
-         * An ISO 8601 timestamp for when the request should expire. UTC time zone.
+         * An RFC 3339 timestamp for when the request should expire. UTC time zone.
          *
          * If no timezone is specified, UTC will be used. If payload does not contain an expiration,
          * the request will never expire.
@@ -270,7 +247,6 @@ private constructor(
 
         fun build(): EmbedRequestParams =
             EmbedRequestParams(
-                accountToken,
                 css,
                 expiration,
                 token,

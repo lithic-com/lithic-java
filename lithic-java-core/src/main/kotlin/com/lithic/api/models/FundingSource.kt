@@ -39,7 +39,7 @@ private constructor(
         Optional.ofNullable(accountName.getNullable("account_name"))
 
     /**
-     * An ISO 8601 string representing when this funding source was added to the Lithic account.
+     * An RFC 3339 string representing when this funding source was added to the Lithic account.
      * This may be `null`. UTC time zone.
      */
     fun created(): OffsetDateTime = created.getRequired("created")
@@ -80,7 +80,7 @@ private constructor(
     @JsonProperty("account_name") @ExcludeMissing fun _accountName() = accountName
 
     /**
-     * An ISO 8601 string representing when this funding source was added to the Lithic account.
+     * An RFC 3339 string representing when this funding source was added to the Lithic account.
      * This may be `null`. UTC time zone.
      */
     @JsonProperty("created") @ExcludeMissing fun _created() = created
@@ -209,13 +209,13 @@ private constructor(
         fun accountName(accountName: JsonField<String>) = apply { this.accountName = accountName }
 
         /**
-         * An ISO 8601 string representing when this funding source was added to the Lithic account.
+         * An RFC 3339 string representing when this funding source was added to the Lithic account.
          * This may be `null`. UTC time zone.
          */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /**
-         * An ISO 8601 string representing when this funding source was added to the Lithic account.
+         * An RFC 3339 string representing when this funding source was added to the Lithic account.
          * This may be `null`. UTC time zone.
          */
         @JsonProperty("created")

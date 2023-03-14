@@ -4,27 +4,17 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
 import java.util.Objects
-import java.util.Optional
 
 class CardRetrieveParams
 constructor(
     private val cardToken: String,
-    private val accountToken: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
     fun cardToken(): String = cardToken
 
-    fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
-
-    @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> {
-        val params = mutableMapOf<String, List<String>>()
-        this.accountToken?.let { params.put("account_token", listOf(it.toString())) }
-        params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
-    }
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
@@ -46,7 +36,6 @@ constructor(
 
         return other is CardRetrieveParams &&
             this.cardToken == other.cardToken &&
-            this.accountToken == other.accountToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
@@ -54,14 +43,13 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             cardToken,
-            accountToken,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "CardRetrieveParams{cardToken=$cardToken, accountToken=$accountToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "CardRetrieveParams{cardToken=$cardToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -74,27 +62,17 @@ constructor(
     class Builder {
 
         private var cardToken: String? = null
-        private var accountToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(cardRetrieveParams: CardRetrieveParams) = apply {
             this.cardToken = cardRetrieveParams.cardToken
-            this.accountToken = cardRetrieveParams.accountToken
             additionalQueryParams(cardRetrieveParams.additionalQueryParams)
             additionalHeaders(cardRetrieveParams.additionalHeaders)
         }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
-
-        /**
-         * Only required for multi-account users using account holder enrollment. Returns card
-         * associated with this account. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-         * information.
-         */
-        fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -139,7 +117,6 @@ constructor(
         fun build(): CardRetrieveParams =
             CardRetrieveParams(
                 checkNotNull(cardToken) { "`cardToken` is required but was not set" },
-                accountToken,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

@@ -39,15 +39,22 @@ class EventsSubscriptionUpdateParamsTest {
     @Test
     fun getBodyWithoutOptionalFields() {
         val params =
-            EventsSubscriptionUpdateParams.builder().eventSubscriptionToken("string").build()
+            EventsSubscriptionUpdateParams.builder()
+                .eventSubscriptionToken("string")
+                .url("https://example.com")
+                .build()
         val body = params.getBody()
         assertThat(body).isNotNull
+        assertThat(body.url()).isEqualTo("https://example.com")
     }
 
     @Test
     fun getPathParam() {
         val params =
-            EventsSubscriptionUpdateParams.builder().eventSubscriptionToken("string").build()
+            EventsSubscriptionUpdateParams.builder()
+                .eventSubscriptionToken("string")
+                .url("https://example.com")
+                .build()
         assertThat(params).isNotNull
         // path param "eventSubscriptionToken"
         assertThat(params.getPathParam(0)).isEqualTo("string")

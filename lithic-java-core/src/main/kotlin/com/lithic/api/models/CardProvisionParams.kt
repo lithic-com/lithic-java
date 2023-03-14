@@ -22,7 +22,6 @@ constructor(
     private val nonce: String?,
     private val nonceSignature: String?,
     private val certificate: String?,
-    private val accountToken: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -38,8 +37,6 @@ constructor(
 
     fun certificate(): Optional<String> = Optional.ofNullable(certificate)
 
-    fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
-
     @JvmSynthetic
     internal fun getBody(): CardProvisionBody {
         return CardProvisionBody(
@@ -47,7 +44,6 @@ constructor(
             nonce,
             nonceSignature,
             certificate,
-            accountToken,
             additionalBodyProperties,
         )
     }
@@ -71,7 +67,6 @@ constructor(
         private val nonce: String?,
         private val nonceSignature: String?,
         private val certificate: String?,
-        private val accountToken: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -93,14 +88,6 @@ constructor(
          */
         @JsonProperty("certificate") fun certificate(): String? = certificate
 
-        /**
-         * Only required for multi-account users. Token identifying the account the card will be
-         * associated with. Only applicable if using account holder enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-         * information.
-         */
-        @JsonProperty("account_token") fun accountToken(): String? = accountToken
-
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -117,7 +104,6 @@ constructor(
                 this.nonce == other.nonce &&
                 this.nonceSignature == other.nonceSignature &&
                 this.certificate == other.certificate &&
-                this.accountToken == other.accountToken &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -129,7 +115,6 @@ constructor(
                         nonce,
                         nonceSignature,
                         certificate,
-                        accountToken,
                         additionalProperties,
                     )
             }
@@ -137,7 +122,7 @@ constructor(
         }
 
         override fun toString() =
-            "CardProvisionBody{digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, certificate=$certificate, accountToken=$accountToken, additionalProperties=$additionalProperties}"
+            "CardProvisionBody{digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, certificate=$certificate, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -150,7 +135,6 @@ constructor(
             private var nonce: String? = null
             private var nonceSignature: String? = null
             private var certificate: String? = null
-            private var accountToken: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -159,7 +143,6 @@ constructor(
                 this.nonce = cardProvisionBody.nonce
                 this.nonceSignature = cardProvisionBody.nonceSignature
                 this.certificate = cardProvisionBody.certificate
-                this.accountToken = cardProvisionBody.accountToken
                 additionalProperties(cardProvisionBody.additionalProperties)
             }
 
@@ -190,15 +173,6 @@ constructor(
             @JsonProperty("certificate")
             fun certificate(certificate: String) = apply { this.certificate = certificate }
 
-            /**
-             * Only required for multi-account users. Token identifying the account the card will be
-             * associated with. Only applicable if using account holder enrollment. See
-             * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-             * information.
-             */
-            @JsonProperty("account_token")
-            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
-
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 this.additionalProperties.putAll(additionalProperties)
@@ -219,7 +193,6 @@ constructor(
                     nonce,
                     nonceSignature,
                     certificate,
-                    accountToken,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -242,7 +215,6 @@ constructor(
             this.nonce == other.nonce &&
             this.nonceSignature == other.nonceSignature &&
             this.certificate == other.certificate &&
-            this.accountToken == other.accountToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -255,7 +227,6 @@ constructor(
             nonce,
             nonceSignature,
             certificate,
-            accountToken,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -263,7 +234,7 @@ constructor(
     }
 
     override fun toString() =
-        "CardProvisionParams{cardToken=$cardToken, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, certificate=$certificate, accountToken=$accountToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "CardProvisionParams{cardToken=$cardToken, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, certificate=$certificate, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -280,7 +251,6 @@ constructor(
         private var nonce: String? = null
         private var nonceSignature: String? = null
         private var certificate: String? = null
-        private var accountToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -292,7 +262,6 @@ constructor(
             this.nonce = cardProvisionParams.nonce
             this.nonceSignature = cardProvisionParams.nonceSignature
             this.certificate = cardProvisionParams.certificate
-            this.accountToken = cardProvisionParams.accountToken
             additionalQueryParams(cardProvisionParams.additionalQueryParams)
             additionalHeaders(cardProvisionParams.additionalHeaders)
             additionalBodyProperties(cardProvisionParams.additionalBodyProperties)
@@ -317,14 +286,6 @@ constructor(
          * device's wallet.
          */
         fun certificate(certificate: String) = apply { this.certificate = certificate }
-
-        /**
-         * Only required for multi-account users. Token identifying the account the card will be
-         * associated with. Only applicable if using account holder enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-         * information.
-         */
-        fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -387,7 +348,6 @@ constructor(
                 nonce,
                 nonceSignature,
                 certificate,
-                accountToken,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

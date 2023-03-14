@@ -71,7 +71,6 @@ class CardServiceTest {
             cardService.retrieve(
                 CardRetrieveParams.builder()
                     .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
         println(card)
@@ -91,7 +90,6 @@ class CardServiceTest {
             cardService.update(
                 CardUpdateParams.builder()
                     .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .fundingToken("ecbd1d58-0299-48b3-84da-6ed7f5bf9ec1")
                     .memo("New Card")
                     .spendLimit(123L)
@@ -154,7 +152,6 @@ class CardServiceTest {
                     .nonce("U3RhaW5sZXNzIHJvY2tz")
                     .nonceSignature("U3RhaW5sZXNzIHJvY2tz")
                     .certificate("U3RhaW5sZXNzIHJvY2tz")
-                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
         println(cardProvisionResponse)

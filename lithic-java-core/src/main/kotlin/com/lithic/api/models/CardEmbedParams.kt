@@ -83,7 +83,7 @@ constructor(
         /** A base64 encoded JSON string of an EmbedRequest to specify which card to load. */
         fun embedRequest(embedRequest: String) = apply { this.embedRequest = embedRequest }
 
-        /** SHA2 HMAC of the embed_request JSON string with base64 digest. */
+        /** SHA256 HMAC of the embed_request JSON string with base64 digest. */
         fun hmac(hmac: String) = apply { this.hmac = hmac }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {

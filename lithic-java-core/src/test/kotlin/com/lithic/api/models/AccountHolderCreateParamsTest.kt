@@ -93,11 +93,11 @@ class AccountHolderCreateParamsTest {
                             .phoneNumber("+12124007676")
                             .build()
                     )
-                    .kybPassedTimestamp("2022-03-08T08:00:00Z")
+                    .kybPassedTimestamp("2018-05-29T21:16:05Z")
                     .natureOfBusiness(
                         "Software company selling solutions to the restaurant industry"
                     )
-                    .tosTimestamp("2022-03-08T08:00:00Z")
+                    .tosTimestamp("2018-05-29T21:16:05Z")
                     .websiteUrl("www.mybusiness.com")
                     .workflow(AccountHolderCreateParams.Kyb.Workflow.KYB_BASIC)
                     .build()
@@ -193,11 +193,11 @@ class AccountHolderCreateParamsTest {
                                 .phoneNumber("+12124007676")
                                 .build()
                         )
-                        .kybPassedTimestamp("2022-03-08T08:00:00Z")
+                        .kybPassedTimestamp("2018-05-29T21:16:05Z")
                         .natureOfBusiness(
                             "Software company selling solutions to the restaurant industry"
                         )
-                        .tosTimestamp("2022-03-08T08:00:00Z")
+                        .tosTimestamp("2018-05-29T21:16:05Z")
                         .websiteUrl("www.mybusiness.com")
                         .workflow(AccountHolderCreateParams.Kyb.Workflow.KYB_BASIC)
                         .build()

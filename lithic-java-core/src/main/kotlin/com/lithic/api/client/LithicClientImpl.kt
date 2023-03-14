@@ -33,6 +33,8 @@ constructor(
 
     private val cards: CardService by lazy { CardServiceImpl(clientOptions) }
 
+    private val disputes: DisputeService by lazy { DisputeServiceImpl(clientOptions) }
+
     private val events: EventService by lazy { EventServiceImpl(clientOptions) }
 
     private val fundingSources: FundingSourceService by lazy {
@@ -52,6 +54,8 @@ constructor(
     override fun authStreamEnrollment(): AuthStreamEnrollmentService = authStreamEnrollment
 
     override fun cards(): CardService = cards
+
+    override fun disputes(): DisputeService = disputes
 
     override fun events(): EventService = events
 

@@ -43,7 +43,7 @@ private constructor(
 
     private var hashCode: Int = 0
 
-    /** An ISO 8601 timestamp for when the card was created. UTC time zone. */
+    /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
     /** Three digit cvv printed on the back of the card. */
@@ -146,7 +146,7 @@ private constructor(
     fun digitalCardArtToken(): Optional<String> =
         Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
 
-    /** An ISO 8601 timestamp for when the card was created. UTC time zone. */
+    /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
     @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     /** Three digit cvv printed on the back of the card. */
@@ -378,10 +378,10 @@ private constructor(
             additionalProperties(card.additionalProperties)
         }
 
-        /** An ISO 8601 timestamp for when the card was created. UTC time zone. */
+        /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** An ISO 8601 timestamp for when the card was created. UTC time zone. */
+        /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
         @JsonProperty("created")
         @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }

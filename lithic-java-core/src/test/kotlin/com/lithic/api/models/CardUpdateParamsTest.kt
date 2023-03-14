@@ -10,7 +10,6 @@ class CardUpdateParamsTest {
     fun createCardUpdateParams() {
         CardUpdateParams.builder()
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .fundingToken("ecbd1d58-0299-48b3-84da-6ed7f5bf9ec1")
             .memo("New Card")
             .spendLimit(123L)
@@ -27,7 +26,6 @@ class CardUpdateParamsTest {
         val params =
             CardUpdateParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .fundingToken("ecbd1d58-0299-48b3-84da-6ed7f5bf9ec1")
                 .memo("New Card")
                 .spendLimit(123L)
@@ -39,7 +37,6 @@ class CardUpdateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.accountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.fundingToken()).isEqualTo("ecbd1d58-0299-48b3-84da-6ed7f5bf9ec1")
         assertThat(body.memo()).isEqualTo("New Card")
         assertThat(body.spendLimit()).isEqualTo(123L)

@@ -21,7 +21,7 @@ constructor(
     private val description: String?,
     private val disabled: Boolean?,
     private val eventTypes: List<EventType>?,
-    private val url: String?,
+    private val url: String,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -35,7 +35,7 @@ constructor(
 
     fun eventTypes(): Optional<List<EventType>> = Optional.ofNullable(eventTypes)
 
-    fun url(): Optional<String> = Optional.ofNullable(url)
+    fun url(): String = url
 
     @JvmSynthetic
     internal fun getBody(): EventsSubscriptionUpdateBody {
@@ -182,7 +182,7 @@ constructor(
                     description,
                     disabled,
                     eventTypes?.toUnmodifiable(),
-                    url,
+                    checkNotNull(url) { "`url` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -338,7 +338,7 @@ constructor(
                 description,
                 disabled,
                 eventTypes?.toUnmodifiable(),
-                url,
+                checkNotNull(url) { "`url` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

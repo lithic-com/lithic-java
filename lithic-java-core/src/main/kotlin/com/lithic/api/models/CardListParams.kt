@@ -105,22 +105,17 @@ constructor(
             additionalHeaders(cardListParams.additionalHeaders)
         }
 
-        /**
-         * Only required for multi-account users. Returns cards associated with this account. Only
-         * applicable if using account holder enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-         * information.
-         */
+        /** Returns cards associated with the specified account. */
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
         /**
-         * Date string in 8601 format. Only entries created after the specified date will be
+         * Date string in RFC 3339 format. Only entries created after the specified date will be
          * included. UTC time zone.
          */
         fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
 
         /**
-         * Date string in 8601 format. Only entries created before the specified date will be
+         * Date string in RFC 3339 format. Only entries created before the specified date will be
          * included. UTC time zone.
          */
         fun end(end: OffsetDateTime) = apply { this.end = end }

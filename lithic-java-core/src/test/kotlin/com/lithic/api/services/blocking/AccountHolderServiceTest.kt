@@ -105,11 +105,11 @@ class AccountHolderServiceTest {
                                     .phoneNumber("+12124007676")
                                     .build()
                             )
-                            .kybPassedTimestamp("2022-03-08T08:00:00Z")
+                            .kybPassedTimestamp("2018-05-29T21:16:05Z")
                             .natureOfBusiness(
                                 "Software company selling solutions to the restaurant industry"
                             )
-                            .tosTimestamp("2022-03-08T08:00:00Z")
+                            .tosTimestamp("2018-05-29T21:16:05Z")
                             .websiteUrl("www.mybusiness.com")
                             .workflow(AccountHolderCreateParams.Kyb.Workflow.KYB_BASIC)
                             .build()
@@ -210,7 +210,7 @@ class AccountHolderServiceTest {
                 AccountHolderResubmitParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
-                    .tosTimestamp("2022-03-08T08:00:00Z")
+                    .tosTimestamp("2018-05-29T21:16:05Z")
                     .individual(
                         AccountHolderResubmitParams.Individual.builder()
                             .address(

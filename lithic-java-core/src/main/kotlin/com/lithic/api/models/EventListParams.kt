@@ -43,7 +43,9 @@ constructor(
         this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
         this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
-        this.eventTypes?.let { params.put("event_types", listOf(it.joinToString(separator = ","))) }
+        this.eventTypes?.let {
+            params.put("event_types[]", listOf(it.joinToString(separator = ",")))
+        }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
@@ -118,13 +120,13 @@ constructor(
         }
 
         /**
-         * Date string in 8601 format. Only entries created after the specified date will be
+         * Date string in RFC 3339 format. Only entries created after the specified date will be
          * included. UTC time zone.
          */
         fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
 
         /**
-         * Date string in 8601 format. Only entries created before the specified date will be
+         * Date string in RFC 3339 format. Only entries created before the specified date will be
          * included. UTC time zone.
          */
         fun end(end: OffsetDateTime) = apply { this.end = end }

@@ -46,7 +46,7 @@ private constructor(
     fun payload(): Payload = payload.getRequired("payload")
 
     /**
-     * An ISO 8601 timestamp for when the event was created. UTC time zone.
+     * An RFC 3339 timestamp for when the event was created. UTC time zone.
      *
      * If no timezone is specified, UTC will be used.
      */
@@ -67,7 +67,7 @@ private constructor(
     @JsonProperty("payload") @ExcludeMissing fun _payload() = payload
 
     /**
-     * An ISO 8601 timestamp for when the event was created. UTC time zone.
+     * An RFC 3339 timestamp for when the event was created. UTC time zone.
      *
      * If no timezone is specified, UTC will be used.
      */
@@ -176,14 +176,14 @@ private constructor(
         fun payload(payload: JsonField<Payload>) = apply { this.payload = payload }
 
         /**
-         * An ISO 8601 timestamp for when the event was created. UTC time zone.
+         * An RFC 3339 timestamp for when the event was created. UTC time zone.
          *
          * If no timezone is specified, UTC will be used.
          */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /**
-         * An ISO 8601 timestamp for when the event was created. UTC time zone.
+         * An RFC 3339 timestamp for when the event was created. UTC time zone.
          *
          * If no timezone is specified, UTC will be used.
          */

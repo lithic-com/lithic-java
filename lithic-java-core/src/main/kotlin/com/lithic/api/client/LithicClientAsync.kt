@@ -19,6 +19,8 @@ interface LithicClientAsync {
 
     fun cards(): CardServiceAsync
 
+    fun disputes(): DisputeServiceAsync
+
     fun events(): EventServiceAsync
 
     fun fundingSources(): FundingSourceServiceAsync

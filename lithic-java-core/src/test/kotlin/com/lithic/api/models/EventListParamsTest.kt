@@ -36,7 +36,7 @@ class EventListParamsTest {
         expected.put("page_size", listOf("123"))
         expected.put("starting_after", listOf("string"))
         expected.put("ending_before", listOf("string"))
-        expected.put("event_types", listOf(EventListParams.EventType.DISPUTE_UPDATED.toString()))
+        expected.put("event_types[]", listOf(EventListParams.EventType.DISPUTE_UPDATED.toString()))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 

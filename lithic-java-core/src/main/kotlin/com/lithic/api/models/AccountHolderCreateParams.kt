@@ -353,7 +353,7 @@ constructor(
         @JsonProperty("control_person") fun controlPerson(): Individual? = controlPerson
 
         /**
-         * An ISO 8601 timestamp indicating when precomputed KYC was completed on the business with
+         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with
          * a pass result.
          *
          * This field is required only if workflow type is `KYB_BYO`.
@@ -366,7 +366,7 @@ constructor(
         @JsonProperty("nature_of_business") fun natureOfBusiness(): String? = natureOfBusiness
 
         /**
-         * An ISO 8601 timestamp indicating when the account holder accepted the applicable legal
+         * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
          * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation
          * with Lithic.
          */
@@ -508,7 +508,7 @@ constructor(
             }
 
             /**
-             * An ISO 8601 timestamp indicating when precomputed KYC was completed on the business
+             * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business
              * with a pass result.
              *
              * This field is required only if workflow type is `KYB_BYO`.
@@ -528,7 +528,7 @@ constructor(
             }
 
             /**
-             * An ISO 8601 timestamp indicating when the account holder accepted the applicable
+             * An RFC 3339 timestamp indicating when the account holder accepted the applicable
              * legal agreements (e.g., cardholder terms) as agreed upon during API customer's
              * implementation with Lithic.
              */
@@ -787,7 +787,7 @@ constructor(
              */
             @JsonProperty("address") fun address(): Address? = address
 
-            /** Individual's date of birth, as an ISO 8601 date. */
+            /** Individual's date of birth, as an RFC 3339 date. */
             @JsonProperty("dob") fun dob(): String? = dob
 
             /**
@@ -890,7 +890,7 @@ constructor(
                 @JsonProperty("address")
                 fun address(address: Address) = apply { this.address = address }
 
-                /** Individual's date of birth, as an ISO 8601 date. */
+                /** Individual's date of birth, as an RFC 3339 date. */
                 @JsonProperty("dob") fun dob(dob: String) = apply { this.dob = dob }
 
                 /**
@@ -1028,7 +1028,7 @@ constructor(
         @JsonProperty("individual") fun individual(): Individual? = individual
 
         /**
-         * An ISO 8601 timestamp indicating when precomputed KYC was completed on the individual
+         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual
          * with a pass result.
          *
          * This field is required only if workflow type is `KYC_BYO`.
@@ -1036,7 +1036,7 @@ constructor(
         @JsonProperty("kyc_passed_timestamp") fun kycPassedTimestamp(): String? = kycPassedTimestamp
 
         /**
-         * An ISO 8601 timestamp indicating when the account holder accepted the applicable legal
+         * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
          * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation
          * with Lithic.
          */
@@ -1110,7 +1110,7 @@ constructor(
             fun individual(individual: Individual) = apply { this.individual = individual }
 
             /**
-             * An ISO 8601 timestamp indicating when precomputed KYC was completed on the individual
+             * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual
              * with a pass result.
              *
              * This field is required only if workflow type is `KYC_BYO`.
@@ -1121,7 +1121,7 @@ constructor(
             }
 
             /**
-             * An ISO 8601 timestamp indicating when the account holder accepted the applicable
+             * An RFC 3339 timestamp indicating when the account holder accepted the applicable
              * legal agreements (e.g., cardholder terms) as agreed upon during API customer's
              * implementation with Lithic.
              */
@@ -1179,7 +1179,7 @@ constructor(
              */
             @JsonProperty("address") fun address(): Address? = address
 
-            /** Individual's date of birth, as an ISO 8601 date. */
+            /** Individual's date of birth, as an RFC 3339 date. */
             @JsonProperty("dob") fun dob(): String? = dob
 
             /**
@@ -1282,7 +1282,7 @@ constructor(
                 @JsonProperty("address")
                 fun address(address: Address) = apply { this.address = address }
 
-                /** Individual's date of birth, as an ISO 8601 date. */
+                /** Individual's date of birth, as an RFC 3339 date. */
                 @JsonProperty("dob") fun dob(dob: String) = apply { this.dob = dob }
 
                 /**

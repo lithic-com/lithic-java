@@ -118,10 +118,10 @@ constructor(
         private var hashCode: Int = 0
 
         /**
-         * Only required for multi-account users. Token identifying the account the card will be
-         * associated with. Only applicable if using account holder enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-         * information.
+         * Globally unique identifier for the account that the card will be associated with.
+         * Required for programs enrolling users using the
+         * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+         * [Managing Your Program](doc:managing-your-program) for more information.
          */
         @JsonProperty("account_token") fun accountToken(): String? = accountToken
 
@@ -342,10 +342,10 @@ constructor(
             }
 
             /**
-             * Only required for multi-account users. Token identifying the account the card will be
-             * associated with. Only applicable if using account holder enrollment. See
-             * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-             * information.
+             * Globally unique identifier for the account that the card will be associated with.
+             * Required for programs enrolling users using the
+             * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+             * [Managing Your Program](doc:managing-your-program) for more information.
              */
             @JsonProperty("account_token")
             fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
@@ -632,10 +632,10 @@ constructor(
         }
 
         /**
-         * Only required for multi-account users. Token identifying the account the card will be
-         * associated with. Only applicable if using account holder enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-         * information.
+         * Globally unique identifier for the account that the card will be associated with.
+         * Required for programs enrolling users using the
+         * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+         * [Managing Your Program](doc:managing-your-program) for more information.
          */
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 

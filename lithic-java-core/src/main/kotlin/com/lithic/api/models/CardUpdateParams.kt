@@ -18,7 +18,6 @@ import java.util.Optional
 class CardUpdateParams
 constructor(
     private val cardToken: String,
-    private val accountToken: String?,
     private val fundingToken: String?,
     private val memo: String?,
     private val spendLimit: Long?,
@@ -33,8 +32,6 @@ constructor(
 ) {
 
     fun cardToken(): String = cardToken
-
-    fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
     fun fundingToken(): Optional<String> = Optional.ofNullable(fundingToken)
 
@@ -55,7 +52,6 @@ constructor(
     @JvmSynthetic
     internal fun getBody(): CardUpdateBody {
         return CardUpdateBody(
-            accountToken,
             fundingToken,
             memo,
             spendLimit,
@@ -83,7 +79,6 @@ constructor(
     @NoAutoDetect
     class CardUpdateBody
     internal constructor(
-        private val accountToken: String?,
         private val fundingToken: String?,
         private val memo: String?,
         private val spendLimit: Long?,
@@ -96,14 +91,6 @@ constructor(
     ) {
 
         private var hashCode: Int = 0
-
-        /**
-         * Only required for multi-account users. Token identifying the account the card will be
-         * associated with. Only applicable if using account holder enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-         * information.
-         */
-        @JsonProperty("account_token") fun accountToken(): String? = accountToken
 
         /**
          * The token for the desired `FundingAccount` to use when making transactions with this
@@ -183,7 +170,6 @@ constructor(
             }
 
             return other is CardUpdateBody &&
-                this.accountToken == other.accountToken &&
                 this.fundingToken == other.fundingToken &&
                 this.memo == other.memo &&
                 this.spendLimit == other.spendLimit &&
@@ -199,7 +185,6 @@ constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
-                        accountToken,
                         fundingToken,
                         memo,
                         spendLimit,
@@ -215,7 +200,7 @@ constructor(
         }
 
         override fun toString() =
-            "CardUpdateBody{accountToken=$accountToken, fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, authRuleToken=$authRuleToken, state=$state, pin=$pin, digitalCardArtToken=$digitalCardArtToken, additionalProperties=$additionalProperties}"
+            "CardUpdateBody{fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, authRuleToken=$authRuleToken, state=$state, pin=$pin, digitalCardArtToken=$digitalCardArtToken, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -224,7 +209,6 @@ constructor(
 
         class Builder {
 
-            private var accountToken: String? = null
             private var fundingToken: String? = null
             private var memo: String? = null
             private var spendLimit: Long? = null
@@ -237,7 +221,6 @@ constructor(
 
             @JvmSynthetic
             internal fun from(cardUpdateBody: CardUpdateBody) = apply {
-                this.accountToken = cardUpdateBody.accountToken
                 this.fundingToken = cardUpdateBody.fundingToken
                 this.memo = cardUpdateBody.memo
                 this.spendLimit = cardUpdateBody.spendLimit
@@ -248,15 +231,6 @@ constructor(
                 this.digitalCardArtToken = cardUpdateBody.digitalCardArtToken
                 additionalProperties(cardUpdateBody.additionalProperties)
             }
-
-            /**
-             * Only required for multi-account users. Token identifying the account the card will be
-             * associated with. Only applicable if using account holder enrollment. See
-             * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-             * information.
-             */
-            @JsonProperty("account_token")
-            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
             /**
              * The token for the desired `FundingAccount` to use when making transactions with this
@@ -350,7 +324,6 @@ constructor(
 
             fun build(): CardUpdateBody =
                 CardUpdateBody(
-                    accountToken,
                     fundingToken,
                     memo,
                     spendLimit,
@@ -377,7 +350,6 @@ constructor(
 
         return other is CardUpdateParams &&
             this.cardToken == other.cardToken &&
-            this.accountToken == other.accountToken &&
             this.fundingToken == other.fundingToken &&
             this.memo == other.memo &&
             this.spendLimit == other.spendLimit &&
@@ -394,7 +366,6 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             cardToken,
-            accountToken,
             fundingToken,
             memo,
             spendLimit,
@@ -410,7 +381,7 @@ constructor(
     }
 
     override fun toString() =
-        "CardUpdateParams{cardToken=$cardToken, accountToken=$accountToken, fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, authRuleToken=$authRuleToken, state=$state, pin=$pin, digitalCardArtToken=$digitalCardArtToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "CardUpdateParams{cardToken=$cardToken, fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, authRuleToken=$authRuleToken, state=$state, pin=$pin, digitalCardArtToken=$digitalCardArtToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -423,7 +394,6 @@ constructor(
     class Builder {
 
         private var cardToken: String? = null
-        private var accountToken: String? = null
         private var fundingToken: String? = null
         private var memo: String? = null
         private var spendLimit: Long? = null
@@ -439,7 +409,6 @@ constructor(
         @JvmSynthetic
         internal fun from(cardUpdateParams: CardUpdateParams) = apply {
             this.cardToken = cardUpdateParams.cardToken
-            this.accountToken = cardUpdateParams.accountToken
             this.fundingToken = cardUpdateParams.fundingToken
             this.memo = cardUpdateParams.memo
             this.spendLimit = cardUpdateParams.spendLimit
@@ -454,14 +423,6 @@ constructor(
         }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
-
-        /**
-         * Only required for multi-account users. Token identifying the account the card will be
-         * associated with. Only applicable if using account holder enrollment. See
-         * [Managing Your Program](https://docs.lithic.com/docs/managing-your-program) for more
-         * information.
-         */
-        fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
         /**
          * The token for the desired `FundingAccount` to use when making transactions with this
@@ -588,7 +549,6 @@ constructor(
         fun build(): CardUpdateParams =
             CardUpdateParams(
                 checkNotNull(cardToken) { "`cardToken` is required but was not set" },
-                accountToken,
                 fundingToken,
                 memo,
                 spendLimit,
