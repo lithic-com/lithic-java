@@ -7,7 +7,6 @@ import com.lithic.api.models.AccountHolderCreateParams.Kyc;
 import com.lithic.api.models.Card;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 public class Main {
@@ -20,10 +19,6 @@ public class Main {
         System.out.println("Creating an account");
         Account account = createAccount();
         System.out.println("Account created: " + account.token() + ", state: " + account.state());
-
-        System.out.println("Scanning for declined transactions in account");
-        Stream<Transaction> declinedTransactions = findDeclinedTransactions(account);
-        declinedTransactions.forEach((declined -> System.out.println("declined transaction: " + declined)));
 
         System.out.println("Creating card");
         Card card = createCard().validate();
@@ -75,13 +70,6 @@ public class Main {
                 .retrieve(AccountRetrieveParams.builder()
                         .accountToken(accountToken)
                         .build());
-    }
-
-    public static Stream<Transaction> findDeclinedTransactions(Account account) {
-        TransactionListParams params =
-                TransactionListParams.builder().accountToken(account.token()).build();
-        return client.transactions().list(params).autoPager().stream()
-                .filter((transaction -> transaction.status().equals(Optional.of(Transaction.Status.DECLINED))));
     }
 
     public static Card createCard() {
