@@ -87,6 +87,10 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
     }
 
     private fun HttpRequest.toUrl(): String {
+        url?.let {
+            return it
+        }
+
         val builder = baseUrl.newBuilder()
         pathSegments.forEach(builder::addPathSegment)
         queryParams.forEach(builder::addQueryParameter)

@@ -91,4 +91,6 @@ interface DisputeService {
         params: DisputeRetrieveEvidenceParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): DisputeEvidence
+
+    fun uploadEvidence(disputeToken: String, file: ByteArray)
 }

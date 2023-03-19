@@ -25,7 +25,10 @@ class LithicOkHttpClientAsync private constructor() {
 
         fun sandbox() = apply { baseUrl(ClientOptions.SANDBOX_URL) }
 
-        fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl }
+        fun baseUrl(baseUrl: String) = apply {
+            clientOptions.baseUrl(baseUrl)
+            this.baseUrl = baseUrl
+        }
 
         fun jsonMapper(jsonMapper: JsonMapper) = apply { clientOptions.jsonMapper(jsonMapper) }
 

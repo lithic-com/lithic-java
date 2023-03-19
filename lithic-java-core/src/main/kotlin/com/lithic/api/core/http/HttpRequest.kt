@@ -9,6 +9,7 @@ import com.lithic.api.core.toUnmodifiable
 class HttpRequest
 private constructor(
     @get:JvmName("method") val method: HttpMethod,
+    @get:JvmName("url") val url: String?,
     @get:JvmName("pathSegments") val pathSegments: List<String>,
     @get:JvmName("queryParams") val queryParams: ListMultimap<String, String>,
     @get:JvmName("headers") val headers: ListMultimap<String, String>,
@@ -25,6 +26,7 @@ private constructor(
     class Builder {
 
         private var method: HttpMethod? = null
+        private var url: String? = null
         private var pathSegments: MutableList<String> = ArrayList()
         private var queryParams: ListMultimap<String, String> = ArrayListMultimap.create()
         private var body: HttpRequestBody? = null
@@ -32,6 +34,8 @@ private constructor(
             MultimapBuilder.treeKeys(String.CASE_INSENSITIVE_ORDER).arrayListValues().build()
 
         fun method(method: HttpMethod) = apply { this.method = method }
+
+        fun url(url: String) = apply { this.url = url }
 
         fun addPathSegment(pathSegment: String) = apply { this.pathSegments.add(pathSegment) }
 
@@ -78,6 +82,7 @@ private constructor(
         fun build(): HttpRequest =
             HttpRequest(
                 checkNotNull(method) { "`method` is required but was not set" },
+                url,
                 pathSegments.toUnmodifiable(),
                 queryParams.toUnmodifiable(),
                 headers,

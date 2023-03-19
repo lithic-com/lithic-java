@@ -2,6 +2,7 @@
 
 package com.lithic.api.services.blocking
 
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.Event
 import com.lithic.api.models.EventListPage
@@ -26,4 +27,6 @@ interface EventService {
         params: EventListParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): EventListPage
+
+    fun resend(eventToken: String, eventSubscriptionToken: String, body: JsonValue)
 }
