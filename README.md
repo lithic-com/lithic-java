@@ -19,7 +19,7 @@ The API documentation can be found [here](https://docs.lithic.com).
 #### Gradle
 
 ```kotlin
-implementation("com.lithic.api:lithic-java:0.4.0")
+implementation("com.lithic.api:lithic-java:0.5.0")
 ```
 
 #### Maven
@@ -28,7 +28,7 @@ implementation("com.lithic.api:lithic-java:0.4.0")
 <dependency>
     <groupId>com.lithic.api</groupId>
     <artifactId>lithic-java</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
 </dependency>
 ```
 
@@ -57,10 +57,10 @@ LithicClient client = LithicOkHttpClient.builder()
     .build();
 ```
 
-| Property      | Environment variable    | Required | Default value |
-| ------------- | ----------------------- | -------- | ------------- |
-| apiKey        | `LITHIC_API_KEY`        | true     | —             |
-| webhookSecret | `LITHIC_WEBHOOK_SECRET` | false    | —             |
+| Property | Environment variable      | Required | Default value |
+| -------- | ------------------------- | -------- | ------------- |
+| apiKey | `LITHIC_API_KEY` | true | — |
+| webhookSecret | `LITHIC_WEBHOOK_SECRET` | false | — |
 
 Read the documentation for more configuration options.
 
@@ -137,6 +137,12 @@ To write an unrecognized enum value, pass a string to the wrapper class's `of` c
 Card.builder().state(State.of("NEW_STATE")).build()
 ```
 
+
+
+
+
+
+
 ## Requests
 
 ### Parameters and bodies
@@ -193,6 +199,7 @@ if (state().isMissing()) {
 }
 ```
 
+
 ### Additional model properties
 
 Sometimes, the server response may include additional properties that are not yet available in this library's types. You can access them using the model's `_additionalProperties` method:
@@ -200,6 +207,7 @@ Sometimes, the server response may include additional properties that are not ye
 ```java
 String secret = card._additionalProperties().get("secret_field");
 ```
+
 
 ---
 
@@ -258,6 +266,7 @@ You can use `lithic.webhooks().verifySignature(body, headers, secret?)` or `lith
 
 ---
 
+
 ## Error handling
 
 This library throws exceptions in a single hierarchy for easy handling:
@@ -284,32 +293,24 @@ This library throws exceptions in a single hierarchy for easy handling:
 ## Network options
 
 ### Retries
-
 Requests that experience certain errors are automatically retried 2 times by default, with a short exponential backoff. Connection errors (for example, due to a network connectivity problem), 409 Conflict, 429 Rate Limit, and >=500 Internal errors will all be retried by default.
 You can provide a `maxRetries` on the client builder to configure this:
-
 ```java
 LithicClient client = LithicOkHttpClient.builder()
     .fromEnv()
     .maxRetries(4)
     .build();
 ```
-
 ### Timeouts
-
 Requests time out after 60 seconds by default. You can configure this on the client builder:
-
 ```java
 LithicClient client = LithicOkHttpClient.builder()
     .fromEnv()
     .timeout(Duration.ofSeconds(30))
     .build();
 ```
-
 ### Environments
-
 Requests are made to the production environment by default. You can connect to other environments, like `sandbox`, via the client builder:
-
 ```java
 LithicClient client = LithicOkHttpClient.builder()
     .fromEnv()
