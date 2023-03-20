@@ -1419,6 +1419,7 @@ constructor(
         private val lastName: String?,
         private val email: String?,
         private val phoneNumber: String?,
+        private val businessAccountToken: String?,
         private val address: Address?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
@@ -1445,6 +1446,14 @@ constructor(
         @JsonProperty("phone_number") fun phoneNumber(): String? = phoneNumber
 
         /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        @JsonProperty("business_account_token")
+        fun businessAccountToken(): String? = businessAccountToken
+
+        /**
          * KYC Exempt user's current address - PO boxes, UPS drops, and FedEx drops are not
          * acceptable; APO/FPO are acceptable. Only USA addresses are currently supported.
          */
@@ -1468,6 +1477,7 @@ constructor(
                 this.lastName == other.lastName &&
                 this.email == other.email &&
                 this.phoneNumber == other.phoneNumber &&
+                this.businessAccountToken == other.businessAccountToken &&
                 this.address == other.address &&
                 this.additionalProperties == other.additionalProperties
         }
@@ -1482,6 +1492,7 @@ constructor(
                         lastName,
                         email,
                         phoneNumber,
+                        businessAccountToken,
                         address,
                         additionalProperties,
                     )
@@ -1490,7 +1501,7 @@ constructor(
         }
 
         override fun toString() =
-            "KycExempt{workflow=$workflow, kycExemptionType=$kycExemptionType, firstName=$firstName, lastName=$lastName, email=$email, phoneNumber=$phoneNumber, address=$address, additionalProperties=$additionalProperties}"
+            "KycExempt{workflow=$workflow, kycExemptionType=$kycExemptionType, firstName=$firstName, lastName=$lastName, email=$email, phoneNumber=$phoneNumber, businessAccountToken=$businessAccountToken, address=$address, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1505,6 +1516,7 @@ constructor(
             private var lastName: String? = null
             private var email: String? = null
             private var phoneNumber: String? = null
+            private var businessAccountToken: String? = null
             private var address: Address? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1516,6 +1528,7 @@ constructor(
                 this.lastName = kycExempt.lastName
                 this.email = kycExempt.email
                 this.phoneNumber = kycExempt.phoneNumber
+                this.businessAccountToken = kycExempt.businessAccountToken
                 this.address = kycExempt.address
                 additionalProperties(kycExempt.additionalProperties)
             }
@@ -1544,6 +1557,16 @@ constructor(
             /** The KYC Exempt user's phone number */
             @JsonProperty("phone_number")
             fun phoneNumber(phoneNumber: String) = apply { this.phoneNumber = phoneNumber }
+
+            /**
+             * Only applicable for customers using the KYC-Exempt workflow to enroll authorized
+             * users of businesses. Pass the account_token of the enrolled business associated with
+             * the AUTHORIZED_USER in this field.
+             */
+            @JsonProperty("business_account_token")
+            fun businessAccountToken(businessAccountToken: String) = apply {
+                this.businessAccountToken = businessAccountToken
+            }
 
             /**
              * KYC Exempt user's current address - PO boxes, UPS drops, and FedEx drops are not
@@ -1576,6 +1599,7 @@ constructor(
                     checkNotNull(lastName) { "`lastName` is required but was not set" },
                     checkNotNull(email) { "`email` is required but was not set" },
                     checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
+                    businessAccountToken,
                     address,
                     additionalProperties.toUnmodifiable(),
                 )

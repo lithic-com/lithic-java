@@ -17,6 +17,7 @@ constructor(
     private val accountHolderToken: String,
     private val email: String?,
     private val phoneNumber: String?,
+    private val businessAccountToken: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -28,11 +29,14 @@ constructor(
 
     fun phoneNumber(): Optional<String> = Optional.ofNullable(phoneNumber)
 
+    fun businessAccountToken(): Optional<String> = Optional.ofNullable(businessAccountToken)
+
     @JvmSynthetic
     internal fun getBody(): AccountHolderUpdateBody {
         return AccountHolderUpdateBody(
             email,
             phoneNumber,
+            businessAccountToken,
             additionalBodyProperties,
         )
     }
@@ -54,6 +58,7 @@ constructor(
     internal constructor(
         private val email: String?,
         private val phoneNumber: String?,
+        private val businessAccountToken: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -72,6 +77,14 @@ constructor(
          */
         @JsonProperty("phone_number") fun phoneNumber(): String? = phoneNumber
 
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        @JsonProperty("business_account_token")
+        fun businessAccountToken(): String? = businessAccountToken
+
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -86,6 +99,7 @@ constructor(
             return other is AccountHolderUpdateBody &&
                 this.email == other.email &&
                 this.phoneNumber == other.phoneNumber &&
+                this.businessAccountToken == other.businessAccountToken &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -95,6 +109,7 @@ constructor(
                     Objects.hash(
                         email,
                         phoneNumber,
+                        businessAccountToken,
                         additionalProperties,
                     )
             }
@@ -102,7 +117,7 @@ constructor(
         }
 
         override fun toString() =
-            "AccountHolderUpdateBody{email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
+            "AccountHolderUpdateBody{email=$email, phoneNumber=$phoneNumber, businessAccountToken=$businessAccountToken, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -113,12 +128,14 @@ constructor(
 
             private var email: String? = null
             private var phoneNumber: String? = null
+            private var businessAccountToken: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(accountHolderUpdateBody: AccountHolderUpdateBody) = apply {
                 this.email = accountHolderUpdateBody.email
                 this.phoneNumber = accountHolderUpdateBody.phoneNumber
+                this.businessAccountToken = accountHolderUpdateBody.businessAccountToken
                 additionalProperties(accountHolderUpdateBody.additionalProperties)
             }
 
@@ -135,6 +152,16 @@ constructor(
              */
             @JsonProperty("phone_number")
             fun phoneNumber(phoneNumber: String) = apply { this.phoneNumber = phoneNumber }
+
+            /**
+             * Only applicable for customers using the KYC-Exempt workflow to enroll authorized
+             * users of businesses. Pass the account_token of the enrolled business associated with
+             * the AUTHORIZED_USER in this field.
+             */
+            @JsonProperty("business_account_token")
+            fun businessAccountToken(businessAccountToken: String) = apply {
+                this.businessAccountToken = businessAccountToken
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -154,6 +181,7 @@ constructor(
                 AccountHolderUpdateBody(
                     email,
                     phoneNumber,
+                    businessAccountToken,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -174,6 +202,7 @@ constructor(
             this.accountHolderToken == other.accountHolderToken &&
             this.email == other.email &&
             this.phoneNumber == other.phoneNumber &&
+            this.businessAccountToken == other.businessAccountToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -184,6 +213,7 @@ constructor(
             accountHolderToken,
             email,
             phoneNumber,
+            businessAccountToken,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -191,7 +221,7 @@ constructor(
     }
 
     override fun toString() =
-        "AccountHolderUpdateParams{accountHolderToken=$accountHolderToken, email=$email, phoneNumber=$phoneNumber, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "AccountHolderUpdateParams{accountHolderToken=$accountHolderToken, email=$email, phoneNumber=$phoneNumber, businessAccountToken=$businessAccountToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -206,6 +236,7 @@ constructor(
         private var accountHolderToken: String? = null
         private var email: String? = null
         private var phoneNumber: String? = null
+        private var businessAccountToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -215,6 +246,7 @@ constructor(
             this.accountHolderToken = accountHolderUpdateParams.accountHolderToken
             this.email = accountHolderUpdateParams.email
             this.phoneNumber = accountHolderUpdateParams.phoneNumber
+            this.businessAccountToken = accountHolderUpdateParams.businessAccountToken
             additionalQueryParams(accountHolderUpdateParams.additionalQueryParams)
             additionalHeaders(accountHolderUpdateParams.additionalHeaders)
             additionalBodyProperties(accountHolderUpdateParams.additionalBodyProperties)
@@ -236,6 +268,15 @@ constructor(
          * process.
          */
         fun phoneNumber(phoneNumber: String) = apply { this.phoneNumber = phoneNumber }
+
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        fun businessAccountToken(businessAccountToken: String) = apply {
+            this.businessAccountToken = businessAccountToken
+        }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -298,6 +339,7 @@ constructor(
                 },
                 email,
                 phoneNumber,
+                businessAccountToken,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

@@ -34,14 +34,14 @@ interface AccountHolderServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<AccountHolder>
 
-    /** Check the current status of a KYC or KYB evaluation. */
+    /** Get an Individual or Business Account Holder and/or their KYC or KYB evaluation status. */
     @JvmOverloads
     fun retrieve(
         params: AccountHolderRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<AccountHolder>
 
-    /** Update the contact information associated with a particular account holder. */
+    /** Update the information associated with a particular account holder. */
     @JvmOverloads
     fun update(
         params: AccountHolderUpdateParams,

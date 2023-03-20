@@ -21,6 +21,7 @@ class AccountHolder
 private constructor(
     private val token: JsonField<String>,
     private val accountToken: JsonField<String>,
+    private val businessAccountToken: JsonField<String>,
     private val status: JsonField<Status>,
     private val statusReasons: JsonField<List<StatusReason>>,
     private val additionalProperties: Map<String, JsonValue>,
@@ -36,6 +37,14 @@ private constructor(
     /** Globally unique identifier for the account. */
     fun accountToken(): Optional<String> =
         Optional.ofNullable(accountToken.getNullable("account_token"))
+
+    /**
+     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+     * businesses. Pass the account_token of the enrolled business associated with the
+     * AUTHORIZED_USER in this field.
+     */
+    fun businessAccountToken(): Optional<String> =
+        Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
 
     /**
      * KYC and KYB evaluation states.
@@ -56,6 +65,15 @@ private constructor(
     @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
 
     /**
+     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+     * businesses. Pass the account_token of the enrolled business associated with the
+     * AUTHORIZED_USER in this field.
+     */
+    @JsonProperty("business_account_token")
+    @ExcludeMissing
+    fun _businessAccountToken() = businessAccountToken
+
+    /**
      * KYC and KYB evaluation states.
      *
      * Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only applicable for the `ADVANCED`
@@ -74,6 +92,7 @@ private constructor(
         if (!validated) {
             token()
             accountToken()
+            businessAccountToken()
             status()
             statusReasons()
             validated = true
@@ -90,6 +109,7 @@ private constructor(
         return other is AccountHolder &&
             this.token == other.token &&
             this.accountToken == other.accountToken &&
+            this.businessAccountToken == other.businessAccountToken &&
             this.status == other.status &&
             this.statusReasons == other.statusReasons &&
             this.additionalProperties == other.additionalProperties
@@ -101,6 +121,7 @@ private constructor(
                 Objects.hash(
                     token,
                     accountToken,
+                    businessAccountToken,
                     status,
                     statusReasons,
                     additionalProperties,
@@ -110,7 +131,7 @@ private constructor(
     }
 
     override fun toString() =
-        "AccountHolder{token=$token, accountToken=$accountToken, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
+        "AccountHolder{token=$token, accountToken=$accountToken, businessAccountToken=$businessAccountToken, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -121,6 +142,7 @@ private constructor(
 
         private var token: JsonField<String> = JsonMissing.of()
         private var accountToken: JsonField<String> = JsonMissing.of()
+        private var businessAccountToken: JsonField<String> = JsonMissing.of()
         private var status: JsonField<Status> = JsonMissing.of()
         private var statusReasons: JsonField<List<StatusReason>> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -129,6 +151,7 @@ private constructor(
         internal fun from(accountHolder: AccountHolder) = apply {
             this.token = accountHolder.token
             this.accountToken = accountHolder.accountToken
+            this.businessAccountToken = accountHolder.businessAccountToken
             this.status = accountHolder.status
             this.statusReasons = accountHolder.statusReasons
             additionalProperties(accountHolder.additionalProperties)
@@ -150,6 +173,25 @@ private constructor(
         @ExcludeMissing
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
+        }
+
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        fun businessAccountToken(businessAccountToken: String) =
+            businessAccountToken(JsonField.of(businessAccountToken))
+
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        @JsonProperty("business_account_token")
+        @ExcludeMissing
+        fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
+            this.businessAccountToken = businessAccountToken
         }
 
         /**
@@ -199,6 +241,7 @@ private constructor(
             AccountHolder(
                 token,
                 accountToken,
+                businessAccountToken,
                 status,
                 statusReasons.map { it.toUnmodifiable() },
                 additionalProperties.toUnmodifiable(),

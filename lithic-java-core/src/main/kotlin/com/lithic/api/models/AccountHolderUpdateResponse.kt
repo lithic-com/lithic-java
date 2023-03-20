@@ -20,6 +20,7 @@ private constructor(
     private val token: JsonField<String>,
     private val email: JsonField<String>,
     private val phoneNumber: JsonField<String>,
+    private val businessAccountToken: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -37,6 +38,14 @@ private constructor(
     fun phoneNumber(): Optional<String> =
         Optional.ofNullable(phoneNumber.getNullable("phone_number"))
 
+    /**
+     * Only applicable for customers using the KYC-Exempt workflow to enroll businesses with
+     * authorized users. Pass the account_token of the enrolled business associated with the
+     * AUTHORIZED_USER in this field.
+     */
+    fun businessAccountToken(): Optional<String> =
+        Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
+
     /** The token for the account holder that was updated */
     @JsonProperty("token") @ExcludeMissing fun _token() = token
 
@@ -45,6 +54,15 @@ private constructor(
 
     /** The newly updated phone_number for the account holder */
     @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
+
+    /**
+     * Only applicable for customers using the KYC-Exempt workflow to enroll businesses with
+     * authorized users. Pass the account_token of the enrolled business associated with the
+     * AUTHORIZED_USER in this field.
+     */
+    @JsonProperty("business_account_token")
+    @ExcludeMissing
+    fun _businessAccountToken() = businessAccountToken
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -55,6 +73,7 @@ private constructor(
             token()
             email()
             phoneNumber()
+            businessAccountToken()
             validated = true
         }
     }
@@ -70,6 +89,7 @@ private constructor(
             this.token == other.token &&
             this.email == other.email &&
             this.phoneNumber == other.phoneNumber &&
+            this.businessAccountToken == other.businessAccountToken &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -80,6 +100,7 @@ private constructor(
                     token,
                     email,
                     phoneNumber,
+                    businessAccountToken,
                     additionalProperties,
                 )
         }
@@ -87,7 +108,7 @@ private constructor(
     }
 
     override fun toString() =
-        "AccountHolderUpdateResponse{token=$token, email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
+        "AccountHolderUpdateResponse{token=$token, email=$email, phoneNumber=$phoneNumber, businessAccountToken=$businessAccountToken, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -99,6 +120,7 @@ private constructor(
         private var token: JsonField<String> = JsonMissing.of()
         private var email: JsonField<String> = JsonMissing.of()
         private var phoneNumber: JsonField<String> = JsonMissing.of()
+        private var businessAccountToken: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -106,6 +128,7 @@ private constructor(
             this.token = accountHolderUpdateResponse.token
             this.email = accountHolderUpdateResponse.email
             this.phoneNumber = accountHolderUpdateResponse.phoneNumber
+            this.businessAccountToken = accountHolderUpdateResponse.businessAccountToken
             additionalProperties(accountHolderUpdateResponse.additionalProperties)
         }
 
@@ -133,6 +156,25 @@ private constructor(
         @ExcludeMissing
         fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
 
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll businesses with
+         * authorized users. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        fun businessAccountToken(businessAccountToken: String) =
+            businessAccountToken(JsonField.of(businessAccountToken))
+
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll businesses with
+         * authorized users. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        @JsonProperty("business_account_token")
+        @ExcludeMissing
+        fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
+            this.businessAccountToken = businessAccountToken
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -152,6 +194,7 @@ private constructor(
                 token,
                 email,
                 phoneNumber,
+                businessAccountToken,
                 additionalProperties.toUnmodifiable(),
             )
     }

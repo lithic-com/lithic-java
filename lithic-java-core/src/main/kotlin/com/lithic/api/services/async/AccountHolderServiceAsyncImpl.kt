@@ -70,7 +70,7 @@ constructor(
     private val retrieveHandler: Handler<AccountHolder> =
         jsonHandler<AccountHolder>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
-    /** Check the current status of a KYC or KYB evaluation. */
+    /** Get an Individual or Business Account Holder and/or their KYC or KYB evaluation status. */
     override fun retrieve(
         params: AccountHolderRetrieveParams,
         requestOptions: RequestOptions
@@ -98,7 +98,7 @@ constructor(
         jsonHandler<AccountHolderUpdateResponse>(clientOptions.jsonMapper)
             .withErrorHandler(errorHandler)
 
-    /** Update the contact information associated with a particular account holder. */
+    /** Update the information associated with a particular account holder. */
     override fun update(
         params: AccountHolderUpdateParams,
         requestOptions: RequestOptions

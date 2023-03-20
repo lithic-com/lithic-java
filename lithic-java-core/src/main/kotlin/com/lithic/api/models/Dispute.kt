@@ -102,7 +102,7 @@ private constructor(
     /** Date the representment was received. */
     fun representmentDate(): OffsetDateTime = representmentDate.getRequired("representment_date")
 
-    /** Amount to be credited to/debited from the customer. This is net of fees. */
+    /** Resolution amount net of network fees. */
     fun resolutionAmount(): Long = resolutionAmount.getRequired("resolution_amount")
 
     /** Date that the dispute was resolved. */
@@ -219,7 +219,7 @@ private constructor(
     /** Date the representment was received. */
     @JsonProperty("representment_date") @ExcludeMissing fun _representmentDate() = representmentDate
 
-    /** Amount to be credited to/debited from the customer. This is net of fees. */
+    /** Resolution amount net of network fees. */
     @JsonProperty("resolution_amount") @ExcludeMissing fun _resolutionAmount() = resolutionAmount
 
     /** Date that the dispute was resolved. */
@@ -580,11 +580,11 @@ private constructor(
             this.representmentDate = representmentDate
         }
 
-        /** Amount to be credited to/debited from the customer. This is net of fees. */
+        /** Resolution amount net of network fees. */
         fun resolutionAmount(resolutionAmount: Long) =
             resolutionAmount(JsonField.of(resolutionAmount))
 
-        /** Amount to be credited to/debited from the customer. This is net of fees. */
+        /** Resolution amount net of network fees. */
         @JsonProperty("resolution_amount")
         @ExcludeMissing
         fun resolutionAmount(resolutionAmount: JsonField<Long>) = apply {
