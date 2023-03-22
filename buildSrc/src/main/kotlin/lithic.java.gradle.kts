@@ -34,6 +34,10 @@ tasks.withType<JavaCompile> {
     options.compilerArgs.add("-Werror")
 }
 
+tasks.named<Jar>("javadocJar") {
+    setZip64(true)
+}
+
 tasks.jar {
     manifest {
         attributes(mapOf(
