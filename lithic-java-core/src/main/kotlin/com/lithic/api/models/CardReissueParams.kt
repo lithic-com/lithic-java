@@ -83,8 +83,8 @@ constructor(
 
         /**
          * Specifies the configuration (e.g. physical card art) that the card should be manufactured
-         * with, and only applies to cards of type `PHYSICAL` [beta]. This must be configured with
-         * Lithic before use.
+         * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
+         * before use.
          */
         @JsonProperty("product_id") fun productId(): String? = productId
 
@@ -165,7 +165,7 @@ constructor(
 
             /**
              * Specifies the configuration (e.g. physical card art) that the card should be
-             * manufactured with, and only applies to cards of type `PHYSICAL` [beta]. This must be
+             * manufactured with, and only applies to cards of type `PHYSICAL`. This must be
              * configured with Lithic before use.
              */
             @JsonProperty("product_id")
@@ -282,8 +282,8 @@ constructor(
 
         /**
          * Specifies the configuration (e.g. physical card art) that the card should be manufactured
-         * with, and only applies to cards of type `PHYSICAL` [beta]. This must be configured with
-         * Lithic before use.
+         * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
+         * before use.
          */
         fun productId(productId: String) = apply { this.productId = productId }
 

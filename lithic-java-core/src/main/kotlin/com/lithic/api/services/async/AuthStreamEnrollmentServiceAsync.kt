@@ -7,6 +7,9 @@ import com.lithic.api.models.AuthStreamEnrollment
 import com.lithic.api.models.AuthStreamEnrollmentDisenrollParams
 import com.lithic.api.models.AuthStreamEnrollmentEnrollParams
 import com.lithic.api.models.AuthStreamEnrollmentRetrieveParams
+import com.lithic.api.models.AuthStreamEnrollmentRetrieveSecretParams
+import com.lithic.api.models.AuthStreamEnrollmentRotateSecretParams
+import com.lithic.api.models.AuthStreamSecret
 import java.util.concurrent.CompletableFuture
 
 interface AuthStreamEnrollmentServiceAsync {
@@ -44,6 +47,31 @@ interface AuthStreamEnrollmentServiceAsync {
     @JvmOverloads
     fun enroll(
         params: AuthStreamEnrollmentEnrollParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<Void>
+
+    /**
+     * Retrieve the ASA HMAC secret key. If one does not exist your program yet, calling this
+     * endpoint will create one for you. The headers (which you can use to verify webhooks) will
+     * begin appearing shortly after calling this endpoint for the first time. See
+     * [this page](https://docs.lithic.com/docs/auth-stream-access-asa#asa-webhook-verification) for
+     * more detail about verifying ASA webhooks.
+     */
+    @JvmOverloads
+    fun retrieveSecret(
+        params: AuthStreamEnrollmentRetrieveSecretParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<AuthStreamSecret>
+
+    /**
+     * Generate a new ASA HMAC secret key. The old ASA HMAC secret key will be deactivated 24 hours
+     * after a successful request to this endpoint. Make a
+     * [`GET /auth_stream/secret`](https://docs.lithic.com/reference/getauthstreamsecret) request to
+     * retrieve the new secret key.
+     */
+    @JvmOverloads
+    fun rotateSecret(
+        params: AuthStreamEnrollmentRotateSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<Void>
 }

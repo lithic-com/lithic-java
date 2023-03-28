@@ -7,6 +7,8 @@ import com.lithic.api.models.Transaction
 import com.lithic.api.models.TransactionListPageAsync
 import com.lithic.api.models.TransactionListParams
 import com.lithic.api.models.TransactionRetrieveParams
+import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
+import com.lithic.api.models.TransactionSimulateAuthorizationAdviceResponse
 import com.lithic.api.models.TransactionSimulateAuthorizationParams
 import com.lithic.api.models.TransactionSimulateAuthorizationResponse
 import com.lithic.api.models.TransactionSimulateClearingParams
@@ -50,6 +52,16 @@ interface TransactionServiceAsync {
         params: TransactionSimulateAuthorizationParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<TransactionSimulateAuthorizationResponse>
+
+    /**
+     * Simulates an authorization advice request from the payment network as if it came from a
+     * merchant acquirer. An authorization advice request changes the amount of the transaction.
+     */
+    @JvmOverloads
+    fun simulateAuthorizationAdvice(
+        params: TransactionSimulateAuthorizationAdviceParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<TransactionSimulateAuthorizationAdviceResponse>
 
     /**
      * Clears an existing authorization. After this event, the transaction is no longer pending.

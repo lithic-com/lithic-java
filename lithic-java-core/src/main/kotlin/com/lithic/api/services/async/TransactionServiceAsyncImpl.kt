@@ -10,6 +10,8 @@ import com.lithic.api.models.Transaction
 import com.lithic.api.models.TransactionListPageAsync
 import com.lithic.api.models.TransactionListParams
 import com.lithic.api.models.TransactionRetrieveParams
+import com.lithic.api.models.TransactionSimulateAuthorizationAdviceParams
+import com.lithic.api.models.TransactionSimulateAuthorizationAdviceResponse
 import com.lithic.api.models.TransactionSimulateAuthorizationParams
 import com.lithic.api.models.TransactionSimulateAuthorizationResponse
 import com.lithic.api.models.TransactionSimulateClearingParams
@@ -119,6 +121,39 @@ constructor(
         return clientOptions.httpClient.executeAsync(request).thenApply { response ->
             response
                 .let { simulateAuthorizationHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val simulateAuthorizationAdviceHandler:
+        Handler<TransactionSimulateAuthorizationAdviceResponse> =
+        jsonHandler<TransactionSimulateAuthorizationAdviceResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /**
+     * Simulates an authorization advice request from the payment network as if it came from a
+     * merchant acquirer. An authorization advice request changes the amount of the transaction.
+     */
+    override fun simulateAuthorizationAdvice(
+        params: TransactionSimulateAuthorizationAdviceParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<TransactionSimulateAuthorizationAdviceResponse> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("simulate", "authorization_advice")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
+            response
+                .let { simulateAuthorizationAdviceHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()

@@ -229,8 +229,8 @@ constructor(
         @JsonProperty("shipping_address") fun shippingAddress(): ShippingAddress? = shippingAddress
 
         /**
-         * Shipping method for the card. Only applies to cards of type PHYSICAL [beta]. Use of
-         * options besides `STANDARD` require additional permissions.
+         * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
+         * besides `STANDARD` require additional permissions.
          *
          * - `STANDARD` - USPS regular mail or similar international option, with no tracking
          * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
@@ -472,8 +472,8 @@ constructor(
             }
 
             /**
-             * Shipping method for the card. Only applies to cards of type PHYSICAL [beta]. Use of
-             * options besides `STANDARD` require additional permissions.
+             * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
+             * besides `STANDARD` require additional permissions.
              *
              * - `STANDARD` - USPS regular mail or similar international option, with no tracking
              * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
@@ -749,8 +749,8 @@ constructor(
         }
 
         /**
-         * Shipping method for the card. Only applies to cards of type PHYSICAL [beta]. Use of
-         * options besides `STANDARD` require additional permissions.
+         * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
+         * besides `STANDARD` require additional permissions.
          *
          * - `STANDARD` - USPS regular mail or similar international option, with no tracking
          * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with

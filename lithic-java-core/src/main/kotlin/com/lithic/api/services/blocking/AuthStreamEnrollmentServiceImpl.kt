@@ -10,6 +10,9 @@ import com.lithic.api.models.AuthStreamEnrollment
 import com.lithic.api.models.AuthStreamEnrollmentDisenrollParams
 import com.lithic.api.models.AuthStreamEnrollmentEnrollParams
 import com.lithic.api.models.AuthStreamEnrollmentRetrieveParams
+import com.lithic.api.models.AuthStreamEnrollmentRetrieveSecretParams
+import com.lithic.api.models.AuthStreamEnrollmentRotateSecretParams
+import com.lithic.api.models.AuthStreamSecret
 import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
@@ -101,6 +104,65 @@ constructor(
                 .build()
         clientOptions.httpClient.execute(request).let { response ->
             response.let { enrollHandler.handle(it) }
+        }
+    }
+
+    private val retrieveSecretHandler: Handler<AuthStreamSecret> =
+        jsonHandler<AuthStreamSecret>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+    /**
+     * Retrieve the ASA HMAC secret key. If one does not exist your program yet, calling this
+     * endpoint will create one for you. The headers (which you can use to verify webhooks) will
+     * begin appearing shortly after calling this endpoint for the first time. See
+     * [this page](https://docs.lithic.com/docs/auth-stream-access-asa#asa-webhook-verification) for
+     * more detail about verifying ASA webhooks.
+     */
+    override fun retrieveSecret(
+        params: AuthStreamEnrollmentRetrieveSecretParams,
+        requestOptions: RequestOptions
+    ): AuthStreamSecret {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.GET)
+                .addPathSegments("auth_stream", "secret")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .build()
+        return clientOptions.httpClient.execute(request).let { response ->
+            response
+                .let { retrieveSecretHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val rotateSecretHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
+
+    /**
+     * Generate a new ASA HMAC secret key. The old ASA HMAC secret key will be deactivated 24 hours
+     * after a successful request to this endpoint. Make a
+     * [`GET /auth_stream/secret`](https://docs.lithic.com/reference/getauthstreamsecret) request to
+     * retrieve the new secret key.
+     */
+    override fun rotateSecret(
+        params: AuthStreamEnrollmentRotateSecretParams,
+        requestOptions: RequestOptions
+    ) {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("auth_stream", "secret", "rotate")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .build()
+        clientOptions.httpClient.execute(request).let { response ->
+            response.let { rotateSecretHandler.handle(it) }
         }
     }
 }

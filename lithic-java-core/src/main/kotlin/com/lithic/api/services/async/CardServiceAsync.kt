@@ -103,7 +103,7 @@ interface CardServiceAsync {
     /**
      * Initiate print and shipment of a duplicate physical card.
      *
-     * Only applies to cards of type `PHYSICAL` [beta].
+     * Only applies to cards of type `PHYSICAL`.
      */
     @JvmOverloads
     fun reissue(

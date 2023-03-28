@@ -71,6 +71,26 @@ class TransactionServiceTest {
     }
 
     @Test
+    fun callSimulateAuthorizationAdvice() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("test-api-key")
+                .webhookSecret("string")
+                .build()
+        val transactionService = client.transactions()
+        val transactionSimulateAuthorizationAdviceResponse =
+            transactionService.simulateAuthorizationAdvice(
+                TransactionSimulateAuthorizationAdviceParams.builder()
+                    .amount(123L)
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+        println(transactionSimulateAuthorizationAdviceResponse)
+        transactionSimulateAuthorizationAdviceResponse.validate()
+    }
+
+    @Test
     fun callSimulateClearing() {
         val client =
             LithicOkHttpClient.builder()

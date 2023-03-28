@@ -225,7 +225,7 @@ constructor(
     /**
      * Initiate print and shipment of a duplicate physical card.
      *
-     * Only applies to cards of type `PHYSICAL` [beta].
+     * Only applies to cards of type `PHYSICAL`.
      */
     override fun reissue(params: CardReissueParams, requestOptions: RequestOptions): Card {
         val request =

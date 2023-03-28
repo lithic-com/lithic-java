@@ -349,34 +349,36 @@ constructor(
             @JvmField val DISPUTE_UPDATED = EventType(JsonField.of("dispute.updated"))
 
             @JvmField
-            val DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST =
-                EventType(JsonField.of("digital_wallet.token_approval_request"))
+            val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST =
+                EventType(JsonField.of("digital_wallet.tokenization_approval_request"))
 
             @JvmStatic fun of(value: String) = EventType(JsonField.of(value))
         }
 
         enum class Known {
             DISPUTE_UPDATED,
-            DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST,
+            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
         }
 
         enum class Value {
             DISPUTE_UPDATED,
-            DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST,
+            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
                 DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
-                DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST -> Value.DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST
+                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
+                    Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
                 DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
-                DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST -> Known.DIGITAL_WALLET_TOKEN_APPROVAL_REQUEST
+                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
+                    Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
                 else -> throw LithicInvalidDataException("Unknown EventType: $value")
             }
 
