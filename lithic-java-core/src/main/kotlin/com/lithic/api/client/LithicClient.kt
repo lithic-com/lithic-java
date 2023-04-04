@@ -16,13 +16,13 @@ interface LithicClient {
 
     fun authStreamEnrollment(): AuthStreamEnrollmentService
 
+    fun tokenizationDecisioning(): TokenizationDecisioningService
+
     fun cards(): CardService
 
     fun disputes(): DisputeService
 
     fun events(): EventService
-
-    fun fundingSources(): FundingSourceService
 
     fun transactions(): TransactionService
 

@@ -17,13 +17,13 @@ interface LithicClientAsync {
 
     fun authStreamEnrollment(): AuthStreamEnrollmentServiceAsync
 
+    fun tokenizationDecisioning(): TokenizationDecisioningServiceAsync
+
     fun cards(): CardServiceAsync
 
     fun disputes(): DisputeServiceAsync
 
     fun events(): EventServiceAsync
-
-    fun fundingSources(): FundingSourceServiceAsync
 
     fun transactions(): TransactionServiceAsync
 

@@ -31,15 +31,15 @@ constructor(
         AuthStreamEnrollmentServiceImpl(clientOptions)
     }
 
+    private val tokenizationDecisioning: TokenizationDecisioningService by lazy {
+        TokenizationDecisioningServiceImpl(clientOptions)
+    }
+
     private val cards: CardService by lazy { CardServiceImpl(clientOptions) }
 
     private val disputes: DisputeService by lazy { DisputeServiceImpl(clientOptions) }
 
     private val events: EventService by lazy { EventServiceImpl(clientOptions) }
-
-    private val fundingSources: FundingSourceService by lazy {
-        FundingSourceServiceImpl(clientOptions)
-    }
 
     private val transactions: TransactionService by lazy { TransactionServiceImpl(clientOptions) }
 
@@ -53,13 +53,13 @@ constructor(
 
     override fun authStreamEnrollment(): AuthStreamEnrollmentService = authStreamEnrollment
 
+    override fun tokenizationDecisioning(): TokenizationDecisioningService = tokenizationDecisioning
+
     override fun cards(): CardService = cards
 
     override fun disputes(): DisputeService = disputes
 
     override fun events(): EventService = events
-
-    override fun fundingSources(): FundingSourceService = fundingSources
 
     override fun transactions(): TransactionService = transactions
 

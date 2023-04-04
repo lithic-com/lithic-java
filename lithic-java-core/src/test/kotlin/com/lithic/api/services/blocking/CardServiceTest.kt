@@ -27,7 +27,6 @@ class CardServiceTest {
                     .cardProgramToken("00000000-0000-0000-1000-000000000000")
                     .expMonth("06")
                     .expYear("2027")
-                    .fundingToken("ecbd1d58-0299-48b3-84da-6ed7f5bf9ec1")
                     .memo("New Card")
                     .spendLimit(123L)
                     .spendLimitDuration(SpendLimitDuration.ANNUALLY)
@@ -90,7 +89,6 @@ class CardServiceTest {
             cardService.update(
                 CardUpdateParams.builder()
                     .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .fundingToken("ecbd1d58-0299-48b3-84da-6ed7f5bf9ec1")
                     .memo("New Card")
                     .spendLimit(123L)
                     .spendLimitDuration(SpendLimitDuration.ANNUALLY)

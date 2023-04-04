@@ -21,7 +21,6 @@ constructor(
     private val cardProgramToken: String?,
     private val expMonth: String?,
     private val expYear: String?,
-    private val fundingToken: String?,
     private val memo: String?,
     private val spendLimit: Long?,
     private val spendLimitDuration: SpendLimitDuration?,
@@ -44,8 +43,6 @@ constructor(
     fun expMonth(): Optional<String> = Optional.ofNullable(expMonth)
 
     fun expYear(): Optional<String> = Optional.ofNullable(expYear)
-
-    fun fundingToken(): Optional<String> = Optional.ofNullable(fundingToken)
 
     fun memo(): Optional<String> = Optional.ofNullable(memo)
 
@@ -74,7 +71,6 @@ constructor(
             cardProgramToken,
             expMonth,
             expYear,
-            fundingToken,
             memo,
             spendLimit,
             spendLimitDuration,
@@ -101,7 +97,6 @@ constructor(
         private val cardProgramToken: String?,
         private val expMonth: String?,
         private val expYear: String?,
-        private val fundingToken: String?,
         private val memo: String?,
         private val spendLimit: Long?,
         private val spendLimitDuration: SpendLimitDuration?,
@@ -145,12 +140,6 @@ constructor(
          * expiration date will be generated.
          */
         @JsonProperty("exp_year") fun expYear(): String? = expYear
-
-        /**
-         * The token for the desired `FundingAccount` to use when making transactions with this
-         * card.
-         */
-        @JsonProperty("funding_token") fun fundingToken(): String? = fundingToken
 
         /**
          * Friendly name to identify the card. We recommend against using this field to store JSON
@@ -255,7 +244,6 @@ constructor(
                 this.cardProgramToken == other.cardProgramToken &&
                 this.expMonth == other.expMonth &&
                 this.expYear == other.expYear &&
-                this.fundingToken == other.fundingToken &&
                 this.memo == other.memo &&
                 this.spendLimit == other.spendLimit &&
                 this.spendLimitDuration == other.spendLimitDuration &&
@@ -277,7 +265,6 @@ constructor(
                         cardProgramToken,
                         expMonth,
                         expYear,
-                        fundingToken,
                         memo,
                         spendLimit,
                         spendLimitDuration,
@@ -295,7 +282,7 @@ constructor(
         }
 
         override fun toString() =
-            "CardCreateBody{accountToken=$accountToken, cardProgramToken=$cardProgramToken, expMonth=$expMonth, expYear=$expYear, fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, pin=$pin, digitalCardArtToken=$digitalCardArtToken, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
+            "CardCreateBody{accountToken=$accountToken, cardProgramToken=$cardProgramToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, pin=$pin, digitalCardArtToken=$digitalCardArtToken, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -308,7 +295,6 @@ constructor(
             private var cardProgramToken: String? = null
             private var expMonth: String? = null
             private var expYear: String? = null
-            private var fundingToken: String? = null
             private var memo: String? = null
             private var spendLimit: Long? = null
             private var spendLimitDuration: SpendLimitDuration? = null
@@ -327,7 +313,6 @@ constructor(
                 this.cardProgramToken = cardCreateBody.cardProgramToken
                 this.expMonth = cardCreateBody.expMonth
                 this.expYear = cardCreateBody.expYear
-                this.fundingToken = cardCreateBody.fundingToken
                 this.memo = cardCreateBody.memo
                 this.spendLimit = cardCreateBody.spendLimit
                 this.spendLimitDuration = cardCreateBody.spendLimitDuration
@@ -376,13 +361,6 @@ constructor(
              */
             @JsonProperty("exp_year")
             fun expYear(expYear: String) = apply { this.expYear = expYear }
-
-            /**
-             * The token for the desired `FundingAccount` to use when making transactions with this
-             * card.
-             */
-            @JsonProperty("funding_token")
-            fun fundingToken(fundingToken: String) = apply { this.fundingToken = fundingToken }
 
             /**
              * Friendly name to identify the card. We recommend against using this field to store
@@ -506,7 +484,6 @@ constructor(
                     cardProgramToken,
                     expMonth,
                     expYear,
-                    fundingToken,
                     memo,
                     spendLimit,
                     spendLimitDuration,
@@ -538,7 +515,6 @@ constructor(
             this.cardProgramToken == other.cardProgramToken &&
             this.expMonth == other.expMonth &&
             this.expYear == other.expYear &&
-            this.fundingToken == other.fundingToken &&
             this.memo == other.memo &&
             this.spendLimit == other.spendLimit &&
             this.spendLimitDuration == other.spendLimitDuration &&
@@ -560,7 +536,6 @@ constructor(
             cardProgramToken,
             expMonth,
             expYear,
-            fundingToken,
             memo,
             spendLimit,
             spendLimitDuration,
@@ -578,7 +553,7 @@ constructor(
     }
 
     override fun toString() =
-        "CardCreateParams{accountToken=$accountToken, cardProgramToken=$cardProgramToken, expMonth=$expMonth, expYear=$expYear, fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, pin=$pin, digitalCardArtToken=$digitalCardArtToken, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "CardCreateParams{accountToken=$accountToken, cardProgramToken=$cardProgramToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, pin=$pin, digitalCardArtToken=$digitalCardArtToken, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -594,7 +569,6 @@ constructor(
         private var cardProgramToken: String? = null
         private var expMonth: String? = null
         private var expYear: String? = null
-        private var fundingToken: String? = null
         private var memo: String? = null
         private var spendLimit: Long? = null
         private var spendLimitDuration: SpendLimitDuration? = null
@@ -615,7 +589,6 @@ constructor(
             this.cardProgramToken = cardCreateParams.cardProgramToken
             this.expMonth = cardCreateParams.expMonth
             this.expYear = cardCreateParams.expYear
-            this.fundingToken = cardCreateParams.fundingToken
             this.memo = cardCreateParams.memo
             this.spendLimit = cardCreateParams.spendLimit
             this.spendLimitDuration = cardCreateParams.spendLimitDuration
@@ -661,12 +634,6 @@ constructor(
          * expiration date will be generated.
          */
         fun expYear(expYear: String) = apply { this.expYear = expYear }
-
-        /**
-         * The token for the desired `FundingAccount` to use when making transactions with this
-         * card.
-         */
-        fun fundingToken(fundingToken: String) = apply { this.fundingToken = fundingToken }
 
         /**
          * Friendly name to identify the card. We recommend against using this field to store JSON
@@ -821,7 +788,6 @@ constructor(
                 cardProgramToken,
                 expMonth,
                 expYear,
-                fundingToken,
                 memo,
                 spendLimit,
                 spendLimitDuration,

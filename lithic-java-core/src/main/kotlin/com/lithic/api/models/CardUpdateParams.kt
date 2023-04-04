@@ -18,7 +18,6 @@ import java.util.Optional
 class CardUpdateParams
 constructor(
     private val cardToken: String,
-    private val fundingToken: String?,
     private val memo: String?,
     private val spendLimit: Long?,
     private val spendLimitDuration: SpendLimitDuration?,
@@ -32,8 +31,6 @@ constructor(
 ) {
 
     fun cardToken(): String = cardToken
-
-    fun fundingToken(): Optional<String> = Optional.ofNullable(fundingToken)
 
     fun memo(): Optional<String> = Optional.ofNullable(memo)
 
@@ -52,7 +49,6 @@ constructor(
     @JvmSynthetic
     internal fun getBody(): CardUpdateBody {
         return CardUpdateBody(
-            fundingToken,
             memo,
             spendLimit,
             spendLimitDuration,
@@ -79,7 +75,6 @@ constructor(
     @NoAutoDetect
     class CardUpdateBody
     internal constructor(
-        private val fundingToken: String?,
         private val memo: String?,
         private val spendLimit: Long?,
         private val spendLimitDuration: SpendLimitDuration?,
@@ -91,12 +86,6 @@ constructor(
     ) {
 
         private var hashCode: Int = 0
-
-        /**
-         * The token for the desired `FundingAccount` to use when making transactions with this
-         * card.
-         */
-        @JsonProperty("funding_token") fun fundingToken(): String? = fundingToken
 
         /**
          * Friendly name to identify the card. We recommend against using this field to store JSON
@@ -170,7 +159,6 @@ constructor(
             }
 
             return other is CardUpdateBody &&
-                this.fundingToken == other.fundingToken &&
                 this.memo == other.memo &&
                 this.spendLimit == other.spendLimit &&
                 this.spendLimitDuration == other.spendLimitDuration &&
@@ -185,7 +173,6 @@ constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
-                        fundingToken,
                         memo,
                         spendLimit,
                         spendLimitDuration,
@@ -200,7 +187,7 @@ constructor(
         }
 
         override fun toString() =
-            "CardUpdateBody{fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, authRuleToken=$authRuleToken, state=$state, pin=$pin, digitalCardArtToken=$digitalCardArtToken, additionalProperties=$additionalProperties}"
+            "CardUpdateBody{memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, authRuleToken=$authRuleToken, state=$state, pin=$pin, digitalCardArtToken=$digitalCardArtToken, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -209,7 +196,6 @@ constructor(
 
         class Builder {
 
-            private var fundingToken: String? = null
             private var memo: String? = null
             private var spendLimit: Long? = null
             private var spendLimitDuration: SpendLimitDuration? = null
@@ -221,7 +207,6 @@ constructor(
 
             @JvmSynthetic
             internal fun from(cardUpdateBody: CardUpdateBody) = apply {
-                this.fundingToken = cardUpdateBody.fundingToken
                 this.memo = cardUpdateBody.memo
                 this.spendLimit = cardUpdateBody.spendLimit
                 this.spendLimitDuration = cardUpdateBody.spendLimitDuration
@@ -231,13 +216,6 @@ constructor(
                 this.digitalCardArtToken = cardUpdateBody.digitalCardArtToken
                 additionalProperties(cardUpdateBody.additionalProperties)
             }
-
-            /**
-             * The token for the desired `FundingAccount` to use when making transactions with this
-             * card.
-             */
-            @JsonProperty("funding_token")
-            fun fundingToken(fundingToken: String) = apply { this.fundingToken = fundingToken }
 
             /**
              * Friendly name to identify the card. We recommend against using this field to store
@@ -324,7 +302,6 @@ constructor(
 
             fun build(): CardUpdateBody =
                 CardUpdateBody(
-                    fundingToken,
                     memo,
                     spendLimit,
                     spendLimitDuration,
@@ -350,7 +327,6 @@ constructor(
 
         return other is CardUpdateParams &&
             this.cardToken == other.cardToken &&
-            this.fundingToken == other.fundingToken &&
             this.memo == other.memo &&
             this.spendLimit == other.spendLimit &&
             this.spendLimitDuration == other.spendLimitDuration &&
@@ -366,7 +342,6 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             cardToken,
-            fundingToken,
             memo,
             spendLimit,
             spendLimitDuration,
@@ -381,7 +356,7 @@ constructor(
     }
 
     override fun toString() =
-        "CardUpdateParams{cardToken=$cardToken, fundingToken=$fundingToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, authRuleToken=$authRuleToken, state=$state, pin=$pin, digitalCardArtToken=$digitalCardArtToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "CardUpdateParams{cardToken=$cardToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, authRuleToken=$authRuleToken, state=$state, pin=$pin, digitalCardArtToken=$digitalCardArtToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -394,7 +369,6 @@ constructor(
     class Builder {
 
         private var cardToken: String? = null
-        private var fundingToken: String? = null
         private var memo: String? = null
         private var spendLimit: Long? = null
         private var spendLimitDuration: SpendLimitDuration? = null
@@ -409,7 +383,6 @@ constructor(
         @JvmSynthetic
         internal fun from(cardUpdateParams: CardUpdateParams) = apply {
             this.cardToken = cardUpdateParams.cardToken
-            this.fundingToken = cardUpdateParams.fundingToken
             this.memo = cardUpdateParams.memo
             this.spendLimit = cardUpdateParams.spendLimit
             this.spendLimitDuration = cardUpdateParams.spendLimitDuration
@@ -423,12 +396,6 @@ constructor(
         }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
-
-        /**
-         * The token for the desired `FundingAccount` to use when making transactions with this
-         * card.
-         */
-        fun fundingToken(fundingToken: String) = apply { this.fundingToken = fundingToken }
 
         /**
          * Friendly name to identify the card. We recommend against using this field to store JSON
@@ -549,7 +516,6 @@ constructor(
         fun build(): CardUpdateParams =
             CardUpdateParams(
                 checkNotNull(cardToken) { "`cardToken` is required but was not set" },
-                fundingToken,
                 memo,
                 spendLimit,
                 spendLimitDuration,

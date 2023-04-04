@@ -1,35 +1,25 @@
 package com.lithic.api.models
 
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
 
-class FundingSourceListParams
+class TokenizationDecisioningRotateSecretParams
 constructor(
-    private val accountToken: String?,
-    private val page: Long?,
-    private val pageSize: Long?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
-
-    fun page(): Optional<Long> = Optional.ofNullable(page)
-
-    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
-
     @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> {
-        val params = mutableMapOf<String, List<String>>()
-        this.accountToken?.let { params.put("account_token", listOf(it.toString())) }
-        this.page?.let { params.put("page", listOf(it.toString())) }
-        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
-        params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
+    internal fun getBody(): Optional<Map<String, JsonValue>> {
+        return Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
     }
+
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
@@ -37,31 +27,29 @@ constructor(
 
     fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return other is FundingSourceListParams &&
-            this.accountToken == other.accountToken &&
-            this.page == other.page &&
-            this.pageSize == other.pageSize &&
+        return other is TokenizationDecisioningRotateSecretParams &&
             this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
-            accountToken,
-            page,
-            pageSize,
             additionalQueryParams,
             additionalHeaders,
+            additionalBodyProperties,
         )
     }
 
     override fun toString() =
-        "FundingSourceListParams{accountToken=$accountToken, page=$page, pageSize=$pageSize, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "TokenizationDecisioningRotateSecretParams{additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -73,28 +61,20 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var accountToken: String? = null
-        private var page: Long? = null
-        private var pageSize: Long? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
+        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(fundingSourceListParams: FundingSourceListParams) = apply {
-            this.accountToken = fundingSourceListParams.accountToken
-            this.page = fundingSourceListParams.page
-            this.pageSize = fundingSourceListParams.pageSize
-            additionalQueryParams(fundingSourceListParams.additionalQueryParams)
-            additionalHeaders(fundingSourceListParams.additionalHeaders)
+        internal fun from(
+            tokenizationDecisioningRotateSecretParams: TokenizationDecisioningRotateSecretParams
+        ) = apply {
+            additionalQueryParams(tokenizationDecisioningRotateSecretParams.additionalQueryParams)
+            additionalHeaders(tokenizationDecisioningRotateSecretParams.additionalHeaders)
+            additionalBodyProperties(
+                tokenizationDecisioningRotateSecretParams.additionalBodyProperties
+            )
         }
-
-        fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
-
-        /** Page (for pagination). */
-        fun page(page: Long) = apply { this.page = page }
-
-        /** Page size (for pagination). */
-        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -136,13 +116,25 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): FundingSourceListParams =
-            FundingSourceListParams(
-                accountToken,
-                page,
-                pageSize,
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            this.additionalBodyProperties.clear()
+            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            this.additionalBodyProperties.put(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
+
+        fun build(): TokenizationDecisioningRotateSecretParams =
+            TokenizationDecisioningRotateSecretParams(
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
             )
     }
 }
