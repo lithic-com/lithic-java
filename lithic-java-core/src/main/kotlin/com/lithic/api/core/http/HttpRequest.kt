@@ -5,6 +5,7 @@ import com.google.common.collect.ListMultimap
 import com.google.common.collect.Multimap
 import com.google.common.collect.MultimapBuilder
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.RequestOptions
 
 class HttpRequest
 private constructor(

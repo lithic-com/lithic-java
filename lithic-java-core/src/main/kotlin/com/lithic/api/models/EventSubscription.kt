@@ -3,30 +3,35 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.errors.LithicInvalidDataException
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import java.util.UUID
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
 
 /** A subscription to specific event types. */
 @JsonDeserialize(builder = EventSubscription.Builder::class)
 @NoAutoDetect
-class EventSubscription
-private constructor(
-    private val description: JsonField<String>,
-    private val disabled: JsonField<Boolean>,
-    private val eventTypes: JsonField<List<EventType>>,
-    private val url: JsonField<String>,
-    private val token: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
-) {
+class EventSubscription private constructor(private val description: JsonField<String>,private val disabled: JsonField<Boolean>,private val eventTypes: JsonField<List<EventType>>,private val url: JsonField<String>,private val token: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
 
     private var validated: Boolean = false
 
@@ -38,8 +43,7 @@ private constructor(
     /** Whether the subscription is disabled. */
     fun disabled(): Boolean = disabled.getRequired("disabled")
 
-    fun eventTypes(): Optional<List<EventType>> =
-        Optional.ofNullable(eventTypes.getNullable("event_types"))
+    fun eventTypes(): Optional<List<EventType>> = Optional.ofNullable(eventTypes.getNullable("event_types"))
 
     fun url(): String = url.getRequired("url")
 
@@ -47,17 +51,27 @@ private constructor(
     fun token(): String = token.getRequired("token")
 
     /** A description of the subscription. */
-    @JsonProperty("description") @ExcludeMissing fun _description() = description
+    @JsonProperty("description")
+    @ExcludeMissing
+    fun _description() = description
 
     /** Whether the subscription is disabled. */
-    @JsonProperty("disabled") @ExcludeMissing fun _disabled() = disabled
+    @JsonProperty("disabled")
+    @ExcludeMissing
+    fun _disabled() = disabled
 
-    @JsonProperty("event_types") @ExcludeMissing fun _eventTypes() = eventTypes
+    @JsonProperty("event_types")
+    @ExcludeMissing
+    fun _eventTypes() = eventTypes
 
-    @JsonProperty("url") @ExcludeMissing fun _url() = url
+    @JsonProperty("url")
+    @ExcludeMissing
+    fun _url() = url
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token")
+    @ExcludeMissing
+    fun _token() = token
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -65,52 +79,51 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
-            description()
-            disabled()
-            eventTypes()
-            url()
-            token()
-            validated = true
+          description()
+          disabled()
+          eventTypes()
+          url()
+          token()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is EventSubscription &&
-            this.description == other.description &&
-            this.disabled == other.disabled &&
-            this.eventTypes == other.eventTypes &&
-            this.url == other.url &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
+      return other is EventSubscription &&
+          this.description == other.description &&
+          this.disabled == other.disabled &&
+          this.eventTypes == other.eventTypes &&
+          this.url == other.url &&
+          this.token == other.token &&
+          this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    description,
-                    disabled,
-                    eventTypes,
-                    url,
-                    token,
-                    additionalProperties,
-                )
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(
+            description,
+            disabled,
+            eventTypes,
+            url,
+            token,
+            additionalProperties,
+        )
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "EventSubscription{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, token=$token, additionalProperties=$additionalProperties}"
+    override fun toString() = "EventSubscription{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -138,7 +151,9 @@ private constructor(
         /** A description of the subscription. */
         @JsonProperty("description")
         @ExcludeMissing
-        fun description(description: JsonField<String>) = apply { this.description = description }
+        fun description(description: JsonField<String>) = apply {
+            this.description = description
+        }
 
         /** Whether the subscription is disabled. */
         fun disabled(disabled: Boolean) = disabled(JsonField.of(disabled))
@@ -146,7 +161,9 @@ private constructor(
         /** Whether the subscription is disabled. */
         @JsonProperty("disabled")
         @ExcludeMissing
-        fun disabled(disabled: JsonField<Boolean>) = apply { this.disabled = disabled }
+        fun disabled(disabled: JsonField<Boolean>) = apply {
+            this.disabled = disabled
+        }
 
         fun eventTypes(eventTypes: List<EventType>) = eventTypes(JsonField.of(eventTypes))
 
@@ -160,7 +177,9 @@ private constructor(
 
         @JsonProperty("url")
         @ExcludeMissing
-        fun url(url: JsonField<String>) = apply { this.url = url }
+        fun url(url: JsonField<String>) = apply {
+            this.url = url
+        }
 
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
@@ -168,7 +187,9 @@ private constructor(
         /** Globally unique identifier. */
         @JsonProperty("token")
         @ExcludeMissing
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -184,31 +205,28 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): EventSubscription =
-            EventSubscription(
-                description,
-                disabled,
-                eventTypes.map { it.toUnmodifiable() },
-                url,
-                token,
-                additionalProperties.toUnmodifiable(),
-            )
+        fun build(): EventSubscription = EventSubscription(
+            description,
+            disabled,
+            eventTypes.map { it.toUnmodifiable() },
+            url,
+            token,
+            additionalProperties.toUnmodifiable(),
+        )
     }
 
-    class EventType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
+    class EventType @JsonCreator private constructor(private val value: JsonField<String>,) {
 
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue
+        fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is EventType && this.value == other.value
+          return other is EventType &&
+              this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -219,9 +237,7 @@ private constructor(
 
             @JvmField val DISPUTE_UPDATED = EventType(JsonField.of("dispute.updated"))
 
-            @JvmField
-            val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST =
-                EventType(JsonField.of("digital_wallet.tokenization_approval_request"))
+            @JvmField val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST = EventType(JsonField.of("digital_wallet.tokenization_approval_request"))
 
             @JvmStatic fun of(value: String) = EventType(JsonField.of(value))
         }
@@ -237,21 +253,17 @@ private constructor(
             _UNKNOWN,
         }
 
-        fun value(): Value =
-            when (this) {
-                DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
-                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
-                    Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                else -> Value._UNKNOWN
-            }
+        fun value(): Value = when (this) {
+            DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
+            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST -> Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+            else -> Value._UNKNOWN
+        }
 
-        fun known(): Known =
-            when (this) {
-                DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
-                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
-                    Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                else -> throw LithicInvalidDataException("Unknown EventType: $value")
-            }
+        fun known(): Known = when (this) {
+            DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
+            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST -> Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+            else -> throw LithicInvalidDataException("Unknown EventType: $value")
+        }
 
         fun asString(): String = _value().asStringOrThrow()
     }

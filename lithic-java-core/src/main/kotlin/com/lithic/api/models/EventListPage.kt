@@ -4,24 +4,26 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.services.blocking.EventService
+import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import java.util.Spliterator
+import java.util.Spliterators
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.models.Event
+import com.lithic.api.services.blocking.EventService
 
-class EventListPage
-private constructor(
-    private val eventsService: EventService,
-    private val params: EventListParams,
-    private val response: Response,
-) {
+class EventListPage private constructor(private val eventsService: EventService,private val params: EventListParams,private val response: Response,) {
 
     fun response(): Response = response
 
@@ -30,49 +32,44 @@ private constructor(
     fun hasMore(): Boolean = response().hasMore()
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is EventListPage &&
-            this.eventsService == other.eventsService &&
-            this.params == other.params &&
-            this.response == other.response
+      return other is EventListPage &&
+          this.eventsService == other.eventsService &&
+          this.params == other.params &&
+          this.response == other.response
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            eventsService,
-            params,
-            response,
-        )
+      return Objects.hash(
+          eventsService,
+          params,
+          response,
+      )
     }
 
-    override fun toString() =
-        "EventListPage{eventsService=$eventsService, params=$params, response=$response}"
+    override fun toString() = "EventListPage{eventsService=$eventsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean {
-        return data().isEmpty()
+      return data().isEmpty()
     }
 
     fun getNextPageParams(): Optional<EventListParams> {
-        if (!hasNextPage()) {
-            return Optional.empty()
-        }
+      if (!hasNextPage()) {
+        return Optional.empty()
+      }
 
-        return if (params.endingBefore().isPresent) {
-            Optional.of(
-                EventListParams.builder().from(params).endingBefore(data().first().token()).build()
-            )
-        } else {
-            Optional.of(
-                EventListParams.builder().from(params).startingAfter(data().last().token()).build()
-            )
-        }
+      return if (params.endingBefore().isPresent) {
+        Optional.of(EventListParams.builder().from(params).endingBefore(data().first().token()).build());
+      } else {
+        Optional.of(EventListParams.builder().from(params).startingAfter(data().last().token()).build());
+      }
     }
 
     fun getNextPage(): Optional<EventListPage> {
-        return getNextPageParams().map { eventsService.list(it) }
+      return getNextPageParams().map { eventsService.list(it) }
     }
 
     fun autoPager(): AutoPager = AutoPager(this)
@@ -80,22 +77,16 @@ private constructor(
     companion object {
 
         @JvmStatic
-        fun of(eventsService: EventService, params: EventListParams, response: Response) =
-            EventListPage(
-                eventsService,
-                params,
-                response,
-            )
+        fun of(eventsService: EventService, params: EventListParams, response: Response) = EventListPage(
+            eventsService,
+            params,
+            response,
+        )
     }
 
     @JsonDeserialize(builder = Response.Builder::class)
     @NoAutoDetect
-    class Response
-    constructor(
-        private val data: JsonField<List<Event>>,
-        private val hasMore: JsonField<Boolean>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class Response constructor(private val data: JsonField<List<Event>>,private val hasMore: JsonField<Boolean>,private val additionalProperties: Map<String, JsonValue>,) {
 
         private var validated: Boolean = false
 
@@ -115,39 +106,39 @@ private constructor(
 
         fun validate() = apply {
             if (!validated) {
-                data().forEach { it.validate() }
-                hasMore()
-                validated = true
+              data().forEach { it.validate() }
+              hasMore()
+              validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is Response &&
-                this.data == other.data &&
-                this.hasMore == other.hasMore &&
-                this.additionalProperties == other.additionalProperties
+          return other is Response &&
+              this.data == other.data &&
+              this.hasMore == other.hasMore &&
+              this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            return Objects.hash(
-                data,
-                hasMore,
-                additionalProperties,
-            )
+          return Objects.hash(
+              data,
+              hasMore,
+              additionalProperties,
+          )
         }
 
-        override fun toString() =
-            "EventListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+        override fun toString() = "EventListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {
@@ -178,36 +169,31 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toUnmodifiable(),
-                )
+            fun build() = Response(
+                data,
+                hasMore,
+                additionalProperties.toUnmodifiable(),
+            )
         }
     }
 
-    class AutoPager
-    constructor(
-        private val firstPage: EventListPage,
-    ) : Iterable<Event> {
+    class AutoPager constructor(private val firstPage: EventListPage,) : Iterable<Event> {
 
-        override fun iterator(): Iterator<Event> =
-            sequence {
-                    var page = firstPage
-                    var index = 0
-                    while (true) {
-                        while (index >= page.data().size) {
-                            page = page.getNextPage().orElse(null) ?: return@sequence
-                            index = 0
-                        }
-                        yield(page.data()[index++])
-                    }
-                }
-                .iterator()
+        override fun iterator(): Iterator<Event> = sequence {
+            var page = firstPage
+            var index = 0
+            while (true) {
+              while (index >= page.data().size) {
+                page = page.getNextPage().orElse(null) ?: return@sequence
+                index = 0
+              }
+              yield(page.data()[index++])
+            }
+        }
+        .iterator()
 
         fun stream(): Stream<Event> {
-            return StreamSupport.stream(spliterator(), false)
+          return StreamSupport.stream(spliterator(), false)
         }
     }
 }

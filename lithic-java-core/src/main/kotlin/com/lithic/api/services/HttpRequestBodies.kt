@@ -5,8 +5,8 @@ package com.lithic.api.services
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.lithic.api.core.http.HttpRequestBody
 import com.lithic.api.errors.LithicException
-import java.io.OutputStream
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder
+import java.io.OutputStream
 
 @JvmSynthetic
 internal inline fun <reified T> json(
@@ -35,7 +35,9 @@ internal fun multipartFormData(
     files: Map<String, ByteArray>,
 ): HttpRequestBody {
     val builder = MultipartEntityBuilder.create()
-    files.forEach { file, bytes -> builder.addBinaryBody(file, bytes) }
+    files.forEach { file, bytes ->
+        builder.addBinaryBody(file, bytes)
+    }
     val entity = builder.build()
 
     return object : HttpRequestBody {

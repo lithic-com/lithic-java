@@ -1,11 +1,19 @@
 package com.lithic.api.services.blocking
 
-import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.RequestOptions
-import com.lithic.api.core.http.HttpMethod
-import com.lithic.api.core.http.HttpRequest
-import com.lithic.api.core.http.HttpResponse.Handler
-import com.lithic.api.errors.LithicError
+import com.fasterxml.jackson.databind.json.JsonMapper
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import kotlin.LazyThreadSafetyMode.PUBLICATION
+import java.time.LocalDate
+import java.time.Duration
+import java.time.OffsetDateTime
+import java.util.Base64
+import java.util.Optional
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
+import java.util.stream.Stream
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.Transaction
 import com.lithic.api.models.TransactionListPage
 import com.lithic.api.models.TransactionListParams
@@ -24,20 +32,27 @@ import com.lithic.api.models.TransactionSimulateReturnReversalParams
 import com.lithic.api.models.TransactionSimulateReturnReversalResponse
 import com.lithic.api.models.TransactionSimulateVoidParams
 import com.lithic.api.models.TransactionSimulateVoidResponse
+import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.http.HttpMethod
+import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.RequestOptions
+import com.lithic.api.errors.LithicError
+import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
+import com.lithic.api.services.stringHandler
 import com.lithic.api.services.withErrorHandler
 
-class TransactionServiceImpl
-constructor(
-    private val clientOptions: ClientOptions,
-) : TransactionService {
+class TransactionServiceImpl constructor(private val clientOptions: ClientOptions,) : TransactionService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val retrieveHandler: Handler<Transaction> =
-        jsonHandler<Transaction>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    jsonHandler<Transaction>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /** Get specific transaction. */
     override fun retrieve(
@@ -52,7 +67,7 @@ constructor(
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { retrieveHandler.handle(it) }
                 .apply {
@@ -64,8 +79,8 @@ constructor(
     }
 
     private val listHandler: Handler<TransactionListPage.Response> =
-        jsonHandler<TransactionListPage.Response>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    jsonHandler<TransactionListPage.Response>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /** List transactions. */
     override fun list(
@@ -80,7 +95,7 @@ constructor(
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { listHandler.handle(it) }
                 .apply {
@@ -93,15 +108,16 @@ constructor(
     }
 
     private val simulateAuthorizationHandler: Handler<TransactionSimulateAuthorizationResponse> =
-        jsonHandler<TransactionSimulateAuthorizationResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    jsonHandler<TransactionSimulateAuthorizationResponse>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /**
-     * Simulates an authorization request from the payment network as if it came from a merchant
-     * acquirer. If you're configured for ASA, simulating auths requires your ASA client to be set
-     * up properly (respond with a valid JSON to the ASA request). For users that are not configured
-     * for ASA, a daily transaction limit of $5000 USD is applied by default. This limit can be
-     * modified via the [update account](https://docs.lithic.com/reference/patchaccountbytoken)
+     * Simulates an authorization request from the payment network as if it came from a
+     * merchant acquirer. If you're configured for ASA, simulating auths requires your
+     * ASA client to be set up properly (respond with a valid JSON to the ASA request).
+     * For users that are not configured for ASA, a daily transaction limit of $5000
+     * USD is applied by default. This limit can be modified via the
+     * [update account](https://docs.lithic.com/reference/patchaccountbytoken)
      * endpoint.
      */
     override fun simulateAuthorization(
@@ -117,7 +133,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { simulateAuthorizationHandler.handle(it) }
                 .apply {
@@ -128,14 +144,14 @@ constructor(
         }
     }
 
-    private val simulateAuthorizationAdviceHandler:
-        Handler<TransactionSimulateAuthorizationAdviceResponse> =
-        jsonHandler<TransactionSimulateAuthorizationAdviceResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    private val simulateAuthorizationAdviceHandler: Handler<TransactionSimulateAuthorizationAdviceResponse> =
+    jsonHandler<TransactionSimulateAuthorizationAdviceResponse>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /**
-     * Simulates an authorization advice request from the payment network as if it came from a
-     * merchant acquirer. An authorization advice request changes the amount of the transaction.
+     * Simulates an authorization advice request from the payment network as if it came
+     * from a merchant acquirer. An authorization advice request changes the amount of
+     * the transaction.
      */
     override fun simulateAuthorizationAdvice(
         params: TransactionSimulateAuthorizationAdviceParams,
@@ -150,7 +166,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { simulateAuthorizationAdviceHandler.handle(it) }
                 .apply {
@@ -162,14 +178,16 @@ constructor(
     }
 
     private val simulateClearingHandler: Handler<TransactionSimulateClearingResponse> =
-        jsonHandler<TransactionSimulateClearingResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    jsonHandler<TransactionSimulateClearingResponse>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /**
-     * Clears an existing authorization. After this event, the transaction is no longer pending.
+     * Clears an existing authorization. After this event, the transaction is no longer
+     * pending.
      *
-     * If no `amount` is supplied to this endpoint, the amount of the transaction will be captured.
-     * Any transaction that has any amount completed at all do not have access to this behavior.
+     * If no `amount` is supplied to this endpoint, the amount of the transaction will
+     * be captured. Any transaction that has any amount completed at all do not have
+     * access to this behavior.
      */
     override fun simulateClearing(
         params: TransactionSimulateClearingParams,
@@ -184,7 +202,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { simulateClearingHandler.handle(it) }
                 .apply {
@@ -195,14 +213,14 @@ constructor(
         }
     }
 
-    private val simulateCreditAuthorizationHandler:
-        Handler<TransactionSimulateCreditAuthorizationResponse> =
-        jsonHandler<TransactionSimulateCreditAuthorizationResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    private val simulateCreditAuthorizationHandler: Handler<TransactionSimulateCreditAuthorizationResponse> =
+    jsonHandler<TransactionSimulateCreditAuthorizationResponse>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /**
-     * Simulates a credit authorization advice message from the payment network. This message
-     * indicates that a credit authorization was approved on your behalf by the network.
+     * Simulates a credit authorization advice message from the payment network. This
+     * message indicates that a credit authorization was approved on your behalf by the
+     * network.
      */
     override fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
@@ -217,7 +235,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { simulateCreditAuthorizationHandler.handle(it) }
                 .apply {
@@ -229,12 +247,12 @@ constructor(
     }
 
     private val simulateReturnHandler: Handler<TransactionSimulateReturnResponse> =
-        jsonHandler<TransactionSimulateReturnResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    jsonHandler<TransactionSimulateReturnResponse>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /**
-     * Returns (aka refunds) an amount back to a card. Returns are cleared immediately and do not
-     * spend time in a `PENDING` state.
+     * Returns (aka refunds) an amount back to a card. Returns are cleared immediately
+     * and do not spend time in a `PENDING` state.
      */
     override fun simulateReturn(
         params: TransactionSimulateReturnParams,
@@ -249,7 +267,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { simulateReturnHandler.handle(it) }
                 .apply {
@@ -261,13 +279,13 @@ constructor(
     }
 
     private val simulateReturnReversalHandler: Handler<TransactionSimulateReturnReversalResponse> =
-        jsonHandler<TransactionSimulateReturnReversalResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    jsonHandler<TransactionSimulateReturnReversalResponse>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /**
-     * Voids a settled credit transaction – i.e., a transaction with a negative amount and `SETTLED`
-     * status. These can be credit authorizations that have already cleared or financial credit
-     * authorizations.
+     * Voids a settled credit transaction – i.e., a transaction with a negative amount
+     * and `SETTLED` status. These can be credit authorizations that have already
+     * cleared or financial credit authorizations.
      */
     override fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,
@@ -282,7 +300,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { simulateReturnReversalHandler.handle(it) }
                 .apply {
@@ -294,15 +312,15 @@ constructor(
     }
 
     private val simulateVoidHandler: Handler<TransactionSimulateVoidResponse> =
-        jsonHandler<TransactionSimulateVoidResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    jsonHandler<TransactionSimulateVoidResponse>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /**
-     * Voids an existing, uncleared (aka pending) authorization. If amount is not sent the full
-     * amount will be voided. Cannot be used on partially completed transactions, but can be used on
-     * partially voided transactions. _Note that simulating an authorization expiry on credit
-     * authorizations or credit authorization advice is not currently supported but will be added
-     * soon._
+     * Voids an existing, uncleared (aka pending) authorization. If amount is not sent
+     * the full amount will be voided. Cannot be used on partially completed
+     * transactions, but can be used on partially voided transactions. _Note that
+     * simulating an authorization expiry on credit authorizations or credit
+     * authorization advice is not currently supported but will be added soon._
      */
     override fun simulateVoid(
         params: TransactionSimulateVoidParams,
@@ -317,7 +335,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { simulateVoidHandler.handle(it) }
                 .apply {

@@ -2,25 +2,36 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import java.util.UUID
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
 
 /** URL to upload document image to. The URL will expire in 5 minutes. */
 @JsonDeserialize(builder = DisputeInitiateEvidenceUploadResponse.Builder::class)
 @NoAutoDetect
-class DisputeInitiateEvidenceUploadResponse
-private constructor(
-    private val uploadUrl: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
-) {
+class DisputeInitiateEvidenceUploadResponse private constructor(private val uploadUrl: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
 
     private var validated: Boolean = false
 
@@ -28,7 +39,9 @@ private constructor(
 
     fun uploadUrl(): Optional<String> = Optional.ofNullable(uploadUrl.getNullable("upload_url"))
 
-    @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl() = uploadUrl
+    @JsonProperty("upload_url")
+    @ExcludeMissing
+    fun _uploadUrl() = uploadUrl
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -36,36 +49,36 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
-            uploadUrl()
-            validated = true
+          uploadUrl()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is DisputeInitiateEvidenceUploadResponse &&
-            this.uploadUrl == other.uploadUrl &&
-            this.additionalProperties == other.additionalProperties
+      return other is DisputeInitiateEvidenceUploadResponse &&
+          this.uploadUrl == other.uploadUrl &&
+          this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = Objects.hash(uploadUrl, additionalProperties)
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(uploadUrl, additionalProperties)
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "DisputeInitiateEvidenceUploadResponse{uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
+    override fun toString() = "DisputeInitiateEvidenceUploadResponse{uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -74,9 +87,7 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(
-            disputeInitiateEvidenceUploadResponse: DisputeInitiateEvidenceUploadResponse
-        ) = apply {
+        internal fun from(disputeInitiateEvidenceUploadResponse: DisputeInitiateEvidenceUploadResponse) = apply {
             this.uploadUrl = disputeInitiateEvidenceUploadResponse.uploadUrl
             additionalProperties(disputeInitiateEvidenceUploadResponse.additionalProperties)
         }
@@ -85,7 +96,9 @@ private constructor(
 
         @JsonProperty("upload_url")
         @ExcludeMissing
-        fun uploadUrl(uploadUrl: JsonField<String>) = apply { this.uploadUrl = uploadUrl }
+        fun uploadUrl(uploadUrl: JsonField<String>) = apply {
+            this.uploadUrl = uploadUrl
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -101,7 +114,6 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): DisputeInitiateEvidenceUploadResponse =
-            DisputeInitiateEvidenceUploadResponse(uploadUrl, additionalProperties.toUnmodifiable())
+        fun build(): DisputeInitiateEvidenceUploadResponse = DisputeInitiateEvidenceUploadResponse(uploadUrl, additionalProperties.toUnmodifiable())
     }
 }

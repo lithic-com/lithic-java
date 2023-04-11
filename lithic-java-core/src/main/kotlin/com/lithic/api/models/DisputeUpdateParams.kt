@@ -3,30 +3,33 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import java.util.UUID
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.models.*
 
-class DisputeUpdateParams
-constructor(
-    private val disputeToken: String,
-    private val amount: Long?,
-    private val customerFiledDate: OffsetDateTime?,
-    private val customerNote: String?,
-    private val reason: Reason?,
-    private val additionalQueryParams: Map<String, List<String>>,
-    private val additionalHeaders: Map<String, List<String>>,
-    private val additionalBodyProperties: Map<String, JsonValue>,
-) {
+class DisputeUpdateParams constructor(private val disputeToken: String,private val amount: Long?,private val customerFiledDate: OffsetDateTime?,private val customerNote: String?,private val reason: Reason?,private val additionalQueryParams: Map<String, List<String>>,private val additionalHeaders: Map<String, List<String>>,private val additionalBodyProperties: Map<String, JsonValue>,) {
 
     fun disputeToken(): String = disputeToken
 
@@ -40,51 +43,49 @@ constructor(
 
     @JvmSynthetic
     internal fun getBody(): DisputeUpdateBody {
-        return DisputeUpdateBody(
-            amount,
-            customerFiledDate,
-            customerNote,
-            reason,
-            additionalBodyProperties,
-        )
+      return DisputeUpdateBody(
+          amount,
+          customerFiledDate,
+          customerNote,
+          reason,
+          additionalBodyProperties,
+      )
     }
 
-    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
+    @JvmSynthetic
+    internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic
+    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-        return when (index) {
-            0 -> disputeToken
-            else -> ""
-        }
+      return when (index) {
+          0 -> disputeToken
+          else -> ""
+      }
     }
 
     @JsonDeserialize(builder = DisputeUpdateBody.Builder::class)
     @NoAutoDetect
-    class DisputeUpdateBody
-    internal constructor(
-        private val amount: Long?,
-        private val customerFiledDate: OffsetDateTime?,
-        private val customerNote: String?,
-        private val reason: Reason?,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class DisputeUpdateBody internal constructor(private val amount: Long?,private val customerFiledDate: OffsetDateTime?,private val customerNote: String?,private val reason: Reason?,private val additionalProperties: Map<String, JsonValue>,) {
 
         private var hashCode: Int = 0
 
         /** Amount to dispute */
-        @JsonProperty("amount") fun amount(): Long? = amount
+        @JsonProperty("amount")
+        fun amount(): Long? = amount
 
         /** Date the customer filed the dispute */
         @JsonProperty("customer_filed_date")
         fun customerFiledDate(): OffsetDateTime? = customerFiledDate
 
         /** Customer description of dispute */
-        @JsonProperty("customer_note") fun customerNote(): String? = customerNote
+        @JsonProperty("customer_note")
+        fun customerNote(): String? = customerNote
 
         /** Reason for dispute */
-        @JsonProperty("reason") fun reason(): Reason? = reason
+        @JsonProperty("reason")
+        fun reason(): Reason? = reason
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -93,38 +94,37 @@ constructor(
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is DisputeUpdateBody &&
-                this.amount == other.amount &&
-                this.customerFiledDate == other.customerFiledDate &&
-                this.customerNote == other.customerNote &&
-                this.reason == other.reason &&
-                this.additionalProperties == other.additionalProperties
+          return other is DisputeUpdateBody &&
+              this.amount == other.amount &&
+              this.customerFiledDate == other.customerFiledDate &&
+              this.customerNote == other.customerNote &&
+              this.reason == other.reason &&
+              this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        amount,
-                        customerFiledDate,
-                        customerNote,
-                        reason,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
+          if (hashCode == 0) {
+            hashCode = Objects.hash(
+                amount,
+                customerFiledDate,
+                customerNote,
+                reason,
+                additionalProperties,
+            )
+          }
+          return hashCode
         }
 
-        override fun toString() =
-            "DisputeUpdateBody{amount=$amount, customerFiledDate=$customerFiledDate, customerNote=$customerNote, reason=$reason, additionalProperties=$additionalProperties}"
+        override fun toString() = "DisputeUpdateBody{amount=$amount, customerFiledDate=$customerFiledDate, customerNote=$customerNote, reason=$reason, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {
@@ -145,7 +145,10 @@ constructor(
             }
 
             /** Amount to dispute */
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+            @JsonProperty("amount")
+            fun amount(amount: Long) = apply {
+                this.amount = amount
+            }
 
             /** Date the customer filed the dispute */
             @JsonProperty("customer_filed_date")
@@ -155,10 +158,15 @@ constructor(
 
             /** Customer description of dispute */
             @JsonProperty("customer_note")
-            fun customerNote(customerNote: String) = apply { this.customerNote = customerNote }
+            fun customerNote(customerNote: String) = apply {
+                this.customerNote = customerNote
+            }
 
             /** Reason for dispute */
-            @JsonProperty("reason") fun reason(reason: Reason) = apply { this.reason = reason }
+            @JsonProperty("reason")
+            fun reason(reason: Reason) = apply {
+                this.reason = reason
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -174,14 +182,13 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): DisputeUpdateBody =
-                DisputeUpdateBody(
-                    amount,
-                    customerFiledDate,
-                    customerNote,
-                    reason,
-                    additionalProperties.toUnmodifiable(),
-                )
+            fun build(): DisputeUpdateBody = DisputeUpdateBody(
+                amount,
+                customerFiledDate,
+                customerNote,
+                reason,
+                additionalProperties.toUnmodifiable(),
+            )
         }
     }
 
@@ -192,42 +199,42 @@ constructor(
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is DisputeUpdateParams &&
-            this.disputeToken == other.disputeToken &&
-            this.amount == other.amount &&
-            this.customerFiledDate == other.customerFiledDate &&
-            this.customerNote == other.customerNote &&
-            this.reason == other.reason &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+      return other is DisputeUpdateParams &&
+          this.disputeToken == other.disputeToken &&
+          this.amount == other.amount &&
+          this.customerFiledDate == other.customerFiledDate &&
+          this.customerNote == other.customerNote &&
+          this.reason == other.reason &&
+          this.additionalQueryParams == other.additionalQueryParams &&
+          this.additionalHeaders == other.additionalHeaders &&
+          this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            disputeToken,
-            amount,
-            customerFiledDate,
-            customerNote,
-            reason,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+      return Objects.hash(
+          disputeToken,
+          amount,
+          customerFiledDate,
+          customerNote,
+          reason,
+          additionalQueryParams,
+          additionalHeaders,
+          additionalBodyProperties,
+      )
     }
 
-    override fun toString() =
-        "DisputeUpdateParams{disputeToken=$disputeToken, amount=$amount, customerFiledDate=$customerFiledDate, customerNote=$customerNote, reason=$reason, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() = "DisputeUpdateParams{disputeToken=$disputeToken, amount=$amount, customerFiledDate=$customerFiledDate, customerNote=$customerNote, reason=$reason, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -254,10 +261,14 @@ constructor(
             additionalBodyProperties(disputeUpdateParams.additionalBodyProperties)
         }
 
-        fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
+        fun disputeToken(disputeToken: String) = apply {
+            this.disputeToken = disputeToken
+        }
 
         /** Amount to dispute */
-        fun amount(amount: Long) = apply { this.amount = amount }
+        fun amount(amount: Long) = apply {
+            this.amount = amount
+        }
 
         /** Date the customer filed the dispute */
         fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
@@ -265,10 +276,14 @@ constructor(
         }
 
         /** Customer description of dispute */
-        fun customerNote(customerNote: String) = apply { this.customerNote = customerNote }
+        fun customerNote(customerNote: String) = apply {
+            this.customerNote = customerNote
+        }
 
         /** Reason for dispute */
-        fun reason(reason: Reason) = apply { this.reason = reason }
+        fun reason(reason: Reason) = apply {
+            this.reason = reason
+        }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -308,7 +323,9 @@ constructor(
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
+        fun removeHeader(name: String) = apply {
+            this.additionalHeaders.put(name, mutableListOf())
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             this.additionalBodyProperties.clear()
@@ -319,38 +336,36 @@ constructor(
             this.additionalBodyProperties.put(key, value)
         }
 
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        }
 
-        fun build(): DisputeUpdateParams =
-            DisputeUpdateParams(
-                checkNotNull(disputeToken) { "`disputeToken` is required but was not set" },
-                amount,
-                customerFiledDate,
-                customerNote,
-                reason,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
-            )
+        fun build(): DisputeUpdateParams = DisputeUpdateParams(
+            checkNotNull(disputeToken) {
+                "`disputeToken` is required but was not set"
+            },
+            amount,
+            customerFiledDate,
+            customerNote,
+            reason,
+            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+            additionalBodyProperties.toUnmodifiable(),
+        )
     }
 
-    class Reason
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
+    class Reason @JsonCreator private constructor(private val value: JsonField<String>,) {
 
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue
+        fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is Reason && this.value == other.value
+          return other is Reason &&
+              this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -371,12 +386,9 @@ constructor(
 
             @JvmField val FRAUD_OTHER = Reason(JsonField.of("FRAUD_OTHER"))
 
-            @JvmField
-            val GOODS_SERVICES_NOT_AS_DESCRIBED =
-                Reason(JsonField.of("GOODS_SERVICES_NOT_AS_DESCRIBED"))
+            @JvmField val GOODS_SERVICES_NOT_AS_DESCRIBED = Reason(JsonField.of("GOODS_SERVICES_NOT_AS_DESCRIBED"))
 
-            @JvmField
-            val GOODS_SERVICES_NOT_RECEIVED = Reason(JsonField.of("GOODS_SERVICES_NOT_RECEIVED"))
+            @JvmField val GOODS_SERVICES_NOT_RECEIVED = Reason(JsonField.of("GOODS_SERVICES_NOT_RECEIVED"))
 
             @JvmField val INCORRECT_AMOUNT = Reason(JsonField.of("INCORRECT_AMOUNT"))
 
@@ -388,9 +400,7 @@ constructor(
 
             @JvmField val REFUND_NOT_PROCESSED = Reason(JsonField.of("REFUND_NOT_PROCESSED"))
 
-            @JvmField
-            val RECURRING_TRANSACTION_NOT_CANCELLED =
-                Reason(JsonField.of("RECURRING_TRANSACTION_NOT_CANCELLED"))
+            @JvmField val RECURRING_TRANSACTION_NOT_CANCELLED = Reason(JsonField.of("RECURRING_TRANSACTION_NOT_CANCELLED"))
 
             @JvmStatic fun of(value: String) = Reason(JsonField.of(value))
         }
@@ -430,43 +440,41 @@ constructor(
             _UNKNOWN,
         }
 
-        fun value(): Value =
-            when (this) {
-                ATM_CASH_MISDISPENSE -> Value.ATM_CASH_MISDISPENSE
-                CANCELLED -> Value.CANCELLED
-                DUPLICATED -> Value.DUPLICATED
-                FRAUD_CARD_NOT_PRESENT -> Value.FRAUD_CARD_NOT_PRESENT
-                FRAUD_CARD_PRESENT -> Value.FRAUD_CARD_PRESENT
-                FRAUD_OTHER -> Value.FRAUD_OTHER
-                GOODS_SERVICES_NOT_AS_DESCRIBED -> Value.GOODS_SERVICES_NOT_AS_DESCRIBED
-                GOODS_SERVICES_NOT_RECEIVED -> Value.GOODS_SERVICES_NOT_RECEIVED
-                INCORRECT_AMOUNT -> Value.INCORRECT_AMOUNT
-                MISSING_AUTH -> Value.MISSING_AUTH
-                OTHER -> Value.OTHER
-                PROCESSING_ERROR -> Value.PROCESSING_ERROR
-                REFUND_NOT_PROCESSED -> Value.REFUND_NOT_PROCESSED
-                RECURRING_TRANSACTION_NOT_CANCELLED -> Value.RECURRING_TRANSACTION_NOT_CANCELLED
-                else -> Value._UNKNOWN
-            }
+        fun value(): Value = when (this) {
+            ATM_CASH_MISDISPENSE -> Value.ATM_CASH_MISDISPENSE
+            CANCELLED -> Value.CANCELLED
+            DUPLICATED -> Value.DUPLICATED
+            FRAUD_CARD_NOT_PRESENT -> Value.FRAUD_CARD_NOT_PRESENT
+            FRAUD_CARD_PRESENT -> Value.FRAUD_CARD_PRESENT
+            FRAUD_OTHER -> Value.FRAUD_OTHER
+            GOODS_SERVICES_NOT_AS_DESCRIBED -> Value.GOODS_SERVICES_NOT_AS_DESCRIBED
+            GOODS_SERVICES_NOT_RECEIVED -> Value.GOODS_SERVICES_NOT_RECEIVED
+            INCORRECT_AMOUNT -> Value.INCORRECT_AMOUNT
+            MISSING_AUTH -> Value.MISSING_AUTH
+            OTHER -> Value.OTHER
+            PROCESSING_ERROR -> Value.PROCESSING_ERROR
+            REFUND_NOT_PROCESSED -> Value.REFUND_NOT_PROCESSED
+            RECURRING_TRANSACTION_NOT_CANCELLED -> Value.RECURRING_TRANSACTION_NOT_CANCELLED
+            else -> Value._UNKNOWN
+        }
 
-        fun known(): Known =
-            when (this) {
-                ATM_CASH_MISDISPENSE -> Known.ATM_CASH_MISDISPENSE
-                CANCELLED -> Known.CANCELLED
-                DUPLICATED -> Known.DUPLICATED
-                FRAUD_CARD_NOT_PRESENT -> Known.FRAUD_CARD_NOT_PRESENT
-                FRAUD_CARD_PRESENT -> Known.FRAUD_CARD_PRESENT
-                FRAUD_OTHER -> Known.FRAUD_OTHER
-                GOODS_SERVICES_NOT_AS_DESCRIBED -> Known.GOODS_SERVICES_NOT_AS_DESCRIBED
-                GOODS_SERVICES_NOT_RECEIVED -> Known.GOODS_SERVICES_NOT_RECEIVED
-                INCORRECT_AMOUNT -> Known.INCORRECT_AMOUNT
-                MISSING_AUTH -> Known.MISSING_AUTH
-                OTHER -> Known.OTHER
-                PROCESSING_ERROR -> Known.PROCESSING_ERROR
-                REFUND_NOT_PROCESSED -> Known.REFUND_NOT_PROCESSED
-                RECURRING_TRANSACTION_NOT_CANCELLED -> Known.RECURRING_TRANSACTION_NOT_CANCELLED
-                else -> throw LithicInvalidDataException("Unknown Reason: $value")
-            }
+        fun known(): Known = when (this) {
+            ATM_CASH_MISDISPENSE -> Known.ATM_CASH_MISDISPENSE
+            CANCELLED -> Known.CANCELLED
+            DUPLICATED -> Known.DUPLICATED
+            FRAUD_CARD_NOT_PRESENT -> Known.FRAUD_CARD_NOT_PRESENT
+            FRAUD_CARD_PRESENT -> Known.FRAUD_CARD_PRESENT
+            FRAUD_OTHER -> Known.FRAUD_OTHER
+            GOODS_SERVICES_NOT_AS_DESCRIBED -> Known.GOODS_SERVICES_NOT_AS_DESCRIBED
+            GOODS_SERVICES_NOT_RECEIVED -> Known.GOODS_SERVICES_NOT_RECEIVED
+            INCORRECT_AMOUNT -> Known.INCORRECT_AMOUNT
+            MISSING_AUTH -> Known.MISSING_AUTH
+            OTHER -> Known.OTHER
+            PROCESSING_ERROR -> Known.PROCESSING_ERROR
+            REFUND_NOT_PROCESSED -> Known.REFUND_NOT_PROCESSED
+            RECURRING_TRANSACTION_NOT_CANCELLED -> Known.RECURRING_TRANSACTION_NOT_CANCELLED
+            else -> throw LithicInvalidDataException("Unknown Reason: $value")
+        }
 
         fun asString(): String = _value().asStringOrThrow()
     }

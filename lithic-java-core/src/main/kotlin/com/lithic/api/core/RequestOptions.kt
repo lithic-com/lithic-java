@@ -1,7 +1,18 @@
 package com.lithic.api.core
 
+import java.time.Duration
+
 class RequestOptions
-private constructor(@get:JvmName("responseValidation") val responseValidation: Boolean?) {
+private constructor(
+    val responseValidation: Boolean?,
+    val timeout: Duration?,
+) {
+    fun applyDefaults(options: RequestOptions): RequestOptions {
+        return RequestOptions(
+            responseValidation = this.responseValidation ?: options.responseValidation,
+            timeout = this.timeout ?: options.timeout,
+        )
+    }
 
     companion object {
 
@@ -14,13 +25,16 @@ private constructor(@get:JvmName("responseValidation") val responseValidation: B
 
     class Builder {
         private var responseValidation: Boolean? = null
+        private var timeout: Duration? = null
 
-        fun responseValidation(responseValidation: Boolean?) = apply {
+        fun responseValidation(responseValidation: Boolean) = apply {
             this.responseValidation = responseValidation
         }
 
+        fun timeout(timeout: Duration) = apply { this.timeout = timeout }
+
         fun build(): RequestOptions {
-            return RequestOptions(responseValidation)
+            return RequestOptions(responseValidation, timeout)
         }
     }
 }

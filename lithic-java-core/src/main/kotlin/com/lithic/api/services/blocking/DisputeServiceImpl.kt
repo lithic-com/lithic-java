@@ -1,11 +1,18 @@
 package com.lithic.api.services.blocking
 
-import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.RequestOptions
-import com.lithic.api.core.http.HttpMethod
-import com.lithic.api.core.http.HttpRequest
-import com.lithic.api.core.http.HttpResponse.Handler
-import com.lithic.api.errors.LithicError
+import com.fasterxml.jackson.databind.json.JsonMapper
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import kotlin.LazyThreadSafetyMode.PUBLICATION
+import java.time.LocalDate
+import java.time.Duration
+import java.time.OffsetDateTime
+import java.util.Base64
+import java.util.Optional
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
+import java.util.stream.Stream
+import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.Dispute
 import com.lithic.api.models.DisputeCreateParams
@@ -21,22 +28,28 @@ import com.lithic.api.models.DisputeListParams
 import com.lithic.api.models.DisputeRetrieveEvidenceParams
 import com.lithic.api.models.DisputeRetrieveParams
 import com.lithic.api.models.DisputeUpdateParams
+import com.lithic.api.services.multipartFormData
+import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.http.HttpMethod
+import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.RequestOptions
+import com.lithic.api.errors.LithicError
 import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
-import com.lithic.api.services.multipartFormData
+import com.lithic.api.services.stringHandler
 import com.lithic.api.services.withErrorHandler
 
-class DisputeServiceImpl
-constructor(
-    private val clientOptions: ClientOptions,
-) : DisputeService {
+class DisputeServiceImpl constructor(private val clientOptions: ClientOptions,) : DisputeService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val createHandler: Handler<Dispute> =
-        jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    jsonHandler<Dispute>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /** Initiate a dispute. */
     override fun create(params: DisputeCreateParams, requestOptions: RequestOptions): Dispute {
@@ -49,7 +62,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { createHandler.handle(it) }
                 .apply {
@@ -61,7 +74,8 @@ constructor(
     }
 
     private val retrieveHandler: Handler<Dispute> =
-        jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    jsonHandler<Dispute>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /** Get dispute. */
     override fun retrieve(params: DisputeRetrieveParams, requestOptions: RequestOptions): Dispute {
@@ -73,7 +87,7 @@ constructor(
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { retrieveHandler.handle(it) }
                 .apply {
@@ -85,7 +99,8 @@ constructor(
     }
 
     private val updateHandler: Handler<Dispute> =
-        jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    jsonHandler<Dispute>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /** Update dispute. Can only be modified if status is `NEW`. */
     override fun update(params: DisputeUpdateParams, requestOptions: RequestOptions): Dispute {
@@ -98,7 +113,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { updateHandler.handle(it) }
                 .apply {
@@ -110,8 +125,8 @@ constructor(
     }
 
     private val listHandler: Handler<DisputeListPage.Response> =
-        jsonHandler<DisputeListPage.Response>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    jsonHandler<DisputeListPage.Response>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /** List disputes. */
     override fun list(params: DisputeListParams, requestOptions: RequestOptions): DisputeListPage {
@@ -123,7 +138,7 @@ constructor(
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { listHandler.handle(it) }
                 .apply {
@@ -136,7 +151,8 @@ constructor(
     }
 
     private val deleteHandler: Handler<Dispute> =
-        jsonHandler<Dispute>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    jsonHandler<Dispute>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /** Withdraw dispute. */
     override fun delete(params: DisputeDeleteParams, requestOptions: RequestOptions): Dispute {
@@ -149,7 +165,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { deleteHandler.handle(it) }
                 .apply {
@@ -158,14 +174,27 @@ constructor(
                     }
                 }
         }
+        .build()
+      return clientOptions.httpClient.execute(request, requestOptions)
+      .let { response -> 
+          response.let {
+              deleteHandler.handle(it)
+          }
+          .apply  {
+              if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                validate()
+              }
+          }
+      }
     }
 
     private val deleteEvidenceHandler: Handler<DisputeEvidence> =
-        jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    jsonHandler<DisputeEvidence>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /**
-     * Soft delete evidence for a dispute. Evidence will not be reviewed or submitted by Lithic
-     * after it is withdrawn.
+     * Soft delete evidence for a dispute. Evidence will not be reviewed or submitted
+     * by Lithic after it is withdrawn.
      */
     override fun deleteEvidence(
         params: DisputeDeleteEvidenceParams,
@@ -185,7 +214,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { deleteEvidenceHandler.handle(it) }
                 .apply {
@@ -194,18 +223,30 @@ constructor(
                     }
                 }
         }
+        .build()
+      return clientOptions.httpClient.execute(request, requestOptions)
+      .let { response -> 
+          response.let {
+              deleteEvidenceHandler.handle(it)
+          }
+          .apply  {
+              if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                validate()
+              }
+          }
+      }
     }
 
     private val initiateEvidenceUploadHandler: Handler<DisputeInitiateEvidenceUploadResponse> =
-        jsonHandler<DisputeInitiateEvidenceUploadResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    jsonHandler<DisputeInitiateEvidenceUploadResponse>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /**
-     * Use this endpoint to upload evidences for the dispute. It will return a URL to upload your
-     * documents to. The URL will expire in 30 minutes.
+     * Use this endpoint to upload evidences for the dispute. It will return a URL to
+     * upload your documents to. The URL will expire in 30 minutes.
      *
-     * Uploaded documents must either be a `jpg`, `png` or `pdf` file, and each must be less than 5
-     * GiB.
+     * Uploaded documents must either be a `jpg`, `png` or `pdf` file, and each must be
+     * less than 5 GiB.
      */
     override fun initiateEvidenceUpload(
         params: DisputeInitiateEvidenceUploadParams,
@@ -220,7 +261,7 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { initiateEvidenceUploadHandler.handle(it) }
                 .apply {
@@ -229,11 +270,23 @@ constructor(
                     }
                 }
         }
+        .build()
+      return clientOptions.httpClient.execute(request, requestOptions)
+      .let { response -> 
+          response.let {
+              initiateEvidenceUploadHandler.handle(it)
+          }
+          .apply  {
+              if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                validate()
+              }
+          }
+      }
     }
 
     private val listEvidencesHandler: Handler<DisputeListEvidencesPage.Response> =
-        jsonHandler<DisputeListEvidencesPage.Response>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    jsonHandler<DisputeListEvidencesPage.Response>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /** List evidence metadata for a dispute. */
     override fun listEvidences(
@@ -248,7 +301,7 @@ constructor(
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { listEvidencesHandler.handle(it) }
                 .apply {
@@ -261,7 +314,8 @@ constructor(
     }
 
     private val retrieveEvidenceHandler: Handler<DisputeEvidence> =
-        jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    jsonHandler<DisputeEvidence>(clientOptions.jsonMapper)
+    .withErrorHandler(errorHandler)
 
     /** Get a dispute's evidence metadata. */
     override fun retrieveEvidence(
@@ -281,7 +335,7 @@ constructor(
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request).let { response ->
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .let { retrieveEvidenceHandler.handle(it) }
                 .apply {
@@ -293,23 +347,23 @@ constructor(
     }
 
     override fun uploadEvidence(disputeToken: String, file: ByteArray) {
-        val initiateParams =
-            DisputeInitiateEvidenceUploadParams.builder().disputeToken(disputeToken).build()
-        val initiateResponse = initiateEvidenceUpload(initiateParams)
+      val initiateParams =
+          DisputeInitiateEvidenceUploadParams.builder().disputeToken(disputeToken).build()
+      val initiateResponse = initiateEvidenceUpload(initiateParams)
 
-        val uploadUrl =
-            initiateResponse.uploadUrl().orElseThrow {
-                LithicInvalidDataException("Missing 'upload_url' from response payload")
-            }
+      val uploadUrl =
+          initiateResponse.uploadUrl().orElseThrow {
+              LithicInvalidDataException("Missing 'upload_url' from response payload")
+          }
 
-        val uploadRequest =
-            HttpRequest.builder()
-                .method(HttpMethod.PUT)
-                .url(uploadUrl)
-                .body(multipartFormData(mapOf("file" to file)))
-                .build()
-        clientOptions.httpClient.execute(uploadRequest).let { response ->
-            response.let { emptyHandler().handle(it) }
-        }
+      val uploadRequest =
+          HttpRequest.builder()
+              .method(HttpMethod.PUT)
+              .url(uploadUrl)
+              .body(multipartFormData(mapOf("file" to file)))
+              .build()
+      clientOptions.httpClient.execute(uploadRequest).let { response ->
+          response.let { emptyHandler().handle(it) }
+      }
     }
 }

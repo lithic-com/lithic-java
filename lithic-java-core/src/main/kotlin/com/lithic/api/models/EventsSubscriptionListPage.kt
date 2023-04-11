@@ -4,24 +4,26 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.services.blocking.events.SubscriptionService
+import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import java.util.Spliterator
+import java.util.Spliterators
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.models.EventSubscription
+import com.lithic.api.services.blocking.events.SubscriptionService
 
-class EventsSubscriptionListPage
-private constructor(
-    private val subscriptionsService: SubscriptionService,
-    private val params: EventsSubscriptionListParams,
-    private val response: Response,
-) {
+class EventsSubscriptionListPage private constructor(private val subscriptionsService: SubscriptionService,private val params: EventsSubscriptionListParams,private val response: Response,) {
 
     fun response(): Response = response
 
@@ -30,55 +32,44 @@ private constructor(
     fun hasMore(): Boolean = response().hasMore()
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is EventsSubscriptionListPage &&
-            this.subscriptionsService == other.subscriptionsService &&
-            this.params == other.params &&
-            this.response == other.response
+      return other is EventsSubscriptionListPage &&
+          this.subscriptionsService == other.subscriptionsService &&
+          this.params == other.params &&
+          this.response == other.response
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            subscriptionsService,
-            params,
-            response,
-        )
+      return Objects.hash(
+          subscriptionsService,
+          params,
+          response,
+      )
     }
 
-    override fun toString() =
-        "EventsSubscriptionListPage{subscriptionsService=$subscriptionsService, params=$params, response=$response}"
+    override fun toString() = "EventsSubscriptionListPage{subscriptionsService=$subscriptionsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean {
-        return data().isEmpty()
+      return data().isEmpty()
     }
 
     fun getNextPageParams(): Optional<EventsSubscriptionListParams> {
-        if (!hasNextPage()) {
-            return Optional.empty()
-        }
+      if (!hasNextPage()) {
+        return Optional.empty()
+      }
 
-        return if (params.endingBefore().isPresent) {
-            Optional.of(
-                EventsSubscriptionListParams.builder()
-                    .from(params)
-                    .endingBefore(data().first().token())
-                    .build()
-            )
-        } else {
-            Optional.of(
-                EventsSubscriptionListParams.builder()
-                    .from(params)
-                    .startingAfter(data().last().token())
-                    .build()
-            )
-        }
+      return if (params.endingBefore().isPresent) {
+        Optional.of(EventsSubscriptionListParams.builder().from(params).endingBefore(data().first().token()).build());
+      } else {
+        Optional.of(EventsSubscriptionListParams.builder().from(params).startingAfter(data().last().token()).build());
+      }
     }
 
     fun getNextPage(): Optional<EventsSubscriptionListPage> {
-        return getNextPageParams().map { subscriptionsService.list(it) }
+      return getNextPageParams().map { subscriptionsService.list(it) }
     }
 
     fun autoPager(): AutoPager = AutoPager(this)
@@ -86,26 +77,16 @@ private constructor(
     companion object {
 
         @JvmStatic
-        fun of(
-            subscriptionsService: SubscriptionService,
-            params: EventsSubscriptionListParams,
-            response: Response
-        ) =
-            EventsSubscriptionListPage(
-                subscriptionsService,
-                params,
-                response,
-            )
+        fun of(subscriptionsService: SubscriptionService, params: EventsSubscriptionListParams, response: Response) = EventsSubscriptionListPage(
+            subscriptionsService,
+            params,
+            response,
+        )
     }
 
     @JsonDeserialize(builder = Response.Builder::class)
     @NoAutoDetect
-    class Response
-    constructor(
-        private val data: JsonField<List<EventSubscription>>,
-        private val hasMore: JsonField<Boolean>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class Response constructor(private val data: JsonField<List<EventSubscription>>,private val hasMore: JsonField<Boolean>,private val additionalProperties: Map<String, JsonValue>,) {
 
         private var validated: Boolean = false
 
@@ -125,39 +106,39 @@ private constructor(
 
         fun validate() = apply {
             if (!validated) {
-                data().forEach { it.validate() }
-                hasMore()
-                validated = true
+              data().forEach { it.validate() }
+              hasMore()
+              validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is Response &&
-                this.data == other.data &&
-                this.hasMore == other.hasMore &&
-                this.additionalProperties == other.additionalProperties
+          return other is Response &&
+              this.data == other.data &&
+              this.hasMore == other.hasMore &&
+              this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            return Objects.hash(
-                data,
-                hasMore,
-                additionalProperties,
-            )
+          return Objects.hash(
+              data,
+              hasMore,
+              additionalProperties,
+          )
         }
 
-        override fun toString() =
-            "EventsSubscriptionListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+        override fun toString() = "EventsSubscriptionListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {
@@ -188,36 +169,31 @@ private constructor(
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() =
-                Response(
-                    data,
-                    hasMore,
-                    additionalProperties.toUnmodifiable(),
-                )
+            fun build() = Response(
+                data,
+                hasMore,
+                additionalProperties.toUnmodifiable(),
+            )
         }
     }
 
-    class AutoPager
-    constructor(
-        private val firstPage: EventsSubscriptionListPage,
-    ) : Iterable<EventSubscription> {
+    class AutoPager constructor(private val firstPage: EventsSubscriptionListPage,) : Iterable<EventSubscription> {
 
-        override fun iterator(): Iterator<EventSubscription> =
-            sequence {
-                    var page = firstPage
-                    var index = 0
-                    while (true) {
-                        while (index >= page.data().size) {
-                            page = page.getNextPage().orElse(null) ?: return@sequence
-                            index = 0
-                        }
-                        yield(page.data()[index++])
-                    }
-                }
-                .iterator()
+        override fun iterator(): Iterator<EventSubscription> = sequence {
+            var page = firstPage
+            var index = 0
+            while (true) {
+              while (index >= page.data().size) {
+                page = page.getNextPage().orElse(null) ?: return@sequence
+                index = 0
+              }
+              yield(page.data()[index++])
+            }
+        }
+        .iterator()
 
         fun stream(): Stream<EventSubscription> {
-            return StreamSupport.stream(spliterator(), false)
+          return StreamSupport.stream(spliterator(), false)
         }
     }
 }

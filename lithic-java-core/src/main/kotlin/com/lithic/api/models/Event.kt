@@ -3,29 +3,35 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.errors.LithicInvalidDataException
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.Objects
+import java.util.Optional
+import java.util.UUID
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
 
 /** A single event that affects the transaction state and lifecycle. */
 @JsonDeserialize(builder = Event.Builder::class)
 @NoAutoDetect
-class Event
-private constructor(
-    private val token: JsonField<String>,
-    private val eventType: JsonField<EventType>,
-    private val payload: JsonField<Payload>,
-    private val created: JsonField<OffsetDateTime>,
-    private val additionalProperties: Map<String, JsonValue>,
-) {
+class Event private constructor(private val token: JsonField<String>,private val eventType: JsonField<EventType>,private val payload: JsonField<Payload>,private val created: JsonField<OffsetDateTime>,private val additionalProperties: Map<String, JsonValue>,) {
 
     private var validated: Boolean = false
 
@@ -38,8 +44,8 @@ private constructor(
      * Event types:
      *
      * - `dispute.updated` - A dispute has been updated.
-     * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-     * activate a digital wallet token.
+     * - `digital_wallet.tokenization_approval_request` - Card network's request to
+     *   Lithic to activate a digital wallet token.
      */
     fun eventType(): EventType = eventType.getRequired("event_type")
 
@@ -53,25 +59,33 @@ private constructor(
     fun created(): OffsetDateTime = created.getRequired("created")
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token")
+    @ExcludeMissing
+    fun _token() = token
 
     /**
      * Event types:
      *
      * - `dispute.updated` - A dispute has been updated.
-     * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-     * activate a digital wallet token.
+     * - `digital_wallet.tokenization_approval_request` - Card network's request to
+     *   Lithic to activate a digital wallet token.
      */
-    @JsonProperty("event_type") @ExcludeMissing fun _eventType() = eventType
+    @JsonProperty("event_type")
+    @ExcludeMissing
+    fun _eventType() = eventType
 
-    @JsonProperty("payload") @ExcludeMissing fun _payload() = payload
+    @JsonProperty("payload")
+    @ExcludeMissing
+    fun _payload() = payload
 
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
      *
      * If no timezone is specified, UTC will be used.
      */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created")
+    @ExcludeMissing
+    fun _created() = created
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -79,49 +93,48 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
-            token()
-            eventType()
-            payload().validate()
-            created()
-            validated = true
+          token()
+          eventType()
+          payload().validate()
+          created()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is Event &&
-            this.token == other.token &&
-            this.eventType == other.eventType &&
-            this.payload == other.payload &&
-            this.created == other.created &&
-            this.additionalProperties == other.additionalProperties
+      return other is Event &&
+          this.token == other.token &&
+          this.eventType == other.eventType &&
+          this.payload == other.payload &&
+          this.created == other.created &&
+          this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    token,
-                    eventType,
-                    payload,
-                    created,
-                    additionalProperties,
-                )
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(
+            token,
+            eventType,
+            payload,
+            created,
+            additionalProperties,
+        )
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "Event{token=$token, eventType=$eventType, payload=$payload, created=$created, additionalProperties=$additionalProperties}"
+    override fun toString() = "Event{token=$token, eventType=$eventType, payload=$payload, created=$created, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -147,14 +160,16 @@ private constructor(
         /** Globally unique identifier. */
         @JsonProperty("token")
         @ExcludeMissing
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /**
          * Event types:
          *
          * - `dispute.updated` - A dispute has been updated.
-         * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-         * activate a digital wallet token.
+         * - `digital_wallet.tokenization_approval_request` - Card network's request to
+         *   Lithic to activate a digital wallet token.
          */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
 
@@ -162,18 +177,22 @@ private constructor(
          * Event types:
          *
          * - `dispute.updated` - A dispute has been updated.
-         * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-         * activate a digital wallet token.
+         * - `digital_wallet.tokenization_approval_request` - Card network's request to
+         *   Lithic to activate a digital wallet token.
          */
         @JsonProperty("event_type")
         @ExcludeMissing
-        fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
+        fun eventType(eventType: JsonField<EventType>) = apply {
+            this.eventType = eventType
+        }
 
         fun payload(payload: Payload) = payload(JsonField.of(payload))
 
         @JsonProperty("payload")
         @ExcludeMissing
-        fun payload(payload: JsonField<Payload>) = apply { this.payload = payload }
+        fun payload(payload: JsonField<Payload>) = apply {
+            this.payload = payload
+        }
 
         /**
          * An RFC 3339 timestamp for when the event was created. UTC time zone.
@@ -189,7 +208,9 @@ private constructor(
          */
         @JsonProperty("created")
         @ExcludeMissing
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -205,30 +226,27 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): Event =
-            Event(
-                token,
-                eventType,
-                payload,
-                created,
-                additionalProperties.toUnmodifiable(),
-            )
+        fun build(): Event = Event(
+            token,
+            eventType,
+            payload,
+            created,
+            additionalProperties.toUnmodifiable(),
+        )
     }
 
-    class EventType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
+    class EventType @JsonCreator private constructor(private val value: JsonField<String>,) {
 
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue
+        fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is EventType && this.value == other.value
+          return other is EventType &&
+              this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -239,9 +257,7 @@ private constructor(
 
             @JvmField val DISPUTE_UPDATED = EventType(JsonField.of("dispute.updated"))
 
-            @JvmField
-            val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST =
-                EventType(JsonField.of("digital_wallet.tokenization_approval_request"))
+            @JvmField val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST = EventType(JsonField.of("digital_wallet.tokenization_approval_request"))
 
             @JvmStatic fun of(value: String) = EventType(JsonField.of(value))
         }
@@ -257,31 +273,24 @@ private constructor(
             _UNKNOWN,
         }
 
-        fun value(): Value =
-            when (this) {
-                DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
-                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
-                    Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                else -> Value._UNKNOWN
-            }
+        fun value(): Value = when (this) {
+            DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
+            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST -> Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+            else -> Value._UNKNOWN
+        }
 
-        fun known(): Known =
-            when (this) {
-                DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
-                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
-                    Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-                else -> throw LithicInvalidDataException("Unknown EventType: $value")
-            }
+        fun known(): Known = when (this) {
+            DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
+            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST -> Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+            else -> throw LithicInvalidDataException("Unknown EventType: $value")
+        }
 
         fun asString(): String = _value().asStringOrThrow()
     }
 
     @JsonDeserialize(builder = Payload.Builder::class)
     @NoAutoDetect
-    class Payload
-    private constructor(
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class Payload private constructor(private val additionalProperties: Map<String, JsonValue>,) {
 
         private var validated: Boolean = false
 
@@ -293,32 +302,34 @@ private constructor(
 
         fun validate() = apply {
             if (!validated) {
-                validated = true
+              validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is Payload && this.additionalProperties == other.additionalProperties
+          return other is Payload &&
+              this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = Objects.hash(additionalProperties)
-            }
-            return hashCode
+          if (hashCode == 0) {
+            hashCode = Objects.hash(additionalProperties)
+          }
+          return hashCode
         }
 
         override fun toString() = "Payload{additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {

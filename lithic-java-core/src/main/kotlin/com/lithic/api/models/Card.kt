@@ -3,41 +3,34 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.errors.LithicInvalidDataException
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import java.util.UUID
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
 
 @JsonDeserialize(builder = Card.Builder::class)
 @NoAutoDetect
-class Card
-private constructor(
-    private val created: JsonField<OffsetDateTime>,
-    private val cvv: JsonField<String>,
-    private val funding: JsonField<FundingAccount>,
-    private val expMonth: JsonField<String>,
-    private val expYear: JsonField<String>,
-    private val hostname: JsonField<String>,
-    private val lastFour: JsonField<String>,
-    private val memo: JsonField<String>,
-    private val pan: JsonField<String>,
-    private val spendLimit: JsonField<Long>,
-    private val spendLimitDuration: JsonField<SpendLimitDuration>,
-    private val state: JsonField<State>,
-    private val authRuleTokens: JsonField<List<String>>,
-    private val token: JsonField<String>,
-    private val type: JsonField<Type>,
-    private val digitalCardArtToken: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
-) {
+class Card private constructor(private val created: JsonField<OffsetDateTime>,private val cvv: JsonField<String>,private val funding: JsonField<FundingAccount>,private val expMonth: JsonField<String>,private val expYear: JsonField<String>,private val hostname: JsonField<String>,private val lastFour: JsonField<String>,private val memo: JsonField<String>,private val pan: JsonField<String>,private val spendLimit: JsonField<Long>,private val spendLimitDuration: JsonField<SpendLimitDuration>,private val state: JsonField<State>,private val authRuleTokens: JsonField<List<String>>,private val token: JsonField<String>,private val type: JsonField<Type>,private val digitalCardArtToken: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
 
     private var validated: Boolean = false
 
@@ -64,60 +57,65 @@ private constructor(
     fun lastFour(): String = lastFour.getRequired("last_four")
 
     /**
-     * Friendly name to identify the card. We recommend against using this field to store JSON data
-     * as it can cause unexpected behavior.
+     * Friendly name to identify the card. We recommend against using this field to
+     * store JSON data as it can cause unexpected behavior.
      */
     fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
 
     /**
-     * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to have
-     * PAN returned as a field in production. Please contact
+     * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI
+     * compliant to have PAN returned as a field in production. Please contact
      * [support@lithic.com](mailto:support@lithic.com) for questions.
      */
     fun pan(): Optional<String> = Optional.ofNullable(pan.getNullable("pan"))
 
     /**
-     * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-     * limit will be declined.
+     * Amount (in cents) to limit approved authorizations. Transaction requests above
+     * the spend limit will be declined.
      */
     fun spendLimit(): Long = spendLimit.getRequired("spend_limit")
 
     /**
      * Spend limit duration values:
      *
-     * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar year.
-     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
-     * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-     * Month is calculated as this calendar date one month prior.
-     * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
-     * under the spend limit.
+     * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar
+     *   year.
+     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime
+     *   of the card.
+     * - `MONTHLY` - Card will authorize transactions up to spend limit for the
+     *   trailing month. Month is calculated as this calendar date one month prior.
+     * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+     *   transaction is under the spend limit.
      */
-    fun spendLimitDuration(): SpendLimitDuration =
-        spendLimitDuration.getRequired("spend_limit_duration")
+    fun spendLimitDuration(): SpendLimitDuration = spendLimitDuration.getRequired("spend_limit_duration")
 
     /**
      * Card state values:
      *
-     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
-     * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
-     * provisioned pending manufacturing and fulfillment. Cards in this state can accept
-     * authorizations for e-commerce purchases, but not for "Card Present" purchases where the
-     * physical card itself is present.
-     * - `PENDING_ACTIVATION` - Each business day at 2pm Eastern Time Zone (ET), cards of type
-     * `PHYSICAL` in state `PENDING_FULFILLMENT` are sent to the card production warehouse and
-     * updated to state `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state
-     * can be used for e-commerce transactions. API clients should update the card's state to `OPEN`
-     * only after the cardholder confirms receipt of the card.
+     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot
+     *   be undone.
+     * - `OPEN` - Card will approve authorizations (if they match card and account
+     *   parameters).
+     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later
+     *   time.
+     * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The
+     *   card is provisioned pending manufacturing and fulfillment. Cards in this state
+     *   can accept authorizations for e-commerce purchases, but not for "Card Present"
+     *   purchases where the physical card itself is present.
+     * - `PENDING_ACTIVATION` - Each business day at 2pm Eastern Time Zone (ET), cards
+     *   of type `PHYSICAL` in state `PENDING_FULFILLMENT` are sent to the card
+     *   production warehouse and updated to state `PENDING_ACTIVATION` . Similar to
+     *   `PENDING_FULFILLMENT`, cards in this state can be used for e-commerce
+     *   transactions. API clients should update the card's state to `OPEN` only after
+     *   the cardholder confirms receipt of the card.
      *
-     * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
+     * In sandbox, the same daily batch fulfillment occurs, but no cards are actually
+     * manufactured.
      */
     fun state(): State = state.getRequired("state")
 
     /** List of identifiers for the Auth Rule(s) that are applied on the card. */
-    fun authRuleTokens(): Optional<List<String>> =
-        Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
+    fun authRuleTokens(): Optional<List<String>> = Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
 
     /** Globally unique identifier. */
     fun token(): String = token.getRequired("token")
@@ -125,75 +123,98 @@ private constructor(
     /**
      * Card types:
      *
-     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
-     * Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
-     * credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
-     * [lithic.com/contact](https://lithic.com/contact) for more information.
-     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that successfully
-     * authorizes the card.
-     * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful authorization.
+     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
+     *   wallet like Apple Pay or Google Pay (if the card program is digital
+     *   wallet-enabled).
+     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
+     *   branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality.
+     *   Reach out at [lithic.com/contact](https://lithic.com/contact) for more
+     *   information.
+     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
+     *   successfully authorizes the card.
+     * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful
+     *   authorization.
      */
     fun type(): Type = type.getRequired("type")
 
     /**
-     * Specifies the digital card art to be displayed in the user’s digital wallet after
-     * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
-     * See
-     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-     * .
+     * Specifies the digital card art to be displayed in the user’s digital wallet
+     * after tokenization. This artwork must be approved by Mastercard and configured
+     * by Lithic to use. See
+     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
      */
-    fun digitalCardArtToken(): Optional<String> =
-        Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
+    fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
 
     /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created")
+    @ExcludeMissing
+    fun _created() = created
 
     /** Three digit cvv printed on the back of the card. */
-    @JsonProperty("cvv") @ExcludeMissing fun _cvv() = cvv
+    @JsonProperty("cvv")
+    @ExcludeMissing
+    fun _cvv() = cvv
 
-    @JsonProperty("funding") @ExcludeMissing fun _funding() = funding
+    @JsonProperty("funding")
+    @ExcludeMissing
+    fun _funding() = funding
 
     /** Two digit (MM) expiry month. */
-    @JsonProperty("exp_month") @ExcludeMissing fun _expMonth() = expMonth
+    @JsonProperty("exp_month")
+    @ExcludeMissing
+    fun _expMonth() = expMonth
 
     /** Four digit (yyyy) expiry year. */
-    @JsonProperty("exp_year") @ExcludeMissing fun _expYear() = expYear
+    @JsonProperty("exp_year")
+    @ExcludeMissing
+    fun _expYear() = expYear
 
     /** Hostname of card’s locked merchant (will be empty if not applicable). */
-    @JsonProperty("hostname") @ExcludeMissing fun _hostname() = hostname
+    @JsonProperty("hostname")
+    @ExcludeMissing
+    fun _hostname() = hostname
 
     /** Last four digits of the card number. */
-    @JsonProperty("last_four") @ExcludeMissing fun _lastFour() = lastFour
+    @JsonProperty("last_four")
+    @ExcludeMissing
+    fun _lastFour() = lastFour
 
     /**
-     * Friendly name to identify the card. We recommend against using this field to store JSON data
-     * as it can cause unexpected behavior.
+     * Friendly name to identify the card. We recommend against using this field to
+     * store JSON data as it can cause unexpected behavior.
      */
-    @JsonProperty("memo") @ExcludeMissing fun _memo() = memo
+    @JsonProperty("memo")
+    @ExcludeMissing
+    fun _memo() = memo
 
     /**
-     * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to have
-     * PAN returned as a field in production. Please contact
+     * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI
+     * compliant to have PAN returned as a field in production. Please contact
      * [support@lithic.com](mailto:support@lithic.com) for questions.
      */
-    @JsonProperty("pan") @ExcludeMissing fun _pan() = pan
+    @JsonProperty("pan")
+    @ExcludeMissing
+    fun _pan() = pan
 
     /**
-     * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-     * limit will be declined.
+     * Amount (in cents) to limit approved authorizations. Transaction requests above
+     * the spend limit will be declined.
      */
-    @JsonProperty("spend_limit") @ExcludeMissing fun _spendLimit() = spendLimit
+    @JsonProperty("spend_limit")
+    @ExcludeMissing
+    fun _spendLimit() = spendLimit
 
     /**
      * Spend limit duration values:
      *
-     * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar year.
-     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
-     * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-     * Month is calculated as this calendar date one month prior.
-     * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
-     * under the spend limit.
+     * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar
+     *   year.
+     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime
+     *   of the card.
+     * - `MONTHLY` - Card will authorize transactions up to spend limit for the
+     *   trailing month. Month is calculated as this calendar date one month prior.
+     * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+     *   transaction is under the spend limit.
      */
     @JsonProperty("spend_limit_duration")
     @ExcludeMissing
@@ -202,49 +223,64 @@ private constructor(
     /**
      * Card state values:
      *
-     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
-     * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
-     * provisioned pending manufacturing and fulfillment. Cards in this state can accept
-     * authorizations for e-commerce purchases, but not for "Card Present" purchases where the
-     * physical card itself is present.
-     * - `PENDING_ACTIVATION` - Each business day at 2pm Eastern Time Zone (ET), cards of type
-     * `PHYSICAL` in state `PENDING_FULFILLMENT` are sent to the card production warehouse and
-     * updated to state `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state
-     * can be used for e-commerce transactions. API clients should update the card's state to `OPEN`
-     * only after the cardholder confirms receipt of the card.
+     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot
+     *   be undone.
+     * - `OPEN` - Card will approve authorizations (if they match card and account
+     *   parameters).
+     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later
+     *   time.
+     * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The
+     *   card is provisioned pending manufacturing and fulfillment. Cards in this state
+     *   can accept authorizations for e-commerce purchases, but not for "Card Present"
+     *   purchases where the physical card itself is present.
+     * - `PENDING_ACTIVATION` - Each business day at 2pm Eastern Time Zone (ET), cards
+     *   of type `PHYSICAL` in state `PENDING_FULFILLMENT` are sent to the card
+     *   production warehouse and updated to state `PENDING_ACTIVATION` . Similar to
+     *   `PENDING_FULFILLMENT`, cards in this state can be used for e-commerce
+     *   transactions. API clients should update the card's state to `OPEN` only after
+     *   the cardholder confirms receipt of the card.
      *
-     * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
+     * In sandbox, the same daily batch fulfillment occurs, but no cards are actually
+     * manufactured.
      */
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
+    @JsonProperty("state")
+    @ExcludeMissing
+    fun _state() = state
 
     /** List of identifiers for the Auth Rule(s) that are applied on the card. */
-    @JsonProperty("auth_rule_tokens") @ExcludeMissing fun _authRuleTokens() = authRuleTokens
+    @JsonProperty("auth_rule_tokens")
+    @ExcludeMissing
+    fun _authRuleTokens() = authRuleTokens
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token")
+    @ExcludeMissing
+    fun _token() = token
 
     /**
      * Card types:
      *
-     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
-     * Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
-     * credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
-     * [lithic.com/contact](https://lithic.com/contact) for more information.
-     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that successfully
-     * authorizes the card.
-     * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful authorization.
+     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
+     *   wallet like Apple Pay or Google Pay (if the card program is digital
+     *   wallet-enabled).
+     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
+     *   branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality.
+     *   Reach out at [lithic.com/contact](https://lithic.com/contact) for more
+     *   information.
+     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
+     *   successfully authorizes the card.
+     * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful
+     *   authorization.
      */
-    @JsonProperty("type") @ExcludeMissing fun _type() = type
+    @JsonProperty("type")
+    @ExcludeMissing
+    fun _type() = type
 
     /**
-     * Specifies the digital card art to be displayed in the user’s digital wallet after
-     * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
-     * See
-     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-     * .
+     * Specifies the digital card art to be displayed in the user’s digital wallet
+     * after tokenization. This artwork must be approved by Mastercard and configured
+     * by Lithic to use. See
+     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
      */
     @JsonProperty("digital_card_art_token")
     @ExcludeMissing
@@ -256,85 +292,84 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
-            created()
-            cvv()
-            funding().validate()
-            expMonth()
-            expYear()
-            hostname()
-            lastFour()
-            memo()
-            pan()
-            spendLimit()
-            spendLimitDuration()
-            state()
-            authRuleTokens()
-            token()
-            type()
-            digitalCardArtToken()
-            validated = true
+          created()
+          cvv()
+          funding().validate()
+          expMonth()
+          expYear()
+          hostname()
+          lastFour()
+          memo()
+          pan()
+          spendLimit()
+          spendLimitDuration()
+          state()
+          authRuleTokens()
+          token()
+          type()
+          digitalCardArtToken()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is Card &&
-            this.created == other.created &&
-            this.cvv == other.cvv &&
-            this.funding == other.funding &&
-            this.expMonth == other.expMonth &&
-            this.expYear == other.expYear &&
-            this.hostname == other.hostname &&
-            this.lastFour == other.lastFour &&
-            this.memo == other.memo &&
-            this.pan == other.pan &&
-            this.spendLimit == other.spendLimit &&
-            this.spendLimitDuration == other.spendLimitDuration &&
-            this.state == other.state &&
-            this.authRuleTokens == other.authRuleTokens &&
-            this.token == other.token &&
-            this.type == other.type &&
-            this.digitalCardArtToken == other.digitalCardArtToken &&
-            this.additionalProperties == other.additionalProperties
+      return other is Card &&
+          this.created == other.created &&
+          this.cvv == other.cvv &&
+          this.funding == other.funding &&
+          this.expMonth == other.expMonth &&
+          this.expYear == other.expYear &&
+          this.hostname == other.hostname &&
+          this.lastFour == other.lastFour &&
+          this.memo == other.memo &&
+          this.pan == other.pan &&
+          this.spendLimit == other.spendLimit &&
+          this.spendLimitDuration == other.spendLimitDuration &&
+          this.state == other.state &&
+          this.authRuleTokens == other.authRuleTokens &&
+          this.token == other.token &&
+          this.type == other.type &&
+          this.digitalCardArtToken == other.digitalCardArtToken &&
+          this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    created,
-                    cvv,
-                    funding,
-                    expMonth,
-                    expYear,
-                    hostname,
-                    lastFour,
-                    memo,
-                    pan,
-                    spendLimit,
-                    spendLimitDuration,
-                    state,
-                    authRuleTokens,
-                    token,
-                    type,
-                    digitalCardArtToken,
-                    additionalProperties,
-                )
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(
+            created,
+            cvv,
+            funding,
+            expMonth,
+            expYear,
+            hostname,
+            lastFour,
+            memo,
+            pan,
+            spendLimit,
+            spendLimitDuration,
+            state,
+            authRuleTokens,
+            token,
+            type,
+            digitalCardArtToken,
+            additionalProperties,
+        )
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "Card{created=$created, cvv=$cvv, funding=$funding, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, lastFour=$lastFour, memo=$memo, pan=$pan, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, authRuleTokens=$authRuleTokens, token=$token, type=$type, digitalCardArtToken=$digitalCardArtToken, additionalProperties=$additionalProperties}"
+    override fun toString() = "Card{created=$created, cvv=$cvv, funding=$funding, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, lastFour=$lastFour, memo=$memo, pan=$pan, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, authRuleTokens=$authRuleTokens, token=$token, type=$type, digitalCardArtToken=$digitalCardArtToken, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -384,7 +419,9 @@ private constructor(
         /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
         @JsonProperty("created")
         @ExcludeMissing
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun created(created: JsonField<OffsetDateTime>) = apply {
+            this.created = created
+        }
 
         /** Three digit cvv printed on the back of the card. */
         fun cvv(cvv: String) = cvv(JsonField.of(cvv))
@@ -392,13 +429,17 @@ private constructor(
         /** Three digit cvv printed on the back of the card. */
         @JsonProperty("cvv")
         @ExcludeMissing
-        fun cvv(cvv: JsonField<String>) = apply { this.cvv = cvv }
+        fun cvv(cvv: JsonField<String>) = apply {
+            this.cvv = cvv
+        }
 
         fun funding(funding: FundingAccount) = funding(JsonField.of(funding))
 
         @JsonProperty("funding")
         @ExcludeMissing
-        fun funding(funding: JsonField<FundingAccount>) = apply { this.funding = funding }
+        fun funding(funding: JsonField<FundingAccount>) = apply {
+            this.funding = funding
+        }
 
         /** Two digit (MM) expiry month. */
         fun expMonth(expMonth: String) = expMonth(JsonField.of(expMonth))
@@ -406,7 +447,9 @@ private constructor(
         /** Two digit (MM) expiry month. */
         @JsonProperty("exp_month")
         @ExcludeMissing
-        fun expMonth(expMonth: JsonField<String>) = apply { this.expMonth = expMonth }
+        fun expMonth(expMonth: JsonField<String>) = apply {
+            this.expMonth = expMonth
+        }
 
         /** Four digit (yyyy) expiry year. */
         fun expYear(expYear: String) = expYear(JsonField.of(expYear))
@@ -414,7 +457,9 @@ private constructor(
         /** Four digit (yyyy) expiry year. */
         @JsonProperty("exp_year")
         @ExcludeMissing
-        fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
+        fun expYear(expYear: JsonField<String>) = apply {
+            this.expYear = expYear
+        }
 
         /** Hostname of card’s locked merchant (will be empty if not applicable). */
         fun hostname(hostname: String) = hostname(JsonField.of(hostname))
@@ -422,7 +467,9 @@ private constructor(
         /** Hostname of card’s locked merchant (will be empty if not applicable). */
         @JsonProperty("hostname")
         @ExcludeMissing
-        fun hostname(hostname: JsonField<String>) = apply { this.hostname = hostname }
+        fun hostname(hostname: JsonField<String>) = apply {
+            this.hostname = hostname
+        }
 
         /** Last four digits of the card number. */
         fun lastFour(lastFour: String) = lastFour(JsonField.of(lastFour))
@@ -430,76 +477,85 @@ private constructor(
         /** Last four digits of the card number. */
         @JsonProperty("last_four")
         @ExcludeMissing
-        fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
+        fun lastFour(lastFour: JsonField<String>) = apply {
+            this.lastFour = lastFour
+        }
 
         /**
-         * Friendly name to identify the card. We recommend against using this field to store JSON
-         * data as it can cause unexpected behavior.
+         * Friendly name to identify the card. We recommend against using this field to
+         * store JSON data as it can cause unexpected behavior.
          */
         fun memo(memo: String) = memo(JsonField.of(memo))
 
         /**
-         * Friendly name to identify the card. We recommend against using this field to store JSON
-         * data as it can cause unexpected behavior.
+         * Friendly name to identify the card. We recommend against using this field to
+         * store JSON data as it can cause unexpected behavior.
          */
         @JsonProperty("memo")
         @ExcludeMissing
-        fun memo(memo: JsonField<String>) = apply { this.memo = memo }
+        fun memo(memo: JsonField<String>) = apply {
+            this.memo = memo
+        }
 
         /**
-         * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to
-         * have PAN returned as a field in production. Please contact
+         * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI
+         * compliant to have PAN returned as a field in production. Please contact
          * [support@lithic.com](mailto:support@lithic.com) for questions.
          */
         fun pan(pan: String) = pan(JsonField.of(pan))
 
         /**
-         * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to
-         * have PAN returned as a field in production. Please contact
+         * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI
+         * compliant to have PAN returned as a field in production. Please contact
          * [support@lithic.com](mailto:support@lithic.com) for questions.
          */
         @JsonProperty("pan")
         @ExcludeMissing
-        fun pan(pan: JsonField<String>) = apply { this.pan = pan }
+        fun pan(pan: JsonField<String>) = apply {
+            this.pan = pan
+        }
 
         /**
-         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-         * limit will be declined.
+         * Amount (in cents) to limit approved authorizations. Transaction requests above
+         * the spend limit will be declined.
          */
         fun spendLimit(spendLimit: Long) = spendLimit(JsonField.of(spendLimit))
 
         /**
-         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-         * limit will be declined.
+         * Amount (in cents) to limit approved authorizations. Transaction requests above
+         * the spend limit will be declined.
          */
         @JsonProperty("spend_limit")
         @ExcludeMissing
-        fun spendLimit(spendLimit: JsonField<Long>) = apply { this.spendLimit = spendLimit }
+        fun spendLimit(spendLimit: JsonField<Long>) = apply {
+            this.spendLimit = spendLimit
+        }
 
         /**
          * Spend limit duration values:
          *
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
-         * card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-         * Month is calculated as this calendar date one month prior.
+         * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar
+         *   year.
+         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime
+         *   of the card.
+         * - `MONTHLY` - Card will authorize transactions up to spend limit for the
+         *   trailing month. Month is calculated as this calendar date one month prior.
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         * transaction is under the spend limit.
+         *   transaction is under the spend limit.
          */
-        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) =
-            spendLimitDuration(JsonField.of(spendLimitDuration))
+        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = spendLimitDuration(JsonField.of(spendLimitDuration))
 
         /**
          * Spend limit duration values:
          *
-         * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar year.
-         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
-         * card.
-         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-         * Month is calculated as this calendar date one month prior.
+         * - `ANNUALLY` - Card will authorize transactions up to spend limit in a calendar
+         *   year.
+         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime
+         *   of the card.
+         * - `MONTHLY` - Card will authorize transactions up to spend limit for the
+         *   trailing month. Month is calculated as this calendar date one month prior.
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         * transaction is under the spend limit.
+         *   transaction is under the spend limit.
          */
         @JsonProperty("spend_limit_duration")
         @ExcludeMissing
@@ -510,18 +566,22 @@ private constructor(
         /**
          * Card state values:
          *
-         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
-         * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
-         * provisioned pending manufacturing and fulfillment. Cards in this state can accept
-         * authorizations for e-commerce purchases, but not for "Card Present" purchases where the
-         * physical card itself is present.
-         * - `PENDING_ACTIVATION` - Each business day at 2pm Eastern Time Zone (ET), cards of type
-         * `PHYSICAL` in state `PENDING_FULFILLMENT` are sent to the card production warehouse and
-         * updated to state `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this
-         * state can be used for e-commerce transactions. API clients should update the card's state
-         * to `OPEN` only after the cardholder confirms receipt of the card.
+         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot
+         *   be undone.
+         * - `OPEN` - Card will approve authorizations (if they match card and account
+         *   parameters).
+         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later
+         *   time.
+         * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The
+         *   card is provisioned pending manufacturing and fulfillment. Cards in this state
+         *   can accept authorizations for e-commerce purchases, but not for "Card Present"
+         *   purchases where the physical card itself is present.
+         * - `PENDING_ACTIVATION` - Each business day at 2pm Eastern Time Zone (ET), cards
+         *   of type `PHYSICAL` in state `PENDING_FULFILLMENT` are sent to the card
+         *   production warehouse and updated to state `PENDING_ACTIVATION` . Similar to
+         *   `PENDING_FULFILLMENT`, cards in this state can be used for e-commerce
+         *   transactions. API clients should update the card's state to `OPEN` only after
+         *   the cardholder confirms receipt of the card.
          *
          * In sandbox, the same daily batch fulfillment occurs, but no cards are actually
          * manufactured.
@@ -531,29 +591,34 @@ private constructor(
         /**
          * Card state values:
          *
-         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
-         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
-         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
-         * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The card is
-         * provisioned pending manufacturing and fulfillment. Cards in this state can accept
-         * authorizations for e-commerce purchases, but not for "Card Present" purchases where the
-         * physical card itself is present.
-         * - `PENDING_ACTIVATION` - Each business day at 2pm Eastern Time Zone (ET), cards of type
-         * `PHYSICAL` in state `PENDING_FULFILLMENT` are sent to the card production warehouse and
-         * updated to state `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this
-         * state can be used for e-commerce transactions. API clients should update the card's state
-         * to `OPEN` only after the cardholder confirms receipt of the card.
+         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot
+         *   be undone.
+         * - `OPEN` - Card will approve authorizations (if they match card and account
+         *   parameters).
+         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later
+         *   time.
+         * - `PENDING_FULFILLMENT` - The initial state for cards of type `PHYSICAL`. The
+         *   card is provisioned pending manufacturing and fulfillment. Cards in this state
+         *   can accept authorizations for e-commerce purchases, but not for "Card Present"
+         *   purchases where the physical card itself is present.
+         * - `PENDING_ACTIVATION` - Each business day at 2pm Eastern Time Zone (ET), cards
+         *   of type `PHYSICAL` in state `PENDING_FULFILLMENT` are sent to the card
+         *   production warehouse and updated to state `PENDING_ACTIVATION` . Similar to
+         *   `PENDING_FULFILLMENT`, cards in this state can be used for e-commerce
+         *   transactions. API clients should update the card's state to `OPEN` only after
+         *   the cardholder confirms receipt of the card.
          *
          * In sandbox, the same daily batch fulfillment occurs, but no cards are actually
          * manufactured.
          */
         @JsonProperty("state")
         @ExcludeMissing
-        fun state(state: JsonField<State>) = apply { this.state = state }
+        fun state(state: JsonField<State>) = apply {
+            this.state = state
+        }
 
         /** List of identifiers for the Auth Rule(s) that are applied on the card. */
-        fun authRuleTokens(authRuleTokens: List<String>) =
-            authRuleTokens(JsonField.of(authRuleTokens))
+        fun authRuleTokens(authRuleTokens: List<String>) = authRuleTokens(JsonField.of(authRuleTokens))
 
         /** List of identifiers for the Auth Rule(s) that are applied on the card. */
         @JsonProperty("auth_rule_tokens")
@@ -568,54 +633,61 @@ private constructor(
         /** Globally unique identifier. */
         @JsonProperty("token")
         @ExcludeMissing
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /**
          * Card types:
          *
-         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
-         * like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
-         * credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
-         * [lithic.com/contact](https://lithic.com/contact) for more information.
+         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
+         *   wallet like Apple Pay or Google Pay (if the card program is digital
+         *   wallet-enabled).
+         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
+         *   branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality.
+         *   Reach out at [lithic.com/contact](https://lithic.com/contact) for more
+         *   information.
          * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
-         * successfully authorizes the card.
-         * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful authorization.
+         *   successfully authorizes the card.
+         * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful
+         *   authorization.
          */
         fun type(type: Type) = type(JsonField.of(type))
 
         /**
          * Card types:
          *
-         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
-         * like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
-         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
-         * credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
-         * [lithic.com/contact](https://lithic.com/contact) for more information.
+         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
+         *   wallet like Apple Pay or Google Pay (if the card program is digital
+         *   wallet-enabled).
+         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
+         *   branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality.
+         *   Reach out at [lithic.com/contact](https://lithic.com/contact) for more
+         *   information.
          * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
-         * successfully authorizes the card.
-         * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful authorization.
+         *   successfully authorizes the card.
+         * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful
+         *   authorization.
          */
         @JsonProperty("type")
         @ExcludeMissing
-        fun type(type: JsonField<Type>) = apply { this.type = type }
+        fun type(type: JsonField<Type>) = apply {
+            this.type = type
+        }
 
         /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet after
-         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-         * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-         * .
+         * Specifies the digital card art to be displayed in the user’s digital wallet
+         * after tokenization. This artwork must be approved by Mastercard and configured
+         * by Lithic to use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        fun digitalCardArtToken(digitalCardArtToken: String) =
-            digitalCardArtToken(JsonField.of(digitalCardArtToken))
+        fun digitalCardArtToken(digitalCardArtToken: String) = digitalCardArtToken(JsonField.of(digitalCardArtToken))
 
         /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet after
-         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-         * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-         * .
+         * Specifies the digital card art to be displayed in the user’s digital wallet
+         * after tokenization. This artwork must be approved by Mastercard and configured
+         * by Lithic to use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
         @JsonProperty("digital_card_art_token")
         @ExcludeMissing
@@ -637,59 +709,47 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): Card =
-            Card(
-                created,
-                cvv,
-                funding,
-                expMonth,
-                expYear,
-                hostname,
-                lastFour,
-                memo,
-                pan,
-                spendLimit,
-                spendLimitDuration,
-                state,
-                authRuleTokens.map { it.toUnmodifiable() },
-                token,
-                type,
-                digitalCardArtToken,
-                additionalProperties.toUnmodifiable(),
-            )
+        fun build(): Card = Card(
+            created,
+            cvv,
+            funding,
+            expMonth,
+            expYear,
+            hostname,
+            lastFour,
+            memo,
+            pan,
+            spendLimit,
+            spendLimitDuration,
+            state,
+            authRuleTokens.map { it.toUnmodifiable() },
+            token,
+            type,
+            digitalCardArtToken,
+            additionalProperties.toUnmodifiable(),
+        )
     }
 
     @JsonDeserialize(builder = FundingAccount.Builder::class)
     @NoAutoDetect
-    class FundingAccount
-    private constructor(
-        private val accountName: JsonField<String>,
-        private val created: JsonField<OffsetDateTime>,
-        private val lastFour: JsonField<String>,
-        private val nickname: JsonField<String>,
-        private val state: JsonField<State>,
-        private val token: JsonField<String>,
-        private val type: JsonField<Type>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class FundingAccount private constructor(private val accountName: JsonField<String>,private val created: JsonField<OffsetDateTime>,private val lastFour: JsonField<String>,private val nickname: JsonField<String>,private val state: JsonField<State>,private val token: JsonField<String>,private val type: JsonField<Type>,private val additionalProperties: Map<String, JsonValue>,) {
 
         private var validated: Boolean = false
 
         private var hashCode: Int = 0
 
         /** Account name identifying the funding source. This may be `null`. */
-        fun accountName(): Optional<String> =
-            Optional.ofNullable(accountName.getNullable("account_name"))
+        fun accountName(): Optional<String> = Optional.ofNullable(accountName.getNullable("account_name"))
 
         /**
-         * An RFC 3339 string representing when this funding source was added to the Lithic account.
-         * This may be `null`. UTC time zone.
+         * An RFC 3339 string representing when this funding source was added to the Lithic
+         * account. This may be `null`. UTC time zone.
          */
         fun created(): OffsetDateTime = created.getRequired("created")
 
         /**
-         * The last 4 digits of the account (e.g. bank account, debit card) associated with this
-         * FundingAccount. This may be null.
+         * The last 4 digits of the account (e.g. bank account, debit card) associated with
+         * this FundingAccount. This may be null.
          */
         fun lastFour(): String = lastFour.getRequired("last_four")
 
@@ -701,9 +761,10 @@ private constructor(
          *
          * Funding source states:
          *
-         * - `ENABLED` - The funding account is available to use for card creation and transactions.
-         * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-         * verification.
+         * - `ENABLED` - The funding account is available to use for card creation and
+         *   transactions.
+         * - `PENDING` - The funding account is still being verified e.g. bank
+         *   micro-deposits verification.
          * - `DELETED` - The founding account has been deleted.
          */
         fun state(): State = state.getRequired("state")
@@ -720,37 +781,50 @@ private constructor(
         fun type(): Type = type.getRequired("type")
 
         /** Account name identifying the funding source. This may be `null`. */
-        @JsonProperty("account_name") @ExcludeMissing fun _accountName() = accountName
+        @JsonProperty("account_name")
+        @ExcludeMissing
+        fun _accountName() = accountName
 
         /**
-         * An RFC 3339 string representing when this funding source was added to the Lithic account.
-         * This may be `null`. UTC time zone.
+         * An RFC 3339 string representing when this funding source was added to the Lithic
+         * account. This may be `null`. UTC time zone.
          */
-        @JsonProperty("created") @ExcludeMissing fun _created() = created
+        @JsonProperty("created")
+        @ExcludeMissing
+        fun _created() = created
 
         /**
-         * The last 4 digits of the account (e.g. bank account, debit card) associated with this
-         * FundingAccount. This may be null.
+         * The last 4 digits of the account (e.g. bank account, debit card) associated with
+         * this FundingAccount. This may be null.
          */
-        @JsonProperty("last_four") @ExcludeMissing fun _lastFour() = lastFour
+        @JsonProperty("last_four")
+        @ExcludeMissing
+        fun _lastFour() = lastFour
 
         /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
-        @JsonProperty("nickname") @ExcludeMissing fun _nickname() = nickname
+        @JsonProperty("nickname")
+        @ExcludeMissing
+        fun _nickname() = nickname
 
         /**
          * State of funding source.
          *
          * Funding source states:
          *
-         * - `ENABLED` - The funding account is available to use for card creation and transactions.
-         * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-         * verification.
+         * - `ENABLED` - The funding account is available to use for card creation and
+         *   transactions.
+         * - `PENDING` - The funding account is still being verified e.g. bank
+         *   micro-deposits verification.
          * - `DELETED` - The founding account has been deleted.
          */
-        @JsonProperty("state") @ExcludeMissing fun _state() = state
+        @JsonProperty("state")
+        @ExcludeMissing
+        fun _state() = state
 
         /** A globally unique identifier for this FundingAccount. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
+        @JsonProperty("token")
+        @ExcludeMissing
+        fun _token() = token
 
         /**
          * Types of funding source:
@@ -758,7 +832,9 @@ private constructor(
          * - `DEPOSITORY_CHECKING` - Bank checking account.
          * - `DEPOSITORY_SAVINGS` - Bank savings account.
          */
-        @JsonProperty("type") @ExcludeMissing fun _type() = type
+        @JsonProperty("type")
+        @ExcludeMissing
+        fun _type() = type
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -766,58 +842,57 @@ private constructor(
 
         fun validate() = apply {
             if (!validated) {
-                accountName()
-                created()
-                lastFour()
-                nickname()
-                state()
-                token()
-                type()
-                validated = true
+              accountName()
+              created()
+              lastFour()
+              nickname()
+              state()
+              token()
+              type()
+              validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is FundingAccount &&
-                this.accountName == other.accountName &&
-                this.created == other.created &&
-                this.lastFour == other.lastFour &&
-                this.nickname == other.nickname &&
-                this.state == other.state &&
-                this.token == other.token &&
-                this.type == other.type &&
-                this.additionalProperties == other.additionalProperties
+          return other is FundingAccount &&
+              this.accountName == other.accountName &&
+              this.created == other.created &&
+              this.lastFour == other.lastFour &&
+              this.nickname == other.nickname &&
+              this.state == other.state &&
+              this.token == other.token &&
+              this.type == other.type &&
+              this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        accountName,
-                        created,
-                        lastFour,
-                        nickname,
-                        state,
-                        token,
-                        type,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
+          if (hashCode == 0) {
+            hashCode = Objects.hash(
+                accountName,
+                created,
+                lastFour,
+                nickname,
+                state,
+                token,
+                type,
+                additionalProperties,
+            )
+          }
+          return hashCode
         }
 
-        override fun toString() =
-            "FundingAccount{accountName=$accountName, created=$created, lastFour=$lastFour, nickname=$nickname, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
+        override fun toString() = "FundingAccount{accountName=$accountName, created=$created, lastFour=$lastFour, nickname=$nickname, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {
@@ -865,21 +940,25 @@ private constructor(
              */
             @JsonProperty("created")
             @ExcludeMissing
-            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+            fun created(created: JsonField<OffsetDateTime>) = apply {
+                this.created = created
+            }
 
             /**
-             * The last 4 digits of the account (e.g. bank account, debit card) associated with this
-             * FundingAccount. This may be null.
+             * The last 4 digits of the account (e.g. bank account, debit card) associated with
+             * this FundingAccount. This may be null.
              */
             fun lastFour(lastFour: String) = lastFour(JsonField.of(lastFour))
 
             /**
-             * The last 4 digits of the account (e.g. bank account, debit card) associated with this
-             * FundingAccount. This may be null.
+             * The last 4 digits of the account (e.g. bank account, debit card) associated with
+             * this FundingAccount. This may be null.
              */
             @JsonProperty("last_four")
             @ExcludeMissing
-            fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
+            fun lastFour(lastFour: JsonField<String>) = apply {
+                this.lastFour = lastFour
+            }
 
             /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
             fun nickname(nickname: String) = nickname(JsonField.of(nickname))
@@ -887,7 +966,9 @@ private constructor(
             /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
             @JsonProperty("nickname")
             @ExcludeMissing
-            fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
+            fun nickname(nickname: JsonField<String>) = apply {
+                this.nickname = nickname
+            }
 
             /**
              * State of funding source.
@@ -895,9 +976,9 @@ private constructor(
              * Funding source states:
              *
              * - `ENABLED` - The funding account is available to use for card creation and
-             * transactions.
-             * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-             * verification.
+             *   transactions.
+             * - `PENDING` - The funding account is still being verified e.g. bank
+             *   micro-deposits verification.
              * - `DELETED` - The founding account has been deleted.
              */
             fun state(state: State) = state(JsonField.of(state))
@@ -908,14 +989,16 @@ private constructor(
              * Funding source states:
              *
              * - `ENABLED` - The funding account is available to use for card creation and
-             * transactions.
-             * - `PENDING` - The funding account is still being verified e.g. bank micro-deposits
-             * verification.
+             *   transactions.
+             * - `PENDING` - The funding account is still being verified e.g. bank
+             *   micro-deposits verification.
              * - `DELETED` - The founding account has been deleted.
              */
             @JsonProperty("state")
             @ExcludeMissing
-            fun state(state: JsonField<State>) = apply { this.state = state }
+            fun state(state: JsonField<State>) = apply {
+                this.state = state
+            }
 
             /** A globally unique identifier for this FundingAccount. */
             fun token(token: String) = token(JsonField.of(token))
@@ -923,7 +1006,9 @@ private constructor(
             /** A globally unique identifier for this FundingAccount. */
             @JsonProperty("token")
             @ExcludeMissing
-            fun token(token: JsonField<String>) = apply { this.token = token }
+            fun token(token: JsonField<String>) = apply {
+                this.token = token
+            }
 
             /**
              * Types of funding source:
@@ -941,7 +1026,9 @@ private constructor(
              */
             @JsonProperty("type")
             @ExcludeMissing
-            fun type(type: JsonField<Type>) = apply { this.type = type }
+            fun type(type: JsonField<Type>) = apply {
+                this.type = type
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -957,33 +1044,30 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): FundingAccount =
-                FundingAccount(
-                    accountName,
-                    created,
-                    lastFour,
-                    nickname,
-                    state,
-                    token,
-                    type,
-                    additionalProperties.toUnmodifiable(),
-                )
+            fun build(): FundingAccount = FundingAccount(
+                accountName,
+                created,
+                lastFour,
+                nickname,
+                state,
+                token,
+                type,
+                additionalProperties.toUnmodifiable(),
+            )
         }
 
-        class State
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) {
+        class State @JsonCreator private constructor(private val value: JsonField<String>,) {
 
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+            @com.fasterxml.jackson.annotation.JsonValue
+            fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
+              if (this === other) {
+                  return true
+              }
 
-                return other is State && this.value == other.value
+              return other is State &&
+                  this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1014,39 +1098,35 @@ private constructor(
                 _UNKNOWN,
             }
 
-            fun value(): Value =
-                when (this) {
-                    ENABLED -> Value.ENABLED
-                    PENDING -> Value.PENDING
-                    DELETED -> Value.DELETED
-                    else -> Value._UNKNOWN
-                }
+            fun value(): Value = when (this) {
+                ENABLED -> Value.ENABLED
+                PENDING -> Value.PENDING
+                DELETED -> Value.DELETED
+                else -> Value._UNKNOWN
+            }
 
-            fun known(): Known =
-                when (this) {
-                    ENABLED -> Known.ENABLED
-                    PENDING -> Known.PENDING
-                    DELETED -> Known.DELETED
-                    else -> throw LithicInvalidDataException("Unknown State: $value")
-                }
+            fun known(): Known = when (this) {
+                ENABLED -> Known.ENABLED
+                PENDING -> Known.PENDING
+                DELETED -> Known.DELETED
+                else -> throw LithicInvalidDataException("Unknown State: $value")
+            }
 
             fun asString(): String = _value().asStringOrThrow()
         }
 
-        class Type
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) {
+        class Type @JsonCreator private constructor(private val value: JsonField<String>,) {
 
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+            @com.fasterxml.jackson.annotation.JsonValue
+            fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
+              if (this === other) {
+                  return true
+              }
 
-                return other is Type && this.value == other.value
+              return other is Type &&
+                  this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1073,38 +1153,34 @@ private constructor(
                 _UNKNOWN,
             }
 
-            fun value(): Value =
-                when (this) {
-                    DEPOSITORY_CHECKING -> Value.DEPOSITORY_CHECKING
-                    DEPOSITORY_SAVINGS -> Value.DEPOSITORY_SAVINGS
-                    else -> Value._UNKNOWN
-                }
+            fun value(): Value = when (this) {
+                DEPOSITORY_CHECKING -> Value.DEPOSITORY_CHECKING
+                DEPOSITORY_SAVINGS -> Value.DEPOSITORY_SAVINGS
+                else -> Value._UNKNOWN
+            }
 
-            fun known(): Known =
-                when (this) {
-                    DEPOSITORY_CHECKING -> Known.DEPOSITORY_CHECKING
-                    DEPOSITORY_SAVINGS -> Known.DEPOSITORY_SAVINGS
-                    else -> throw LithicInvalidDataException("Unknown Type: $value")
-                }
+            fun known(): Known = when (this) {
+                DEPOSITORY_CHECKING -> Known.DEPOSITORY_CHECKING
+                DEPOSITORY_SAVINGS -> Known.DEPOSITORY_SAVINGS
+                else -> throw LithicInvalidDataException("Unknown Type: $value")
+            }
 
             fun asString(): String = _value().asStringOrThrow()
         }
     }
 
-    class State
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
+    class State @JsonCreator private constructor(private val value: JsonField<String>,) {
 
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue
+        fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is State && this.value == other.value
+          return other is State &&
+              this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1143,43 +1219,39 @@ private constructor(
             _UNKNOWN,
         }
 
-        fun value(): Value =
-            when (this) {
-                CLOSED -> Value.CLOSED
-                OPEN -> Value.OPEN
-                PAUSED -> Value.PAUSED
-                PENDING_ACTIVATION -> Value.PENDING_ACTIVATION
-                PENDING_FULFILLMENT -> Value.PENDING_FULFILLMENT
-                else -> Value._UNKNOWN
-            }
+        fun value(): Value = when (this) {
+            CLOSED -> Value.CLOSED
+            OPEN -> Value.OPEN
+            PAUSED -> Value.PAUSED
+            PENDING_ACTIVATION -> Value.PENDING_ACTIVATION
+            PENDING_FULFILLMENT -> Value.PENDING_FULFILLMENT
+            else -> Value._UNKNOWN
+        }
 
-        fun known(): Known =
-            when (this) {
-                CLOSED -> Known.CLOSED
-                OPEN -> Known.OPEN
-                PAUSED -> Known.PAUSED
-                PENDING_ACTIVATION -> Known.PENDING_ACTIVATION
-                PENDING_FULFILLMENT -> Known.PENDING_FULFILLMENT
-                else -> throw LithicInvalidDataException("Unknown State: $value")
-            }
+        fun known(): Known = when (this) {
+            CLOSED -> Known.CLOSED
+            OPEN -> Known.OPEN
+            PAUSED -> Known.PAUSED
+            PENDING_ACTIVATION -> Known.PENDING_ACTIVATION
+            PENDING_FULFILLMENT -> Known.PENDING_FULFILLMENT
+            else -> throw LithicInvalidDataException("Unknown State: $value")
+        }
 
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class Type
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
+    class Type @JsonCreator private constructor(private val value: JsonField<String>,) {
 
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue
+        fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is Type && this.value == other.value
+          return other is Type &&
+              this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -1214,23 +1286,21 @@ private constructor(
             _UNKNOWN,
         }
 
-        fun value(): Value =
-            when (this) {
-                VIRTUAL -> Value.VIRTUAL
-                PHYSICAL -> Value.PHYSICAL
-                MERCHANT_LOCKED -> Value.MERCHANT_LOCKED
-                SINGLE_USE -> Value.SINGLE_USE
-                else -> Value._UNKNOWN
-            }
+        fun value(): Value = when (this) {
+            VIRTUAL -> Value.VIRTUAL
+            PHYSICAL -> Value.PHYSICAL
+            MERCHANT_LOCKED -> Value.MERCHANT_LOCKED
+            SINGLE_USE -> Value.SINGLE_USE
+            else -> Value._UNKNOWN
+        }
 
-        fun known(): Known =
-            when (this) {
-                VIRTUAL -> Known.VIRTUAL
-                PHYSICAL -> Known.PHYSICAL
-                MERCHANT_LOCKED -> Known.MERCHANT_LOCKED
-                SINGLE_USE -> Known.SINGLE_USE
-                else -> throw LithicInvalidDataException("Unknown Type: $value")
-            }
+        fun known(): Known = when (this) {
+            VIRTUAL -> Known.VIRTUAL
+            PHYSICAL -> Known.PHYSICAL
+            MERCHANT_LOCKED -> Known.MERCHANT_LOCKED
+            SINGLE_USE -> Known.SINGLE_USE
+            else -> throw LithicInvalidDataException("Unknown Type: $value")
+        }
 
         fun asString(): String = _value().asStringOrThrow()
     }

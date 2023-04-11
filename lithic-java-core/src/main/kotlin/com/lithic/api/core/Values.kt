@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.BeanProperty
 import com.fasterxml.jackson.databind.DeserializationContext
@@ -15,6 +16,8 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.deser.ContextualDeserializer
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.node.JsonNodeType.ARRAY
 import com.fasterxml.jackson.databind.node.JsonNodeType.BINARY
 import com.fasterxml.jackson.databind.node.JsonNodeType.BOOLEAN
@@ -25,11 +28,11 @@ import com.fasterxml.jackson.databind.node.JsonNodeType.OBJECT
 import com.fasterxml.jackson.databind.node.JsonNodeType.POJO
 import com.fasterxml.jackson.databind.node.JsonNodeType.STRING
 import com.fasterxml.jackson.databind.ser.std.NullSerializer
-import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Optional
+import com.lithic.api.errors.LithicInvalidDataException
 
 @JsonDeserialize(using = JsonField.Deserializer::class)
-sealed class JsonField<out T : Any> {
+sealed class JsonField<out T: Any> {
 
     fun isMissing(): Boolean = this is JsonMissing
 
@@ -108,12 +111,13 @@ sealed class JsonField<out T : Any> {
             is JsonValue -> accept(visitor as JsonValue.Visitor<R>)
         }
 
-    interface Visitor<in T, out R> : JsonValue.Visitor<R> {
+    interface Visitor<in T, out R>: JsonValue.Visitor<R> {
         fun visitKnown(value: T): R = visitDefault()
     }
 
     companion object {
-        @JvmStatic fun <T : Any> of(value: T): JsonField<T> = KnownValue.of(value)
+        @JvmStatic
+        fun <T : Any> of(value: T): JsonField<T> = KnownValue.of(value)
 
         @JvmStatic
         fun <T : Any> ofNullable(value: T?): JsonField<T> =
@@ -140,8 +144,11 @@ sealed class JsonField<out T : Any> {
         }
 
         override fun ObjectCodec.deserialize(node: JsonNode): JsonField<*> {
-            return type?.let { tryDeserialize<Any>(node, type) }?.let { of(it) }
-                ?: JsonValue.fromJsonNode(node)
+            return type?.let {
+                tryDeserialize<Any>(node, type)
+            }?.let {
+                of(it)
+            } ?: JsonValue.fromJsonNode(node)
         }
 
         override fun getNullValue(context: DeserializationContext): JsonField<*> {
@@ -151,7 +158,7 @@ sealed class JsonField<out T : Any> {
 }
 
 @JsonDeserialize(using = JsonValue.Deserializer::class)
-sealed class JsonValue : JsonField<Nothing>() {
+sealed class JsonValue: JsonField<Nothing>() {
 
     fun <R> accept(visitor: Visitor<R>): R =
         when (this) {
@@ -197,12 +204,8 @@ sealed class JsonValue : JsonField<Nothing>() {
                 BOOLEAN -> JsonBoolean.of(node.booleanValue())
                 NUMBER -> JsonNumber.of(node.numberValue())
                 STRING -> JsonString.of(node.textValue())
-                ARRAY ->
-                    JsonArray.of(node.elements().asSequence().map { fromJsonNode(it) }.toList())
-                OBJECT ->
-                    JsonObject.of(
-                        node.fields().asSequence().map { it.key to fromJsonNode(it.value) }.toMap()
-                    )
+                ARRAY -> JsonArray.of(node.elements().asSequence().map { fromJsonNode(it) }.toList())
+                OBJECT -> JsonObject.of(node.fields().asSequence().map { it.key to fromJsonNode(it.value) }.toMap())
                 BINARY,
                 POJO,
                 null -> throw IllegalStateException("Unexpected JsonNode type: ${node.nodeType}")
@@ -220,10 +223,7 @@ sealed class JsonValue : JsonField<Nothing>() {
     }
 }
 
-class KnownValue<T : Any>
-private constructor(
-    @com.fasterxml.jackson.annotation.JsonValue @get:JvmName("value") val value: T
-) : JsonField<T>() {
+class KnownValue<T : Any> private constructor(@com.fasterxml.jackson.annotation.JsonValue @get:JvmName("value") val value: T) : JsonField<T>() {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -238,7 +238,7 @@ private constructor(
     override fun toString() = value.toString()
 
     companion object {
-        @JsonCreator @JvmStatic fun <T : Any> of(value: T) = KnownValue(value)
+        @JsonCreator @JvmStatic fun <T: Any> of(value: T) = KnownValue(value)
     }
 }
 
@@ -253,14 +253,11 @@ class JsonMissing : JsonValue() {
         @JvmStatic fun of() = INSTANCE
     }
 
-    class Serializer : BaseSerializer<JsonMissing>(JsonMissing::class) {
-        override fun serialize(
-            value: JsonMissing,
-            generator: JsonGenerator,
-            provider: SerializerProvider
-        ) {
+    class Serializer: BaseSerializer<JsonMissing>(JsonMissing::class) {
+        override fun serialize(value: JsonMissing, generator: JsonGenerator, provider: SerializerProvider) {
             throw RuntimeException("JsonMissing cannot be serialized")
         }
+
     }
 }
 
@@ -361,7 +358,9 @@ private constructor(
     override fun toString() = values.toString()
 
     companion object {
-        @JsonCreator @JvmStatic fun of(values: List<JsonValue>) = JsonArray(values.toUnmodifiable())
+        @JsonCreator
+        @JvmStatic
+        fun of(values: List<JsonValue>) = JsonArray(values.toUnmodifiable())
     }
 }
 
@@ -398,12 +397,12 @@ private constructor(
 )
 annotation class ExcludeMissing
 
+
 @JacksonAnnotationsInside
 @JsonAutoDetect(
     getterVisibility = Visibility.NONE,
     isGetterVisibility = Visibility.NONE,
     setterVisibility = Visibility.NONE,
     creatorVisibility = Visibility.NONE,
-    fieldVisibility = Visibility.NONE
-)
+    fieldVisibility = Visibility.NONE)
 annotation class NoAutoDetect

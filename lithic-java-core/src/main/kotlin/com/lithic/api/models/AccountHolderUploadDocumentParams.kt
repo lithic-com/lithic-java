@@ -3,25 +3,33 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
+import java.time.OffsetDateTime
+import java.util.Objects
+import java.util.Optional
+import java.util.UUID
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
-import java.util.Objects
 
-class AccountHolderUploadDocumentParams
-constructor(
-    private val accountHolderToken: String,
-    private val documentType: DocumentType,
-    private val additionalQueryParams: Map<String, List<String>>,
-    private val additionalHeaders: Map<String, List<String>>,
-    private val additionalBodyProperties: Map<String, JsonValue>,
-) {
+class AccountHolderUploadDocumentParams constructor(private val accountHolderToken: String,private val documentType: DocumentType,private val additionalQueryParams: Map<String, List<String>>,private val additionalHeaders: Map<String, List<String>>,private val additionalBodyProperties: Map<String, JsonValue>,) {
 
     fun accountHolderToken(): String = accountHolderToken
 
@@ -29,32 +37,31 @@ constructor(
 
     @JvmSynthetic
     internal fun getBody(): AccountHolderUploadDocumentBody {
-        return AccountHolderUploadDocumentBody(documentType, additionalBodyProperties)
+      return AccountHolderUploadDocumentBody(documentType, additionalBodyProperties)
     }
 
-    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
+    @JvmSynthetic
+    internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic
+    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-        return when (index) {
-            0 -> accountHolderToken
-            else -> ""
-        }
+      return when (index) {
+          0 -> accountHolderToken
+          else -> ""
+      }
     }
 
     @JsonDeserialize(builder = AccountHolderUploadDocumentBody.Builder::class)
     @NoAutoDetect
-    class AccountHolderUploadDocumentBody
-    internal constructor(
-        private val documentType: DocumentType?,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
+    class AccountHolderUploadDocumentBody internal constructor(private val documentType: DocumentType?,private val additionalProperties: Map<String, JsonValue>,) {
 
         private var hashCode: Int = 0
 
         /** Type of the document to upload. */
-        @JsonProperty("document_type") fun documentType(): DocumentType? = documentType
+        @JsonProperty("document_type")
+        fun documentType(): DocumentType? = documentType
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -63,28 +70,28 @@ constructor(
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is AccountHolderUploadDocumentBody &&
-                this.documentType == other.documentType &&
-                this.additionalProperties == other.additionalProperties
+          return other is AccountHolderUploadDocumentBody &&
+              this.documentType == other.documentType &&
+              this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = Objects.hash(documentType, additionalProperties)
-            }
-            return hashCode
+          if (hashCode == 0) {
+            hashCode = Objects.hash(documentType, additionalProperties)
+          }
+          return hashCode
         }
 
-        override fun toString() =
-            "AccountHolderUploadDocumentBody{documentType=$documentType, additionalProperties=$additionalProperties}"
+        override fun toString() = "AccountHolderUploadDocumentBody{documentType=$documentType, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic fun builder() = Builder()
+            @JvmStatic
+            fun builder() = Builder()
         }
 
         class Builder {
@@ -93,11 +100,10 @@ constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(accountHolderUploadDocumentBody: AccountHolderUploadDocumentBody) =
-                apply {
-                    this.documentType = accountHolderUploadDocumentBody.documentType
-                    additionalProperties(accountHolderUploadDocumentBody.additionalProperties)
-                }
+            internal fun from(accountHolderUploadDocumentBody: AccountHolderUploadDocumentBody) = apply {
+                this.documentType = accountHolderUploadDocumentBody.documentType
+                additionalProperties(accountHolderUploadDocumentBody.additionalProperties)
+            }
 
             /** Type of the document to upload. */
             @JsonProperty("document_type")
@@ -119,11 +125,9 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): AccountHolderUploadDocumentBody =
-                AccountHolderUploadDocumentBody(
-                    checkNotNull(documentType) { "`documentType` is required but was not set" },
-                    additionalProperties.toUnmodifiable()
-                )
+            fun build(): AccountHolderUploadDocumentBody = AccountHolderUploadDocumentBody(checkNotNull(documentType) {
+                "`documentType` is required but was not set"
+            }, additionalProperties.toUnmodifiable())
         }
     }
 
@@ -134,36 +138,36 @@ constructor(
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is AccountHolderUploadDocumentParams &&
-            this.accountHolderToken == other.accountHolderToken &&
-            this.documentType == other.documentType &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+      return other is AccountHolderUploadDocumentParams &&
+          this.accountHolderToken == other.accountHolderToken &&
+          this.documentType == other.documentType &&
+          this.additionalQueryParams == other.additionalQueryParams &&
+          this.additionalHeaders == other.additionalHeaders &&
+          this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountHolderToken,
-            documentType,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+      return Objects.hash(
+          accountHolderToken,
+          documentType,
+          additionalQueryParams,
+          additionalHeaders,
+          additionalBodyProperties,
+      )
     }
 
-    override fun toString() =
-        "AccountHolderUploadDocumentParams{accountHolderToken=$accountHolderToken, documentType=$documentType, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() = "AccountHolderUploadDocumentParams{accountHolderToken=$accountHolderToken, documentType=$documentType, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -176,21 +180,22 @@ constructor(
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(accountHolderUploadDocumentParams: AccountHolderUploadDocumentParams) =
-            apply {
-                this.accountHolderToken = accountHolderUploadDocumentParams.accountHolderToken
-                this.documentType = accountHolderUploadDocumentParams.documentType
-                additionalQueryParams(accountHolderUploadDocumentParams.additionalQueryParams)
-                additionalHeaders(accountHolderUploadDocumentParams.additionalHeaders)
-                additionalBodyProperties(accountHolderUploadDocumentParams.additionalBodyProperties)
-            }
+        internal fun from(accountHolderUploadDocumentParams: AccountHolderUploadDocumentParams) = apply {
+            this.accountHolderToken = accountHolderUploadDocumentParams.accountHolderToken
+            this.documentType = accountHolderUploadDocumentParams.documentType
+            additionalQueryParams(accountHolderUploadDocumentParams.additionalQueryParams)
+            additionalHeaders(accountHolderUploadDocumentParams.additionalHeaders)
+            additionalBodyProperties(accountHolderUploadDocumentParams.additionalBodyProperties)
+        }
 
         fun accountHolderToken(accountHolderToken: String) = apply {
             this.accountHolderToken = accountHolderToken
         }
 
         /** Type of the document to upload. */
-        fun documentType(documentType: DocumentType) = apply { this.documentType = documentType }
+        fun documentType(documentType: DocumentType) = apply {
+            this.documentType = documentType
+        }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -230,7 +235,9 @@ constructor(
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
+        fun removeHeader(name: String) = apply {
+            this.additionalHeaders.put(name, mutableListOf())
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             this.additionalBodyProperties.clear()
@@ -241,37 +248,35 @@ constructor(
             this.additionalBodyProperties.put(key, value)
         }
 
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        }
 
-        fun build(): AccountHolderUploadDocumentParams =
-            AccountHolderUploadDocumentParams(
-                checkNotNull(accountHolderToken) {
-                    "`accountHolderToken` is required but was not set"
-                },
-                checkNotNull(documentType) { "`documentType` is required but was not set" },
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
-            )
+        fun build(): AccountHolderUploadDocumentParams = AccountHolderUploadDocumentParams(
+            checkNotNull(accountHolderToken) {
+                "`accountHolderToken` is required but was not set"
+            },
+            checkNotNull(documentType) {
+                "`documentType` is required but was not set"
+            },
+            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+            additionalBodyProperties.toUnmodifiable(),
+        )
     }
 
-    class DocumentType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
+    class DocumentType @JsonCreator private constructor(private val value: JsonField<String>,) {
 
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue
+        fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
+          if (this === other) {
+              return true
+          }
 
-            return other is DocumentType && this.value == other.value
+          return other is DocumentType &&
+              this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -310,25 +315,23 @@ constructor(
             _UNKNOWN,
         }
 
-        fun value(): Value =
-            when (this) {
-                COMMERCIAL_LICENSE -> Value.COMMERCIAL_LICENSE
-                DRIVERS_LICENSE -> Value.DRIVERS_LICENSE
-                PASSPORT -> Value.PASSPORT
-                PASSPORT_CARD -> Value.PASSPORT_CARD
-                VISA -> Value.VISA
-                else -> Value._UNKNOWN
-            }
+        fun value(): Value = when (this) {
+            COMMERCIAL_LICENSE -> Value.COMMERCIAL_LICENSE
+            DRIVERS_LICENSE -> Value.DRIVERS_LICENSE
+            PASSPORT -> Value.PASSPORT
+            PASSPORT_CARD -> Value.PASSPORT_CARD
+            VISA -> Value.VISA
+            else -> Value._UNKNOWN
+        }
 
-        fun known(): Known =
-            when (this) {
-                COMMERCIAL_LICENSE -> Known.COMMERCIAL_LICENSE
-                DRIVERS_LICENSE -> Known.DRIVERS_LICENSE
-                PASSPORT -> Known.PASSPORT
-                PASSPORT_CARD -> Known.PASSPORT_CARD
-                VISA -> Known.VISA
-                else -> throw LithicInvalidDataException("Unknown DocumentType: $value")
-            }
+        fun known(): Known = when (this) {
+            COMMERCIAL_LICENSE -> Known.COMMERCIAL_LICENSE
+            DRIVERS_LICENSE -> Known.DRIVERS_LICENSE
+            PASSPORT -> Known.PASSPORT
+            PASSPORT_CARD -> Known.PASSPORT_CARD
+            VISA -> Known.VISA
+            else -> throw LithicInvalidDataException("Unknown DocumentType: $value")
+        }
 
         fun asString(): String = _value().asStringOrThrow()
     }

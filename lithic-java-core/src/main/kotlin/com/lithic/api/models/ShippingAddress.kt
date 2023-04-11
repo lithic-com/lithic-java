@@ -2,34 +2,35 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import java.util.UUID
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
 
 @JsonDeserialize(builder = ShippingAddress.Builder::class)
 @NoAutoDetect
-class ShippingAddress
-private constructor(
-    private val firstName: JsonField<String>,
-    private val lastName: JsonField<String>,
-    private val line2Text: JsonField<String>,
-    private val address1: JsonField<String>,
-    private val address2: JsonField<String>,
-    private val city: JsonField<String>,
-    private val state: JsonField<String>,
-    private val postalCode: JsonField<String>,
-    private val country: JsonField<String>,
-    private val email: JsonField<String>,
-    private val phoneNumber: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
-) {
+class ShippingAddress private constructor(private val firstName: JsonField<String>,private val lastName: JsonField<String>,private val line2Text: JsonField<String>,private val address1: JsonField<String>,private val address2: JsonField<String>,private val city: JsonField<String>,private val state: JsonField<String>,private val postalCode: JsonField<String>,private val country: JsonField<String>,private val email: JsonField<String>,private val phoneNumber: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
 
     private var validated: Boolean = false
 
@@ -39,13 +40,14 @@ private constructor(
     fun firstName(): String = firstName.getRequired("first_name")
 
     /**
-     * Customer's surname (family name). This will be the last name printed on the physical card.
+     * Customer's surname (family name). This will be the last name printed on the
+     * physical card.
      */
     fun lastName(): String = lastName.getRequired("last_name")
 
     /**
-     * Text to be printed on line two of the physical card. Use of this field requires additional
-     * permissions.
+     * Text to be printed on line two of the physical card. Use of this field requires
+     * additional permissions.
      */
     fun line2Text(): Optional<String> = Optional.ofNullable(line2Text.getNullable("line2_text"))
 
@@ -59,14 +61,14 @@ private constructor(
     fun city(): String = city.getRequired("city")
 
     /**
-     * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a limit of 24
-     * characters for other countries.
+     * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a
+     * limit of 24 characters for other countries.
      */
     fun state(): String = state.getRequired("state")
 
     /**
-     * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or nine-digit
-     * "ZIP+4".
+     * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or
+     * nine-digit "ZIP+4".
      */
     fun postalCode(): String = postalCode.getRequired("postal_code")
 
@@ -74,67 +76,89 @@ private constructor(
     fun country(): String = country.getRequired("country")
 
     /**
-     * Email address to be contacted for expedited shipping process purposes. Required if
-     * `shipping_method` is `EXPEDITED`.
+     * Email address to be contacted for expedited shipping process purposes. Required
+     * if `shipping_method` is `EXPEDITED`.
      */
     fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
 
     /**
-     * Cardholder's phone number in E.164 format to be contacted for expedited shipping process
-     * purposes. Required if `shipping_method` is `EXPEDITED`.
+     * Cardholder's phone number in E.164 format to be contacted for expedited shipping
+     * process purposes. Required if `shipping_method` is `EXPEDITED`.
      */
-    fun phoneNumber(): Optional<String> =
-        Optional.ofNullable(phoneNumber.getNullable("phone_number"))
+    fun phoneNumber(): Optional<String> = Optional.ofNullable(phoneNumber.getNullable("phone_number"))
 
     /** Customer's first name. This will be the first name printed on the physical card. */
-    @JsonProperty("first_name") @ExcludeMissing fun _firstName() = firstName
+    @JsonProperty("first_name")
+    @ExcludeMissing
+    fun _firstName() = firstName
 
     /**
-     * Customer's surname (family name). This will be the last name printed on the physical card.
+     * Customer's surname (family name). This will be the last name printed on the
+     * physical card.
      */
-    @JsonProperty("last_name") @ExcludeMissing fun _lastName() = lastName
+    @JsonProperty("last_name")
+    @ExcludeMissing
+    fun _lastName() = lastName
 
     /**
-     * Text to be printed on line two of the physical card. Use of this field requires additional
-     * permissions.
+     * Text to be printed on line two of the physical card. Use of this field requires
+     * additional permissions.
      */
-    @JsonProperty("line2_text") @ExcludeMissing fun _line2Text() = line2Text
+    @JsonProperty("line2_text")
+    @ExcludeMissing
+    fun _line2Text() = line2Text
 
     /** Valid USPS routable address. */
-    @JsonProperty("address1") @ExcludeMissing fun _address1() = address1
+    @JsonProperty("address1")
+    @ExcludeMissing
+    fun _address1() = address1
 
     /** Unit number (if applicable). */
-    @JsonProperty("address2") @ExcludeMissing fun _address2() = address2
+    @JsonProperty("address2")
+    @ExcludeMissing
+    fun _address2() = address2
 
     /** City */
-    @JsonProperty("city") @ExcludeMissing fun _city() = city
+    @JsonProperty("city")
+    @ExcludeMissing
+    fun _city() = city
 
     /**
-     * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a limit of 24
-     * characters for other countries.
+     * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a
+     * limit of 24 characters for other countries.
      */
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
+    @JsonProperty("state")
+    @ExcludeMissing
+    fun _state() = state
 
     /**
-     * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or nine-digit
-     * "ZIP+4".
+     * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or
+     * nine-digit "ZIP+4".
      */
-    @JsonProperty("postal_code") @ExcludeMissing fun _postalCode() = postalCode
+    @JsonProperty("postal_code")
+    @ExcludeMissing
+    fun _postalCode() = postalCode
 
     /** Uppercase ISO 3166-1 alpha-3 three character abbreviation. */
-    @JsonProperty("country") @ExcludeMissing fun _country() = country
+    @JsonProperty("country")
+    @ExcludeMissing
+    fun _country() = country
 
     /**
-     * Email address to be contacted for expedited shipping process purposes. Required if
-     * `shipping_method` is `EXPEDITED`.
+     * Email address to be contacted for expedited shipping process purposes. Required
+     * if `shipping_method` is `EXPEDITED`.
      */
-    @JsonProperty("email") @ExcludeMissing fun _email() = email
+    @JsonProperty("email")
+    @ExcludeMissing
+    fun _email() = email
 
     /**
-     * Cardholder's phone number in E.164 format to be contacted for expedited shipping process
-     * purposes. Required if `shipping_method` is `EXPEDITED`.
+     * Cardholder's phone number in E.164 format to be contacted for expedited shipping
+     * process purposes. Required if `shipping_method` is `EXPEDITED`.
      */
-    @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
+    @JsonProperty("phone_number")
+    @ExcludeMissing
+    fun _phoneNumber() = phoneNumber
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -142,70 +166,69 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
-            firstName()
-            lastName()
-            line2Text()
-            address1()
-            address2()
-            city()
-            state()
-            postalCode()
-            country()
-            email()
-            phoneNumber()
-            validated = true
+          firstName()
+          lastName()
+          line2Text()
+          address1()
+          address2()
+          city()
+          state()
+          postalCode()
+          country()
+          email()
+          phoneNumber()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is ShippingAddress &&
-            this.firstName == other.firstName &&
-            this.lastName == other.lastName &&
-            this.line2Text == other.line2Text &&
-            this.address1 == other.address1 &&
-            this.address2 == other.address2 &&
-            this.city == other.city &&
-            this.state == other.state &&
-            this.postalCode == other.postalCode &&
-            this.country == other.country &&
-            this.email == other.email &&
-            this.phoneNumber == other.phoneNumber &&
-            this.additionalProperties == other.additionalProperties
+      return other is ShippingAddress &&
+          this.firstName == other.firstName &&
+          this.lastName == other.lastName &&
+          this.line2Text == other.line2Text &&
+          this.address1 == other.address1 &&
+          this.address2 == other.address2 &&
+          this.city == other.city &&
+          this.state == other.state &&
+          this.postalCode == other.postalCode &&
+          this.country == other.country &&
+          this.email == other.email &&
+          this.phoneNumber == other.phoneNumber &&
+          this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    firstName,
-                    lastName,
-                    line2Text,
-                    address1,
-                    address2,
-                    city,
-                    state,
-                    postalCode,
-                    country,
-                    email,
-                    phoneNumber,
-                    additionalProperties,
-                )
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(
+            firstName,
+            lastName,
+            line2Text,
+            address1,
+            address2,
+            city,
+            state,
+            postalCode,
+            country,
+            email,
+            phoneNumber,
+            additionalProperties,
+        )
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "ShippingAddress{firstName=$firstName, lastName=$lastName, line2Text=$line2Text, address1=$address1, address2=$address2, city=$city, state=$state, postalCode=$postalCode, country=$country, email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
+    override fun toString() = "ShippingAddress{firstName=$firstName, lastName=$lastName, line2Text=$line2Text, address1=$address1, address2=$address2, city=$city, state=$state, postalCode=$postalCode, country=$country, email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -245,21 +268,25 @@ private constructor(
         /** Customer's first name. This will be the first name printed on the physical card. */
         @JsonProperty("first_name")
         @ExcludeMissing
-        fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
+        fun firstName(firstName: JsonField<String>) = apply {
+            this.firstName = firstName
+        }
 
         /**
-         * Customer's surname (family name). This will be the last name printed on the physical
-         * card.
+         * Customer's surname (family name). This will be the last name printed on the
+         * physical card.
          */
         fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
         /**
-         * Customer's surname (family name). This will be the last name printed on the physical
-         * card.
+         * Customer's surname (family name). This will be the last name printed on the
+         * physical card.
          */
         @JsonProperty("last_name")
         @ExcludeMissing
-        fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
+        fun lastName(lastName: JsonField<String>) = apply {
+            this.lastName = lastName
+        }
 
         /**
          * Text to be printed on line two of the physical card. Use of this field requires
@@ -273,7 +300,9 @@ private constructor(
          */
         @JsonProperty("line2_text")
         @ExcludeMissing
-        fun line2Text(line2Text: JsonField<String>) = apply { this.line2Text = line2Text }
+        fun line2Text(line2Text: JsonField<String>) = apply {
+            this.line2Text = line2Text
+        }
 
         /** Valid USPS routable address. */
         fun address1(address1: String) = address1(JsonField.of(address1))
@@ -281,7 +310,9 @@ private constructor(
         /** Valid USPS routable address. */
         @JsonProperty("address1")
         @ExcludeMissing
-        fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
+        fun address1(address1: JsonField<String>) = apply {
+            this.address1 = address1
+        }
 
         /** Unit number (if applicable). */
         fun address2(address2: String) = address2(JsonField.of(address2))
@@ -289,7 +320,9 @@ private constructor(
         /** Unit number (if applicable). */
         @JsonProperty("address2")
         @ExcludeMissing
-        fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
+        fun address2(address2: JsonField<String>) = apply {
+            this.address2 = address2
+        }
 
         /** City */
         fun city(city: String) = city(JsonField.of(city))
@@ -297,35 +330,41 @@ private constructor(
         /** City */
         @JsonProperty("city")
         @ExcludeMissing
-        fun city(city: JsonField<String>) = apply { this.city = city }
+        fun city(city: JsonField<String>) = apply {
+            this.city = city
+        }
 
         /**
-         * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a limit of
-         * 24 characters for other countries.
+         * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a
+         * limit of 24 characters for other countries.
          */
         fun state(state: String) = state(JsonField.of(state))
 
         /**
-         * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a limit of
-         * 24 characters for other countries.
+         * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a
+         * limit of 24 characters for other countries.
          */
         @JsonProperty("state")
         @ExcludeMissing
-        fun state(state: JsonField<String>) = apply { this.state = state }
+        fun state(state: JsonField<String>) = apply {
+            this.state = state
+        }
 
         /**
-         * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or nine-digit
-         * "ZIP+4".
+         * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or
+         * nine-digit "ZIP+4".
          */
         fun postalCode(postalCode: String) = postalCode(JsonField.of(postalCode))
 
         /**
-         * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or nine-digit
-         * "ZIP+4".
+         * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or
+         * nine-digit "ZIP+4".
          */
         @JsonProperty("postal_code")
         @ExcludeMissing
-        fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
+        fun postalCode(postalCode: JsonField<String>) = apply {
+            this.postalCode = postalCode
+        }
 
         /** Uppercase ISO 3166-1 alpha-3 three character abbreviation. */
         fun country(country: String) = country(JsonField.of(country))
@@ -333,35 +372,41 @@ private constructor(
         /** Uppercase ISO 3166-1 alpha-3 three character abbreviation. */
         @JsonProperty("country")
         @ExcludeMissing
-        fun country(country: JsonField<String>) = apply { this.country = country }
+        fun country(country: JsonField<String>) = apply {
+            this.country = country
+        }
 
         /**
-         * Email address to be contacted for expedited shipping process purposes. Required if
-         * `shipping_method` is `EXPEDITED`.
+         * Email address to be contacted for expedited shipping process purposes. Required
+         * if `shipping_method` is `EXPEDITED`.
          */
         fun email(email: String) = email(JsonField.of(email))
 
         /**
-         * Email address to be contacted for expedited shipping process purposes. Required if
-         * `shipping_method` is `EXPEDITED`.
+         * Email address to be contacted for expedited shipping process purposes. Required
+         * if `shipping_method` is `EXPEDITED`.
          */
         @JsonProperty("email")
         @ExcludeMissing
-        fun email(email: JsonField<String>) = apply { this.email = email }
+        fun email(email: JsonField<String>) = apply {
+            this.email = email
+        }
 
         /**
-         * Cardholder's phone number in E.164 format to be contacted for expedited shipping process
-         * purposes. Required if `shipping_method` is `EXPEDITED`.
+         * Cardholder's phone number in E.164 format to be contacted for expedited shipping
+         * process purposes. Required if `shipping_method` is `EXPEDITED`.
          */
         fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
         /**
-         * Cardholder's phone number in E.164 format to be contacted for expedited shipping process
-         * purposes. Required if `shipping_method` is `EXPEDITED`.
+         * Cardholder's phone number in E.164 format to be contacted for expedited shipping
+         * process purposes. Required if `shipping_method` is `EXPEDITED`.
          */
         @JsonProperty("phone_number")
         @ExcludeMissing
-        fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
+        fun phoneNumber(phoneNumber: JsonField<String>) = apply {
+            this.phoneNumber = phoneNumber
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -377,20 +422,19 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): ShippingAddress =
-            ShippingAddress(
-                firstName,
-                lastName,
-                line2Text,
-                address1,
-                address2,
-                city,
-                state,
-                postalCode,
-                country,
-                email,
-                phoneNumber,
-                additionalProperties.toUnmodifiable(),
-            )
+        fun build(): ShippingAddress = ShippingAddress(
+            firstName,
+            lastName,
+            line2Text,
+            address1,
+            address2,
+            city,
+            state,
+            postalCode,
+            country,
+            email,
+            phoneNumber,
+            additionalProperties.toUnmodifiable(),
+        )
     }
 }

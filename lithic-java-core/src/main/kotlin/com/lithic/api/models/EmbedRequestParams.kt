@@ -2,52 +2,58 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
+import java.util.UUID
+import com.lithic.api.core.BaseDeserializer
+import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.errors.LithicInvalidDataException
 
 @JsonDeserialize(builder = EmbedRequestParams.Builder::class)
 @NoAutoDetect
-class EmbedRequestParams
-private constructor(
-    private val css: JsonField<String>,
-    private val expiration: JsonField<OffsetDateTime>,
-    private val token: JsonField<String>,
-    private val targetOrigin: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
-) {
+class EmbedRequestParams private constructor(private val css: JsonField<String>,private val expiration: JsonField<OffsetDateTime>,private val token: JsonField<String>,private val targetOrigin: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
 
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
 
     /**
-     * A publicly available URI, so the white-labeled card element can be styled with the client's
-     * branding.
+     * A publicly available URI, so the white-labeled card element can be styled with
+     * the client's branding.
      */
     fun css(): Optional<String> = Optional.ofNullable(css.getNullable("css"))
 
     /**
      * An RFC 3339 timestamp for when the request should expire. UTC time zone.
      *
-     * If no timezone is specified, UTC will be used. If payload does not contain an expiration, the
-     * request will never expire.
+     * If no timezone is specified, UTC will be used. If payload does not contain an
+     * expiration, the request will never expire.
      *
      * Using an `expiration` reduces the risk of a
-     * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying the
-     * `expiration`, in the event that a malicious user gets a copy of your request in transit, they
-     * will be able to obtain the response data indefinitely.
+     * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying
+     * the `expiration`, in the event that a malicious user gets a copy of your request
+     * in transit, they will be able to obtain the response data indefinitely.
      */
-    fun expiration(): Optional<OffsetDateTime> =
-        Optional.ofNullable(expiration.getNullable("expiration"))
+    fun expiration(): Optional<OffsetDateTime> = Optional.ofNullable(expiration.getNullable("expiration"))
 
     /** Globally unique identifier for the card to be displayed. */
     fun token(): String = token.getRequired("token")
@@ -55,41 +61,48 @@ private constructor(
     /**
      * Required if you want to post the element clicked to the parent iframe.
      *
-     * If you supply this param, you can also capture click events in the parent iframe by adding an
-     * event listener.
+     * If you supply this param, you can also capture click events in the parent iframe
+     * by adding an event listener.
      */
-    fun targetOrigin(): Optional<String> =
-        Optional.ofNullable(targetOrigin.getNullable("target_origin"))
+    fun targetOrigin(): Optional<String> = Optional.ofNullable(targetOrigin.getNullable("target_origin"))
 
     /**
-     * A publicly available URI, so the white-labeled card element can be styled with the client's
-     * branding.
+     * A publicly available URI, so the white-labeled card element can be styled with
+     * the client's branding.
      */
-    @JsonProperty("css") @ExcludeMissing fun _css() = css
+    @JsonProperty("css")
+    @ExcludeMissing
+    fun _css() = css
 
     /**
      * An RFC 3339 timestamp for when the request should expire. UTC time zone.
      *
-     * If no timezone is specified, UTC will be used. If payload does not contain an expiration, the
-     * request will never expire.
+     * If no timezone is specified, UTC will be used. If payload does not contain an
+     * expiration, the request will never expire.
      *
      * Using an `expiration` reduces the risk of a
-     * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying the
-     * `expiration`, in the event that a malicious user gets a copy of your request in transit, they
-     * will be able to obtain the response data indefinitely.
+     * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying
+     * the `expiration`, in the event that a malicious user gets a copy of your request
+     * in transit, they will be able to obtain the response data indefinitely.
      */
-    @JsonProperty("expiration") @ExcludeMissing fun _expiration() = expiration
+    @JsonProperty("expiration")
+    @ExcludeMissing
+    fun _expiration() = expiration
 
     /** Globally unique identifier for the card to be displayed. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token")
+    @ExcludeMissing
+    fun _token() = token
 
     /**
      * Required if you want to post the element clicked to the parent iframe.
      *
-     * If you supply this param, you can also capture click events in the parent iframe by adding an
-     * event listener.
+     * If you supply this param, you can also capture click events in the parent iframe
+     * by adding an event listener.
      */
-    @JsonProperty("target_origin") @ExcludeMissing fun _targetOrigin() = targetOrigin
+    @JsonProperty("target_origin")
+    @ExcludeMissing
+    fun _targetOrigin() = targetOrigin
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -97,49 +110,48 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
-            css()
-            expiration()
-            token()
-            targetOrigin()
-            validated = true
+          css()
+          expiration()
+          token()
+          targetOrigin()
+          validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+      if (this === other) {
+          return true
+      }
 
-        return other is EmbedRequestParams &&
-            this.css == other.css &&
-            this.expiration == other.expiration &&
-            this.token == other.token &&
-            this.targetOrigin == other.targetOrigin &&
-            this.additionalProperties == other.additionalProperties
+      return other is EmbedRequestParams &&
+          this.css == other.css &&
+          this.expiration == other.expiration &&
+          this.token == other.token &&
+          this.targetOrigin == other.targetOrigin &&
+          this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    css,
-                    expiration,
-                    token,
-                    targetOrigin,
-                    additionalProperties,
-                )
-        }
-        return hashCode
+      if (hashCode == 0) {
+        hashCode = Objects.hash(
+            css,
+            expiration,
+            token,
+            targetOrigin,
+            additionalProperties,
+        )
+      }
+      return hashCode
     }
 
-    override fun toString() =
-        "EmbedRequestParams{css=$css, expiration=$expiration, token=$token, targetOrigin=$targetOrigin, additionalProperties=$additionalProperties}"
+    override fun toString() = "EmbedRequestParams{css=$css, expiration=$expiration, token=$token, targetOrigin=$targetOrigin, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic fun builder() = Builder()
+        @JvmStatic
+        fun builder() = Builder()
     }
 
     class Builder {
@@ -160,42 +172,44 @@ private constructor(
         }
 
         /**
-         * A publicly available URI, so the white-labeled card element can be styled with the
-         * client's branding.
+         * A publicly available URI, so the white-labeled card element can be styled with
+         * the client's branding.
          */
         fun css(css: String) = css(JsonField.of(css))
 
         /**
-         * A publicly available URI, so the white-labeled card element can be styled with the
-         * client's branding.
+         * A publicly available URI, so the white-labeled card element can be styled with
+         * the client's branding.
          */
         @JsonProperty("css")
         @ExcludeMissing
-        fun css(css: JsonField<String>) = apply { this.css = css }
+        fun css(css: JsonField<String>) = apply {
+            this.css = css
+        }
 
         /**
          * An RFC 3339 timestamp for when the request should expire. UTC time zone.
          *
-         * If no timezone is specified, UTC will be used. If payload does not contain an expiration,
-         * the request will never expire.
+         * If no timezone is specified, UTC will be used. If payload does not contain an
+         * expiration, the request will never expire.
          *
          * Using an `expiration` reduces the risk of a
-         * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying the
-         * `expiration`, in the event that a malicious user gets a copy of your request in transit,
-         * they will be able to obtain the response data indefinitely.
+         * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying
+         * the `expiration`, in the event that a malicious user gets a copy of your request
+         * in transit, they will be able to obtain the response data indefinitely.
          */
         fun expiration(expiration: OffsetDateTime) = expiration(JsonField.of(expiration))
 
         /**
          * An RFC 3339 timestamp for when the request should expire. UTC time zone.
          *
-         * If no timezone is specified, UTC will be used. If payload does not contain an expiration,
-         * the request will never expire.
+         * If no timezone is specified, UTC will be used. If payload does not contain an
+         * expiration, the request will never expire.
          *
          * Using an `expiration` reduces the risk of a
-         * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying the
-         * `expiration`, in the event that a malicious user gets a copy of your request in transit,
-         * they will be able to obtain the response data indefinitely.
+         * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying
+         * the `expiration`, in the event that a malicious user gets a copy of your request
+         * in transit, they will be able to obtain the response data indefinitely.
          */
         @JsonProperty("expiration")
         @ExcludeMissing
@@ -209,21 +223,23 @@ private constructor(
         /** Globally unique identifier for the card to be displayed. */
         @JsonProperty("token")
         @ExcludeMissing
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun token(token: JsonField<String>) = apply {
+            this.token = token
+        }
 
         /**
          * Required if you want to post the element clicked to the parent iframe.
          *
-         * If you supply this param, you can also capture click events in the parent iframe by
-         * adding an event listener.
+         * If you supply this param, you can also capture click events in the parent iframe
+         * by adding an event listener.
          */
         fun targetOrigin(targetOrigin: String) = targetOrigin(JsonField.of(targetOrigin))
 
         /**
          * Required if you want to post the element clicked to the parent iframe.
          *
-         * If you supply this param, you can also capture click events in the parent iframe by
-         * adding an event listener.
+         * If you supply this param, you can also capture click events in the parent iframe
+         * by adding an event listener.
          */
         @JsonProperty("target_origin")
         @ExcludeMissing
@@ -245,13 +261,12 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): EmbedRequestParams =
-            EmbedRequestParams(
-                css,
-                expiration,
-                token,
-                targetOrigin,
-                additionalProperties.toUnmodifiable(),
-            )
+        fun build(): EmbedRequestParams = EmbedRequestParams(
+            css,
+            expiration,
+            token,
+            targetOrigin,
+            additionalProperties.toUnmodifiable(),
+        )
     }
 }
