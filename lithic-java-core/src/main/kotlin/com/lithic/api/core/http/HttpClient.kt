@@ -3,7 +3,6 @@ package com.lithic.api.core.http
 import com.lithic.api.core.RequestOptions
 import java.io.Closeable
 import java.util.concurrent.CompletableFuture
-import com.lithic.api.core.RequestOptions
 
 interface HttpClient : Closeable {
 

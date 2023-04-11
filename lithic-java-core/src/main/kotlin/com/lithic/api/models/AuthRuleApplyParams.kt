@@ -2,34 +2,26 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
-import java.time.OffsetDateTime
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 
-class AuthRuleApplyParams constructor(private val authRuleToken: String,private val cardTokens: List<String>?,private val accountTokens: List<String>?,private val programLevel: Boolean?,private val additionalQueryParams: Map<String, List<String>>,private val additionalHeaders: Map<String, List<String>>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class AuthRuleApplyParams
+constructor(
+    private val authRuleToken: String,
+    private val cardTokens: List<String>?,
+    private val accountTokens: List<String>?,
+    private val programLevel: Boolean?,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun authRuleToken(): String = authRuleToken
 
@@ -41,51 +33,51 @@ class AuthRuleApplyParams constructor(private val authRuleToken: String,private 
 
     @JvmSynthetic
     internal fun getBody(): AuthRuleApplyBody {
-      return AuthRuleApplyBody(
-          cardTokens,
-          accountTokens,
-          programLevel,
-          additionalBodyProperties,
-      )
+        return AuthRuleApplyBody(
+            cardTokens,
+            accountTokens,
+            programLevel,
+            additionalBodyProperties,
+        )
     }
 
-    @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-      return when (index) {
-          0 -> authRuleToken
-          else -> ""
-      }
+        return when (index) {
+            0 -> authRuleToken
+            else -> ""
+        }
     }
 
     @JsonDeserialize(builder = AuthRuleApplyBody.Builder::class)
     @NoAutoDetect
-    class AuthRuleApplyBody internal constructor(private val cardTokens: List<String>?,private val accountTokens: List<String>?,private val programLevel: Boolean?,private val additionalProperties: Map<String, JsonValue>,) {
+    class AuthRuleApplyBody
+    internal constructor(
+        private val cardTokens: List<String>?,
+        private val accountTokens: List<String>?,
+        private val programLevel: Boolean?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /**
-         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note
-         * that only this field or `account_tokens` can be provided for a given Auth Rule.
+         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
+         * only this field or `account_tokens` can be provided for a given Auth Rule.
          */
-        @JsonProperty("card_tokens")
-        fun cardTokens(): List<String>? = cardTokens
+        @JsonProperty("card_tokens") fun cardTokens(): List<String>? = cardTokens
 
         /**
-         * Array of account_token(s) identifying the accounts that the Auth Rule applies
-         * to. Note that only this field or `card_tokens` can be provided for a given Auth
-         * Rule.
+         * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
+         * that only this field or `card_tokens` can be provided for a given Auth Rule.
          */
-        @JsonProperty("account_tokens")
-        fun accountTokens(): List<String>? = accountTokens
+        @JsonProperty("account_tokens") fun accountTokens(): List<String>? = accountTokens
 
         /** Boolean indicating whether the Auth Rule is applied at the program level. */
-        @JsonProperty("program_level")
-        fun programLevel(): Boolean? = programLevel
+        @JsonProperty("program_level") fun programLevel(): Boolean? = programLevel
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -94,35 +86,36 @@ class AuthRuleApplyParams constructor(private val authRuleToken: String,private 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is AuthRuleApplyBody &&
-              this.cardTokens == other.cardTokens &&
-              this.accountTokens == other.accountTokens &&
-              this.programLevel == other.programLevel &&
-              this.additionalProperties == other.additionalProperties
+            return other is AuthRuleApplyBody &&
+                this.cardTokens == other.cardTokens &&
+                this.accountTokens == other.accountTokens &&
+                this.programLevel == other.programLevel &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                cardTokens,
-                accountTokens,
-                programLevel,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        cardTokens,
+                        accountTokens,
+                        programLevel,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "AuthRuleApplyBody{cardTokens=$cardTokens, accountTokens=$accountTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "AuthRuleApplyBody{cardTokens=$cardTokens, accountTokens=$accountTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -141,18 +134,15 @@ class AuthRuleApplyParams constructor(private val authRuleToken: String,private 
             }
 
             /**
-             * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note
-             * that only this field or `account_tokens` can be provided for a given Auth Rule.
+             * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
+             * only this field or `account_tokens` can be provided for a given Auth Rule.
              */
             @JsonProperty("card_tokens")
-            fun cardTokens(cardTokens: List<String>) = apply {
-                this.cardTokens = cardTokens
-            }
+            fun cardTokens(cardTokens: List<String>) = apply { this.cardTokens = cardTokens }
 
             /**
-             * Array of account_token(s) identifying the accounts that the Auth Rule applies
-             * to. Note that only this field or `card_tokens` can be provided for a given Auth
-             * Rule.
+             * Array of account_token(s) identifying the accounts that the Auth Rule applies to.
+             * Note that only this field or `card_tokens` can be provided for a given Auth Rule.
              */
             @JsonProperty("account_tokens")
             fun accountTokens(accountTokens: List<String>) = apply {
@@ -161,9 +151,7 @@ class AuthRuleApplyParams constructor(private val authRuleToken: String,private 
 
             /** Boolean indicating whether the Auth Rule is applied at the program level. */
             @JsonProperty("program_level")
-            fun programLevel(programLevel: Boolean) = apply {
-                this.programLevel = programLevel
-            }
+            fun programLevel(programLevel: Boolean) = apply { this.programLevel = programLevel }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -179,12 +167,13 @@ class AuthRuleApplyParams constructor(private val authRuleToken: String,private 
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): AuthRuleApplyBody = AuthRuleApplyBody(
-                cardTokens?.toUnmodifiable(),
-                accountTokens?.toUnmodifiable(),
-                programLevel,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): AuthRuleApplyBody =
+                AuthRuleApplyBody(
+                    cardTokens?.toUnmodifiable(),
+                    accountTokens?.toUnmodifiable(),
+                    programLevel,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -195,40 +184,40 @@ class AuthRuleApplyParams constructor(private val authRuleToken: String,private 
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is AuthRuleApplyParams &&
-          this.authRuleToken == other.authRuleToken &&
-          this.cardTokens == other.cardTokens &&
-          this.accountTokens == other.accountTokens &&
-          this.programLevel == other.programLevel &&
-          this.additionalQueryParams == other.additionalQueryParams &&
-          this.additionalHeaders == other.additionalHeaders &&
-          this.additionalBodyProperties == other.additionalBodyProperties
+        return other is AuthRuleApplyParams &&
+            this.authRuleToken == other.authRuleToken &&
+            this.cardTokens == other.cardTokens &&
+            this.accountTokens == other.accountTokens &&
+            this.programLevel == other.programLevel &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          authRuleToken,
-          cardTokens,
-          accountTokens,
-          programLevel,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            authRuleToken,
+            cardTokens,
+            accountTokens,
+            programLevel,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "AuthRuleApplyParams{authRuleToken=$authRuleToken, cardTokens=$cardTokens, accountTokens=$accountTokens, programLevel=$programLevel, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "AuthRuleApplyParams{authRuleToken=$authRuleToken, cardTokens=$cardTokens, accountTokens=$accountTokens, programLevel=$programLevel, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -253,31 +242,24 @@ class AuthRuleApplyParams constructor(private val authRuleToken: String,private 
             additionalBodyProperties(authRuleApplyParams.additionalBodyProperties)
         }
 
-        fun authRuleToken(authRuleToken: String) = apply {
-            this.authRuleToken = authRuleToken
-        }
+        fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
 
         /**
-         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note
-         * that only this field or `account_tokens` can be provided for a given Auth Rule.
+         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
+         * only this field or `account_tokens` can be provided for a given Auth Rule.
          */
-        fun cardTokens(cardTokens: List<String>) = apply {
-            this.cardTokens = cardTokens
-        }
+        fun cardTokens(cardTokens: List<String>) = apply { this.cardTokens = cardTokens }
 
         /**
-         * Array of account_token(s) identifying the accounts that the Auth Rule applies
-         * to. Note that only this field or `card_tokens` can be provided for a given Auth
-         * Rule.
+         * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
+         * that only this field or `card_tokens` can be provided for a given Auth Rule.
          */
         fun accountTokens(accountTokens: List<String>) = apply {
             this.accountTokens = accountTokens
         }
 
         /** Boolean indicating whether the Auth Rule is applied at the program level. */
-        fun programLevel(programLevel: Boolean) = apply {
-            this.programLevel = programLevel
-        }
+        fun programLevel(programLevel: Boolean) = apply { this.programLevel = programLevel }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -317,9 +299,7 @@ class AuthRuleApplyParams constructor(private val authRuleToken: String,private 
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply {
-            this.additionalHeaders.put(name, mutableListOf())
-        }
+        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             this.additionalBodyProperties.clear()
@@ -330,20 +310,20 @@ class AuthRuleApplyParams constructor(private val authRuleToken: String,private 
             this.additionalBodyProperties.put(key, value)
         }
 
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
-        }
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
 
-        fun build(): AuthRuleApplyParams = AuthRuleApplyParams(
-            checkNotNull(authRuleToken) {
-                "`authRuleToken` is required but was not set"
-            },
-            cardTokens?.toUnmodifiable(),
-            accountTokens?.toUnmodifiable(),
-            programLevel,
-            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun build(): AuthRuleApplyParams =
+            AuthRuleApplyParams(
+                checkNotNull(authRuleToken) { "`authRuleToken` is required but was not set" },
+                cardTokens?.toUnmodifiable(),
+                accountTokens?.toUnmodifiable(),
+                programLevel,
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 }

@@ -2,57 +2,46 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.Objects
-import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
+import java.util.Objects
 
-class TransactionSimulateReturnReversalParams constructor(private val token: String,private val additionalQueryParams: Map<String, List<String>>,private val additionalHeaders: Map<String, List<String>>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class TransactionSimulateReturnReversalParams
+constructor(
+    private val token: String,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun token(): String = token
 
     @JvmSynthetic
     internal fun getBody(): TransactionSimulateReturnReversalBody {
-      return TransactionSimulateReturnReversalBody(token, additionalBodyProperties)
+        return TransactionSimulateReturnReversalBody(token, additionalBodyProperties)
     }
 
-    @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     @JsonDeserialize(builder = TransactionSimulateReturnReversalBody.Builder::class)
     @NoAutoDetect
-    class TransactionSimulateReturnReversalBody internal constructor(private val token: String?,private val additionalProperties: Map<String, JsonValue>,) {
+    class TransactionSimulateReturnReversalBody
+    internal constructor(
+        private val token: String?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
-        @JsonProperty("token")
-        fun token(): String? = token
+        @JsonProperty("token") fun token(): String? = token
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -61,28 +50,28 @@ class TransactionSimulateReturnReversalParams constructor(private val token: Str
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is TransactionSimulateReturnReversalBody &&
-              this.token == other.token &&
-              this.additionalProperties == other.additionalProperties
+            return other is TransactionSimulateReturnReversalBody &&
+                this.token == other.token &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(token, additionalProperties)
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode = Objects.hash(token, additionalProperties)
+            }
+            return hashCode
         }
 
-        override fun toString() = "TransactionSimulateReturnReversalBody{token=$token, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "TransactionSimulateReturnReversalBody{token=$token, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -91,16 +80,15 @@ class TransactionSimulateReturnReversalParams constructor(private val token: Str
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(transactionSimulateReturnReversalBody: TransactionSimulateReturnReversalBody) = apply {
+            internal fun from(
+                transactionSimulateReturnReversalBody: TransactionSimulateReturnReversalBody
+            ) = apply {
                 this.token = transactionSimulateReturnReversalBody.token
                 additionalProperties(transactionSimulateReturnReversalBody.additionalProperties)
             }
 
             /** The transaction token returned from the /v1/simulate/authorize response. */
-            @JsonProperty("token")
-            fun token(token: String) = apply {
-                this.token = token
-            }
+            @JsonProperty("token") fun token(token: String) = apply { this.token = token }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -116,9 +104,11 @@ class TransactionSimulateReturnReversalParams constructor(private val token: Str
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): TransactionSimulateReturnReversalBody = TransactionSimulateReturnReversalBody(checkNotNull(token) {
-                "`token` is required but was not set"
-            }, additionalProperties.toUnmodifiable())
+            fun build(): TransactionSimulateReturnReversalBody =
+                TransactionSimulateReturnReversalBody(
+                    checkNotNull(token) { "`token` is required but was not set" },
+                    additionalProperties.toUnmodifiable()
+                )
         }
     }
 
@@ -129,34 +119,34 @@ class TransactionSimulateReturnReversalParams constructor(private val token: Str
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is TransactionSimulateReturnReversalParams &&
-          this.token == other.token &&
-          this.additionalQueryParams == other.additionalQueryParams &&
-          this.additionalHeaders == other.additionalHeaders &&
-          this.additionalBodyProperties == other.additionalBodyProperties
+        return other is TransactionSimulateReturnReversalParams &&
+            this.token == other.token &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          token,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            token,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "TransactionSimulateReturnReversalParams{token=$token, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "TransactionSimulateReturnReversalParams{token=$token, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -168,17 +158,19 @@ class TransactionSimulateReturnReversalParams constructor(private val token: Str
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(transactionSimulateReturnReversalParams: TransactionSimulateReturnReversalParams) = apply {
+        internal fun from(
+            transactionSimulateReturnReversalParams: TransactionSimulateReturnReversalParams
+        ) = apply {
             this.token = transactionSimulateReturnReversalParams.token
             additionalQueryParams(transactionSimulateReturnReversalParams.additionalQueryParams)
             additionalHeaders(transactionSimulateReturnReversalParams.additionalHeaders)
-            additionalBodyProperties(transactionSimulateReturnReversalParams.additionalBodyProperties)
+            additionalBodyProperties(
+                transactionSimulateReturnReversalParams.additionalBodyProperties
+            )
         }
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
-        fun token(token: String) = apply {
-            this.token = token
-        }
+        fun token(token: String) = apply { this.token = token }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -218,9 +210,7 @@ class TransactionSimulateReturnReversalParams constructor(private val token: Str
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply {
-            this.additionalHeaders.put(name, mutableListOf())
-        }
+        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             this.additionalBodyProperties.clear()
@@ -231,17 +221,17 @@ class TransactionSimulateReturnReversalParams constructor(private val token: Str
             this.additionalBodyProperties.put(key, value)
         }
 
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
-        }
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
 
-        fun build(): TransactionSimulateReturnReversalParams = TransactionSimulateReturnReversalParams(
-            checkNotNull(token) {
-                "`token` is required but was not set"
-            },
-            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun build(): TransactionSimulateReturnReversalParams =
+            TransactionSimulateReturnReversalParams(
+                checkNotNull(token) { "`token` is required but was not set" },
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 }

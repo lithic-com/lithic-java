@@ -2,34 +2,27 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.models.*
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 
-class CardGetEmbedHtmlParams constructor(private val css: String?,private val expiration: OffsetDateTime?,private val token: String,private val targetOrigin: String?,private val additionalQueryParams: Map<String, List<String>>,private val additionalHeaders: Map<String, List<String>>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class CardGetEmbedHtmlParams
+constructor(
+    private val css: String?,
+    private val expiration: OffsetDateTime?,
+    private val token: String,
+    private val targetOrigin: String?,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun css(): Optional<String> = Optional.ofNullable(css)
 
@@ -41,60 +34,61 @@ class CardGetEmbedHtmlParams constructor(private val css: String?,private val ex
 
     @JvmSynthetic
     internal fun getBody(): CardGetEmbedHtmlBody {
-      return CardGetEmbedHtmlBody(
-          css,
-          expiration,
-          token,
-          targetOrigin,
-          additionalBodyProperties,
-      )
+        return CardGetEmbedHtmlBody(
+            css,
+            expiration,
+            token,
+            targetOrigin,
+            additionalBodyProperties,
+        )
     }
 
-    @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     @JsonDeserialize(builder = CardGetEmbedHtmlBody.Builder::class)
     @NoAutoDetect
-    class CardGetEmbedHtmlBody internal constructor(private val css: String?,private val expiration: OffsetDateTime?,private val token: String?,private val targetOrigin: String?,private val additionalProperties: Map<String, JsonValue>,) {
+    class CardGetEmbedHtmlBody
+    internal constructor(
+        private val css: String?,
+        private val expiration: OffsetDateTime?,
+        private val token: String?,
+        private val targetOrigin: String?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /**
-         * A publicly available URI, so the white-labeled card element can be styled with
-         * the client's branding.
+         * A publicly available URI, so the white-labeled card element can be styled with the
+         * client's branding.
          */
-        @JsonProperty("css")
-        fun css(): String? = css
+        @JsonProperty("css") fun css(): String? = css
 
         /**
          * An RFC 3339 timestamp for when the request should expire. UTC time zone.
          *
-         * If no timezone is specified, UTC will be used. If payload does not contain an
-         * expiration, the request will never expire.
+         * If no timezone is specified, UTC will be used. If payload does not contain an expiration,
+         * the request will never expire.
          *
          * Using an `expiration` reduces the risk of a
-         * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying
-         * the `expiration`, in the event that a malicious user gets a copy of your request
-         * in transit, they will be able to obtain the response data indefinitely.
+         * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying the
+         * `expiration`, in the event that a malicious user gets a copy of your request in transit,
+         * they will be able to obtain the response data indefinitely.
          */
-        @JsonProperty("expiration")
-        fun expiration(): OffsetDateTime? = expiration
+        @JsonProperty("expiration") fun expiration(): OffsetDateTime? = expiration
 
         /** Globally unique identifier for the card to be displayed. */
-        @JsonProperty("token")
-        fun token(): String? = token
+        @JsonProperty("token") fun token(): String? = token
 
         /**
          * Required if you want to post the element clicked to the parent iframe.
          *
-         * If you supply this param, you can also capture click events in the parent iframe
-         * by adding an event listener.
+         * If you supply this param, you can also capture click events in the parent iframe by
+         * adding an event listener.
          */
-        @JsonProperty("target_origin")
-        fun targetOrigin(): String? = targetOrigin
+        @JsonProperty("target_origin") fun targetOrigin(): String? = targetOrigin
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -103,37 +97,38 @@ class CardGetEmbedHtmlParams constructor(private val css: String?,private val ex
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is CardGetEmbedHtmlBody &&
-              this.css == other.css &&
-              this.expiration == other.expiration &&
-              this.token == other.token &&
-              this.targetOrigin == other.targetOrigin &&
-              this.additionalProperties == other.additionalProperties
+            return other is CardGetEmbedHtmlBody &&
+                this.css == other.css &&
+                this.expiration == other.expiration &&
+                this.token == other.token &&
+                this.targetOrigin == other.targetOrigin &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                css,
-                expiration,
-                token,
-                targetOrigin,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        css,
+                        expiration,
+                        token,
+                        targetOrigin,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "CardGetEmbedHtmlBody{css=$css, expiration=$expiration, token=$token, targetOrigin=$targetOrigin, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "CardGetEmbedHtmlBody{css=$css, expiration=$expiration, token=$token, targetOrigin=$targetOrigin, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -154,13 +149,10 @@ class CardGetEmbedHtmlParams constructor(private val css: String?,private val ex
             }
 
             /**
-             * A publicly available URI, so the white-labeled card element can be styled with
-             * the client's branding.
+             * A publicly available URI, so the white-labeled card element can be styled with the
+             * client's branding.
              */
-            @JsonProperty("css")
-            fun css(css: String) = apply {
-                this.css = css
-            }
+            @JsonProperty("css") fun css(css: String) = apply { this.css = css }
 
             /**
              * An RFC 3339 timestamp for when the request should expire. UTC time zone.
@@ -169,31 +161,24 @@ class CardGetEmbedHtmlParams constructor(private val css: String?,private val ex
              * expiration, the request will never expire.
              *
              * Using an `expiration` reduces the risk of a
-             * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying
-             * the `expiration`, in the event that a malicious user gets a copy of your request
-             * in transit, they will be able to obtain the response data indefinitely.
+             * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying the
+             * `expiration`, in the event that a malicious user gets a copy of your request in
+             * transit, they will be able to obtain the response data indefinitely.
              */
             @JsonProperty("expiration")
-            fun expiration(expiration: OffsetDateTime) = apply {
-                this.expiration = expiration
-            }
+            fun expiration(expiration: OffsetDateTime) = apply { this.expiration = expiration }
 
             /** Globally unique identifier for the card to be displayed. */
-            @JsonProperty("token")
-            fun token(token: String) = apply {
-                this.token = token
-            }
+            @JsonProperty("token") fun token(token: String) = apply { this.token = token }
 
             /**
              * Required if you want to post the element clicked to the parent iframe.
              *
-             * If you supply this param, you can also capture click events in the parent iframe
-             * by adding an event listener.
+             * If you supply this param, you can also capture click events in the parent iframe by
+             * adding an event listener.
              */
             @JsonProperty("target_origin")
-            fun targetOrigin(targetOrigin: String) = apply {
-                this.targetOrigin = targetOrigin
-            }
+            fun targetOrigin(targetOrigin: String) = apply { this.targetOrigin = targetOrigin }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -209,15 +194,14 @@ class CardGetEmbedHtmlParams constructor(private val css: String?,private val ex
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): CardGetEmbedHtmlBody = CardGetEmbedHtmlBody(
-                css,
-                expiration,
-                checkNotNull(token) {
-                    "`token` is required but was not set"
-                },
-                targetOrigin,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): CardGetEmbedHtmlBody =
+                CardGetEmbedHtmlBody(
+                    css,
+                    expiration,
+                    checkNotNull(token) { "`token` is required but was not set" },
+                    targetOrigin,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -228,40 +212,40 @@ class CardGetEmbedHtmlParams constructor(private val css: String?,private val ex
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is CardGetEmbedHtmlParams &&
-          this.css == other.css &&
-          this.expiration == other.expiration &&
-          this.token == other.token &&
-          this.targetOrigin == other.targetOrigin &&
-          this.additionalQueryParams == other.additionalQueryParams &&
-          this.additionalHeaders == other.additionalHeaders &&
-          this.additionalBodyProperties == other.additionalBodyProperties
+        return other is CardGetEmbedHtmlParams &&
+            this.css == other.css &&
+            this.expiration == other.expiration &&
+            this.token == other.token &&
+            this.targetOrigin == other.targetOrigin &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          css,
-          expiration,
-          token,
-          targetOrigin,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            css,
+            expiration,
+            token,
+            targetOrigin,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "CardGetEmbedHtmlParams{css=$css, expiration=$expiration, token=$token, targetOrigin=$targetOrigin, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "CardGetEmbedHtmlParams{css=$css, expiration=$expiration, token=$token, targetOrigin=$targetOrigin, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -287,42 +271,34 @@ class CardGetEmbedHtmlParams constructor(private val css: String?,private val ex
         }
 
         /**
-         * A publicly available URI, so the white-labeled card element can be styled with
-         * the client's branding.
+         * A publicly available URI, so the white-labeled card element can be styled with the
+         * client's branding.
          */
-        fun css(css: String) = apply {
-            this.css = css
-        }
+        fun css(css: String) = apply { this.css = css }
 
         /**
          * An RFC 3339 timestamp for when the request should expire. UTC time zone.
          *
-         * If no timezone is specified, UTC will be used. If payload does not contain an
-         * expiration, the request will never expire.
+         * If no timezone is specified, UTC will be used. If payload does not contain an expiration,
+         * the request will never expire.
          *
          * Using an `expiration` reduces the risk of a
-         * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying
-         * the `expiration`, in the event that a malicious user gets a copy of your request
-         * in transit, they will be able to obtain the response data indefinitely.
+         * [replay attack](https://en.wikipedia.org/wiki/Replay_attack). Without supplying the
+         * `expiration`, in the event that a malicious user gets a copy of your request in transit,
+         * they will be able to obtain the response data indefinitely.
          */
-        fun expiration(expiration: OffsetDateTime) = apply {
-            this.expiration = expiration
-        }
+        fun expiration(expiration: OffsetDateTime) = apply { this.expiration = expiration }
 
         /** Globally unique identifier for the card to be displayed. */
-        fun token(token: String) = apply {
-            this.token = token
-        }
+        fun token(token: String) = apply { this.token = token }
 
         /**
          * Required if you want to post the element clicked to the parent iframe.
          *
-         * If you supply this param, you can also capture click events in the parent iframe
-         * by adding an event listener.
+         * If you supply this param, you can also capture click events in the parent iframe by
+         * adding an event listener.
          */
-        fun targetOrigin(targetOrigin: String) = apply {
-            this.targetOrigin = targetOrigin
-        }
+        fun targetOrigin(targetOrigin: String) = apply { this.targetOrigin = targetOrigin }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -362,9 +338,7 @@ class CardGetEmbedHtmlParams constructor(private val css: String?,private val ex
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply {
-            this.additionalHeaders.put(name, mutableListOf())
-        }
+        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             this.additionalBodyProperties.clear()
@@ -375,20 +349,20 @@ class CardGetEmbedHtmlParams constructor(private val css: String?,private val ex
             this.additionalBodyProperties.put(key, value)
         }
 
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
-        }
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
 
-        fun build(): CardGetEmbedHtmlParams = CardGetEmbedHtmlParams(
-            css,
-            expiration,
-            checkNotNull(token) {
-                "`token` is required but was not set"
-            },
-            targetOrigin,
-            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun build(): CardGetEmbedHtmlParams =
+            CardGetEmbedHtmlParams(
+                css,
+                expiration,
+                checkNotNull(token) { "`token` is required but was not set" },
+                targetOrigin,
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 }

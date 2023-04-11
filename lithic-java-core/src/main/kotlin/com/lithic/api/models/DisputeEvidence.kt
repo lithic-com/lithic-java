@@ -3,35 +3,31 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
 
 /** Dispute evidence. */
 @JsonDeserialize(builder = DisputeEvidence.Builder::class)
 @NoAutoDetect
-class DisputeEvidence private constructor(private val created: JsonField<OffsetDateTime>,private val disputeToken: JsonField<String>,private val token: JsonField<String>,private val uploadStatus: JsonField<UploadStatus>,private val uploadUrl: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
+class DisputeEvidence
+private constructor(
+    private val created: JsonField<OffsetDateTime>,
+    private val disputeToken: JsonField<String>,
+    private val token: JsonField<String>,
+    private val uploadStatus: JsonField<UploadStatus>,
+    private val uploadUrl: JsonField<String>,
+    private val additionalProperties: Map<String, JsonValue>,
+) {
 
     private var validated: Boolean = false
 
@@ -61,19 +57,13 @@ class DisputeEvidence private constructor(private val created: JsonField<OffsetD
     fun uploadUrl(): Optional<String> = Optional.ofNullable(uploadUrl.getNullable("upload_url"))
 
     /** Timestamp of when first Dispute was reported. */
-    @JsonProperty("created")
-    @ExcludeMissing
-    fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     /** Dispute token evidence is attached to. */
-    @JsonProperty("dispute_token")
-    @ExcludeMissing
-    fun _disputeToken() = disputeToken
+    @JsonProperty("dispute_token") @ExcludeMissing fun _disputeToken() = disputeToken
 
     /** Globally unique identifier. */
-    @JsonProperty("token")
-    @ExcludeMissing
-    fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /**
      * Upload status types:
@@ -84,14 +74,10 @@ class DisputeEvidence private constructor(private val created: JsonField<OffsetD
      * - `REJECTED` - Evidence was rejected.
      * - `UPLOADED` - Evidence was uploaded.
      */
-    @JsonProperty("upload_status")
-    @ExcludeMissing
-    fun _uploadStatus() = uploadStatus
+    @JsonProperty("upload_status") @ExcludeMissing fun _uploadStatus() = uploadStatus
 
     /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
-    @JsonProperty("upload_url")
-    @ExcludeMissing
-    fun _uploadUrl() = uploadUrl
+    @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl() = uploadUrl
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -99,51 +85,52 @@ class DisputeEvidence private constructor(private val created: JsonField<OffsetD
 
     fun validate() = apply {
         if (!validated) {
-          created()
-          disputeToken()
-          token()
-          uploadStatus()
-          uploadUrl()
-          validated = true
+            created()
+            disputeToken()
+            token()
+            uploadStatus()
+            uploadUrl()
+            validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is DisputeEvidence &&
-          this.created == other.created &&
-          this.disputeToken == other.disputeToken &&
-          this.token == other.token &&
-          this.uploadStatus == other.uploadStatus &&
-          this.uploadUrl == other.uploadUrl &&
-          this.additionalProperties == other.additionalProperties
+        return other is DisputeEvidence &&
+            this.created == other.created &&
+            this.disputeToken == other.disputeToken &&
+            this.token == other.token &&
+            this.uploadStatus == other.uploadStatus &&
+            this.uploadUrl == other.uploadUrl &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-      if (hashCode == 0) {
-        hashCode = Objects.hash(
-            created,
-            disputeToken,
-            token,
-            uploadStatus,
-            uploadUrl,
-            additionalProperties,
-        )
-      }
-      return hashCode
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    created,
+                    disputeToken,
+                    token,
+                    uploadStatus,
+                    uploadUrl,
+                    additionalProperties,
+                )
+        }
+        return hashCode
     }
 
-    override fun toString() = "DisputeEvidence{created=$created, disputeToken=$disputeToken, token=$token, uploadStatus=$uploadStatus, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
+    override fun toString() =
+        "DisputeEvidence{created=$created, disputeToken=$disputeToken, token=$token, uploadStatus=$uploadStatus, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
@@ -171,9 +158,7 @@ class DisputeEvidence private constructor(private val created: JsonField<OffsetD
         /** Timestamp of when first Dispute was reported. */
         @JsonProperty("created")
         @ExcludeMissing
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Dispute token evidence is attached to. */
         fun disputeToken(disputeToken: String) = disputeToken(JsonField.of(disputeToken))
@@ -191,9 +176,7 @@ class DisputeEvidence private constructor(private val created: JsonField<OffsetD
         /** Globally unique identifier. */
         @JsonProperty("token")
         @ExcludeMissing
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
          * Upload status types:
@@ -227,9 +210,7 @@ class DisputeEvidence private constructor(private val created: JsonField<OffsetD
         /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
         @JsonProperty("upload_url")
         @ExcludeMissing
-        fun uploadUrl(uploadUrl: JsonField<String>) = apply {
-            this.uploadUrl = uploadUrl
-        }
+        fun uploadUrl(uploadUrl: JsonField<String>) = apply { this.uploadUrl = uploadUrl }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -245,28 +226,31 @@ class DisputeEvidence private constructor(private val created: JsonField<OffsetD
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): DisputeEvidence = DisputeEvidence(
-            created,
-            disputeToken,
-            token,
-            uploadStatus,
-            uploadUrl,
-            additionalProperties.toUnmodifiable(),
-        )
+        fun build(): DisputeEvidence =
+            DisputeEvidence(
+                created,
+                disputeToken,
+                token,
+                uploadStatus,
+                uploadUrl,
+                additionalProperties.toUnmodifiable(),
+            )
     }
 
-    class UploadStatus @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class UploadStatus
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is UploadStatus &&
-              this.value == other.value
+            return other is UploadStatus && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -305,23 +289,25 @@ class DisputeEvidence private constructor(private val created: JsonField<OffsetD
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            DELETED -> Value.DELETED
-            ERROR -> Value.ERROR
-            PENDING -> Value.PENDING
-            REJECTED -> Value.REJECTED
-            UPLOADED -> Value.UPLOADED
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                DELETED -> Value.DELETED
+                ERROR -> Value.ERROR
+                PENDING -> Value.PENDING
+                REJECTED -> Value.REJECTED
+                UPLOADED -> Value.UPLOADED
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            DELETED -> Known.DELETED
-            ERROR -> Known.ERROR
-            PENDING -> Known.PENDING
-            REJECTED -> Known.REJECTED
-            UPLOADED -> Known.UPLOADED
-            else -> throw LithicInvalidDataException("Unknown UploadStatus: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                DELETED -> Known.DELETED
+                ERROR -> Known.ERROR
+                PENDING -> Known.PENDING
+                REJECTED -> Known.REJECTED
+                UPLOADED -> Known.UPLOADED
+                else -> throw LithicInvalidDataException("Unknown UploadStatus: $value")
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }

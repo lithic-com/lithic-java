@@ -5,7 +5,6 @@ package com.lithic.api.core.http
 import com.google.common.util.concurrent.MoreExecutors
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.errors.LithicIoException
-import com.lithic.api.core.RequestOptions
 import java.io.IOException
 import java.time.Clock
 import java.time.OffsetDateTime
@@ -22,7 +21,8 @@ import java.util.function.Function
 import kotlin.math.min
 import kotlin.math.pow
 
-class RetryingHttpClient private constructor(
+class RetryingHttpClient
+private constructor(
     private val httpClient: HttpClient,
     private val clock: Clock,
     private val maxRetries: Int,
@@ -58,15 +58,6 @@ class RetryingHttpClient private constructor(
                     null
                 }
 
-                response
-            } catch (t: Throwable) {
-                if (++retries > maxRetries || !shouldRetry(t)) {
-                    throw t
-                }
-
-                null
-            }
-
             val backoffMillis = getRetryBackoffMillis(retries, response)
             Thread.sleep(backoffMillis)
         }
@@ -85,19 +76,23 @@ class RetryingHttpClient private constructor(
         var retries = 0
 
         fun wrap(future: CompletableFuture<HttpResponse>): CompletableFuture<HttpResponse> {
-            return future.handleAsync(
-                fun(response: HttpResponse?, throwable: Throwable?): CompletableFuture<HttpResponse> {
-                    if (response != null) {
-                        if (++retries > maxRetries || !shouldRetry(response)) {
-                            return CompletableFuture.completedFuture(response)
+            return future
+                .handleAsync(
+                    fun(
+                        response: HttpResponse?,
+                        throwable: Throwable?
+                    ): CompletableFuture<HttpResponse> {
+                        if (response != null) {
+                            if (++retries > maxRetries || !shouldRetry(response)) {
+                                return CompletableFuture.completedFuture(response)
+                            }
+                        } else {
+                            if (++retries > maxRetries || !shouldRetry(throwable!!)) {
+                                val failedFuture = CompletableFuture<HttpResponse>()
+                                failedFuture.completeExceptionally(throwable)
+                                return failedFuture
+                            }
                         }
-                    } else {
-                        if (++retries > maxRetries || !shouldRetry(throwable!!)) {
-                            val failedFuture = CompletableFuture<HttpResponse>()
-                            failedFuture.completeExceptionally(throwable)
-                            return failedFuture
-                        }
-                    }
 
                         val backoffMillis = getRetryBackoffMillis(retries, response)
                         return sleepAsync(backoffMillis).thenCompose {
@@ -117,7 +112,8 @@ class RetryingHttpClient private constructor(
     }
 
     private fun isRetryable(request: HttpRequest): Boolean {
-        // Some requests, such as when a request body is being streamed, cannot be retried because the body data aren't
+        // Some requests, such as when a request body is being streamed, cannot be retried because
+        // the body data aren't
         // available on subsequent attempts.
         return request.body?.repeatable() ?: true
     }
@@ -147,30 +143,31 @@ class RetryingHttpClient private constructor(
             statusCode == 429 -> true
             // Retry internal errors
             statusCode >= 500 -> true
-
             else -> false
         }
     }
 
     private fun shouldRetry(throwable: Throwable): Boolean {
-        // Only retry IOException and LithicIoException, other exceptions are not intended to be retried
+        // Only retry IOException and LithicIoException, other exceptions are not intended to be
+        // retried
         return throwable is IOException || throwable is LithicIoException
     }
 
     private fun getRetryBackoffMillis(retries: Int, response: HttpResponse?): Long {
         // About the Retry-After header:
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
-        val retryAfter = response?.headers()?.get("Retry-After")?.getOrNull(0)?.let { retryAfter ->
-            retryAfter.toLongOrNull()
-                ?: try {
-                    ChronoUnit.SECONDS.between(
-                        OffsetDateTime.now(clock),
-                        OffsetDateTime.parse(retryAfter, DateTimeFormatter.RFC_1123_DATE_TIME)
-                    )
-                } catch (e: DateTimeParseException) {
-                    null
-                }
-        }
+        val retryAfter =
+            response?.headers()?.get("Retry-After")?.getOrNull(0)?.let { retryAfter ->
+                retryAfter.toLongOrNull()
+                    ?: try {
+                        ChronoUnit.SECONDS.between(
+                            OffsetDateTime.now(clock),
+                            OffsetDateTime.parse(retryAfter, DateTimeFormatter.RFC_1123_DATE_TIME)
+                        )
+                    } catch (e: DateTimeParseException) {
+                        null
+                    }
+            }
 
         // If the API asks us to wait a certain amount of time (and it's a reasonable amount), just
         // do what it says.
@@ -190,7 +187,7 @@ class RetryingHttpClient private constructor(
     private fun sleepAsync(millis: Long): CompletableFuture<Void> {
         val future = CompletableFuture<Void>()
         TIMER.schedule(
-            object: TimerTask() {
+            object : TimerTask() {
                 override fun run() {
                     future.complete(null)
                 }
@@ -204,8 +201,7 @@ class RetryingHttpClient private constructor(
 
         private val TIMER = Timer("RetryingHttpClient", true)
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
@@ -223,11 +219,12 @@ class RetryingHttpClient private constructor(
 
         fun idempotencyHeader(header: String) = apply { this.idempotencyHeader = header }
 
-        fun build(): HttpClient = RetryingHttpClient(
-            checkNotNull(httpClient) { "`httpClient` is required but was not set" },
-            clock,
-            maxRetries,
-            idempotencyHeader,
-        )
+        fun build(): HttpClient =
+            RetryingHttpClient(
+                checkNotNull(httpClient) { "`httpClient` is required but was not set" },
+                clock,
+                maxRetries,
+                idempotencyHeader,
+            )
     }
 }

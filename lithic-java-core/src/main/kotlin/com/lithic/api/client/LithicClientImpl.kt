@@ -1,39 +1,39 @@
 package com.lithic.api.client
 
-import java.time.Duration
-import java.util.Base64
-import java.util.Optional
-import java.util.concurrent.CompletableFuture
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.RequestOptions
 import com.lithic.api.errors.LithicError
-import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import com.lithic.api.services.blocking.*
-import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
-import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
-import com.lithic.api.services.stringHandler
 import com.lithic.api.services.withErrorHandler
 
-class LithicClientImpl constructor(private val clientOptions: ClientOptions,) : LithicClient {
+class LithicClientImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : LithicClient {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val accounts: AccountService by lazy { AccountServiceImpl(clientOptions) }
 
-    private val accountHolders: AccountHolderService by lazy { AccountHolderServiceImpl(clientOptions) }
+    private val accountHolders: AccountHolderService by lazy {
+        AccountHolderServiceImpl(clientOptions)
+    }
 
     private val authRules: AuthRuleService by lazy { AuthRuleServiceImpl(clientOptions) }
 
-    private val authStreamEnrollment: AuthStreamEnrollmentService by lazy { AuthStreamEnrollmentServiceImpl(clientOptions) }
+    private val authStreamEnrollment: AuthStreamEnrollmentService by lazy {
+        AuthStreamEnrollmentServiceImpl(clientOptions)
+    }
 
-    private val tokenizationDecisioning: TokenizationDecisioningService by lazy { TokenizationDecisioningServiceImpl(clientOptions) }
+    private val tokenizationDecisioning: TokenizationDecisioningService by lazy {
+        TokenizationDecisioningServiceImpl(clientOptions)
+    }
 
     private val cards: CardService by lazy { CardServiceImpl(clientOptions) }
 
@@ -66,8 +66,7 @@ class LithicClientImpl constructor(private val clientOptions: ClientOptions,) : 
     override fun webhooks(): WebhookService = webhooks
 
     private val apiStatusHandler: Handler<ApiStatus> =
-    jsonHandler<ApiStatus>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** API status check */
     override fun apiStatus(

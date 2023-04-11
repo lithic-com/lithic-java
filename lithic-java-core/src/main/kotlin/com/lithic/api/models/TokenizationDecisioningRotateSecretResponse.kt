@@ -2,35 +2,24 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.Objects
-import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.toUnmodifiable
+import java.util.Objects
+import java.util.Optional
 
 @JsonDeserialize(builder = TokenizationDecisioningRotateSecretResponse.Builder::class)
 @NoAutoDetect
-class TokenizationDecisioningRotateSecretResponse private constructor(private val secret: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
+class TokenizationDecisioningRotateSecretResponse
+private constructor(
+    private val secret: JsonField<String>,
+    private val additionalProperties: Map<String, JsonValue>,
+) {
 
     private var validated: Boolean = false
 
@@ -40,9 +29,7 @@ class TokenizationDecisioningRotateSecretResponse private constructor(private va
     fun secret(): Optional<String> = Optional.ofNullable(secret.getNullable("secret"))
 
     /** The new Tokenization Decisioning HMAC secret */
-    @JsonProperty("secret")
-    @ExcludeMissing
-    fun _secret() = secret
+    @JsonProperty("secret") @ExcludeMissing fun _secret() = secret
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -50,36 +37,36 @@ class TokenizationDecisioningRotateSecretResponse private constructor(private va
 
     fun validate() = apply {
         if (!validated) {
-          secret()
-          validated = true
+            secret()
+            validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is TokenizationDecisioningRotateSecretResponse &&
-          this.secret == other.secret &&
-          this.additionalProperties == other.additionalProperties
+        return other is TokenizationDecisioningRotateSecretResponse &&
+            this.secret == other.secret &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-      if (hashCode == 0) {
-        hashCode = Objects.hash(secret, additionalProperties)
-      }
-      return hashCode
+        if (hashCode == 0) {
+            hashCode = Objects.hash(secret, additionalProperties)
+        }
+        return hashCode
     }
 
-    override fun toString() = "TokenizationDecisioningRotateSecretResponse{secret=$secret, additionalProperties=$additionalProperties}"
+    override fun toString() =
+        "TokenizationDecisioningRotateSecretResponse{secret=$secret, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
@@ -88,7 +75,9 @@ class TokenizationDecisioningRotateSecretResponse private constructor(private va
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(tokenizationDecisioningRotateSecretResponse: TokenizationDecisioningRotateSecretResponse) = apply {
+        internal fun from(
+            tokenizationDecisioningRotateSecretResponse: TokenizationDecisioningRotateSecretResponse
+        ) = apply {
             this.secret = tokenizationDecisioningRotateSecretResponse.secret
             additionalProperties(tokenizationDecisioningRotateSecretResponse.additionalProperties)
         }
@@ -99,9 +88,7 @@ class TokenizationDecisioningRotateSecretResponse private constructor(private va
         /** The new Tokenization Decisioning HMAC secret */
         @JsonProperty("secret")
         @ExcludeMissing
-        fun secret(secret: JsonField<String>) = apply {
-            this.secret = secret
-        }
+        fun secret(secret: JsonField<String>) = apply { this.secret = secret }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -117,6 +104,10 @@ class TokenizationDecisioningRotateSecretResponse private constructor(private va
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): TokenizationDecisioningRotateSecretResponse = TokenizationDecisioningRotateSecretResponse(secret, additionalProperties.toUnmodifiable())
+        fun build(): TokenizationDecisioningRotateSecretResponse =
+            TokenizationDecisioningRotateSecretResponse(
+                secret,
+                additionalProperties.toUnmodifiable()
+            )
     }
 }

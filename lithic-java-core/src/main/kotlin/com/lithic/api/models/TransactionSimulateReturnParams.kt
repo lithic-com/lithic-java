@@ -2,34 +2,24 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.Objects
-import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
+import java.util.Objects
 
-class TransactionSimulateReturnParams constructor(private val amount: Long,private val descriptor: String,private val pan: String,private val additionalQueryParams: Map<String, List<String>>,private val additionalHeaders: Map<String, List<String>>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class TransactionSimulateReturnParams
+constructor(
+    private val amount: Long,
+    private val descriptor: String,
+    private val pan: String,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun amount(): Long = amount
 
@@ -39,37 +29,38 @@ class TransactionSimulateReturnParams constructor(private val amount: Long,priva
 
     @JvmSynthetic
     internal fun getBody(): TransactionSimulateReturnBody {
-      return TransactionSimulateReturnBody(
-          amount,
-          descriptor,
-          pan,
-          additionalBodyProperties,
-      )
+        return TransactionSimulateReturnBody(
+            amount,
+            descriptor,
+            pan,
+            additionalBodyProperties,
+        )
     }
 
-    @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     @JsonDeserialize(builder = TransactionSimulateReturnBody.Builder::class)
     @NoAutoDetect
-    class TransactionSimulateReturnBody internal constructor(private val amount: Long?,private val descriptor: String?,private val pan: String?,private val additionalProperties: Map<String, JsonValue>,) {
+    class TransactionSimulateReturnBody
+    internal constructor(
+        private val amount: Long?,
+        private val descriptor: String?,
+        private val pan: String?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /** Amount (in cents) to authorize. */
-        @JsonProperty("amount")
-        fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Long? = amount
 
         /** Merchant descriptor. */
-        @JsonProperty("descriptor")
-        fun descriptor(): String? = descriptor
+        @JsonProperty("descriptor") fun descriptor(): String? = descriptor
 
         /** Sixteen digit card number. */
-        @JsonProperty("pan")
-        fun pan(): String? = pan
+        @JsonProperty("pan") fun pan(): String? = pan
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -78,35 +69,36 @@ class TransactionSimulateReturnParams constructor(private val amount: Long,priva
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is TransactionSimulateReturnBody &&
-              this.amount == other.amount &&
-              this.descriptor == other.descriptor &&
-              this.pan == other.pan &&
-              this.additionalProperties == other.additionalProperties
+            return other is TransactionSimulateReturnBody &&
+                this.amount == other.amount &&
+                this.descriptor == other.descriptor &&
+                this.pan == other.pan &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                amount,
-                descriptor,
-                pan,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        descriptor,
+                        pan,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "TransactionSimulateReturnBody{amount=$amount, descriptor=$descriptor, pan=$pan, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "TransactionSimulateReturnBody{amount=$amount, descriptor=$descriptor, pan=$pan, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -117,30 +109,23 @@ class TransactionSimulateReturnParams constructor(private val amount: Long,priva
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(transactionSimulateReturnBody: TransactionSimulateReturnBody) = apply {
-                this.amount = transactionSimulateReturnBody.amount
-                this.descriptor = transactionSimulateReturnBody.descriptor
-                this.pan = transactionSimulateReturnBody.pan
-                additionalProperties(transactionSimulateReturnBody.additionalProperties)
-            }
+            internal fun from(transactionSimulateReturnBody: TransactionSimulateReturnBody) =
+                apply {
+                    this.amount = transactionSimulateReturnBody.amount
+                    this.descriptor = transactionSimulateReturnBody.descriptor
+                    this.pan = transactionSimulateReturnBody.pan
+                    additionalProperties(transactionSimulateReturnBody.additionalProperties)
+                }
 
             /** Amount (in cents) to authorize. */
-            @JsonProperty("amount")
-            fun amount(amount: Long) = apply {
-                this.amount = amount
-            }
+            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
 
             /** Merchant descriptor. */
             @JsonProperty("descriptor")
-            fun descriptor(descriptor: String) = apply {
-                this.descriptor = descriptor
-            }
+            fun descriptor(descriptor: String) = apply { this.descriptor = descriptor }
 
             /** Sixteen digit card number. */
-            @JsonProperty("pan")
-            fun pan(pan: String) = apply {
-                this.pan = pan
-            }
+            @JsonProperty("pan") fun pan(pan: String) = apply { this.pan = pan }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -156,18 +141,13 @@ class TransactionSimulateReturnParams constructor(private val amount: Long,priva
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): TransactionSimulateReturnBody = TransactionSimulateReturnBody(
-                checkNotNull(amount) {
-                    "`amount` is required but was not set"
-                },
-                checkNotNull(descriptor) {
-                    "`descriptor` is required but was not set"
-                },
-                checkNotNull(pan) {
-                    "`pan` is required but was not set"
-                },
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): TransactionSimulateReturnBody =
+                TransactionSimulateReturnBody(
+                    checkNotNull(amount) { "`amount` is required but was not set" },
+                    checkNotNull(descriptor) { "`descriptor` is required but was not set" },
+                    checkNotNull(pan) { "`pan` is required but was not set" },
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -178,38 +158,38 @@ class TransactionSimulateReturnParams constructor(private val amount: Long,priva
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is TransactionSimulateReturnParams &&
-          this.amount == other.amount &&
-          this.descriptor == other.descriptor &&
-          this.pan == other.pan &&
-          this.additionalQueryParams == other.additionalQueryParams &&
-          this.additionalHeaders == other.additionalHeaders &&
-          this.additionalBodyProperties == other.additionalBodyProperties
+        return other is TransactionSimulateReturnParams &&
+            this.amount == other.amount &&
+            this.descriptor == other.descriptor &&
+            this.pan == other.pan &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          amount,
-          descriptor,
-          pan,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            amount,
+            descriptor,
+            pan,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "TransactionSimulateReturnParams{amount=$amount, descriptor=$descriptor, pan=$pan, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "TransactionSimulateReturnParams{amount=$amount, descriptor=$descriptor, pan=$pan, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -223,29 +203,24 @@ class TransactionSimulateReturnParams constructor(private val amount: Long,priva
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(transactionSimulateReturnParams: TransactionSimulateReturnParams) = apply {
-            this.amount = transactionSimulateReturnParams.amount
-            this.descriptor = transactionSimulateReturnParams.descriptor
-            this.pan = transactionSimulateReturnParams.pan
-            additionalQueryParams(transactionSimulateReturnParams.additionalQueryParams)
-            additionalHeaders(transactionSimulateReturnParams.additionalHeaders)
-            additionalBodyProperties(transactionSimulateReturnParams.additionalBodyProperties)
-        }
+        internal fun from(transactionSimulateReturnParams: TransactionSimulateReturnParams) =
+            apply {
+                this.amount = transactionSimulateReturnParams.amount
+                this.descriptor = transactionSimulateReturnParams.descriptor
+                this.pan = transactionSimulateReturnParams.pan
+                additionalQueryParams(transactionSimulateReturnParams.additionalQueryParams)
+                additionalHeaders(transactionSimulateReturnParams.additionalHeaders)
+                additionalBodyProperties(transactionSimulateReturnParams.additionalBodyProperties)
+            }
 
         /** Amount (in cents) to authorize. */
-        fun amount(amount: Long) = apply {
-            this.amount = amount
-        }
+        fun amount(amount: Long) = apply { this.amount = amount }
 
         /** Merchant descriptor. */
-        fun descriptor(descriptor: String) = apply {
-            this.descriptor = descriptor
-        }
+        fun descriptor(descriptor: String) = apply { this.descriptor = descriptor }
 
         /** Sixteen digit card number. */
-        fun pan(pan: String) = apply {
-            this.pan = pan
-        }
+        fun pan(pan: String) = apply { this.pan = pan }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -285,9 +260,7 @@ class TransactionSimulateReturnParams constructor(private val amount: Long,priva
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply {
-            this.additionalHeaders.put(name, mutableListOf())
-        }
+        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             this.additionalBodyProperties.clear()
@@ -298,23 +271,19 @@ class TransactionSimulateReturnParams constructor(private val amount: Long,priva
             this.additionalBodyProperties.put(key, value)
         }
 
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
-        }
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
 
-        fun build(): TransactionSimulateReturnParams = TransactionSimulateReturnParams(
-            checkNotNull(amount) {
-                "`amount` is required but was not set"
-            },
-            checkNotNull(descriptor) {
-                "`descriptor` is required but was not set"
-            },
-            checkNotNull(pan) {
-                "`pan` is required but was not set"
-            },
-            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun build(): TransactionSimulateReturnParams =
+            TransactionSimulateReturnParams(
+                checkNotNull(amount) { "`amount` is required but was not set" },
+                checkNotNull(descriptor) { "`descriptor` is required but was not set" },
+                checkNotNull(pan) { "`pan` is required but was not set" },
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 }

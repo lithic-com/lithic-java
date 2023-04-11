@@ -3,33 +3,28 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.Objects
-import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
+import java.util.Objects
+import java.util.Optional
 
-class EventsSubscriptionCreateParams constructor(private val description: String?,private val disabled: Boolean?,private val eventTypes: List<EventType>?,private val url: String,private val additionalQueryParams: Map<String, List<String>>,private val additionalHeaders: Map<String, List<String>>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class EventsSubscriptionCreateParams
+constructor(
+    private val description: String?,
+    private val disabled: Boolean?,
+    private val eventTypes: List<EventType>?,
+    private val url: String,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun description(): Optional<String> = Optional.ofNullable(description)
 
@@ -41,45 +36,46 @@ class EventsSubscriptionCreateParams constructor(private val description: String
 
     @JvmSynthetic
     internal fun getBody(): EventsSubscriptionCreateBody {
-      return EventsSubscriptionCreateBody(
-          description,
-          disabled,
-          eventTypes,
-          url,
-          additionalBodyProperties,
-      )
+        return EventsSubscriptionCreateBody(
+            description,
+            disabled,
+            eventTypes,
+            url,
+            additionalBodyProperties,
+        )
     }
 
-    @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     @JsonDeserialize(builder = EventsSubscriptionCreateBody.Builder::class)
     @NoAutoDetect
-    class EventsSubscriptionCreateBody internal constructor(private val description: String?,private val disabled: Boolean?,private val eventTypes: List<EventType>?,private val url: String?,private val additionalProperties: Map<String, JsonValue>,) {
+    class EventsSubscriptionCreateBody
+    internal constructor(
+        private val description: String?,
+        private val disabled: Boolean?,
+        private val eventTypes: List<EventType>?,
+        private val url: String?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var hashCode: Int = 0
 
         /** Event subscription description. */
-        @JsonProperty("description")
-        fun description(): String? = description
+        @JsonProperty("description") fun description(): String? = description
 
         /** Whether the event subscription is active (false) or inactive (true). */
-        @JsonProperty("disabled")
-        fun disabled(): Boolean? = disabled
+        @JsonProperty("disabled") fun disabled(): Boolean? = disabled
 
         /**
-         * Indicates types of events that will be sent to this subscription. If left blank,
-         * all types will be sent.
+         * Indicates types of events that will be sent to this subscription. If left blank, all
+         * types will be sent.
          */
-        @JsonProperty("event_types")
-        fun eventTypes(): List<EventType>? = eventTypes
+        @JsonProperty("event_types") fun eventTypes(): List<EventType>? = eventTypes
 
         /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
-        @JsonProperty("url")
-        fun url(): String? = url
+        @JsonProperty("url") fun url(): String? = url
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -88,37 +84,38 @@ class EventsSubscriptionCreateParams constructor(private val description: String
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is EventsSubscriptionCreateBody &&
-              this.description == other.description &&
-              this.disabled == other.disabled &&
-              this.eventTypes == other.eventTypes &&
-              this.url == other.url &&
-              this.additionalProperties == other.additionalProperties
+            return other is EventsSubscriptionCreateBody &&
+                this.description == other.description &&
+                this.disabled == other.disabled &&
+                this.eventTypes == other.eventTypes &&
+                this.url == other.url &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                description,
-                disabled,
-                eventTypes,
-                url,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        description,
+                        disabled,
+                        eventTypes,
+                        url,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "EventsSubscriptionCreateBody{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "EventsSubscriptionCreateBody{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -140,30 +137,21 @@ class EventsSubscriptionCreateParams constructor(private val description: String
 
             /** Event subscription description. */
             @JsonProperty("description")
-            fun description(description: String) = apply {
-                this.description = description
-            }
+            fun description(description: String) = apply { this.description = description }
 
             /** Whether the event subscription is active (false) or inactive (true). */
             @JsonProperty("disabled")
-            fun disabled(disabled: Boolean) = apply {
-                this.disabled = disabled
-            }
+            fun disabled(disabled: Boolean) = apply { this.disabled = disabled }
 
             /**
-             * Indicates types of events that will be sent to this subscription. If left blank,
-             * all types will be sent.
+             * Indicates types of events that will be sent to this subscription. If left blank, all
+             * types will be sent.
              */
             @JsonProperty("event_types")
-            fun eventTypes(eventTypes: List<EventType>) = apply {
-                this.eventTypes = eventTypes
-            }
+            fun eventTypes(eventTypes: List<EventType>) = apply { this.eventTypes = eventTypes }
 
             /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
-            @JsonProperty("url")
-            fun url(url: String) = apply {
-                this.url = url
-            }
+            @JsonProperty("url") fun url(url: String) = apply { this.url = url }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -179,15 +167,14 @@ class EventsSubscriptionCreateParams constructor(private val description: String
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): EventsSubscriptionCreateBody = EventsSubscriptionCreateBody(
-                description,
-                disabled,
-                eventTypes?.toUnmodifiable(),
-                checkNotNull(url) {
-                    "`url` is required but was not set"
-                },
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): EventsSubscriptionCreateBody =
+                EventsSubscriptionCreateBody(
+                    description,
+                    disabled,
+                    eventTypes?.toUnmodifiable(),
+                    checkNotNull(url) { "`url` is required but was not set" },
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
@@ -198,40 +185,40 @@ class EventsSubscriptionCreateParams constructor(private val description: String
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is EventsSubscriptionCreateParams &&
-          this.description == other.description &&
-          this.disabled == other.disabled &&
-          this.eventTypes == other.eventTypes &&
-          this.url == other.url &&
-          this.additionalQueryParams == other.additionalQueryParams &&
-          this.additionalHeaders == other.additionalHeaders &&
-          this.additionalBodyProperties == other.additionalBodyProperties
+        return other is EventsSubscriptionCreateParams &&
+            this.description == other.description &&
+            this.disabled == other.disabled &&
+            this.eventTypes == other.eventTypes &&
+            this.url == other.url &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          description,
-          disabled,
-          eventTypes,
-          url,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            description,
+            disabled,
+            eventTypes,
+            url,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "EventsSubscriptionCreateParams{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "EventsSubscriptionCreateParams{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -257,27 +244,19 @@ class EventsSubscriptionCreateParams constructor(private val description: String
         }
 
         /** Event subscription description. */
-        fun description(description: String) = apply {
-            this.description = description
-        }
+        fun description(description: String) = apply { this.description = description }
 
         /** Whether the event subscription is active (false) or inactive (true). */
-        fun disabled(disabled: Boolean) = apply {
-            this.disabled = disabled
-        }
+        fun disabled(disabled: Boolean) = apply { this.disabled = disabled }
 
         /**
-         * Indicates types of events that will be sent to this subscription. If left blank,
-         * all types will be sent.
+         * Indicates types of events that will be sent to this subscription. If left blank, all
+         * types will be sent.
          */
-        fun eventTypes(eventTypes: List<EventType>) = apply {
-            this.eventTypes = eventTypes
-        }
+        fun eventTypes(eventTypes: List<EventType>) = apply { this.eventTypes = eventTypes }
 
         /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
-        fun url(url: String) = apply {
-            this.url = url
-        }
+        fun url(url: String) = apply { this.url = url }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -317,9 +296,7 @@ class EventsSubscriptionCreateParams constructor(private val description: String
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply {
-            this.additionalHeaders.put(name, mutableListOf())
-        }
+        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             this.additionalBodyProperties.clear()
@@ -330,35 +307,37 @@ class EventsSubscriptionCreateParams constructor(private val description: String
             this.additionalBodyProperties.put(key, value)
         }
 
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
-        }
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
 
-        fun build(): EventsSubscriptionCreateParams = EventsSubscriptionCreateParams(
-            description,
-            disabled,
-            eventTypes?.toUnmodifiable(),
-            checkNotNull(url) {
-                "`url` is required but was not set"
-            },
-            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun build(): EventsSubscriptionCreateParams =
+            EventsSubscriptionCreateParams(
+                description,
+                disabled,
+                eventTypes?.toUnmodifiable(),
+                checkNotNull(url) { "`url` is required but was not set" },
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 
-    class EventType @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class EventType
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is EventType &&
-              this.value == other.value
+            return other is EventType && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -369,7 +348,9 @@ class EventsSubscriptionCreateParams constructor(private val description: String
 
             @JvmField val DISPUTE_UPDATED = EventType(JsonField.of("dispute.updated"))
 
-            @JvmField val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST = EventType(JsonField.of("digital_wallet.tokenization_approval_request"))
+            @JvmField
+            val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST =
+                EventType(JsonField.of("digital_wallet.tokenization_approval_request"))
 
             @JvmStatic fun of(value: String) = EventType(JsonField.of(value))
         }
@@ -385,17 +366,21 @@ class EventsSubscriptionCreateParams constructor(private val description: String
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
-            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST -> Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
+                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
+                    Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
-            DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST -> Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
-            else -> throw LithicInvalidDataException("Unknown EventType: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
+                DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
+                    Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                else -> throw LithicInvalidDataException("Unknown EventType: $value")
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }

@@ -4,26 +4,23 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.Objects
-import java.util.Optional
-import java.util.Spliterator
-import java.util.Spliterators
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import java.util.stream.Stream
-import java.util.stream.StreamSupport
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.models.Event
 import com.lithic.api.services.async.EventServiceAsync
+import java.util.Objects
+import java.util.Optional
+import java.util.concurrent.CompletableFuture
 
-class EventListPageAsync private constructor(private val eventsService: EventServiceAsync,private val params: EventListParams,private val response: Response,) {
+class EventListPageAsync
+private constructor(
+    private val eventsService: EventServiceAsync,
+    private val params: EventListParams,
+    private val response: Response,
+) {
 
     fun response(): Response = response
 
@@ -32,63 +29,72 @@ class EventListPageAsync private constructor(private val eventsService: EventSer
     fun hasMore(): Boolean = response().hasMore()
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is EventListPageAsync &&
-          this.eventsService == other.eventsService &&
-          this.params == other.params &&
-          this.response == other.response
+        return other is EventListPageAsync &&
+            this.eventsService == other.eventsService &&
+            this.params == other.params &&
+            this.response == other.response
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          eventsService,
-          params,
-          response,
-      )
-    }
-
-    override fun toString() = "EventListPageAsync{eventsService=$eventsService, params=$params, response=$response}"
-
-    fun hasNextPage(): Boolean {
-      return data().isEmpty()
-    }
-
-    fun getNextPageParams(): Optional<EventListParams> {
-      if (!hasNextPage()) {
-        return Optional.empty()
-      }
-
-      return if (params.endingBefore().isPresent) {
-        Optional.of(EventListParams.builder().from(params).endingBefore(data().first().token()).build());
-      } else {
-        Optional.of(EventListParams.builder().from(params).startingAfter(data().last().token()).build());
-      }
-    }
-
-    fun getNextPage(): CompletableFuture<Optional<EventListPageAsync>> {
-      return getNextPageParams().map {
-        eventsService.list(it).thenApply { Optional.of(it) }
-      }.orElseGet {
-          CompletableFuture.completedFuture(Optional.empty())
-      }
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun of(eventsService: EventServiceAsync, params: EventListParams, response: Response) = EventListPageAsync(
+        return Objects.hash(
             eventsService,
             params,
             response,
         )
     }
 
+    override fun toString() =
+        "EventListPageAsync{eventsService=$eventsService, params=$params, response=$response}"
+
+    fun hasNextPage(): Boolean {
+        return data().isEmpty()
+    }
+
+    fun getNextPageParams(): Optional<EventListParams> {
+        if (!hasNextPage()) {
+            return Optional.empty()
+        }
+
+        return if (params.endingBefore().isPresent) {
+            Optional.of(
+                EventListParams.builder().from(params).endingBefore(data().first().token()).build()
+            )
+        } else {
+            Optional.of(
+                EventListParams.builder().from(params).startingAfter(data().last().token()).build()
+            )
+        }
+    }
+
+    fun getNextPage(): CompletableFuture<Optional<EventListPageAsync>> {
+        return getNextPageParams()
+            .map { eventsService.list(it).thenApply { Optional.of(it) } }
+            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun of(eventsService: EventServiceAsync, params: EventListParams, response: Response) =
+            EventListPageAsync(
+                eventsService,
+                params,
+                response,
+            )
+    }
+
     @JsonDeserialize(builder = Response.Builder::class)
     @NoAutoDetect
-    class Response constructor(private val data: JsonField<List<Event>>,private val hasMore: JsonField<Boolean>,private val additionalProperties: Map<String, JsonValue>,) {
+    class Response
+    constructor(
+        private val data: JsonField<List<Event>>,
+        private val hasMore: JsonField<Boolean>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
@@ -108,39 +114,39 @@ class EventListPageAsync private constructor(private val eventsService: EventSer
 
         fun validate() = apply {
             if (!validated) {
-              data().forEach { it.validate() }
-              hasMore()
-              validated = true
+                data().forEach { it.validate() }
+                hasMore()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Response &&
-              this.data == other.data &&
-              this.hasMore == other.hasMore &&
-              this.additionalProperties == other.additionalProperties
+            return other is Response &&
+                this.data == other.data &&
+                this.hasMore == other.hasMore &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          return Objects.hash(
-              data,
-              hasMore,
-              additionalProperties,
-          )
+            return Objects.hash(
+                data,
+                hasMore,
+                additionalProperties,
+            )
         }
 
-        override fun toString() = "EventListPageAsync.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "EventListPageAsync.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -171,11 +177,12 @@ class EventListPageAsync private constructor(private val eventsService: EventSer
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() = Response(
-                data,
-                hasMore,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build() =
+                Response(
+                    data,
+                    hasMore,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 }

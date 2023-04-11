@@ -1,35 +1,22 @@
 package com.lithic.api.models
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.models.*
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 
-class EventsSubscriptionReplayMissingParams constructor(private val eventSubscriptionToken: String,private val begin: OffsetDateTime?,private val end: OffsetDateTime?,private val additionalQueryParams: Map<String, List<String>>,private val additionalHeaders: Map<String, List<String>>,private val additionalBodyProperties: Map<String, JsonValue>,) {
+class EventsSubscriptionReplayMissingParams
+constructor(
+    private val eventSubscriptionToken: String,
+    private val begin: OffsetDateTime?,
+    private val end: OffsetDateTime?,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
+) {
 
     fun eventSubscriptionToken(): String = eventSubscriptionToken
 
@@ -39,30 +26,25 @@ class EventsSubscriptionReplayMissingParams constructor(private val eventSubscri
 
     @JvmSynthetic
     internal fun getBody(): Optional<Map<String, JsonValue>> {
-      return Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
+        return Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
     }
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
-      val params = mutableMapOf<String, List<String>>()
-      this.begin?.let {
-          params.put("begin", listOf(it.toString()))
-      }
-      this.end?.let {
-          params.put("end", listOf(it.toString()))
-      }
-      params.putAll(additionalQueryParams)
-      return params.toUnmodifiable()
+        val params = mutableMapOf<String, List<String>>()
+        this.begin?.let { params.put("begin", listOf(it.toString())) }
+        this.end?.let { params.put("end", listOf(it.toString())) }
+        params.putAll(additionalQueryParams)
+        return params.toUnmodifiable()
     }
 
-    @JvmSynthetic
-    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-      return when (index) {
-          0 -> eventSubscriptionToken
-          else -> ""
-      }
+        return when (index) {
+            0 -> eventSubscriptionToken
+            else -> ""
+        }
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
@@ -72,38 +54,38 @@ class EventsSubscriptionReplayMissingParams constructor(private val eventSubscri
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is EventsSubscriptionReplayMissingParams &&
-          this.eventSubscriptionToken == other.eventSubscriptionToken &&
-          this.begin == other.begin &&
-          this.end == other.end &&
-          this.additionalQueryParams == other.additionalQueryParams &&
-          this.additionalHeaders == other.additionalHeaders &&
-          this.additionalBodyProperties == other.additionalBodyProperties
+        return other is EventsSubscriptionReplayMissingParams &&
+            this.eventSubscriptionToken == other.eventSubscriptionToken &&
+            this.begin == other.begin &&
+            this.end == other.end &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          eventSubscriptionToken,
-          begin,
-          end,
-          additionalQueryParams,
-          additionalHeaders,
-          additionalBodyProperties,
-      )
+        return Objects.hash(
+            eventSubscriptionToken,
+            begin,
+            end,
+            additionalQueryParams,
+            additionalHeaders,
+            additionalBodyProperties,
+        )
     }
 
-    override fun toString() = "EventsSubscriptionReplayMissingParams{eventSubscriptionToken=$eventSubscriptionToken, begin=$begin, end=$end, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+    override fun toString() =
+        "EventsSubscriptionReplayMissingParams{eventSubscriptionToken=$eventSubscriptionToken, begin=$begin, end=$end, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -117,8 +99,11 @@ class EventsSubscriptionReplayMissingParams constructor(private val eventSubscri
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(eventsSubscriptionReplayMissingParams: EventsSubscriptionReplayMissingParams) = apply {
-            this.eventSubscriptionToken = eventsSubscriptionReplayMissingParams.eventSubscriptionToken
+        internal fun from(
+            eventsSubscriptionReplayMissingParams: EventsSubscriptionReplayMissingParams
+        ) = apply {
+            this.eventSubscriptionToken =
+                eventsSubscriptionReplayMissingParams.eventSubscriptionToken
             this.begin = eventsSubscriptionReplayMissingParams.begin
             this.end = eventsSubscriptionReplayMissingParams.end
             additionalQueryParams(eventsSubscriptionReplayMissingParams.additionalQueryParams)
@@ -131,20 +116,16 @@ class EventsSubscriptionReplayMissingParams constructor(private val eventSubscri
         }
 
         /**
-         * Date string in RFC 3339 format. Only entries created after the specified date
-         * will be included. UTC time zone.
+         * Date string in RFC 3339 format. Only entries created after the specified date will be
+         * included. UTC time zone.
          */
-        fun begin(begin: OffsetDateTime) = apply {
-            this.begin = begin
-        }
+        fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
 
         /**
-         * Date string in RFC 3339 format. Only entries created before the specified date
-         * will be included. UTC time zone.
+         * Date string in RFC 3339 format. Only entries created before the specified date will be
+         * included. UTC time zone.
          */
-        fun end(end: OffsetDateTime) = apply {
-            this.end = end
-        }
+        fun end(end: OffsetDateTime) = apply { this.end = end }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -184,9 +165,7 @@ class EventsSubscriptionReplayMissingParams constructor(private val eventSubscri
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply {
-            this.additionalHeaders.put(name, mutableListOf())
-        }
+        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             this.additionalBodyProperties.clear()
@@ -197,19 +176,21 @@ class EventsSubscriptionReplayMissingParams constructor(private val eventSubscri
             this.additionalBodyProperties.put(key, value)
         }
 
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
-        }
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
 
-        fun build(): EventsSubscriptionReplayMissingParams = EventsSubscriptionReplayMissingParams(
-            checkNotNull(eventSubscriptionToken) {
-                "`eventSubscriptionToken` is required but was not set"
-            },
-            begin,
-            end,
-            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalBodyProperties.toUnmodifiable(),
-        )
+        fun build(): EventsSubscriptionReplayMissingParams =
+            EventsSubscriptionReplayMissingParams(
+                checkNotNull(eventSubscriptionToken) {
+                    "`eventSubscriptionToken` is required but was not set"
+                },
+                begin,
+                end,
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
+            )
     }
 }

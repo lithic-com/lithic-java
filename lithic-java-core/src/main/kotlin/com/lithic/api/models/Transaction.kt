@@ -3,83 +3,97 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
+import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
+import com.lithic.api.core.JsonValue
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
 
 @JsonDeserialize(builder = Transaction.Builder::class)
 @NoAutoDetect
-class Transaction private constructor(private val acquirerReferenceNumber: JsonField<String>,private val amount: JsonField<Long>,private val authorizationAmount: JsonField<Long>,private val cardholderAuthentication: JsonField<CardholderAuthentication>,private val merchantAmount: JsonField<Long>,private val merchantAuthorizationAmount: JsonField<Long>,private val merchantCurrency: JsonField<String>,private val authorizationCode: JsonField<String>,private val cardToken: JsonField<String>,private val created: JsonField<OffsetDateTime>,private val events: JsonField<List<TransactionEvent>>,private val merchant: JsonField<Merchant>,private val network: JsonField<Network>,private val result: JsonField<Result>,private val settledAmount: JsonField<Long>,private val status: JsonField<Status>,private val token: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
+class Transaction
+private constructor(
+    private val acquirerReferenceNumber: JsonField<String>,
+    private val amount: JsonField<Long>,
+    private val authorizationAmount: JsonField<Long>,
+    private val cardholderAuthentication: JsonField<CardholderAuthentication>,
+    private val merchantAmount: JsonField<Long>,
+    private val merchantAuthorizationAmount: JsonField<Long>,
+    private val merchantCurrency: JsonField<String>,
+    private val authorizationCode: JsonField<String>,
+    private val cardToken: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
+    private val events: JsonField<List<TransactionEvent>>,
+    private val merchant: JsonField<Merchant>,
+    private val network: JsonField<Network>,
+    private val result: JsonField<Result>,
+    private val settledAmount: JsonField<Long>,
+    private val status: JsonField<Status>,
+    private val token: JsonField<String>,
+    private val additionalProperties: Map<String, JsonValue>,
+) {
 
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
 
     /**
-     * A fixed-width 23-digit numeric identifier for the Transaction that may be set if
-     * the transaction originated from the Mastercard network. This number may be used
-     * for dispute tracking.
+     * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
+     * transaction originated from the Mastercard network. This number may be used for dispute
+     * tracking.
      */
-    fun acquirerReferenceNumber(): Optional<String> = Optional.ofNullable(acquirerReferenceNumber.getNullable("acquirer_reference_number"))
+    fun acquirerReferenceNumber(): Optional<String> =
+        Optional.ofNullable(acquirerReferenceNumber.getNullable("acquirer_reference_number"))
 
     /**
-     * Authorization amount of the transaction (in cents), including any acquirer fees.
-     * This may change over time, and will represent the settled amount once the
-     * transaction is settled.
+     * Authorization amount of the transaction (in cents), including any acquirer fees. This may
+     * change over time, and will represent the settled amount once the transaction is settled.
      */
     fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
 
     /**
-     * Authorization amount (in cents) of the transaction, including any acquirer fees.
-     * This amount always represents the amount authorized for the transaction,
-     * unaffected by settlement.
+     * Authorization amount (in cents) of the transaction, including any acquirer fees. This amount
+     * always represents the amount authorized for the transaction, unaffected by settlement.
      */
-    fun authorizationAmount(): Optional<Long> = Optional.ofNullable(authorizationAmount.getNullable("authorization_amount"))
+    fun authorizationAmount(): Optional<Long> =
+        Optional.ofNullable(authorizationAmount.getNullable("authorization_amount"))
 
-    fun cardholderAuthentication(): Optional<CardholderAuthentication> = Optional.ofNullable(cardholderAuthentication.getNullable("cardholder_authentication"))
+    fun cardholderAuthentication(): Optional<CardholderAuthentication> =
+        Optional.ofNullable(cardholderAuthentication.getNullable("cardholder_authentication"))
 
     /**
-     * Analogous to the "amount" property, but will represent the amount in the
+     * Analogous to the "amount" property, but will represent the amount in the transaction's local
+     * currency (smallest unit), including any acquirer fees.
+     */
+    fun merchantAmount(): Optional<Long> =
+        Optional.ofNullable(merchantAmount.getNullable("merchant_amount"))
+
+    /**
+     * Analogous to the "authorization_amount" property, but will represent the amount in the
      * transaction's local currency (smallest unit), including any acquirer fees.
      */
-    fun merchantAmount(): Optional<Long> = Optional.ofNullable(merchantAmount.getNullable("merchant_amount"))
-
-    /**
-     * Analogous to the "authorization_amount" property, but will represent the amount
-     * in the transaction's local currency (smallest unit), including any acquirer
-     * fees.
-     */
-    fun merchantAuthorizationAmount(): Optional<Long> = Optional.ofNullable(merchantAuthorizationAmount.getNullable("merchant_authorization_amount"))
+    fun merchantAuthorizationAmount(): Optional<Long> =
+        Optional.ofNullable(
+            merchantAuthorizationAmount.getNullable("merchant_authorization_amount")
+        )
 
     /** 3-digit alphabetic ISO 4217 code for the local currency of the transaction. */
-    fun merchantCurrency(): Optional<String> = Optional.ofNullable(merchantCurrency.getNullable("merchant_currency"))
+    fun merchantCurrency(): Optional<String> =
+        Optional.ofNullable(merchantCurrency.getNullable("merchant_currency"))
 
     /**
-     * A fixed-width 6-digit numeric identifier that can be used to identify a
-     * transaction with networks.
+     * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
+     * networks.
      */
-    fun authorizationCode(): Optional<String> = Optional.ofNullable(authorizationCode.getNullable("authorization_code"))
+    fun authorizationCode(): Optional<String> =
+        Optional.ofNullable(authorizationCode.getNullable("authorization_code"))
 
     /** Token for the card used in this transaction. */
     fun cardToken(): Optional<String> = Optional.ofNullable(cardToken.getNullable("card_token"))
@@ -88,14 +102,15 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
     fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
 
     /** A list of all events that have modified this transaction. */
-    fun events(): Optional<List<TransactionEvent>> = Optional.ofNullable(events.getNullable("events"))
+    fun events(): Optional<List<TransactionEvent>> =
+        Optional.ofNullable(events.getNullable("events"))
 
     fun merchant(): Optional<Merchant> = Optional.ofNullable(merchant.getNullable("merchant"))
 
     /**
-     * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`,
-     * `VISA`, or `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the
-     * network code from the upstream provider.
+     * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`, or
+     * `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the network code from the upstream
+     * provider.
      */
     fun network(): Optional<Network> = Optional.ofNullable(network.getNullable("network"))
 
@@ -103,17 +118,17 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
     fun result(): Optional<Result> = Optional.ofNullable(result.getNullable("result"))
 
     /**
-     * Amount of the transaction that has been settled (in cents), including any
-     * acquirer fees. This may change over time.
+     * Amount of the transaction that has been settled (in cents), including any acquirer fees. This
+     * may change over time.
      */
-    fun settledAmount(): Optional<Long> = Optional.ofNullable(settledAmount.getNullable("settled_amount"))
+    fun settledAmount(): Optional<Long> =
+        Optional.ofNullable(settledAmount.getNullable("settled_amount"))
 
     /**
      * Status types:
      *
      * - `DECLINED` - The transaction was declined.
-     * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration
-     *   time.
+     * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant.
      * - `SETTLED` - The transaction is complete.
      * - `VOIDED` - The merchant has voided the previously pending authorization.
@@ -124,27 +139,23 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
     fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
 
     /**
-     * A fixed-width 23-digit numeric identifier for the Transaction that may be set if
-     * the transaction originated from the Mastercard network. This number may be used
-     * for dispute tracking.
+     * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
+     * transaction originated from the Mastercard network. This number may be used for dispute
+     * tracking.
      */
     @JsonProperty("acquirer_reference_number")
     @ExcludeMissing
     fun _acquirerReferenceNumber() = acquirerReferenceNumber
 
     /**
-     * Authorization amount of the transaction (in cents), including any acquirer fees.
-     * This may change over time, and will represent the settled amount once the
-     * transaction is settled.
+     * Authorization amount of the transaction (in cents), including any acquirer fees. This may
+     * change over time, and will represent the settled amount once the transaction is settled.
      */
-    @JsonProperty("amount")
-    @ExcludeMissing
-    fun _amount() = amount
+    @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
     /**
-     * Authorization amount (in cents) of the transaction, including any acquirer fees.
-     * This amount always represents the amount authorized for the transaction,
-     * unaffected by settlement.
+     * Authorization amount (in cents) of the transaction, including any acquirer fees. This amount
+     * always represents the amount authorized for the transaction, unaffected by settlement.
      */
     @JsonProperty("authorization_amount")
     @ExcludeMissing
@@ -155,94 +166,68 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
     fun _cardholderAuthentication() = cardholderAuthentication
 
     /**
-     * Analogous to the "amount" property, but will represent the amount in the
-     * transaction's local currency (smallest unit), including any acquirer fees.
+     * Analogous to the "amount" property, but will represent the amount in the transaction's local
+     * currency (smallest unit), including any acquirer fees.
      */
-    @JsonProperty("merchant_amount")
-    @ExcludeMissing
-    fun _merchantAmount() = merchantAmount
+    @JsonProperty("merchant_amount") @ExcludeMissing fun _merchantAmount() = merchantAmount
 
     /**
-     * Analogous to the "authorization_amount" property, but will represent the amount
-     * in the transaction's local currency (smallest unit), including any acquirer
-     * fees.
+     * Analogous to the "authorization_amount" property, but will represent the amount in the
+     * transaction's local currency (smallest unit), including any acquirer fees.
      */
     @JsonProperty("merchant_authorization_amount")
     @ExcludeMissing
     fun _merchantAuthorizationAmount() = merchantAuthorizationAmount
 
     /** 3-digit alphabetic ISO 4217 code for the local currency of the transaction. */
-    @JsonProperty("merchant_currency")
-    @ExcludeMissing
-    fun _merchantCurrency() = merchantCurrency
+    @JsonProperty("merchant_currency") @ExcludeMissing fun _merchantCurrency() = merchantCurrency
 
     /**
-     * A fixed-width 6-digit numeric identifier that can be used to identify a
-     * transaction with networks.
+     * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
+     * networks.
      */
-    @JsonProperty("authorization_code")
-    @ExcludeMissing
-    fun _authorizationCode() = authorizationCode
+    @JsonProperty("authorization_code") @ExcludeMissing fun _authorizationCode() = authorizationCode
 
     /** Token for the card used in this transaction. */
-    @JsonProperty("card_token")
-    @ExcludeMissing
-    fun _cardToken() = cardToken
+    @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
 
     /** Date and time when the transaction first occurred. UTC time zone. */
-    @JsonProperty("created")
-    @ExcludeMissing
-    fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     /** A list of all events that have modified this transaction. */
-    @JsonProperty("events")
-    @ExcludeMissing
-    fun _events() = events
+    @JsonProperty("events") @ExcludeMissing fun _events() = events
 
-    @JsonProperty("merchant")
-    @ExcludeMissing
-    fun _merchant() = merchant
+    @JsonProperty("merchant") @ExcludeMissing fun _merchant() = merchant
 
     /**
-     * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`,
-     * `VISA`, or `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the
-     * network code from the upstream provider.
+     * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`, or
+     * `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the network code from the upstream
+     * provider.
      */
-    @JsonProperty("network")
-    @ExcludeMissing
-    fun _network() = network
+    @JsonProperty("network") @ExcludeMissing fun _network() = network
 
     /** `APPROVED` or decline reason. See Event result types */
-    @JsonProperty("result")
-    @ExcludeMissing
-    fun _result() = result
+    @JsonProperty("result") @ExcludeMissing fun _result() = result
 
     /**
-     * Amount of the transaction that has been settled (in cents), including any
-     * acquirer fees. This may change over time.
+     * Amount of the transaction that has been settled (in cents), including any acquirer fees. This
+     * may change over time.
      */
-    @JsonProperty("settled_amount")
-    @ExcludeMissing
-    fun _settledAmount() = settledAmount
+    @JsonProperty("settled_amount") @ExcludeMissing fun _settledAmount() = settledAmount
 
     /**
      * Status types:
      *
      * - `DECLINED` - The transaction was declined.
-     * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration
-     *   time.
+     * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant.
      * - `SETTLED` - The transaction is complete.
      * - `VOIDED` - The merchant has voided the previously pending authorization.
      */
-    @JsonProperty("status")
-    @ExcludeMissing
-    fun _status() = status
+    @JsonProperty("status") @ExcludeMissing fun _status() = status
 
     /** Globally unique identifier. */
-    @JsonProperty("token")
-    @ExcludeMissing
-    fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -250,87 +235,88 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
     fun validate() = apply {
         if (!validated) {
-          acquirerReferenceNumber()
-          amount()
-          authorizationAmount()
-          cardholderAuthentication().map { it.validate() }
-          merchantAmount()
-          merchantAuthorizationAmount()
-          merchantCurrency()
-          authorizationCode()
-          cardToken()
-          created()
-          events().map { it.forEach { it.validate() } }
-          merchant().map { it.validate() }
-          network()
-          result()
-          settledAmount()
-          status()
-          token()
-          validated = true
+            acquirerReferenceNumber()
+            amount()
+            authorizationAmount()
+            cardholderAuthentication().map { it.validate() }
+            merchantAmount()
+            merchantAuthorizationAmount()
+            merchantCurrency()
+            authorizationCode()
+            cardToken()
+            created()
+            events().map { it.forEach { it.validate() } }
+            merchant().map { it.validate() }
+            network()
+            result()
+            settledAmount()
+            status()
+            token()
+            validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is Transaction &&
-          this.acquirerReferenceNumber == other.acquirerReferenceNumber &&
-          this.amount == other.amount &&
-          this.authorizationAmount == other.authorizationAmount &&
-          this.cardholderAuthentication == other.cardholderAuthentication &&
-          this.merchantAmount == other.merchantAmount &&
-          this.merchantAuthorizationAmount == other.merchantAuthorizationAmount &&
-          this.merchantCurrency == other.merchantCurrency &&
-          this.authorizationCode == other.authorizationCode &&
-          this.cardToken == other.cardToken &&
-          this.created == other.created &&
-          this.events == other.events &&
-          this.merchant == other.merchant &&
-          this.network == other.network &&
-          this.result == other.result &&
-          this.settledAmount == other.settledAmount &&
-          this.status == other.status &&
-          this.token == other.token &&
-          this.additionalProperties == other.additionalProperties
+        return other is Transaction &&
+            this.acquirerReferenceNumber == other.acquirerReferenceNumber &&
+            this.amount == other.amount &&
+            this.authorizationAmount == other.authorizationAmount &&
+            this.cardholderAuthentication == other.cardholderAuthentication &&
+            this.merchantAmount == other.merchantAmount &&
+            this.merchantAuthorizationAmount == other.merchantAuthorizationAmount &&
+            this.merchantCurrency == other.merchantCurrency &&
+            this.authorizationCode == other.authorizationCode &&
+            this.cardToken == other.cardToken &&
+            this.created == other.created &&
+            this.events == other.events &&
+            this.merchant == other.merchant &&
+            this.network == other.network &&
+            this.result == other.result &&
+            this.settledAmount == other.settledAmount &&
+            this.status == other.status &&
+            this.token == other.token &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-      if (hashCode == 0) {
-        hashCode = Objects.hash(
-            acquirerReferenceNumber,
-            amount,
-            authorizationAmount,
-            cardholderAuthentication,
-            merchantAmount,
-            merchantAuthorizationAmount,
-            merchantCurrency,
-            authorizationCode,
-            cardToken,
-            created,
-            events,
-            merchant,
-            network,
-            result,
-            settledAmount,
-            status,
-            token,
-            additionalProperties,
-        )
-      }
-      return hashCode
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    acquirerReferenceNumber,
+                    amount,
+                    authorizationAmount,
+                    cardholderAuthentication,
+                    merchantAmount,
+                    merchantAuthorizationAmount,
+                    merchantCurrency,
+                    authorizationCode,
+                    cardToken,
+                    created,
+                    events,
+                    merchant,
+                    network,
+                    result,
+                    settledAmount,
+                    status,
+                    token,
+                    additionalProperties,
+                )
+        }
+        return hashCode
     }
 
-    override fun toString() = "Transaction{acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, authorizationAmount=$authorizationAmount, cardholderAuthentication=$cardholderAuthentication, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, authorizationCode=$authorizationCode, cardToken=$cardToken, created=$created, events=$events, merchant=$merchant, network=$network, result=$result, settledAmount=$settledAmount, status=$status, token=$token, additionalProperties=$additionalProperties}"
+    override fun toString() =
+        "Transaction{acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, authorizationAmount=$authorizationAmount, cardholderAuthentication=$cardholderAuthentication, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, authorizationCode=$authorizationCode, cardToken=$cardToken, created=$created, events=$events, merchant=$merchant, network=$network, result=$result, settledAmount=$settledAmount, status=$status, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
@@ -377,16 +363,17 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         }
 
         /**
-         * A fixed-width 23-digit numeric identifier for the Transaction that may be set if
-         * the transaction originated from the Mastercard network. This number may be used
-         * for dispute tracking.
+         * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
+         * transaction originated from the Mastercard network. This number may be used for dispute
+         * tracking.
          */
-        fun acquirerReferenceNumber(acquirerReferenceNumber: String) = acquirerReferenceNumber(JsonField.of(acquirerReferenceNumber))
+        fun acquirerReferenceNumber(acquirerReferenceNumber: String) =
+            acquirerReferenceNumber(JsonField.of(acquirerReferenceNumber))
 
         /**
-         * A fixed-width 23-digit numeric identifier for the Transaction that may be set if
-         * the transaction originated from the Mastercard network. This number may be used
-         * for dispute tracking.
+         * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
+         * transaction originated from the Mastercard network. This number may be used for dispute
+         * tracking.
          */
         @JsonProperty("acquirer_reference_number")
         @ExcludeMissing
@@ -395,34 +382,31 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         }
 
         /**
-         * Authorization amount of the transaction (in cents), including any acquirer fees.
-         * This may change over time, and will represent the settled amount once the
-         * transaction is settled.
+         * Authorization amount of the transaction (in cents), including any acquirer fees. This may
+         * change over time, and will represent the settled amount once the transaction is settled.
          */
         fun amount(amount: Long) = amount(JsonField.of(amount))
 
         /**
-         * Authorization amount of the transaction (in cents), including any acquirer fees.
-         * This may change over time, and will represent the settled amount once the
-         * transaction is settled.
+         * Authorization amount of the transaction (in cents), including any acquirer fees. This may
+         * change over time, and will represent the settled amount once the transaction is settled.
          */
         @JsonProperty("amount")
         @ExcludeMissing
-        fun amount(amount: JsonField<Long>) = apply {
-            this.amount = amount
-        }
+        fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
         /**
-         * Authorization amount (in cents) of the transaction, including any acquirer fees.
-         * This amount always represents the amount authorized for the transaction,
-         * unaffected by settlement.
+         * Authorization amount (in cents) of the transaction, including any acquirer fees. This
+         * amount always represents the amount authorized for the transaction, unaffected by
+         * settlement.
          */
-        fun authorizationAmount(authorizationAmount: Long) = authorizationAmount(JsonField.of(authorizationAmount))
+        fun authorizationAmount(authorizationAmount: Long) =
+            authorizationAmount(JsonField.of(authorizationAmount))
 
         /**
-         * Authorization amount (in cents) of the transaction, including any acquirer fees.
-         * This amount always represents the amount authorized for the transaction,
-         * unaffected by settlement.
+         * Authorization amount (in cents) of the transaction, including any acquirer fees. This
+         * amount always represents the amount authorized for the transaction, unaffected by
+         * settlement.
          */
         @JsonProperty("authorization_amount")
         @ExcludeMissing
@@ -430,23 +414,24 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             this.authorizationAmount = authorizationAmount
         }
 
-        fun cardholderAuthentication(cardholderAuthentication: CardholderAuthentication) = cardholderAuthentication(JsonField.of(cardholderAuthentication))
+        fun cardholderAuthentication(cardholderAuthentication: CardholderAuthentication) =
+            cardholderAuthentication(JsonField.of(cardholderAuthentication))
 
         @JsonProperty("cardholder_authentication")
         @ExcludeMissing
-        fun cardholderAuthentication(cardholderAuthentication: JsonField<CardholderAuthentication>) = apply {
-            this.cardholderAuthentication = cardholderAuthentication
-        }
+        fun cardholderAuthentication(
+            cardholderAuthentication: JsonField<CardholderAuthentication>
+        ) = apply { this.cardholderAuthentication = cardholderAuthentication }
 
         /**
-         * Analogous to the "amount" property, but will represent the amount in the
-         * transaction's local currency (smallest unit), including any acquirer fees.
+         * Analogous to the "amount" property, but will represent the amount in the transaction's
+         * local currency (smallest unit), including any acquirer fees.
          */
         fun merchantAmount(merchantAmount: Long) = merchantAmount(JsonField.of(merchantAmount))
 
         /**
-         * Analogous to the "amount" property, but will represent the amount in the
-         * transaction's local currency (smallest unit), including any acquirer fees.
+         * Analogous to the "amount" property, but will represent the amount in the transaction's
+         * local currency (smallest unit), including any acquirer fees.
          */
         @JsonProperty("merchant_amount")
         @ExcludeMissing
@@ -455,16 +440,15 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         }
 
         /**
-         * Analogous to the "authorization_amount" property, but will represent the amount
-         * in the transaction's local currency (smallest unit), including any acquirer
-         * fees.
+         * Analogous to the "authorization_amount" property, but will represent the amount in the
+         * transaction's local currency (smallest unit), including any acquirer fees.
          */
-        fun merchantAuthorizationAmount(merchantAuthorizationAmount: Long) = merchantAuthorizationAmount(JsonField.of(merchantAuthorizationAmount))
+        fun merchantAuthorizationAmount(merchantAuthorizationAmount: Long) =
+            merchantAuthorizationAmount(JsonField.of(merchantAuthorizationAmount))
 
         /**
-         * Analogous to the "authorization_amount" property, but will represent the amount
-         * in the transaction's local currency (smallest unit), including any acquirer
-         * fees.
+         * Analogous to the "authorization_amount" property, but will represent the amount in the
+         * transaction's local currency (smallest unit), including any acquirer fees.
          */
         @JsonProperty("merchant_authorization_amount")
         @ExcludeMissing
@@ -473,7 +457,8 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         }
 
         /** 3-digit alphabetic ISO 4217 code for the local currency of the transaction. */
-        fun merchantCurrency(merchantCurrency: String) = merchantCurrency(JsonField.of(merchantCurrency))
+        fun merchantCurrency(merchantCurrency: String) =
+            merchantCurrency(JsonField.of(merchantCurrency))
 
         /** 3-digit alphabetic ISO 4217 code for the local currency of the transaction. */
         @JsonProperty("merchant_currency")
@@ -483,14 +468,15 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         }
 
         /**
-         * A fixed-width 6-digit numeric identifier that can be used to identify a
-         * transaction with networks.
+         * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
+         * networks.
          */
-        fun authorizationCode(authorizationCode: String) = authorizationCode(JsonField.of(authorizationCode))
+        fun authorizationCode(authorizationCode: String) =
+            authorizationCode(JsonField.of(authorizationCode))
 
         /**
-         * A fixed-width 6-digit numeric identifier that can be used to identify a
-         * transaction with networks.
+         * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
+         * networks.
          */
         @JsonProperty("authorization_code")
         @ExcludeMissing
@@ -504,9 +490,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         /** Token for the card used in this transaction. */
         @JsonProperty("card_token")
         @ExcludeMissing
-        fun cardToken(cardToken: JsonField<String>) = apply {
-            this.cardToken = cardToken
-        }
+        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -514,9 +498,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         /** Date and time when the transaction first occurred. UTC time zone. */
         @JsonProperty("created")
         @ExcludeMissing
-        fun created(created: JsonField<OffsetDateTime>) = apply {
-            this.created = created
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** A list of all events that have modified this transaction. */
         fun events(events: List<TransactionEvent>) = events(JsonField.of(events))
@@ -524,35 +506,29 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         /** A list of all events that have modified this transaction. */
         @JsonProperty("events")
         @ExcludeMissing
-        fun events(events: JsonField<List<TransactionEvent>>) = apply {
-            this.events = events
-        }
+        fun events(events: JsonField<List<TransactionEvent>>) = apply { this.events = events }
 
         fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
 
         @JsonProperty("merchant")
         @ExcludeMissing
-        fun merchant(merchant: JsonField<Merchant>) = apply {
-            this.merchant = merchant
-        }
+        fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
         /**
-         * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`,
-         * `VISA`, or `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the
-         * network code from the upstream provider.
+         * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`,
+         * or `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the network code from the
+         * upstream provider.
          */
         fun network(network: Network) = network(JsonField.of(network))
 
         /**
-         * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`,
-         * `VISA`, or `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the
-         * network code from the upstream provider.
+         * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`,
+         * or `UNKNOWN`. Value is `UNKNOWN` when Lithic cannot determine the network code from the
+         * upstream provider.
          */
         @JsonProperty("network")
         @ExcludeMissing
-        fun network(network: JsonField<Network>) = apply {
-            this.network = network
-        }
+        fun network(network: JsonField<Network>) = apply { this.network = network }
 
         /** `APPROVED` or decline reason. See Event result types */
         fun result(result: Result) = result(JsonField.of(result))
@@ -560,19 +536,17 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         /** `APPROVED` or decline reason. See Event result types */
         @JsonProperty("result")
         @ExcludeMissing
-        fun result(result: JsonField<Result>) = apply {
-            this.result = result
-        }
+        fun result(result: JsonField<Result>) = apply { this.result = result }
 
         /**
-         * Amount of the transaction that has been settled (in cents), including any
-         * acquirer fees. This may change over time.
+         * Amount of the transaction that has been settled (in cents), including any acquirer fees.
+         * This may change over time.
          */
         fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
 
         /**
-         * Amount of the transaction that has been settled (in cents), including any
-         * acquirer fees. This may change over time.
+         * Amount of the transaction that has been settled (in cents), including any acquirer fees.
+         * This may change over time.
          */
         @JsonProperty("settled_amount")
         @ExcludeMissing
@@ -584,8 +558,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * Status types:
          *
          * - `DECLINED` - The transaction was declined.
-         * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration
-         *   time.
+         * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
          * - `PENDING` - Authorization is pending completion from the merchant.
          * - `SETTLED` - The transaction is complete.
          * - `VOIDED` - The merchant has voided the previously pending authorization.
@@ -596,17 +569,14 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * Status types:
          *
          * - `DECLINED` - The transaction was declined.
-         * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration
-         *   time.
+         * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
          * - `PENDING` - Authorization is pending completion from the merchant.
          * - `SETTLED` - The transaction is complete.
          * - `VOIDED` - The merchant has voided the previously pending authorization.
          */
         @JsonProperty("status")
         @ExcludeMissing
-        fun status(status: JsonField<Status>) = apply {
-            this.status = status
-        }
+        fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
@@ -614,9 +584,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         /** Globally unique identifier. */
         @JsonProperty("token")
         @ExcludeMissing
-        fun token(token: JsonField<String>) = apply {
-            this.token = token
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -632,31 +600,40 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): Transaction = Transaction(
-            acquirerReferenceNumber,
-            amount,
-            authorizationAmount,
-            cardholderAuthentication,
-            merchantAmount,
-            merchantAuthorizationAmount,
-            merchantCurrency,
-            authorizationCode,
-            cardToken,
-            created,
-            events.map { it.toUnmodifiable() },
-            merchant,
-            network,
-            result,
-            settledAmount,
-            status,
-            token,
-            additionalProperties.toUnmodifiable(),
-        )
+        fun build(): Transaction =
+            Transaction(
+                acquirerReferenceNumber,
+                amount,
+                authorizationAmount,
+                cardholderAuthentication,
+                merchantAmount,
+                merchantAuthorizationAmount,
+                merchantCurrency,
+                authorizationCode,
+                cardToken,
+                created,
+                events.map { it.toUnmodifiable() },
+                merchant,
+                network,
+                result,
+                settledAmount,
+                status,
+                token,
+                additionalProperties.toUnmodifiable(),
+            )
     }
 
     @JsonDeserialize(builder = CardholderAuthentication.Builder::class)
     @NoAutoDetect
-    class CardholderAuthentication private constructor(private val _3dsVersion: JsonField<String>,private val acquirerExemption: JsonField<AcquirerExemption>,private val liabilityShift: JsonField<LiabilityShift>,private val verificationAttempted: JsonField<VerificationAttempted>,private val verificationResult: JsonField<VerificationResult>,private val additionalProperties: Map<String, JsonValue>,) {
+    class CardholderAuthentication
+    private constructor(
+        private val _3dsVersion: JsonField<String>,
+        private val acquirerExemption: JsonField<AcquirerExemption>,
+        private val liabilityShift: JsonField<LiabilityShift>,
+        private val verificationAttempted: JsonField<VerificationAttempted>,
+        private val verificationResult: JsonField<VerificationResult>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
@@ -669,11 +646,12 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
          * - `null`: 3-D Secure was not used for the transaction
          */
-        fun _3dsVersion(): Optional<String> = Optional.ofNullable(_3dsVersion.getNullable("3ds_version"))
+        fun _3dsVersion(): Optional<String> =
+            Optional.ofNullable(_3dsVersion.getNullable("3ds_version"))
 
         /**
-         * Exemption applied by the ACS to authenticate the transaction without requesting
-         * a challenge. Possible values:
+         * Exemption applied by the ACS to authenticate the transaction without requesting a
+         * challenge. Possible values:
          *
          * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
          * - `LOW_VALUE`: Low Value Payment exemption.
@@ -681,30 +659,28 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * - `NONE`: No exemption applied.
          * - `RECURRING_PAYMENT`: Recurring Payment exemption.
          * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
-         * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication
-         *   Delegation exemption.
+         * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication Delegation
+         * exemption.
          * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-         *   exemption.
+         * exemption.
          *
          * Maps to the 3-D Secure `transChallengeExemption` field.
          */
-        fun acquirerExemption(): AcquirerExemption = acquirerExemption.getRequired("acquirer_exemption")
+        fun acquirerExemption(): AcquirerExemption =
+            acquirerExemption.getRequired("acquirer_exemption")
 
         /**
-         * Indicates whether chargeback liability shift applies to the transaction.
-         * Possible values:
+         * Indicates whether chargeback liability shift applies to the transaction. Possible values:
          *
-         * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D
-         *   Secure flow, chargeback liability shift applies.
-         * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong
-         *   Customer Authentication (`transStatus = N`, or `transStatus = I`). Liability
-         *   remains with the acquirer and in this case the `acquirer_exemption` field is
-         *   expected to be not `NONE`.
-         * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the
-         *   merchant is liable.
+         * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
+         * chargeback liability shift applies.
+         * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
+         * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
+         * acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
+         * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is
+         * liable.
          * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-         *   cryptography, possibly recurring. Chargeback liability shift to the issuer
-         *   applies.
+         * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
          */
         fun liabilityShift(): LiabilityShift = liabilityShift.getRequired("liability_shift")
 
@@ -713,40 +689,37 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          *
          * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
          * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
-         * - `NONE`: No cardholder verification was attempted by the Access Control Server
-         *   (e.g. frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based
-         *   Analysis).
-         * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g.
-         *   Mastercard Identity Check Express, recurring transactions, etc.)
+         * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
+         * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+         * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
+         * Identity Check Express, recurring transactions, etc.)
          * - `OTP`: One-time password verification was attempted by the ACS.
          */
-        fun verificationAttempted(): VerificationAttempted = verificationAttempted.getRequired("verification_attempted")
+        fun verificationAttempted(): VerificationAttempted =
+            verificationAttempted.getRequired("verification_attempted")
 
         /**
          * This field partially maps to the `transStatus` field in the
-         * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/)
-         * and Mastercard SPA2 AAV leading indicators.
+         * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/) and
+         * Mastercard SPA2 AAV leading indicators.
          *
          * Verification result values:
          *
-         * - `CANCELLED`: Authentication/Account verification could not be performed,
-         *   `transStatus = U`.
-         * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the
-         *   utilization of exemptions could also result in `transStatus = N`, inspect the
-         *   `acquirer_exemption` field for more information.
-         * - `FRICTIONLESS`: Attempts processing performed, the transaction was not
-         *   authenticated, but a proof of attempted authentication/verification is
-         *   provided. `transStatus = A` and the leading AAV indicator was one of {`kE`,
-         *   `kF`, `kQ`}.
-         * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction.
-         *   Leading AAV indicator was one of {`kN`, `kX`} or no AAV was provided for the
-         *   transaction.
-         * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`.
-         *   Issuer is rejecting authentication/verification and requests that
-         *   authorization not be attempted.
-         * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and
-         *   leading AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`,
-         *   `kO`, `kP`, `kR`, `kS`}.
+         * - `CANCELLED`: Authentication/Account verification could not be performed, `transStatus =
+         * U`.
+         * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the utilization
+         * of exemptions could also result in `transStatus = N`, inspect the `acquirer_exemption`
+         * field for more information.
+         * - `FRICTIONLESS`: Attempts processing performed, the transaction was not authenticated,
+         * but a proof of attempted authentication/verification is provided. `transStatus = A` and
+         * the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+         * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
+         * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+         * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer is
+         * rejecting authentication/verification and requests that authorization not be attempted.
+         * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading AAV
+         * indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`, `kR`,
+         * `kS`}.
          *
          * Note that the following `transStatus` values are not represented by this field:
          *
@@ -755,7 +728,8 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * - `I`: Informational only
          * - `S`: Challenge using Secure Payment Confirmation (SPC)
          */
-        fun verificationResult(): VerificationResult = verificationResult.getRequired("verification_result")
+        fun verificationResult(): VerificationResult =
+            verificationResult.getRequired("verification_result")
 
         /**
          * 3-D Secure Protocol version. Possible values:
@@ -764,13 +738,11 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
          * - `null`: 3-D Secure was not used for the transaction
          */
-        @JsonProperty("3ds_version")
-        @ExcludeMissing
-        fun __3dsVersion() = _3dsVersion
+        @JsonProperty("3ds_version") @ExcludeMissing fun __3dsVersion() = _3dsVersion
 
         /**
-         * Exemption applied by the ACS to authenticate the transaction without requesting
-         * a challenge. Possible values:
+         * Exemption applied by the ACS to authenticate the transaction without requesting a
+         * challenge. Possible values:
          *
          * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
          * - `LOW_VALUE`: Low Value Payment exemption.
@@ -778,10 +750,10 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * - `NONE`: No exemption applied.
          * - `RECURRING_PAYMENT`: Recurring Payment exemption.
          * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
-         * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication
-         *   Delegation exemption.
+         * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication Delegation
+         * exemption.
          * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-         *   exemption.
+         * exemption.
          *
          * Maps to the 3-D Secure `transChallengeExemption` field.
          */
@@ -790,35 +762,29 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         fun _acquirerExemption() = acquirerExemption
 
         /**
-         * Indicates whether chargeback liability shift applies to the transaction.
-         * Possible values:
+         * Indicates whether chargeback liability shift applies to the transaction. Possible values:
          *
-         * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D
-         *   Secure flow, chargeback liability shift applies.
-         * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong
-         *   Customer Authentication (`transStatus = N`, or `transStatus = I`). Liability
-         *   remains with the acquirer and in this case the `acquirer_exemption` field is
-         *   expected to be not `NONE`.
-         * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the
-         *   merchant is liable.
+         * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
+         * chargeback liability shift applies.
+         * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
+         * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
+         * acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
+         * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is
+         * liable.
          * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-         *   cryptography, possibly recurring. Chargeback liability shift to the issuer
-         *   applies.
+         * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
          */
-        @JsonProperty("liability_shift")
-        @ExcludeMissing
-        fun _liabilityShift() = liabilityShift
+        @JsonProperty("liability_shift") @ExcludeMissing fun _liabilityShift() = liabilityShift
 
         /**
          * Verification attempted values:
          *
          * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
          * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
-         * - `NONE`: No cardholder verification was attempted by the Access Control Server
-         *   (e.g. frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based
-         *   Analysis).
-         * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g.
-         *   Mastercard Identity Check Express, recurring transactions, etc.)
+         * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
+         * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+         * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
+         * Identity Check Express, recurring transactions, etc.)
          * - `OTP`: One-time password verification was attempted by the ACS.
          */
         @JsonProperty("verification_attempted")
@@ -827,29 +793,26 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
         /**
          * This field partially maps to the `transStatus` field in the
-         * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/)
-         * and Mastercard SPA2 AAV leading indicators.
+         * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/) and
+         * Mastercard SPA2 AAV leading indicators.
          *
          * Verification result values:
          *
-         * - `CANCELLED`: Authentication/Account verification could not be performed,
-         *   `transStatus = U`.
-         * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the
-         *   utilization of exemptions could also result in `transStatus = N`, inspect the
-         *   `acquirer_exemption` field for more information.
-         * - `FRICTIONLESS`: Attempts processing performed, the transaction was not
-         *   authenticated, but a proof of attempted authentication/verification is
-         *   provided. `transStatus = A` and the leading AAV indicator was one of {`kE`,
-         *   `kF`, `kQ`}.
-         * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction.
-         *   Leading AAV indicator was one of {`kN`, `kX`} or no AAV was provided for the
-         *   transaction.
-         * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`.
-         *   Issuer is rejecting authentication/verification and requests that
-         *   authorization not be attempted.
-         * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and
-         *   leading AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`,
-         *   `kO`, `kP`, `kR`, `kS`}.
+         * - `CANCELLED`: Authentication/Account verification could not be performed, `transStatus =
+         * U`.
+         * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the utilization
+         * of exemptions could also result in `transStatus = N`, inspect the `acquirer_exemption`
+         * field for more information.
+         * - `FRICTIONLESS`: Attempts processing performed, the transaction was not authenticated,
+         * but a proof of attempted authentication/verification is provided. `transStatus = A` and
+         * the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+         * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
+         * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+         * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer is
+         * rejecting authentication/verification and requests that authorization not be attempted.
+         * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading AAV
+         * indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`, `kR`,
+         * `kS`}.
          *
          * Note that the following `transStatus` values are not represented by this field:
          *
@@ -868,51 +831,52 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
         fun validate() = apply {
             if (!validated) {
-              _3dsVersion()
-              acquirerExemption()
-              liabilityShift()
-              verificationAttempted()
-              verificationResult()
-              validated = true
+                _3dsVersion()
+                acquirerExemption()
+                liabilityShift()
+                verificationAttempted()
+                verificationResult()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is CardholderAuthentication &&
-              this._3dsVersion == other._3dsVersion &&
-              this.acquirerExemption == other.acquirerExemption &&
-              this.liabilityShift == other.liabilityShift &&
-              this.verificationAttempted == other.verificationAttempted &&
-              this.verificationResult == other.verificationResult &&
-              this.additionalProperties == other.additionalProperties
+            return other is CardholderAuthentication &&
+                this._3dsVersion == other._3dsVersion &&
+                this.acquirerExemption == other.acquirerExemption &&
+                this.liabilityShift == other.liabilityShift &&
+                this.verificationAttempted == other.verificationAttempted &&
+                this.verificationResult == other.verificationResult &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                _3dsVersion,
-                acquirerExemption,
-                liabilityShift,
-                verificationAttempted,
-                verificationResult,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        _3dsVersion,
+                        acquirerExemption,
+                        liabilityShift,
+                        verificationAttempted,
+                        verificationResult,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "CardholderAuthentication{_3dsVersion=$_3dsVersion, acquirerExemption=$acquirerExemption, liabilityShift=$liabilityShift, verificationAttempted=$verificationAttempted, verificationResult=$verificationResult, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "CardholderAuthentication{_3dsVersion=$_3dsVersion, acquirerExemption=$acquirerExemption, liabilityShift=$liabilityShift, verificationAttempted=$verificationAttempted, verificationResult=$verificationResult, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -957,8 +921,8 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             }
 
             /**
-             * Exemption applied by the ACS to authenticate the transaction without requesting
-             * a challenge. Possible values:
+             * Exemption applied by the ACS to authenticate the transaction without requesting a
+             * challenge. Possible values:
              *
              * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
              * - `LOW_VALUE`: Low Value Payment exemption.
@@ -967,17 +931,18 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              * - `RECURRING_PAYMENT`: Recurring Payment exemption.
              * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
              * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication
-             *   Delegation exemption.
+             * Delegation exemption.
              * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-             *   exemption.
+             * exemption.
              *
              * Maps to the 3-D Secure `transChallengeExemption` field.
              */
-            fun acquirerExemption(acquirerExemption: AcquirerExemption) = acquirerExemption(JsonField.of(acquirerExemption))
+            fun acquirerExemption(acquirerExemption: AcquirerExemption) =
+                acquirerExemption(JsonField.of(acquirerExemption))
 
             /**
-             * Exemption applied by the ACS to authenticate the transaction without requesting
-             * a challenge. Possible values:
+             * Exemption applied by the ACS to authenticate the transaction without requesting a
+             * challenge. Possible values:
              *
              * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
              * - `LOW_VALUE`: Low Value Payment exemption.
@@ -986,9 +951,9 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              * - `RECURRING_PAYMENT`: Recurring Payment exemption.
              * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
              * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication
-             *   Delegation exemption.
+             * Delegation exemption.
              * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-             *   exemption.
+             * exemption.
              *
              * Maps to the 3-D Secure `transChallengeExemption` field.
              */
@@ -999,38 +964,37 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             }
 
             /**
-             * Indicates whether chargeback liability shift applies to the transaction.
-             * Possible values:
+             * Indicates whether chargeback liability shift applies to the transaction. Possible
+             * values:
              *
-             * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D
-             *   Secure flow, chargeback liability shift applies.
-             * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong
-             *   Customer Authentication (`transStatus = N`, or `transStatus = I`). Liability
-             *   remains with the acquirer and in this case the `acquirer_exemption` field is
-             *   expected to be not `NONE`.
-             * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the
-             *   merchant is liable.
+             * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure
+             * flow, chargeback liability shift applies.
+             * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
+             * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
+             * acquirer and in this case the `acquirer_exemption` field is expected to be not
+             * `NONE`.
+             * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant
+             * is liable.
              * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-             *   cryptography, possibly recurring. Chargeback liability shift to the issuer
-             *   applies.
+             * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
              */
-            fun liabilityShift(liabilityShift: LiabilityShift) = liabilityShift(JsonField.of(liabilityShift))
+            fun liabilityShift(liabilityShift: LiabilityShift) =
+                liabilityShift(JsonField.of(liabilityShift))
 
             /**
-             * Indicates whether chargeback liability shift applies to the transaction.
-             * Possible values:
+             * Indicates whether chargeback liability shift applies to the transaction. Possible
+             * values:
              *
-             * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D
-             *   Secure flow, chargeback liability shift applies.
-             * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong
-             *   Customer Authentication (`transStatus = N`, or `transStatus = I`). Liability
-             *   remains with the acquirer and in this case the `acquirer_exemption` field is
-             *   expected to be not `NONE`.
-             * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the
-             *   merchant is liable.
+             * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure
+             * flow, chargeback liability shift applies.
+             * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
+             * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
+             * acquirer and in this case the `acquirer_exemption` field is expected to be not
+             * `NONE`.
+             * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant
+             * is liable.
              * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-             *   cryptography, possibly recurring. Chargeback liability shift to the issuer
-             *   applies.
+             * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
              */
             @JsonProperty("liability_shift")
             @ExcludeMissing
@@ -1043,32 +1007,32 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              *
              * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
              * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
-             * - `NONE`: No cardholder verification was attempted by the Access Control Server
-             *   (e.g. frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based
-             *   Analysis).
-             * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g.
-             *   Mastercard Identity Check Express, recurring transactions, etc.)
+             * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
+             * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+             * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
+             * Identity Check Express, recurring transactions, etc.)
              * - `OTP`: One-time password verification was attempted by the ACS.
              */
-            fun verificationAttempted(verificationAttempted: VerificationAttempted) = verificationAttempted(JsonField.of(verificationAttempted))
+            fun verificationAttempted(verificationAttempted: VerificationAttempted) =
+                verificationAttempted(JsonField.of(verificationAttempted))
 
             /**
              * Verification attempted values:
              *
              * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
              * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
-             * - `NONE`: No cardholder verification was attempted by the Access Control Server
-             *   (e.g. frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based
-             *   Analysis).
-             * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g.
-             *   Mastercard Identity Check Express, recurring transactions, etc.)
+             * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
+             * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+             * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
+             * Identity Check Express, recurring transactions, etc.)
              * - `OTP`: One-time password verification was attempted by the ACS.
              */
             @JsonProperty("verification_attempted")
             @ExcludeMissing
-            fun verificationAttempted(verificationAttempted: JsonField<VerificationAttempted>) = apply {
-                this.verificationAttempted = verificationAttempted
-            }
+            fun verificationAttempted(verificationAttempted: JsonField<VerificationAttempted>) =
+                apply {
+                    this.verificationAttempted = verificationAttempted
+                }
 
             /**
              * This field partially maps to the `transStatus` field in the
@@ -1078,23 +1042,21 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              * Verification result values:
              *
              * - `CANCELLED`: Authentication/Account verification could not be performed,
-             *   `transStatus = U`.
+             * `transStatus = U`.
              * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the
-             *   utilization of exemptions could also result in `transStatus = N`, inspect the
-             *   `acquirer_exemption` field for more information.
+             * utilization of exemptions could also result in `transStatus = N`, inspect the
+             * `acquirer_exemption` field for more information.
              * - `FRICTIONLESS`: Attempts processing performed, the transaction was not
-             *   authenticated, but a proof of attempted authentication/verification is
-             *   provided. `transStatus = A` and the leading AAV indicator was one of {`kE`,
-             *   `kF`, `kQ`}.
-             * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction.
-             *   Leading AAV indicator was one of {`kN`, `kX`} or no AAV was provided for the
-             *   transaction.
-             * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`.
-             *   Issuer is rejecting authentication/verification and requests that
-             *   authorization not be attempted.
-             * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and
-             *   leading AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`,
-             *   `kO`, `kP`, `kR`, `kS`}.
+             * authenticated, but a proof of attempted authentication/verification is provided.
+             * `transStatus = A` and the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+             * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
+             * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+             * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer
+             * is rejecting authentication/verification and requests that authorization not be
+             * attempted.
+             * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading
+             * AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`,
+             * `kR`, `kS`}.
              *
              * Note that the following `transStatus` values are not represented by this field:
              *
@@ -1103,7 +1065,8 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              * - `I`: Informational only
              * - `S`: Challenge using Secure Payment Confirmation (SPC)
              */
-            fun verificationResult(verificationResult: VerificationResult) = verificationResult(JsonField.of(verificationResult))
+            fun verificationResult(verificationResult: VerificationResult) =
+                verificationResult(JsonField.of(verificationResult))
 
             /**
              * This field partially maps to the `transStatus` field in the
@@ -1113,23 +1076,21 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              * Verification result values:
              *
              * - `CANCELLED`: Authentication/Account verification could not be performed,
-             *   `transStatus = U`.
+             * `transStatus = U`.
              * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the
-             *   utilization of exemptions could also result in `transStatus = N`, inspect the
-             *   `acquirer_exemption` field for more information.
+             * utilization of exemptions could also result in `transStatus = N`, inspect the
+             * `acquirer_exemption` field for more information.
              * - `FRICTIONLESS`: Attempts processing performed, the transaction was not
-             *   authenticated, but a proof of attempted authentication/verification is
-             *   provided. `transStatus = A` and the leading AAV indicator was one of {`kE`,
-             *   `kF`, `kQ`}.
-             * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction.
-             *   Leading AAV indicator was one of {`kN`, `kX`} or no AAV was provided for the
-             *   transaction.
-             * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`.
-             *   Issuer is rejecting authentication/verification and requests that
-             *   authorization not be attempted.
-             * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and
-             *   leading AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`,
-             *   `kO`, `kP`, `kR`, `kS`}.
+             * authenticated, but a proof of attempted authentication/verification is provided.
+             * `transStatus = A` and the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+             * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
+             * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+             * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer
+             * is rejecting authentication/verification and requests that authorization not be
+             * attempted.
+             * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading
+             * AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`,
+             * `kR`, `kS`}.
              *
              * Note that the following `transStatus` values are not represented by this field:
              *
@@ -1158,28 +1119,31 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): CardholderAuthentication = CardholderAuthentication(
-                _3dsVersion,
-                acquirerExemption,
-                liabilityShift,
-                verificationAttempted,
-                verificationResult,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): CardholderAuthentication =
+                CardholderAuthentication(
+                    _3dsVersion,
+                    acquirerExemption,
+                    liabilityShift,
+                    verificationAttempted,
+                    verificationResult,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
 
-        class AcquirerExemption @JsonCreator private constructor(private val value: JsonField<String>,) {
+        class AcquirerExemption
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
 
-            @com.fasterxml.jackson.annotation.JsonValue
-            fun _value(): JsonField<String> = value
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is AcquirerExemption &&
-                  this.value == other.value
+                return other is AcquirerExemption && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1188,21 +1152,32 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
             companion object {
 
-                @JvmField val AUTHENTICATION_OUTAGE_EXCEPTION = AcquirerExemption(JsonField.of("AUTHENTICATION_OUTAGE_EXCEPTION"))
+                @JvmField
+                val AUTHENTICATION_OUTAGE_EXCEPTION =
+                    AcquirerExemption(JsonField.of("AUTHENTICATION_OUTAGE_EXCEPTION"))
 
                 @JvmField val LOW_VALUE = AcquirerExemption(JsonField.of("LOW_VALUE"))
 
-                @JvmField val MERCHANT_INITIATED_TRANSACTION = AcquirerExemption(JsonField.of("MERCHANT_INITIATED_TRANSACTION"))
+                @JvmField
+                val MERCHANT_INITIATED_TRANSACTION =
+                    AcquirerExemption(JsonField.of("MERCHANT_INITIATED_TRANSACTION"))
 
                 @JvmField val NONE = AcquirerExemption(JsonField.of("NONE"))
 
-                @JvmField val RECURRING_PAYMENT = AcquirerExemption(JsonField.of("RECURRING_PAYMENT"))
+                @JvmField
+                val RECURRING_PAYMENT = AcquirerExemption(JsonField.of("RECURRING_PAYMENT"))
 
-                @JvmField val SECURE_CORPORATE_PAYMENT = AcquirerExemption(JsonField.of("SECURE_CORPORATE_PAYMENT"))
+                @JvmField
+                val SECURE_CORPORATE_PAYMENT =
+                    AcquirerExemption(JsonField.of("SECURE_CORPORATE_PAYMENT"))
 
-                @JvmField val STRONG_CUSTOMER_AUTHENTICATION_DELEGATION = AcquirerExemption(JsonField.of("STRONG_CUSTOMER_AUTHENTICATION_DELEGATION"))
+                @JvmField
+                val STRONG_CUSTOMER_AUTHENTICATION_DELEGATION =
+                    AcquirerExemption(JsonField.of("STRONG_CUSTOMER_AUTHENTICATION_DELEGATION"))
 
-                @JvmField val TRANSACTION_RISK_ANALYSIS = AcquirerExemption(JsonField.of("TRANSACTION_RISK_ANALYSIS"))
+                @JvmField
+                val TRANSACTION_RISK_ANALYSIS =
+                    AcquirerExemption(JsonField.of("TRANSACTION_RISK_ANALYSIS"))
 
                 @JvmStatic fun of(value: String) = AcquirerExemption(JsonField.of(value))
             }
@@ -1230,45 +1205,51 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
                 _UNKNOWN,
             }
 
-            fun value(): Value = when (this) {
-                AUTHENTICATION_OUTAGE_EXCEPTION -> Value.AUTHENTICATION_OUTAGE_EXCEPTION
-                LOW_VALUE -> Value.LOW_VALUE
-                MERCHANT_INITIATED_TRANSACTION -> Value.MERCHANT_INITIATED_TRANSACTION
-                NONE -> Value.NONE
-                RECURRING_PAYMENT -> Value.RECURRING_PAYMENT
-                SECURE_CORPORATE_PAYMENT -> Value.SECURE_CORPORATE_PAYMENT
-                STRONG_CUSTOMER_AUTHENTICATION_DELEGATION -> Value.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
-                TRANSACTION_RISK_ANALYSIS -> Value.TRANSACTION_RISK_ANALYSIS
-                else -> Value._UNKNOWN
-            }
+            fun value(): Value =
+                when (this) {
+                    AUTHENTICATION_OUTAGE_EXCEPTION -> Value.AUTHENTICATION_OUTAGE_EXCEPTION
+                    LOW_VALUE -> Value.LOW_VALUE
+                    MERCHANT_INITIATED_TRANSACTION -> Value.MERCHANT_INITIATED_TRANSACTION
+                    NONE -> Value.NONE
+                    RECURRING_PAYMENT -> Value.RECURRING_PAYMENT
+                    SECURE_CORPORATE_PAYMENT -> Value.SECURE_CORPORATE_PAYMENT
+                    STRONG_CUSTOMER_AUTHENTICATION_DELEGATION ->
+                        Value.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
+                    TRANSACTION_RISK_ANALYSIS -> Value.TRANSACTION_RISK_ANALYSIS
+                    else -> Value._UNKNOWN
+                }
 
-            fun known(): Known = when (this) {
-                AUTHENTICATION_OUTAGE_EXCEPTION -> Known.AUTHENTICATION_OUTAGE_EXCEPTION
-                LOW_VALUE -> Known.LOW_VALUE
-                MERCHANT_INITIATED_TRANSACTION -> Known.MERCHANT_INITIATED_TRANSACTION
-                NONE -> Known.NONE
-                RECURRING_PAYMENT -> Known.RECURRING_PAYMENT
-                SECURE_CORPORATE_PAYMENT -> Known.SECURE_CORPORATE_PAYMENT
-                STRONG_CUSTOMER_AUTHENTICATION_DELEGATION -> Known.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
-                TRANSACTION_RISK_ANALYSIS -> Known.TRANSACTION_RISK_ANALYSIS
-                else -> throw LithicInvalidDataException("Unknown AcquirerExemption: $value")
-            }
+            fun known(): Known =
+                when (this) {
+                    AUTHENTICATION_OUTAGE_EXCEPTION -> Known.AUTHENTICATION_OUTAGE_EXCEPTION
+                    LOW_VALUE -> Known.LOW_VALUE
+                    MERCHANT_INITIATED_TRANSACTION -> Known.MERCHANT_INITIATED_TRANSACTION
+                    NONE -> Known.NONE
+                    RECURRING_PAYMENT -> Known.RECURRING_PAYMENT
+                    SECURE_CORPORATE_PAYMENT -> Known.SECURE_CORPORATE_PAYMENT
+                    STRONG_CUSTOMER_AUTHENTICATION_DELEGATION ->
+                        Known.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
+                    TRANSACTION_RISK_ANALYSIS -> Known.TRANSACTION_RISK_ANALYSIS
+                    else -> throw LithicInvalidDataException("Unknown AcquirerExemption: $value")
+                }
 
             fun asString(): String = _value().asStringOrThrow()
         }
 
-        class LiabilityShift @JsonCreator private constructor(private val value: JsonField<String>,) {
+        class LiabilityShift
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
 
-            @com.fasterxml.jackson.annotation.JsonValue
-            fun _value(): JsonField<String> = value
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is LiabilityShift &&
-                  this.value == other.value
+                return other is LiabilityShift && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1277,13 +1258,16 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
             companion object {
 
-                @JvmField val _3_DS_AUTHENTICATED = LiabilityShift(JsonField.of("3DS_AUTHENTICATED"))
+                @JvmField
+                val _3_DS_AUTHENTICATED = LiabilityShift(JsonField.of("3DS_AUTHENTICATED"))
 
-                @JvmField val ACQUIRER_EXEMPTION = LiabilityShift(JsonField.of("ACQUIRER_EXEMPTION"))
+                @JvmField
+                val ACQUIRER_EXEMPTION = LiabilityShift(JsonField.of("ACQUIRER_EXEMPTION"))
 
                 @JvmField val NONE = LiabilityShift(JsonField.of("NONE"))
 
-                @JvmField val TOKEN_AUTHENTICATED = LiabilityShift(JsonField.of("TOKEN_AUTHENTICATED"))
+                @JvmField
+                val TOKEN_AUTHENTICATED = LiabilityShift(JsonField.of("TOKEN_AUTHENTICATED"))
 
                 @JvmStatic fun of(value: String) = LiabilityShift(JsonField.of(value))
             }
@@ -1303,37 +1287,41 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
                 _UNKNOWN,
             }
 
-            fun value(): Value = when (this) {
-                _3_DS_AUTHENTICATED -> Value._3_DS_AUTHENTICATED
-                ACQUIRER_EXEMPTION -> Value.ACQUIRER_EXEMPTION
-                NONE -> Value.NONE
-                TOKEN_AUTHENTICATED -> Value.TOKEN_AUTHENTICATED
-                else -> Value._UNKNOWN
-            }
+            fun value(): Value =
+                when (this) {
+                    _3_DS_AUTHENTICATED -> Value._3_DS_AUTHENTICATED
+                    ACQUIRER_EXEMPTION -> Value.ACQUIRER_EXEMPTION
+                    NONE -> Value.NONE
+                    TOKEN_AUTHENTICATED -> Value.TOKEN_AUTHENTICATED
+                    else -> Value._UNKNOWN
+                }
 
-            fun known(): Known = when (this) {
-                _3_DS_AUTHENTICATED -> Known._3_DS_AUTHENTICATED
-                ACQUIRER_EXEMPTION -> Known.ACQUIRER_EXEMPTION
-                NONE -> Known.NONE
-                TOKEN_AUTHENTICATED -> Known.TOKEN_AUTHENTICATED
-                else -> throw LithicInvalidDataException("Unknown LiabilityShift: $value")
-            }
+            fun known(): Known =
+                when (this) {
+                    _3_DS_AUTHENTICATED -> Known._3_DS_AUTHENTICATED
+                    ACQUIRER_EXEMPTION -> Known.ACQUIRER_EXEMPTION
+                    NONE -> Known.NONE
+                    TOKEN_AUTHENTICATED -> Known.TOKEN_AUTHENTICATED
+                    else -> throw LithicInvalidDataException("Unknown LiabilityShift: $value")
+                }
 
             fun asString(): String = _value().asStringOrThrow()
         }
 
-        class VerificationAttempted @JsonCreator private constructor(private val value: JsonField<String>,) {
+        class VerificationAttempted
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
 
-            @com.fasterxml.jackson.annotation.JsonValue
-            fun _value(): JsonField<String> = value
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is VerificationAttempted &&
-                  this.value == other.value
+                return other is VerificationAttempted && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1372,39 +1360,44 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
                 _UNKNOWN,
             }
 
-            fun value(): Value = when (this) {
-                APP_LOGIN -> Value.APP_LOGIN
-                BIOMETRIC -> Value.BIOMETRIC
-                NONE -> Value.NONE
-                OTHER -> Value.OTHER
-                OTP -> Value.OTP
-                else -> Value._UNKNOWN
-            }
+            fun value(): Value =
+                when (this) {
+                    APP_LOGIN -> Value.APP_LOGIN
+                    BIOMETRIC -> Value.BIOMETRIC
+                    NONE -> Value.NONE
+                    OTHER -> Value.OTHER
+                    OTP -> Value.OTP
+                    else -> Value._UNKNOWN
+                }
 
-            fun known(): Known = when (this) {
-                APP_LOGIN -> Known.APP_LOGIN
-                BIOMETRIC -> Known.BIOMETRIC
-                NONE -> Known.NONE
-                OTHER -> Known.OTHER
-                OTP -> Known.OTP
-                else -> throw LithicInvalidDataException("Unknown VerificationAttempted: $value")
-            }
+            fun known(): Known =
+                when (this) {
+                    APP_LOGIN -> Known.APP_LOGIN
+                    BIOMETRIC -> Known.BIOMETRIC
+                    NONE -> Known.NONE
+                    OTHER -> Known.OTHER
+                    OTP -> Known.OTP
+                    else ->
+                        throw LithicInvalidDataException("Unknown VerificationAttempted: $value")
+                }
 
             fun asString(): String = _value().asStringOrThrow()
         }
 
-        class VerificationResult @JsonCreator private constructor(private val value: JsonField<String>,) {
+        class VerificationResult
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
 
-            @com.fasterxml.jackson.annotation.JsonValue
-            fun _value(): JsonField<String> = value
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is VerificationResult &&
-                  this.value == other.value
+                return other is VerificationResult && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1447,37 +1440,47 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
                 _UNKNOWN,
             }
 
-            fun value(): Value = when (this) {
-                CANCELLED -> Value.CANCELLED
-                FAILED -> Value.FAILED
-                FRICTIONLESS -> Value.FRICTIONLESS
-                NOT_ATTEMPTED -> Value.NOT_ATTEMPTED
-                REJECTED -> Value.REJECTED
-                SUCCESS -> Value.SUCCESS
-                else -> Value._UNKNOWN
-            }
+            fun value(): Value =
+                when (this) {
+                    CANCELLED -> Value.CANCELLED
+                    FAILED -> Value.FAILED
+                    FRICTIONLESS -> Value.FRICTIONLESS
+                    NOT_ATTEMPTED -> Value.NOT_ATTEMPTED
+                    REJECTED -> Value.REJECTED
+                    SUCCESS -> Value.SUCCESS
+                    else -> Value._UNKNOWN
+                }
 
-            fun known(): Known = when (this) {
-                CANCELLED -> Known.CANCELLED
-                FAILED -> Known.FAILED
-                FRICTIONLESS -> Known.FRICTIONLESS
-                NOT_ATTEMPTED -> Known.NOT_ATTEMPTED
-                REJECTED -> Known.REJECTED
-                SUCCESS -> Known.SUCCESS
-                else -> throw LithicInvalidDataException("Unknown VerificationResult: $value")
-            }
+            fun known(): Known =
+                when (this) {
+                    CANCELLED -> Known.CANCELLED
+                    FAILED -> Known.FAILED
+                    FRICTIONLESS -> Known.FRICTIONLESS
+                    NOT_ATTEMPTED -> Known.NOT_ATTEMPTED
+                    REJECTED -> Known.REJECTED
+                    SUCCESS -> Known.SUCCESS
+                    else -> throw LithicInvalidDataException("Unknown VerificationResult: $value")
+                }
 
             fun asString(): String = _value().asStringOrThrow()
         }
     }
 
     /**
-     * A single card transaction may include multiple events that affect the
-     * transaction state and lifecycle.
+     * A single card transaction may include multiple events that affect the transaction state and
+     * lifecycle.
      */
     @JsonDeserialize(builder = TransactionEvent.Builder::class)
     @NoAutoDetect
-    class TransactionEvent private constructor(private val amount: JsonField<Long>,private val created: JsonField<OffsetDateTime>,private val result: JsonField<Result>,private val token: JsonField<String>,private val type: JsonField<Type>,private val additionalProperties: Map<String, JsonValue>,) {
+    class TransactionEvent
+    private constructor(
+        private val amount: JsonField<Long>,
+        private val created: JsonField<OffsetDateTime>,
+        private val result: JsonField<Result>,
+        private val token: JsonField<String>,
+        private val type: JsonField<Type>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
@@ -1495,7 +1498,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * Result types:
          *
          * - `ACCOUNT_STATE_TRANSACTION_FAIL` - Contact
-         *   [support@lithic.com](mailto:support@lithic.com).
+         * [support@lithic.com](mailto:support@lithic.com).
          * - `APPROVED` - Transaction is approved.
          * - `BANK_CONNECTION_ERROR` - Please reconnect a funding source.
          * - `BANK_NOT_VERIFIED` - Please confirm the funding source.
@@ -1503,22 +1506,20 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * - `CARD_PAUSED` - Card state was paused at the time of authorization.
          * - `FRAUD_ADVICE` - Transaction declined due to risk.
          * - `GLOBAL_TRANSACTION_LIMIT` - Platform spend limit exceeded, contact
-         *   [support@lithic.com](mailto:support@lithic.com).
+         * [support@lithic.com](mailto:support@lithic.com).
          * - `GLOBAL_WEEKLY_LIMIT` - Platform spend limit exceeded, contact
-         *   [support@lithic.com](mailto:support@lithic.com).
+         * [support@lithic.com](mailto:support@lithic.com).
          * - `GLOBAL_MONTHLY_LIMIT` - Platform spend limit exceeded, contact
-         *   [support@lithic.com](mailto:support@lithic.com).
+         * [support@lithic.com](mailto:support@lithic.com).
          * - `INACTIVE_ACCOUNT` - Account is inactive. Contact
-         *   [support@lithic.com](mailto:support@lithic.com).
+         * [support@lithic.com](mailto:support@lithic.com).
          * - `INCORRECT_PIN` - PIN verification failed.
          * - `INVALID_CARD_DETAILS` - Incorrect CVV or expiry date.
-         * - `INSUFFICIENT_FUNDS` - Please ensure the funding source is connected and up to
-         *   date.
+         * - `INSUFFICIENT_FUNDS` - Please ensure the funding source is connected and up to date.
          * - `MERCHANT_BLACKLIST` - This merchant is disallowed on the platform.
          * - `SINGLE_USE_RECHARGED` - Single use card attempted multiple times.
          * - `SWITCH_INOPERATIVE_ADVICE` - Network error, re-attempt the transaction.
-         * - `UNAUTHORIZED_MERCHANT` - Merchant locked card attempted at different
-         *   merchant.
+         * - `UNAUTHORIZED_MERCHANT` - Merchant locked card attempted at different merchant.
          * - `UNKNOWN_HOST_TIMEOUT` - Network error, re-attempt the transaction.
          * - `USER_TRANSACTION_LIMIT` - User-set spend limit exceeded.
          */
@@ -1534,33 +1535,29 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * - `AUTHORIZATION_ADVICE` - Advice on a transaction.
          * - `AUTHORIZATION_EXPIRY` - Authorization has expired and reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` - Authorization was reversed by the merchant.
-         * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has
-         *   occurred on a card.
+         * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has occurred on a
+         * card.
          * - `CLEARING` - Transaction is settled.
          * - `CORRECTION_DEBIT` - Manual transaction correction (Debit).
          * - `CORRECTION_CREDIT` - Manual transaction correction (Credit).
          * - `CREDIT_AUTHORIZATION` - A refund or credit authorization from a merchant.
-         * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your
-         *   behalf by the network.
-         * - `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit funds without
-         *   additional clearing.
-         * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or
-         *   credit funds without additional clearing.
+         * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your behalf by
+         * the network.
+         * - `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit funds without additional
+         * clearing.
+         * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit funds
+         * without additional clearing.
          * - `RETURN` - A refund has been processed on the transaction.
-         * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses
-         *   an incorrect refund).
+         * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
+         * incorrect refund).
          */
         fun type(): Type = type.getRequired("type")
 
         /** Amount of the transaction event (in cents), including any acquirer fees. */
-        @JsonProperty("amount")
-        @ExcludeMissing
-        fun _amount() = amount
+        @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
         /** RFC 3339 date and time this event entered the system. UTC time zone. */
-        @JsonProperty("created")
-        @ExcludeMissing
-        fun _created() = created
+        @JsonProperty("created") @ExcludeMissing fun _created() = created
 
         /**
          * `APPROVED` or decline reason.
@@ -1568,7 +1565,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * Result types:
          *
          * - `ACCOUNT_STATE_TRANSACTION_FAIL` - Contact
-         *   [support@lithic.com](mailto:support@lithic.com).
+         * [support@lithic.com](mailto:support@lithic.com).
          * - `APPROVED` - Transaction is approved.
          * - `BANK_CONNECTION_ERROR` - Please reconnect a funding source.
          * - `BANK_NOT_VERIFIED` - Please confirm the funding source.
@@ -1576,33 +1573,27 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * - `CARD_PAUSED` - Card state was paused at the time of authorization.
          * - `FRAUD_ADVICE` - Transaction declined due to risk.
          * - `GLOBAL_TRANSACTION_LIMIT` - Platform spend limit exceeded, contact
-         *   [support@lithic.com](mailto:support@lithic.com).
+         * [support@lithic.com](mailto:support@lithic.com).
          * - `GLOBAL_WEEKLY_LIMIT` - Platform spend limit exceeded, contact
-         *   [support@lithic.com](mailto:support@lithic.com).
+         * [support@lithic.com](mailto:support@lithic.com).
          * - `GLOBAL_MONTHLY_LIMIT` - Platform spend limit exceeded, contact
-         *   [support@lithic.com](mailto:support@lithic.com).
+         * [support@lithic.com](mailto:support@lithic.com).
          * - `INACTIVE_ACCOUNT` - Account is inactive. Contact
-         *   [support@lithic.com](mailto:support@lithic.com).
+         * [support@lithic.com](mailto:support@lithic.com).
          * - `INCORRECT_PIN` - PIN verification failed.
          * - `INVALID_CARD_DETAILS` - Incorrect CVV or expiry date.
-         * - `INSUFFICIENT_FUNDS` - Please ensure the funding source is connected and up to
-         *   date.
+         * - `INSUFFICIENT_FUNDS` - Please ensure the funding source is connected and up to date.
          * - `MERCHANT_BLACKLIST` - This merchant is disallowed on the platform.
          * - `SINGLE_USE_RECHARGED` - Single use card attempted multiple times.
          * - `SWITCH_INOPERATIVE_ADVICE` - Network error, re-attempt the transaction.
-         * - `UNAUTHORIZED_MERCHANT` - Merchant locked card attempted at different
-         *   merchant.
+         * - `UNAUTHORIZED_MERCHANT` - Merchant locked card attempted at different merchant.
          * - `UNKNOWN_HOST_TIMEOUT` - Network error, re-attempt the transaction.
          * - `USER_TRANSACTION_LIMIT` - User-set spend limit exceeded.
          */
-        @JsonProperty("result")
-        @ExcludeMissing
-        fun _result() = result
+        @JsonProperty("result") @ExcludeMissing fun _result() = result
 
         /** Globally unique identifier. */
-        @JsonProperty("token")
-        @ExcludeMissing
-        fun _token() = token
+        @JsonProperty("token") @ExcludeMissing fun _token() = token
 
         /**
          * Event types:
@@ -1611,25 +1602,23 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
          * - `AUTHORIZATION_ADVICE` - Advice on a transaction.
          * - `AUTHORIZATION_EXPIRY` - Authorization has expired and reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` - Authorization was reversed by the merchant.
-         * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has
-         *   occurred on a card.
+         * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has occurred on a
+         * card.
          * - `CLEARING` - Transaction is settled.
          * - `CORRECTION_DEBIT` - Manual transaction correction (Debit).
          * - `CORRECTION_CREDIT` - Manual transaction correction (Credit).
          * - `CREDIT_AUTHORIZATION` - A refund or credit authorization from a merchant.
-         * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your
-         *   behalf by the network.
-         * - `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit funds without
-         *   additional clearing.
-         * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or
-         *   credit funds without additional clearing.
+         * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your behalf by
+         * the network.
+         * - `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit funds without additional
+         * clearing.
+         * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit funds
+         * without additional clearing.
          * - `RETURN` - A refund has been processed on the transaction.
-         * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses
-         *   an incorrect refund).
+         * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
+         * incorrect refund).
          */
-        @JsonProperty("type")
-        @ExcludeMissing
-        fun _type() = type
+        @JsonProperty("type") @ExcludeMissing fun _type() = type
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -1637,51 +1626,52 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
         fun validate() = apply {
             if (!validated) {
-              amount()
-              created()
-              result()
-              token()
-              type()
-              validated = true
+                amount()
+                created()
+                result()
+                token()
+                type()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is TransactionEvent &&
-              this.amount == other.amount &&
-              this.created == other.created &&
-              this.result == other.result &&
-              this.token == other.token &&
-              this.type == other.type &&
-              this.additionalProperties == other.additionalProperties
+            return other is TransactionEvent &&
+                this.amount == other.amount &&
+                this.created == other.created &&
+                this.result == other.result &&
+                this.token == other.token &&
+                this.type == other.type &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                amount,
-                created,
-                result,
-                token,
-                type,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        created,
+                        result,
+                        token,
+                        type,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "TransactionEvent{amount=$amount, created=$created, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "TransactionEvent{amount=$amount, created=$created, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -1709,9 +1699,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             /** Amount of the transaction event (in cents), including any acquirer fees. */
             @JsonProperty("amount")
             @ExcludeMissing
-            fun amount(amount: JsonField<Long>) = apply {
-                this.amount = amount
-            }
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** RFC 3339 date and time this event entered the system. UTC time zone. */
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -1719,9 +1707,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             /** RFC 3339 date and time this event entered the system. UTC time zone. */
             @JsonProperty("created")
             @ExcludeMissing
-            fun created(created: JsonField<OffsetDateTime>) = apply {
-                this.created = created
-            }
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /**
              * `APPROVED` or decline reason.
@@ -1729,7 +1715,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              * Result types:
              *
              * - `ACCOUNT_STATE_TRANSACTION_FAIL` - Contact
-             *   [support@lithic.com](mailto:support@lithic.com).
+             * [support@lithic.com](mailto:support@lithic.com).
              * - `APPROVED` - Transaction is approved.
              * - `BANK_CONNECTION_ERROR` - Please reconnect a funding source.
              * - `BANK_NOT_VERIFIED` - Please confirm the funding source.
@@ -1737,22 +1723,21 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              * - `CARD_PAUSED` - Card state was paused at the time of authorization.
              * - `FRAUD_ADVICE` - Transaction declined due to risk.
              * - `GLOBAL_TRANSACTION_LIMIT` - Platform spend limit exceeded, contact
-             *   [support@lithic.com](mailto:support@lithic.com).
+             * [support@lithic.com](mailto:support@lithic.com).
              * - `GLOBAL_WEEKLY_LIMIT` - Platform spend limit exceeded, contact
-             *   [support@lithic.com](mailto:support@lithic.com).
+             * [support@lithic.com](mailto:support@lithic.com).
              * - `GLOBAL_MONTHLY_LIMIT` - Platform spend limit exceeded, contact
-             *   [support@lithic.com](mailto:support@lithic.com).
+             * [support@lithic.com](mailto:support@lithic.com).
              * - `INACTIVE_ACCOUNT` - Account is inactive. Contact
-             *   [support@lithic.com](mailto:support@lithic.com).
+             * [support@lithic.com](mailto:support@lithic.com).
              * - `INCORRECT_PIN` - PIN verification failed.
              * - `INVALID_CARD_DETAILS` - Incorrect CVV or expiry date.
              * - `INSUFFICIENT_FUNDS` - Please ensure the funding source is connected and up to
-             *   date.
+             * date.
              * - `MERCHANT_BLACKLIST` - This merchant is disallowed on the platform.
              * - `SINGLE_USE_RECHARGED` - Single use card attempted multiple times.
              * - `SWITCH_INOPERATIVE_ADVICE` - Network error, re-attempt the transaction.
-             * - `UNAUTHORIZED_MERCHANT` - Merchant locked card attempted at different
-             *   merchant.
+             * - `UNAUTHORIZED_MERCHANT` - Merchant locked card attempted at different merchant.
              * - `UNKNOWN_HOST_TIMEOUT` - Network error, re-attempt the transaction.
              * - `USER_TRANSACTION_LIMIT` - User-set spend limit exceeded.
              */
@@ -1764,7 +1749,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              * Result types:
              *
              * - `ACCOUNT_STATE_TRANSACTION_FAIL` - Contact
-             *   [support@lithic.com](mailto:support@lithic.com).
+             * [support@lithic.com](mailto:support@lithic.com).
              * - `APPROVED` - Transaction is approved.
              * - `BANK_CONNECTION_ERROR` - Please reconnect a funding source.
              * - `BANK_NOT_VERIFIED` - Please confirm the funding source.
@@ -1772,30 +1757,27 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              * - `CARD_PAUSED` - Card state was paused at the time of authorization.
              * - `FRAUD_ADVICE` - Transaction declined due to risk.
              * - `GLOBAL_TRANSACTION_LIMIT` - Platform spend limit exceeded, contact
-             *   [support@lithic.com](mailto:support@lithic.com).
+             * [support@lithic.com](mailto:support@lithic.com).
              * - `GLOBAL_WEEKLY_LIMIT` - Platform spend limit exceeded, contact
-             *   [support@lithic.com](mailto:support@lithic.com).
+             * [support@lithic.com](mailto:support@lithic.com).
              * - `GLOBAL_MONTHLY_LIMIT` - Platform spend limit exceeded, contact
-             *   [support@lithic.com](mailto:support@lithic.com).
+             * [support@lithic.com](mailto:support@lithic.com).
              * - `INACTIVE_ACCOUNT` - Account is inactive. Contact
-             *   [support@lithic.com](mailto:support@lithic.com).
+             * [support@lithic.com](mailto:support@lithic.com).
              * - `INCORRECT_PIN` - PIN verification failed.
              * - `INVALID_CARD_DETAILS` - Incorrect CVV or expiry date.
              * - `INSUFFICIENT_FUNDS` - Please ensure the funding source is connected and up to
-             *   date.
+             * date.
              * - `MERCHANT_BLACKLIST` - This merchant is disallowed on the platform.
              * - `SINGLE_USE_RECHARGED` - Single use card attempted multiple times.
              * - `SWITCH_INOPERATIVE_ADVICE` - Network error, re-attempt the transaction.
-             * - `UNAUTHORIZED_MERCHANT` - Merchant locked card attempted at different
-             *   merchant.
+             * - `UNAUTHORIZED_MERCHANT` - Merchant locked card attempted at different merchant.
              * - `UNKNOWN_HOST_TIMEOUT` - Network error, re-attempt the transaction.
              * - `USER_TRANSACTION_LIMIT` - User-set spend limit exceeded.
              */
             @JsonProperty("result")
             @ExcludeMissing
-            fun result(result: JsonField<Result>) = apply {
-                this.result = result
-            }
+            fun result(result: JsonField<Result>) = apply { this.result = result }
 
             /** Globally unique identifier. */
             fun token(token: String) = token(JsonField.of(token))
@@ -1803,9 +1785,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             /** Globally unique identifier. */
             @JsonProperty("token")
             @ExcludeMissing
-            fun token(token: JsonField<String>) = apply {
-                this.token = token
-            }
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
              * Event types:
@@ -1814,21 +1794,21 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              * - `AUTHORIZATION_ADVICE` - Advice on a transaction.
              * - `AUTHORIZATION_EXPIRY` - Authorization has expired and reversed by Lithic.
              * - `AUTHORIZATION_REVERSAL` - Authorization was reversed by the merchant.
-             * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has
-             *   occurred on a card.
+             * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has occurred
+             * on a card.
              * - `CLEARING` - Transaction is settled.
              * - `CORRECTION_DEBIT` - Manual transaction correction (Debit).
              * - `CORRECTION_CREDIT` - Manual transaction correction (Credit).
              * - `CREDIT_AUTHORIZATION` - A refund or credit authorization from a merchant.
-             * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your
-             *   behalf by the network.
+             * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your behalf
+             * by the network.
              * - `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit funds without
-             *   additional clearing.
-             * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or
-             *   credit funds without additional clearing.
+             * additional clearing.
+             * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit
+             * funds without additional clearing.
              * - `RETURN` - A refund has been processed on the transaction.
-             * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses
-             *   an incorrect refund).
+             * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
+             * incorrect refund).
              */
             fun type(type: Type) = type(JsonField.of(type))
 
@@ -1839,27 +1819,25 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
              * - `AUTHORIZATION_ADVICE` - Advice on a transaction.
              * - `AUTHORIZATION_EXPIRY` - Authorization has expired and reversed by Lithic.
              * - `AUTHORIZATION_REVERSAL` - Authorization was reversed by the merchant.
-             * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has
-             *   occurred on a card.
+             * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has occurred
+             * on a card.
              * - `CLEARING` - Transaction is settled.
              * - `CORRECTION_DEBIT` - Manual transaction correction (Debit).
              * - `CORRECTION_CREDIT` - Manual transaction correction (Credit).
              * - `CREDIT_AUTHORIZATION` - A refund or credit authorization from a merchant.
-             * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your
-             *   behalf by the network.
+             * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your behalf
+             * by the network.
              * - `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit funds without
-             *   additional clearing.
-             * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or
-             *   credit funds without additional clearing.
+             * additional clearing.
+             * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit
+             * funds without additional clearing.
              * - `RETURN` - A refund has been processed on the transaction.
-             * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses
-             *   an incorrect refund).
+             * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
+             * incorrect refund).
              */
             @JsonProperty("type")
             @ExcludeMissing
-            fun type(type: JsonField<Type>) = apply {
-                this.type = type
-            }
+            fun type(type: JsonField<Type>) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1875,28 +1853,31 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): TransactionEvent = TransactionEvent(
-                amount,
-                created,
-                result,
-                token,
-                type,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): TransactionEvent =
+                TransactionEvent(
+                    amount,
+                    created,
+                    result,
+                    token,
+                    type,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
 
-        class Result @JsonCreator private constructor(private val value: JsonField<String>,) {
+        class Result
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
 
-            @com.fasterxml.jackson.annotation.JsonValue
-            fun _value(): JsonField<String> = value
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is Result &&
-                  this.value == other.value
+                return other is Result && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1905,7 +1886,8 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
             companion object {
 
-                @JvmField val ACCOUNT_STATE_TRANSACTION = Result(JsonField.of("ACCOUNT_STATE_TRANSACTION"))
+                @JvmField
+                val ACCOUNT_STATE_TRANSACTION = Result(JsonField.of("ACCOUNT_STATE_TRANSACTION"))
 
                 @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
 
@@ -1919,7 +1901,8 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
                 @JvmField val FRAUD_ADVICE = Result(JsonField.of("FRAUD_ADVICE"))
 
-                @JvmField val GLOBAL_TRANSACTION_LIMIT = Result(JsonField.of("GLOBAL_TRANSACTION_LIMIT"))
+                @JvmField
+                val GLOBAL_TRANSACTION_LIMIT = Result(JsonField.of("GLOBAL_TRANSACTION_LIMIT"))
 
                 @JvmField val GLOBAL_WEEKLY_LIMIT = Result(JsonField.of("GLOBAL_WEEKLY_LIMIT"))
 
@@ -1937,13 +1920,15 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
                 @JvmField val SINGLE_USE_RECHARGED = Result(JsonField.of("SINGLE_USE_RECHARGED"))
 
-                @JvmField val SWITCH_INOPERATIVE_ADVICE = Result(JsonField.of("SWITCH_INOPERATIVE_ADVICE"))
+                @JvmField
+                val SWITCH_INOPERATIVE_ADVICE = Result(JsonField.of("SWITCH_INOPERATIVE_ADVICE"))
 
                 @JvmField val UNAUTHORIZED_MERCHANT = Result(JsonField.of("UNAUTHORIZED_MERCHANT"))
 
                 @JvmField val UNKNOWN_HOST_TIMEOUT = Result(JsonField.of("UNKNOWN_HOST_TIMEOUT"))
 
-                @JvmField val USER_TRANSACTION_LIMIT = Result(JsonField.of("USER_TRANSACTION_LIMIT"))
+                @JvmField
+                val USER_TRANSACTION_LIMIT = Result(JsonField.of("USER_TRANSACTION_LIMIT"))
 
                 @JvmStatic fun of(value: String) = Result(JsonField.of(value))
             }
@@ -1995,69 +1980,73 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
                 _UNKNOWN,
             }
 
-            fun value(): Value = when (this) {
-                ACCOUNT_STATE_TRANSACTION -> Value.ACCOUNT_STATE_TRANSACTION
-                APPROVED -> Value.APPROVED
-                BANK_CONNECTION_ERROR -> Value.BANK_CONNECTION_ERROR
-                BANK_NOT_VERIFIED -> Value.BANK_NOT_VERIFIED
-                CARD_CLOSED -> Value.CARD_CLOSED
-                CARD_PAUSED -> Value.CARD_PAUSED
-                FRAUD_ADVICE -> Value.FRAUD_ADVICE
-                GLOBAL_TRANSACTION_LIMIT -> Value.GLOBAL_TRANSACTION_LIMIT
-                GLOBAL_WEEKLY_LIMIT -> Value.GLOBAL_WEEKLY_LIMIT
-                GLOBAL_MONTHLY_LIMIT -> Value.GLOBAL_MONTHLY_LIMIT
-                INACTIVE_ACCOUNT -> Value.INACTIVE_ACCOUNT
-                INCORRECT_PIN -> Value.INCORRECT_PIN
-                INVALID_CARD_DETAILS -> Value.INVALID_CARD_DETAILS
-                INSUFFICIENT_FUNDS -> Value.INSUFFICIENT_FUNDS
-                MERCHANT_BLACKLIST -> Value.MERCHANT_BLACKLIST
-                SINGLE_USE_RECHARGED -> Value.SINGLE_USE_RECHARGED
-                SWITCH_INOPERATIVE_ADVICE -> Value.SWITCH_INOPERATIVE_ADVICE
-                UNAUTHORIZED_MERCHANT -> Value.UNAUTHORIZED_MERCHANT
-                UNKNOWN_HOST_TIMEOUT -> Value.UNKNOWN_HOST_TIMEOUT
-                USER_TRANSACTION_LIMIT -> Value.USER_TRANSACTION_LIMIT
-                else -> Value._UNKNOWN
-            }
+            fun value(): Value =
+                when (this) {
+                    ACCOUNT_STATE_TRANSACTION -> Value.ACCOUNT_STATE_TRANSACTION
+                    APPROVED -> Value.APPROVED
+                    BANK_CONNECTION_ERROR -> Value.BANK_CONNECTION_ERROR
+                    BANK_NOT_VERIFIED -> Value.BANK_NOT_VERIFIED
+                    CARD_CLOSED -> Value.CARD_CLOSED
+                    CARD_PAUSED -> Value.CARD_PAUSED
+                    FRAUD_ADVICE -> Value.FRAUD_ADVICE
+                    GLOBAL_TRANSACTION_LIMIT -> Value.GLOBAL_TRANSACTION_LIMIT
+                    GLOBAL_WEEKLY_LIMIT -> Value.GLOBAL_WEEKLY_LIMIT
+                    GLOBAL_MONTHLY_LIMIT -> Value.GLOBAL_MONTHLY_LIMIT
+                    INACTIVE_ACCOUNT -> Value.INACTIVE_ACCOUNT
+                    INCORRECT_PIN -> Value.INCORRECT_PIN
+                    INVALID_CARD_DETAILS -> Value.INVALID_CARD_DETAILS
+                    INSUFFICIENT_FUNDS -> Value.INSUFFICIENT_FUNDS
+                    MERCHANT_BLACKLIST -> Value.MERCHANT_BLACKLIST
+                    SINGLE_USE_RECHARGED -> Value.SINGLE_USE_RECHARGED
+                    SWITCH_INOPERATIVE_ADVICE -> Value.SWITCH_INOPERATIVE_ADVICE
+                    UNAUTHORIZED_MERCHANT -> Value.UNAUTHORIZED_MERCHANT
+                    UNKNOWN_HOST_TIMEOUT -> Value.UNKNOWN_HOST_TIMEOUT
+                    USER_TRANSACTION_LIMIT -> Value.USER_TRANSACTION_LIMIT
+                    else -> Value._UNKNOWN
+                }
 
-            fun known(): Known = when (this) {
-                ACCOUNT_STATE_TRANSACTION -> Known.ACCOUNT_STATE_TRANSACTION
-                APPROVED -> Known.APPROVED
-                BANK_CONNECTION_ERROR -> Known.BANK_CONNECTION_ERROR
-                BANK_NOT_VERIFIED -> Known.BANK_NOT_VERIFIED
-                CARD_CLOSED -> Known.CARD_CLOSED
-                CARD_PAUSED -> Known.CARD_PAUSED
-                FRAUD_ADVICE -> Known.FRAUD_ADVICE
-                GLOBAL_TRANSACTION_LIMIT -> Known.GLOBAL_TRANSACTION_LIMIT
-                GLOBAL_WEEKLY_LIMIT -> Known.GLOBAL_WEEKLY_LIMIT
-                GLOBAL_MONTHLY_LIMIT -> Known.GLOBAL_MONTHLY_LIMIT
-                INACTIVE_ACCOUNT -> Known.INACTIVE_ACCOUNT
-                INCORRECT_PIN -> Known.INCORRECT_PIN
-                INVALID_CARD_DETAILS -> Known.INVALID_CARD_DETAILS
-                INSUFFICIENT_FUNDS -> Known.INSUFFICIENT_FUNDS
-                MERCHANT_BLACKLIST -> Known.MERCHANT_BLACKLIST
-                SINGLE_USE_RECHARGED -> Known.SINGLE_USE_RECHARGED
-                SWITCH_INOPERATIVE_ADVICE -> Known.SWITCH_INOPERATIVE_ADVICE
-                UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
-                UNKNOWN_HOST_TIMEOUT -> Known.UNKNOWN_HOST_TIMEOUT
-                USER_TRANSACTION_LIMIT -> Known.USER_TRANSACTION_LIMIT
-                else -> throw LithicInvalidDataException("Unknown Result: $value")
-            }
+            fun known(): Known =
+                when (this) {
+                    ACCOUNT_STATE_TRANSACTION -> Known.ACCOUNT_STATE_TRANSACTION
+                    APPROVED -> Known.APPROVED
+                    BANK_CONNECTION_ERROR -> Known.BANK_CONNECTION_ERROR
+                    BANK_NOT_VERIFIED -> Known.BANK_NOT_VERIFIED
+                    CARD_CLOSED -> Known.CARD_CLOSED
+                    CARD_PAUSED -> Known.CARD_PAUSED
+                    FRAUD_ADVICE -> Known.FRAUD_ADVICE
+                    GLOBAL_TRANSACTION_LIMIT -> Known.GLOBAL_TRANSACTION_LIMIT
+                    GLOBAL_WEEKLY_LIMIT -> Known.GLOBAL_WEEKLY_LIMIT
+                    GLOBAL_MONTHLY_LIMIT -> Known.GLOBAL_MONTHLY_LIMIT
+                    INACTIVE_ACCOUNT -> Known.INACTIVE_ACCOUNT
+                    INCORRECT_PIN -> Known.INCORRECT_PIN
+                    INVALID_CARD_DETAILS -> Known.INVALID_CARD_DETAILS
+                    INSUFFICIENT_FUNDS -> Known.INSUFFICIENT_FUNDS
+                    MERCHANT_BLACKLIST -> Known.MERCHANT_BLACKLIST
+                    SINGLE_USE_RECHARGED -> Known.SINGLE_USE_RECHARGED
+                    SWITCH_INOPERATIVE_ADVICE -> Known.SWITCH_INOPERATIVE_ADVICE
+                    UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
+                    UNKNOWN_HOST_TIMEOUT -> Known.UNKNOWN_HOST_TIMEOUT
+                    USER_TRANSACTION_LIMIT -> Known.USER_TRANSACTION_LIMIT
+                    else -> throw LithicInvalidDataException("Unknown Result: $value")
+                }
 
             fun asString(): String = _value().asStringOrThrow()
         }
 
-        class Type @JsonCreator private constructor(private val value: JsonField<String>,) {
+        class Type
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
 
-            @com.fasterxml.jackson.annotation.JsonValue
-            fun _value(): JsonField<String> = value
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
             override fun equals(other: Any?): Boolean {
-              if (this === other) {
-                  return true
-              }
+                if (this === other) {
+                    return true
+                }
 
-              return other is Type &&
-                  this.value == other.value
+                return other is Type && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2084,11 +2073,15 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
                 @JvmField val CREDIT_AUTHORIZATION = Type(JsonField.of("CREDIT_AUTHORIZATION"))
 
-                @JvmField val CREDIT_AUTHORIZATION_ADVICE = Type(JsonField.of("CREDIT_AUTHORIZATION_ADVICE"))
+                @JvmField
+                val CREDIT_AUTHORIZATION_ADVICE = Type(JsonField.of("CREDIT_AUTHORIZATION_ADVICE"))
 
-                @JvmField val FINANCIAL_AUTHORIZATION = Type(JsonField.of("FINANCIAL_AUTHORIZATION"))
+                @JvmField
+                val FINANCIAL_AUTHORIZATION = Type(JsonField.of("FINANCIAL_AUTHORIZATION"))
 
-                @JvmField val FINANCIAL_CREDIT_AUTHORIZATION = Type(JsonField.of("FINANCIAL_CREDIT_AUTHORIZATION"))
+                @JvmField
+                val FINANCIAL_CREDIT_AUTHORIZATION =
+                    Type(JsonField.of("FINANCIAL_CREDIT_AUTHORIZATION"))
 
                 @JvmField val RETURN = Type(JsonField.of("RETURN"))
 
@@ -2136,43 +2129,45 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
                 _UNKNOWN,
             }
 
-            fun value(): Value = when (this) {
-                AUTHORIZATION -> Value.AUTHORIZATION
-                AUTHORIZATION_ADVICE -> Value.AUTHORIZATION_ADVICE
-                AUTHORIZATION_EXPIRY -> Value.AUTHORIZATION_EXPIRY
-                AUTHORIZATION_REVERSAL -> Value.AUTHORIZATION_REVERSAL
-                BALANCE_INQUIRY -> Value.BALANCE_INQUIRY
-                CLEARING -> Value.CLEARING
-                CORRECTION_DEBIT -> Value.CORRECTION_DEBIT
-                CORRECTION_CREDIT -> Value.CORRECTION_CREDIT
-                CREDIT_AUTHORIZATION -> Value.CREDIT_AUTHORIZATION
-                CREDIT_AUTHORIZATION_ADVICE -> Value.CREDIT_AUTHORIZATION_ADVICE
-                FINANCIAL_AUTHORIZATION -> Value.FINANCIAL_AUTHORIZATION
-                FINANCIAL_CREDIT_AUTHORIZATION -> Value.FINANCIAL_CREDIT_AUTHORIZATION
-                RETURN -> Value.RETURN
-                RETURN_REVERSAL -> Value.RETURN_REVERSAL
-                VOID -> Value.VOID
-                else -> Value._UNKNOWN
-            }
+            fun value(): Value =
+                when (this) {
+                    AUTHORIZATION -> Value.AUTHORIZATION
+                    AUTHORIZATION_ADVICE -> Value.AUTHORIZATION_ADVICE
+                    AUTHORIZATION_EXPIRY -> Value.AUTHORIZATION_EXPIRY
+                    AUTHORIZATION_REVERSAL -> Value.AUTHORIZATION_REVERSAL
+                    BALANCE_INQUIRY -> Value.BALANCE_INQUIRY
+                    CLEARING -> Value.CLEARING
+                    CORRECTION_DEBIT -> Value.CORRECTION_DEBIT
+                    CORRECTION_CREDIT -> Value.CORRECTION_CREDIT
+                    CREDIT_AUTHORIZATION -> Value.CREDIT_AUTHORIZATION
+                    CREDIT_AUTHORIZATION_ADVICE -> Value.CREDIT_AUTHORIZATION_ADVICE
+                    FINANCIAL_AUTHORIZATION -> Value.FINANCIAL_AUTHORIZATION
+                    FINANCIAL_CREDIT_AUTHORIZATION -> Value.FINANCIAL_CREDIT_AUTHORIZATION
+                    RETURN -> Value.RETURN
+                    RETURN_REVERSAL -> Value.RETURN_REVERSAL
+                    VOID -> Value.VOID
+                    else -> Value._UNKNOWN
+                }
 
-            fun known(): Known = when (this) {
-                AUTHORIZATION -> Known.AUTHORIZATION
-                AUTHORIZATION_ADVICE -> Known.AUTHORIZATION_ADVICE
-                AUTHORIZATION_EXPIRY -> Known.AUTHORIZATION_EXPIRY
-                AUTHORIZATION_REVERSAL -> Known.AUTHORIZATION_REVERSAL
-                BALANCE_INQUIRY -> Known.BALANCE_INQUIRY
-                CLEARING -> Known.CLEARING
-                CORRECTION_DEBIT -> Known.CORRECTION_DEBIT
-                CORRECTION_CREDIT -> Known.CORRECTION_CREDIT
-                CREDIT_AUTHORIZATION -> Known.CREDIT_AUTHORIZATION
-                CREDIT_AUTHORIZATION_ADVICE -> Known.CREDIT_AUTHORIZATION_ADVICE
-                FINANCIAL_AUTHORIZATION -> Known.FINANCIAL_AUTHORIZATION
-                FINANCIAL_CREDIT_AUTHORIZATION -> Known.FINANCIAL_CREDIT_AUTHORIZATION
-                RETURN -> Known.RETURN
-                RETURN_REVERSAL -> Known.RETURN_REVERSAL
-                VOID -> Known.VOID
-                else -> throw LithicInvalidDataException("Unknown Type: $value")
-            }
+            fun known(): Known =
+                when (this) {
+                    AUTHORIZATION -> Known.AUTHORIZATION
+                    AUTHORIZATION_ADVICE -> Known.AUTHORIZATION_ADVICE
+                    AUTHORIZATION_EXPIRY -> Known.AUTHORIZATION_EXPIRY
+                    AUTHORIZATION_REVERSAL -> Known.AUTHORIZATION_REVERSAL
+                    BALANCE_INQUIRY -> Known.BALANCE_INQUIRY
+                    CLEARING -> Known.CLEARING
+                    CORRECTION_DEBIT -> Known.CORRECTION_DEBIT
+                    CORRECTION_CREDIT -> Known.CORRECTION_CREDIT
+                    CREDIT_AUTHORIZATION -> Known.CREDIT_AUTHORIZATION
+                    CREDIT_AUTHORIZATION_ADVICE -> Known.CREDIT_AUTHORIZATION_ADVICE
+                    FINANCIAL_AUTHORIZATION -> Known.FINANCIAL_AUTHORIZATION
+                    FINANCIAL_CREDIT_AUTHORIZATION -> Known.FINANCIAL_CREDIT_AUTHORIZATION
+                    RETURN -> Known.RETURN
+                    RETURN_REVERSAL -> Known.RETURN_REVERSAL
+                    VOID -> Known.VOID
+                    else -> throw LithicInvalidDataException("Unknown Type: $value")
+                }
 
             fun asString(): String = _value().asStringOrThrow()
         }
@@ -2180,14 +2175,24 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
     @JsonDeserialize(builder = Merchant.Builder::class)
     @NoAutoDetect
-    class Merchant private constructor(private val acceptorId: JsonField<String>,private val city: JsonField<String>,private val country: JsonField<String>,private val descriptor: JsonField<String>,private val mcc: JsonField<String>,private val state: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
+    class Merchant
+    private constructor(
+        private val acceptorId: JsonField<String>,
+        private val city: JsonField<String>,
+        private val country: JsonField<String>,
+        private val descriptor: JsonField<String>,
+        private val mcc: JsonField<String>,
+        private val state: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
         private var hashCode: Int = 0
 
         /** Unique identifier to identify the payment card acceptor. */
-        fun acceptorId(): Optional<String> = Optional.ofNullable(acceptorId.getNullable("acceptor_id"))
+        fun acceptorId(): Optional<String> =
+            Optional.ofNullable(acceptorId.getNullable("acceptor_id"))
 
         /** City of card acceptor. */
         fun city(): Optional<String> = Optional.ofNullable(city.getNullable("city"))
@@ -2196,11 +2201,12 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         fun country(): Optional<String> = Optional.ofNullable(country.getNullable("country"))
 
         /** Short description of card acceptor. */
-        fun descriptor(): Optional<String> = Optional.ofNullable(descriptor.getNullable("descriptor"))
+        fun descriptor(): Optional<String> =
+            Optional.ofNullable(descriptor.getNullable("descriptor"))
 
         /**
-         * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is
-         * used to classify a business by the types of goods or services it provides.
+         * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used to
+         * classify a business by the types of goods or services it provides.
          */
         fun mcc(): Optional<String> = Optional.ofNullable(mcc.getNullable("mcc"))
 
@@ -2208,37 +2214,25 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
         fun state(): Optional<String> = Optional.ofNullable(state.getNullable("state"))
 
         /** Unique identifier to identify the payment card acceptor. */
-        @JsonProperty("acceptor_id")
-        @ExcludeMissing
-        fun _acceptorId() = acceptorId
+        @JsonProperty("acceptor_id") @ExcludeMissing fun _acceptorId() = acceptorId
 
         /** City of card acceptor. */
-        @JsonProperty("city")
-        @ExcludeMissing
-        fun _city() = city
+        @JsonProperty("city") @ExcludeMissing fun _city() = city
 
         /** Uppercase country of card acceptor (see ISO 8583 specs). */
-        @JsonProperty("country")
-        @ExcludeMissing
-        fun _country() = country
+        @JsonProperty("country") @ExcludeMissing fun _country() = country
 
         /** Short description of card acceptor. */
-        @JsonProperty("descriptor")
-        @ExcludeMissing
-        fun _descriptor() = descriptor
+        @JsonProperty("descriptor") @ExcludeMissing fun _descriptor() = descriptor
 
         /**
-         * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is
-         * used to classify a business by the types of goods or services it provides.
+         * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used to
+         * classify a business by the types of goods or services it provides.
          */
-        @JsonProperty("mcc")
-        @ExcludeMissing
-        fun _mcc() = mcc
+        @JsonProperty("mcc") @ExcludeMissing fun _mcc() = mcc
 
         /** Geographic state of card acceptor (see ISO 8583 specs). */
-        @JsonProperty("state")
-        @ExcludeMissing
-        fun _state() = state
+        @JsonProperty("state") @ExcludeMissing fun _state() = state
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -2246,54 +2240,55 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
         fun validate() = apply {
             if (!validated) {
-              acceptorId()
-              city()
-              country()
-              descriptor()
-              mcc()
-              state()
-              validated = true
+                acceptorId()
+                city()
+                country()
+                descriptor()
+                mcc()
+                state()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Merchant &&
-              this.acceptorId == other.acceptorId &&
-              this.city == other.city &&
-              this.country == other.country &&
-              this.descriptor == other.descriptor &&
-              this.mcc == other.mcc &&
-              this.state == other.state &&
-              this.additionalProperties == other.additionalProperties
+            return other is Merchant &&
+                this.acceptorId == other.acceptorId &&
+                this.city == other.city &&
+                this.country == other.country &&
+                this.descriptor == other.descriptor &&
+                this.mcc == other.mcc &&
+                this.state == other.state &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                acceptorId,
-                city,
-                country,
-                descriptor,
-                mcc,
-                state,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        acceptorId,
+                        city,
+                        country,
+                        descriptor,
+                        mcc,
+                        state,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "Merchant{acceptorId=$acceptorId, city=$city, country=$country, descriptor=$descriptor, mcc=$mcc, state=$state, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Merchant{acceptorId=$acceptorId, city=$city, country=$country, descriptor=$descriptor, mcc=$mcc, state=$state, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -2323,9 +2318,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             /** Unique identifier to identify the payment card acceptor. */
             @JsonProperty("acceptor_id")
             @ExcludeMissing
-            fun acceptorId(acceptorId: JsonField<String>) = apply {
-                this.acceptorId = acceptorId
-            }
+            fun acceptorId(acceptorId: JsonField<String>) = apply { this.acceptorId = acceptorId }
 
             /** City of card acceptor. */
             fun city(city: String) = city(JsonField.of(city))
@@ -2333,9 +2326,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             /** City of card acceptor. */
             @JsonProperty("city")
             @ExcludeMissing
-            fun city(city: JsonField<String>) = apply {
-                this.city = city
-            }
+            fun city(city: JsonField<String>) = apply { this.city = city }
 
             /** Uppercase country of card acceptor (see ISO 8583 specs). */
             fun country(country: String) = country(JsonField.of(country))
@@ -2343,9 +2334,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             /** Uppercase country of card acceptor (see ISO 8583 specs). */
             @JsonProperty("country")
             @ExcludeMissing
-            fun country(country: JsonField<String>) = apply {
-                this.country = country
-            }
+            fun country(country: JsonField<String>) = apply { this.country = country }
 
             /** Short description of card acceptor. */
             fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
@@ -2353,25 +2342,21 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             /** Short description of card acceptor. */
             @JsonProperty("descriptor")
             @ExcludeMissing
-            fun descriptor(descriptor: JsonField<String>) = apply {
-                this.descriptor = descriptor
-            }
+            fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
             /**
-             * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is
-             * used to classify a business by the types of goods or services it provides.
+             * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used
+             * to classify a business by the types of goods or services it provides.
              */
             fun mcc(mcc: String) = mcc(JsonField.of(mcc))
 
             /**
-             * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is
-             * used to classify a business by the types of goods or services it provides.
+             * Merchant category code (MCC). A four-digit number listed in ISO 18245. An MCC is used
+             * to classify a business by the types of goods or services it provides.
              */
             @JsonProperty("mcc")
             @ExcludeMissing
-            fun mcc(mcc: JsonField<String>) = apply {
-                this.mcc = mcc
-            }
+            fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
 
             /** Geographic state of card acceptor (see ISO 8583 specs). */
             fun state(state: String) = state(JsonField.of(state))
@@ -2379,9 +2364,7 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             /** Geographic state of card acceptor (see ISO 8583 specs). */
             @JsonProperty("state")
             @ExcludeMissing
-            fun state(state: JsonField<String>) = apply {
-                this.state = state
-            }
+            fun state(state: JsonField<String>) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -2397,30 +2380,33 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Merchant = Merchant(
-                acceptorId,
-                city,
-                country,
-                descriptor,
-                mcc,
-                state,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): Merchant =
+                Merchant(
+                    acceptorId,
+                    city,
+                    country,
+                    descriptor,
+                    mcc,
+                    state,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
-    class Network @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class Network
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Network &&
-              this.value == other.value
+            return other is Network && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2459,39 +2445,43 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            INTERLINK -> Value.INTERLINK
-            MAESTRO -> Value.MAESTRO
-            MASTERCARD -> Value.MASTERCARD
-            VISA -> Value.VISA
-            UNKNOWN -> Value.UNKNOWN
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                INTERLINK -> Value.INTERLINK
+                MAESTRO -> Value.MAESTRO
+                MASTERCARD -> Value.MASTERCARD
+                VISA -> Value.VISA
+                UNKNOWN -> Value.UNKNOWN
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            INTERLINK -> Known.INTERLINK
-            MAESTRO -> Known.MAESTRO
-            MASTERCARD -> Known.MASTERCARD
-            VISA -> Known.VISA
-            UNKNOWN -> Known.UNKNOWN
-            else -> throw LithicInvalidDataException("Unknown Network: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                INTERLINK -> Known.INTERLINK
+                MAESTRO -> Known.MAESTRO
+                MASTERCARD -> Known.MASTERCARD
+                VISA -> Known.VISA
+                UNKNOWN -> Known.UNKNOWN
+                else -> throw LithicInvalidDataException("Unknown Network: $value")
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class Result @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class Result
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Result &&
-              this.value == other.value
+            return other is Result && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2500,7 +2490,8 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
         companion object {
 
-            @JvmField val ACCOUNT_STATE_TRANSACTION = Result(JsonField.of("ACCOUNT_STATE_TRANSACTION"))
+            @JvmField
+            val ACCOUNT_STATE_TRANSACTION = Result(JsonField.of("ACCOUNT_STATE_TRANSACTION"))
 
             @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
 
@@ -2514,7 +2505,8 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
             @JvmField val FRAUD_ADVICE = Result(JsonField.of("FRAUD_ADVICE"))
 
-            @JvmField val GLOBAL_TRANSACTION_LIMIT = Result(JsonField.of("GLOBAL_TRANSACTION_LIMIT"))
+            @JvmField
+            val GLOBAL_TRANSACTION_LIMIT = Result(JsonField.of("GLOBAL_TRANSACTION_LIMIT"))
 
             @JvmField val GLOBAL_WEEKLY_LIMIT = Result(JsonField.of("GLOBAL_WEEKLY_LIMIT"))
 
@@ -2532,7 +2524,8 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
 
             @JvmField val SINGLE_USE_RECHARGED = Result(JsonField.of("SINGLE_USE_RECHARGED"))
 
-            @JvmField val SWITCH_INOPERATIVE_ADVICE = Result(JsonField.of("SWITCH_INOPERATIVE_ADVICE"))
+            @JvmField
+            val SWITCH_INOPERATIVE_ADVICE = Result(JsonField.of("SWITCH_INOPERATIVE_ADVICE"))
 
             @JvmField val UNAUTHORIZED_MERCHANT = Result(JsonField.of("UNAUTHORIZED_MERCHANT"))
 
@@ -2590,69 +2583,73 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            ACCOUNT_STATE_TRANSACTION -> Value.ACCOUNT_STATE_TRANSACTION
-            APPROVED -> Value.APPROVED
-            BANK_CONNECTION_ERROR -> Value.BANK_CONNECTION_ERROR
-            BANK_NOT_VERIFIED -> Value.BANK_NOT_VERIFIED
-            CARD_CLOSED -> Value.CARD_CLOSED
-            CARD_PAUSED -> Value.CARD_PAUSED
-            FRAUD_ADVICE -> Value.FRAUD_ADVICE
-            GLOBAL_TRANSACTION_LIMIT -> Value.GLOBAL_TRANSACTION_LIMIT
-            GLOBAL_WEEKLY_LIMIT -> Value.GLOBAL_WEEKLY_LIMIT
-            GLOBAL_MONTHLY_LIMIT -> Value.GLOBAL_MONTHLY_LIMIT
-            INACTIVE_ACCOUNT -> Value.INACTIVE_ACCOUNT
-            INCORRECT_PIN -> Value.INCORRECT_PIN
-            INVALID_CARD_DETAILS -> Value.INVALID_CARD_DETAILS
-            INSUFFICIENT_FUNDS -> Value.INSUFFICIENT_FUNDS
-            MERCHANT_BLACKLIST -> Value.MERCHANT_BLACKLIST
-            SINGLE_USE_RECHARGED -> Value.SINGLE_USE_RECHARGED
-            SWITCH_INOPERATIVE_ADVICE -> Value.SWITCH_INOPERATIVE_ADVICE
-            UNAUTHORIZED_MERCHANT -> Value.UNAUTHORIZED_MERCHANT
-            UNKNOWN_HOST_TIMEOUT -> Value.UNKNOWN_HOST_TIMEOUT
-            USER_TRANSACTION_LIMIT -> Value.USER_TRANSACTION_LIMIT
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                ACCOUNT_STATE_TRANSACTION -> Value.ACCOUNT_STATE_TRANSACTION
+                APPROVED -> Value.APPROVED
+                BANK_CONNECTION_ERROR -> Value.BANK_CONNECTION_ERROR
+                BANK_NOT_VERIFIED -> Value.BANK_NOT_VERIFIED
+                CARD_CLOSED -> Value.CARD_CLOSED
+                CARD_PAUSED -> Value.CARD_PAUSED
+                FRAUD_ADVICE -> Value.FRAUD_ADVICE
+                GLOBAL_TRANSACTION_LIMIT -> Value.GLOBAL_TRANSACTION_LIMIT
+                GLOBAL_WEEKLY_LIMIT -> Value.GLOBAL_WEEKLY_LIMIT
+                GLOBAL_MONTHLY_LIMIT -> Value.GLOBAL_MONTHLY_LIMIT
+                INACTIVE_ACCOUNT -> Value.INACTIVE_ACCOUNT
+                INCORRECT_PIN -> Value.INCORRECT_PIN
+                INVALID_CARD_DETAILS -> Value.INVALID_CARD_DETAILS
+                INSUFFICIENT_FUNDS -> Value.INSUFFICIENT_FUNDS
+                MERCHANT_BLACKLIST -> Value.MERCHANT_BLACKLIST
+                SINGLE_USE_RECHARGED -> Value.SINGLE_USE_RECHARGED
+                SWITCH_INOPERATIVE_ADVICE -> Value.SWITCH_INOPERATIVE_ADVICE
+                UNAUTHORIZED_MERCHANT -> Value.UNAUTHORIZED_MERCHANT
+                UNKNOWN_HOST_TIMEOUT -> Value.UNKNOWN_HOST_TIMEOUT
+                USER_TRANSACTION_LIMIT -> Value.USER_TRANSACTION_LIMIT
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            ACCOUNT_STATE_TRANSACTION -> Known.ACCOUNT_STATE_TRANSACTION
-            APPROVED -> Known.APPROVED
-            BANK_CONNECTION_ERROR -> Known.BANK_CONNECTION_ERROR
-            BANK_NOT_VERIFIED -> Known.BANK_NOT_VERIFIED
-            CARD_CLOSED -> Known.CARD_CLOSED
-            CARD_PAUSED -> Known.CARD_PAUSED
-            FRAUD_ADVICE -> Known.FRAUD_ADVICE
-            GLOBAL_TRANSACTION_LIMIT -> Known.GLOBAL_TRANSACTION_LIMIT
-            GLOBAL_WEEKLY_LIMIT -> Known.GLOBAL_WEEKLY_LIMIT
-            GLOBAL_MONTHLY_LIMIT -> Known.GLOBAL_MONTHLY_LIMIT
-            INACTIVE_ACCOUNT -> Known.INACTIVE_ACCOUNT
-            INCORRECT_PIN -> Known.INCORRECT_PIN
-            INVALID_CARD_DETAILS -> Known.INVALID_CARD_DETAILS
-            INSUFFICIENT_FUNDS -> Known.INSUFFICIENT_FUNDS
-            MERCHANT_BLACKLIST -> Known.MERCHANT_BLACKLIST
-            SINGLE_USE_RECHARGED -> Known.SINGLE_USE_RECHARGED
-            SWITCH_INOPERATIVE_ADVICE -> Known.SWITCH_INOPERATIVE_ADVICE
-            UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
-            UNKNOWN_HOST_TIMEOUT -> Known.UNKNOWN_HOST_TIMEOUT
-            USER_TRANSACTION_LIMIT -> Known.USER_TRANSACTION_LIMIT
-            else -> throw LithicInvalidDataException("Unknown Result: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                ACCOUNT_STATE_TRANSACTION -> Known.ACCOUNT_STATE_TRANSACTION
+                APPROVED -> Known.APPROVED
+                BANK_CONNECTION_ERROR -> Known.BANK_CONNECTION_ERROR
+                BANK_NOT_VERIFIED -> Known.BANK_NOT_VERIFIED
+                CARD_CLOSED -> Known.CARD_CLOSED
+                CARD_PAUSED -> Known.CARD_PAUSED
+                FRAUD_ADVICE -> Known.FRAUD_ADVICE
+                GLOBAL_TRANSACTION_LIMIT -> Known.GLOBAL_TRANSACTION_LIMIT
+                GLOBAL_WEEKLY_LIMIT -> Known.GLOBAL_WEEKLY_LIMIT
+                GLOBAL_MONTHLY_LIMIT -> Known.GLOBAL_MONTHLY_LIMIT
+                INACTIVE_ACCOUNT -> Known.INACTIVE_ACCOUNT
+                INCORRECT_PIN -> Known.INCORRECT_PIN
+                INVALID_CARD_DETAILS -> Known.INVALID_CARD_DETAILS
+                INSUFFICIENT_FUNDS -> Known.INSUFFICIENT_FUNDS
+                MERCHANT_BLACKLIST -> Known.MERCHANT_BLACKLIST
+                SINGLE_USE_RECHARGED -> Known.SINGLE_USE_RECHARGED
+                SWITCH_INOPERATIVE_ADVICE -> Known.SWITCH_INOPERATIVE_ADVICE
+                UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
+                UNKNOWN_HOST_TIMEOUT -> Known.UNKNOWN_HOST_TIMEOUT
+                USER_TRANSACTION_LIMIT -> Known.USER_TRANSACTION_LIMIT
+                else -> throw LithicInvalidDataException("Unknown Result: $value")
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class Status @JsonCreator private constructor(private val value: JsonField<String>,) {
+    class Status
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
 
-        @com.fasterxml.jackson.annotation.JsonValue
-        fun _value(): JsonField<String> = value
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Status &&
-              this.value == other.value
+            return other is Status && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -2699,27 +2696,29 @@ class Transaction private constructor(private val acquirerReferenceNumber: JsonF
             _UNKNOWN,
         }
 
-        fun value(): Value = when (this) {
-            BOUNCED -> Value.BOUNCED
-            DECLINED -> Value.DECLINED
-            EXPIRED -> Value.EXPIRED
-            PENDING -> Value.PENDING
-            SETTLED -> Value.SETTLED
-            SETTLING -> Value.SETTLING
-            VOIDED -> Value.VOIDED
-            else -> Value._UNKNOWN
-        }
+        fun value(): Value =
+            when (this) {
+                BOUNCED -> Value.BOUNCED
+                DECLINED -> Value.DECLINED
+                EXPIRED -> Value.EXPIRED
+                PENDING -> Value.PENDING
+                SETTLED -> Value.SETTLED
+                SETTLING -> Value.SETTLING
+                VOIDED -> Value.VOIDED
+                else -> Value._UNKNOWN
+            }
 
-        fun known(): Known = when (this) {
-            BOUNCED -> Known.BOUNCED
-            DECLINED -> Known.DECLINED
-            EXPIRED -> Known.EXPIRED
-            PENDING -> Known.PENDING
-            SETTLED -> Known.SETTLED
-            SETTLING -> Known.SETTLING
-            VOIDED -> Known.VOIDED
-            else -> throw LithicInvalidDataException("Unknown Status: $value")
-        }
+        fun known(): Known =
+            when (this) {
+                BOUNCED -> Known.BOUNCED
+                DECLINED -> Known.DECLINED
+                EXPIRED -> Known.EXPIRED
+                PENDING -> Known.PENDING
+                SETTLED -> Known.SETTLED
+                SETTLING -> Known.SETTLING
+                VOIDED -> Known.VOIDED
+                else -> throw LithicInvalidDataException("Unknown Status: $value")
+            }
 
         fun asString(): String = _value().asStringOrThrow()
     }

@@ -1,49 +1,28 @@
 package com.lithic.api.models
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.Objects
-import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
+import java.util.Objects
 
-class AccountHolderListDocumentsParams constructor(private val accountHolderToken: String,private val additionalQueryParams: Map<String, List<String>>,private val additionalHeaders: Map<String, List<String>>,) {
+class AccountHolderListDocumentsParams
+constructor(
+    private val accountHolderToken: String,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
+) {
 
     fun accountHolderToken(): String = accountHolderToken
 
-    @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-      return when (index) {
-          0 -> accountHolderToken
-          else -> ""
-      }
+        return when (index) {
+            0 -> accountHolderToken
+            else -> ""
+        }
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
@@ -51,32 +30,32 @@ class AccountHolderListDocumentsParams constructor(private val accountHolderToke
     fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is AccountHolderListDocumentsParams &&
-          this.accountHolderToken == other.accountHolderToken &&
-          this.additionalQueryParams == other.additionalQueryParams &&
-          this.additionalHeaders == other.additionalHeaders
+        return other is AccountHolderListDocumentsParams &&
+            this.accountHolderToken == other.accountHolderToken &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          accountHolderToken,
-          additionalQueryParams,
-          additionalHeaders,
-      )
+        return Objects.hash(
+            accountHolderToken,
+            additionalQueryParams,
+            additionalHeaders,
+        )
     }
 
-    override fun toString() = "AccountHolderListDocumentsParams{accountHolderToken=$accountHolderToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+    override fun toString() =
+        "AccountHolderListDocumentsParams{accountHolderToken=$accountHolderToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -87,11 +66,12 @@ class AccountHolderListDocumentsParams constructor(private val accountHolderToke
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(accountHolderListDocumentsParams: AccountHolderListDocumentsParams) = apply {
-            this.accountHolderToken = accountHolderListDocumentsParams.accountHolderToken
-            additionalQueryParams(accountHolderListDocumentsParams.additionalQueryParams)
-            additionalHeaders(accountHolderListDocumentsParams.additionalHeaders)
-        }
+        internal fun from(accountHolderListDocumentsParams: AccountHolderListDocumentsParams) =
+            apply {
+                this.accountHolderToken = accountHolderListDocumentsParams.accountHolderToken
+                additionalQueryParams(accountHolderListDocumentsParams.additionalQueryParams)
+                additionalHeaders(accountHolderListDocumentsParams.additionalHeaders)
+            }
 
         fun accountHolderToken(accountHolderToken: String) = apply {
             this.accountHolderToken = accountHolderToken
@@ -135,16 +115,15 @@ class AccountHolderListDocumentsParams constructor(private val accountHolderToke
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply {
-            this.additionalHeaders.put(name, mutableListOf())
-        }
+        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): AccountHolderListDocumentsParams = AccountHolderListDocumentsParams(
-            checkNotNull(accountHolderToken) {
-                "`accountHolderToken` is required but was not set"
-            },
-            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-        )
+        fun build(): AccountHolderListDocumentsParams =
+            AccountHolderListDocumentsParams(
+                checkNotNull(accountHolderToken) {
+                    "`accountHolderToken` is required but was not set"
+                },
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+            )
     }
 }

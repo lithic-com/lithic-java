@@ -1,19 +1,11 @@
 package com.lithic.api.services.async
 
-import com.fasterxml.jackson.databind.json.JsonMapper
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
-import kotlin.LazyThreadSafetyMode.PUBLICATION
-import java.time.LocalDate
-import java.time.Duration
-import java.time.OffsetDateTime
-import java.util.Base64
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import java.util.stream.Stream
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpMethod
+import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.errors.LithicError
 import com.lithic.api.models.Transaction
 import com.lithic.api.models.TransactionListPageAsync
 import com.lithic.api.models.TransactionListParams
@@ -32,27 +24,21 @@ import com.lithic.api.models.TransactionSimulateReturnReversalParams
 import com.lithic.api.models.TransactionSimulateReturnReversalResponse
 import com.lithic.api.models.TransactionSimulateVoidParams
 import com.lithic.api.models.TransactionSimulateVoidResponse
-import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.http.HttpMethod
-import com.lithic.api.core.http.HttpRequest
-import com.lithic.api.core.http.HttpResponse.Handler
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.RequestOptions
-import com.lithic.api.errors.LithicError
-import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
-import com.lithic.api.services.stringHandler
 import com.lithic.api.services.withErrorHandler
+import java.util.concurrent.CompletableFuture
 
-class TransactionServiceAsyncImpl constructor(private val clientOptions: ClientOptions,) : TransactionServiceAsync {
+class TransactionServiceAsyncImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : TransactionServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val retrieveHandler: Handler<Transaction> =
-    jsonHandler<Transaction>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<Transaction>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Get specific transaction. */
     override fun retrieve(
@@ -80,8 +66,8 @@ class TransactionServiceAsyncImpl constructor(private val clientOptions: ClientO
     }
 
     private val listHandler: Handler<TransactionListPageAsync.Response> =
-    jsonHandler<TransactionListPageAsync.Response>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<TransactionListPageAsync.Response>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /** List transactions. */
     override fun list(
@@ -110,16 +96,15 @@ class TransactionServiceAsyncImpl constructor(private val clientOptions: ClientO
     }
 
     private val simulateAuthorizationHandler: Handler<TransactionSimulateAuthorizationResponse> =
-    jsonHandler<TransactionSimulateAuthorizationResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<TransactionSimulateAuthorizationResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /**
-     * Simulates an authorization request from the payment network as if it came from a
-     * merchant acquirer. If you're configured for ASA, simulating auths requires your
-     * ASA client to be set up properly (respond with a valid JSON to the ASA request).
-     * For users that are not configured for ASA, a daily transaction limit of $5000
-     * USD is applied by default. This limit can be modified via the
-     * [update account](https://docs.lithic.com/reference/patchaccountbytoken)
+     * Simulates an authorization request from the payment network as if it came from a merchant
+     * acquirer. If you're configured for ASA, simulating auths requires your ASA client to be set
+     * up properly (respond with a valid JSON to the ASA request). For users that are not configured
+     * for ASA, a daily transaction limit of $5000 USD is applied by default. This limit can be
+     * modified via the [update account](https://docs.lithic.com/reference/patchaccountbytoken)
      * endpoint.
      */
     override fun simulateAuthorization(
@@ -147,14 +132,14 @@ class TransactionServiceAsyncImpl constructor(private val clientOptions: ClientO
         }
     }
 
-    private val simulateAuthorizationAdviceHandler: Handler<TransactionSimulateAuthorizationAdviceResponse> =
-    jsonHandler<TransactionSimulateAuthorizationAdviceResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+    private val simulateAuthorizationAdviceHandler:
+        Handler<TransactionSimulateAuthorizationAdviceResponse> =
+        jsonHandler<TransactionSimulateAuthorizationAdviceResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /**
-     * Simulates an authorization advice request from the payment network as if it came
-     * from a merchant acquirer. An authorization advice request changes the amount of
-     * the transaction.
+     * Simulates an authorization advice request from the payment network as if it came from a
+     * merchant acquirer. An authorization advice request changes the amount of the transaction.
      */
     override fun simulateAuthorizationAdvice(
         params: TransactionSimulateAuthorizationAdviceParams,
@@ -182,16 +167,14 @@ class TransactionServiceAsyncImpl constructor(private val clientOptions: ClientO
     }
 
     private val simulateClearingHandler: Handler<TransactionSimulateClearingResponse> =
-    jsonHandler<TransactionSimulateClearingResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<TransactionSimulateClearingResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /**
-     * Clears an existing authorization. After this event, the transaction is no longer
-     * pending.
+     * Clears an existing authorization. After this event, the transaction is no longer pending.
      *
-     * If no `amount` is supplied to this endpoint, the amount of the transaction will
-     * be captured. Any transaction that has any amount completed at all do not have
-     * access to this behavior.
+     * If no `amount` is supplied to this endpoint, the amount of the transaction will be captured.
+     * Any transaction that has any amount completed at all do not have access to this behavior.
      */
     override fun simulateClearing(
         params: TransactionSimulateClearingParams,
@@ -218,14 +201,14 @@ class TransactionServiceAsyncImpl constructor(private val clientOptions: ClientO
         }
     }
 
-    private val simulateCreditAuthorizationHandler: Handler<TransactionSimulateCreditAuthorizationResponse> =
-    jsonHandler<TransactionSimulateCreditAuthorizationResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+    private val simulateCreditAuthorizationHandler:
+        Handler<TransactionSimulateCreditAuthorizationResponse> =
+        jsonHandler<TransactionSimulateCreditAuthorizationResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /**
-     * Simulates a credit authorization advice message from the payment network. This
-     * message indicates that a credit authorization was approved on your behalf by the
-     * network.
+     * Simulates a credit authorization advice message from the payment network. This message
+     * indicates that a credit authorization was approved on your behalf by the network.
      */
     override fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
@@ -253,12 +236,12 @@ class TransactionServiceAsyncImpl constructor(private val clientOptions: ClientO
     }
 
     private val simulateReturnHandler: Handler<TransactionSimulateReturnResponse> =
-    jsonHandler<TransactionSimulateReturnResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<TransactionSimulateReturnResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /**
-     * Returns (aka refunds) an amount back to a card. Returns are cleared immediately
-     * and do not spend time in a `PENDING` state.
+     * Returns (aka refunds) an amount back to a card. Returns are cleared immediately and do not
+     * spend time in a `PENDING` state.
      */
     override fun simulateReturn(
         params: TransactionSimulateReturnParams,
@@ -286,13 +269,13 @@ class TransactionServiceAsyncImpl constructor(private val clientOptions: ClientO
     }
 
     private val simulateReturnReversalHandler: Handler<TransactionSimulateReturnReversalResponse> =
-    jsonHandler<TransactionSimulateReturnReversalResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<TransactionSimulateReturnReversalResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /**
-     * Voids a settled credit transaction – i.e., a transaction with a negative amount
-     * and `SETTLED` status. These can be credit authorizations that have already
-     * cleared or financial credit authorizations.
+     * Voids a settled credit transaction – i.e., a transaction with a negative amount and `SETTLED`
+     * status. These can be credit authorizations that have already cleared or financial credit
+     * authorizations.
      */
     override fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,
@@ -320,15 +303,15 @@ class TransactionServiceAsyncImpl constructor(private val clientOptions: ClientO
     }
 
     private val simulateVoidHandler: Handler<TransactionSimulateVoidResponse> =
-    jsonHandler<TransactionSimulateVoidResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<TransactionSimulateVoidResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /**
-     * Voids an existing, uncleared (aka pending) authorization. If amount is not sent
-     * the full amount will be voided. Cannot be used on partially completed
-     * transactions, but can be used on partially voided transactions. _Note that
-     * simulating an authorization expiry on credit authorizations or credit
-     * authorization advice is not currently supported but will be added soon._
+     * Voids an existing, uncleared (aka pending) authorization. If amount is not sent the full
+     * amount will be voided. Cannot be used on partially completed transactions, but can be used on
+     * partially voided transactions. _Note that simulating an authorization expiry on credit
+     * authorizations or credit authorization advice is not currently supported but will be added
+     * soon._
      */
     override fun simulateVoid(
         params: TransactionSimulateVoidParams,

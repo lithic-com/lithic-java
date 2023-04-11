@@ -1,36 +1,29 @@
 package com.lithic.api.models
 
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.UUID
-import org.junit.jupiter.api.Test
-import org.assertj.core.api.Assertions.assertThat
 import com.lithic.api.models.*
-import com.lithic.api.models.AuthStreamEnrollmentEnrollParams.AuthStreamEnrollmentEnrollBody
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
 class AuthStreamEnrollmentEnrollParamsTest {
 
     @Test
     fun createAuthStreamEnrollmentEnrollParams() {
-      AuthStreamEnrollmentEnrollParams.builder()
-          .webhookUrl("https://example.com")
-          .build()
+        AuthStreamEnrollmentEnrollParams.builder().webhookUrl("https://example.com").build()
     }
 
     @Test
     fun getBody() {
-      val params = AuthStreamEnrollmentEnrollParams.builder()
-          .webhookUrl("https://example.com")
-          .build()
-      val body = params.getBody()
-      assertThat(body).isNotNull
-      assertThat(body.webhookUrl()).isEqualTo("https://example.com")
+        val params =
+            AuthStreamEnrollmentEnrollParams.builder().webhookUrl("https://example.com").build()
+        val body = params.getBody()
+        assertThat(body).isNotNull
+        assertThat(body.webhookUrl()).isEqualTo("https://example.com")
     }
 
     @Test
     fun getBodyWithoutOptionalFields() {
-      val params = AuthStreamEnrollmentEnrollParams.builder().build()
-      val body = params.getBody()
-      assertThat(body).isNotNull
+        val params = AuthStreamEnrollmentEnrollParams.builder().build()
+        val body = params.getBody()
+        assertThat(body).isNotNull
     }
 }

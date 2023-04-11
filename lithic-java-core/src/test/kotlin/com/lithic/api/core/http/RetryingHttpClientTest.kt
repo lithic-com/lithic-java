@@ -1,14 +1,13 @@
 package com.lithic.api.core.http
 
+import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
+import com.github.tomakehurst.wiremock.stubbing.Scenario
 import com.lithic.api.client.okhttp.OkHttpClient
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.Assertions.assertThatThrownBy
-import com.github.tomakehurst.wiremock.stubbing.Scenario
-import com.github.tomakehurst.wiremock.client.WireMock.*
 
 @WireMockTest
 internal class RetryingHttpClientTest {
@@ -17,25 +16,16 @@ internal class RetryingHttpClientTest {
 
     @BeforeEach
     fun beforeEach(wmRuntimeInfo: WireMockRuntimeInfo) {
-        httpClient = OkHttpClient.builder()
-            .baseUrl(wmRuntimeInfo.httpBaseUrl)
-            .build()
+        httpClient = OkHttpClient.builder().baseUrl(wmRuntimeInfo.httpBaseUrl).build()
         resetAllScenarios()
     }
 
     @Test
     fun byDefaultShouldNotAddIdempotencyHeaderToRequest() {
-        val request = HttpRequest.builder()
-            .method(HttpMethod.POST)
-            .addPathSegment("something")
-            .build()
-        stubFor(
-            post(urlPathEqualTo("/something"))
-                .willReturn(ok())
-        )
-        val retryingClient = RetryingHttpClient.builder()
-            .httpClient(httpClient)
-            .build()
+        val request =
+            HttpRequest.builder().method(HttpMethod.POST).addPathSegment("something").build()
+        stubFor(post(urlPathEqualTo("/something")).willReturn(ok()))
+        val retryingClient = RetryingHttpClient.builder().httpClient(httpClient).build()
         val response = retryingClient.execute(request)
         assertThat(response.statusCode()).isEqualTo(200)
         verify(1, postRequestedFor(urlPathEqualTo("/something")))
@@ -43,19 +33,18 @@ internal class RetryingHttpClientTest {
 
     @Test
     fun whenProvidedShouldAddIdempotencyHeaderToRequest() {
-        val request = HttpRequest.builder()
-            .method(HttpMethod.POST)
-            .addPathSegment("something")
-            .build()
+        val request =
+            HttpRequest.builder().method(HttpMethod.POST).addPathSegment("something").build()
         stubFor(
             post(urlPathEqualTo("/something"))
                 .withHeader("X-Some-Header", matching("stainless-java-retry-.+"))
                 .willReturn(ok())
         )
-        val retryingClient = RetryingHttpClient.builder()
-            .httpClient(httpClient)
-            .idempotencyHeader("X-Some-Header")
-            .build()
+        val retryingClient =
+            RetryingHttpClient.builder()
+                .httpClient(httpClient)
+                .idempotencyHeader("X-Some-Header")
+                .build()
         val response = retryingClient.execute(request)
         assertThat(response.statusCode()).isEqualTo(200)
         verify(1, postRequestedFor(urlPathEqualTo("/something")))
@@ -63,15 +52,15 @@ internal class RetryingHttpClientTest {
 
     @Test
     fun retryAfterHeader() {
-        val request = HttpRequest.builder()
-            .method(HttpMethod.POST)
-            .addPathSegment("something")
-            .build()
+        val request =
+            HttpRequest.builder().method(HttpMethod.POST).addPathSegment("something").build()
         stubFor(
             post(urlPathEqualTo("/something"))
                 .inScenario("foo") // first we fail with a retry after header given as a date
                 .whenScenarioStateIs(Scenario.STARTED)
-                .willReturn(serviceUnavailable().withHeader("Retry-After", "Wed, 21 Oct 2015 07:28:00 GMT"))
+                .willReturn(
+                    serviceUnavailable().withHeader("Retry-After", "Wed, 21 Oct 2015 07:28:00 GMT")
+                )
                 .willSetStateTo("RETRY_AFTER_DATE")
         )
         stubFor(
@@ -88,9 +77,7 @@ internal class RetryingHttpClientTest {
                 .willReturn(ok())
                 .willSetStateTo("COMPLETED")
         )
-        val retryingClient = RetryingHttpClient.builder()
-            .httpClient(httpClient)
-            .build()
+        val retryingClient = RetryingHttpClient.builder().httpClient(httpClient).build()
         val response = retryingClient.execute(request)
         assertThat(response.statusCode()).isEqualTo(200)
         verify(3, postRequestedFor(urlPathEqualTo("/something")))

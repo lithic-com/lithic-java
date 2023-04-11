@@ -2,35 +2,37 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.SerializerProvider
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.Objects
-import java.util.Optional
-import java.util.UUID
 import com.lithic.api.core.BaseDeserializer
 import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
+import java.util.Objects
+import java.util.Optional
 
 @JsonDeserialize(using = ExampleOneOf.Deserializer::class)
 @JsonSerialize(using = ExampleOneOf.Serializer::class)
-class ExampleOneOf private constructor(private val cat: Cat? = null,private val dog: Dog? = null,private val cats: List<Cat>? = null,private val petName: String? = null,private val _json: JsonValue? = null,) {
+class ExampleOneOf
+private constructor(
+    private val cat: Cat? = null,
+    private val dog: Dog? = null,
+    private val cats: List<Cat>? = null,
+    private val petName: String? = null,
+    private val _json: JsonValue? = null,
+) {
 
     private var validated: Boolean = false
 
@@ -52,72 +54,68 @@ class ExampleOneOf private constructor(private val cat: Cat? = null,private val 
     fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
     fun <T> accept(visitor: Visitor<T>): T {
-      return when {
-          cat != null -> visitor.visitCat(cat)
-          dog != null -> visitor.visitDog(dog)
-          cats != null -> visitor.visitCats(cats)
-          petName != null -> visitor.visitPetName(petName)
-          else -> visitor.unknown(_json)
-      }
+        return when {
+            cat != null -> visitor.visitCat(cat)
+            dog != null -> visitor.visitDog(dog)
+            cats != null -> visitor.visitCats(cats)
+            petName != null -> visitor.visitPetName(petName)
+            else -> visitor.unknown(_json)
+        }
     }
 
     fun validate() = apply {
         if (!validated) {
-          if (cat == null && dog == null && cats == null && petName == null) {
-            throw LithicInvalidDataException("Unknown ExampleOneOf: $_json")
-          }
-          cat?.validate()
-          dog?.validate()
-          cats?.forEach { it.validate() }
-          validated = true
+            if (cat == null && dog == null && cats == null && petName == null) {
+                throw LithicInvalidDataException("Unknown ExampleOneOf: $_json")
+            }
+            cat?.validate()
+            dog?.validate()
+            cats?.forEach { it.validate() }
+            validated = true
         }
     }
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is ExampleOneOf &&
-          this.cat == other.cat &&
-          this.dog == other.dog &&
-          this.cats == other.cats &&
-          this.petName == other.petName
+        return other is ExampleOneOf &&
+            this.cat == other.cat &&
+            this.dog == other.dog &&
+            this.cats == other.cats &&
+            this.petName == other.petName
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          cat,
-          dog,
-          cats,
-          petName,
-      )
+        return Objects.hash(
+            cat,
+            dog,
+            cats,
+            petName,
+        )
     }
 
     override fun toString(): String {
-      return when {
-          cat != null -> "ExampleOneOf{cat=$cat}"
-          dog != null -> "ExampleOneOf{dog=$dog}"
-          cats != null -> "ExampleOneOf{cats=$cats}"
-          petName != null -> "ExampleOneOf{petName=$petName}"
-          _json != null -> "ExampleOneOf{_unknown=$_json}"
-          else -> throw IllegalStateException("Invalid ExampleOneOf")
-      }
+        return when {
+            cat != null -> "ExampleOneOf{cat=$cat}"
+            dog != null -> "ExampleOneOf{dog=$dog}"
+            cats != null -> "ExampleOneOf{cats=$cats}"
+            petName != null -> "ExampleOneOf{petName=$petName}"
+            _json != null -> "ExampleOneOf{_unknown=$_json}"
+            else -> throw IllegalStateException("Invalid ExampleOneOf")
+        }
     }
 
     companion object {
 
-        @JvmStatic
-        fun ofCat(cat: Cat) = ExampleOneOf(cat = cat)
+        @JvmStatic fun ofCat(cat: Cat) = ExampleOneOf(cat = cat)
 
-        @JvmStatic
-        fun ofDog(dog: Dog) = ExampleOneOf(dog = dog)
+        @JvmStatic fun ofDog(dog: Dog) = ExampleOneOf(dog = dog)
 
-        @JvmStatic
-        fun ofCats(cats: List<Cat>) = ExampleOneOf(cats = cats)
+        @JvmStatic fun ofCats(cats: List<Cat>) = ExampleOneOf(cats = cats)
 
-        @JvmStatic
-        fun ofPetName(petName: String) = ExampleOneOf(petName = petName)
+        @JvmStatic fun ofPetName(petName: String) = ExampleOneOf(petName = petName)
     }
 
     interface Visitor<out T> {
@@ -131,48 +129,59 @@ class ExampleOneOf private constructor(private val cat: Cat? = null,private val 
         fun visitPetName(petName: String): T
 
         fun unknown(json: JsonValue?): T {
-          throw LithicInvalidDataException("Unknown ExampleOneOf: $json")
+            throw LithicInvalidDataException("Unknown ExampleOneOf: $json")
         }
     }
 
     class Deserializer : BaseDeserializer<ExampleOneOf>(ExampleOneOf::class) {
 
         override fun ObjectCodec.deserialize(node: JsonNode): ExampleOneOf {
-          val json = JsonValue.fromJsonNode(node)
-          tryDeserialize(node, jacksonTypeRef<Cat>()){ it.validate() }?.let {
-              return ExampleOneOf(cat = it, _json = json)
-          }
-          tryDeserialize(node, jacksonTypeRef<Dog>()){ it.validate() }?.let {
-              return ExampleOneOf(dog = it, _json = json)
-          }
-          tryDeserialize(node, jacksonTypeRef<List<Cat>>()){ it.forEach { it.validate() } }?.let {
-              return ExampleOneOf(cats = it, _json = json)
-          }
-          tryDeserialize(node, jacksonTypeRef<String>())?.let {
-              return ExampleOneOf(petName = it, _json = json)
-          }
+            val json = JsonValue.fromJsonNode(node)
+            tryDeserialize(node, jacksonTypeRef<Cat>()) { it.validate() }
+                ?.let {
+                    return ExampleOneOf(cat = it, _json = json)
+                }
+            tryDeserialize(node, jacksonTypeRef<Dog>()) { it.validate() }
+                ?.let {
+                    return ExampleOneOf(dog = it, _json = json)
+                }
+            tryDeserialize(node, jacksonTypeRef<List<Cat>>()) { it.forEach { it.validate() } }
+                ?.let {
+                    return ExampleOneOf(cats = it, _json = json)
+                }
+            tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                return ExampleOneOf(petName = it, _json = json)
+            }
 
-          return ExampleOneOf(_json = json)
+            return ExampleOneOf(_json = json)
         }
     }
 
     class Serializer : BaseSerializer<ExampleOneOf>(ExampleOneOf::class) {
 
-        override fun serialize(value: ExampleOneOf, generator: JsonGenerator, provider: SerializerProvider) {
-          when {
-              value.cat != null -> generator.writeObject(value.cat)
-              value.dog != null -> generator.writeObject(value.dog)
-              value.cats != null -> generator.writeObject(value.cats)
-              value.petName != null -> generator.writeObject(value.petName)
-              value._json != null -> generator.writeObject(value._json)
-              else -> throw IllegalStateException("Invalid ExampleOneOf")
-          }
+        override fun serialize(
+            value: ExampleOneOf,
+            generator: JsonGenerator,
+            provider: SerializerProvider
+        ) {
+            when {
+                value.cat != null -> generator.writeObject(value.cat)
+                value.dog != null -> generator.writeObject(value.dog)
+                value.cats != null -> generator.writeObject(value.cats)
+                value.petName != null -> generator.writeObject(value.petName)
+                value._json != null -> generator.writeObject(value._json)
+                else -> throw IllegalStateException("Invalid ExampleOneOf")
+            }
         }
     }
 
     @JsonDeserialize(builder = Cat.Builder::class)
     @NoAutoDetect
-    class Cat private constructor(private val name: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
+    class Cat
+    private constructor(
+        private val name: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
@@ -180,9 +189,7 @@ class ExampleOneOf private constructor(private val cat: Cat? = null,private val 
 
         fun name(): String = name.getRequired("name")
 
-        @JsonProperty("name")
-        @ExcludeMissing
-        fun _name() = name
+        @JsonProperty("name") @ExcludeMissing fun _name() = name
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -190,36 +197,35 @@ class ExampleOneOf private constructor(private val cat: Cat? = null,private val 
 
         fun validate() = apply {
             if (!validated) {
-              name()
-              validated = true
+                name()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Cat &&
-              this.name == other.name &&
-              this.additionalProperties == other.additionalProperties
+            return other is Cat &&
+                this.name == other.name &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(name, additionalProperties)
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode = Objects.hash(name, additionalProperties)
+            }
+            return hashCode
         }
 
         override fun toString() = "Cat{name=$name, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -237,9 +243,7 @@ class ExampleOneOf private constructor(private val cat: Cat? = null,private val 
 
             @JsonProperty("name")
             @ExcludeMissing
-            fun name(name: JsonField<String>) = apply {
-                this.name = name
-            }
+            fun name(name: JsonField<String>) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -261,7 +265,11 @@ class ExampleOneOf private constructor(private val cat: Cat? = null,private val 
 
     @JsonDeserialize(builder = Dog.Builder::class)
     @NoAutoDetect
-    class Dog private constructor(private val breed: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
+    class Dog
+    private constructor(
+        private val breed: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
@@ -269,9 +277,7 @@ class ExampleOneOf private constructor(private val cat: Cat? = null,private val 
 
         fun breed(): String = breed.getRequired("breed")
 
-        @JsonProperty("breed")
-        @ExcludeMissing
-        fun _breed() = breed
+        @JsonProperty("breed") @ExcludeMissing fun _breed() = breed
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -279,36 +285,35 @@ class ExampleOneOf private constructor(private val cat: Cat? = null,private val 
 
         fun validate() = apply {
             if (!validated) {
-              breed()
-              validated = true
+                breed()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Dog &&
-              this.breed == other.breed &&
-              this.additionalProperties == other.additionalProperties
+            return other is Dog &&
+                this.breed == other.breed &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(breed, additionalProperties)
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode = Objects.hash(breed, additionalProperties)
+            }
+            return hashCode
         }
 
         override fun toString() = "Dog{breed=$breed, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -326,9 +331,7 @@ class ExampleOneOf private constructor(private val cat: Cat? = null,private val 
 
             @JsonProperty("breed")
             @ExcludeMissing
-            fun breed(breed: JsonField<String>) = apply {
-                this.breed = breed
-            }
+            fun breed(breed: JsonField<String>) = apply { this.breed = breed }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()

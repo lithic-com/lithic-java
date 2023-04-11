@@ -4,26 +4,24 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.Objects
-import java.util.Optional
-import java.util.Spliterator
-import java.util.Spliterators
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import java.util.stream.Stream
-import java.util.stream.StreamSupport
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.models.DisputeEvidence
 import com.lithic.api.services.blocking.DisputeService
+import java.util.Objects
+import java.util.Optional
+import java.util.stream.Stream
+import java.util.stream.StreamSupport
 
-class DisputeListEvidencesPage private constructor(private val disputesService: DisputeService,private val params: DisputeListEvidencesParams,private val response: Response,) {
+class DisputeListEvidencesPage
+private constructor(
+    private val disputesService: DisputeService,
+    private val params: DisputeListEvidencesParams,
+    private val response: Response,
+) {
 
     fun response(): Response = response
 
@@ -32,44 +30,55 @@ class DisputeListEvidencesPage private constructor(private val disputesService: 
     fun hasMore(): Boolean = response().hasMore()
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is DisputeListEvidencesPage &&
-          this.disputesService == other.disputesService &&
-          this.params == other.params &&
-          this.response == other.response
+        return other is DisputeListEvidencesPage &&
+            this.disputesService == other.disputesService &&
+            this.params == other.params &&
+            this.response == other.response
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          disputesService,
-          params,
-          response,
-      )
+        return Objects.hash(
+            disputesService,
+            params,
+            response,
+        )
     }
 
-    override fun toString() = "DisputeListEvidencesPage{disputesService=$disputesService, params=$params, response=$response}"
+    override fun toString() =
+        "DisputeListEvidencesPage{disputesService=$disputesService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean {
-      return data().isEmpty()
+        return data().isEmpty()
     }
 
     fun getNextPageParams(): Optional<DisputeListEvidencesParams> {
-      if (!hasNextPage()) {
-        return Optional.empty()
-      }
+        if (!hasNextPage()) {
+            return Optional.empty()
+        }
 
-      return if (params.endingBefore().isPresent) {
-        Optional.of(DisputeListEvidencesParams.builder().from(params).endingBefore(data().first().token()).build());
-      } else {
-        Optional.of(DisputeListEvidencesParams.builder().from(params).startingAfter(data().last().token()).build());
-      }
+        return if (params.endingBefore().isPresent) {
+            Optional.of(
+                DisputeListEvidencesParams.builder()
+                    .from(params)
+                    .endingBefore(data().first().token())
+                    .build()
+            )
+        } else {
+            Optional.of(
+                DisputeListEvidencesParams.builder()
+                    .from(params)
+                    .startingAfter(data().last().token())
+                    .build()
+            )
+        }
     }
 
     fun getNextPage(): Optional<DisputeListEvidencesPage> {
-      return getNextPageParams().map { disputesService.listEvidences(it) }
+        return getNextPageParams().map { disputesService.listEvidences(it) }
     }
 
     fun autoPager(): AutoPager = AutoPager(this)
@@ -77,16 +86,26 @@ class DisputeListEvidencesPage private constructor(private val disputesService: 
     companion object {
 
         @JvmStatic
-        fun of(disputesService: DisputeService, params: DisputeListEvidencesParams, response: Response) = DisputeListEvidencesPage(
-            disputesService,
-            params,
-            response,
-        )
+        fun of(
+            disputesService: DisputeService,
+            params: DisputeListEvidencesParams,
+            response: Response
+        ) =
+            DisputeListEvidencesPage(
+                disputesService,
+                params,
+                response,
+            )
     }
 
     @JsonDeserialize(builder = Response.Builder::class)
     @NoAutoDetect
-    class Response constructor(private val data: JsonField<List<DisputeEvidence>>,private val hasMore: JsonField<Boolean>,private val additionalProperties: Map<String, JsonValue>,) {
+    class Response
+    constructor(
+        private val data: JsonField<List<DisputeEvidence>>,
+        private val hasMore: JsonField<Boolean>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
@@ -106,39 +125,39 @@ class DisputeListEvidencesPage private constructor(private val disputesService: 
 
         fun validate() = apply {
             if (!validated) {
-              data().forEach { it.validate() }
-              hasMore()
-              validated = true
+                data().forEach { it.validate() }
+                hasMore()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Response &&
-              this.data == other.data &&
-              this.hasMore == other.hasMore &&
-              this.additionalProperties == other.additionalProperties
+            return other is Response &&
+                this.data == other.data &&
+                this.hasMore == other.hasMore &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          return Objects.hash(
-              data,
-              hasMore,
-              additionalProperties,
-          )
+            return Objects.hash(
+                data,
+                hasMore,
+                additionalProperties,
+            )
         }
 
-        override fun toString() = "DisputeListEvidencesPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "DisputeListEvidencesPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -169,31 +188,36 @@ class DisputeListEvidencesPage private constructor(private val disputesService: 
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() = Response(
-                data,
-                hasMore,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build() =
+                Response(
+                    data,
+                    hasMore,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
-    class AutoPager constructor(private val firstPage: DisputeListEvidencesPage,) : Iterable<DisputeEvidence> {
+    class AutoPager
+    constructor(
+        private val firstPage: DisputeListEvidencesPage,
+    ) : Iterable<DisputeEvidence> {
 
-        override fun iterator(): Iterator<DisputeEvidence> = sequence {
-            var page = firstPage
-            var index = 0
-            while (true) {
-              while (index >= page.data().size) {
-                page = page.getNextPage().orElse(null) ?: return@sequence
-                index = 0
-              }
-              yield(page.data()[index++])
-            }
-        }
-        .iterator()
+        override fun iterator(): Iterator<DisputeEvidence> =
+            sequence {
+                    var page = firstPage
+                    var index = 0
+                    while (true) {
+                        while (index >= page.data().size) {
+                            page = page.getNextPage().orElse(null) ?: return@sequence
+                            index = 0
+                        }
+                        yield(page.data()[index++])
+                    }
+                }
+                .iterator()
 
         fun stream(): Stream<DisputeEvidence> {
-          return StreamSupport.stream(spliterator(), false)
+            return StreamSupport.stream(spliterator(), false)
         }
     }
 }

@@ -4,26 +4,24 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.Objects
-import java.util.Optional
-import java.util.Spliterator
-import java.util.Spliterators
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import java.util.stream.Stream
-import java.util.stream.StreamSupport
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.models.AuthRule
 import com.lithic.api.services.blocking.AuthRuleService
+import java.util.Objects
+import java.util.Optional
+import java.util.stream.Stream
+import java.util.stream.StreamSupport
 
-class AuthRuleListPage private constructor(private val authRulesService: AuthRuleService,private val params: AuthRuleListParams,private val response: Response,) {
+class AuthRuleListPage
+private constructor(
+    private val authRulesService: AuthRuleService,
+    private val params: AuthRuleListParams,
+    private val response: Response,
+) {
 
     fun response(): Response = response
 
@@ -36,44 +34,47 @@ class AuthRuleListPage private constructor(private val authRulesService: AuthRul
     fun totalPages(): Long = response().totalPages()
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is AuthRuleListPage &&
-          this.authRulesService == other.authRulesService &&
-          this.params == other.params &&
-          this.response == other.response
+        return other is AuthRuleListPage &&
+            this.authRulesService == other.authRulesService &&
+            this.params == other.params &&
+            this.response == other.response
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          authRulesService,
-          params,
-          response,
-      )
+        return Objects.hash(
+            authRulesService,
+            params,
+            response,
+        )
     }
 
-    override fun toString() = "AuthRuleListPage{authRulesService=$authRulesService, params=$params, response=$response}"
+    override fun toString() =
+        "AuthRuleListPage{authRulesService=$authRulesService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean {
-      if (data().isEmpty()) {
-        return false
-      }
+        if (data().isEmpty()) {
+            return false
+        }
 
-      return page() < totalPages()
+        return page() < totalPages()
     }
 
     fun getNextPageParams(): Optional<AuthRuleListParams> {
-      if (!hasNextPage()) {
-        return Optional.empty()
-      }
+        if (!hasNextPage()) {
+            return Optional.empty()
+        }
 
-      return Optional.of(AuthRuleListParams.builder().from(params).page(params.page().orElse(0) + 1).build())
+        return Optional.of(
+            AuthRuleListParams.builder().from(params).page(params.page().orElse(0) + 1).build()
+        )
     }
 
     fun getNextPage(): Optional<AuthRuleListPage> {
-      return getNextPageParams().map { authRulesService.list(it) }
+        return getNextPageParams().map { authRulesService.list(it) }
     }
 
     fun autoPager(): AutoPager = AutoPager(this)
@@ -81,16 +82,24 @@ class AuthRuleListPage private constructor(private val authRulesService: AuthRul
     companion object {
 
         @JvmStatic
-        fun of(authRulesService: AuthRuleService, params: AuthRuleListParams, response: Response) = AuthRuleListPage(
-            authRulesService,
-            params,
-            response,
-        )
+        fun of(authRulesService: AuthRuleService, params: AuthRuleListParams, response: Response) =
+            AuthRuleListPage(
+                authRulesService,
+                params,
+                response,
+            )
     }
 
     @JsonDeserialize(builder = Response.Builder::class)
     @NoAutoDetect
-    class Response constructor(private val data: JsonField<List<AuthRule>>,private val page: JsonField<Long>,private val totalEntries: JsonField<Long>,private val totalPages: JsonField<Long>,private val additionalProperties: Map<String, JsonValue>,) {
+    class Response
+    constructor(
+        private val data: JsonField<List<AuthRule>>,
+        private val page: JsonField<Long>,
+        private val totalEntries: JsonField<Long>,
+        private val totalPages: JsonField<Long>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
@@ -105,8 +114,7 @@ class AuthRuleListPage private constructor(private val authRulesService: AuthRul
         @JsonProperty("data")
         fun _data(): Optional<JsonField<List<AuthRule>>> = Optional.ofNullable(data)
 
-        @JsonProperty("page")
-        fun _page(): Optional<JsonField<Long>> = Optional.ofNullable(page)
+        @JsonProperty("page") fun _page(): Optional<JsonField<Long>> = Optional.ofNullable(page)
 
         @JsonProperty("total_entries")
         fun _totalEntries(): Optional<JsonField<Long>> = Optional.ofNullable(totalEntries)
@@ -120,45 +128,45 @@ class AuthRuleListPage private constructor(private val authRulesService: AuthRul
 
         fun validate() = apply {
             if (!validated) {
-              data().forEach { it.validate() }
-              page()
-              totalEntries()
-              totalPages()
-              validated = true
+                data().forEach { it.validate() }
+                page()
+                totalEntries()
+                totalPages()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is Response &&
-              this.data == other.data &&
-              this.page == other.page &&
-              this.totalEntries == other.totalEntries &&
-              this.totalPages == other.totalPages &&
-              this.additionalProperties == other.additionalProperties
+            return other is Response &&
+                this.data == other.data &&
+                this.page == other.page &&
+                this.totalEntries == other.totalEntries &&
+                this.totalPages == other.totalPages &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          return Objects.hash(
-              data,
-              page,
-              totalEntries,
-              totalPages,
-              additionalProperties,
-          )
+            return Objects.hash(
+                data,
+                page,
+                totalEntries,
+                totalPages,
+                additionalProperties,
+            )
         }
 
-        override fun toString() = "AuthRuleListPage.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "AuthRuleListPage.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -185,13 +193,14 @@ class AuthRuleListPage private constructor(private val authRulesService: AuthRul
 
             fun page(page: Long) = page(JsonField.of(page))
 
-            @JsonProperty("page")
-            fun page(page: JsonField<Long>) = apply { this.page = page }
+            @JsonProperty("page") fun page(page: JsonField<Long>) = apply { this.page = page }
 
             fun totalEntries(totalEntries: Long) = totalEntries(JsonField.of(totalEntries))
 
             @JsonProperty("total_entries")
-            fun totalEntries(totalEntries: JsonField<Long>) = apply { this.totalEntries = totalEntries }
+            fun totalEntries(totalEntries: JsonField<Long>) = apply {
+                this.totalEntries = totalEntries
+            }
 
             fun totalPages(totalPages: Long) = totalPages(JsonField.of(totalPages))
 
@@ -203,33 +212,38 @@ class AuthRuleListPage private constructor(private val authRulesService: AuthRul
                 this.additionalProperties.put(key, value)
             }
 
-            fun build() = Response(
-                data,
-                page,
-                totalEntries,
-                totalPages,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build() =
+                Response(
+                    data,
+                    page,
+                    totalEntries,
+                    totalPages,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 
-    class AutoPager constructor(private val firstPage: AuthRuleListPage,) : Iterable<AuthRule> {
+    class AutoPager
+    constructor(
+        private val firstPage: AuthRuleListPage,
+    ) : Iterable<AuthRule> {
 
-        override fun iterator(): Iterator<AuthRule> = sequence {
-            var page = firstPage
-            var index = 0
-            while (true) {
-              while (index >= page.data().size) {
-                page = page.getNextPage().orElse(null) ?: return@sequence
-                index = 0
-              }
-              yield(page.data()[index++])
-            }
-        }
-        .iterator()
+        override fun iterator(): Iterator<AuthRule> =
+            sequence {
+                    var page = firstPage
+                    var index = 0
+                    while (true) {
+                        while (index >= page.data().size) {
+                            page = page.getNextPage().orElse(null) ?: return@sequence
+                            index = 0
+                        }
+                        yield(page.data()[index++])
+                    }
+                }
+                .iterator()
 
         fun stream(): Stream<AuthRule> {
-          return StreamSupport.stream(spliterator(), false)
+            return StreamSupport.stream(spliterator(), false)
         }
     }
 }

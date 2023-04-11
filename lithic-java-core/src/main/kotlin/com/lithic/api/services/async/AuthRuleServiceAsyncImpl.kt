@@ -1,20 +1,11 @@
 package com.lithic.api.services.async
 
-import com.fasterxml.jackson.databind.json.JsonMapper
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
-import kotlin.LazyThreadSafetyMode.PUBLICATION
-import java.time.LocalDate
-import java.time.Duration
-import java.time.OffsetDateTime
-import java.util.Base64
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import java.util.stream.Stream
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.AuthRule
+import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpMethod
+import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.errors.LithicError
 import com.lithic.api.models.AuthRuleApplyParams
 import com.lithic.api.models.AuthRuleApplyResponse
 import com.lithic.api.models.AuthRuleCreateParams
@@ -27,31 +18,25 @@ import com.lithic.api.models.AuthRuleRetrieveParams
 import com.lithic.api.models.AuthRuleRetrieveResponse
 import com.lithic.api.models.AuthRuleUpdateParams
 import com.lithic.api.models.AuthRuleUpdateResponse
-import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.http.HttpMethod
-import com.lithic.api.core.http.HttpRequest
-import com.lithic.api.core.http.HttpResponse.Handler
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.RequestOptions
-import com.lithic.api.errors.LithicError
-import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
-import com.lithic.api.services.stringHandler
 import com.lithic.api.services.withErrorHandler
+import java.util.concurrent.CompletableFuture
 
-class AuthRuleServiceAsyncImpl constructor(private val clientOptions: ClientOptions,) : AuthRuleServiceAsync {
+class AuthRuleServiceAsyncImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : AuthRuleServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val createHandler: Handler<AuthRuleCreateResponse> =
-    jsonHandler<AuthRuleCreateResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<AuthRuleCreateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
-     * Creates an authorization rule (Auth Rule) and applies it at the program,
-     * account, or card level.
+     * Creates an authorization rule (Auth Rule) and applies it at the program, account, or card
+     * level.
      */
     override fun create(
         params: AuthRuleCreateParams,
@@ -79,12 +64,12 @@ class AuthRuleServiceAsyncImpl constructor(private val clientOptions: ClientOpti
     }
 
     private val retrieveHandler: Handler<AuthRuleRetrieveResponse> =
-    jsonHandler<AuthRuleRetrieveResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<AuthRuleRetrieveResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /**
-     * Detail the properties and entities (program, accounts, and cards) associated
-     * with an existing authorization rule (Auth Rule).
+     * Detail the properties and entities (program, accounts, and cards) associated with an existing
+     * authorization rule (Auth Rule).
      */
     override fun retrieve(
         params: AuthRuleRetrieveParams,
@@ -111,8 +96,7 @@ class AuthRuleServiceAsyncImpl constructor(private val clientOptions: ClientOpti
     }
 
     private val updateHandler: Handler<AuthRuleUpdateResponse> =
-    jsonHandler<AuthRuleUpdateResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<AuthRuleUpdateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Update the properties associated with an existing authorization rule (Auth Rule). */
     override fun update(
@@ -141,8 +125,8 @@ class AuthRuleServiceAsyncImpl constructor(private val clientOptions: ClientOpti
     }
 
     private val listHandler: Handler<AuthRuleListPageAsync.Response> =
-    jsonHandler<AuthRuleListPageAsync.Response>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<AuthRuleListPageAsync.Response>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /** Return all of the Auth Rules under the program. */
     override fun list(
@@ -171,8 +155,7 @@ class AuthRuleServiceAsyncImpl constructor(private val clientOptions: ClientOpti
     }
 
     private val applyHandler: Handler<AuthRuleApplyResponse> =
-    jsonHandler<AuthRuleApplyResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<AuthRuleApplyResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Applies an existing authorization rule (Auth Rule) to an program, account, or card level. */
     override fun apply(
@@ -201,12 +184,10 @@ class AuthRuleServiceAsyncImpl constructor(private val clientOptions: ClientOpti
     }
 
     private val removeHandler: Handler<AuthRuleRemoveResponse> =
-    jsonHandler<AuthRuleRemoveResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<AuthRuleRemoveResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
-     * Remove an existing authorization rule (Auth Rule) from an program, account, or
-     * card-level.
+     * Remove an existing authorization rule (Auth Rule) from an program, account, or card-level.
      */
     override fun remove(
         params: AuthRuleRemoveParams,

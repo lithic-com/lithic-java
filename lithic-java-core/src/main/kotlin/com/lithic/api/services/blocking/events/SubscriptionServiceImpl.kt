@@ -1,19 +1,11 @@
 package com.lithic.api.services.blocking.events
 
-import com.fasterxml.jackson.databind.json.JsonMapper
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
-import kotlin.LazyThreadSafetyMode.PUBLICATION
-import java.time.LocalDate
-import java.time.Duration
-import java.time.OffsetDateTime
-import java.util.Base64
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import java.util.stream.Stream
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpMethod
+import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.errors.LithicError
 import com.lithic.api.models.EventSubscription
 import com.lithic.api.models.EventsSubscriptionCreateParams
 import com.lithic.api.models.EventsSubscriptionDeleteParams
@@ -26,27 +18,21 @@ import com.lithic.api.models.EventsSubscriptionRetrieveSecretParams
 import com.lithic.api.models.EventsSubscriptionRotateSecretParams
 import com.lithic.api.models.EventsSubscriptionUpdateParams
 import com.lithic.api.models.SubscriptionRetrieveSecretResponse
-import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.http.HttpMethod
-import com.lithic.api.core.http.HttpRequest
-import com.lithic.api.core.http.HttpResponse.Handler
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.RequestOptions
-import com.lithic.api.errors.LithicError
 import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
-import com.lithic.api.services.stringHandler
 import com.lithic.api.services.withErrorHandler
 
-class SubscriptionServiceImpl constructor(private val clientOptions: ClientOptions,) : SubscriptionService {
+class SubscriptionServiceImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : SubscriptionService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val createHandler: Handler<EventSubscription> =
-    jsonHandler<EventSubscription>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Create a new event subscription. */
     override fun create(
@@ -74,8 +60,7 @@ class SubscriptionServiceImpl constructor(private val clientOptions: ClientOptio
     }
 
     private val retrieveHandler: Handler<EventSubscription> =
-    jsonHandler<EventSubscription>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Get an event subscription. */
     override fun retrieve(
@@ -102,8 +87,7 @@ class SubscriptionServiceImpl constructor(private val clientOptions: ClientOptio
     }
 
     private val updateHandler: Handler<EventSubscription> =
-    jsonHandler<EventSubscription>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<EventSubscription>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Update an event subscription. */
     override fun update(
@@ -131,8 +115,8 @@ class SubscriptionServiceImpl constructor(private val clientOptions: ClientOptio
     }
 
     private val listHandler: Handler<EventsSubscriptionListPage.Response> =
-    jsonHandler<EventsSubscriptionListPage.Response>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<EventsSubscriptionListPage.Response>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /** List all the event subscriptions. */
     override fun list(
@@ -159,9 +143,7 @@ class SubscriptionServiceImpl constructor(private val clientOptions: ClientOptio
         }
     }
 
-    private val deleteHandler: Handler<Void?> =
-    emptyHandler()
-    .withErrorHandler(errorHandler)
+    private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
     /** Delete an event subscription. */
     override fun delete(params: EventsSubscriptionDeleteParams, requestOptions: RequestOptions) {
@@ -177,18 +159,9 @@ class SubscriptionServiceImpl constructor(private val clientOptions: ClientOptio
         clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response.let { deleteHandler.handle(it) }
         }
-        .build()
-      clientOptions.httpClient.execute(request, requestOptions)
-      .let { response -> 
-          response.let {
-              deleteHandler.handle(it)
-          }
-      }
     }
 
-    private val recoverHandler: Handler<Void?> =
-    emptyHandler()
-    .withErrorHandler(errorHandler)
+    private val recoverHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
     /** Resend all failed messages since a given time. */
     override fun recover(params: EventsSubscriptionRecoverParams, requestOptions: RequestOptions) {
@@ -204,22 +177,13 @@ class SubscriptionServiceImpl constructor(private val clientOptions: ClientOptio
         clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response.let { recoverHandler.handle(it) }
         }
-        .build()
-      clientOptions.httpClient.execute(request, requestOptions)
-      .let { response -> 
-          response.let {
-              recoverHandler.handle(it)
-          }
-      }
     }
 
-    private val replayMissingHandler: Handler<Void?> =
-    emptyHandler()
-    .withErrorHandler(errorHandler)
+    private val replayMissingHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
     /**
-     * Replays messages to the endpoint. Only messages that were created after `begin`
-     * will be sent. Messages that were previously sent to the endpoint are not resent.
+     * Replays messages to the endpoint. Only messages that were created after `begin` will be sent.
+     * Messages that were previously sent to the endpoint are not resent.
      */
     override fun replayMissing(
         params: EventsSubscriptionReplayMissingParams,
@@ -237,18 +201,11 @@ class SubscriptionServiceImpl constructor(private val clientOptions: ClientOptio
         clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response.let { replayMissingHandler.handle(it) }
         }
-        .build()
-      clientOptions.httpClient.execute(request, requestOptions)
-      .let { response -> 
-          response.let {
-              replayMissingHandler.handle(it)
-          }
-      }
     }
 
     private val retrieveSecretHandler: Handler<SubscriptionRetrieveSecretResponse> =
-    jsonHandler<SubscriptionRetrieveSecretResponse>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<SubscriptionRetrieveSecretResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /** Get the secret for an event subscription. */
     override fun retrieveSecret(
@@ -274,13 +231,11 @@ class SubscriptionServiceImpl constructor(private val clientOptions: ClientOptio
         }
     }
 
-    private val rotateSecretHandler: Handler<Void?> =
-    emptyHandler()
-    .withErrorHandler(errorHandler)
+    private val rotateSecretHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
     /**
-     * Rotate the secret for an event subscription. The previous secret will be valid
-     * for the next 24 hours.
+     * Rotate the secret for an event subscription. The previous secret will be valid for the next
+     * 24 hours.
      */
     override fun rotateSecret(
         params: EventsSubscriptionRotateSecretParams,
@@ -298,12 +253,5 @@ class SubscriptionServiceImpl constructor(private val clientOptions: ClientOptio
         clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response.let { rotateSecretHandler.handle(it) }
         }
-        .build()
-      clientOptions.httpClient.execute(request, requestOptions)
-      .let { response -> 
-          response.let {
-              rotateSecretHandler.handle(it)
-          }
-      }
     }
 }

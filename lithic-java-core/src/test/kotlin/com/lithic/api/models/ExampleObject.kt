@@ -2,69 +2,56 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.Objects
-import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.toUnmodifiable
+import java.util.Objects
+import java.util.Optional
 
 @JsonDeserialize(builder = ExampleObject.Builder::class)
 @NoAutoDetect
-class ExampleObject private constructor(private val stringField: JsonField<String>,private val numberField: JsonField<Double>,private val integerField: JsonField<Long>,private val requiredField: JsonField<String>,private val nestedObject: JsonField<NestedObject>,private val additionalProperties: Map<String, JsonValue>,) {
+class ExampleObject
+private constructor(
+    private val stringField: JsonField<String>,
+    private val numberField: JsonField<Double>,
+    private val integerField: JsonField<Long>,
+    private val requiredField: JsonField<String>,
+    private val nestedObject: JsonField<NestedObject>,
+    private val additionalProperties: Map<String, JsonValue>,
+) {
 
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
 
-    fun stringField(): Optional<String> = Optional.ofNullable(stringField.getNullable("string_field"))
+    fun stringField(): Optional<String> =
+        Optional.ofNullable(stringField.getNullable("string_field"))
 
-    fun numberField(): Optional<Double> = Optional.ofNullable(numberField.getNullable("number_field"))
+    fun numberField(): Optional<Double> =
+        Optional.ofNullable(numberField.getNullable("number_field"))
 
-    fun integerField(): Optional<Long> = Optional.ofNullable(integerField.getNullable("integer_field"))
+    fun integerField(): Optional<Long> =
+        Optional.ofNullable(integerField.getNullable("integer_field"))
 
     fun requiredField(): String = requiredField.getRequired("required_field")
 
-    fun nestedObject(): Optional<NestedObject> = Optional.ofNullable(nestedObject.getNullable("nested_object"))
+    fun nestedObject(): Optional<NestedObject> =
+        Optional.ofNullable(nestedObject.getNullable("nested_object"))
 
-    @JsonProperty("string_field")
-    @ExcludeMissing
-    fun _stringField() = stringField
+    @JsonProperty("string_field") @ExcludeMissing fun _stringField() = stringField
 
-    @JsonProperty("number_field")
-    @ExcludeMissing
-    fun _numberField() = numberField
+    @JsonProperty("number_field") @ExcludeMissing fun _numberField() = numberField
 
-    @JsonProperty("integer_field")
-    @ExcludeMissing
-    fun _integerField() = integerField
+    @JsonProperty("integer_field") @ExcludeMissing fun _integerField() = integerField
 
-    @JsonProperty("required_field")
-    @ExcludeMissing
-    fun _requiredField() = requiredField
+    @JsonProperty("required_field") @ExcludeMissing fun _requiredField() = requiredField
 
-    @JsonProperty("nested_object")
-    @ExcludeMissing
-    fun _nestedObject() = nestedObject
+    @JsonProperty("nested_object") @ExcludeMissing fun _nestedObject() = nestedObject
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -72,51 +59,52 @@ class ExampleObject private constructor(private val stringField: JsonField<Strin
 
     fun validate() = apply {
         if (!validated) {
-          stringField()
-          numberField()
-          integerField()
-          requiredField()
-          nestedObject().map { it.validate() }
-          validated = true
+            stringField()
+            numberField()
+            integerField()
+            requiredField()
+            nestedObject().map { it.validate() }
+            validated = true
         }
     }
 
     fun toBuilder() = Builder().from(this)
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is ExampleObject &&
-          this.stringField == other.stringField &&
-          this.numberField == other.numberField &&
-          this.integerField == other.integerField &&
-          this.requiredField == other.requiredField &&
-          this.nestedObject == other.nestedObject &&
-          this.additionalProperties == other.additionalProperties
+        return other is ExampleObject &&
+            this.stringField == other.stringField &&
+            this.numberField == other.numberField &&
+            this.integerField == other.integerField &&
+            this.requiredField == other.requiredField &&
+            this.nestedObject == other.nestedObject &&
+            this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
-      if (hashCode == 0) {
-        hashCode = Objects.hash(
-            stringField,
-            numberField,
-            integerField,
-            requiredField,
-            nestedObject,
-            additionalProperties,
-        )
-      }
-      return hashCode
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    stringField,
+                    numberField,
+                    integerField,
+                    requiredField,
+                    nestedObject,
+                    additionalProperties,
+                )
+        }
+        return hashCode
     }
 
-    override fun toString() = "ExampleObject{stringField=$stringField, numberField=$numberField, integerField=$integerField, requiredField=$requiredField, nestedObject=$nestedObject, additionalProperties=$additionalProperties}"
+    override fun toString() =
+        "ExampleObject{stringField=$stringField, numberField=$numberField, integerField=$integerField, requiredField=$requiredField, nestedObject=$nestedObject, additionalProperties=$additionalProperties}"
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     class Builder {
@@ -142,25 +130,19 @@ class ExampleObject private constructor(private val stringField: JsonField<Strin
 
         @JsonProperty("string_field")
         @ExcludeMissing
-        fun stringField(stringField: JsonField<String>) = apply {
-            this.stringField = stringField
-        }
+        fun stringField(stringField: JsonField<String>) = apply { this.stringField = stringField }
 
         fun numberField(numberField: Double) = numberField(JsonField.of(numberField))
 
         @JsonProperty("number_field")
         @ExcludeMissing
-        fun numberField(numberField: JsonField<Double>) = apply {
-            this.numberField = numberField
-        }
+        fun numberField(numberField: JsonField<Double>) = apply { this.numberField = numberField }
 
         fun integerField(integerField: Long) = integerField(JsonField.of(integerField))
 
         @JsonProperty("integer_field")
         @ExcludeMissing
-        fun integerField(integerField: JsonField<Long>) = apply {
-            this.integerField = integerField
-        }
+        fun integerField(integerField: JsonField<Long>) = apply { this.integerField = integerField }
 
         fun requiredField(requiredField: String) = requiredField(JsonField.of(requiredField))
 
@@ -192,19 +174,25 @@ class ExampleObject private constructor(private val stringField: JsonField<Strin
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): ExampleObject = ExampleObject(
-            stringField,
-            numberField,
-            integerField,
-            requiredField,
-            nestedObject,
-            additionalProperties.toUnmodifiable(),
-        )
+        fun build(): ExampleObject =
+            ExampleObject(
+                stringField,
+                numberField,
+                integerField,
+                requiredField,
+                nestedObject,
+                additionalProperties.toUnmodifiable(),
+            )
     }
 
     @JsonDeserialize(builder = NestedObject.Builder::class)
     @NoAutoDetect
-    class NestedObject private constructor(private val a: JsonField<String>,private val b: JsonField<String>,private val additionalProperties: Map<String, JsonValue>,) {
+    class NestedObject
+    private constructor(
+        private val a: JsonField<String>,
+        private val b: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
 
         private var validated: Boolean = false
 
@@ -214,13 +202,9 @@ class ExampleObject private constructor(private val stringField: JsonField<Strin
 
         fun b(): Optional<String> = Optional.ofNullable(b.getNullable("b"))
 
-        @JsonProperty("a")
-        @ExcludeMissing
-        fun _a() = a
+        @JsonProperty("a") @ExcludeMissing fun _a() = a
 
-        @JsonProperty("b")
-        @ExcludeMissing
-        fun _b() = b
+        @JsonProperty("b") @ExcludeMissing fun _b() = b
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -228,42 +212,43 @@ class ExampleObject private constructor(private val stringField: JsonField<Strin
 
         fun validate() = apply {
             if (!validated) {
-              a()
-              b()
-              validated = true
+                a()
+                b()
+                validated = true
             }
         }
 
         fun toBuilder() = Builder().from(this)
 
         override fun equals(other: Any?): Boolean {
-          if (this === other) {
-              return true
-          }
+            if (this === other) {
+                return true
+            }
 
-          return other is NestedObject &&
-              this.a == other.a &&
-              this.b == other.b &&
-              this.additionalProperties == other.additionalProperties
+            return other is NestedObject &&
+                this.a == other.a &&
+                this.b == other.b &&
+                this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
-          if (hashCode == 0) {
-            hashCode = Objects.hash(
-                a,
-                b,
-                additionalProperties,
-            )
-          }
-          return hashCode
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        a,
+                        b,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
         }
 
-        override fun toString() = "NestedObject{a=$a, b=$b, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "NestedObject{a=$a, b=$b, additionalProperties=$additionalProperties}"
 
         companion object {
 
-            @JvmStatic
-            fun builder() = Builder()
+            @JvmStatic fun builder() = Builder()
         }
 
         class Builder {
@@ -281,19 +266,11 @@ class ExampleObject private constructor(private val stringField: JsonField<Strin
 
             fun a(a: String) = a(JsonField.of(a))
 
-            @JsonProperty("a")
-            @ExcludeMissing
-            fun a(a: JsonField<String>) = apply {
-                this.a = a
-            }
+            @JsonProperty("a") @ExcludeMissing fun a(a: JsonField<String>) = apply { this.a = a }
 
             fun b(b: String) = b(JsonField.of(b))
 
-            @JsonProperty("b")
-            @ExcludeMissing
-            fun b(b: JsonField<String>) = apply {
-                this.b = b
-            }
+            @JsonProperty("b") @ExcludeMissing fun b(b: JsonField<String>) = apply { this.b = b }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -309,11 +286,12 @@ class ExampleObject private constructor(private val stringField: JsonField<Strin
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): NestedObject = NestedObject(
-                a,
-                b,
-                additionalProperties.toUnmodifiable(),
-            )
+            fun build(): NestedObject =
+                NestedObject(
+                    a,
+                    b,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
     }
 }

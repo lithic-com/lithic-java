@@ -1,45 +1,30 @@
 package com.lithic.api.services.blocking
 
-import com.fasterxml.jackson.databind.json.JsonMapper
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
-import kotlin.LazyThreadSafetyMode.PUBLICATION
-import java.time.LocalDate
-import java.time.Duration
-import java.time.OffsetDateTime
-import java.util.Base64
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import java.util.stream.Stream
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.HttpMethod
+import com.lithic.api.core.http.HttpRequest
+import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.errors.LithicError
 import com.lithic.api.models.Account
 import com.lithic.api.models.AccountListPage
 import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountUpdateParams
-import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.http.HttpMethod
-import com.lithic.api.core.http.HttpRequest
-import com.lithic.api.core.http.HttpResponse.Handler
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.RequestOptions
-import com.lithic.api.errors.LithicError
-import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
-import com.lithic.api.services.stringHandler
 import com.lithic.api.services.withErrorHandler
 
-class AccountServiceImpl constructor(private val clientOptions: ClientOptions,) : AccountService {
+class AccountServiceImpl
+constructor(
+    private val clientOptions: ClientOptions,
+) : AccountService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
     private val retrieveHandler: Handler<Account> =
-    jsonHandler<Account>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<Account>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Get account configuration such as spend limits. */
     override fun retrieve(params: AccountRetrieveParams, requestOptions: RequestOptions): Account {
@@ -63,15 +48,13 @@ class AccountServiceImpl constructor(private val clientOptions: ClientOptions,) 
     }
 
     private val updateHandler: Handler<Account> =
-    jsonHandler<Account>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<Account>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
-     * Update account configuration such as spend limits and verification address. Can
-     * only be run on accounts that are part of the program managed by this API key.
+     * Update account configuration such as spend limits and verification address. Can only be run
+     * on accounts that are part of the program managed by this API key.
      *
-     * Accounts that are in the `PAUSED` state will not be able to transact or create
-     * new cards.
+     * Accounts that are in the `PAUSED` state will not be able to transact or create new cards.
      */
     override fun update(params: AccountUpdateParams, requestOptions: RequestOptions): Account {
         val request =
@@ -95,8 +78,8 @@ class AccountServiceImpl constructor(private val clientOptions: ClientOptions,) 
     }
 
     private val listHandler: Handler<AccountListPage.Response> =
-    jsonHandler<AccountListPage.Response>(clientOptions.jsonMapper)
-    .withErrorHandler(errorHandler)
+        jsonHandler<AccountListPage.Response>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /** List account configurations. */
     override fun list(params: AccountListParams, requestOptions: RequestOptions): AccountListPage {

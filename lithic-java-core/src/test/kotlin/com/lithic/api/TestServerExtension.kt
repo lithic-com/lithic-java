@@ -1,11 +1,11 @@
 package com.lithic.api
 
-import org.junit.jupiter.api.extension.BeforeAllCallback
-import org.junit.jupiter.api.extension.ExtensionContext
 import java.lang.RuntimeException
 import java.net.URL
+import org.junit.jupiter.api.extension.BeforeAllCallback
+import org.junit.jupiter.api.extension.ExtensionContext
 
-class TestServerExtension: BeforeAllCallback {
+class TestServerExtension : BeforeAllCallback {
 
     override fun beforeAll(context: ExtensionContext?) {
         try {
@@ -29,7 +29,8 @@ class TestServerExtension: BeforeAllCallback {
 
                   To run the server, pass in the path of your OpenAPI spec to the prism command:
                     $ prism mock path/to/your.openapi.yml
-                """.trimIndent(),
+                """
+                    .trimIndent(),
                 e
             )
         }

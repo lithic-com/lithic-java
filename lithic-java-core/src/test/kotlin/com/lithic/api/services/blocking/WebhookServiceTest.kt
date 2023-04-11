@@ -1,43 +1,41 @@
 package com.lithic.api.services.blocking
 
-import java.time.LocalDate
-import java.time.OffsetDateTime
-import java.util.Base64
-import java.util.Optional
-import java.util.UUID
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Disabled
-import org.junit.jupiter.api.extension.ExtendWith
-import com.lithic.api.TestServerExtension
-import com.lithic.api.client.LithicClient
-import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.services.blocking.WebhookService
-import com.lithic.api.models.*
 import com.google.common.collect.ImmutableListMultimap
+import com.lithic.api.TestServerExtension
+import com.lithic.api.client.okhttp.LithicOkHttpClient
+import com.lithic.api.errors.LithicException
+import com.lithic.api.models.*
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneOffset
-import com.lithic.api.errors.LithicException
 import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
 class WebhookServiceTest {
 
     @Test
     fun unwrap() {
-        val client = LithicOkHttpClient.builder()
-            .apiKey("test-api-key")
-            .webhookSecret("whsec_zlFsbBZ8Xcodlpcu6NDTdSzZRLSdhkst")
-            .clock(Clock.fixed(Instant.ofEpochSecond(1676312382), ZoneOffset.UTC))
-            .build()
+        val client =
+            LithicOkHttpClient.builder()
+                .apiKey("test-api-key")
+                .webhookSecret("whsec_zlFsbBZ8Xcodlpcu6NDTdSzZRLSdhkst")
+                .clock(Clock.fixed(Instant.ofEpochSecond(1676312382), ZoneOffset.UTC))
+                .build()
 
-        val payload = "{\"card_token\":\"sit Lorem ipsum, accusantium repellendus possimus\",\"created_at\":\"elit. placeat libero architecto molestias, sit\",\"account_token\":\"elit.\",\"issuer_decision\":\"magnam, libero esse Lorem ipsum magnam, magnam,\",\"tokenization_attempt_id\":\"illum dolor repellendus libero esse accusantium\",\"wallet_decisioning_info\":{\"device_score\":\"placeat architecto\"},\"digital_wallet_token_metadata\":{\"status\":\"reprehenderit dolor\",\"token_requestor_id\":\"possimus\",\"payment_account_info\":{\"account_holder_data\":{\"phone_number\":\"libero\",\"email_address\":\"nobis molestias, veniam culpa! quas elit. quas libero esse architecto placeat\"},\"pan_unique_reference\":\"adipisicing odit magnam, odit\"}}}"
-        val headers = ImmutableListMultimap.of(
-          "webhook-id", "msg_2Lh9KRb0pzN4LePd3XiA4v12Axj",
-          "webhook-timestamp", "1676312382",
-          "webhook-signature", "v1,Dwa0AHInLL3XFo2sxcHamOQDrJNi7F654S3L6skMAOI="
-        )
+        val payload =
+            "{\"card_token\":\"sit Lorem ipsum, accusantium repellendus possimus\",\"created_at\":\"elit. placeat libero architecto molestias, sit\",\"account_token\":\"elit.\",\"issuer_decision\":\"magnam, libero esse Lorem ipsum magnam, magnam,\",\"tokenization_attempt_id\":\"illum dolor repellendus libero esse accusantium\",\"wallet_decisioning_info\":{\"device_score\":\"placeat architecto\"},\"digital_wallet_token_metadata\":{\"status\":\"reprehenderit dolor\",\"token_requestor_id\":\"possimus\",\"payment_account_info\":{\"account_holder_data\":{\"phone_number\":\"libero\",\"email_address\":\"nobis molestias, veniam culpa! quas elit. quas libero esse architecto placeat\"},\"pan_unique_reference\":\"adipisicing odit magnam, odit\"}}}"
+        val headers =
+            ImmutableListMultimap.of(
+                "webhook-id",
+                "msg_2Lh9KRb0pzN4LePd3XiA4v12Axj",
+                "webhook-timestamp",
+                "1676312382",
+                "webhook-signature",
+                "v1,Dwa0AHInLL3XFo2sxcHamOQDrJNi7F654S3L6skMAOI="
+            )
 
         val event = client.webhooks().unwrap(payload, headers, null)
 
@@ -46,24 +44,27 @@ class WebhookServiceTest {
 
     @Test
     fun verifySignature() {
-        val client = LithicOkHttpClient.builder()
-            .apiKey("test-api-key")
-            .webhookSecret("whsec_zlFsbBZ8Xcodlpcu6NDTdSzZRLSdhkst")
-            .clock(Clock.fixed(Instant.ofEpochSecond(1676312382), ZoneOffset.UTC))
-            .build()
+        val client =
+            LithicOkHttpClient.builder()
+                .apiKey("test-api-key")
+                .webhookSecret("whsec_zlFsbBZ8Xcodlpcu6NDTdSzZRLSdhkst")
+                .clock(Clock.fixed(Instant.ofEpochSecond(1676312382), ZoneOffset.UTC))
+                .build()
 
-        val payload = "{\"card_token\":\"sit Lorem ipsum, accusantium repellendus possimus\",\"created_at\":\"elit. placeat libero architecto molestias, sit\",\"account_token\":\"elit.\",\"issuer_decision\":\"magnam, libero esse Lorem ipsum magnam, magnam,\",\"tokenization_attempt_id\":\"illum dolor repellendus libero esse accusantium\",\"wallet_decisioning_info\":{\"device_score\":\"placeat architecto\"},\"digital_wallet_token_metadata\":{\"status\":\"reprehenderit dolor\",\"token_requestor_id\":\"possimus\",\"payment_account_info\":{\"account_holder_data\":{\"phone_number\":\"libero\",\"email_address\":\"nobis molestias, veniam culpa! quas elit. quas libero esse architecto placeat\"},\"pan_unique_reference\":\"adipisicing odit magnam, odit\"}}}"
+        val payload =
+            "{\"card_token\":\"sit Lorem ipsum, accusantium repellendus possimus\",\"created_at\":\"elit. placeat libero architecto molestias, sit\",\"account_token\":\"elit.\",\"issuer_decision\":\"magnam, libero esse Lorem ipsum magnam, magnam,\",\"tokenization_attempt_id\":\"illum dolor repellendus libero esse accusantium\",\"wallet_decisioning_info\":{\"device_score\":\"placeat architecto\"},\"digital_wallet_token_metadata\":{\"status\":\"reprehenderit dolor\",\"token_requestor_id\":\"possimus\",\"payment_account_info\":{\"account_holder_data\":{\"phone_number\":\"libero\",\"email_address\":\"nobis molestias, veniam culpa! quas elit. quas libero esse architecto placeat\"},\"pan_unique_reference\":\"adipisicing odit magnam, odit\"}}}"
         val webhookId = "msg_2Lh9KRb0pzN4LePd3XiA4v12Axj"
         val webhookTimestamp = "1676312382"
         val webhookSignature = "Dwa0AHInLL3XFo2sxcHamOQDrJNi7F654S3L6skMAOI="
-        val headers = ImmutableListMultimap.of(
-            "webhook-id",
-            webhookId,
-            "webhook-timestamp",
-            webhookTimestamp,
-            "webhook-signature",
-            "v1,$webhookSignature"
-        )
+        val headers =
+            ImmutableListMultimap.of(
+                "webhook-id",
+                webhookId,
+                "webhook-timestamp",
+                webhookTimestamp,
+                "webhook-signature",
+                "v1,$webhookSignature"
+            )
 
         assertThatThrownBy {
                 client
@@ -76,7 +77,7 @@ class WebhookServiceTest {
                             "webhook-timestamp",
                             "1676312022",
                             "webhook-signature",
-                        "v1,$webhookSignature"
+                            "v1,$webhookSignature"
                         ),
                         null
                     )
@@ -95,7 +96,7 @@ class WebhookServiceTest {
                             "webhook-timestamp",
                             "1676312742",
                             "webhook-signature",
-                "v1,$webhookSignature"
+                            "v1,$webhookSignature"
                         ),
                         null
                     )

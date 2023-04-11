@@ -2,20 +2,7 @@
 
 package com.lithic.api.services.async
 
-import com.fasterxml.jackson.databind.json.JsonMapper
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
-import kotlin.LazyThreadSafetyMode.PUBLICATION
-import java.time.LocalDate
-import java.time.Duration
-import java.time.OffsetDateTime
-import java.util.Base64
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import java.util.stream.Stream
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
+import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.Transaction
 import com.lithic.api.models.TransactionListPageAsync
 import com.lithic.api.models.TransactionListParams
@@ -34,91 +21,101 @@ import com.lithic.api.models.TransactionSimulateReturnReversalParams
 import com.lithic.api.models.TransactionSimulateReturnReversalResponse
 import com.lithic.api.models.TransactionSimulateVoidParams
 import com.lithic.api.models.TransactionSimulateVoidResponse
-import com.lithic.api.core.ClientOptions
-import com.lithic.api.core.http.HttpMethod
-import com.lithic.api.core.http.HttpRequest
-import com.lithic.api.core.http.HttpResponse.Handler
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.RequestOptions
-import com.lithic.api.errors.LithicError
-import com.lithic.api.services.emptyHandler
-import com.lithic.api.services.errorHandler
-import com.lithic.api.services.json
-import com.lithic.api.services.jsonHandler
-import com.lithic.api.services.stringHandler
-import com.lithic.api.services.withErrorHandler
+import java.util.concurrent.CompletableFuture
 
 interface TransactionServiceAsync {
 
     /** Get specific transaction. */
     @JvmOverloads
-    fun retrieve(params: TransactionRetrieveParams, requestOptions: RequestOptions = RequestOptions.none()): CompletableFuture<Transaction>
+    fun retrieve(
+        params: TransactionRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<Transaction>
 
     /** List transactions. */
     @JvmOverloads
-    fun list(params: TransactionListParams, requestOptions: RequestOptions = RequestOptions.none()): CompletableFuture<TransactionListPageAsync>
+    fun list(
+        params: TransactionListParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<TransactionListPageAsync>
 
     /**
-     * Simulates an authorization request from the payment network as if it came from a
-     * merchant acquirer. If you're configured for ASA, simulating auths requires your
-     * ASA client to be set up properly (respond with a valid JSON to the ASA request).
-     * For users that are not configured for ASA, a daily transaction limit of $5000
-     * USD is applied by default. This limit can be modified via the
-     * [update account](https://docs.lithic.com/reference/patchaccountbytoken)
+     * Simulates an authorization request from the payment network as if it came from a merchant
+     * acquirer. If you're configured for ASA, simulating auths requires your ASA client to be set
+     * up properly (respond with a valid JSON to the ASA request). For users that are not configured
+     * for ASA, a daily transaction limit of $5000 USD is applied by default. This limit can be
+     * modified via the [update account](https://docs.lithic.com/reference/patchaccountbytoken)
      * endpoint.
      */
     @JvmOverloads
-    fun simulateAuthorization(params: TransactionSimulateAuthorizationParams, requestOptions: RequestOptions = RequestOptions.none()): CompletableFuture<TransactionSimulateAuthorizationResponse>
+    fun simulateAuthorization(
+        params: TransactionSimulateAuthorizationParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<TransactionSimulateAuthorizationResponse>
 
     /**
-     * Simulates an authorization advice request from the payment network as if it came
-     * from a merchant acquirer. An authorization advice request changes the amount of
-     * the transaction.
+     * Simulates an authorization advice request from the payment network as if it came from a
+     * merchant acquirer. An authorization advice request changes the amount of the transaction.
      */
     @JvmOverloads
-    fun simulateAuthorizationAdvice(params: TransactionSimulateAuthorizationAdviceParams, requestOptions: RequestOptions = RequestOptions.none()): CompletableFuture<TransactionSimulateAuthorizationAdviceResponse>
+    fun simulateAuthorizationAdvice(
+        params: TransactionSimulateAuthorizationAdviceParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<TransactionSimulateAuthorizationAdviceResponse>
 
     /**
-     * Clears an existing authorization. After this event, the transaction is no longer
-     * pending.
+     * Clears an existing authorization. After this event, the transaction is no longer pending.
      *
-     * If no `amount` is supplied to this endpoint, the amount of the transaction will
-     * be captured. Any transaction that has any amount completed at all do not have
-     * access to this behavior.
+     * If no `amount` is supplied to this endpoint, the amount of the transaction will be captured.
+     * Any transaction that has any amount completed at all do not have access to this behavior.
      */
     @JvmOverloads
-    fun simulateClearing(params: TransactionSimulateClearingParams, requestOptions: RequestOptions = RequestOptions.none()): CompletableFuture<TransactionSimulateClearingResponse>
+    fun simulateClearing(
+        params: TransactionSimulateClearingParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<TransactionSimulateClearingResponse>
 
     /**
-     * Simulates a credit authorization advice message from the payment network. This
-     * message indicates that a credit authorization was approved on your behalf by the
-     * network.
+     * Simulates a credit authorization advice message from the payment network. This message
+     * indicates that a credit authorization was approved on your behalf by the network.
      */
     @JvmOverloads
-    fun simulateCreditAuthorization(params: TransactionSimulateCreditAuthorizationParams, requestOptions: RequestOptions = RequestOptions.none()): CompletableFuture<TransactionSimulateCreditAuthorizationResponse>
+    fun simulateCreditAuthorization(
+        params: TransactionSimulateCreditAuthorizationParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<TransactionSimulateCreditAuthorizationResponse>
 
     /**
-     * Returns (aka refunds) an amount back to a card. Returns are cleared immediately
-     * and do not spend time in a `PENDING` state.
+     * Returns (aka refunds) an amount back to a card. Returns are cleared immediately and do not
+     * spend time in a `PENDING` state.
      */
     @JvmOverloads
-    fun simulateReturn(params: TransactionSimulateReturnParams, requestOptions: RequestOptions = RequestOptions.none()): CompletableFuture<TransactionSimulateReturnResponse>
+    fun simulateReturn(
+        params: TransactionSimulateReturnParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<TransactionSimulateReturnResponse>
 
     /**
-     * Voids a settled credit transaction – i.e., a transaction with a negative amount
-     * and `SETTLED` status. These can be credit authorizations that have already
-     * cleared or financial credit authorizations.
+     * Voids a settled credit transaction – i.e., a transaction with a negative amount and `SETTLED`
+     * status. These can be credit authorizations that have already cleared or financial credit
+     * authorizations.
      */
     @JvmOverloads
-    fun simulateReturnReversal(params: TransactionSimulateReturnReversalParams, requestOptions: RequestOptions = RequestOptions.none()): CompletableFuture<TransactionSimulateReturnReversalResponse>
+    fun simulateReturnReversal(
+        params: TransactionSimulateReturnReversalParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<TransactionSimulateReturnReversalResponse>
 
     /**
-     * Voids an existing, uncleared (aka pending) authorization. If amount is not sent
-     * the full amount will be voided. Cannot be used on partially completed
-     * transactions, but can be used on partially voided transactions. _Note that
-     * simulating an authorization expiry on credit authorizations or credit
-     * authorization advice is not currently supported but will be added soon._
+     * Voids an existing, uncleared (aka pending) authorization. If amount is not sent the full
+     * amount will be voided. Cannot be used on partially completed transactions, but can be used on
+     * partially voided transactions. _Note that simulating an authorization expiry on credit
+     * authorizations or credit authorization advice is not currently supported but will be added
+     * soon._
      */
     @JvmOverloads
-    fun simulateVoid(params: TransactionSimulateVoidParams, requestOptions: RequestOptions = RequestOptions.none()): CompletableFuture<TransactionSimulateVoidResponse>
+    fun simulateVoid(
+        params: TransactionSimulateVoidParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<TransactionSimulateVoidResponse>
 }

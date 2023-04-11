@@ -1,35 +1,23 @@
 package com.lithic.api.models
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter
-import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.core.ObjectCodec
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
-import java.time.LocalDate
+import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.models.*
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
-import java.util.UUID
-import com.lithic.api.core.BaseDeserializer
-import com.lithic.api.core.BaseSerializer
-import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonMissing
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 
-class DisputeListEvidencesParams constructor(private val disputeToken: String,private val pageSize: Long?,private val begin: OffsetDateTime?,private val end: OffsetDateTime?,private val startingAfter: String?,private val endingBefore: String?,private val additionalQueryParams: Map<String, List<String>>,private val additionalHeaders: Map<String, List<String>>,) {
+class DisputeListEvidencesParams
+constructor(
+    private val disputeToken: String,
+    private val pageSize: Long?,
+    private val begin: OffsetDateTime?,
+    private val end: OffsetDateTime?,
+    private val startingAfter: String?,
+    private val endingBefore: String?,
+    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Map<String, List<String>>,
+) {
 
     fun disputeToken(): String = disputeToken
 
@@ -45,34 +33,23 @@ class DisputeListEvidencesParams constructor(private val disputeToken: String,pr
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
-      val params = mutableMapOf<String, List<String>>()
-      this.pageSize?.let {
-          params.put("page_size", listOf(it.toString()))
-      }
-      this.begin?.let {
-          params.put("begin", listOf(it.toString()))
-      }
-      this.end?.let {
-          params.put("end", listOf(it.toString()))
-      }
-      this.startingAfter?.let {
-          params.put("starting_after", listOf(it.toString()))
-      }
-      this.endingBefore?.let {
-          params.put("ending_before", listOf(it.toString()))
-      }
-      params.putAll(additionalQueryParams)
-      return params.toUnmodifiable()
+        val params = mutableMapOf<String, List<String>>()
+        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
+        this.begin?.let { params.put("begin", listOf(it.toString())) }
+        this.end?.let { params.put("end", listOf(it.toString())) }
+        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
+        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
+        params.putAll(additionalQueryParams)
+        return params.toUnmodifiable()
     }
 
-    @JvmSynthetic
-    internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun getPathParam(index: Int): String {
-      return when (index) {
-          0 -> disputeToken
-          else -> ""
-      }
+        return when (index) {
+            0 -> disputeToken
+            else -> ""
+        }
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
@@ -80,42 +57,42 @@ class DisputeListEvidencesParams constructor(private val disputeToken: String,pr
     fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
     override fun equals(other: Any?): Boolean {
-      if (this === other) {
-          return true
-      }
+        if (this === other) {
+            return true
+        }
 
-      return other is DisputeListEvidencesParams &&
-          this.disputeToken == other.disputeToken &&
-          this.pageSize == other.pageSize &&
-          this.begin == other.begin &&
-          this.end == other.end &&
-          this.startingAfter == other.startingAfter &&
-          this.endingBefore == other.endingBefore &&
-          this.additionalQueryParams == other.additionalQueryParams &&
-          this.additionalHeaders == other.additionalHeaders
+        return other is DisputeListEvidencesParams &&
+            this.disputeToken == other.disputeToken &&
+            this.pageSize == other.pageSize &&
+            this.begin == other.begin &&
+            this.end == other.end &&
+            this.startingAfter == other.startingAfter &&
+            this.endingBefore == other.endingBefore &&
+            this.additionalQueryParams == other.additionalQueryParams &&
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
-      return Objects.hash(
-          disputeToken,
-          pageSize,
-          begin,
-          end,
-          startingAfter,
-          endingBefore,
-          additionalQueryParams,
-          additionalHeaders,
-      )
+        return Objects.hash(
+            disputeToken,
+            pageSize,
+            begin,
+            end,
+            startingAfter,
+            endingBefore,
+            additionalQueryParams,
+            additionalHeaders,
+        )
     }
 
-    override fun toString() = "DisputeListEvidencesParams{disputeToken=$disputeToken, pageSize=$pageSize, begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+    override fun toString() =
+        "DisputeListEvidencesParams{disputeToken=$disputeToken, pageSize=$pageSize, begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
-        @JvmStatic
-        fun builder() = Builder()
+        @JvmStatic fun builder() = Builder()
     }
 
     @NoAutoDetect
@@ -142,46 +119,34 @@ class DisputeListEvidencesParams constructor(private val disputeToken: String,pr
             additionalHeaders(disputeListEvidencesParams.additionalHeaders)
         }
 
-        fun disputeToken(disputeToken: String) = apply {
-            this.disputeToken = disputeToken
-        }
+        fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
 
         /** Page size (for pagination). */
-        fun pageSize(pageSize: Long) = apply {
-            this.pageSize = pageSize
-        }
+        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
 
         /**
-         * Date string in RFC 3339 format. Only entries created after the specified date
-         * will be included. UTC time zone.
+         * Date string in RFC 3339 format. Only entries created after the specified date will be
+         * included. UTC time zone.
          */
-        fun begin(begin: OffsetDateTime) = apply {
-            this.begin = begin
-        }
+        fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
 
         /**
-         * Date string in RFC 3339 format. Only entries created before the specified date
-         * will be included. UTC time zone.
+         * Date string in RFC 3339 format. Only entries created before the specified date will be
+         * included. UTC time zone.
          */
-        fun end(end: OffsetDateTime) = apply {
-            this.end = end
-        }
+        fun end(end: OffsetDateTime) = apply { this.end = end }
 
         /**
-         * The unique identifier of the last item in the previous page. Used to retrieve
-         * the next page.
+         * The unique identifier of the last item in the previous page. Used to retrieve the next
+         * page.
          */
-        fun startingAfter(startingAfter: String) = apply {
-            this.startingAfter = startingAfter
-        }
+        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
         /**
-         * The unique identifier of the first item in the previous page. Used to retrieve
-         * the previous page.
+         * The unique identifier of the first item in the previous page. Used to retrieve the
+         * previous page.
          */
-        fun endingBefore(endingBefore: String) = apply {
-            this.endingBefore = endingBefore
-        }
+        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -221,21 +186,18 @@ class DisputeListEvidencesParams constructor(private val disputeToken: String,pr
             additionalHeaders.forEach(this::putHeaders)
         }
 
-        fun removeHeader(name: String) = apply {
-            this.additionalHeaders.put(name, mutableListOf())
-        }
+        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): DisputeListEvidencesParams = DisputeListEvidencesParams(
-            checkNotNull(disputeToken) {
-                "`disputeToken` is required but was not set"
-            },
-            pageSize,
-            begin,
-            end,
-            startingAfter,
-            endingBefore,
-            additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-            additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-        )
+        fun build(): DisputeListEvidencesParams =
+            DisputeListEvidencesParams(
+                checkNotNull(disputeToken) { "`disputeToken` is required but was not set" },
+                pageSize,
+                begin,
+                end,
+                startingAfter,
+                endingBefore,
+                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+            )
     }
 }
