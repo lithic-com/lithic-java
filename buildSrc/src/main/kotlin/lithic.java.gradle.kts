@@ -26,12 +26,13 @@ configure<SpotlessExtension> {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
 tasks.withType<JavaCompile> {
     options.compilerArgs.add("-Werror")
+    options.release.set(8)
 }
 
 tasks.named<Jar>("javadocJar") {

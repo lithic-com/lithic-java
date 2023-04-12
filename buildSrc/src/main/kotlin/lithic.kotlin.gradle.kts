@@ -9,7 +9,7 @@ plugins {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(8))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -22,7 +22,8 @@ configure<SpotlessExtension> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         allWarningsAsErrors = true
-        freeCompilerArgs = listOf("-Xjvm-default=all")
+        freeCompilerArgs = listOf("-Xjvm-default=all", "-Xjdk-release=1.8")
+        jvmTarget = "1.8"
     }
 }
 
