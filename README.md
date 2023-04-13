@@ -308,6 +308,20 @@ LithicClient client = LithicOkHttpClient.builder()
     .build();
 ```
 
+### Proxies
+
+Requests can be routed through a proxy. You can configure this on the client builder:
+
+```java
+LithicClient client = LithicOkHttpClient.builder()
+    .fromEnv()
+    .proxy(new Proxy(
+        Type.HTTP,
+        new InetSocketAddress("proxy.com", 8080)
+    ))
+    .build();
+```
+
 ### Environments
 
 Requests are made to the production environment by default. You can connect to other environments, like `sandbox`, via the client builder:

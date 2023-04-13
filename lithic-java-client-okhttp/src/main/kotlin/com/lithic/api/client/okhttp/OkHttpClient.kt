@@ -11,6 +11,7 @@ import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.errors.LithicIoException
 import java.io.IOException
 import java.io.InputStream
+import java.net.Proxy
 import java.time.Duration
 import java.util.concurrent.CompletableFuture
 import okhttp3.Call
@@ -165,16 +166,17 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
 
         private var baseUrl: HttpUrl? = null
         private var timeout: Duration = Duration.ofMinutes(5)
+        private var proxy: Proxy? = null
 
         fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl.toHttpUrl() }
 
         fun timeout(timeout: Duration) = apply { this.timeout = timeout }
 
-        fun build(): OkHttpClient {
-            val okHttpClient = okhttp3.OkHttpClient.Builder().callTimeout(timeout)
+        fun proxy(proxy: Proxy?) = apply { this.proxy = proxy }
 
+        fun build(): OkHttpClient {
             return OkHttpClient(
-                okHttpClient.build(),
+                okhttp3.OkHttpClient.Builder().callTimeout(timeout).proxy(proxy).build(),
                 checkNotNull(baseUrl) { "`baseUrl` is required but was not set" },
             )
         }
