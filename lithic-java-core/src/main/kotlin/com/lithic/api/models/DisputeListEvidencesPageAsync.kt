@@ -14,6 +14,8 @@ import com.lithic.api.services.async.DisputeServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import java.util.function.Predicate
 
 class DisputeListEvidencesPageAsync
 private constructor(
@@ -81,6 +83,8 @@ private constructor(
             .map { disputesService.listEvidences(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
     }
+
+    fun autoPager(): AutoPager = AutoPager(this)
 
     companion object {
 
@@ -193,6 +197,38 @@ private constructor(
                     hasMore,
                     additionalProperties.toUnmodifiable(),
                 )
+        }
+    }
+
+    class AutoPager
+    constructor(
+        private val firstPage: DisputeListEvidencesPageAsync,
+    ) {
+
+        fun forEach(
+            action: Predicate<DisputeEvidence>,
+            executor: Executor
+        ): CompletableFuture<Void> {
+            fun CompletableFuture<Optional<DisputeListEvidencesPageAsync>>.forEach(
+                action: (DisputeEvidence) -> Boolean,
+                executor: Executor
+            ): CompletableFuture<Void> =
+                thenComposeAsync(
+                    { page ->
+                        page
+                            .filter { it.data().all(action) }
+                            .map { it.getNextPage().forEach(action, executor) }
+                            .orElseGet { CompletableFuture.completedFuture(null) }
+                    },
+                    executor
+                )
+            return CompletableFuture.completedFuture(Optional.of(firstPage))
+                .forEach(action::test, executor)
+        }
+
+        fun toList(executor: Executor): CompletableFuture<List<DisputeEvidence>> {
+            val values = mutableListOf<DisputeEvidence>()
+            return forEach(values::add, executor).thenApply { values }
         }
     }
 }

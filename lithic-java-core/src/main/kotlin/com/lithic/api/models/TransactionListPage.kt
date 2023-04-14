@@ -232,19 +232,17 @@ private constructor(
         private val firstPage: TransactionListPage,
     ) : Iterable<Transaction> {
 
-        override fun iterator(): Iterator<Transaction> =
-            sequence {
-                    var page = firstPage
-                    var index = 0
-                    while (true) {
-                        while (index >= page.data().size) {
-                            page = page.getNextPage().orElse(null) ?: return@sequence
-                            index = 0
-                        }
-                        yield(page.data()[index++])
-                    }
+        override fun iterator(): Iterator<Transaction> = iterator {
+            var page = firstPage
+            var index = 0
+            while (true) {
+                while (index < page.data().size) {
+                    yield(page.data()[index++])
                 }
-                .iterator()
+                page = page.getNextPage().orElse(null) ?: break
+                index = 0
+            }
+        }
 
         fun stream(): Stream<Transaction> {
             return StreamSupport.stream(spliterator(), false)

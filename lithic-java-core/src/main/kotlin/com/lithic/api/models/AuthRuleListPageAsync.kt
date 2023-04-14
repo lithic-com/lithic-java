@@ -14,6 +14,8 @@ import com.lithic.api.services.async.AuthRuleServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import java.util.function.Predicate
 
 class AuthRuleListPageAsync
 private constructor(
@@ -77,6 +79,8 @@ private constructor(
             .map { authRulesService.list(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
     }
+
+    fun autoPager(): AutoPager = AutoPager(this)
 
     companion object {
 
@@ -223,6 +227,35 @@ private constructor(
                     totalPages,
                     additionalProperties.toUnmodifiable(),
                 )
+        }
+    }
+
+    class AutoPager
+    constructor(
+        private val firstPage: AuthRuleListPageAsync,
+    ) {
+
+        fun forEach(action: Predicate<AuthRule>, executor: Executor): CompletableFuture<Void> {
+            fun CompletableFuture<Optional<AuthRuleListPageAsync>>.forEach(
+                action: (AuthRule) -> Boolean,
+                executor: Executor
+            ): CompletableFuture<Void> =
+                thenComposeAsync(
+                    { page ->
+                        page
+                            .filter { it.data().all(action) }
+                            .map { it.getNextPage().forEach(action, executor) }
+                            .orElseGet { CompletableFuture.completedFuture(null) }
+                    },
+                    executor
+                )
+            return CompletableFuture.completedFuture(Optional.of(firstPage))
+                .forEach(action::test, executor)
+        }
+
+        fun toList(executor: Executor): CompletableFuture<List<AuthRule>> {
+            val values = mutableListOf<AuthRule>()
+            return forEach(values::add, executor).thenApply { values }
         }
     }
 }

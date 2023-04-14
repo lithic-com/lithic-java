@@ -14,6 +14,8 @@ import com.lithic.api.services.async.CardServiceAsync
 import java.util.Objects
 import java.util.Optional
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import java.util.function.Predicate
 
 class CardListPageAsync
 private constructor(
@@ -77,6 +79,8 @@ private constructor(
             .map { cardsService.list(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
     }
+
+    fun autoPager(): AutoPager = AutoPager(this)
 
     companion object {
 
@@ -218,6 +222,35 @@ private constructor(
                     totalPages,
                     additionalProperties.toUnmodifiable(),
                 )
+        }
+    }
+
+    class AutoPager
+    constructor(
+        private val firstPage: CardListPageAsync,
+    ) {
+
+        fun forEach(action: Predicate<Card>, executor: Executor): CompletableFuture<Void> {
+            fun CompletableFuture<Optional<CardListPageAsync>>.forEach(
+                action: (Card) -> Boolean,
+                executor: Executor
+            ): CompletableFuture<Void> =
+                thenComposeAsync(
+                    { page ->
+                        page
+                            .filter { it.data().all(action) }
+                            .map { it.getNextPage().forEach(action, executor) }
+                            .orElseGet { CompletableFuture.completedFuture(null) }
+                    },
+                    executor
+                )
+            return CompletableFuture.completedFuture(Optional.of(firstPage))
+                .forEach(action::test, executor)
+        }
+
+        fun toList(executor: Executor): CompletableFuture<List<Card>> {
+            val values = mutableListOf<Card>()
+            return forEach(values::add, executor).thenApply { values }
         }
     }
 }

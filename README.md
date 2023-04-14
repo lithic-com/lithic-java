@@ -215,6 +215,8 @@ the results either one page at a time, or item-by-item across all pages.
 To iterate through all results across all pages, you can use `autoPager`,
 which automatically handles fetching more pages for you:
 
+### Synchronous
+
 ```java
 // As an Iterable:
 CardListPage page = client.cards().list(params);
@@ -228,7 +230,13 @@ client.cards().list(params).autoPager().stream()
     .forEach(card -> System.out.println(card));
 ```
 
-Note that fetching each page blocks the current thread.
+### Asynchronous
+
+```java
+// Using forEach, which returns CompletableFuture<Void>:
+asyncClient.cards().list(params).autoPager()
+    .forEach(card -> System.out.println(card), executor);
+```
 
 ### Manual pagination
 
