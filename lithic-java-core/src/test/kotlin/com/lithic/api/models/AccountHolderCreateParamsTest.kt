@@ -10,9 +10,9 @@ class AccountHolderCreateParamsTest {
     fun createAccountHolderCreateParams() {
         AccountHolderCreateParams.builder()
             .forKyb(
-                AccountHolderCreateParams.Kyb.builder()
+                Kyb.builder()
                     .businessEntity(
-                        AccountHolderCreateParams.Kyb.BusinessEntity.builder()
+                        Kyb.BusinessEntity.builder()
                             .address(
                                 Address.builder()
                                     .address1("123 Old Forest Way")
@@ -32,7 +32,7 @@ class AccountHolderCreateParamsTest {
                     )
                     .beneficialOwnerEntities(
                         listOf(
-                            AccountHolderCreateParams.Kyb.BusinessEntity.builder()
+                            Kyb.BusinessEntity.builder()
                                 .address(
                                     Address.builder()
                                         .address1("123 Old Forest Way")
@@ -53,7 +53,7 @@ class AccountHolderCreateParamsTest {
                     )
                     .beneficialOwnerIndividuals(
                         listOf(
-                            AccountHolderCreateParams.Kyb.Individual.builder()
+                            Kyb.Individual.builder()
                                 .address(
                                     Address.builder()
                                         .address1("123 Old Forest Way")
@@ -74,7 +74,7 @@ class AccountHolderCreateParamsTest {
                         )
                     )
                     .controlPerson(
-                        AccountHolderCreateParams.Kyb.Individual.builder()
+                        Kyb.Individual.builder()
                             .address(
                                 Address.builder()
                                     .address1("123 Old Forest Way")
@@ -99,7 +99,7 @@ class AccountHolderCreateParamsTest {
                     )
                     .tosTimestamp("2018-05-29T21:16:05Z")
                     .websiteUrl("www.mybusiness.com")
-                    .workflow(AccountHolderCreateParams.Kyb.Workflow.KYB_BASIC)
+                    .workflow(Kyb.Workflow.KYB_BASIC)
                     .build()
             )
             .build()
@@ -110,9 +110,9 @@ class AccountHolderCreateParamsTest {
         val params =
             AccountHolderCreateParams.builder()
                 .forKyb(
-                    AccountHolderCreateParams.Kyb.builder()
+                    Kyb.builder()
                         .businessEntity(
-                            AccountHolderCreateParams.Kyb.BusinessEntity.builder()
+                            Kyb.BusinessEntity.builder()
                                 .address(
                                     Address.builder()
                                         .address1("123 Old Forest Way")
@@ -132,7 +132,7 @@ class AccountHolderCreateParamsTest {
                         )
                         .beneficialOwnerEntities(
                             listOf(
-                                AccountHolderCreateParams.Kyb.BusinessEntity.builder()
+                                Kyb.BusinessEntity.builder()
                                     .address(
                                         Address.builder()
                                             .address1("123 Old Forest Way")
@@ -153,7 +153,7 @@ class AccountHolderCreateParamsTest {
                         )
                         .beneficialOwnerIndividuals(
                             listOf(
-                                AccountHolderCreateParams.Kyb.Individual.builder()
+                                Kyb.Individual.builder()
                                     .address(
                                         Address.builder()
                                             .address1("123 Old Forest Way")
@@ -174,7 +174,7 @@ class AccountHolderCreateParamsTest {
                             )
                         )
                         .controlPerson(
-                            AccountHolderCreateParams.Kyb.Individual.builder()
+                            Kyb.Individual.builder()
                                 .address(
                                     Address.builder()
                                         .address1("123 Old Forest Way")
@@ -199,7 +199,7 @@ class AccountHolderCreateParamsTest {
                         )
                         .tosTimestamp("2018-05-29T21:16:05Z")
                         .websiteUrl("www.mybusiness.com")
-                        .workflow(AccountHolderCreateParams.Kyb.Workflow.KYB_BASIC)
+                        .workflow(Kyb.Workflow.KYB_BASIC)
                         .build()
                 )
                 .build()
