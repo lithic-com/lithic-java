@@ -38,12 +38,28 @@ constructor(
 
     private val cards: CardServiceAsync by lazy { CardServiceAsyncImpl(clientOptions) }
 
+    private val balances: BalanceServiceAsync by lazy { BalanceServiceAsyncImpl(clientOptions) }
+
+    private val aggregateBalances: AggregateBalanceServiceAsync by lazy {
+        AggregateBalanceServiceAsyncImpl(clientOptions)
+    }
+
     private val disputes: DisputeServiceAsync by lazy { DisputeServiceAsyncImpl(clientOptions) }
 
     private val events: EventServiceAsync by lazy { EventServiceAsyncImpl(clientOptions) }
 
+    private val transfers: TransferServiceAsync by lazy { TransferServiceAsyncImpl(clientOptions) }
+
+    private val financialAccounts: FinancialAccountServiceAsync by lazy {
+        FinancialAccountServiceAsyncImpl(clientOptions)
+    }
+
     private val transactions: TransactionServiceAsync by lazy {
         TransactionServiceAsyncImpl(clientOptions)
+    }
+
+    private val responderEndpoints: ResponderEndpointServiceAsync by lazy {
+        ResponderEndpointServiceAsyncImpl(clientOptions)
     }
 
     private val webhooks: WebhookServiceAsync by lazy { WebhookServiceAsyncImpl(clientOptions) }
@@ -61,11 +77,21 @@ constructor(
 
     override fun cards(): CardServiceAsync = cards
 
+    override fun balances(): BalanceServiceAsync = balances
+
+    override fun aggregateBalances(): AggregateBalanceServiceAsync = aggregateBalances
+
     override fun disputes(): DisputeServiceAsync = disputes
 
     override fun events(): EventServiceAsync = events
 
+    override fun transfers(): TransferServiceAsync = transfers
+
+    override fun financialAccounts(): FinancialAccountServiceAsync = financialAccounts
+
     override fun transactions(): TransactionServiceAsync = transactions
+
+    override fun responderEndpoints(): ResponderEndpointServiceAsync = responderEndpoints
 
     override fun webhooks(): WebhookServiceAsync = webhooks
 

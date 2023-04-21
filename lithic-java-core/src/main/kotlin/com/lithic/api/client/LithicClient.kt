@@ -20,11 +20,21 @@ interface LithicClient {
 
     fun cards(): CardService
 
+    fun balances(): BalanceService
+
+    fun aggregateBalances(): AggregateBalanceService
+
     fun disputes(): DisputeService
 
     fun events(): EventService
 
+    fun transfers(): TransferService
+
+    fun financialAccounts(): FinancialAccountService
+
     fun transactions(): TransactionService
+
+    fun responderEndpoints(): ResponderEndpointService
 
     fun webhooks(): WebhookService
 

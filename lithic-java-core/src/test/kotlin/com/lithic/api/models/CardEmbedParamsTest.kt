@@ -22,8 +22,10 @@ class CardEmbedParamsTest {
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
-        val params = CardEmbedParams.builder().build()
+        val params = CardEmbedParams.builder().embedRequest("string").hmac("string").build()
         val expected = mutableMapOf<String, List<String>>()
+        expected.put("embed_request", listOf("string"))
+        expected.put("hmac", listOf("string"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 }

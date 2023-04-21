@@ -37,11 +37,27 @@ constructor(
 
     private val cards: CardService by lazy { CardServiceImpl(clientOptions) }
 
+    private val balances: BalanceService by lazy { BalanceServiceImpl(clientOptions) }
+
+    private val aggregateBalances: AggregateBalanceService by lazy {
+        AggregateBalanceServiceImpl(clientOptions)
+    }
+
     private val disputes: DisputeService by lazy { DisputeServiceImpl(clientOptions) }
 
     private val events: EventService by lazy { EventServiceImpl(clientOptions) }
 
+    private val transfers: TransferService by lazy { TransferServiceImpl(clientOptions) }
+
+    private val financialAccounts: FinancialAccountService by lazy {
+        FinancialAccountServiceImpl(clientOptions)
+    }
+
     private val transactions: TransactionService by lazy { TransactionServiceImpl(clientOptions) }
+
+    private val responderEndpoints: ResponderEndpointService by lazy {
+        ResponderEndpointServiceImpl(clientOptions)
+    }
 
     private val webhooks: WebhookService by lazy { WebhookServiceImpl(clientOptions) }
 
@@ -57,11 +73,21 @@ constructor(
 
     override fun cards(): CardService = cards
 
+    override fun balances(): BalanceService = balances
+
+    override fun aggregateBalances(): AggregateBalanceService = aggregateBalances
+
     override fun disputes(): DisputeService = disputes
 
     override fun events(): EventService = events
 
+    override fun transfers(): TransferService = transfers
+
+    override fun financialAccounts(): FinancialAccountService = financialAccounts
+
     override fun transactions(): TransactionService = transactions
+
+    override fun responderEndpoints(): ResponderEndpointService = responderEndpoints
 
     override fun webhooks(): WebhookService = webhooks
 

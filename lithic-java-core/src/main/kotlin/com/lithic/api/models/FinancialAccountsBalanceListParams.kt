@@ -3,30 +3,45 @@ package com.lithic.api.models
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
+import java.time.OffsetDateTime
 import java.util.Objects
+import java.util.Optional
 
-class CardEmbedParams
+class FinancialAccountsBalanceListParams
 constructor(
-    private val embedRequest: String,
-    private val hmac: String,
+    private val financialAccountToken: String,
+    private val balanceDate: OffsetDateTime?,
+    private val lastTransactionEventToken: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
-    fun embedRequest(): String = embedRequest
+    fun financialAccountToken(): String = financialAccountToken
 
-    fun hmac(): String = hmac
+    fun balanceDate(): Optional<OffsetDateTime> = Optional.ofNullable(balanceDate)
+
+    fun lastTransactionEventToken(): Optional<String> =
+        Optional.ofNullable(lastTransactionEventToken)
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
-        this.embedRequest.let { params.put("embed_request", listOf(it.toString())) }
-        this.hmac.let { params.put("hmac", listOf(it.toString())) }
+        this.balanceDate?.let { params.put("balance_date", listOf(it.toString())) }
+        this.lastTransactionEventToken?.let {
+            params.put("last_transaction_event_token", listOf(it.toString()))
+        }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+
+    fun getPathParam(index: Int): String {
+        return when (index) {
+            0 -> financialAccountToken
+            else -> ""
+        }
+    }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
 
@@ -37,24 +52,26 @@ constructor(
             return true
         }
 
-        return other is CardEmbedParams &&
-            this.embedRequest == other.embedRequest &&
-            this.hmac == other.hmac &&
+        return other is FinancialAccountsBalanceListParams &&
+            this.financialAccountToken == other.financialAccountToken &&
+            this.balanceDate == other.balanceDate &&
+            this.lastTransactionEventToken == other.lastTransactionEventToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
-            embedRequest,
-            hmac,
+            financialAccountToken,
+            balanceDate,
+            lastTransactionEventToken,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "CardEmbedParams{embedRequest=$embedRequest, hmac=$hmac, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "FinancialAccountsBalanceListParams{financialAccountToken=$financialAccountToken, balanceDate=$balanceDate, lastTransactionEventToken=$lastTransactionEventToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -66,24 +83,38 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var embedRequest: String? = null
-        private var hmac: String? = null
+        private var financialAccountToken: String? = null
+        private var balanceDate: OffsetDateTime? = null
+        private var lastTransactionEventToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(cardEmbedParams: CardEmbedParams) = apply {
-            this.embedRequest = cardEmbedParams.embedRequest
-            this.hmac = cardEmbedParams.hmac
-            additionalQueryParams(cardEmbedParams.additionalQueryParams)
-            additionalHeaders(cardEmbedParams.additionalHeaders)
+        internal fun from(financialAccountsBalanceListParams: FinancialAccountsBalanceListParams) =
+            apply {
+                this.financialAccountToken =
+                    financialAccountsBalanceListParams.financialAccountToken
+                this.balanceDate = financialAccountsBalanceListParams.balanceDate
+                this.lastTransactionEventToken =
+                    financialAccountsBalanceListParams.lastTransactionEventToken
+                additionalQueryParams(financialAccountsBalanceListParams.additionalQueryParams)
+                additionalHeaders(financialAccountsBalanceListParams.additionalHeaders)
+            }
+
+        fun financialAccountToken(financialAccountToken: String) = apply {
+            this.financialAccountToken = financialAccountToken
         }
 
-        /** A base64 encoded JSON string of an EmbedRequest to specify which card to load. */
-        fun embedRequest(embedRequest: String) = apply { this.embedRequest = embedRequest }
+        /** UTC date of the balance to retrieve. Defaults to latest available balance */
+        fun balanceDate(balanceDate: OffsetDateTime) = apply { this.balanceDate = balanceDate }
 
-        /** SHA256 HMAC of the embed_request JSON string with base64 digest. */
-        fun hmac(hmac: String) = apply { this.hmac = hmac }
+        /**
+         * Balance after a given financial event occured. For example, passing the event_token of a
+         * $5 CARD_CLEARING financial event will return a balance decreased by $5
+         */
+        fun lastTransactionEventToken(lastTransactionEventToken: String) = apply {
+            this.lastTransactionEventToken = lastTransactionEventToken
+        }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -125,10 +156,13 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): CardEmbedParams =
-            CardEmbedParams(
-                checkNotNull(embedRequest) { "`embedRequest` is required but was not set" },
-                checkNotNull(hmac) { "`hmac` is required but was not set" },
+        fun build(): FinancialAccountsBalanceListParams =
+            FinancialAccountsBalanceListParams(
+                checkNotNull(financialAccountToken) {
+                    "`financialAccountToken` is required but was not set"
+                },
+                balanceDate,
+                lastTransactionEventToken,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

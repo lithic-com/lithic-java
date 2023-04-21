@@ -21,11 +21,21 @@ interface LithicClientAsync {
 
     fun cards(): CardServiceAsync
 
+    fun balances(): BalanceServiceAsync
+
+    fun aggregateBalances(): AggregateBalanceServiceAsync
+
     fun disputes(): DisputeServiceAsync
 
     fun events(): EventServiceAsync
 
+    fun transfers(): TransferServiceAsync
+
+    fun financialAccounts(): FinancialAccountServiceAsync
+
     fun transactions(): TransactionServiceAsync
+
+    fun responderEndpoints(): ResponderEndpointServiceAsync
 
     fun webhooks(): WebhookServiceAsync
 

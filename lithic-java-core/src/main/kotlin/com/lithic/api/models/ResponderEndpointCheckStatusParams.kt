@@ -1,27 +1,27 @@
 package com.lithic.api.models
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
 
-class CardEmbedParams
+class ResponderEndpointCheckStatusParams
 constructor(
-    private val embedRequest: String,
-    private val hmac: String,
+    private val type: Type,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
-    fun embedRequest(): String = embedRequest
-
-    fun hmac(): String = hmac
+    fun type(): Type = type
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
-        this.embedRequest.let { params.put("embed_request", listOf(it.toString())) }
-        this.hmac.let { params.put("hmac", listOf(it.toString())) }
+        this.type.let { params.put("type", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
@@ -37,24 +37,22 @@ constructor(
             return true
         }
 
-        return other is CardEmbedParams &&
-            this.embedRequest == other.embedRequest &&
-            this.hmac == other.hmac &&
+        return other is ResponderEndpointCheckStatusParams &&
+            this.type == other.type &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
-            embedRequest,
-            hmac,
+            type,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "CardEmbedParams{embedRequest=$embedRequest, hmac=$hmac, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "ResponderEndpointCheckStatusParams{type=$type, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -66,24 +64,20 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var embedRequest: String? = null
-        private var hmac: String? = null
+        private var type: Type? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(cardEmbedParams: CardEmbedParams) = apply {
-            this.embedRequest = cardEmbedParams.embedRequest
-            this.hmac = cardEmbedParams.hmac
-            additionalQueryParams(cardEmbedParams.additionalQueryParams)
-            additionalHeaders(cardEmbedParams.additionalHeaders)
-        }
+        internal fun from(responderEndpointCheckStatusParams: ResponderEndpointCheckStatusParams) =
+            apply {
+                this.type = responderEndpointCheckStatusParams.type
+                additionalQueryParams(responderEndpointCheckStatusParams.additionalQueryParams)
+                additionalHeaders(responderEndpointCheckStatusParams.additionalHeaders)
+            }
 
-        /** A base64 encoded JSON string of an EmbedRequest to specify which card to load. */
-        fun embedRequest(embedRequest: String) = apply { this.embedRequest = embedRequest }
-
-        /** SHA256 HMAC of the embed_request JSON string with base64 digest. */
-        fun hmac(hmac: String) = apply { this.hmac = hmac }
+        /** The type of the endpoint. */
+        fun type(type: Type) = apply { this.type = type }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -125,12 +119,62 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): CardEmbedParams =
-            CardEmbedParams(
-                checkNotNull(embedRequest) { "`embedRequest` is required but was not set" },
-                checkNotNull(hmac) { "`hmac` is required but was not set" },
+        fun build(): ResponderEndpointCheckStatusParams =
+            ResponderEndpointCheckStatusParams(
+                checkNotNull(type) { "`type` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )
+    }
+
+    class Type
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Type && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val TOKENIZATION_DECISIONING = Type(JsonField.of("TOKENIZATION_DECISIONING"))
+
+            @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+        }
+
+        enum class Known {
+            TOKENIZATION_DECISIONING,
+        }
+
+        enum class Value {
+            TOKENIZATION_DECISIONING,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                TOKENIZATION_DECISIONING -> Value.TOKENIZATION_DECISIONING
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                TOKENIZATION_DECISIONING -> Known.TOKENIZATION_DECISIONING
+                else -> throw LithicInvalidDataException("Unknown Type: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

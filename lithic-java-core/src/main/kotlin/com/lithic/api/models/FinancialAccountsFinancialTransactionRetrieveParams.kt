@@ -5,28 +5,29 @@ import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
 import java.util.Objects
 
-class CardEmbedParams
+class FinancialAccountsFinancialTransactionRetrieveParams
 constructor(
-    private val embedRequest: String,
-    private val hmac: String,
+    private val financialAccountToken: String,
+    private val financialTransactionToken: String,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
-    fun embedRequest(): String = embedRequest
+    fun financialAccountToken(): String = financialAccountToken
 
-    fun hmac(): String = hmac
+    fun financialTransactionToken(): String = financialTransactionToken
 
-    @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> {
-        val params = mutableMapOf<String, List<String>>()
-        this.embedRequest.let { params.put("embed_request", listOf(it.toString())) }
-        this.hmac.let { params.put("hmac", listOf(it.toString())) }
-        params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
-    }
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+
+    fun getPathParam(index: Int): String {
+        return when (index) {
+            0 -> financialAccountToken
+            1 -> financialTransactionToken
+            else -> ""
+        }
+    }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
 
@@ -37,24 +38,24 @@ constructor(
             return true
         }
 
-        return other is CardEmbedParams &&
-            this.embedRequest == other.embedRequest &&
-            this.hmac == other.hmac &&
+        return other is FinancialAccountsFinancialTransactionRetrieveParams &&
+            this.financialAccountToken == other.financialAccountToken &&
+            this.financialTransactionToken == other.financialTransactionToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
-            embedRequest,
-            hmac,
+            financialAccountToken,
+            financialTransactionToken,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "CardEmbedParams{embedRequest=$embedRequest, hmac=$hmac, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "FinancialAccountsFinancialTransactionRetrieveParams{financialAccountToken=$financialAccountToken, financialTransactionToken=$financialTransactionToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -66,24 +67,33 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var embedRequest: String? = null
-        private var hmac: String? = null
+        private var financialAccountToken: String? = null
+        private var financialTransactionToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(cardEmbedParams: CardEmbedParams) = apply {
-            this.embedRequest = cardEmbedParams.embedRequest
-            this.hmac = cardEmbedParams.hmac
-            additionalQueryParams(cardEmbedParams.additionalQueryParams)
-            additionalHeaders(cardEmbedParams.additionalHeaders)
+        internal fun from(
+            financialAccountsFinancialTransactionRetrieveParams:
+                FinancialAccountsFinancialTransactionRetrieveParams
+        ) = apply {
+            this.financialAccountToken =
+                financialAccountsFinancialTransactionRetrieveParams.financialAccountToken
+            this.financialTransactionToken =
+                financialAccountsFinancialTransactionRetrieveParams.financialTransactionToken
+            additionalQueryParams(
+                financialAccountsFinancialTransactionRetrieveParams.additionalQueryParams
+            )
+            additionalHeaders(financialAccountsFinancialTransactionRetrieveParams.additionalHeaders)
         }
 
-        /** A base64 encoded JSON string of an EmbedRequest to specify which card to load. */
-        fun embedRequest(embedRequest: String) = apply { this.embedRequest = embedRequest }
+        fun financialAccountToken(financialAccountToken: String) = apply {
+            this.financialAccountToken = financialAccountToken
+        }
 
-        /** SHA256 HMAC of the embed_request JSON string with base64 digest. */
-        fun hmac(hmac: String) = apply { this.hmac = hmac }
+        fun financialTransactionToken(financialTransactionToken: String) = apply {
+            this.financialTransactionToken = financialTransactionToken
+        }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -125,10 +135,14 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): CardEmbedParams =
-            CardEmbedParams(
-                checkNotNull(embedRequest) { "`embedRequest` is required but was not set" },
-                checkNotNull(hmac) { "`hmac` is required but was not set" },
+        fun build(): FinancialAccountsFinancialTransactionRetrieveParams =
+            FinancialAccountsFinancialTransactionRetrieveParams(
+                checkNotNull(financialAccountToken) {
+                    "`financialAccountToken` is required but was not set"
+                },
+                checkNotNull(financialTransactionToken) {
+                    "`financialTransactionToken` is required but was not set"
+                },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )
