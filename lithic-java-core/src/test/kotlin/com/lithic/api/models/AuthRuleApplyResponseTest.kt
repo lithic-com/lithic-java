@@ -11,6 +11,9 @@ class AuthRuleApplyResponseTest {
             AuthRuleApplyResponse.builder()
                 .data(
                     AuthRule.builder()
+                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .state(AuthRule.State.ACTIVE)
+                        .previousAuthRuleTokens(listOf("string"))
                         .allowedMcc(listOf("string"))
                         .blockedMcc(listOf("string"))
                         .allowedCountries(listOf("string"))
@@ -26,6 +29,9 @@ class AuthRuleApplyResponseTest {
         assertThat(authRuleApplyResponse.data())
             .contains(
                 AuthRule.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .state(AuthRule.State.ACTIVE)
+                    .previousAuthRuleTokens(listOf("string"))
                     .allowedMcc(listOf("string"))
                     .blockedMcc(listOf("string"))
                     .allowedCountries(listOf("string"))

@@ -9,6 +9,9 @@ class AuthRuleTest {
     fun createAuthRule() {
         val authRule =
             AuthRule.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .state(AuthRule.State.ACTIVE)
+                .previousAuthRuleTokens(listOf("string"))
                 .allowedMcc(listOf("string"))
                 .blockedMcc(listOf("string"))
                 .allowedCountries(listOf("string"))
@@ -19,6 +22,9 @@ class AuthRuleTest {
                 .programLevel(true)
                 .build()
         assertThat(authRule).isNotNull
+        assertThat(authRule.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(authRule.state()).contains(AuthRule.State.ACTIVE)
+        assertThat(authRule.previousAuthRuleTokens().get()).containsExactly("string")
         assertThat(authRule.allowedMcc().get()).containsExactly("string")
         assertThat(authRule.blockedMcc().get()).containsExactly("string")
         assertThat(authRule.allowedCountries().get()).containsExactly("string")

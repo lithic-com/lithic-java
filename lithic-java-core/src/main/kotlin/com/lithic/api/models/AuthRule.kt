@@ -19,6 +19,9 @@ import java.util.Optional
 @NoAutoDetect
 class AuthRule
 private constructor(
+    private val token: JsonField<String>,
+    private val state: JsonField<State>,
+    private val previousAuthRuleTokens: JsonField<List<String>>,
     private val allowedMcc: JsonField<List<String>>,
     private val blockedMcc: JsonField<List<String>>,
     private val allowedCountries: JsonField<List<String>>,
@@ -33,6 +36,19 @@ private constructor(
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
+
+    /** Globally unique identifier. */
+    fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+
+    /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
+    fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+
+    /**
+     * Identifier for the Auth Rule(s) that a new Auth Rule replaced; will be returned only if an
+     * Auth Rule is applied to entities that previously already had one applied.
+     */
+    fun previousAuthRuleTokens(): Optional<List<String>> =
+        Optional.ofNullable(previousAuthRuleTokens.getNullable("previous_auth_rule_tokens"))
 
     /** Merchant category codes for which the Auth Rule permits transactions. */
     fun allowedMcc(): Optional<List<String>> =
@@ -83,6 +99,20 @@ private constructor(
     fun programLevel(): Optional<Boolean> =
         Optional.ofNullable(programLevel.getNullable("program_level"))
 
+    /** Globally unique identifier. */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
+
+    /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
+    @JsonProperty("state") @ExcludeMissing fun _state() = state
+
+    /**
+     * Identifier for the Auth Rule(s) that a new Auth Rule replaced; will be returned only if an
+     * Auth Rule is applied to entities that previously already had one applied.
+     */
+    @JsonProperty("previous_auth_rule_tokens")
+    @ExcludeMissing
+    fun _previousAuthRuleTokens() = previousAuthRuleTokens
+
     /** Merchant category codes for which the Auth Rule permits transactions. */
     @JsonProperty("allowed_mcc") @ExcludeMissing fun _allowedMcc() = allowedMcc
 
@@ -131,6 +161,9 @@ private constructor(
 
     fun validate() = apply {
         if (!validated) {
+            token()
+            state()
+            previousAuthRuleTokens()
             allowedMcc()
             blockedMcc()
             allowedCountries()
@@ -151,6 +184,9 @@ private constructor(
         }
 
         return other is AuthRule &&
+            this.token == other.token &&
+            this.state == other.state &&
+            this.previousAuthRuleTokens == other.previousAuthRuleTokens &&
             this.allowedMcc == other.allowedMcc &&
             this.blockedMcc == other.blockedMcc &&
             this.allowedCountries == other.allowedCountries &&
@@ -166,6 +202,9 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
+                    token,
+                    state,
+                    previousAuthRuleTokens,
                     allowedMcc,
                     blockedMcc,
                     allowedCountries,
@@ -181,7 +220,7 @@ private constructor(
     }
 
     override fun toString() =
-        "AuthRule{allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, avsType=$avsType, accountTokens=$accountTokens, cardTokens=$cardTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
+        "AuthRule{token=$token, state=$state, previousAuthRuleTokens=$previousAuthRuleTokens, allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, avsType=$avsType, accountTokens=$accountTokens, cardTokens=$cardTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -190,6 +229,9 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
+        private var state: JsonField<State> = JsonMissing.of()
+        private var previousAuthRuleTokens: JsonField<List<String>> = JsonMissing.of()
         private var allowedMcc: JsonField<List<String>> = JsonMissing.of()
         private var blockedMcc: JsonField<List<String>> = JsonMissing.of()
         private var allowedCountries: JsonField<List<String>> = JsonMissing.of()
@@ -202,6 +244,9 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(authRule: AuthRule) = apply {
+            this.token = authRule.token
+            this.state = authRule.state
+            this.previousAuthRuleTokens = authRule.previousAuthRuleTokens
             this.allowedMcc = authRule.allowedMcc
             this.blockedMcc = authRule.blockedMcc
             this.allowedCountries = authRule.allowedCountries
@@ -211,6 +256,39 @@ private constructor(
             this.cardTokens = authRule.cardTokens
             this.programLevel = authRule.programLevel
             additionalProperties(authRule.additionalProperties)
+        }
+
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier. */
+        @JsonProperty("token")
+        @ExcludeMissing
+        fun token(token: JsonField<String>) = apply { this.token = token }
+
+        /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
+        fun state(state: State) = state(JsonField.of(state))
+
+        /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
+        @JsonProperty("state")
+        @ExcludeMissing
+        fun state(state: JsonField<State>) = apply { this.state = state }
+
+        /**
+         * Identifier for the Auth Rule(s) that a new Auth Rule replaced; will be returned only if
+         * an Auth Rule is applied to entities that previously already had one applied.
+         */
+        fun previousAuthRuleTokens(previousAuthRuleTokens: List<String>) =
+            previousAuthRuleTokens(JsonField.of(previousAuthRuleTokens))
+
+        /**
+         * Identifier for the Auth Rule(s) that a new Auth Rule replaced; will be returned only if
+         * an Auth Rule is applied to entities that previously already had one applied.
+         */
+        @JsonProperty("previous_auth_rule_tokens")
+        @ExcludeMissing
+        fun previousAuthRuleTokens(previousAuthRuleTokens: JsonField<List<String>>) = apply {
+            this.previousAuthRuleTokens = previousAuthRuleTokens
         }
 
         /** Merchant category codes for which the Auth Rule permits transactions. */
@@ -339,6 +417,9 @@ private constructor(
 
         fun build(): AuthRule =
             AuthRule(
+                token,
+                state,
+                previousAuthRuleTokens.map { it.toUnmodifiable() },
                 allowedMcc.map { it.toUnmodifiable() },
                 blockedMcc.map { it.toUnmodifiable() },
                 allowedCountries.map { it.toUnmodifiable() },
@@ -349,6 +430,63 @@ private constructor(
                 programLevel,
                 additionalProperties.toUnmodifiable(),
             )
+    }
+
+    class State
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is State && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val ACTIVE = State(JsonField.of("ACTIVE"))
+
+            @JvmField val INACTIVE = State(JsonField.of("INACTIVE"))
+
+            @JvmStatic fun of(value: String) = State(JsonField.of(value))
+        }
+
+        enum class Known {
+            ACTIVE,
+            INACTIVE,
+        }
+
+        enum class Value {
+            ACTIVE,
+            INACTIVE,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                ACTIVE -> Value.ACTIVE
+                INACTIVE -> Value.INACTIVE
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                ACTIVE -> Known.ACTIVE
+                INACTIVE -> Known.INACTIVE
+                else -> throw LithicInvalidDataException("Unknown State: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class AvsType
