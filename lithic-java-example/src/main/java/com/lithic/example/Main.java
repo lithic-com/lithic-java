@@ -4,6 +4,7 @@ import com.lithic.api.client.LithicClient;
 import com.lithic.api.client.okhttp.LithicOkHttpClient;
 import com.lithic.api.models.*;
 import com.lithic.api.models.Card;
+import com.lithic.api.models.Kyc;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.stream.Stream;
@@ -15,6 +16,10 @@ public class Main {
             LithicOkHttpClient.builder().sandbox().apiKey(SANDBOX_API_KEY).build();
 
     public static void main(String[] args) {
+        System.out.println("Creating an account");
+        Account account = createAccount();
+        System.out.println("Account created: " + account.token() + ", state: " + account.state());
+
         System.out.println("Creating card");
         Card card = createCard().validate();
         System.out.println("Created card: " + card.token() + ", memo: " + card.memo());
@@ -27,6 +32,44 @@ public class Main {
         Stream<Card> newCards = cardsCreatedLastWeek();
         System.out.println("Spend limit of cards created within the last week: "
                 + newCards.mapToLong(Card::spendLimit).sum());
+    }
+
+    public static Account createAccount() {
+        Address address = Address.builder()
+                .address1("Smith Street 42")
+                .city("New York")
+                .country("USA")
+                .postalCode("11201")
+                .state("NY")
+                .build();
+
+        Kyc.Individual individual = Kyc.Individual.builder()
+                .address(address)
+                .dob("1970-01-01")
+                .email("Jane.Doe@example.com")
+                .firstName("Jane")
+                .lastName("Doe")
+                .phoneNumber("+16175551212")
+                .governmentId("123456789")
+                .build();
+
+        Kyc kyc = Kyc.builder()
+                .individual(individual)
+                .tosTimestamp("2022-11-16 09:00:00")
+                .kycPassedTimestamp("2022-11-16 09:00:00")
+                .workflow(Kyc.Workflow.KYC_BASIC)
+                .build();
+
+        AccountHolder accountHolder = client.accountHolders()
+                .create(AccountHolderCreateParams.builder().forKyc(kyc).build());
+        if (!accountHolder.accountToken().isPresent()) {
+            throw new Error("account holder without account");
+        }
+        String accountToken = accountHolder.accountToken().get();
+        return client.accounts()
+                .retrieve(AccountRetrieveParams.builder()
+                        .accountToken(accountToken)
+                        .build());
     }
 
     public static Card createCard() {
