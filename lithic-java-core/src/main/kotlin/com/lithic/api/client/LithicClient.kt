@@ -8,6 +8,8 @@ import com.lithic.api.services.blocking.*
 
 interface LithicClient {
 
+    fun async(): LithicClientAsync
+
     fun accounts(): AccountService
 
     fun accountHolders(): AccountHolderService

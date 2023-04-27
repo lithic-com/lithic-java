@@ -19,6 +19,8 @@ constructor(
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
+    private val async: LithicClientAsync by lazy { LithicClientAsyncImpl(clientOptions) }
+
     private val accounts: AccountService by lazy { AccountServiceImpl(clientOptions) }
 
     private val accountHolders: AccountHolderService by lazy {
@@ -60,6 +62,8 @@ constructor(
     }
 
     private val webhooks: WebhookService by lazy { WebhookServiceImpl(clientOptions) }
+
+    override fun async(): LithicClientAsync = async
 
     override fun accounts(): AccountService = accounts
 

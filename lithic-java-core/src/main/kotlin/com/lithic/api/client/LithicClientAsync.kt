@@ -9,6 +9,8 @@ import java.util.concurrent.CompletableFuture
 
 interface LithicClientAsync {
 
+    fun sync(): LithicClient
+
     fun accounts(): AccountServiceAsync
 
     fun accountHolders(): AccountHolderServiceAsync
