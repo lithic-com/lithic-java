@@ -139,14 +139,14 @@ class DisputeServiceTest {
                 .webhookSecret("string")
                 .build()
         val disputeService = client.disputes()
-        val disputeInitiateEvidenceUploadResponse =
+        val disputeEvidence =
             disputeService.initiateEvidenceUpload(
                 DisputeInitiateEvidenceUploadParams.builder()
                     .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(disputeInitiateEvidenceUploadResponse)
-        disputeInitiateEvidenceUploadResponse.validate()
+        println(disputeEvidence)
+        disputeEvidence.validate()
     }
 
     @Test

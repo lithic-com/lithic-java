@@ -13,7 +13,6 @@ import com.lithic.api.models.DisputeDeleteEvidenceParams
 import com.lithic.api.models.DisputeDeleteParams
 import com.lithic.api.models.DisputeEvidence
 import com.lithic.api.models.DisputeInitiateEvidenceUploadParams
-import com.lithic.api.models.DisputeInitiateEvidenceUploadResponse
 import com.lithic.api.models.DisputeListEvidencesPageAsync
 import com.lithic.api.models.DisputeListEvidencesParams
 import com.lithic.api.models.DisputeListPageAsync
@@ -218,9 +217,8 @@ constructor(
         }
     }
 
-    private val initiateEvidenceUploadHandler: Handler<DisputeInitiateEvidenceUploadResponse> =
-        jsonHandler<DisputeInitiateEvidenceUploadResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    private val initiateEvidenceUploadHandler: Handler<DisputeEvidence> =
+        jsonHandler<DisputeEvidence>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
      * Use this endpoint to upload evidences for the dispute. It will return a URL to upload your
@@ -232,7 +230,7 @@ constructor(
     override fun initiateEvidenceUpload(
         params: DisputeInitiateEvidenceUploadParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<DisputeInitiateEvidenceUploadResponse> {
+    ): CompletableFuture<DisputeEvidence> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)

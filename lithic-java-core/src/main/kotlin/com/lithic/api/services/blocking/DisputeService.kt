@@ -9,7 +9,6 @@ import com.lithic.api.models.DisputeDeleteEvidenceParams
 import com.lithic.api.models.DisputeDeleteParams
 import com.lithic.api.models.DisputeEvidence
 import com.lithic.api.models.DisputeInitiateEvidenceUploadParams
-import com.lithic.api.models.DisputeInitiateEvidenceUploadResponse
 import com.lithic.api.models.DisputeListEvidencesPage
 import com.lithic.api.models.DisputeListEvidencesParams
 import com.lithic.api.models.DisputeListPage
@@ -76,7 +75,7 @@ interface DisputeService {
     fun initiateEvidenceUpload(
         params: DisputeInitiateEvidenceUploadParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): DisputeInitiateEvidenceUploadResponse
+    ): DisputeEvidence
 
     /** List evidence metadata for a dispute. */
     @JvmOverloads

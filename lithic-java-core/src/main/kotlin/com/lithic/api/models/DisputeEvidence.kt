@@ -34,7 +34,7 @@ private constructor(
 
     private var hashCode: Int = 0
 
-    /** Timestamp of when first Dispute was reported. */
+    /** Timestamp of when dispute evidence was created. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
     /** Dispute token evidence is attached to. */
@@ -61,7 +61,7 @@ private constructor(
     /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
     fun uploadUrl(): Optional<String> = Optional.ofNullable(uploadUrl.getNullable("upload_url"))
 
-    /** Timestamp of when first Dispute was reported. */
+    /** Timestamp of when dispute evidence was created. */
     @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     /** Dispute token evidence is attached to. */
@@ -165,10 +165,10 @@ private constructor(
             additionalProperties(disputeEvidence.additionalProperties)
         }
 
-        /** Timestamp of when first Dispute was reported. */
+        /** Timestamp of when dispute evidence was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Timestamp of when first Dispute was reported. */
+        /** Timestamp of when dispute evidence was created. */
         @JsonProperty("created")
         @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
