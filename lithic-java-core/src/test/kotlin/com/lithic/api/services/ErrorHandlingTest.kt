@@ -57,7 +57,7 @@ class ErrorHandlingTest {
     }
 
     @Test
-    fun cardsCreate_200() {
+    fun cardsCreate200() {
         val params =
             CardCreateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -126,7 +126,7 @@ class ErrorHandlingTest {
     }
 
     @Test
-    fun cardsCreate_400() {
+    fun cardsCreate400() {
         val params =
             CardCreateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -171,7 +171,7 @@ class ErrorHandlingTest {
     }
 
     @Test
-    fun cardsCreate_401() {
+    fun cardsCreate401() {
         val params =
             CardCreateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -216,7 +216,7 @@ class ErrorHandlingTest {
     }
 
     @Test
-    fun cardsCreate_403() {
+    fun cardsCreate403() {
         val params =
             CardCreateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -261,7 +261,7 @@ class ErrorHandlingTest {
     }
 
     @Test
-    fun cardsCreate_404() {
+    fun cardsCreate404() {
         val params =
             CardCreateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -306,7 +306,7 @@ class ErrorHandlingTest {
     }
 
     @Test
-    fun cardsCreate_422() {
+    fun cardsCreate422() {
         val params =
             CardCreateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -351,7 +351,7 @@ class ErrorHandlingTest {
     }
 
     @Test
-    fun cardsCreate_429() {
+    fun cardsCreate429() {
         val params =
             CardCreateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -396,7 +396,7 @@ class ErrorHandlingTest {
     }
 
     @Test
-    fun cardsCreate_500() {
+    fun cardsCreate500() {
         val params =
             CardCreateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

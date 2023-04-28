@@ -1258,8 +1258,7 @@ private constructor(
 
             companion object {
 
-                @JvmField
-                val _3_DS_AUTHENTICATED = LiabilityShift(JsonField.of("3DS_AUTHENTICATED"))
+                @JvmField val _3DS_AUTHENTICATED = LiabilityShift(JsonField.of("3DS_AUTHENTICATED"))
 
                 @JvmField
                 val ACQUIRER_EXEMPTION = LiabilityShift(JsonField.of("ACQUIRER_EXEMPTION"))
@@ -1273,14 +1272,14 @@ private constructor(
             }
 
             enum class Known {
-                _3_DS_AUTHENTICATED,
+                _3DS_AUTHENTICATED,
                 ACQUIRER_EXEMPTION,
                 NONE,
                 TOKEN_AUTHENTICATED,
             }
 
             enum class Value {
-                _3_DS_AUTHENTICATED,
+                _3DS_AUTHENTICATED,
                 ACQUIRER_EXEMPTION,
                 NONE,
                 TOKEN_AUTHENTICATED,
@@ -1289,7 +1288,7 @@ private constructor(
 
             fun value(): Value =
                 when (this) {
-                    _3_DS_AUTHENTICATED -> Value._3_DS_AUTHENTICATED
+                    _3DS_AUTHENTICATED -> Value._3DS_AUTHENTICATED
                     ACQUIRER_EXEMPTION -> Value.ACQUIRER_EXEMPTION
                     NONE -> Value.NONE
                     TOKEN_AUTHENTICATED -> Value.TOKEN_AUTHENTICATED
@@ -1298,7 +1297,7 @@ private constructor(
 
             fun known(): Known =
                 when (this) {
-                    _3_DS_AUTHENTICATED -> Known._3_DS_AUTHENTICATED
+                    _3DS_AUTHENTICATED -> Known._3DS_AUTHENTICATED
                     ACQUIRER_EXEMPTION -> Known.ACQUIRER_EXEMPTION
                     NONE -> Known.NONE
                     TOKEN_AUTHENTICATED -> Known.TOKEN_AUTHENTICATED

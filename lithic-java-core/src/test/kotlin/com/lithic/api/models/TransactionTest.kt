@@ -21,7 +21,7 @@ class TransactionTest {
                                 .AUTHENTICATION_OUTAGE_EXCEPTION
                         )
                         .liabilityShift(
-                            Transaction.CardholderAuthentication.LiabilityShift._3_DS_AUTHENTICATED
+                            Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
                         )
                         .verificationAttempted(
                             Transaction.CardholderAuthentication.VerificationAttempted.APP_LOGIN
@@ -77,7 +77,7 @@ class TransactionTest {
                             .AUTHENTICATION_OUTAGE_EXCEPTION
                     )
                     .liabilityShift(
-                        Transaction.CardholderAuthentication.LiabilityShift._3_DS_AUTHENTICATED
+                        Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
                     )
                     .verificationAttempted(
                         Transaction.CardholderAuthentication.VerificationAttempted.APP_LOGIN

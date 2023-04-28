@@ -918,7 +918,7 @@ private constructor(
             @JvmField val NETWORK_REJECTED = ResolutionReason(JsonField.of("NETWORK_REJECTED"))
 
             @JvmField
-            val NO_DISPUTE_RIGHTS_3_DS = ResolutionReason(JsonField.of("NO_DISPUTE_RIGHTS_3DS"))
+            val NO_DISPUTE_RIGHTS_3DS = ResolutionReason(JsonField.of("NO_DISPUTE_RIGHTS_3DS"))
 
             @JvmField
             val NO_DISPUTE_RIGHTS_BELOW_THRESHOLD =
@@ -969,7 +969,7 @@ private constructor(
         enum class Known {
             CASE_LOST,
             NETWORK_REJECTED,
-            NO_DISPUTE_RIGHTS_3_DS,
+            NO_DISPUTE_RIGHTS_3DS,
             NO_DISPUTE_RIGHTS_BELOW_THRESHOLD,
             NO_DISPUTE_RIGHTS_CONTACTLESS,
             NO_DISPUTE_RIGHTS_HYBRID,
@@ -989,7 +989,7 @@ private constructor(
         enum class Value {
             CASE_LOST,
             NETWORK_REJECTED,
-            NO_DISPUTE_RIGHTS_3_DS,
+            NO_DISPUTE_RIGHTS_3DS,
             NO_DISPUTE_RIGHTS_BELOW_THRESHOLD,
             NO_DISPUTE_RIGHTS_CONTACTLESS,
             NO_DISPUTE_RIGHTS_HYBRID,
@@ -1011,7 +1011,7 @@ private constructor(
             when (this) {
                 CASE_LOST -> Value.CASE_LOST
                 NETWORK_REJECTED -> Value.NETWORK_REJECTED
-                NO_DISPUTE_RIGHTS_3_DS -> Value.NO_DISPUTE_RIGHTS_3_DS
+                NO_DISPUTE_RIGHTS_3DS -> Value.NO_DISPUTE_RIGHTS_3DS
                 NO_DISPUTE_RIGHTS_BELOW_THRESHOLD -> Value.NO_DISPUTE_RIGHTS_BELOW_THRESHOLD
                 NO_DISPUTE_RIGHTS_CONTACTLESS -> Value.NO_DISPUTE_RIGHTS_CONTACTLESS
                 NO_DISPUTE_RIGHTS_HYBRID -> Value.NO_DISPUTE_RIGHTS_HYBRID
@@ -1033,7 +1033,7 @@ private constructor(
             when (this) {
                 CASE_LOST -> Known.CASE_LOST
                 NETWORK_REJECTED -> Known.NETWORK_REJECTED
-                NO_DISPUTE_RIGHTS_3_DS -> Known.NO_DISPUTE_RIGHTS_3_DS
+                NO_DISPUTE_RIGHTS_3DS -> Known.NO_DISPUTE_RIGHTS_3DS
                 NO_DISPUTE_RIGHTS_BELOW_THRESHOLD -> Known.NO_DISPUTE_RIGHTS_BELOW_THRESHOLD
                 NO_DISPUTE_RIGHTS_CONTACTLESS -> Known.NO_DISPUTE_RIGHTS_CONTACTLESS
                 NO_DISPUTE_RIGHTS_HYBRID -> Known.NO_DISPUTE_RIGHTS_HYBRID
