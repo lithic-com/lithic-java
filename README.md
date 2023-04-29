@@ -183,15 +183,15 @@ In rare cases, you may want to access the underlying JSON value for a response p
 this SDK. Each model property has a corresponding JSON version, with an underscore before the method name, which returns a `JsonField` value.
 
 ```java
-JsonField state() = card._state();
+JsonField state = card._state();
 
-if (state().isMissing()) {
+if (state.isMissing()) {
   // Value was not specified in the JSON response
-} else if (state().isNull()) {
+} else if (state.isNull()) {
   // Value was provided as a literal null
 } else {
   // See if value was provided as a string
-  Optional<String> jsonString = state().asString();
+  Optional<String> jsonString = state.asString();
 }
 ```
 
@@ -200,7 +200,7 @@ if (state().isMissing()) {
 Sometimes, the server response may include additional properties that are not yet available in this library's types. You can access them using the model's `_additionalProperties` method:
 
 ```java
-String secret = card._additionalProperties().get("secret_field");
+JsonValue secret = card._additionalProperties().get("secret_field");
 ```
 
 ---
