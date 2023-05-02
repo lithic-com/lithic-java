@@ -3,7 +3,7 @@ package com.lithic.api.services.blocking.financialAccounts
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
-import com.lithic.api.models.FinancialAccountsFinancialTransactionListParams
+import com.lithic.api.models.FinancialTransactionListParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -21,7 +21,7 @@ class FinancialTransactionServiceTest {
         val financialTransactionService = client.financialAccounts().financialTransactions()
         val financialTransaction =
             financialTransactionService.retrieve(
-                FinancialAccountsFinancialTransactionRetrieveParams.builder()
+                FinancialTransactionRetrieveParams.builder()
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .financialTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
@@ -41,7 +41,7 @@ class FinancialTransactionServiceTest {
         val financialTransactionService = client.financialAccounts().financialTransactions()
         val response =
             financialTransactionService.list(
-                FinancialAccountsFinancialTransactionListParams.builder()
+                FinancialTransactionListParams.builder()
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )

@@ -10,23 +10,22 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.services.async.events.SubscriptionServiceAsync
+import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
 import java.util.Objects
 import java.util.Optional
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
-import java.util.function.Predicate
+import java.util.stream.Stream
+import java.util.stream.StreamSupport
 
-class EventsSubscriptionListPageAsync
+class FinancialTransactionListPage
 private constructor(
-    private val subscriptionsService: SubscriptionServiceAsync,
-    private val params: EventsSubscriptionListParams,
+    private val financialTransactionsService: FinancialTransactionService,
+    private val params: FinancialTransactionListParams,
     private val response: Response,
 ) {
 
     fun response(): Response = response
 
-    fun data(): List<EventSubscription> = response().data()
+    fun data(): List<FinancialTransaction> = response().data()
 
     fun hasMore(): Boolean = response().hasMore()
 
@@ -35,53 +34,33 @@ private constructor(
             return true
         }
 
-        return other is EventsSubscriptionListPageAsync &&
-            this.subscriptionsService == other.subscriptionsService &&
+        return other is FinancialTransactionListPage &&
+            this.financialTransactionsService == other.financialTransactionsService &&
             this.params == other.params &&
             this.response == other.response
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
-            subscriptionsService,
+            financialTransactionsService,
             params,
             response,
         )
     }
 
     override fun toString() =
-        "EventsSubscriptionListPageAsync{subscriptionsService=$subscriptionsService, params=$params, response=$response}"
+        "FinancialTransactionListPage{financialTransactionsService=$financialTransactionsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean {
         return data().isEmpty()
     }
 
-    fun getNextPageParams(): Optional<EventsSubscriptionListParams> {
-        if (!hasNextPage()) {
-            return Optional.empty()
-        }
-
-        return if (params.endingBefore().isPresent) {
-            Optional.of(
-                EventsSubscriptionListParams.builder()
-                    .from(params)
-                    .endingBefore(data().first().token())
-                    .build()
-            )
-        } else {
-            Optional.of(
-                EventsSubscriptionListParams.builder()
-                    .from(params)
-                    .startingAfter(data().last().token())
-                    .build()
-            )
-        }
+    fun getNextPageParams(): Optional<FinancialTransactionListParams> {
+        return Optional.empty()
     }
 
-    fun getNextPage(): CompletableFuture<Optional<EventsSubscriptionListPageAsync>> {
-        return getNextPageParams()
-            .map { subscriptionsService.list(it).thenApply { Optional.of(it) } }
-            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
+    fun getNextPage(): Optional<FinancialTransactionListPage> {
+        return getNextPageParams().map { financialTransactionsService.list(it) }
     }
 
     fun autoPager(): AutoPager = AutoPager(this)
@@ -90,12 +69,12 @@ private constructor(
 
         @JvmStatic
         fun of(
-            subscriptionsService: SubscriptionServiceAsync,
-            params: EventsSubscriptionListParams,
+            financialTransactionsService: FinancialTransactionService,
+            params: FinancialTransactionListParams,
             response: Response
         ) =
-            EventsSubscriptionListPageAsync(
-                subscriptionsService,
+            FinancialTransactionListPage(
+                financialTransactionsService,
                 params,
                 response,
             )
@@ -105,19 +84,19 @@ private constructor(
     @NoAutoDetect
     class Response
     constructor(
-        private val data: JsonField<List<EventSubscription>>,
+        private val data: JsonField<List<FinancialTransaction>>,
         private val hasMore: JsonField<Boolean>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
 
-        fun data(): List<EventSubscription> = data.getRequired("data")
+        fun data(): List<FinancialTransaction> = data.getRequired("data")
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
         @JsonProperty("data")
-        fun _data(): Optional<JsonField<List<EventSubscription>>> = Optional.ofNullable(data)
+        fun _data(): Optional<JsonField<List<FinancialTransaction>>> = Optional.ofNullable(data)
 
         @JsonProperty("has_more")
         fun _hasMore(): Optional<JsonField<Boolean>> = Optional.ofNullable(hasMore)
@@ -156,7 +135,7 @@ private constructor(
         }
 
         override fun toString() =
-            "EventsSubscriptionListPageAsync.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+            "FinancialTransactionListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -165,7 +144,7 @@ private constructor(
 
         class Builder {
 
-            private var data: JsonField<List<EventSubscription>> = JsonMissing.of()
+            private var data: JsonField<List<FinancialTransaction>> = JsonMissing.of()
             private var hasMore: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -176,10 +155,10 @@ private constructor(
                 this.additionalProperties.putAll(page.additionalProperties)
             }
 
-            fun data(data: List<EventSubscription>) = data(JsonField.of(data))
+            fun data(data: List<FinancialTransaction>) = data(JsonField.of(data))
 
             @JsonProperty("data")
-            fun data(data: JsonField<List<EventSubscription>>) = apply { this.data = data }
+            fun data(data: JsonField<List<FinancialTransaction>>) = apply { this.data = data }
 
             fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
@@ -202,33 +181,23 @@ private constructor(
 
     class AutoPager
     constructor(
-        private val firstPage: EventsSubscriptionListPageAsync,
-    ) {
+        private val firstPage: FinancialTransactionListPage,
+    ) : Iterable<FinancialTransaction> {
 
-        fun forEach(
-            action: Predicate<EventSubscription>,
-            executor: Executor
-        ): CompletableFuture<Void> {
-            fun CompletableFuture<Optional<EventsSubscriptionListPageAsync>>.forEach(
-                action: (EventSubscription) -> Boolean,
-                executor: Executor
-            ): CompletableFuture<Void> =
-                thenComposeAsync(
-                    { page ->
-                        page
-                            .filter { it.data().all(action) }
-                            .map { it.getNextPage().forEach(action, executor) }
-                            .orElseGet { CompletableFuture.completedFuture(null) }
-                    },
-                    executor
-                )
-            return CompletableFuture.completedFuture(Optional.of(firstPage))
-                .forEach(action::test, executor)
+        override fun iterator(): Iterator<FinancialTransaction> = iterator {
+            var page = firstPage
+            var index = 0
+            while (true) {
+                while (index < page.data().size) {
+                    yield(page.data()[index++])
+                }
+                page = page.getNextPage().orElse(null) ?: break
+                index = 0
+            }
         }
 
-        fun toList(executor: Executor): CompletableFuture<List<EventSubscription>> {
-            val values = mutableListOf<EventSubscription>()
-            return forEach(values::add, executor).thenApply { values }
+        fun stream(): Stream<FinancialTransaction> {
+            return StreamSupport.stream(spliterator(), false)
         }
     }
 }

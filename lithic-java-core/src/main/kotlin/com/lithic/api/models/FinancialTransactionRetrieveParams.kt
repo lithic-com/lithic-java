@@ -5,14 +5,17 @@ import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
 import java.util.Objects
 
-class EventsSubscriptionRetrieveSecretParams
+class FinancialTransactionRetrieveParams
 constructor(
-    private val eventSubscriptionToken: String,
+    private val financialAccountToken: String,
+    private val financialTransactionToken: String,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
-    fun eventSubscriptionToken(): String = eventSubscriptionToken
+    fun financialAccountToken(): String = financialAccountToken
+
+    fun financialTransactionToken(): String = financialTransactionToken
 
     @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
@@ -20,7 +23,8 @@ constructor(
 
     fun getPathParam(index: Int): String {
         return when (index) {
-            0 -> eventSubscriptionToken
+            0 -> financialAccountToken
+            1 -> financialTransactionToken
             else -> ""
         }
     }
@@ -34,22 +38,24 @@ constructor(
             return true
         }
 
-        return other is EventsSubscriptionRetrieveSecretParams &&
-            this.eventSubscriptionToken == other.eventSubscriptionToken &&
+        return other is FinancialTransactionRetrieveParams &&
+            this.financialAccountToken == other.financialAccountToken &&
+            this.financialTransactionToken == other.financialTransactionToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
-            eventSubscriptionToken,
+            financialAccountToken,
+            financialTransactionToken,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "EventsSubscriptionRetrieveSecretParams{eventSubscriptionToken=$eventSubscriptionToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "FinancialTransactionRetrieveParams{financialAccountToken=$financialAccountToken, financialTransactionToken=$financialTransactionToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -61,22 +67,28 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var eventSubscriptionToken: String? = null
+        private var financialAccountToken: String? = null
+        private var financialTransactionToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(
-            eventsSubscriptionRetrieveSecretParams: EventsSubscriptionRetrieveSecretParams
-        ) = apply {
-            this.eventSubscriptionToken =
-                eventsSubscriptionRetrieveSecretParams.eventSubscriptionToken
-            additionalQueryParams(eventsSubscriptionRetrieveSecretParams.additionalQueryParams)
-            additionalHeaders(eventsSubscriptionRetrieveSecretParams.additionalHeaders)
+        internal fun from(financialTransactionRetrieveParams: FinancialTransactionRetrieveParams) =
+            apply {
+                this.financialAccountToken =
+                    financialTransactionRetrieveParams.financialAccountToken
+                this.financialTransactionToken =
+                    financialTransactionRetrieveParams.financialTransactionToken
+                additionalQueryParams(financialTransactionRetrieveParams.additionalQueryParams)
+                additionalHeaders(financialTransactionRetrieveParams.additionalHeaders)
+            }
+
+        fun financialAccountToken(financialAccountToken: String) = apply {
+            this.financialAccountToken = financialAccountToken
         }
 
-        fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
-            this.eventSubscriptionToken = eventSubscriptionToken
+        fun financialTransactionToken(financialTransactionToken: String) = apply {
+            this.financialTransactionToken = financialTransactionToken
         }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
@@ -119,10 +131,13 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): EventsSubscriptionRetrieveSecretParams =
-            EventsSubscriptionRetrieveSecretParams(
-                checkNotNull(eventSubscriptionToken) {
-                    "`eventSubscriptionToken` is required but was not set"
+        fun build(): FinancialTransactionRetrieveParams =
+            FinancialTransactionRetrieveParams(
+                checkNotNull(financialAccountToken) {
+                    "`financialAccountToken` is required but was not set"
+                },
+                checkNotNull(financialTransactionToken) {
+                    "`financialTransactionToken` is required but was not set"
                 },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),

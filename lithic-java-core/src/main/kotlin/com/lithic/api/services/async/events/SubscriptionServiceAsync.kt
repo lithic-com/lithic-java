@@ -4,16 +4,16 @@ package com.lithic.api.services.async.events
 
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.EventSubscription
-import com.lithic.api.models.EventsSubscriptionCreateParams
-import com.lithic.api.models.EventsSubscriptionDeleteParams
-import com.lithic.api.models.EventsSubscriptionListPageAsync
-import com.lithic.api.models.EventsSubscriptionListParams
-import com.lithic.api.models.EventsSubscriptionRecoverParams
-import com.lithic.api.models.EventsSubscriptionReplayMissingParams
-import com.lithic.api.models.EventsSubscriptionRetrieveParams
-import com.lithic.api.models.EventsSubscriptionRetrieveSecretParams
-import com.lithic.api.models.EventsSubscriptionRotateSecretParams
-import com.lithic.api.models.EventsSubscriptionUpdateParams
+import com.lithic.api.models.EventSubscriptionCreateParams
+import com.lithic.api.models.EventSubscriptionDeleteParams
+import com.lithic.api.models.EventSubscriptionListPageAsync
+import com.lithic.api.models.EventSubscriptionListParams
+import com.lithic.api.models.EventSubscriptionRecoverParams
+import com.lithic.api.models.EventSubscriptionReplayMissingParams
+import com.lithic.api.models.EventSubscriptionRetrieveParams
+import com.lithic.api.models.EventSubscriptionRetrieveSecretParams
+import com.lithic.api.models.EventSubscriptionRotateSecretParams
+import com.lithic.api.models.EventSubscriptionUpdateParams
 import com.lithic.api.models.SubscriptionRetrieveSecretResponse
 import java.util.concurrent.CompletableFuture
 
@@ -22,42 +22,42 @@ interface SubscriptionServiceAsync {
     /** Create a new event subscription. */
     @JvmOverloads
     fun create(
-        params: EventsSubscriptionCreateParams,
+        params: EventSubscriptionCreateParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<EventSubscription>
 
     /** Get an event subscription. */
     @JvmOverloads
     fun retrieve(
-        params: EventsSubscriptionRetrieveParams,
+        params: EventSubscriptionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<EventSubscription>
 
     /** Update an event subscription. */
     @JvmOverloads
     fun update(
-        params: EventsSubscriptionUpdateParams,
+        params: EventSubscriptionUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<EventSubscription>
 
     /** List all the event subscriptions. */
     @JvmOverloads
     fun list(
-        params: EventsSubscriptionListParams,
+        params: EventSubscriptionListParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<EventsSubscriptionListPageAsync>
+    ): CompletableFuture<EventSubscriptionListPageAsync>
 
     /** Delete an event subscription. */
     @JvmOverloads
     fun delete(
-        params: EventsSubscriptionDeleteParams,
+        params: EventSubscriptionDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<Void>
 
     /** Resend all failed messages since a given time. */
     @JvmOverloads
     fun recover(
-        params: EventsSubscriptionRecoverParams,
+        params: EventSubscriptionRecoverParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<Void>
 
@@ -67,14 +67,14 @@ interface SubscriptionServiceAsync {
      */
     @JvmOverloads
     fun replayMissing(
-        params: EventsSubscriptionReplayMissingParams,
+        params: EventSubscriptionReplayMissingParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<Void>
 
     /** Get the secret for an event subscription. */
     @JvmOverloads
     fun retrieveSecret(
-        params: EventsSubscriptionRetrieveSecretParams,
+        params: EventSubscriptionRetrieveSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<SubscriptionRetrieveSecretResponse>
 
@@ -84,7 +84,7 @@ interface SubscriptionServiceAsync {
      */
     @JvmOverloads
     fun rotateSecret(
-        params: EventsSubscriptionRotateSecretParams,
+        params: EventSubscriptionRotateSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<Void>
 }

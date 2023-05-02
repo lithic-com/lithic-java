@@ -3,10 +3,10 @@
 package com.lithic.api.services.async.financialAccounts
 
 import com.lithic.api.core.RequestOptions
-import com.lithic.api.models.FinancialAccountsFinancialTransactionListPageAsync
-import com.lithic.api.models.FinancialAccountsFinancialTransactionListParams
-import com.lithic.api.models.FinancialAccountsFinancialTransactionRetrieveParams
 import com.lithic.api.models.FinancialTransaction
+import com.lithic.api.models.FinancialTransactionListPageAsync
+import com.lithic.api.models.FinancialTransactionListParams
+import com.lithic.api.models.FinancialTransactionRetrieveParams
 import java.util.concurrent.CompletableFuture
 
 interface FinancialTransactionServiceAsync {
@@ -14,14 +14,14 @@ interface FinancialTransactionServiceAsync {
     /** Get the financial transaction for the provided token. */
     @JvmOverloads
     fun retrieve(
-        params: FinancialAccountsFinancialTransactionRetrieveParams,
+        params: FinancialTransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<FinancialTransaction>
 
     /** List the financial transactions for a given financial account. */
     @JvmOverloads
     fun list(
-        params: FinancialAccountsFinancialTransactionListParams,
+        params: FinancialTransactionListParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<FinancialAccountsFinancialTransactionListPageAsync>
+    ): CompletableFuture<FinancialTransactionListPageAsync>
 }

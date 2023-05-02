@@ -3,15 +3,15 @@
 package com.lithic.api.services.blocking.financialAccounts
 
 import com.lithic.api.core.RequestOptions
-import com.lithic.api.models.FinancialAccountsBalanceListPage
-import com.lithic.api.models.FinancialAccountsBalanceListParams
+import com.lithic.api.models.FinancialAccountBalanceListPage
+import com.lithic.api.models.FinancialAccountBalanceListParams
 
 interface BalanceService {
 
     /** Get the balances for a given financial account. */
     @JvmOverloads
     fun list(
-        params: FinancialAccountsBalanceListParams,
+        params: FinancialAccountBalanceListParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): FinancialAccountsBalanceListPage
+    ): FinancialAccountBalanceListPage
 }

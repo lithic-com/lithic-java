@@ -15,7 +15,7 @@ import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
 
-class EventsSubscriptionCreateParams
+class EventSubscriptionCreateParams
 constructor(
     private val description: String?,
     private val disabled: Boolean?,
@@ -35,8 +35,8 @@ constructor(
     fun url(): String = url
 
     @JvmSynthetic
-    internal fun getBody(): EventsSubscriptionCreateBody {
-        return EventsSubscriptionCreateBody(
+    internal fun getBody(): EventSubscriptionCreateBody {
+        return EventSubscriptionCreateBody(
             description,
             disabled,
             eventTypes,
@@ -49,9 +49,9 @@ constructor(
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
-    @JsonDeserialize(builder = EventsSubscriptionCreateBody.Builder::class)
+    @JsonDeserialize(builder = EventSubscriptionCreateBody.Builder::class)
     @NoAutoDetect
-    class EventsSubscriptionCreateBody
+    class EventSubscriptionCreateBody
     internal constructor(
         private val description: String?,
         private val disabled: Boolean?,
@@ -88,7 +88,7 @@ constructor(
                 return true
             }
 
-            return other is EventsSubscriptionCreateBody &&
+            return other is EventSubscriptionCreateBody &&
                 this.description == other.description &&
                 this.disabled == other.disabled &&
                 this.eventTypes == other.eventTypes &&
@@ -111,7 +111,7 @@ constructor(
         }
 
         override fun toString() =
-            "EventsSubscriptionCreateBody{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalProperties=$additionalProperties}"
+            "EventSubscriptionCreateBody{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -127,12 +127,12 @@ constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(eventsSubscriptionCreateBody: EventsSubscriptionCreateBody) = apply {
-                this.description = eventsSubscriptionCreateBody.description
-                this.disabled = eventsSubscriptionCreateBody.disabled
-                this.eventTypes = eventsSubscriptionCreateBody.eventTypes
-                this.url = eventsSubscriptionCreateBody.url
-                additionalProperties(eventsSubscriptionCreateBody.additionalProperties)
+            internal fun from(eventSubscriptionCreateBody: EventSubscriptionCreateBody) = apply {
+                this.description = eventSubscriptionCreateBody.description
+                this.disabled = eventSubscriptionCreateBody.disabled
+                this.eventTypes = eventSubscriptionCreateBody.eventTypes
+                this.url = eventSubscriptionCreateBody.url
+                additionalProperties(eventSubscriptionCreateBody.additionalProperties)
             }
 
             /** Event subscription description. */
@@ -167,8 +167,8 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): EventsSubscriptionCreateBody =
-                EventsSubscriptionCreateBody(
+            fun build(): EventSubscriptionCreateBody =
+                EventSubscriptionCreateBody(
                     description,
                     disabled,
                     eventTypes?.toUnmodifiable(),
@@ -189,7 +189,7 @@ constructor(
             return true
         }
 
-        return other is EventsSubscriptionCreateParams &&
+        return other is EventSubscriptionCreateParams &&
             this.description == other.description &&
             this.disabled == other.disabled &&
             this.eventTypes == other.eventTypes &&
@@ -212,7 +212,7 @@ constructor(
     }
 
     override fun toString() =
-        "EventsSubscriptionCreateParams{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "EventSubscriptionCreateParams{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -233,14 +233,14 @@ constructor(
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(eventsSubscriptionCreateParams: EventsSubscriptionCreateParams) = apply {
-            this.description = eventsSubscriptionCreateParams.description
-            this.disabled = eventsSubscriptionCreateParams.disabled
-            this.eventTypes = eventsSubscriptionCreateParams.eventTypes
-            this.url = eventsSubscriptionCreateParams.url
-            additionalQueryParams(eventsSubscriptionCreateParams.additionalQueryParams)
-            additionalHeaders(eventsSubscriptionCreateParams.additionalHeaders)
-            additionalBodyProperties(eventsSubscriptionCreateParams.additionalBodyProperties)
+        internal fun from(eventSubscriptionCreateParams: EventSubscriptionCreateParams) = apply {
+            this.description = eventSubscriptionCreateParams.description
+            this.disabled = eventSubscriptionCreateParams.disabled
+            this.eventTypes = eventSubscriptionCreateParams.eventTypes
+            this.url = eventSubscriptionCreateParams.url
+            additionalQueryParams(eventSubscriptionCreateParams.additionalQueryParams)
+            additionalHeaders(eventSubscriptionCreateParams.additionalHeaders)
+            additionalBodyProperties(eventSubscriptionCreateParams.additionalBodyProperties)
         }
 
         /** Event subscription description. */
@@ -312,8 +312,8 @@ constructor(
                 this.additionalBodyProperties.putAll(additionalBodyProperties)
             }
 
-        fun build(): EventsSubscriptionCreateParams =
-            EventsSubscriptionCreateParams(
+        fun build(): EventSubscriptionCreateParams =
+            EventSubscriptionCreateParams(
                 description,
                 disabled,
                 eventTypes?.toUnmodifiable(),

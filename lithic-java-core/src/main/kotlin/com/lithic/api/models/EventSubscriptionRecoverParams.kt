@@ -4,12 +4,15 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-class EventsSubscriptionRotateSecretParams
+class EventSubscriptionRecoverParams
 constructor(
     private val eventSubscriptionToken: String,
+    private val begin: OffsetDateTime?,
+    private val end: OffsetDateTime?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -17,12 +20,23 @@ constructor(
 
     fun eventSubscriptionToken(): String = eventSubscriptionToken
 
+    fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
+
+    fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
+
     @JvmSynthetic
     internal fun getBody(): Optional<Map<String, JsonValue>> {
         return Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
     }
 
-    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
+    @JvmSynthetic
+    internal fun getQueryParams(): Map<String, List<String>> {
+        val params = mutableMapOf<String, List<String>>()
+        this.begin?.let { params.put("begin", listOf(it.toString())) }
+        this.end?.let { params.put("end", listOf(it.toString())) }
+        params.putAll(additionalQueryParams)
+        return params.toUnmodifiable()
+    }
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
@@ -44,8 +58,10 @@ constructor(
             return true
         }
 
-        return other is EventsSubscriptionRotateSecretParams &&
+        return other is EventSubscriptionRecoverParams &&
             this.eventSubscriptionToken == other.eventSubscriptionToken &&
+            this.begin == other.begin &&
+            this.end == other.end &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -54,6 +70,8 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             eventSubscriptionToken,
+            begin,
+            end,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -61,7 +79,7 @@ constructor(
     }
 
     override fun toString() =
-        "EventsSubscriptionRotateSecretParams{eventSubscriptionToken=$eventSubscriptionToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "EventSubscriptionRecoverParams{eventSubscriptionToken=$eventSubscriptionToken, begin=$begin, end=$end, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -74,24 +92,37 @@ constructor(
     class Builder {
 
         private var eventSubscriptionToken: String? = null
+        private var begin: OffsetDateTime? = null
+        private var end: OffsetDateTime? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(
-            eventsSubscriptionRotateSecretParams: EventsSubscriptionRotateSecretParams
-        ) = apply {
-            this.eventSubscriptionToken =
-                eventsSubscriptionRotateSecretParams.eventSubscriptionToken
-            additionalQueryParams(eventsSubscriptionRotateSecretParams.additionalQueryParams)
-            additionalHeaders(eventsSubscriptionRotateSecretParams.additionalHeaders)
-            additionalBodyProperties(eventsSubscriptionRotateSecretParams.additionalBodyProperties)
+        internal fun from(eventSubscriptionRecoverParams: EventSubscriptionRecoverParams) = apply {
+            this.eventSubscriptionToken = eventSubscriptionRecoverParams.eventSubscriptionToken
+            this.begin = eventSubscriptionRecoverParams.begin
+            this.end = eventSubscriptionRecoverParams.end
+            additionalQueryParams(eventSubscriptionRecoverParams.additionalQueryParams)
+            additionalHeaders(eventSubscriptionRecoverParams.additionalHeaders)
+            additionalBodyProperties(eventSubscriptionRecoverParams.additionalBodyProperties)
         }
 
         fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
             this.eventSubscriptionToken = eventSubscriptionToken
         }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created after the specified date will be
+         * included. UTC time zone.
+         */
+        fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created before the specified date will be
+         * included. UTC time zone.
+         */
+        fun end(end: OffsetDateTime) = apply { this.end = end }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -147,11 +178,13 @@ constructor(
                 this.additionalBodyProperties.putAll(additionalBodyProperties)
             }
 
-        fun build(): EventsSubscriptionRotateSecretParams =
-            EventsSubscriptionRotateSecretParams(
+        fun build(): EventSubscriptionRecoverParams =
+            EventSubscriptionRecoverParams(
                 checkNotNull(eventSubscriptionToken) {
                     "`eventSubscriptionToken` is required but was not set"
                 },
+                begin,
+                end,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

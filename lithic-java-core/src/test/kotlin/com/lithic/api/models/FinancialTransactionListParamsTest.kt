@@ -5,15 +5,15 @@ import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class FinancialAccountsFinancialTransactionListParamsTest {
+class FinancialTransactionListParamsTest {
 
     @Test
-    fun createFinancialAccountsFinancialTransactionListParams() {
-        FinancialAccountsFinancialTransactionListParams.builder()
+    fun createFinancialTransactionListParams() {
+        FinancialTransactionListParams.builder()
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .category(FinancialAccountsFinancialTransactionListParams.Category.ACH)
-            .status(FinancialAccountsFinancialTransactionListParams.Status.DECLINED)
-            .result(FinancialAccountsFinancialTransactionListParams.Result.APPROVED)
+            .category(FinancialTransactionListParams.Category.ACH)
+            .status(FinancialTransactionListParams.Status.DECLINED)
+            .result(FinancialTransactionListParams.Result.APPROVED)
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .startingAfter("string")
@@ -24,29 +24,20 @@ class FinancialAccountsFinancialTransactionListParamsTest {
     @Test
     fun getQueryParams() {
         val params =
-            FinancialAccountsFinancialTransactionListParams.builder()
+            FinancialTransactionListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .category(FinancialAccountsFinancialTransactionListParams.Category.ACH)
-                .status(FinancialAccountsFinancialTransactionListParams.Status.DECLINED)
-                .result(FinancialAccountsFinancialTransactionListParams.Result.APPROVED)
+                .category(FinancialTransactionListParams.Category.ACH)
+                .status(FinancialTransactionListParams.Status.DECLINED)
+                .result(FinancialTransactionListParams.Result.APPROVED)
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .startingAfter("string")
                 .endingBefore("string")
                 .build()
         val expected = mutableMapOf<String, List<String>>()
-        expected.put(
-            "category",
-            listOf(FinancialAccountsFinancialTransactionListParams.Category.ACH.toString())
-        )
-        expected.put(
-            "status",
-            listOf(FinancialAccountsFinancialTransactionListParams.Status.DECLINED.toString())
-        )
-        expected.put(
-            "result",
-            listOf(FinancialAccountsFinancialTransactionListParams.Result.APPROVED.toString())
-        )
+        expected.put("category", listOf(FinancialTransactionListParams.Category.ACH.toString()))
+        expected.put("status", listOf(FinancialTransactionListParams.Status.DECLINED.toString()))
+        expected.put("result", listOf(FinancialTransactionListParams.Result.APPROVED.toString()))
         expected.put("begin", listOf("2019-12-27T18:11:19.117Z"))
         expected.put("end", listOf("2019-12-27T18:11:19.117Z"))
         expected.put("starting_after", listOf("string"))
@@ -57,7 +48,7 @@ class FinancialAccountsFinancialTransactionListParamsTest {
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params =
-            FinancialAccountsFinancialTransactionListParams.builder()
+            FinancialTransactionListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val expected = mutableMapOf<String, List<String>>()
@@ -67,7 +58,7 @@ class FinancialAccountsFinancialTransactionListParamsTest {
     @Test
     fun getPathParam() {
         val params =
-            FinancialAccountsFinancialTransactionListParams.builder()
+            FinancialTransactionListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(params).isNotNull

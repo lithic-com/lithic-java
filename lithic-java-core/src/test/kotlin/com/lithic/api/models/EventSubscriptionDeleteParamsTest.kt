@@ -4,17 +4,17 @@ import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class EventsSubscriptionDeleteParamsTest {
+class EventSubscriptionDeleteParamsTest {
 
     @Test
-    fun createEventsSubscriptionDeleteParams() {
-        EventsSubscriptionDeleteParams.builder().eventSubscriptionToken("string").build()
+    fun createEventSubscriptionDeleteParams() {
+        EventSubscriptionDeleteParams.builder().eventSubscriptionToken("string").build()
     }
 
     @Test
     fun getPathParam() {
         val params =
-            EventsSubscriptionDeleteParams.builder().eventSubscriptionToken("string").build()
+            EventSubscriptionDeleteParams.builder().eventSubscriptionToken("string").build()
         assertThat(params).isNotNull
         // path param "eventSubscriptionToken"
         assertThat(params.getPathParam(0)).isEqualTo("string")

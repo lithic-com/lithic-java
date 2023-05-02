@@ -7,16 +7,16 @@ import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.EventSubscription
-import com.lithic.api.models.EventsSubscriptionCreateParams
-import com.lithic.api.models.EventsSubscriptionDeleteParams
-import com.lithic.api.models.EventsSubscriptionListPage
-import com.lithic.api.models.EventsSubscriptionListParams
-import com.lithic.api.models.EventsSubscriptionRecoverParams
-import com.lithic.api.models.EventsSubscriptionReplayMissingParams
-import com.lithic.api.models.EventsSubscriptionRetrieveParams
-import com.lithic.api.models.EventsSubscriptionRetrieveSecretParams
-import com.lithic.api.models.EventsSubscriptionRotateSecretParams
-import com.lithic.api.models.EventsSubscriptionUpdateParams
+import com.lithic.api.models.EventSubscriptionCreateParams
+import com.lithic.api.models.EventSubscriptionDeleteParams
+import com.lithic.api.models.EventSubscriptionListPage
+import com.lithic.api.models.EventSubscriptionListParams
+import com.lithic.api.models.EventSubscriptionRecoverParams
+import com.lithic.api.models.EventSubscriptionReplayMissingParams
+import com.lithic.api.models.EventSubscriptionRetrieveParams
+import com.lithic.api.models.EventSubscriptionRetrieveSecretParams
+import com.lithic.api.models.EventSubscriptionRotateSecretParams
+import com.lithic.api.models.EventSubscriptionUpdateParams
 import com.lithic.api.models.SubscriptionRetrieveSecretResponse
 import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
@@ -36,7 +36,7 @@ constructor(
 
     /** Create a new event subscription. */
     override fun create(
-        params: EventsSubscriptionCreateParams,
+        params: EventSubscriptionCreateParams,
         requestOptions: RequestOptions
     ): EventSubscription {
         val request =
@@ -64,7 +64,7 @@ constructor(
 
     /** Get an event subscription. */
     override fun retrieve(
-        params: EventsSubscriptionRetrieveParams,
+        params: EventSubscriptionRetrieveParams,
         requestOptions: RequestOptions
     ): EventSubscription {
         val request =
@@ -91,7 +91,7 @@ constructor(
 
     /** Update an event subscription. */
     override fun update(
-        params: EventsSubscriptionUpdateParams,
+        params: EventSubscriptionUpdateParams,
         requestOptions: RequestOptions
     ): EventSubscription {
         val request =
@@ -114,15 +114,15 @@ constructor(
         }
     }
 
-    private val listHandler: Handler<EventsSubscriptionListPage.Response> =
-        jsonHandler<EventsSubscriptionListPage.Response>(clientOptions.jsonMapper)
+    private val listHandler: Handler<EventSubscriptionListPage.Response> =
+        jsonHandler<EventSubscriptionListPage.Response>(clientOptions.jsonMapper)
             .withErrorHandler(errorHandler)
 
     /** List all the event subscriptions. */
     override fun list(
-        params: EventsSubscriptionListParams,
+        params: EventSubscriptionListParams,
         requestOptions: RequestOptions
-    ): EventsSubscriptionListPage {
+    ): EventSubscriptionListPage {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -139,14 +139,14 @@ constructor(
                         validate()
                     }
                 }
-                .let { EventsSubscriptionListPage.of(this, params, it) }
+                .let { EventSubscriptionListPage.of(this, params, it) }
         }
     }
 
     private val deleteHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
     /** Delete an event subscription. */
-    override fun delete(params: EventsSubscriptionDeleteParams, requestOptions: RequestOptions) {
+    override fun delete(params: EventSubscriptionDeleteParams, requestOptions: RequestOptions) {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.DELETE)
@@ -164,7 +164,7 @@ constructor(
     private val recoverHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
     /** Resend all failed messages since a given time. */
-    override fun recover(params: EventsSubscriptionRecoverParams, requestOptions: RequestOptions) {
+    override fun recover(params: EventSubscriptionRecoverParams, requestOptions: RequestOptions) {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -186,7 +186,7 @@ constructor(
      * Messages that were previously sent to the endpoint are not resent.
      */
     override fun replayMissing(
-        params: EventsSubscriptionReplayMissingParams,
+        params: EventSubscriptionReplayMissingParams,
         requestOptions: RequestOptions
     ) {
         val request =
@@ -209,7 +209,7 @@ constructor(
 
     /** Get the secret for an event subscription. */
     override fun retrieveSecret(
-        params: EventsSubscriptionRetrieveSecretParams,
+        params: EventSubscriptionRetrieveSecretParams,
         requestOptions: RequestOptions
     ): SubscriptionRetrieveSecretResponse {
         val request =
@@ -238,7 +238,7 @@ constructor(
      * 24 hours.
      */
     override fun rotateSecret(
-        params: EventsSubscriptionRotateSecretParams,
+        params: EventSubscriptionRotateSecretParams,
         requestOptions: RequestOptions
     ) {
         val request =

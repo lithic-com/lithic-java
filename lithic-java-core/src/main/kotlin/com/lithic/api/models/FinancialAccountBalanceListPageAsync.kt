@@ -17,10 +17,10 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.function.Predicate
 
-class FinancialAccountsBalanceListPageAsync
+class FinancialAccountBalanceListPageAsync
 private constructor(
     private val balancesService: BalanceServiceAsync,
-    private val params: FinancialAccountsBalanceListParams,
+    private val params: FinancialAccountBalanceListParams,
     private val response: Response,
 ) {
 
@@ -35,7 +35,7 @@ private constructor(
             return true
         }
 
-        return other is FinancialAccountsBalanceListPageAsync &&
+        return other is FinancialAccountBalanceListPageAsync &&
             this.balancesService == other.balancesService &&
             this.params == other.params &&
             this.response == other.response
@@ -50,17 +50,17 @@ private constructor(
     }
 
     override fun toString() =
-        "FinancialAccountsBalanceListPageAsync{balancesService=$balancesService, params=$params, response=$response}"
+        "FinancialAccountBalanceListPageAsync{balancesService=$balancesService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean {
         return data().isEmpty()
     }
 
-    fun getNextPageParams(): Optional<FinancialAccountsBalanceListParams> {
+    fun getNextPageParams(): Optional<FinancialAccountBalanceListParams> {
         return Optional.empty()
     }
 
-    fun getNextPage(): CompletableFuture<Optional<FinancialAccountsBalanceListPageAsync>> {
+    fun getNextPage(): CompletableFuture<Optional<FinancialAccountBalanceListPageAsync>> {
         return getNextPageParams()
             .map { balancesService.list(it).thenApply { Optional.of(it) } }
             .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
@@ -73,10 +73,10 @@ private constructor(
         @JvmStatic
         fun of(
             balancesService: BalanceServiceAsync,
-            params: FinancialAccountsBalanceListParams,
+            params: FinancialAccountBalanceListParams,
             response: Response
         ) =
-            FinancialAccountsBalanceListPageAsync(
+            FinancialAccountBalanceListPageAsync(
                 balancesService,
                 params,
                 response,
@@ -138,7 +138,7 @@ private constructor(
         }
 
         override fun toString() =
-            "FinancialAccountsBalanceListPageAsync.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+            "FinancialAccountBalanceListPageAsync.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -184,11 +184,11 @@ private constructor(
 
     class AutoPager
     constructor(
-        private val firstPage: FinancialAccountsBalanceListPageAsync,
+        private val firstPage: FinancialAccountBalanceListPageAsync,
     ) {
 
         fun forEach(action: Predicate<Balance>, executor: Executor): CompletableFuture<Void> {
-            fun CompletableFuture<Optional<FinancialAccountsBalanceListPageAsync>>.forEach(
+            fun CompletableFuture<Optional<FinancialAccountBalanceListPageAsync>>.forEach(
                 action: (Balance) -> Boolean,
                 executor: Executor
             ): CompletableFuture<Void> =

@@ -11,7 +11,7 @@ import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-class FinancialAccountsFinancialTransactionListParams
+class FinancialTransactionListParams
 constructor(
     private val financialAccountToken: String,
     private val category: Category?,
@@ -73,7 +73,7 @@ constructor(
             return true
         }
 
-        return other is FinancialAccountsFinancialTransactionListParams &&
+        return other is FinancialTransactionListParams &&
             this.financialAccountToken == other.financialAccountToken &&
             this.category == other.category &&
             this.status == other.status &&
@@ -102,7 +102,7 @@ constructor(
     }
 
     override fun toString() =
-        "FinancialAccountsFinancialTransactionListParams{financialAccountToken=$financialAccountToken, category=$category, status=$status, result=$result, begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "FinancialTransactionListParams{financialAccountToken=$financialAccountToken, category=$category, status=$status, result=$result, begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -126,23 +126,17 @@ constructor(
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(
-            financialAccountsFinancialTransactionListParams:
-                FinancialAccountsFinancialTransactionListParams
-        ) = apply {
-            this.financialAccountToken =
-                financialAccountsFinancialTransactionListParams.financialAccountToken
-            this.category = financialAccountsFinancialTransactionListParams.category
-            this.status = financialAccountsFinancialTransactionListParams.status
-            this.result = financialAccountsFinancialTransactionListParams.result
-            this.begin = financialAccountsFinancialTransactionListParams.begin
-            this.end = financialAccountsFinancialTransactionListParams.end
-            this.startingAfter = financialAccountsFinancialTransactionListParams.startingAfter
-            this.endingBefore = financialAccountsFinancialTransactionListParams.endingBefore
-            additionalQueryParams(
-                financialAccountsFinancialTransactionListParams.additionalQueryParams
-            )
-            additionalHeaders(financialAccountsFinancialTransactionListParams.additionalHeaders)
+        internal fun from(financialTransactionListParams: FinancialTransactionListParams) = apply {
+            this.financialAccountToken = financialTransactionListParams.financialAccountToken
+            this.category = financialTransactionListParams.category
+            this.status = financialTransactionListParams.status
+            this.result = financialTransactionListParams.result
+            this.begin = financialTransactionListParams.begin
+            this.end = financialTransactionListParams.end
+            this.startingAfter = financialTransactionListParams.startingAfter
+            this.endingBefore = financialTransactionListParams.endingBefore
+            additionalQueryParams(financialTransactionListParams.additionalQueryParams)
+            additionalHeaders(financialTransactionListParams.additionalHeaders)
         }
 
         fun financialAccountToken(financialAccountToken: String) = apply {
@@ -222,8 +216,8 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): FinancialAccountsFinancialTransactionListParams =
-            FinancialAccountsFinancialTransactionListParams(
+        fun build(): FinancialTransactionListParams =
+            FinancialTransactionListParams(
                 checkNotNull(financialAccountToken) {
                     "`financialAccountToken` is required but was not set"
                 },

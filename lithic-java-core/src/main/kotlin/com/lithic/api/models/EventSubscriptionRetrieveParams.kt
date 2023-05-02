@@ -4,34 +4,26 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
 import java.util.Objects
-import java.util.Optional
 
-class EventsSubscriptionListParams
+class EventSubscriptionRetrieveParams
 constructor(
-    private val pageSize: Long?,
-    private val startingAfter: String?,
-    private val endingBefore: String?,
+    private val eventSubscriptionToken: String,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
-    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
+    fun eventSubscriptionToken(): String = eventSubscriptionToken
 
-    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
-
-    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
-
-    @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> {
-        val params = mutableMapOf<String, List<String>>()
-        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
-        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
-        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
-        params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
-    }
+    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+
+    fun getPathParam(index: Int): String {
+        return when (index) {
+            0 -> eventSubscriptionToken
+            else -> ""
+        }
+    }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
 
@@ -42,26 +34,22 @@ constructor(
             return true
         }
 
-        return other is EventsSubscriptionListParams &&
-            this.pageSize == other.pageSize &&
-            this.startingAfter == other.startingAfter &&
-            this.endingBefore == other.endingBefore &&
+        return other is EventSubscriptionRetrieveParams &&
+            this.eventSubscriptionToken == other.eventSubscriptionToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
-            pageSize,
-            startingAfter,
-            endingBefore,
+            eventSubscriptionToken,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "EventsSubscriptionListParams{pageSize=$pageSize, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "EventSubscriptionRetrieveParams{eventSubscriptionToken=$eventSubscriptionToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -73,35 +61,21 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var pageSize: Long? = null
-        private var startingAfter: String? = null
-        private var endingBefore: String? = null
+        private var eventSubscriptionToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(eventsSubscriptionListParams: EventsSubscriptionListParams) = apply {
-            this.pageSize = eventsSubscriptionListParams.pageSize
-            this.startingAfter = eventsSubscriptionListParams.startingAfter
-            this.endingBefore = eventsSubscriptionListParams.endingBefore
-            additionalQueryParams(eventsSubscriptionListParams.additionalQueryParams)
-            additionalHeaders(eventsSubscriptionListParams.additionalHeaders)
+        internal fun from(eventSubscriptionRetrieveParams: EventSubscriptionRetrieveParams) =
+            apply {
+                this.eventSubscriptionToken = eventSubscriptionRetrieveParams.eventSubscriptionToken
+                additionalQueryParams(eventSubscriptionRetrieveParams.additionalQueryParams)
+                additionalHeaders(eventSubscriptionRetrieveParams.additionalHeaders)
+            }
+
+        fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
+            this.eventSubscriptionToken = eventSubscriptionToken
         }
-
-        /** Page size (for pagination). */
-        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
-
-        /**
-         * The unique identifier of the last item in the previous page. Used to retrieve the next
-         * page.
-         */
-        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
-
-        /**
-         * The unique identifier of the first item in the previous page. Used to retrieve the
-         * previous page.
-         */
-        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -143,11 +117,11 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): EventsSubscriptionListParams =
-            EventsSubscriptionListParams(
-                pageSize,
-                startingAfter,
-                endingBefore,
+        fun build(): EventSubscriptionRetrieveParams =
+            EventSubscriptionRetrieveParams(
+                checkNotNull(eventSubscriptionToken) {
+                    "`eventSubscriptionToken` is required but was not set"
+                },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

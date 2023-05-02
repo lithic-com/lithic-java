@@ -5,11 +5,11 @@ import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class EventsSubscriptionReplayMissingParamsTest {
+class EventSubscriptionRecoverParamsTest {
 
     @Test
-    fun createEventsSubscriptionReplayMissingParams() {
-        EventsSubscriptionReplayMissingParams.builder()
+    fun createEventSubscriptionRecoverParams() {
+        EventSubscriptionRecoverParams.builder()
             .eventSubscriptionToken("string")
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -19,7 +19,7 @@ class EventsSubscriptionReplayMissingParamsTest {
     @Test
     fun getQueryParams() {
         val params =
-            EventsSubscriptionReplayMissingParams.builder()
+            EventSubscriptionRecoverParams.builder()
                 .eventSubscriptionToken("string")
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -33,7 +33,7 @@ class EventsSubscriptionReplayMissingParamsTest {
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params =
-            EventsSubscriptionReplayMissingParams.builder().eventSubscriptionToken("string").build()
+            EventSubscriptionRecoverParams.builder().eventSubscriptionToken("string").build()
         val expected = mutableMapOf<String, List<String>>()
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
@@ -41,7 +41,7 @@ class EventsSubscriptionReplayMissingParamsTest {
     @Test
     fun getPathParam() {
         val params =
-            EventsSubscriptionReplayMissingParams.builder().eventSubscriptionToken("string").build()
+            EventSubscriptionRecoverParams.builder().eventSubscriptionToken("string").build()
         assertThat(params).isNotNull
         // path param "eventSubscriptionToken"
         assertThat(params.getPathParam(0)).isEqualTo("string")

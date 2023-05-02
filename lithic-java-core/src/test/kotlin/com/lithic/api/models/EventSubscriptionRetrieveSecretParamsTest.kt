@@ -4,19 +4,17 @@ import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class EventsSubscriptionRetrieveSecretParamsTest {
+class EventSubscriptionRetrieveSecretParamsTest {
 
     @Test
-    fun createEventsSubscriptionRetrieveSecretParams() {
-        EventsSubscriptionRetrieveSecretParams.builder().eventSubscriptionToken("string").build()
+    fun createEventSubscriptionRetrieveSecretParams() {
+        EventSubscriptionRetrieveSecretParams.builder().eventSubscriptionToken("string").build()
     }
 
     @Test
     fun getPathParam() {
         val params =
-            EventsSubscriptionRetrieveSecretParams.builder()
-                .eventSubscriptionToken("string")
-                .build()
+            EventSubscriptionRetrieveSecretParams.builder().eventSubscriptionToken("string").build()
         assertThat(params).isNotNull
         // path param "eventSubscriptionToken"
         assertThat(params.getPathParam(0)).isEqualTo("string")

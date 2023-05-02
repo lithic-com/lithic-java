@@ -5,11 +5,11 @@ import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class FinancialAccountsBalanceListParamsTest {
+class FinancialAccountBalanceListParamsTest {
 
     @Test
-    fun createFinancialAccountsBalanceListParams() {
-        FinancialAccountsBalanceListParams.builder()
+    fun createFinancialAccountBalanceListParams() {
+        FinancialAccountBalanceListParams.builder()
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .balanceDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .lastTransactionEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -19,7 +19,7 @@ class FinancialAccountsBalanceListParamsTest {
     @Test
     fun getQueryParams() {
         val params =
-            FinancialAccountsBalanceListParams.builder()
+            FinancialAccountBalanceListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .balanceDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .lastTransactionEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -33,7 +33,7 @@ class FinancialAccountsBalanceListParamsTest {
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params =
-            FinancialAccountsBalanceListParams.builder()
+            FinancialAccountBalanceListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val expected = mutableMapOf<String, List<String>>()
@@ -43,7 +43,7 @@ class FinancialAccountsBalanceListParamsTest {
     @Test
     fun getPathParam() {
         val params =
-            FinancialAccountsBalanceListParams.builder()
+            FinancialAccountBalanceListParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(params).isNotNull

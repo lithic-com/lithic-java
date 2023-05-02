@@ -4,16 +4,16 @@ package com.lithic.api.services.blocking.events
 
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.EventSubscription
-import com.lithic.api.models.EventsSubscriptionCreateParams
-import com.lithic.api.models.EventsSubscriptionDeleteParams
-import com.lithic.api.models.EventsSubscriptionListPage
-import com.lithic.api.models.EventsSubscriptionListParams
-import com.lithic.api.models.EventsSubscriptionRecoverParams
-import com.lithic.api.models.EventsSubscriptionReplayMissingParams
-import com.lithic.api.models.EventsSubscriptionRetrieveParams
-import com.lithic.api.models.EventsSubscriptionRetrieveSecretParams
-import com.lithic.api.models.EventsSubscriptionRotateSecretParams
-import com.lithic.api.models.EventsSubscriptionUpdateParams
+import com.lithic.api.models.EventSubscriptionCreateParams
+import com.lithic.api.models.EventSubscriptionDeleteParams
+import com.lithic.api.models.EventSubscriptionListPage
+import com.lithic.api.models.EventSubscriptionListParams
+import com.lithic.api.models.EventSubscriptionRecoverParams
+import com.lithic.api.models.EventSubscriptionReplayMissingParams
+import com.lithic.api.models.EventSubscriptionRetrieveParams
+import com.lithic.api.models.EventSubscriptionRetrieveSecretParams
+import com.lithic.api.models.EventSubscriptionRotateSecretParams
+import com.lithic.api.models.EventSubscriptionUpdateParams
 import com.lithic.api.models.SubscriptionRetrieveSecretResponse
 
 interface SubscriptionService {
@@ -21,42 +21,42 @@ interface SubscriptionService {
     /** Create a new event subscription. */
     @JvmOverloads
     fun create(
-        params: EventsSubscriptionCreateParams,
+        params: EventSubscriptionCreateParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): EventSubscription
 
     /** Get an event subscription. */
     @JvmOverloads
     fun retrieve(
-        params: EventsSubscriptionRetrieveParams,
+        params: EventSubscriptionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): EventSubscription
 
     /** Update an event subscription. */
     @JvmOverloads
     fun update(
-        params: EventsSubscriptionUpdateParams,
+        params: EventSubscriptionUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): EventSubscription
 
     /** List all the event subscriptions. */
     @JvmOverloads
     fun list(
-        params: EventsSubscriptionListParams,
+        params: EventSubscriptionListParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): EventsSubscriptionListPage
+    ): EventSubscriptionListPage
 
     /** Delete an event subscription. */
     @JvmOverloads
     fun delete(
-        params: EventsSubscriptionDeleteParams,
+        params: EventSubscriptionDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none()
     )
 
     /** Resend all failed messages since a given time. */
     @JvmOverloads
     fun recover(
-        params: EventsSubscriptionRecoverParams,
+        params: EventSubscriptionRecoverParams,
         requestOptions: RequestOptions = RequestOptions.none()
     )
 
@@ -66,14 +66,14 @@ interface SubscriptionService {
      */
     @JvmOverloads
     fun replayMissing(
-        params: EventsSubscriptionReplayMissingParams,
+        params: EventSubscriptionReplayMissingParams,
         requestOptions: RequestOptions = RequestOptions.none()
     )
 
     /** Get the secret for an event subscription. */
     @JvmOverloads
     fun retrieveSecret(
-        params: EventsSubscriptionRetrieveSecretParams,
+        params: EventSubscriptionRetrieveSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): SubscriptionRetrieveSecretResponse
 
@@ -83,7 +83,7 @@ interface SubscriptionService {
      */
     @JvmOverloads
     fun rotateSecret(
-        params: EventsSubscriptionRotateSecretParams,
+        params: EventSubscriptionRotateSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
     )
 }

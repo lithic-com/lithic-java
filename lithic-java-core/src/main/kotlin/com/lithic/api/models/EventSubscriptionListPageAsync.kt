@@ -10,16 +10,17 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.services.blocking.events.SubscriptionService
+import com.lithic.api.services.async.events.SubscriptionServiceAsync
 import java.util.Objects
 import java.util.Optional
-import java.util.stream.Stream
-import java.util.stream.StreamSupport
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
+import java.util.function.Predicate
 
-class EventsSubscriptionListPage
+class EventSubscriptionListPageAsync
 private constructor(
-    private val subscriptionsService: SubscriptionService,
-    private val params: EventsSubscriptionListParams,
+    private val subscriptionsService: SubscriptionServiceAsync,
+    private val params: EventSubscriptionListParams,
     private val response: Response,
 ) {
 
@@ -34,7 +35,7 @@ private constructor(
             return true
         }
 
-        return other is EventsSubscriptionListPage &&
+        return other is EventSubscriptionListPageAsync &&
             this.subscriptionsService == other.subscriptionsService &&
             this.params == other.params &&
             this.response == other.response
@@ -49,27 +50,27 @@ private constructor(
     }
 
     override fun toString() =
-        "EventsSubscriptionListPage{subscriptionsService=$subscriptionsService, params=$params, response=$response}"
+        "EventSubscriptionListPageAsync{subscriptionsService=$subscriptionsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean {
         return data().isEmpty()
     }
 
-    fun getNextPageParams(): Optional<EventsSubscriptionListParams> {
+    fun getNextPageParams(): Optional<EventSubscriptionListParams> {
         if (!hasNextPage()) {
             return Optional.empty()
         }
 
         return if (params.endingBefore().isPresent) {
             Optional.of(
-                EventsSubscriptionListParams.builder()
+                EventSubscriptionListParams.builder()
                     .from(params)
                     .endingBefore(data().first().token())
                     .build()
             )
         } else {
             Optional.of(
-                EventsSubscriptionListParams.builder()
+                EventSubscriptionListParams.builder()
                     .from(params)
                     .startingAfter(data().last().token())
                     .build()
@@ -77,8 +78,10 @@ private constructor(
         }
     }
 
-    fun getNextPage(): Optional<EventsSubscriptionListPage> {
-        return getNextPageParams().map { subscriptionsService.list(it) }
+    fun getNextPage(): CompletableFuture<Optional<EventSubscriptionListPageAsync>> {
+        return getNextPageParams()
+            .map { subscriptionsService.list(it).thenApply { Optional.of(it) } }
+            .orElseGet { CompletableFuture.completedFuture(Optional.empty()) }
     }
 
     fun autoPager(): AutoPager = AutoPager(this)
@@ -87,11 +90,11 @@ private constructor(
 
         @JvmStatic
         fun of(
-            subscriptionsService: SubscriptionService,
-            params: EventsSubscriptionListParams,
+            subscriptionsService: SubscriptionServiceAsync,
+            params: EventSubscriptionListParams,
             response: Response
         ) =
-            EventsSubscriptionListPage(
+            EventSubscriptionListPageAsync(
                 subscriptionsService,
                 params,
                 response,
@@ -153,7 +156,7 @@ private constructor(
         }
 
         override fun toString() =
-            "EventsSubscriptionListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+            "EventSubscriptionListPageAsync.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -199,23 +202,33 @@ private constructor(
 
     class AutoPager
     constructor(
-        private val firstPage: EventsSubscriptionListPage,
-    ) : Iterable<EventSubscription> {
+        private val firstPage: EventSubscriptionListPageAsync,
+    ) {
 
-        override fun iterator(): Iterator<EventSubscription> = iterator {
-            var page = firstPage
-            var index = 0
-            while (true) {
-                while (index < page.data().size) {
-                    yield(page.data()[index++])
-                }
-                page = page.getNextPage().orElse(null) ?: break
-                index = 0
-            }
+        fun forEach(
+            action: Predicate<EventSubscription>,
+            executor: Executor
+        ): CompletableFuture<Void> {
+            fun CompletableFuture<Optional<EventSubscriptionListPageAsync>>.forEach(
+                action: (EventSubscription) -> Boolean,
+                executor: Executor
+            ): CompletableFuture<Void> =
+                thenComposeAsync(
+                    { page ->
+                        page
+                            .filter { it.data().all(action) }
+                            .map { it.getNextPage().forEach(action, executor) }
+                            .orElseGet { CompletableFuture.completedFuture(null) }
+                    },
+                    executor
+                )
+            return CompletableFuture.completedFuture(Optional.of(firstPage))
+                .forEach(action::test, executor)
         }
 
-        fun stream(): Stream<EventSubscription> {
-            return StreamSupport.stream(spliterator(), false)
+        fun toList(executor: Executor): CompletableFuture<List<EventSubscription>> {
+            val values = mutableListOf<EventSubscription>()
+            return forEach(values::add, executor).thenApply { values }
         }
     }
 }

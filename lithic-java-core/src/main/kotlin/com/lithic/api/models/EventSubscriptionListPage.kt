@@ -10,22 +10,22 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.services.blocking.financialAccounts.BalanceService
+import com.lithic.api.services.blocking.events.SubscriptionService
 import java.util.Objects
 import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
-class FinancialAccountsBalanceListPage
+class EventSubscriptionListPage
 private constructor(
-    private val balancesService: BalanceService,
-    private val params: FinancialAccountsBalanceListParams,
+    private val subscriptionsService: SubscriptionService,
+    private val params: EventSubscriptionListParams,
     private val response: Response,
 ) {
 
     fun response(): Response = response
 
-    fun data(): List<Balance> = response().data()
+    fun data(): List<EventSubscription> = response().data()
 
     fun hasMore(): Boolean = response().hasMore()
 
@@ -34,33 +34,51 @@ private constructor(
             return true
         }
 
-        return other is FinancialAccountsBalanceListPage &&
-            this.balancesService == other.balancesService &&
+        return other is EventSubscriptionListPage &&
+            this.subscriptionsService == other.subscriptionsService &&
             this.params == other.params &&
             this.response == other.response
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
-            balancesService,
+            subscriptionsService,
             params,
             response,
         )
     }
 
     override fun toString() =
-        "FinancialAccountsBalanceListPage{balancesService=$balancesService, params=$params, response=$response}"
+        "EventSubscriptionListPage{subscriptionsService=$subscriptionsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean {
         return data().isEmpty()
     }
 
-    fun getNextPageParams(): Optional<FinancialAccountsBalanceListParams> {
-        return Optional.empty()
+    fun getNextPageParams(): Optional<EventSubscriptionListParams> {
+        if (!hasNextPage()) {
+            return Optional.empty()
+        }
+
+        return if (params.endingBefore().isPresent) {
+            Optional.of(
+                EventSubscriptionListParams.builder()
+                    .from(params)
+                    .endingBefore(data().first().token())
+                    .build()
+            )
+        } else {
+            Optional.of(
+                EventSubscriptionListParams.builder()
+                    .from(params)
+                    .startingAfter(data().last().token())
+                    .build()
+            )
+        }
     }
 
-    fun getNextPage(): Optional<FinancialAccountsBalanceListPage> {
-        return getNextPageParams().map { balancesService.list(it) }
+    fun getNextPage(): Optional<EventSubscriptionListPage> {
+        return getNextPageParams().map { subscriptionsService.list(it) }
     }
 
     fun autoPager(): AutoPager = AutoPager(this)
@@ -69,12 +87,12 @@ private constructor(
 
         @JvmStatic
         fun of(
-            balancesService: BalanceService,
-            params: FinancialAccountsBalanceListParams,
+            subscriptionsService: SubscriptionService,
+            params: EventSubscriptionListParams,
             response: Response
         ) =
-            FinancialAccountsBalanceListPage(
-                balancesService,
+            EventSubscriptionListPage(
+                subscriptionsService,
                 params,
                 response,
             )
@@ -84,19 +102,19 @@ private constructor(
     @NoAutoDetect
     class Response
     constructor(
-        private val data: JsonField<List<Balance>>,
+        private val data: JsonField<List<EventSubscription>>,
         private val hasMore: JsonField<Boolean>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
 
-        fun data(): List<Balance> = data.getRequired("data")
+        fun data(): List<EventSubscription> = data.getRequired("data")
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
         @JsonProperty("data")
-        fun _data(): Optional<JsonField<List<Balance>>> = Optional.ofNullable(data)
+        fun _data(): Optional<JsonField<List<EventSubscription>>> = Optional.ofNullable(data)
 
         @JsonProperty("has_more")
         fun _hasMore(): Optional<JsonField<Boolean>> = Optional.ofNullable(hasMore)
@@ -135,7 +153,7 @@ private constructor(
         }
 
         override fun toString() =
-            "FinancialAccountsBalanceListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+            "EventSubscriptionListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -144,7 +162,7 @@ private constructor(
 
         class Builder {
 
-            private var data: JsonField<List<Balance>> = JsonMissing.of()
+            private var data: JsonField<List<EventSubscription>> = JsonMissing.of()
             private var hasMore: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -155,10 +173,10 @@ private constructor(
                 this.additionalProperties.putAll(page.additionalProperties)
             }
 
-            fun data(data: List<Balance>) = data(JsonField.of(data))
+            fun data(data: List<EventSubscription>) = data(JsonField.of(data))
 
             @JsonProperty("data")
-            fun data(data: JsonField<List<Balance>>) = apply { this.data = data }
+            fun data(data: JsonField<List<EventSubscription>>) = apply { this.data = data }
 
             fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
@@ -181,10 +199,10 @@ private constructor(
 
     class AutoPager
     constructor(
-        private val firstPage: FinancialAccountsBalanceListPage,
-    ) : Iterable<Balance> {
+        private val firstPage: EventSubscriptionListPage,
+    ) : Iterable<EventSubscription> {
 
-        override fun iterator(): Iterator<Balance> = iterator {
+        override fun iterator(): Iterator<EventSubscription> = iterator {
             var page = firstPage
             var index = 0
             while (true) {
@@ -196,7 +214,7 @@ private constructor(
             }
         }
 
-        fun stream(): Stream<Balance> {
+        fun stream(): Stream<EventSubscription> {
             return StreamSupport.stream(spliterator(), false)
         }
     }

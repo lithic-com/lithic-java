@@ -6,8 +6,8 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
-import com.lithic.api.models.FinancialAccountsBalanceListPageAsync
-import com.lithic.api.models.FinancialAccountsBalanceListParams
+import com.lithic.api.models.FinancialAccountBalanceListPageAsync
+import com.lithic.api.models.FinancialAccountBalanceListParams
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
@@ -20,15 +20,15 @@ constructor(
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
-    private val listHandler: Handler<FinancialAccountsBalanceListPageAsync.Response> =
-        jsonHandler<FinancialAccountsBalanceListPageAsync.Response>(clientOptions.jsonMapper)
+    private val listHandler: Handler<FinancialAccountBalanceListPageAsync.Response> =
+        jsonHandler<FinancialAccountBalanceListPageAsync.Response>(clientOptions.jsonMapper)
             .withErrorHandler(errorHandler)
 
     /** Get the balances for a given financial account. */
     override fun list(
-        params: FinancialAccountsBalanceListParams,
+        params: FinancialAccountBalanceListParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<FinancialAccountsBalanceListPageAsync> {
+    ): CompletableFuture<FinancialAccountBalanceListPageAsync> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -46,7 +46,7 @@ constructor(
                         validate()
                     }
                 }
-                .let { FinancialAccountsBalanceListPageAsync.of(this, params, it) }
+                .let { FinancialAccountBalanceListPageAsync.of(this, params, it) }
         }
     }
 }

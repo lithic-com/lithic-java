@@ -5,7 +5,7 @@ import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
 import java.util.Objects
 
-class EventsSubscriptionRetrieveParams
+class EventSubscriptionRetrieveSecretParams
 constructor(
     private val eventSubscriptionToken: String,
     private val additionalQueryParams: Map<String, List<String>>,
@@ -34,7 +34,7 @@ constructor(
             return true
         }
 
-        return other is EventsSubscriptionRetrieveParams &&
+        return other is EventSubscriptionRetrieveSecretParams &&
             this.eventSubscriptionToken == other.eventSubscriptionToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
@@ -49,7 +49,7 @@ constructor(
     }
 
     override fun toString() =
-        "EventsSubscriptionRetrieveParams{eventSubscriptionToken=$eventSubscriptionToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "EventSubscriptionRetrieveSecretParams{eventSubscriptionToken=$eventSubscriptionToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -66,13 +66,14 @@ constructor(
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(eventsSubscriptionRetrieveParams: EventsSubscriptionRetrieveParams) =
-            apply {
-                this.eventSubscriptionToken =
-                    eventsSubscriptionRetrieveParams.eventSubscriptionToken
-                additionalQueryParams(eventsSubscriptionRetrieveParams.additionalQueryParams)
-                additionalHeaders(eventsSubscriptionRetrieveParams.additionalHeaders)
-            }
+        internal fun from(
+            eventSubscriptionRetrieveSecretParams: EventSubscriptionRetrieveSecretParams
+        ) = apply {
+            this.eventSubscriptionToken =
+                eventSubscriptionRetrieveSecretParams.eventSubscriptionToken
+            additionalQueryParams(eventSubscriptionRetrieveSecretParams.additionalQueryParams)
+            additionalHeaders(eventSubscriptionRetrieveSecretParams.additionalHeaders)
+        }
 
         fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
             this.eventSubscriptionToken = eventSubscriptionToken
@@ -118,8 +119,8 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): EventsSubscriptionRetrieveParams =
-            EventsSubscriptionRetrieveParams(
+        fun build(): EventSubscriptionRetrieveSecretParams =
+            EventSubscriptionRetrieveSecretParams(
                 checkNotNull(eventSubscriptionToken) {
                     "`eventSubscriptionToken` is required but was not set"
                 },

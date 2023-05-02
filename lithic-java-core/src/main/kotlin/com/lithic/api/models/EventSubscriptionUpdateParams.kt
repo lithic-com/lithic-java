@@ -15,7 +15,7 @@ import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
 
-class EventsSubscriptionUpdateParams
+class EventSubscriptionUpdateParams
 constructor(
     private val eventSubscriptionToken: String,
     private val description: String?,
@@ -38,8 +38,8 @@ constructor(
     fun url(): String = url
 
     @JvmSynthetic
-    internal fun getBody(): EventsSubscriptionUpdateBody {
-        return EventsSubscriptionUpdateBody(
+    internal fun getBody(): EventSubscriptionUpdateBody {
+        return EventSubscriptionUpdateBody(
             description,
             disabled,
             eventTypes,
@@ -59,9 +59,9 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = EventsSubscriptionUpdateBody.Builder::class)
+    @JsonDeserialize(builder = EventSubscriptionUpdateBody.Builder::class)
     @NoAutoDetect
-    class EventsSubscriptionUpdateBody
+    class EventSubscriptionUpdateBody
     internal constructor(
         private val description: String?,
         private val disabled: Boolean?,
@@ -98,7 +98,7 @@ constructor(
                 return true
             }
 
-            return other is EventsSubscriptionUpdateBody &&
+            return other is EventSubscriptionUpdateBody &&
                 this.description == other.description &&
                 this.disabled == other.disabled &&
                 this.eventTypes == other.eventTypes &&
@@ -121,7 +121,7 @@ constructor(
         }
 
         override fun toString() =
-            "EventsSubscriptionUpdateBody{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalProperties=$additionalProperties}"
+            "EventSubscriptionUpdateBody{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -137,12 +137,12 @@ constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(eventsSubscriptionUpdateBody: EventsSubscriptionUpdateBody) = apply {
-                this.description = eventsSubscriptionUpdateBody.description
-                this.disabled = eventsSubscriptionUpdateBody.disabled
-                this.eventTypes = eventsSubscriptionUpdateBody.eventTypes
-                this.url = eventsSubscriptionUpdateBody.url
-                additionalProperties(eventsSubscriptionUpdateBody.additionalProperties)
+            internal fun from(eventSubscriptionUpdateBody: EventSubscriptionUpdateBody) = apply {
+                this.description = eventSubscriptionUpdateBody.description
+                this.disabled = eventSubscriptionUpdateBody.disabled
+                this.eventTypes = eventSubscriptionUpdateBody.eventTypes
+                this.url = eventSubscriptionUpdateBody.url
+                additionalProperties(eventSubscriptionUpdateBody.additionalProperties)
             }
 
             /** Event subscription description. */
@@ -177,8 +177,8 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): EventsSubscriptionUpdateBody =
-                EventsSubscriptionUpdateBody(
+            fun build(): EventSubscriptionUpdateBody =
+                EventSubscriptionUpdateBody(
                     description,
                     disabled,
                     eventTypes?.toUnmodifiable(),
@@ -199,7 +199,7 @@ constructor(
             return true
         }
 
-        return other is EventsSubscriptionUpdateParams &&
+        return other is EventSubscriptionUpdateParams &&
             this.eventSubscriptionToken == other.eventSubscriptionToken &&
             this.description == other.description &&
             this.disabled == other.disabled &&
@@ -224,7 +224,7 @@ constructor(
     }
 
     override fun toString() =
-        "EventsSubscriptionUpdateParams{eventSubscriptionToken=$eventSubscriptionToken, description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "EventSubscriptionUpdateParams{eventSubscriptionToken=$eventSubscriptionToken, description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -246,15 +246,15 @@ constructor(
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(eventsSubscriptionUpdateParams: EventsSubscriptionUpdateParams) = apply {
-            this.eventSubscriptionToken = eventsSubscriptionUpdateParams.eventSubscriptionToken
-            this.description = eventsSubscriptionUpdateParams.description
-            this.disabled = eventsSubscriptionUpdateParams.disabled
-            this.eventTypes = eventsSubscriptionUpdateParams.eventTypes
-            this.url = eventsSubscriptionUpdateParams.url
-            additionalQueryParams(eventsSubscriptionUpdateParams.additionalQueryParams)
-            additionalHeaders(eventsSubscriptionUpdateParams.additionalHeaders)
-            additionalBodyProperties(eventsSubscriptionUpdateParams.additionalBodyProperties)
+        internal fun from(eventSubscriptionUpdateParams: EventSubscriptionUpdateParams) = apply {
+            this.eventSubscriptionToken = eventSubscriptionUpdateParams.eventSubscriptionToken
+            this.description = eventSubscriptionUpdateParams.description
+            this.disabled = eventSubscriptionUpdateParams.disabled
+            this.eventTypes = eventSubscriptionUpdateParams.eventTypes
+            this.url = eventSubscriptionUpdateParams.url
+            additionalQueryParams(eventSubscriptionUpdateParams.additionalQueryParams)
+            additionalHeaders(eventSubscriptionUpdateParams.additionalHeaders)
+            additionalBodyProperties(eventSubscriptionUpdateParams.additionalBodyProperties)
         }
 
         fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
@@ -330,8 +330,8 @@ constructor(
                 this.additionalBodyProperties.putAll(additionalBodyProperties)
             }
 
-        fun build(): EventsSubscriptionUpdateParams =
-            EventsSubscriptionUpdateParams(
+        fun build(): EventSubscriptionUpdateParams =
+            EventSubscriptionUpdateParams(
                 checkNotNull(eventSubscriptionToken) {
                     "`eventSubscriptionToken` is required but was not set"
                 },

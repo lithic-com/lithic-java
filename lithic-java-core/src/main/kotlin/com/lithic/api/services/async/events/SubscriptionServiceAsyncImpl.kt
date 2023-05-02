@@ -7,16 +7,16 @@ import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.EventSubscription
-import com.lithic.api.models.EventsSubscriptionCreateParams
-import com.lithic.api.models.EventsSubscriptionDeleteParams
-import com.lithic.api.models.EventsSubscriptionListPageAsync
-import com.lithic.api.models.EventsSubscriptionListParams
-import com.lithic.api.models.EventsSubscriptionRecoverParams
-import com.lithic.api.models.EventsSubscriptionReplayMissingParams
-import com.lithic.api.models.EventsSubscriptionRetrieveParams
-import com.lithic.api.models.EventsSubscriptionRetrieveSecretParams
-import com.lithic.api.models.EventsSubscriptionRotateSecretParams
-import com.lithic.api.models.EventsSubscriptionUpdateParams
+import com.lithic.api.models.EventSubscriptionCreateParams
+import com.lithic.api.models.EventSubscriptionDeleteParams
+import com.lithic.api.models.EventSubscriptionListPageAsync
+import com.lithic.api.models.EventSubscriptionListParams
+import com.lithic.api.models.EventSubscriptionRecoverParams
+import com.lithic.api.models.EventSubscriptionReplayMissingParams
+import com.lithic.api.models.EventSubscriptionRetrieveParams
+import com.lithic.api.models.EventSubscriptionRetrieveSecretParams
+import com.lithic.api.models.EventSubscriptionRotateSecretParams
+import com.lithic.api.models.EventSubscriptionUpdateParams
 import com.lithic.api.models.SubscriptionRetrieveSecretResponse
 import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
@@ -37,7 +37,7 @@ constructor(
 
     /** Create a new event subscription. */
     override fun create(
-        params: EventsSubscriptionCreateParams,
+        params: EventSubscriptionCreateParams,
         requestOptions: RequestOptions
     ): CompletableFuture<EventSubscription> {
         val request =
@@ -66,7 +66,7 @@ constructor(
 
     /** Get an event subscription. */
     override fun retrieve(
-        params: EventsSubscriptionRetrieveParams,
+        params: EventSubscriptionRetrieveParams,
         requestOptions: RequestOptions
     ): CompletableFuture<EventSubscription> {
         val request =
@@ -94,7 +94,7 @@ constructor(
 
     /** Update an event subscription. */
     override fun update(
-        params: EventsSubscriptionUpdateParams,
+        params: EventSubscriptionUpdateParams,
         requestOptions: RequestOptions
     ): CompletableFuture<EventSubscription> {
         val request =
@@ -118,15 +118,15 @@ constructor(
         }
     }
 
-    private val listHandler: Handler<EventsSubscriptionListPageAsync.Response> =
-        jsonHandler<EventsSubscriptionListPageAsync.Response>(clientOptions.jsonMapper)
+    private val listHandler: Handler<EventSubscriptionListPageAsync.Response> =
+        jsonHandler<EventSubscriptionListPageAsync.Response>(clientOptions.jsonMapper)
             .withErrorHandler(errorHandler)
 
     /** List all the event subscriptions. */
     override fun list(
-        params: EventsSubscriptionListParams,
+        params: EventSubscriptionListParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<EventsSubscriptionListPageAsync> {
+    ): CompletableFuture<EventSubscriptionListPageAsync> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -144,7 +144,7 @@ constructor(
                         validate()
                     }
                 }
-                .let { EventsSubscriptionListPageAsync.of(this, params, it) }
+                .let { EventSubscriptionListPageAsync.of(this, params, it) }
         }
     }
 
@@ -152,7 +152,7 @@ constructor(
 
     /** Delete an event subscription. */
     override fun delete(
-        params: EventsSubscriptionDeleteParams,
+        params: EventSubscriptionDeleteParams,
         requestOptions: RequestOptions
     ): CompletableFuture<Void> {
         val request =
@@ -174,7 +174,7 @@ constructor(
 
     /** Resend all failed messages since a given time. */
     override fun recover(
-        params: EventsSubscriptionRecoverParams,
+        params: EventSubscriptionRecoverParams,
         requestOptions: RequestOptions
     ): CompletableFuture<Void> {
         val request =
@@ -199,7 +199,7 @@ constructor(
      * Messages that were previously sent to the endpoint are not resent.
      */
     override fun replayMissing(
-        params: EventsSubscriptionReplayMissingParams,
+        params: EventSubscriptionReplayMissingParams,
         requestOptions: RequestOptions
     ): CompletableFuture<Void> {
         val request =
@@ -223,7 +223,7 @@ constructor(
 
     /** Get the secret for an event subscription. */
     override fun retrieveSecret(
-        params: EventsSubscriptionRetrieveSecretParams,
+        params: EventSubscriptionRetrieveSecretParams,
         requestOptions: RequestOptions
     ): CompletableFuture<SubscriptionRetrieveSecretResponse> {
         val request =
@@ -253,7 +253,7 @@ constructor(
      * 24 hours.
      */
     override fun rotateSecret(
-        params: EventsSubscriptionRotateSecretParams,
+        params: EventSubscriptionRotateSecretParams,
         requestOptions: RequestOptions
     ): CompletableFuture<Void> {
         val request =

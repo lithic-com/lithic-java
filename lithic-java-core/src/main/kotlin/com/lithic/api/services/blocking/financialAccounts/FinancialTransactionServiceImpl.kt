@@ -6,10 +6,10 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
-import com.lithic.api.models.FinancialAccountsFinancialTransactionListPage
-import com.lithic.api.models.FinancialAccountsFinancialTransactionListParams
-import com.lithic.api.models.FinancialAccountsFinancialTransactionRetrieveParams
 import com.lithic.api.models.FinancialTransaction
+import com.lithic.api.models.FinancialTransactionListPage
+import com.lithic.api.models.FinancialTransactionListParams
+import com.lithic.api.models.FinancialTransactionRetrieveParams
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
@@ -26,7 +26,7 @@ constructor(
 
     /** Get the financial transaction for the provided token. */
     override fun retrieve(
-        params: FinancialAccountsFinancialTransactionRetrieveParams,
+        params: FinancialTransactionRetrieveParams,
         requestOptions: RequestOptions
     ): FinancialTransaction {
         val request =
@@ -53,17 +53,15 @@ constructor(
         }
     }
 
-    private val listHandler: Handler<FinancialAccountsFinancialTransactionListPage.Response> =
-        jsonHandler<FinancialAccountsFinancialTransactionListPage.Response>(
-                clientOptions.jsonMapper
-            )
+    private val listHandler: Handler<FinancialTransactionListPage.Response> =
+        jsonHandler<FinancialTransactionListPage.Response>(clientOptions.jsonMapper)
             .withErrorHandler(errorHandler)
 
     /** List the financial transactions for a given financial account. */
     override fun list(
-        params: FinancialAccountsFinancialTransactionListParams,
+        params: FinancialTransactionListParams,
         requestOptions: RequestOptions
-    ): FinancialAccountsFinancialTransactionListPage {
+    ): FinancialTransactionListPage {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -84,7 +82,7 @@ constructor(
                         validate()
                     }
                 }
-                .let { FinancialAccountsFinancialTransactionListPage.of(this, params, it) }
+                .let { FinancialTransactionListPage.of(this, params, it) }
         }
     }
 }

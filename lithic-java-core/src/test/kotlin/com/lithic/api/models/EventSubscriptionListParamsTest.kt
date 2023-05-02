@@ -4,11 +4,11 @@ import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class EventsSubscriptionListParamsTest {
+class EventSubscriptionListParamsTest {
 
     @Test
-    fun createEventsSubscriptionListParams() {
-        EventsSubscriptionListParams.builder()
+    fun createEventSubscriptionListParams() {
+        EventSubscriptionListParams.builder()
             .pageSize(123L)
             .startingAfter("string")
             .endingBefore("string")
@@ -18,7 +18,7 @@ class EventsSubscriptionListParamsTest {
     @Test
     fun getQueryParams() {
         val params =
-            EventsSubscriptionListParams.builder()
+            EventSubscriptionListParams.builder()
                 .pageSize(123L)
                 .startingAfter("string")
                 .endingBefore("string")
@@ -32,7 +32,7 @@ class EventsSubscriptionListParamsTest {
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
-        val params = EventsSubscriptionListParams.builder().build()
+        val params = EventSubscriptionListParams.builder().build()
         val expected = mutableMapOf<String, List<String>>()
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }

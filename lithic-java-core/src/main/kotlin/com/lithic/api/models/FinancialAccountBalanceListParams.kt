@@ -3,28 +3,42 @@ package com.lithic.api.models
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
+import java.time.OffsetDateTime
 import java.util.Objects
+import java.util.Optional
 
-class FinancialAccountsFinancialTransactionRetrieveParams
+class FinancialAccountBalanceListParams
 constructor(
     private val financialAccountToken: String,
-    private val financialTransactionToken: String,
+    private val balanceDate: OffsetDateTime?,
+    private val lastTransactionEventToken: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
     fun financialAccountToken(): String = financialAccountToken
 
-    fun financialTransactionToken(): String = financialTransactionToken
+    fun balanceDate(): Optional<OffsetDateTime> = Optional.ofNullable(balanceDate)
 
-    @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
+    fun lastTransactionEventToken(): Optional<String> =
+        Optional.ofNullable(lastTransactionEventToken)
+
+    @JvmSynthetic
+    internal fun getQueryParams(): Map<String, List<String>> {
+        val params = mutableMapOf<String, List<String>>()
+        this.balanceDate?.let { params.put("balance_date", listOf(it.toString())) }
+        this.lastTransactionEventToken?.let {
+            params.put("last_transaction_event_token", listOf(it.toString()))
+        }
+        params.putAll(additionalQueryParams)
+        return params.toUnmodifiable()
+    }
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun getPathParam(index: Int): String {
         return when (index) {
             0 -> financialAccountToken
-            1 -> financialTransactionToken
             else -> ""
         }
     }
@@ -38,9 +52,10 @@ constructor(
             return true
         }
 
-        return other is FinancialAccountsFinancialTransactionRetrieveParams &&
+        return other is FinancialAccountBalanceListParams &&
             this.financialAccountToken == other.financialAccountToken &&
-            this.financialTransactionToken == other.financialTransactionToken &&
+            this.balanceDate == other.balanceDate &&
+            this.lastTransactionEventToken == other.lastTransactionEventToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
@@ -48,14 +63,15 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             financialAccountToken,
-            financialTransactionToken,
+            balanceDate,
+            lastTransactionEventToken,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "FinancialAccountsFinancialTransactionRetrieveParams{financialAccountToken=$financialAccountToken, financialTransactionToken=$financialTransactionToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "FinancialAccountBalanceListParams{financialAccountToken=$financialAccountToken, balanceDate=$balanceDate, lastTransactionEventToken=$lastTransactionEventToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -68,31 +84,35 @@ constructor(
     class Builder {
 
         private var financialAccountToken: String? = null
-        private var financialTransactionToken: String? = null
+        private var balanceDate: OffsetDateTime? = null
+        private var lastTransactionEventToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(
-            financialAccountsFinancialTransactionRetrieveParams:
-                FinancialAccountsFinancialTransactionRetrieveParams
-        ) = apply {
-            this.financialAccountToken =
-                financialAccountsFinancialTransactionRetrieveParams.financialAccountToken
-            this.financialTransactionToken =
-                financialAccountsFinancialTransactionRetrieveParams.financialTransactionToken
-            additionalQueryParams(
-                financialAccountsFinancialTransactionRetrieveParams.additionalQueryParams
-            )
-            additionalHeaders(financialAccountsFinancialTransactionRetrieveParams.additionalHeaders)
-        }
+        internal fun from(financialAccountBalanceListParams: FinancialAccountBalanceListParams) =
+            apply {
+                this.financialAccountToken = financialAccountBalanceListParams.financialAccountToken
+                this.balanceDate = financialAccountBalanceListParams.balanceDate
+                this.lastTransactionEventToken =
+                    financialAccountBalanceListParams.lastTransactionEventToken
+                additionalQueryParams(financialAccountBalanceListParams.additionalQueryParams)
+                additionalHeaders(financialAccountBalanceListParams.additionalHeaders)
+            }
 
         fun financialAccountToken(financialAccountToken: String) = apply {
             this.financialAccountToken = financialAccountToken
         }
 
-        fun financialTransactionToken(financialTransactionToken: String) = apply {
-            this.financialTransactionToken = financialTransactionToken
+        /** UTC date of the balance to retrieve. Defaults to latest available balance */
+        fun balanceDate(balanceDate: OffsetDateTime) = apply { this.balanceDate = balanceDate }
+
+        /**
+         * Balance after a given financial event occured. For example, passing the event_token of a
+         * $5 CARD_CLEARING financial event will return a balance decreased by $5
+         */
+        fun lastTransactionEventToken(lastTransactionEventToken: String) = apply {
+            this.lastTransactionEventToken = lastTransactionEventToken
         }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
@@ -135,14 +155,13 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): FinancialAccountsFinancialTransactionRetrieveParams =
-            FinancialAccountsFinancialTransactionRetrieveParams(
+        fun build(): FinancialAccountBalanceListParams =
+            FinancialAccountBalanceListParams(
                 checkNotNull(financialAccountToken) {
                     "`financialAccountToken` is required but was not set"
                 },
-                checkNotNull(financialTransactionToken) {
-                    "`financialTransactionToken` is required but was not set"
-                },
+                balanceDate,
+                lastTransactionEventToken,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

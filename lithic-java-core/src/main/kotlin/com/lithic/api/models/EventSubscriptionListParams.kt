@@ -3,45 +3,35 @@ package com.lithic.api.models
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
-import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-class FinancialAccountsBalanceListParams
+class EventSubscriptionListParams
 constructor(
-    private val financialAccountToken: String,
-    private val balanceDate: OffsetDateTime?,
-    private val lastTransactionEventToken: String?,
+    private val pageSize: Long?,
+    private val startingAfter: String?,
+    private val endingBefore: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
-    fun financialAccountToken(): String = financialAccountToken
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
-    fun balanceDate(): Optional<OffsetDateTime> = Optional.ofNullable(balanceDate)
+    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
-    fun lastTransactionEventToken(): Optional<String> =
-        Optional.ofNullable(lastTransactionEventToken)
+    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
-        this.balanceDate?.let { params.put("balance_date", listOf(it.toString())) }
-        this.lastTransactionEventToken?.let {
-            params.put("last_transaction_event_token", listOf(it.toString()))
-        }
+        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
+        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
+        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
-
-    fun getPathParam(index: Int): String {
-        return when (index) {
-            0 -> financialAccountToken
-            else -> ""
-        }
-    }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
 
@@ -52,26 +42,26 @@ constructor(
             return true
         }
 
-        return other is FinancialAccountsBalanceListParams &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.balanceDate == other.balanceDate &&
-            this.lastTransactionEventToken == other.lastTransactionEventToken &&
+        return other is EventSubscriptionListParams &&
+            this.pageSize == other.pageSize &&
+            this.startingAfter == other.startingAfter &&
+            this.endingBefore == other.endingBefore &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
-            financialAccountToken,
-            balanceDate,
-            lastTransactionEventToken,
+            pageSize,
+            startingAfter,
+            endingBefore,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "FinancialAccountsBalanceListParams{financialAccountToken=$financialAccountToken, balanceDate=$balanceDate, lastTransactionEventToken=$lastTransactionEventToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "EventSubscriptionListParams{pageSize=$pageSize, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -83,38 +73,35 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var financialAccountToken: String? = null
-        private var balanceDate: OffsetDateTime? = null
-        private var lastTransactionEventToken: String? = null
+        private var pageSize: Long? = null
+        private var startingAfter: String? = null
+        private var endingBefore: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(financialAccountsBalanceListParams: FinancialAccountsBalanceListParams) =
-            apply {
-                this.financialAccountToken =
-                    financialAccountsBalanceListParams.financialAccountToken
-                this.balanceDate = financialAccountsBalanceListParams.balanceDate
-                this.lastTransactionEventToken =
-                    financialAccountsBalanceListParams.lastTransactionEventToken
-                additionalQueryParams(financialAccountsBalanceListParams.additionalQueryParams)
-                additionalHeaders(financialAccountsBalanceListParams.additionalHeaders)
-            }
-
-        fun financialAccountToken(financialAccountToken: String) = apply {
-            this.financialAccountToken = financialAccountToken
+        internal fun from(eventSubscriptionListParams: EventSubscriptionListParams) = apply {
+            this.pageSize = eventSubscriptionListParams.pageSize
+            this.startingAfter = eventSubscriptionListParams.startingAfter
+            this.endingBefore = eventSubscriptionListParams.endingBefore
+            additionalQueryParams(eventSubscriptionListParams.additionalQueryParams)
+            additionalHeaders(eventSubscriptionListParams.additionalHeaders)
         }
 
-        /** UTC date of the balance to retrieve. Defaults to latest available balance */
-        fun balanceDate(balanceDate: OffsetDateTime) = apply { this.balanceDate = balanceDate }
+        /** Page size (for pagination). */
+        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
 
         /**
-         * Balance after a given financial event occured. For example, passing the event_token of a
-         * $5 CARD_CLEARING financial event will return a balance decreased by $5
+         * The unique identifier of the last item in the previous page. Used to retrieve the next
+         * page.
          */
-        fun lastTransactionEventToken(lastTransactionEventToken: String) = apply {
-            this.lastTransactionEventToken = lastTransactionEventToken
-        }
+        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
+
+        /**
+         * The unique identifier of the first item in the previous page. Used to retrieve the
+         * previous page.
+         */
+        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -156,13 +143,11 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): FinancialAccountsBalanceListParams =
-            FinancialAccountsBalanceListParams(
-                checkNotNull(financialAccountToken) {
-                    "`financialAccountToken` is required but was not set"
-                },
-                balanceDate,
-                lastTransactionEventToken,
+        fun build(): EventSubscriptionListParams =
+            EventSubscriptionListParams(
+                pageSize,
+                startingAfter,
+                endingBefore,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

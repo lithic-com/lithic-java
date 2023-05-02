@@ -3,7 +3,7 @@ package com.lithic.api.services.blocking.events
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
-import com.lithic.api.models.EventsSubscriptionListParams
+import com.lithic.api.models.EventSubscriptionListParams
 import java.time.OffsetDateTime
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -23,10 +23,10 @@ class SubscriptionServiceTest {
         val subscriptionService = client.events().subscriptions()
         val eventSubscription =
             subscriptionService.create(
-                EventsSubscriptionCreateParams.builder()
+                EventSubscriptionCreateParams.builder()
                     .description("string")
                     .disabled(true)
-                    .eventTypes(listOf(EventsSubscriptionCreateParams.EventType.DISPUTE_UPDATED))
+                    .eventTypes(listOf(EventSubscriptionCreateParams.EventType.DISPUTE_UPDATED))
                     .url("https://example.com")
                     .build()
             )
@@ -45,7 +45,7 @@ class SubscriptionServiceTest {
         val subscriptionService = client.events().subscriptions()
         val eventSubscription =
             subscriptionService.retrieve(
-                EventsSubscriptionRetrieveParams.builder().eventSubscriptionToken("string").build()
+                EventSubscriptionRetrieveParams.builder().eventSubscriptionToken("string").build()
             )
         println(eventSubscription)
         eventSubscription.validate()
@@ -62,11 +62,11 @@ class SubscriptionServiceTest {
         val subscriptionService = client.events().subscriptions()
         val eventSubscription =
             subscriptionService.update(
-                EventsSubscriptionUpdateParams.builder()
+                EventSubscriptionUpdateParams.builder()
                     .eventSubscriptionToken("string")
                     .description("string")
                     .disabled(true)
-                    .eventTypes(listOf(EventsSubscriptionUpdateParams.EventType.DISPUTE_UPDATED))
+                    .eventTypes(listOf(EventSubscriptionUpdateParams.EventType.DISPUTE_UPDATED))
                     .url("https://example.com")
                     .build()
             )
@@ -83,7 +83,7 @@ class SubscriptionServiceTest {
                 .webhookSecret("string")
                 .build()
         val subscriptionService = client.events().subscriptions()
-        val response = subscriptionService.list(EventsSubscriptionListParams.builder().build())
+        val response = subscriptionService.list(EventSubscriptionListParams.builder().build())
         println(response)
         response.data().forEach { it.validate() }
     }
@@ -99,7 +99,7 @@ class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.delete(
-            EventsSubscriptionDeleteParams.builder().eventSubscriptionToken("string").build()
+            EventSubscriptionDeleteParams.builder().eventSubscriptionToken("string").build()
         )
     }
 
@@ -114,7 +114,7 @@ class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.recover(
-            EventsSubscriptionRecoverParams.builder()
+            EventSubscriptionRecoverParams.builder()
                 .eventSubscriptionToken("string")
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -133,7 +133,7 @@ class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.replayMissing(
-            EventsSubscriptionReplayMissingParams.builder()
+            EventSubscriptionReplayMissingParams.builder()
                 .eventSubscriptionToken("string")
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -152,7 +152,7 @@ class SubscriptionServiceTest {
         val subscriptionService = client.events().subscriptions()
         val subscriptionRetrieveSecretResponse =
             subscriptionService.retrieveSecret(
-                EventsSubscriptionRetrieveSecretParams.builder()
+                EventSubscriptionRetrieveSecretParams.builder()
                     .eventSubscriptionToken("string")
                     .build()
             )
@@ -171,7 +171,7 @@ class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.rotateSecret(
-            EventsSubscriptionRotateSecretParams.builder().eventSubscriptionToken("string").build()
+            EventSubscriptionRotateSecretParams.builder().eventSubscriptionToken("string").build()
         )
     }
 }

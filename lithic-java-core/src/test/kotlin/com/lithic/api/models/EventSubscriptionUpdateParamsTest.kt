@@ -4,15 +4,15 @@ import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class EventsSubscriptionUpdateParamsTest {
+class EventSubscriptionUpdateParamsTest {
 
     @Test
-    fun createEventsSubscriptionUpdateParams() {
-        EventsSubscriptionUpdateParams.builder()
+    fun createEventSubscriptionUpdateParams() {
+        EventSubscriptionUpdateParams.builder()
             .eventSubscriptionToken("string")
             .description("string")
             .disabled(true)
-            .eventTypes(listOf(EventsSubscriptionUpdateParams.EventType.DISPUTE_UPDATED))
+            .eventTypes(listOf(EventSubscriptionUpdateParams.EventType.DISPUTE_UPDATED))
             .url("https://example.com")
             .build()
     }
@@ -20,11 +20,11 @@ class EventsSubscriptionUpdateParamsTest {
     @Test
     fun getBody() {
         val params =
-            EventsSubscriptionUpdateParams.builder()
+            EventSubscriptionUpdateParams.builder()
                 .eventSubscriptionToken("string")
                 .description("string")
                 .disabled(true)
-                .eventTypes(listOf(EventsSubscriptionUpdateParams.EventType.DISPUTE_UPDATED))
+                .eventTypes(listOf(EventSubscriptionUpdateParams.EventType.DISPUTE_UPDATED))
                 .url("https://example.com")
                 .build()
         val body = params.getBody()
@@ -32,14 +32,14 @@ class EventsSubscriptionUpdateParamsTest {
         assertThat(body.description()).isEqualTo("string")
         assertThat(body.disabled()).isEqualTo(true)
         assertThat(body.eventTypes())
-            .isEqualTo(listOf(EventsSubscriptionUpdateParams.EventType.DISPUTE_UPDATED))
+            .isEqualTo(listOf(EventSubscriptionUpdateParams.EventType.DISPUTE_UPDATED))
         assertThat(body.url()).isEqualTo("https://example.com")
     }
 
     @Test
     fun getBodyWithoutOptionalFields() {
         val params =
-            EventsSubscriptionUpdateParams.builder()
+            EventSubscriptionUpdateParams.builder()
                 .eventSubscriptionToken("string")
                 .url("https://example.com")
                 .build()
@@ -51,7 +51,7 @@ class EventsSubscriptionUpdateParamsTest {
     @Test
     fun getPathParam() {
         val params =
-            EventsSubscriptionUpdateParams.builder()
+            EventSubscriptionUpdateParams.builder()
                 .eventSubscriptionToken("string")
                 .url("https://example.com")
                 .build()

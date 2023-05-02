@@ -10,22 +10,22 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
+import com.lithic.api.services.blocking.financialAccounts.BalanceService
 import java.util.Objects
 import java.util.Optional
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
 
-class FinancialAccountsFinancialTransactionListPage
+class FinancialAccountBalanceListPage
 private constructor(
-    private val financialTransactionsService: FinancialTransactionService,
-    private val params: FinancialAccountsFinancialTransactionListParams,
+    private val balancesService: BalanceService,
+    private val params: FinancialAccountBalanceListParams,
     private val response: Response,
 ) {
 
     fun response(): Response = response
 
-    fun data(): List<FinancialTransaction> = response().data()
+    fun data(): List<Balance> = response().data()
 
     fun hasMore(): Boolean = response().hasMore()
 
@@ -34,33 +34,33 @@ private constructor(
             return true
         }
 
-        return other is FinancialAccountsFinancialTransactionListPage &&
-            this.financialTransactionsService == other.financialTransactionsService &&
+        return other is FinancialAccountBalanceListPage &&
+            this.balancesService == other.balancesService &&
             this.params == other.params &&
             this.response == other.response
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
-            financialTransactionsService,
+            balancesService,
             params,
             response,
         )
     }
 
     override fun toString() =
-        "FinancialAccountsFinancialTransactionListPage{financialTransactionsService=$financialTransactionsService, params=$params, response=$response}"
+        "FinancialAccountBalanceListPage{balancesService=$balancesService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean {
         return data().isEmpty()
     }
 
-    fun getNextPageParams(): Optional<FinancialAccountsFinancialTransactionListParams> {
+    fun getNextPageParams(): Optional<FinancialAccountBalanceListParams> {
         return Optional.empty()
     }
 
-    fun getNextPage(): Optional<FinancialAccountsFinancialTransactionListPage> {
-        return getNextPageParams().map { financialTransactionsService.list(it) }
+    fun getNextPage(): Optional<FinancialAccountBalanceListPage> {
+        return getNextPageParams().map { balancesService.list(it) }
     }
 
     fun autoPager(): AutoPager = AutoPager(this)
@@ -69,12 +69,12 @@ private constructor(
 
         @JvmStatic
         fun of(
-            financialTransactionsService: FinancialTransactionService,
-            params: FinancialAccountsFinancialTransactionListParams,
+            balancesService: BalanceService,
+            params: FinancialAccountBalanceListParams,
             response: Response
         ) =
-            FinancialAccountsFinancialTransactionListPage(
-                financialTransactionsService,
+            FinancialAccountBalanceListPage(
+                balancesService,
                 params,
                 response,
             )
@@ -84,19 +84,19 @@ private constructor(
     @NoAutoDetect
     class Response
     constructor(
-        private val data: JsonField<List<FinancialTransaction>>,
+        private val data: JsonField<List<Balance>>,
         private val hasMore: JsonField<Boolean>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
 
-        fun data(): List<FinancialTransaction> = data.getRequired("data")
+        fun data(): List<Balance> = data.getRequired("data")
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
         @JsonProperty("data")
-        fun _data(): Optional<JsonField<List<FinancialTransaction>>> = Optional.ofNullable(data)
+        fun _data(): Optional<JsonField<List<Balance>>> = Optional.ofNullable(data)
 
         @JsonProperty("has_more")
         fun _hasMore(): Optional<JsonField<Boolean>> = Optional.ofNullable(hasMore)
@@ -135,7 +135,7 @@ private constructor(
         }
 
         override fun toString() =
-            "FinancialAccountsFinancialTransactionListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+            "FinancialAccountBalanceListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -144,7 +144,7 @@ private constructor(
 
         class Builder {
 
-            private var data: JsonField<List<FinancialTransaction>> = JsonMissing.of()
+            private var data: JsonField<List<Balance>> = JsonMissing.of()
             private var hasMore: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -155,10 +155,10 @@ private constructor(
                 this.additionalProperties.putAll(page.additionalProperties)
             }
 
-            fun data(data: List<FinancialTransaction>) = data(JsonField.of(data))
+            fun data(data: List<Balance>) = data(JsonField.of(data))
 
             @JsonProperty("data")
-            fun data(data: JsonField<List<FinancialTransaction>>) = apply { this.data = data }
+            fun data(data: JsonField<List<Balance>>) = apply { this.data = data }
 
             fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
@@ -181,10 +181,10 @@ private constructor(
 
     class AutoPager
     constructor(
-        private val firstPage: FinancialAccountsFinancialTransactionListPage,
-    ) : Iterable<FinancialTransaction> {
+        private val firstPage: FinancialAccountBalanceListPage,
+    ) : Iterable<Balance> {
 
-        override fun iterator(): Iterator<FinancialTransaction> = iterator {
+        override fun iterator(): Iterator<Balance> = iterator {
             var page = firstPage
             var index = 0
             while (true) {
@@ -196,7 +196,7 @@ private constructor(
             }
         }
 
-        fun stream(): Stream<FinancialTransaction> {
+        fun stream(): Stream<Balance> {
             return StreamSupport.stream(spliterator(), false)
         }
     }
