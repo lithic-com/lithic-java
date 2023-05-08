@@ -185,9 +185,9 @@ constructor(
          * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
          * credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
          * [lithic.com/contact](https://lithic.com/contact) for more information.
+         * - `SINGLE_USE` - Card is closed upon first successful authorization.
          * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
          * successfully authorizes the card.
-         * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful authorization.
          */
         @JsonProperty("type") fun type(): Type? = type
 
@@ -409,9 +409,9 @@ constructor(
              * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
              * branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach
              * out at [lithic.com/contact](https://lithic.com/contact) for more information.
+             * - `SINGLE_USE` - Card is closed upon first successful authorization.
              * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
              * successfully authorizes the card.
-             * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful authorization.
              */
             @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
 
@@ -679,9 +679,9 @@ constructor(
          * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
          * credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
          * [lithic.com/contact](https://lithic.com/contact) for more information.
+         * - `SINGLE_USE` - Card is closed upon first successful authorization.
          * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
          * successfully authorizes the card.
-         * - `SINGLE_USE` - _[Deprecated]_ Card is closed upon first successful authorization.
          */
         fun type(type: Type) = apply { this.type = type }
 

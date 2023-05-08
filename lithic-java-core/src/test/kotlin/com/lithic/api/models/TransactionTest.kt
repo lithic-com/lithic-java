@@ -13,6 +13,8 @@ class TransactionTest {
                 .acquirerReferenceNumber("xxxxxxxxxxxxxxxxxxxxxxx")
                 .amount(123L)
                 .authorizationAmount(123L)
+                .authorizationCode("xxxxxx")
+                .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardholderAuthentication(
                     Transaction.CardholderAuthentication.builder()
                         ._3dsVersion("string")
@@ -31,11 +33,6 @@ class TransactionTest {
                         )
                         .build()
                 )
-                .merchantAmount(123L)
-                .merchantAuthorizationAmount(123L)
-                .merchantCurrency("string")
-                .authorizationCode("xxxxxx")
-                .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .events(
                     listOf(
@@ -58,6 +55,9 @@ class TransactionTest {
                         .state("NY")
                         .build()
                 )
+                .merchantAmount(123L)
+                .merchantAuthorizationAmount(123L)
+                .merchantCurrency("string")
                 .network(Transaction.Network.INTERLINK)
                 .result(Transaction.Result.ACCOUNT_STATE_TRANSACTION)
                 .settledAmount(123L)
@@ -66,8 +66,10 @@ class TransactionTest {
                 .build()
         assertThat(transaction).isNotNull
         assertThat(transaction.acquirerReferenceNumber()).contains("xxxxxxxxxxxxxxxxxxxxxxx")
-        assertThat(transaction.amount()).contains(123L)
-        assertThat(transaction.authorizationAmount()).contains(123L)
+        assertThat(transaction.amount()).isEqualTo(123L)
+        assertThat(transaction.authorizationAmount()).isEqualTo(123L)
+        assertThat(transaction.authorizationCode()).isEqualTo("xxxxxx")
+        assertThat(transaction.cardToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(transaction.cardholderAuthentication())
             .contains(
                 Transaction.CardholderAuthentication.builder()
@@ -87,13 +89,9 @@ class TransactionTest {
                     )
                     .build()
             )
-        assertThat(transaction.merchantAmount()).contains(123L)
-        assertThat(transaction.merchantAuthorizationAmount()).contains(123L)
-        assertThat(transaction.merchantCurrency()).contains("string")
-        assertThat(transaction.authorizationCode()).contains("xxxxxx")
-        assertThat(transaction.cardToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(transaction.created()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(transaction.events().get())
+        assertThat(transaction.created())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(transaction.events())
             .containsExactly(
                 Transaction.TransactionEvent.builder()
                     .amount(123L)
@@ -104,7 +102,7 @@ class TransactionTest {
                     .build()
             )
         assertThat(transaction.merchant())
-            .contains(
+            .isEqualTo(
                 Transaction.Merchant.builder()
                     .acceptorId("72600003")
                     .city("NEW YORK")
@@ -114,10 +112,13 @@ class TransactionTest {
                     .state("NY")
                     .build()
             )
+        assertThat(transaction.merchantAmount()).isEqualTo(123L)
+        assertThat(transaction.merchantAuthorizationAmount()).isEqualTo(123L)
+        assertThat(transaction.merchantCurrency()).isEqualTo("string")
         assertThat(transaction.network()).contains(Transaction.Network.INTERLINK)
-        assertThat(transaction.result()).contains(Transaction.Result.ACCOUNT_STATE_TRANSACTION)
-        assertThat(transaction.settledAmount()).contains(123L)
-        assertThat(transaction.status()).contains(Transaction.Status.BOUNCED)
-        assertThat(transaction.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(transaction.result()).isEqualTo(Transaction.Result.ACCOUNT_STATE_TRANSACTION)
+        assertThat(transaction.settledAmount()).isEqualTo(123L)
+        assertThat(transaction.status()).isEqualTo(Transaction.Status.BOUNCED)
+        assertThat(transaction.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }

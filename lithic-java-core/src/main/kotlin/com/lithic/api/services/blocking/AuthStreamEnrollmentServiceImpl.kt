@@ -111,7 +111,7 @@ constructor(
         jsonHandler<AuthStreamSecret>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
-     * Retrieve the ASA HMAC secret key. If one does not exist your program yet, calling this
+     * Retrieve the ASA HMAC secret key. If one does not exist for your program yet, calling this
      * endpoint will create one for you. The headers (which you can use to verify webhooks) will
      * begin appearing shortly after calling this endpoint for the first time. See
      * [this page](https://docs.lithic.com/docs/auth-stream-access-asa#asa-webhook-verification) for

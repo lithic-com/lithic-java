@@ -23,15 +23,15 @@ private constructor(
     private val acquirerReferenceNumber: JsonField<String>,
     private val amount: JsonField<Long>,
     private val authorizationAmount: JsonField<Long>,
-    private val cardholderAuthentication: JsonField<CardholderAuthentication>,
-    private val merchantAmount: JsonField<Long>,
-    private val merchantAuthorizationAmount: JsonField<Long>,
-    private val merchantCurrency: JsonField<String>,
     private val authorizationCode: JsonField<String>,
     private val cardToken: JsonField<String>,
+    private val cardholderAuthentication: JsonField<CardholderAuthentication>,
     private val created: JsonField<OffsetDateTime>,
     private val events: JsonField<List<TransactionEvent>>,
     private val merchant: JsonField<Merchant>,
+    private val merchantAmount: JsonField<Long>,
+    private val merchantAuthorizationAmount: JsonField<Long>,
+    private val merchantCurrency: JsonField<String>,
     private val network: JsonField<Network>,
     private val result: JsonField<Result>,
     private val settledAmount: JsonField<Long>,
@@ -56,56 +56,49 @@ private constructor(
      * Authorization amount of the transaction (in cents), including any acquirer fees. This may
      * change over time, and will represent the settled amount once the transaction is settled.
      */
-    fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
+    fun amount(): Long = amount.getRequired("amount")
 
     /**
      * Authorization amount (in cents) of the transaction, including any acquirer fees. This amount
      * always represents the amount authorized for the transaction, unaffected by settlement.
      */
-    fun authorizationAmount(): Optional<Long> =
-        Optional.ofNullable(authorizationAmount.getNullable("authorization_amount"))
-
-    fun cardholderAuthentication(): Optional<CardholderAuthentication> =
-        Optional.ofNullable(cardholderAuthentication.getNullable("cardholder_authentication"))
-
-    /**
-     * Analogous to the "amount" property, but will represent the amount in the transaction's local
-     * currency (smallest unit), including any acquirer fees.
-     */
-    fun merchantAmount(): Optional<Long> =
-        Optional.ofNullable(merchantAmount.getNullable("merchant_amount"))
-
-    /**
-     * Analogous to the "authorization_amount" property, but will represent the amount in the
-     * transaction's local currency (smallest unit), including any acquirer fees.
-     */
-    fun merchantAuthorizationAmount(): Optional<Long> =
-        Optional.ofNullable(
-            merchantAuthorizationAmount.getNullable("merchant_authorization_amount")
-        )
-
-    /** 3-digit alphabetic ISO 4217 code for the local currency of the transaction. */
-    fun merchantCurrency(): Optional<String> =
-        Optional.ofNullable(merchantCurrency.getNullable("merchant_currency"))
+    fun authorizationAmount(): Long = authorizationAmount.getRequired("authorization_amount")
 
     /**
      * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
      * networks.
      */
-    fun authorizationCode(): Optional<String> =
-        Optional.ofNullable(authorizationCode.getNullable("authorization_code"))
+    fun authorizationCode(): String = authorizationCode.getRequired("authorization_code")
 
     /** Token for the card used in this transaction. */
-    fun cardToken(): Optional<String> = Optional.ofNullable(cardToken.getNullable("card_token"))
+    fun cardToken(): String = cardToken.getRequired("card_token")
+
+    fun cardholderAuthentication(): Optional<CardholderAuthentication> =
+        Optional.ofNullable(cardholderAuthentication.getNullable("cardholder_authentication"))
 
     /** Date and time when the transaction first occurred. UTC time zone. */
-    fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
+    fun created(): OffsetDateTime = created.getRequired("created")
 
     /** A list of all events that have modified this transaction. */
-    fun events(): Optional<List<TransactionEvent>> =
-        Optional.ofNullable(events.getNullable("events"))
+    fun events(): List<TransactionEvent> = events.getRequired("events")
 
-    fun merchant(): Optional<Merchant> = Optional.ofNullable(merchant.getNullable("merchant"))
+    fun merchant(): Merchant = merchant.getRequired("merchant")
+
+    /**
+     * Analogous to the "amount" property, but will represent the amount in the transaction's local
+     * currency (smallest unit), including any acquirer fees.
+     */
+    fun merchantAmount(): Long = merchantAmount.getRequired("merchant_amount")
+
+    /**
+     * Analogous to the "authorization_amount" property, but will represent the amount in the
+     * transaction's local currency (smallest unit), including any acquirer fees.
+     */
+    fun merchantAuthorizationAmount(): Long =
+        merchantAuthorizationAmount.getRequired("merchant_authorization_amount")
+
+    /** 3-digit alphabetic ISO 4217 code for the local currency of the transaction. */
+    fun merchantCurrency(): String = merchantCurrency.getRequired("merchant_currency")
 
     /**
      * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`, or
@@ -115,14 +108,13 @@ private constructor(
     fun network(): Optional<Network> = Optional.ofNullable(network.getNullable("network"))
 
     /** `APPROVED` or decline reason. See Event result types */
-    fun result(): Optional<Result> = Optional.ofNullable(result.getNullable("result"))
+    fun result(): Result = result.getRequired("result")
 
     /**
      * Amount of the transaction that has been settled (in cents), including any acquirer fees. This
      * may change over time.
      */
-    fun settledAmount(): Optional<Long> =
-        Optional.ofNullable(settledAmount.getNullable("settled_amount"))
+    fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
 
     /**
      * Status types:
@@ -133,10 +125,10 @@ private constructor(
      * - `SETTLED` - The transaction is complete.
      * - `VOIDED` - The merchant has voided the previously pending authorization.
      */
-    fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
+    fun status(): Status = status.getRequired("status")
 
     /** Globally unique identifier. */
-    fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+    fun token(): String = token.getRequired("token")
 
     /**
      * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
@@ -161,9 +153,26 @@ private constructor(
     @ExcludeMissing
     fun _authorizationAmount() = authorizationAmount
 
+    /**
+     * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
+     * networks.
+     */
+    @JsonProperty("authorization_code") @ExcludeMissing fun _authorizationCode() = authorizationCode
+
+    /** Token for the card used in this transaction. */
+    @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
+
     @JsonProperty("cardholder_authentication")
     @ExcludeMissing
     fun _cardholderAuthentication() = cardholderAuthentication
+
+    /** Date and time when the transaction first occurred. UTC time zone. */
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
+
+    /** A list of all events that have modified this transaction. */
+    @JsonProperty("events") @ExcludeMissing fun _events() = events
+
+    @JsonProperty("merchant") @ExcludeMissing fun _merchant() = merchant
 
     /**
      * Analogous to the "amount" property, but will represent the amount in the transaction's local
@@ -181,23 +190,6 @@ private constructor(
 
     /** 3-digit alphabetic ISO 4217 code for the local currency of the transaction. */
     @JsonProperty("merchant_currency") @ExcludeMissing fun _merchantCurrency() = merchantCurrency
-
-    /**
-     * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
-     * networks.
-     */
-    @JsonProperty("authorization_code") @ExcludeMissing fun _authorizationCode() = authorizationCode
-
-    /** Token for the card used in this transaction. */
-    @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
-
-    /** Date and time when the transaction first occurred. UTC time zone. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
-
-    /** A list of all events that have modified this transaction. */
-    @JsonProperty("events") @ExcludeMissing fun _events() = events
-
-    @JsonProperty("merchant") @ExcludeMissing fun _merchant() = merchant
 
     /**
      * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`, or
@@ -238,15 +230,15 @@ private constructor(
             acquirerReferenceNumber()
             amount()
             authorizationAmount()
+            authorizationCode()
+            cardToken()
             cardholderAuthentication().map { it.validate() }
+            created()
+            events().forEach { it.validate() }
+            merchant().validate()
             merchantAmount()
             merchantAuthorizationAmount()
             merchantCurrency()
-            authorizationCode()
-            cardToken()
-            created()
-            events().map { it.forEach { it.validate() } }
-            merchant().map { it.validate() }
             network()
             result()
             settledAmount()
@@ -267,15 +259,15 @@ private constructor(
             this.acquirerReferenceNumber == other.acquirerReferenceNumber &&
             this.amount == other.amount &&
             this.authorizationAmount == other.authorizationAmount &&
-            this.cardholderAuthentication == other.cardholderAuthentication &&
-            this.merchantAmount == other.merchantAmount &&
-            this.merchantAuthorizationAmount == other.merchantAuthorizationAmount &&
-            this.merchantCurrency == other.merchantCurrency &&
             this.authorizationCode == other.authorizationCode &&
             this.cardToken == other.cardToken &&
+            this.cardholderAuthentication == other.cardholderAuthentication &&
             this.created == other.created &&
             this.events == other.events &&
             this.merchant == other.merchant &&
+            this.merchantAmount == other.merchantAmount &&
+            this.merchantAuthorizationAmount == other.merchantAuthorizationAmount &&
+            this.merchantCurrency == other.merchantCurrency &&
             this.network == other.network &&
             this.result == other.result &&
             this.settledAmount == other.settledAmount &&
@@ -291,15 +283,15 @@ private constructor(
                     acquirerReferenceNumber,
                     amount,
                     authorizationAmount,
-                    cardholderAuthentication,
-                    merchantAmount,
-                    merchantAuthorizationAmount,
-                    merchantCurrency,
                     authorizationCode,
                     cardToken,
+                    cardholderAuthentication,
                     created,
                     events,
                     merchant,
+                    merchantAmount,
+                    merchantAuthorizationAmount,
+                    merchantCurrency,
                     network,
                     result,
                     settledAmount,
@@ -312,7 +304,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Transaction{acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, authorizationAmount=$authorizationAmount, cardholderAuthentication=$cardholderAuthentication, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, authorizationCode=$authorizationCode, cardToken=$cardToken, created=$created, events=$events, merchant=$merchant, network=$network, result=$result, settledAmount=$settledAmount, status=$status, token=$token, additionalProperties=$additionalProperties}"
+        "Transaction{acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, authorizationAmount=$authorizationAmount, authorizationCode=$authorizationCode, cardToken=$cardToken, cardholderAuthentication=$cardholderAuthentication, created=$created, events=$events, merchant=$merchant, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, network=$network, result=$result, settledAmount=$settledAmount, status=$status, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -324,15 +316,15 @@ private constructor(
         private var acquirerReferenceNumber: JsonField<String> = JsonMissing.of()
         private var amount: JsonField<Long> = JsonMissing.of()
         private var authorizationAmount: JsonField<Long> = JsonMissing.of()
-        private var cardholderAuthentication: JsonField<CardholderAuthentication> = JsonMissing.of()
-        private var merchantAmount: JsonField<Long> = JsonMissing.of()
-        private var merchantAuthorizationAmount: JsonField<Long> = JsonMissing.of()
-        private var merchantCurrency: JsonField<String> = JsonMissing.of()
         private var authorizationCode: JsonField<String> = JsonMissing.of()
         private var cardToken: JsonField<String> = JsonMissing.of()
+        private var cardholderAuthentication: JsonField<CardholderAuthentication> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var events: JsonField<List<TransactionEvent>> = JsonMissing.of()
         private var merchant: JsonField<Merchant> = JsonMissing.of()
+        private var merchantAmount: JsonField<Long> = JsonMissing.of()
+        private var merchantAuthorizationAmount: JsonField<Long> = JsonMissing.of()
+        private var merchantCurrency: JsonField<String> = JsonMissing.of()
         private var network: JsonField<Network> = JsonMissing.of()
         private var result: JsonField<Result> = JsonMissing.of()
         private var settledAmount: JsonField<Long> = JsonMissing.of()
@@ -345,15 +337,15 @@ private constructor(
             this.acquirerReferenceNumber = transaction.acquirerReferenceNumber
             this.amount = transaction.amount
             this.authorizationAmount = transaction.authorizationAmount
-            this.cardholderAuthentication = transaction.cardholderAuthentication
-            this.merchantAmount = transaction.merchantAmount
-            this.merchantAuthorizationAmount = transaction.merchantAuthorizationAmount
-            this.merchantCurrency = transaction.merchantCurrency
             this.authorizationCode = transaction.authorizationCode
             this.cardToken = transaction.cardToken
+            this.cardholderAuthentication = transaction.cardholderAuthentication
             this.created = transaction.created
             this.events = transaction.events
             this.merchant = transaction.merchant
+            this.merchantAmount = transaction.merchantAmount
+            this.merchantAuthorizationAmount = transaction.merchantAuthorizationAmount
+            this.merchantCurrency = transaction.merchantCurrency
             this.network = transaction.network
             this.result = transaction.result
             this.settledAmount = transaction.settledAmount
@@ -414,6 +406,31 @@ private constructor(
             this.authorizationAmount = authorizationAmount
         }
 
+        /**
+         * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
+         * networks.
+         */
+        fun authorizationCode(authorizationCode: String) =
+            authorizationCode(JsonField.of(authorizationCode))
+
+        /**
+         * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
+         * networks.
+         */
+        @JsonProperty("authorization_code")
+        @ExcludeMissing
+        fun authorizationCode(authorizationCode: JsonField<String>) = apply {
+            this.authorizationCode = authorizationCode
+        }
+
+        /** Token for the card used in this transaction. */
+        fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
+
+        /** Token for the card used in this transaction. */
+        @JsonProperty("card_token")
+        @ExcludeMissing
+        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
+
         fun cardholderAuthentication(cardholderAuthentication: CardholderAuthentication) =
             cardholderAuthentication(JsonField.of(cardholderAuthentication))
 
@@ -422,6 +439,28 @@ private constructor(
         fun cardholderAuthentication(
             cardholderAuthentication: JsonField<CardholderAuthentication>
         ) = apply { this.cardholderAuthentication = cardholderAuthentication }
+
+        /** Date and time when the transaction first occurred. UTC time zone. */
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+        /** Date and time when the transaction first occurred. UTC time zone. */
+        @JsonProperty("created")
+        @ExcludeMissing
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+        /** A list of all events that have modified this transaction. */
+        fun events(events: List<TransactionEvent>) = events(JsonField.of(events))
+
+        /** A list of all events that have modified this transaction. */
+        @JsonProperty("events")
+        @ExcludeMissing
+        fun events(events: JsonField<List<TransactionEvent>>) = apply { this.events = events }
+
+        fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
+
+        @JsonProperty("merchant")
+        @ExcludeMissing
+        fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
         /**
          * Analogous to the "amount" property, but will represent the amount in the transaction's
@@ -466,53 +505,6 @@ private constructor(
         fun merchantCurrency(merchantCurrency: JsonField<String>) = apply {
             this.merchantCurrency = merchantCurrency
         }
-
-        /**
-         * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
-         * networks.
-         */
-        fun authorizationCode(authorizationCode: String) =
-            authorizationCode(JsonField.of(authorizationCode))
-
-        /**
-         * A fixed-width 6-digit numeric identifier that can be used to identify a transaction with
-         * networks.
-         */
-        @JsonProperty("authorization_code")
-        @ExcludeMissing
-        fun authorizationCode(authorizationCode: JsonField<String>) = apply {
-            this.authorizationCode = authorizationCode
-        }
-
-        /** Token for the card used in this transaction. */
-        fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
-
-        /** Token for the card used in this transaction. */
-        @JsonProperty("card_token")
-        @ExcludeMissing
-        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
-
-        /** Date and time when the transaction first occurred. UTC time zone. */
-        fun created(created: OffsetDateTime) = created(JsonField.of(created))
-
-        /** Date and time when the transaction first occurred. UTC time zone. */
-        @JsonProperty("created")
-        @ExcludeMissing
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
-
-        /** A list of all events that have modified this transaction. */
-        fun events(events: List<TransactionEvent>) = events(JsonField.of(events))
-
-        /** A list of all events that have modified this transaction. */
-        @JsonProperty("events")
-        @ExcludeMissing
-        fun events(events: JsonField<List<TransactionEvent>>) = apply { this.events = events }
-
-        fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
-
-        @JsonProperty("merchant")
-        @ExcludeMissing
-        fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
         /**
          * Card network of the authorization. Can be `INTERLINK`, `MAESTRO`, `MASTERCARD`, `VISA`,
@@ -605,15 +597,15 @@ private constructor(
                 acquirerReferenceNumber,
                 amount,
                 authorizationAmount,
-                cardholderAuthentication,
-                merchantAmount,
-                merchantAuthorizationAmount,
-                merchantCurrency,
                 authorizationCode,
                 cardToken,
+                cardholderAuthentication,
                 created,
                 events.map { it.toUnmodifiable() },
                 merchant,
+                merchantAmount,
+                merchantAuthorizationAmount,
+                merchantCurrency,
                 network,
                 result,
                 settledAmount,
