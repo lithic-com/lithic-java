@@ -43,9 +43,7 @@ constructor(
         this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
         this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
-        this.eventTypes?.let {
-            params.put("event_types[]", listOf(it.joinToString(separator = ",")))
-        }
+        this.eventTypes?.let { params.put("event_types[]", it.map(Any::toString)) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
