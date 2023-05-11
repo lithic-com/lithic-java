@@ -165,14 +165,14 @@ constructor(
         fun end(end: OffsetDateTime) = apply { this.end = end }
 
         /**
-         * The unique identifier of the last item in the previous page. Used to retrieve the next
-         * page.
+         * A cursor representing an item's token after which a page of results should begin. Used to
+         * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
         /**
-         * The unique identifier of the first item in the previous page. Used to retrieve the
-         * previous page.
+         * A cursor representing an item's token before which a page of results should end. Used to
+         * retrieve the previous page of results before this item.
          */
         fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
