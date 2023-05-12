@@ -10,7 +10,7 @@ class DisputeListParamsTest {
     @Test
     fun createDisputeListParams() {
         DisputeListParams.builder()
-            .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .transactionTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
             .status(DisputeListParams.Status.NEW)
             .pageSize(123L)
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -24,7 +24,7 @@ class DisputeListParamsTest {
     fun getQueryParams() {
         val params =
             DisputeListParams.builder()
-                .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .transactionTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
                 .status(DisputeListParams.Status.NEW)
                 .pageSize(123L)
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -33,7 +33,7 @@ class DisputeListParamsTest {
                 .endingBefore("string")
                 .build()
         val expected = mutableMapOf<String, List<String>>()
-        expected.put("transaction_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+        expected.put("transaction_tokens", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
         expected.put("status", listOf(DisputeListParams.Status.NEW.toString()))
         expected.put("page_size", listOf("123"))
         expected.put("begin", listOf("2019-12-27T18:11:19.117Z"))

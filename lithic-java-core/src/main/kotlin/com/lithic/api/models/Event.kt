@@ -37,9 +37,17 @@ private constructor(
     /**
      * Event types:
      *
+     * - `card.created` - Notification that a card has been created.
+     * - `card.shipped` - Physical card shipment notification. See
+     * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
+     * - `card_transaction.updated` - Transaction Lifecycle webhook. See
+     * https://docs.lithic.com/docs/transaction-webhooks.
      * - `dispute.updated` - A dispute has been updated.
      * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
      * activate a digital wallet token.
+     * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
+     * end user to complete digital wallet authentication. See
+     * https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
      */
     fun eventType(): EventType = eventType.getRequired("event_type")
 
@@ -58,9 +66,17 @@ private constructor(
     /**
      * Event types:
      *
+     * - `card.created` - Notification that a card has been created.
+     * - `card.shipped` - Physical card shipment notification. See
+     * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
+     * - `card_transaction.updated` - Transaction Lifecycle webhook. See
+     * https://docs.lithic.com/docs/transaction-webhooks.
      * - `dispute.updated` - A dispute has been updated.
      * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
      * activate a digital wallet token.
+     * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
+     * end user to complete digital wallet authentication. See
+     * https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
      */
     @JsonProperty("event_type") @ExcludeMissing fun _eventType() = eventType
 
@@ -152,18 +168,34 @@ private constructor(
         /**
          * Event types:
          *
+         * - `card.created` - Notification that a card has been created.
+         * - `card.shipped` - Physical card shipment notification. See
+         * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
+         * - `card_transaction.updated` - Transaction Lifecycle webhook. See
+         * https://docs.lithic.com/docs/transaction-webhooks.
          * - `dispute.updated` - A dispute has been updated.
          * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
          * activate a digital wallet token.
+         * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to
+         * an end user to complete digital wallet authentication. See
+         * https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
          */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
 
         /**
          * Event types:
          *
+         * - `card.created` - Notification that a card has been created.
+         * - `card.shipped` - Physical card shipment notification. See
+         * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
+         * - `card_transaction.updated` - Transaction Lifecycle webhook. See
+         * https://docs.lithic.com/docs/transaction-webhooks.
          * - `dispute.updated` - A dispute has been updated.
          * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
          * activate a digital wallet token.
+         * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to
+         * an end user to complete digital wallet authentication. See
+         * https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
          */
         @JsonProperty("event_type")
         @ExcludeMissing
@@ -237,39 +269,70 @@ private constructor(
 
         companion object {
 
-            @JvmField val DISPUTE_UPDATED = EventType(JsonField.of("dispute.updated"))
+            @JvmField val CARD_CREATED = EventType(JsonField.of("card.created"))
+
+            @JvmField val CARD_SHIPPED = EventType(JsonField.of("card.shipped"))
+
+            @JvmField
+            val CARD_TRANSACTION_UPDATED = EventType(JsonField.of("card_transaction.updated"))
 
             @JvmField
             val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST =
                 EventType(JsonField.of("digital_wallet.tokenization_approval_request"))
 
+            @JvmField
+            val DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE =
+                EventType(
+                    JsonField.of("digital_wallet.tokenization_two_factor_authentication_code")
+                )
+
+            @JvmField val DISPUTE_UPDATED = EventType(JsonField.of("dispute.updated"))
+
             @JvmStatic fun of(value: String) = EventType(JsonField.of(value))
         }
 
         enum class Known {
-            DISPUTE_UPDATED,
+            CARD_CREATED,
+            CARD_SHIPPED,
+            CARD_TRANSACTION_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
+            DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
+            DISPUTE_UPDATED,
         }
 
         enum class Value {
-            DISPUTE_UPDATED,
+            CARD_CREATED,
+            CARD_SHIPPED,
+            CARD_TRANSACTION_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
+            DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
+            DISPUTE_UPDATED,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
+                CARD_CREATED -> Value.CARD_CREATED
+                CARD_SHIPPED -> Value.CARD_SHIPPED
+                CARD_TRANSACTION_UPDATED -> Value.CARD_TRANSACTION_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
                     Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
+                    Value.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
+                DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
+                CARD_CREATED -> Known.CARD_CREATED
+                CARD_SHIPPED -> Known.CARD_SHIPPED
+                CARD_TRANSACTION_UPDATED -> Known.CARD_TRANSACTION_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
                     Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
+                    Known.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
+                DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
                 else -> throw LithicInvalidDataException("Unknown EventType: $value")
             }
 

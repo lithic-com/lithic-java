@@ -11,7 +11,7 @@ class EventSubscriptionTest {
             EventSubscription.builder()
                 .description("string")
                 .disabled(true)
-                .eventTypes(listOf(EventSubscription.EventType.DISPUTE_UPDATED))
+                .eventTypes(listOf(EventSubscription.EventType.CARD_CREATED))
                 .url("https://example.com")
                 .token("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
                 .build()
@@ -19,7 +19,7 @@ class EventSubscriptionTest {
         assertThat(eventSubscription.description()).isEqualTo("string")
         assertThat(eventSubscription.disabled()).isEqualTo(true)
         assertThat(eventSubscription.eventTypes().get())
-            .containsExactly(EventSubscription.EventType.DISPUTE_UPDATED)
+            .containsExactly(EventSubscription.EventType.CARD_CREATED)
         assertThat(eventSubscription.url()).isEqualTo("https://example.com")
         assertThat(eventSubscription.token()).isEqualTo("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
     }

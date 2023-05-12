@@ -13,7 +13,7 @@ import java.util.Optional
 
 class DisputeListParams
 constructor(
-    private val transactionToken: String?,
+    private val transactionTokens: List<String>?,
     private val status: Status?,
     private val pageSize: Long?,
     private val begin: OffsetDateTime?,
@@ -24,7 +24,7 @@ constructor(
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
-    fun transactionToken(): Optional<String> = Optional.ofNullable(transactionToken)
+    fun transactionTokens(): Optional<List<String>> = Optional.ofNullable(transactionTokens)
 
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
@@ -41,7 +41,9 @@ constructor(
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
-        this.transactionToken?.let { params.put("transaction_token", listOf(it.toString())) }
+        this.transactionTokens?.let {
+            params.put("transaction_tokens", listOf(it.joinToString(separator = ",")))
+        }
         this.status?.let { params.put("status", listOf(it.toString())) }
         this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
         this.begin?.let { params.put("begin", listOf(it.toString())) }
@@ -64,7 +66,7 @@ constructor(
         }
 
         return other is DisputeListParams &&
-            this.transactionToken == other.transactionToken &&
+            this.transactionTokens == other.transactionTokens &&
             this.status == other.status &&
             this.pageSize == other.pageSize &&
             this.begin == other.begin &&
@@ -77,7 +79,7 @@ constructor(
 
     override fun hashCode(): Int {
         return Objects.hash(
-            transactionToken,
+            transactionTokens,
             status,
             pageSize,
             begin,
@@ -90,7 +92,7 @@ constructor(
     }
 
     override fun toString() =
-        "DisputeListParams{transactionToken=$transactionToken, status=$status, pageSize=$pageSize, begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "DisputeListParams{transactionTokens=$transactionTokens, status=$status, pageSize=$pageSize, begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -102,7 +104,7 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var transactionToken: String? = null
+        private var transactionTokens: List<String>? = null
         private var status: Status? = null
         private var pageSize: Long? = null
         private var begin: OffsetDateTime? = null
@@ -114,7 +116,7 @@ constructor(
 
         @JvmSynthetic
         internal fun from(disputeListParams: DisputeListParams) = apply {
-            this.transactionToken = disputeListParams.transactionToken
+            this.transactionTokens = disputeListParams.transactionTokens
             this.status = disputeListParams.status
             this.pageSize = disputeListParams.pageSize
             this.begin = disputeListParams.begin
@@ -125,9 +127,9 @@ constructor(
             additionalHeaders(disputeListParams.additionalHeaders)
         }
 
-        /** List disputes of a given transaction token. */
-        fun transactionToken(transactionToken: String) = apply {
-            this.transactionToken = transactionToken
+        /** Transaction tokens to filter by. */
+        fun transactionTokens(transactionTokens: List<String>) = apply {
+            this.transactionTokens = transactionTokens
         }
 
         /** List disputes of a specific status. */
@@ -202,7 +204,7 @@ constructor(
 
         fun build(): DisputeListParams =
             DisputeListParams(
-                transactionToken,
+                transactionTokens?.toUnmodifiable(),
                 status,
                 pageSize,
                 begin,
