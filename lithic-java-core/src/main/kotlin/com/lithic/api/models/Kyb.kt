@@ -168,7 +168,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): Kyb = apply {
         if (!validated) {
             businessEntity().validate()
             beneficialOwnerEntities().forEach { it.validate() }
@@ -531,7 +531,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): BusinessEntity = apply {
             if (!validated) {
                 address().validate()
                 dbaBusinessName()
@@ -796,7 +796,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): Individual = apply {
             if (!validated) {
                 address().validate()
                 dob()

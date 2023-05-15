@@ -254,7 +254,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): Card = apply {
         if (!validated) {
             created()
             cvv()
@@ -764,7 +764,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): FundingAccount = apply {
             if (!validated) {
                 accountName()
                 created()

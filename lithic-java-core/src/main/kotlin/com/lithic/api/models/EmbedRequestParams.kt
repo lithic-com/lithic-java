@@ -95,7 +95,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): EmbedRequestParams = apply {
         if (!validated) {
             css()
             expiration()

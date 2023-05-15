@@ -33,7 +33,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): AuthRuleRetrieveResponse = apply {
         if (!validated) {
             data().map { it.forEach { it.validate() } }
             validated = true

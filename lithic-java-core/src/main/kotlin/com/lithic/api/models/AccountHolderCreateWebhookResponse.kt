@@ -33,7 +33,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): AccountHolderCreateWebhookResponse = apply {
         if (!validated) {
             data().map { it.validate() }
             validated = true
@@ -131,7 +131,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): Data = apply {
             if (!validated) {
                 hmacToken()
                 validated = true

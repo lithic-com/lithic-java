@@ -33,7 +33,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): SubscriptionRetrieveSecretResponse = apply {
         if (!validated) {
             key()
             validated = true

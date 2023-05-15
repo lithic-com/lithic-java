@@ -57,7 +57,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): ExampleObject = apply {
         if (!validated) {
             stringField()
             numberField()
@@ -210,7 +210,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): NestedObject = apply {
             if (!validated) {
                 a()
                 b()

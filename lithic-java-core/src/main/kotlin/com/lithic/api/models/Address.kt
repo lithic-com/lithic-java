@@ -88,7 +88,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): Address = apply {
         if (!validated) {
             address1()
             address2()

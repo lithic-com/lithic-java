@@ -225,7 +225,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): Transaction = apply {
         if (!validated) {
             acquirerReferenceNumber()
             amount()
@@ -821,7 +821,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): CardholderAuthentication = apply {
             if (!validated) {
                 _3dsVersion()
                 acquirerExemption()
@@ -1615,7 +1615,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): TransactionEvent = apply {
             if (!validated) {
                 amount()
                 created()
@@ -2229,7 +2229,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): Merchant = apply {
             if (!validated) {
                 acceptorId()
                 city()

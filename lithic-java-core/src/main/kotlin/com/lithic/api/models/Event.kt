@@ -93,7 +93,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): Event = apply {
         if (!validated) {
             token()
             eventType()
@@ -354,7 +354,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): Payload = apply {
             if (!validated) {
                 validated = true
             }

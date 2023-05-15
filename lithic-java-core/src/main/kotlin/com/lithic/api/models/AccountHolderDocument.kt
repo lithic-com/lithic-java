@@ -64,7 +64,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): AccountHolderDocument = apply {
         if (!validated) {
             accountHolderToken()
             documentType()
@@ -322,7 +322,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): RequiredDocumentUpload = apply {
             if (!validated) {
                 imageType()
                 status()

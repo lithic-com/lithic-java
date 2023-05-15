@@ -103,7 +103,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): Account = apply {
         if (!validated) {
             spendLimit().validate()
             state()
@@ -327,7 +327,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): SpendLimit = apply {
             if (!validated) {
                 daily()
                 monthly()
@@ -566,7 +566,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): VerificationAddress = apply {
             if (!validated) {
                 address1()
                 address2()
@@ -781,7 +781,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): AccountHolder = apply {
             if (!validated) {
                 token()
                 phoneNumber()
