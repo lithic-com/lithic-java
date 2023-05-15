@@ -124,7 +124,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): Balance = apply {
         if (!validated) {
             availableAmount()
             created()

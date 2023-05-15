@@ -88,7 +88,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): AccountHolder = apply {
         if (!validated) {
             token()
             accountToken()

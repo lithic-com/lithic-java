@@ -45,7 +45,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): TransactionSimulateReturnResponse = apply {
         if (!validated) {
             debuggingRequestId()
             token()

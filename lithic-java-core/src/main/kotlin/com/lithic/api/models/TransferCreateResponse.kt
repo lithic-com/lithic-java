@@ -33,7 +33,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): TransferCreateResponse = apply {
         if (!validated) {
             data().map { it.validate() }
             validated = true

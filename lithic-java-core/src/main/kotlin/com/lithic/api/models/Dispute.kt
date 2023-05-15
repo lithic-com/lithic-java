@@ -278,7 +278,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): Dispute = apply {
         if (!validated) {
             amount()
             arbitrationDate()

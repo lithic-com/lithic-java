@@ -79,7 +79,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): Kyc = apply {
         if (!validated) {
             individual().validate()
             kycPassedTimestamp()
@@ -309,7 +309,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): Individual = apply {
             if (!validated) {
                 address().validate()
                 dob()

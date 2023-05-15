@@ -63,7 +63,7 @@ private constructor(
         }
     }
 
-    fun validate() = apply {
+    fun validate(): ExampleOneOf = apply {
         if (!validated) {
             if (cat == null && dog == null && cats == null && petName == null) {
                 throw LithicInvalidDataException("Unknown ExampleOneOf: $_json")
@@ -195,7 +195,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): Cat = apply {
             if (!validated) {
                 name()
                 validated = true
@@ -283,7 +283,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate() = apply {
+        fun validate(): Dog = apply {
             if (!validated) {
                 breed()
                 validated = true

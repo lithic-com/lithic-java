@@ -91,7 +91,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate() = apply {
+    fun validate(): DisputeEvidence = apply {
         if (!validated) {
             created()
             disputeToken()
