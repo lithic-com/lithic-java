@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.ObjectCodec
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.BeanProperty
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.JavaType
@@ -152,6 +153,10 @@ sealed class JsonField<out T : Any> {
 
 @JsonDeserialize(using = JsonValue.Deserializer::class)
 sealed class JsonValue : JsonField<Nothing>() {
+
+    fun <R : Any> convert(type: TypeReference<R>): R? = JSON_MAPPER.convertValue(this, type)
+
+    fun <R : Any> convert(type: Class<R>): R? = JSON_MAPPER.convertValue(this, type)
 
     fun <R> accept(visitor: Visitor<R>): R =
         when (this) {
