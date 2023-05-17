@@ -110,7 +110,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun data(): List<Account> = data.getRequired("data")
+        fun data(): List<Account> = data.getNullable("data") ?: listOf()
 
         fun page(): Long = page.getRequired("page")
 
@@ -135,7 +135,7 @@ private constructor(
 
         fun validate(): Response = apply {
             if (!validated) {
-                data().forEach { it.validate() }
+                data().map { it.validate() }
                 page()
                 totalEntries()
                 totalPages()
