@@ -94,7 +94,7 @@ private constructor(
 
         private var validated: Boolean = false
 
-        fun data(): List<FinancialTransaction> = data.getRequired("data")
+        fun data(): List<FinancialTransaction> = data.getNullable("data") ?: listOf()
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
@@ -110,7 +110,7 @@ private constructor(
 
         fun validate(): Response = apply {
             if (!validated) {
-                data().forEach { it.validate() }
+                data().map { it.validate() }
                 hasMore()
                 validated = true
             }
