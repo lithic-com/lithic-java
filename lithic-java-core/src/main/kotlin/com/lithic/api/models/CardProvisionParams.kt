@@ -75,16 +75,23 @@ constructor(
         /** Name of digital wallet provider. */
         @JsonProperty("digital_wallet") fun digitalWallet(): DigitalWallet? = digitalWallet
 
-        /** Required for `APPLE_PAY`. Base64 cryptographic nonce provided by the device's wallet. */
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         */
         @JsonProperty("nonce") fun nonce(): String? = nonce
 
-        /** Required for `APPLE_PAY`. Base64 cryptographic nonce provided by the device's wallet. */
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         */
         @JsonProperty("nonce_signature") fun nonceSignature(): String? = nonceSignature
 
         /**
-         * Required for `APPLE_PAY`. Apple's public leaf certificate. Base64 encoded in PEM format
-         * with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the
-         * device's wallet.
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Apple's public leaf certificate. Base64 encoded in PEM format with
+         * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
+         * wallet.
          */
         @JsonProperty("certificate") fun certificate(): String? = certificate
 
@@ -153,12 +160,16 @@ constructor(
             }
 
             /**
-             * Required for `APPLE_PAY`. Base64 cryptographic nonce provided by the device's wallet.
+             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
+             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
+             * wallet.
              */
             @JsonProperty("nonce") fun nonce(nonce: String) = apply { this.nonce = nonce }
 
             /**
-             * Required for `APPLE_PAY`. Base64 cryptographic nonce provided by the device's wallet.
+             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
+             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
+             * wallet.
              */
             @JsonProperty("nonce_signature")
             fun nonceSignature(nonceSignature: String) = apply {
@@ -166,9 +177,10 @@ constructor(
             }
 
             /**
-             * Required for `APPLE_PAY`. Apple's public leaf certificate. Base64 encoded in PEM
-             * format with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by
-             * the device's wallet.
+             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
+             * `activationData` in the response. Apple's public leaf certificate. Base64 encoded in
+             * PEM format with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted.
+             * Provided by the device's wallet.
              */
             @JsonProperty("certificate")
             fun certificate(certificate: String) = apply { this.certificate = certificate }
@@ -274,16 +286,23 @@ constructor(
             this.digitalWallet = digitalWallet
         }
 
-        /** Required for `APPLE_PAY`. Base64 cryptographic nonce provided by the device's wallet. */
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         */
         fun nonce(nonce: String) = apply { this.nonce = nonce }
 
-        /** Required for `APPLE_PAY`. Base64 cryptographic nonce provided by the device's wallet. */
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         */
         fun nonceSignature(nonceSignature: String) = apply { this.nonceSignature = nonceSignature }
 
         /**
-         * Required for `APPLE_PAY`. Apple's public leaf certificate. Base64 encoded in PEM format
-         * with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the
-         * device's wallet.
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Apple's public leaf certificate. Base64 encoded in PEM format with
+         * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
+         * wallet.
          */
         fun certificate(certificate: String) = apply { this.certificate = certificate }
 
