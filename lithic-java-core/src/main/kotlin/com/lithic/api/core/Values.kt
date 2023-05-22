@@ -42,6 +42,17 @@ sealed class JsonField<out T : Any> {
             else -> Optional.empty()
         }
 
+    /**
+     * If the "known" value (i.e. matching the type that the SDK expects) is returned by the API
+     * then this method will return an empty `Optional`, otherwise the returned `Optional` is given
+     * a `JsonValue`.
+     */
+    fun asUnknown(): Optional<out JsonValue> =
+        when (this) {
+            is KnownValue -> Optional.empty()
+            is JsonValue -> Optional.of(this)
+        }
+
     fun asBoolean(): Optional<Boolean> =
         when (this) {
             is JsonBoolean -> Optional.of(value)
