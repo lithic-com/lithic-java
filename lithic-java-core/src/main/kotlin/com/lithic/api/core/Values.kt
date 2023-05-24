@@ -49,8 +49,8 @@ sealed class JsonField<out T : Any> {
      */
     fun asUnknown(): Optional<out JsonValue> =
         when (this) {
-            is KnownValue -> Optional.empty()
             is JsonValue -> Optional.of(this)
+            else -> Optional.empty()
         }
 
     fun asBoolean(): Optional<Boolean> =
