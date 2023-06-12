@@ -1,0 +1,23 @@
+name: Release Doctor
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  release_doctor:
+    name: release doctor
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.head_ref, 'release-please') || github.head_ref == 'next'
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check release environment
+        run: |
+          bash ./bin/check-release-environment
+        env:
+          STAINLESS_API_KEY: ${{ secrets.STAINLESS_API_KEY }}
+          SONATYPE_USERNAME: ${{ secrets.LITHIC_SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.LITHIC_SONATYPE_PASSWORD }}
+          GPG_SIGNING_KEY: ${{ secrets.LITHIC_SONATYPE_GPG_SIGNING_KEY }}
+          GPG_SIGNING_PASSWORD: ${{ secrets.LITHIC_SONATYPE_GPG_SIGNING_PASSWORD }}
