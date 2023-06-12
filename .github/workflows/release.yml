@@ -1,0 +1,43 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: release
+    if: github.ref == 'refs/heads/main' && github.repository == 'lithic-com/lithic-java'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: stainless-api/trigger-release-please@v1
+        id: release
+        with:
+          repo: ${{ github.event.repository.full_name }}
+          stainless-api-key: ${{ secrets.STAINLESS_API_KEY }}
+
+      - name: Set up Java
+        if: ${{ steps.release.outputs.releases_created }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: |
+            8
+            17
+          cache: gradle
+      - name: Set up Gradle
+        if: ${{ steps.release.outputs.releases_created }}
+        uses: gradle/gradle-build-action@v2
+
+      - name: Publish to Sonatype
+        if: ${{ steps.release.outputs.releases_created }}
+        run: |
+          ./gradlew publish
+        env:
+          SONATYPE_USERNAME: ${{ secrets.LITHIC_SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.LITHIC_SONATYPE_PASSWORD }}
+          GPG_SIGNING_KEY: ${{ secrets.LITHIC_SONATYPE_GPG_SIGNING_KEY }}
+          GPG_SIGNING_PASSWORD: ${{ secrets.LITHIC_SONATYPE_GPG_SIGNING_PASSWORD }}

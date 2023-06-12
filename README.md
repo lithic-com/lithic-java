@@ -1,6 +1,10 @@
 # Lithic Java API Library
 
+<!-- x-release-please-start-version -->
+
 [![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.9.0)
+
+<!-- x-release-please-end -->
 
 The Lithic Java SDK provides convenient access to the Lithic REST API from applications written in Java. It includes helper classes with helpful types and documentation for every request and response property.
 
@@ -20,6 +24,8 @@ The API documentation can be found [here](https://docs.lithic.com).
 
 #### Gradle
 
+<!-- x-release-please-start-version -->
+
 ```kotlin
 implementation("com.lithic.api:lithic-java:0.9.0")
 ```
@@ -33,6 +39,8 @@ implementation("com.lithic.api:lithic-java:0.9.0")
     <version>0.9.0</version>
 </dependency>
 ```
+
+<!-- x-release-please-end -->
 
 ### Configure the client
 
