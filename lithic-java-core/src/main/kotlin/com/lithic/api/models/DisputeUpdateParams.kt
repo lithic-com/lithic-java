@@ -386,11 +386,11 @@ constructor(
 
             @JvmField val PROCESSING_ERROR = Reason(JsonField.of("PROCESSING_ERROR"))
 
-            @JvmField val REFUND_NOT_PROCESSED = Reason(JsonField.of("REFUND_NOT_PROCESSED"))
-
             @JvmField
             val RECURRING_TRANSACTION_NOT_CANCELLED =
                 Reason(JsonField.of("RECURRING_TRANSACTION_NOT_CANCELLED"))
+
+            @JvmField val REFUND_NOT_PROCESSED = Reason(JsonField.of("REFUND_NOT_PROCESSED"))
 
             @JvmStatic fun of(value: String) = Reason(JsonField.of(value))
         }
@@ -408,8 +408,8 @@ constructor(
             MISSING_AUTH,
             OTHER,
             PROCESSING_ERROR,
-            REFUND_NOT_PROCESSED,
             RECURRING_TRANSACTION_NOT_CANCELLED,
+            REFUND_NOT_PROCESSED,
         }
 
         enum class Value {
@@ -425,8 +425,8 @@ constructor(
             MISSING_AUTH,
             OTHER,
             PROCESSING_ERROR,
-            REFUND_NOT_PROCESSED,
             RECURRING_TRANSACTION_NOT_CANCELLED,
+            REFUND_NOT_PROCESSED,
             _UNKNOWN,
         }
 
@@ -444,8 +444,8 @@ constructor(
                 MISSING_AUTH -> Value.MISSING_AUTH
                 OTHER -> Value.OTHER
                 PROCESSING_ERROR -> Value.PROCESSING_ERROR
-                REFUND_NOT_PROCESSED -> Value.REFUND_NOT_PROCESSED
                 RECURRING_TRANSACTION_NOT_CANCELLED -> Value.RECURRING_TRANSACTION_NOT_CANCELLED
+                REFUND_NOT_PROCESSED -> Value.REFUND_NOT_PROCESSED
                 else -> Value._UNKNOWN
             }
 
@@ -463,8 +463,8 @@ constructor(
                 MISSING_AUTH -> Known.MISSING_AUTH
                 OTHER -> Known.OTHER
                 PROCESSING_ERROR -> Known.PROCESSING_ERROR
-                REFUND_NOT_PROCESSED -> Known.REFUND_NOT_PROCESSED
                 RECURRING_TRANSACTION_NOT_CANCELLED -> Known.RECURRING_TRANSACTION_NOT_CANCELLED
+                REFUND_NOT_PROCESSED -> Known.REFUND_NOT_PROCESSED
                 else -> throw LithicInvalidDataException("Unknown Reason: $value")
             }
 
