@@ -14,7 +14,6 @@ class AuthRuleUpdateParamsTest {
             .blockedMcc(listOf("string"))
             .allowedCountries(listOf("string"))
             .blockedCountries(listOf("string"))
-            .avsType(AuthRuleUpdateParams.AvsType.ZIP_ONLY)
             .build()
     }
 
@@ -27,7 +26,6 @@ class AuthRuleUpdateParamsTest {
                 .blockedMcc(listOf("string"))
                 .allowedCountries(listOf("string"))
                 .blockedCountries(listOf("string"))
-                .avsType(AuthRuleUpdateParams.AvsType.ZIP_ONLY)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -35,7 +33,6 @@ class AuthRuleUpdateParamsTest {
         assertThat(body.blockedMcc()).isEqualTo(listOf("string"))
         assertThat(body.allowedCountries()).isEqualTo(listOf("string"))
         assertThat(body.blockedCountries()).isEqualTo(listOf("string"))
-        assertThat(body.avsType()).isEqualTo(AuthRuleUpdateParams.AvsType.ZIP_ONLY)
     }
 
     @Test

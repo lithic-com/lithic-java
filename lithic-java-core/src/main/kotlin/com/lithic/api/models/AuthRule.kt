@@ -26,7 +26,6 @@ private constructor(
     private val blockedMcc: JsonField<List<String>>,
     private val allowedCountries: JsonField<List<String>>,
     private val blockedCountries: JsonField<List<String>>,
-    private val avsType: JsonField<AvsType>,
     private val accountTokens: JsonField<List<String>>,
     private val cardTokens: JsonField<List<String>>,
     private val programLevel: JsonField<Boolean>,
@@ -69,17 +68,6 @@ private constructor(
     /** Countries in which the Auth Rule automatically declines transactions. */
     fun blockedCountries(): Optional<List<String>> =
         Optional.ofNullable(blockedCountries.getNullable("blocked_countries"))
-
-    /**
-     * Address verification to confirm that postal code entered at point of transaction (if
-     * applicable) matches the postal code on file for a given card. Since this check is performed
-     * against the address submitted via the Enroll Consumer endpoint, it should only be used in
-     * cases where card users are enrolled with their own accounts. Available values:
-     *
-     * - `ZIP_ONLY` - AVS check is performed to confirm ZIP code entered at point of transaction (if
-     * applicable) matches address on file.
-     */
-    fun avsType(): Optional<AvsType> = Optional.ofNullable(avsType.getNullable("avs_type"))
 
     /**
      * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note that
@@ -130,17 +118,6 @@ private constructor(
     @JsonProperty("blocked_countries") @ExcludeMissing fun _blockedCountries() = blockedCountries
 
     /**
-     * Address verification to confirm that postal code entered at point of transaction (if
-     * applicable) matches the postal code on file for a given card. Since this check is performed
-     * against the address submitted via the Enroll Consumer endpoint, it should only be used in
-     * cases where card users are enrolled with their own accounts. Available values:
-     *
-     * - `ZIP_ONLY` - AVS check is performed to confirm ZIP code entered at point of transaction (if
-     * applicable) matches address on file.
-     */
-    @JsonProperty("avs_type") @ExcludeMissing fun _avsType() = avsType
-
-    /**
      * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note that
      * only this field or `card_tokens` can be provided for a given Auth Rule.
      */
@@ -168,7 +145,6 @@ private constructor(
             blockedMcc()
             allowedCountries()
             blockedCountries()
-            avsType()
             accountTokens()
             cardTokens()
             programLevel()
@@ -191,7 +167,6 @@ private constructor(
             this.blockedMcc == other.blockedMcc &&
             this.allowedCountries == other.allowedCountries &&
             this.blockedCountries == other.blockedCountries &&
-            this.avsType == other.avsType &&
             this.accountTokens == other.accountTokens &&
             this.cardTokens == other.cardTokens &&
             this.programLevel == other.programLevel &&
@@ -209,7 +184,6 @@ private constructor(
                     blockedMcc,
                     allowedCountries,
                     blockedCountries,
-                    avsType,
                     accountTokens,
                     cardTokens,
                     programLevel,
@@ -220,7 +194,7 @@ private constructor(
     }
 
     override fun toString() =
-        "AuthRule{token=$token, state=$state, previousAuthRuleTokens=$previousAuthRuleTokens, allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, avsType=$avsType, accountTokens=$accountTokens, cardTokens=$cardTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
+        "AuthRule{token=$token, state=$state, previousAuthRuleTokens=$previousAuthRuleTokens, allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, accountTokens=$accountTokens, cardTokens=$cardTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -236,7 +210,6 @@ private constructor(
         private var blockedMcc: JsonField<List<String>> = JsonMissing.of()
         private var allowedCountries: JsonField<List<String>> = JsonMissing.of()
         private var blockedCountries: JsonField<List<String>> = JsonMissing.of()
-        private var avsType: JsonField<AvsType> = JsonMissing.of()
         private var accountTokens: JsonField<List<String>> = JsonMissing.of()
         private var cardTokens: JsonField<List<String>> = JsonMissing.of()
         private var programLevel: JsonField<Boolean> = JsonMissing.of()
@@ -251,7 +224,6 @@ private constructor(
             this.blockedMcc = authRule.blockedMcc
             this.allowedCountries = authRule.allowedCountries
             this.blockedCountries = authRule.blockedCountries
-            this.avsType = authRule.avsType
             this.accountTokens = authRule.accountTokens
             this.cardTokens = authRule.cardTokens
             this.programLevel = authRule.programLevel
@@ -338,30 +310,6 @@ private constructor(
         }
 
         /**
-         * Address verification to confirm that postal code entered at point of transaction (if
-         * applicable) matches the postal code on file for a given card. Since this check is
-         * performed against the address submitted via the Enroll Consumer endpoint, it should only
-         * be used in cases where card users are enrolled with their own accounts. Available values:
-         *
-         * - `ZIP_ONLY` - AVS check is performed to confirm ZIP code entered at point of transaction
-         * (if applicable) matches address on file.
-         */
-        fun avsType(avsType: AvsType) = avsType(JsonField.of(avsType))
-
-        /**
-         * Address verification to confirm that postal code entered at point of transaction (if
-         * applicable) matches the postal code on file for a given card. Since this check is
-         * performed against the address submitted via the Enroll Consumer endpoint, it should only
-         * be used in cases where card users are enrolled with their own accounts. Available values:
-         *
-         * - `ZIP_ONLY` - AVS check is performed to confirm ZIP code entered at point of transaction
-         * (if applicable) matches address on file.
-         */
-        @JsonProperty("avs_type")
-        @ExcludeMissing
-        fun avsType(avsType: JsonField<AvsType>) = apply { this.avsType = avsType }
-
-        /**
          * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
          * that only this field or `card_tokens` can be provided for a given Auth Rule.
          */
@@ -424,7 +372,6 @@ private constructor(
                 blockedMcc.map { it.toUnmodifiable() },
                 allowedCountries.map { it.toUnmodifiable() },
                 blockedCountries.map { it.toUnmodifiable() },
-                avsType,
                 accountTokens.map { it.toUnmodifiable() },
                 cardTokens.map { it.toUnmodifiable() },
                 programLevel,
@@ -484,57 +431,6 @@ private constructor(
                 ACTIVE -> Known.ACTIVE
                 INACTIVE -> Known.INACTIVE
                 else -> throw LithicInvalidDataException("Unknown State: $value")
-            }
-
-        fun asString(): String = _value().asStringOrThrow()
-    }
-
-    class AvsType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
-
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AvsType && this.value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
-        companion object {
-
-            @JvmField val ZIP_ONLY = AvsType(JsonField.of("ZIP_ONLY"))
-
-            @JvmStatic fun of(value: String) = AvsType(JsonField.of(value))
-        }
-
-        enum class Known {
-            ZIP_ONLY,
-        }
-
-        enum class Value {
-            ZIP_ONLY,
-            _UNKNOWN,
-        }
-
-        fun value(): Value =
-            when (this) {
-                ZIP_ONLY -> Value.ZIP_ONLY
-                else -> Value._UNKNOWN
-            }
-
-        fun known(): Known =
-            when (this) {
-                ZIP_ONLY -> Known.ZIP_ONLY
-                else -> throw LithicInvalidDataException("Unknown AvsType: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
