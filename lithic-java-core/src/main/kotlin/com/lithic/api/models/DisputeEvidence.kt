@@ -24,6 +24,7 @@ private constructor(
     private val created: JsonField<OffsetDateTime>,
     private val disputeToken: JsonField<String>,
     private val downloadUrl: JsonField<String>,
+    private val filename: JsonField<String>,
     private val token: JsonField<String>,
     private val uploadStatus: JsonField<UploadStatus>,
     private val uploadUrl: JsonField<String>,
@@ -43,6 +44,9 @@ private constructor(
     /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
     fun downloadUrl(): Optional<String> =
         Optional.ofNullable(downloadUrl.getNullable("download_url"))
+
+    /** File name of evidence. */
+    fun filename(): Optional<String> = Optional.ofNullable(filename.getNullable("filename"))
 
     /** Globally unique identifier. */
     fun token(): String = token.getRequired("token")
@@ -70,6 +74,9 @@ private constructor(
     /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
     @JsonProperty("download_url") @ExcludeMissing fun _downloadUrl() = downloadUrl
 
+    /** File name of evidence. */
+    @JsonProperty("filename") @ExcludeMissing fun _filename() = filename
+
     /** Globally unique identifier. */
     @JsonProperty("token") @ExcludeMissing fun _token() = token
 
@@ -96,6 +103,7 @@ private constructor(
             created()
             disputeToken()
             downloadUrl()
+            filename()
             token()
             uploadStatus()
             uploadUrl()
@@ -114,6 +122,7 @@ private constructor(
             this.created == other.created &&
             this.disputeToken == other.disputeToken &&
             this.downloadUrl == other.downloadUrl &&
+            this.filename == other.filename &&
             this.token == other.token &&
             this.uploadStatus == other.uploadStatus &&
             this.uploadUrl == other.uploadUrl &&
@@ -127,6 +136,7 @@ private constructor(
                     created,
                     disputeToken,
                     downloadUrl,
+                    filename,
                     token,
                     uploadStatus,
                     uploadUrl,
@@ -137,7 +147,7 @@ private constructor(
     }
 
     override fun toString() =
-        "DisputeEvidence{created=$created, disputeToken=$disputeToken, downloadUrl=$downloadUrl, token=$token, uploadStatus=$uploadStatus, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
+        "DisputeEvidence{created=$created, disputeToken=$disputeToken, downloadUrl=$downloadUrl, filename=$filename, token=$token, uploadStatus=$uploadStatus, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -149,6 +159,7 @@ private constructor(
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var disputeToken: JsonField<String> = JsonMissing.of()
         private var downloadUrl: JsonField<String> = JsonMissing.of()
+        private var filename: JsonField<String> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
         private var uploadStatus: JsonField<UploadStatus> = JsonMissing.of()
         private var uploadUrl: JsonField<String> = JsonMissing.of()
@@ -159,6 +170,7 @@ private constructor(
             this.created = disputeEvidence.created
             this.disputeToken = disputeEvidence.disputeToken
             this.downloadUrl = disputeEvidence.downloadUrl
+            this.filename = disputeEvidence.filename
             this.token = disputeEvidence.token
             this.uploadStatus = disputeEvidence.uploadStatus
             this.uploadUrl = disputeEvidence.uploadUrl
@@ -190,6 +202,14 @@ private constructor(
         @JsonProperty("download_url")
         @ExcludeMissing
         fun downloadUrl(downloadUrl: JsonField<String>) = apply { this.downloadUrl = downloadUrl }
+
+        /** File name of evidence. */
+        fun filename(filename: String) = filename(JsonField.of(filename))
+
+        /** File name of evidence. */
+        @JsonProperty("filename")
+        @ExcludeMissing
+        fun filename(filename: JsonField<String>) = apply { this.filename = filename }
 
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
@@ -252,6 +272,7 @@ private constructor(
                 created,
                 disputeToken,
                 downloadUrl,
+                filename,
                 token,
                 uploadStatus,
                 uploadUrl,

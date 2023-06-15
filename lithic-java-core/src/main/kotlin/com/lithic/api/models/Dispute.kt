@@ -14,6 +14,7 @@ import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
+import java.util.Optional
 
 /** Dispute. */
 @JsonDeserialize(builder = Dispute.Builder::class)
@@ -50,34 +51,42 @@ private constructor(
     fun amount(): Long = amount.getRequired("amount")
 
     /** Date dispute entered arbitration. */
-    fun arbitrationDate(): OffsetDateTime = arbitrationDate.getRequired("arbitration_date")
+    fun arbitrationDate(): Optional<OffsetDateTime> =
+        Optional.ofNullable(arbitrationDate.getNullable("arbitration_date"))
 
     /** Timestamp of when first Dispute was reported. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
     /** Date that the dispute was filed by the customer making the dispute. */
-    fun customerFiledDate(): OffsetDateTime = customerFiledDate.getRequired("customer_filed_date")
+    fun customerFiledDate(): Optional<OffsetDateTime> =
+        Optional.ofNullable(customerFiledDate.getNullable("customer_filed_date"))
 
     /** End customer description of the reason for the dispute. */
-    fun customerNote(): String = customerNote.getRequired("customer_note")
+    fun customerNote(): Optional<String> =
+        Optional.ofNullable(customerNote.getNullable("customer_note"))
 
     /** Unique identifiers for the dispute from the network. */
-    fun networkClaimIds(): List<String> = networkClaimIds.getRequired("network_claim_ids")
+    fun networkClaimIds(): Optional<List<String>> =
+        Optional.ofNullable(networkClaimIds.getNullable("network_claim_ids"))
 
     /**
      * Unique identifier for the dispute from the network. If there are multiple, this will be the
      * first claim id set by the network
      */
-    fun primaryClaimId(): String = primaryClaimId.getRequired("primary_claim_id")
+    fun primaryClaimId(): Optional<String> =
+        Optional.ofNullable(primaryClaimId.getNullable("primary_claim_id"))
 
     /** Date that the dispute was submitted to the network. */
-    fun networkFiledDate(): OffsetDateTime = networkFiledDate.getRequired("network_filed_date")
+    fun networkFiledDate(): Optional<OffsetDateTime> =
+        Optional.ofNullable(networkFiledDate.getNullable("network_filed_date"))
 
     /** Network reason code used to file the dispute. */
-    fun networkReasonCode(): String = networkReasonCode.getRequired("network_reason_code")
+    fun networkReasonCode(): Optional<String> =
+        Optional.ofNullable(networkReasonCode.getNullable("network_reason_code"))
 
     /** Date dispute entered pre-arbitration. */
-    fun prearbitrationDate(): OffsetDateTime = prearbitrationDate.getRequired("prearbitration_date")
+    fun prearbitrationDate(): Optional<OffsetDateTime> =
+        Optional.ofNullable(prearbitrationDate.getNullable("prearbitration_date"))
 
     /**
      * Dispute reason:
@@ -100,16 +109,20 @@ private constructor(
     fun reason(): Reason = reason.getRequired("reason")
 
     /** Date the representment was received. */
-    fun representmentDate(): OffsetDateTime = representmentDate.getRequired("representment_date")
+    fun representmentDate(): Optional<OffsetDateTime> =
+        Optional.ofNullable(representmentDate.getNullable("representment_date"))
 
     /** Resolution amount net of network fees. */
-    fun resolutionAmount(): Long = resolutionAmount.getRequired("resolution_amount")
+    fun resolutionAmount(): Optional<Long> =
+        Optional.ofNullable(resolutionAmount.getNullable("resolution_amount"))
 
     /** Date that the dispute was resolved. */
-    fun resolutionDate(): OffsetDateTime = resolutionDate.getRequired("resolution_date")
+    fun resolutionDate(): Optional<OffsetDateTime> =
+        Optional.ofNullable(resolutionDate.getNullable("resolution_date"))
 
     /** Note by Dispute team on the case resolution. */
-    fun resolutionNote(): String = resolutionNote.getRequired("resolution_note")
+    fun resolutionNote(): Optional<String> =
+        Optional.ofNullable(resolutionNote.getNullable("resolution_note"))
 
     /**
      * Reason for the dispute resolution:
@@ -132,7 +145,8 @@ private constructor(
      * - `WON_FIRST_CHARGEBACK`: Won first chargeback.
      * - `WON_PREARBITRATION`: Won prearbitration.
      */
-    fun resolutionReason(): ResolutionReason = resolutionReason.getRequired("resolution_reason")
+    fun resolutionReason(): Optional<ResolutionReason> =
+        Optional.ofNullable(resolutionReason.getNullable("resolution_reason"))
 
     /**
      * Status types:

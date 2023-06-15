@@ -2,15 +2,12 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
-import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
-import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
-import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
@@ -22,7 +19,6 @@ constructor(
     private val blockedMcc: List<String>?,
     private val allowedCountries: List<String>?,
     private val blockedCountries: List<String>?,
-    private val avsType: AvsType?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -38,8 +34,6 @@ constructor(
 
     fun blockedCountries(): Optional<List<String>> = Optional.ofNullable(blockedCountries)
 
-    fun avsType(): Optional<AvsType> = Optional.ofNullable(avsType)
-
     @JvmSynthetic
     internal fun getBody(): AuthRuleUpdateBody {
         return AuthRuleUpdateBody(
@@ -47,7 +41,6 @@ constructor(
             blockedMcc,
             allowedCountries,
             blockedCountries,
-            avsType,
             additionalBodyProperties,
         )
     }
@@ -71,7 +64,6 @@ constructor(
         private val blockedMcc: List<String>?,
         private val allowedCountries: List<String>?,
         private val blockedCountries: List<String>?,
-        private val avsType: AvsType?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -102,12 +94,6 @@ constructor(
          */
         @JsonProperty("blocked_countries") fun blockedCountries(): List<String>? = blockedCountries
 
-        /**
-         * Address verification to confirm that postal code entered at point of transaction (if
-         * applicable) matches the postal code on file for a given card.
-         */
-        @JsonProperty("avs_type") fun avsType(): AvsType? = avsType
-
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -124,7 +110,6 @@ constructor(
                 this.blockedMcc == other.blockedMcc &&
                 this.allowedCountries == other.allowedCountries &&
                 this.blockedCountries == other.blockedCountries &&
-                this.avsType == other.avsType &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -136,7 +121,6 @@ constructor(
                         blockedMcc,
                         allowedCountries,
                         blockedCountries,
-                        avsType,
                         additionalProperties,
                     )
             }
@@ -144,7 +128,7 @@ constructor(
         }
 
         override fun toString() =
-            "AuthRuleUpdateBody{allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, avsType=$avsType, additionalProperties=$additionalProperties}"
+            "AuthRuleUpdateBody{allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -157,7 +141,6 @@ constructor(
             private var blockedMcc: List<String>? = null
             private var allowedCountries: List<String>? = null
             private var blockedCountries: List<String>? = null
-            private var avsType: AvsType? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -166,7 +149,6 @@ constructor(
                 this.blockedMcc = authRuleUpdateBody.blockedMcc
                 this.allowedCountries = authRuleUpdateBody.allowedCountries
                 this.blockedCountries = authRuleUpdateBody.blockedCountries
-                this.avsType = authRuleUpdateBody.avsType
                 additionalProperties(authRuleUpdateBody.additionalProperties)
             }
 
@@ -204,13 +186,6 @@ constructor(
                 this.blockedCountries = blockedCountries
             }
 
-            /**
-             * Address verification to confirm that postal code entered at point of transaction (if
-             * applicable) matches the postal code on file for a given card.
-             */
-            @JsonProperty("avs_type")
-            fun avsType(avsType: AvsType) = apply { this.avsType = avsType }
-
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 this.additionalProperties.putAll(additionalProperties)
@@ -231,7 +206,6 @@ constructor(
                     blockedMcc?.toUnmodifiable(),
                     allowedCountries?.toUnmodifiable(),
                     blockedCountries?.toUnmodifiable(),
-                    avsType,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -254,7 +228,6 @@ constructor(
             this.blockedMcc == other.blockedMcc &&
             this.allowedCountries == other.allowedCountries &&
             this.blockedCountries == other.blockedCountries &&
-            this.avsType == other.avsType &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -267,7 +240,6 @@ constructor(
             blockedMcc,
             allowedCountries,
             blockedCountries,
-            avsType,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -275,7 +247,7 @@ constructor(
     }
 
     override fun toString() =
-        "AuthRuleUpdateParams{authRuleToken=$authRuleToken, allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, avsType=$avsType, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "AuthRuleUpdateParams{authRuleToken=$authRuleToken, allowedMcc=$allowedMcc, blockedMcc=$blockedMcc, allowedCountries=$allowedCountries, blockedCountries=$blockedCountries, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -292,7 +264,6 @@ constructor(
         private var blockedMcc: List<String>? = null
         private var allowedCountries: List<String>? = null
         private var blockedCountries: List<String>? = null
-        private var avsType: AvsType? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -304,7 +275,6 @@ constructor(
             this.blockedMcc = authRuleUpdateParams.blockedMcc
             this.allowedCountries = authRuleUpdateParams.allowedCountries
             this.blockedCountries = authRuleUpdateParams.blockedCountries
-            this.avsType = authRuleUpdateParams.avsType
             additionalQueryParams(authRuleUpdateParams.additionalQueryParams)
             additionalHeaders(authRuleUpdateParams.additionalHeaders)
             additionalBodyProperties(authRuleUpdateParams.additionalBodyProperties)
@@ -340,12 +310,6 @@ constructor(
         fun blockedCountries(blockedCountries: List<String>) = apply {
             this.blockedCountries = blockedCountries
         }
-
-        /**
-         * Address verification to confirm that postal code entered at point of transaction (if
-         * applicable) matches the postal code on file for a given card.
-         */
-        fun avsType(avsType: AvsType) = apply { this.avsType = avsType }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -408,61 +372,9 @@ constructor(
                 blockedMcc?.toUnmodifiable(),
                 allowedCountries?.toUnmodifiable(),
                 blockedCountries?.toUnmodifiable(),
-                avsType,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),
             )
-    }
-
-    class AvsType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
-
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AvsType && this.value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
-        companion object {
-
-            @JvmField val ZIP_ONLY = AvsType(JsonField.of("ZIP_ONLY"))
-
-            @JvmStatic fun of(value: String) = AvsType(JsonField.of(value))
-        }
-
-        enum class Known {
-            ZIP_ONLY,
-        }
-
-        enum class Value {
-            ZIP_ONLY,
-            _UNKNOWN,
-        }
-
-        fun value(): Value =
-            when (this) {
-                ZIP_ONLY -> Value.ZIP_ONLY
-                else -> Value._UNKNOWN
-            }
-
-        fun known(): Known =
-            when (this) {
-                ZIP_ONLY -> Known.ZIP_ONLY
-                else -> throw LithicInvalidDataException("Unknown AvsType: $value")
-            }
-
-        fun asString(): String = _value().asStringOrThrow()
     }
 }
