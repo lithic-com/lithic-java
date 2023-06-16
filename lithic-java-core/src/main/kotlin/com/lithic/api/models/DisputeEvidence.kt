@@ -45,7 +45,9 @@ private constructor(
     fun downloadUrl(): Optional<String> =
         Optional.ofNullable(downloadUrl.getNullable("download_url"))
 
-    /** File name of evidence. */
+    /**
+     * File name of evidence. Recommended to give the dispute evidence a human-readable identifier.
+     */
     fun filename(): Optional<String> = Optional.ofNullable(filename.getNullable("filename"))
 
     /** Globally unique identifier. */
@@ -74,7 +76,9 @@ private constructor(
     /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
     @JsonProperty("download_url") @ExcludeMissing fun _downloadUrl() = downloadUrl
 
-    /** File name of evidence. */
+    /**
+     * File name of evidence. Recommended to give the dispute evidence a human-readable identifier.
+     */
     @JsonProperty("filename") @ExcludeMissing fun _filename() = filename
 
     /** Globally unique identifier. */
@@ -203,10 +207,16 @@ private constructor(
         @ExcludeMissing
         fun downloadUrl(downloadUrl: JsonField<String>) = apply { this.downloadUrl = downloadUrl }
 
-        /** File name of evidence. */
+        /**
+         * File name of evidence. Recommended to give the dispute evidence a human-readable
+         * identifier.
+         */
         fun filename(filename: String) = filename(JsonField.of(filename))
 
-        /** File name of evidence. */
+        /**
+         * File name of evidence. Recommended to give the dispute evidence a human-readable
+         * identifier.
+         */
         @JsonProperty("filename")
         @ExcludeMissing
         fun filename(filename: JsonField<String>) = apply { this.filename = filename }
