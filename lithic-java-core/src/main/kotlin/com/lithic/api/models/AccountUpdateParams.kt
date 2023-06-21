@@ -82,7 +82,7 @@ constructor(
          * Amount (in cents) for the account's new daily spend limit. Note that a spend limit of 0
          * is effectively no limit, and should only be used to reset or remove a prior limit. Only a
          * limit of 1 or above will result in declined transactions due to checks against the
-         * account limit.
+         * account limit. By default the daily spend limit is set to $1,250.00.
          */
         @JsonProperty("daily_spend_limit") fun dailySpendLimit(): Long? = dailySpendLimit
 
@@ -99,7 +99,7 @@ constructor(
          * Amount (in cents) for the account's new monthly spend limit. Note that a spend limit of 0
          * is effectively no limit, and should only be used to reset or remove a prior limit. Only a
          * limit of 1 or above will result in declined transactions due to checks against the
-         * account limit.
+         * account limit. By default the monthly spend limit is set to $5,000.00.
          */
         @JsonProperty("monthly_spend_limit") fun monthlySpendLimit(): Long? = monthlySpendLimit
 
@@ -179,7 +179,7 @@ constructor(
              * Amount (in cents) for the account's new daily spend limit. Note that a spend limit of
              * 0 is effectively no limit, and should only be used to reset or remove a prior limit.
              * Only a limit of 1 or above will result in declined transactions due to checks against
-             * the account limit.
+             * the account limit. By default the daily spend limit is set to $1,250.00.
              */
             @JsonProperty("daily_spend_limit")
             fun dailySpendLimit(dailySpendLimit: Long) = apply {
@@ -202,7 +202,7 @@ constructor(
              * Amount (in cents) for the account's new monthly spend limit. Note that a spend limit
              * of 0 is effectively no limit, and should only be used to reset or remove a prior
              * limit. Only a limit of 1 or above will result in declined transactions due to checks
-             * against the account limit.
+             * against the account limit. By default the monthly spend limit is set to $5,000.00.
              */
             @JsonProperty("monthly_spend_limit")
             fun monthlySpendLimit(monthlySpendLimit: Long) = apply {
@@ -326,7 +326,7 @@ constructor(
          * Amount (in cents) for the account's new daily spend limit. Note that a spend limit of 0
          * is effectively no limit, and should only be used to reset or remove a prior limit. Only a
          * limit of 1 or above will result in declined transactions due to checks against the
-         * account limit.
+         * account limit. By default the daily spend limit is set to $1,250.00.
          */
         fun dailySpendLimit(dailySpendLimit: Long) = apply {
             this.dailySpendLimit = dailySpendLimit
@@ -347,7 +347,7 @@ constructor(
          * Amount (in cents) for the account's new monthly spend limit. Note that a spend limit of 0
          * is effectively no limit, and should only be used to reset or remove a prior limit. Only a
          * limit of 1 or above will result in declined transactions due to checks against the
-         * account limit.
+         * account limit. By default the monthly spend limit is set to $5,000.00.
          */
         fun monthlySpendLimit(monthlySpendLimit: Long) = apply {
             this.monthlySpendLimit = monthlySpendLimit
