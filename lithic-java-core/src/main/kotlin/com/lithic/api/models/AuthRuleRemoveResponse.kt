@@ -19,7 +19,6 @@ class AuthRuleRemoveResponse
 private constructor(
     private val accountTokens: JsonField<List<String>>,
     private val cardTokens: JsonField<List<String>>,
-    private val previousAuthRuleTokens: JsonField<List<String>>,
     private val programLevel: JsonField<Boolean>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
@@ -34,19 +33,12 @@ private constructor(
     fun cardTokens(): Optional<List<String>> =
         Optional.ofNullable(cardTokens.getNullable("card_tokens"))
 
-    fun previousAuthRuleTokens(): Optional<List<String>> =
-        Optional.ofNullable(previousAuthRuleTokens.getNullable("previous_auth_rule_tokens"))
-
     fun programLevel(): Optional<Boolean> =
         Optional.ofNullable(programLevel.getNullable("program_level"))
 
     @JsonProperty("account_tokens") @ExcludeMissing fun _accountTokens() = accountTokens
 
     @JsonProperty("card_tokens") @ExcludeMissing fun _cardTokens() = cardTokens
-
-    @JsonProperty("previous_auth_rule_tokens")
-    @ExcludeMissing
-    fun _previousAuthRuleTokens() = previousAuthRuleTokens
 
     @JsonProperty("program_level") @ExcludeMissing fun _programLevel() = programLevel
 
@@ -58,7 +50,6 @@ private constructor(
         if (!validated) {
             accountTokens()
             cardTokens()
-            previousAuthRuleTokens()
             programLevel()
             validated = true
         }
@@ -74,7 +65,6 @@ private constructor(
         return other is AuthRuleRemoveResponse &&
             this.accountTokens == other.accountTokens &&
             this.cardTokens == other.cardTokens &&
-            this.previousAuthRuleTokens == other.previousAuthRuleTokens &&
             this.programLevel == other.programLevel &&
             this.additionalProperties == other.additionalProperties
     }
@@ -85,7 +75,6 @@ private constructor(
                 Objects.hash(
                     accountTokens,
                     cardTokens,
-                    previousAuthRuleTokens,
                     programLevel,
                     additionalProperties,
                 )
@@ -94,7 +83,7 @@ private constructor(
     }
 
     override fun toString() =
-        "AuthRuleRemoveResponse{accountTokens=$accountTokens, cardTokens=$cardTokens, previousAuthRuleTokens=$previousAuthRuleTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
+        "AuthRuleRemoveResponse{accountTokens=$accountTokens, cardTokens=$cardTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -105,7 +94,6 @@ private constructor(
 
         private var accountTokens: JsonField<List<String>> = JsonMissing.of()
         private var cardTokens: JsonField<List<String>> = JsonMissing.of()
-        private var previousAuthRuleTokens: JsonField<List<String>> = JsonMissing.of()
         private var programLevel: JsonField<Boolean> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -113,7 +101,6 @@ private constructor(
         internal fun from(authRuleRemoveResponse: AuthRuleRemoveResponse) = apply {
             this.accountTokens = authRuleRemoveResponse.accountTokens
             this.cardTokens = authRuleRemoveResponse.cardTokens
-            this.previousAuthRuleTokens = authRuleRemoveResponse.previousAuthRuleTokens
             this.programLevel = authRuleRemoveResponse.programLevel
             additionalProperties(authRuleRemoveResponse.additionalProperties)
         }
@@ -131,15 +118,6 @@ private constructor(
         @JsonProperty("card_tokens")
         @ExcludeMissing
         fun cardTokens(cardTokens: JsonField<List<String>>) = apply { this.cardTokens = cardTokens }
-
-        fun previousAuthRuleTokens(previousAuthRuleTokens: List<String>) =
-            previousAuthRuleTokens(JsonField.of(previousAuthRuleTokens))
-
-        @JsonProperty("previous_auth_rule_tokens")
-        @ExcludeMissing
-        fun previousAuthRuleTokens(previousAuthRuleTokens: JsonField<List<String>>) = apply {
-            this.previousAuthRuleTokens = previousAuthRuleTokens
-        }
 
         fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
 
@@ -167,7 +145,6 @@ private constructor(
             AuthRuleRemoveResponse(
                 accountTokens.map { it.toUnmodifiable() },
                 cardTokens.map { it.toUnmodifiable() },
-                previousAuthRuleTokens.map { it.toUnmodifiable() },
                 programLevel,
                 additionalProperties.toUnmodifiable(),
             )
