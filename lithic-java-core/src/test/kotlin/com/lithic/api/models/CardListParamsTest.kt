@@ -11,6 +11,7 @@ class CardListParamsTest {
     fun createCardListParams() {
         CardListParams.builder()
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .state(CardListParams.State.OPEN)
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .page(123L)
@@ -23,6 +24,7 @@ class CardListParamsTest {
         val params =
             CardListParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .state(CardListParams.State.OPEN)
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .page(123L)
@@ -30,6 +32,7 @@ class CardListParamsTest {
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put("account_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+        expected.put("state", listOf(CardListParams.State.OPEN.toString()))
         expected.put("begin", listOf("2019-12-27T18:11:19.117Z"))
         expected.put("end", listOf("2019-12-27T18:11:19.117Z"))
         expected.put("page", listOf("123"))
