@@ -149,6 +149,7 @@ class ServiceParamsTest {
         val params =
             CardListParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .state(CardListParams.State.OPEN)
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .page(123L)
