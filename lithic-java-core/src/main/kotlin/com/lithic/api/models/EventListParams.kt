@@ -234,6 +234,10 @@ constructor(
                 EventType(JsonField.of("digital_wallet.tokenization_approval_request"))
 
             @JvmField
+            val DIGITAL_WALLET_TOKENIZATION_RESULT =
+                EventType(JsonField.of("digital_wallet.tokenization_result"))
+
+            @JvmField
             val DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE =
                 EventType(
                     JsonField.of("digital_wallet.tokenization_two_factor_authentication_code")
@@ -249,6 +253,7 @@ constructor(
             CARD_SHIPPED,
             CARD_TRANSACTION_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
+            DIGITAL_WALLET_TOKENIZATION_RESULT,
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
             DISPUTE_UPDATED,
         }
@@ -258,6 +263,7 @@ constructor(
             CARD_SHIPPED,
             CARD_TRANSACTION_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
+            DIGITAL_WALLET_TOKENIZATION_RESULT,
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
             DISPUTE_UPDATED,
             _UNKNOWN,
@@ -270,6 +276,7 @@ constructor(
                 CARD_TRANSACTION_UPDATED -> Value.CARD_TRANSACTION_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
                     Value.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                DIGITAL_WALLET_TOKENIZATION_RESULT -> Value.DIGITAL_WALLET_TOKENIZATION_RESULT
                 DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
                     Value.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
                 DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
@@ -283,6 +290,7 @@ constructor(
                 CARD_TRANSACTION_UPDATED -> Known.CARD_TRANSACTION_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
                     Known.DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST
+                DIGITAL_WALLET_TOKENIZATION_RESULT -> Known.DIGITAL_WALLET_TOKENIZATION_RESULT
                 DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
                     Known.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
                 DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
