@@ -16,8 +16,8 @@ class AccountHolderUpdateResponseTest {
                 .build()
         assertThat(accountHolderUpdateResponse).isNotNull
         assertThat(accountHolderUpdateResponse.token()).contains("string")
+        assertThat(accountHolderUpdateResponse.businessAccountToken()).contains("string")
         assertThat(accountHolderUpdateResponse.email()).contains("string")
         assertThat(accountHolderUpdateResponse.phoneNumber()).contains("string")
-        assertThat(accountHolderUpdateResponse.businessAccountToken()).contains("string")
     }
 }

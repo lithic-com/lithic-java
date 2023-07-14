@@ -18,10 +18,10 @@ class AddressTest {
                 .build()
         assertThat(address).isNotNull
         assertThat(address.address1()).isEqualTo("123 Old Forest Way")
-        assertThat(address.address2()).contains("string")
         assertThat(address.city()).isEqualTo("Omaha")
         assertThat(address.country()).isEqualTo("USA")
         assertThat(address.postalCode()).isEqualTo("68022")
         assertThat(address.state()).isEqualTo("NE")
+        assertThat(address.address2()).contains("string")
     }
 }

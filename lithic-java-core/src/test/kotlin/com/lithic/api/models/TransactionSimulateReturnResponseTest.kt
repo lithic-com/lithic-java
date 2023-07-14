@@ -13,9 +13,9 @@ class TransactionSimulateReturnResponseTest {
                 .debuggingRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(transactionSimulateReturnResponse).isNotNull
-        assertThat(transactionSimulateReturnResponse.debuggingRequestId())
-            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(transactionSimulateReturnResponse.token())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(transactionSimulateReturnResponse.debuggingRequestId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }
