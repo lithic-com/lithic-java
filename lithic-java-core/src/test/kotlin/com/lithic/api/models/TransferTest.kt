@@ -65,6 +65,7 @@ class TransferTest {
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
         assertThat(transfer).isNotNull
+        assertThat(transfer.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(transfer.category()).contains(Transfer.Category.TRANSFER)
         assertThat(transfer.created()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(transfer.currency()).contains("string")
@@ -79,12 +80,6 @@ class TransferTest {
                     .type(Transfer.FinancialEvent.Type.ACH_INSUFFICIENT_FUNDS)
                     .build()
             )
-        assertThat(transfer.pendingAmount()).contains(123L)
-        assertThat(transfer.result()).contains(Transfer.Result.APPROVED)
-        assertThat(transfer.settledAmount()).contains(123L)
-        assertThat(transfer.status()).contains(Transfer.Status.DECLINED)
-        assertThat(transfer.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(transfer.updated()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(transfer.fromBalance().get())
             .containsExactly(
                 Balance.builder()
@@ -100,6 +95,10 @@ class TransferTest {
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
+        assertThat(transfer.pendingAmount()).contains(123L)
+        assertThat(transfer.result()).contains(Transfer.Result.APPROVED)
+        assertThat(transfer.settledAmount()).contains(123L)
+        assertThat(transfer.status()).contains(Transfer.Status.DECLINED)
         assertThat(transfer.toBalance().get())
             .containsExactly(
                 Balance.builder()
@@ -115,5 +114,6 @@ class TransferTest {
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
+        assertThat(transfer.updated()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
     }
 }

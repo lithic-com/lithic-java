@@ -19,13 +19,13 @@ class DisputeEvidenceTest {
                 .uploadUrl("string")
                 .build()
         assertThat(disputeEvidence).isNotNull
+        assertThat(disputeEvidence.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(disputeEvidence.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(disputeEvidence.disputeToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(disputeEvidence.uploadStatus()).isEqualTo(DisputeEvidence.UploadStatus.DELETED)
         assertThat(disputeEvidence.downloadUrl()).contains("string")
         assertThat(disputeEvidence.filename()).contains("string")
-        assertThat(disputeEvidence.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(disputeEvidence.uploadStatus()).isEqualTo(DisputeEvidence.UploadStatus.DELETED)
         assertThat(disputeEvidence.uploadUrl()).contains("string")
     }
 }

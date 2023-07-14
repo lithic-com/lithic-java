@@ -65,30 +65,12 @@ class TransactionTest {
                 )
                 .build()
         assertThat(transaction).isNotNull
+        assertThat(transaction.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(transaction.acquirerReferenceNumber()).contains("xxxxxxxxxxxxxxxxxxxxxxx")
         assertThat(transaction.amount()).isEqualTo(123L)
         assertThat(transaction.authorizationAmount()).isEqualTo(123L)
         assertThat(transaction.authorizationCode()).isEqualTo("xxxxxx")
         assertThat(transaction.cardToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(transaction.cardholderAuthentication())
-            .contains(
-                Transaction.CardholderAuthentication.builder()
-                    ._3dsVersion("string")
-                    .acquirerExemption(
-                        Transaction.CardholderAuthentication.AcquirerExemption
-                            .AUTHENTICATION_OUTAGE_EXCEPTION
-                    )
-                    .liabilityShift(
-                        Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
-                    )
-                    .verificationAttempted(
-                        Transaction.CardholderAuthentication.VerificationAttempted.APP_LOGIN
-                    )
-                    .verificationResult(
-                        Transaction.CardholderAuthentication.VerificationResult.CANCELLED
-                    )
-                    .build()
-            )
         assertThat(transaction.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(transaction.events())
@@ -119,6 +101,24 @@ class TransactionTest {
         assertThat(transaction.result()).isEqualTo(Transaction.Result.ACCOUNT_STATE_TRANSACTION)
         assertThat(transaction.settledAmount()).isEqualTo(123L)
         assertThat(transaction.status()).isEqualTo(Transaction.Status.BOUNCED)
-        assertThat(transaction.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(transaction.cardholderAuthentication())
+            .contains(
+                Transaction.CardholderAuthentication.builder()
+                    ._3dsVersion("string")
+                    .acquirerExemption(
+                        Transaction.CardholderAuthentication.AcquirerExemption
+                            .AUTHENTICATION_OUTAGE_EXCEPTION
+                    )
+                    .liabilityShift(
+                        Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
+                    )
+                    .verificationAttempted(
+                        Transaction.CardholderAuthentication.VerificationAttempted.APP_LOGIN
+                    )
+                    .verificationResult(
+                        Transaction.CardholderAuthentication.VerificationResult.CANCELLED
+                    )
+                    .build()
+            )
     }
 }

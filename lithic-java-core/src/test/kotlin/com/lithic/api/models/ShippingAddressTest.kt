@@ -22,16 +22,16 @@ class ShippingAddressTest {
                 .phoneNumber("+12124007676")
                 .build()
         assertThat(shippingAddress).isNotNull
+        assertThat(shippingAddress.address1()).isEqualTo("5 Broad Street")
+        assertThat(shippingAddress.city()).isEqualTo("NEW YORK")
+        assertThat(shippingAddress.country()).isEqualTo("USA")
         assertThat(shippingAddress.firstName()).isEqualTo("Michael")
         assertThat(shippingAddress.lastName()).isEqualTo("Bluth")
-        assertThat(shippingAddress.line2Text()).contains("The Bluth Company")
-        assertThat(shippingAddress.address1()).isEqualTo("5 Broad Street")
-        assertThat(shippingAddress.address2()).contains("Unit 25A")
-        assertThat(shippingAddress.city()).isEqualTo("NEW YORK")
-        assertThat(shippingAddress.state()).isEqualTo("NY")
         assertThat(shippingAddress.postalCode()).isEqualTo("10001-1809")
-        assertThat(shippingAddress.country()).isEqualTo("USA")
+        assertThat(shippingAddress.state()).isEqualTo("NY")
+        assertThat(shippingAddress.address2()).contains("Unit 25A")
         assertThat(shippingAddress.email()).contains("johnny@appleseed.com")
+        assertThat(shippingAddress.line2Text()).contains("The Bluth Company")
         assertThat(shippingAddress.phoneNumber()).contains("+12124007676")
     }
 }

@@ -16,11 +16,11 @@ class EventSubscriptionTest {
                 .url("https://example.com")
                 .build()
         assertThat(eventSubscription).isNotNull
+        assertThat(eventSubscription.token()).isEqualTo("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
         assertThat(eventSubscription.description()).isEqualTo("string")
         assertThat(eventSubscription.disabled()).isEqualTo(true)
         assertThat(eventSubscription.eventTypes().get())
             .containsExactly(EventSubscription.EventType.CARD_CREATED)
         assertThat(eventSubscription.url()).isEqualTo("https://example.com")
-        assertThat(eventSubscription.token()).isEqualTo("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
     }
 }
