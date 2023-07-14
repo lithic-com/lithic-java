@@ -9,16 +9,16 @@ class ShippingAddressTest {
     fun createShippingAddress() {
         val shippingAddress =
             ShippingAddress.builder()
+                .address1("5 Broad Street")
+                .city("NEW YORK")
+                .country("USA")
                 .firstName("Michael")
                 .lastName("Bluth")
-                .line2Text("The Bluth Company")
-                .address1("5 Broad Street")
-                .address2("Unit 25A")
-                .city("NEW YORK")
-                .state("NY")
                 .postalCode("10001-1809")
-                .country("USA")
+                .state("NY")
+                .address2("Unit 25A")
                 .email("johnny@appleseed.com")
+                .line2Text("The Bluth Company")
                 .phoneNumber("+12124007676")
                 .build()
         assertThat(shippingAddress).isNotNull
