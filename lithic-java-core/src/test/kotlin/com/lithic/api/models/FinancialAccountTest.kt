@@ -10,12 +10,12 @@ class FinancialAccountTest {
     fun createFinancialAccount() {
         val financialAccount =
             FinancialAccount.builder()
-                .accountNumber("string")
-                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .routingNumber("string")
                 .token("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .type(FinancialAccount.Type.ISSUING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .accountNumber("string")
+                .routingNumber("string")
                 .build()
         assertThat(financialAccount).isNotNull
         assertThat(financialAccount.accountNumber()).contains("string")

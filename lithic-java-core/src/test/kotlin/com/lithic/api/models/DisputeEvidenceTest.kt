@@ -10,12 +10,12 @@ class DisputeEvidenceTest {
     fun createDisputeEvidence() {
         val disputeEvidence =
             DisputeEvidence.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .uploadStatus(DisputeEvidence.UploadStatus.DELETED)
                 .downloadUrl("string")
                 .filename("string")
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .uploadStatus(DisputeEvidence.UploadStatus.DELETED)
                 .uploadUrl("string")
                 .build()
         assertThat(disputeEvidence).isNotNull

@@ -9,11 +9,11 @@ class EventSubscriptionTest {
     fun createEventSubscription() {
         val eventSubscription =
             EventSubscription.builder()
+                .token("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
                 .description("string")
                 .disabled(true)
                 .eventTypes(listOf(EventSubscription.EventType.CARD_CREATED))
                 .url("https://example.com")
-                .token("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
                 .build()
         assertThat(eventSubscription).isNotNull
         assertThat(eventSubscription.description()).isEqualTo("string")

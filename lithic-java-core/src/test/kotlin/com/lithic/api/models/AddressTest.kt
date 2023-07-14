@@ -10,11 +10,11 @@ class AddressTest {
         val address =
             Address.builder()
                 .address1("123 Old Forest Way")
-                .address2("string")
                 .city("Omaha")
                 .country("USA")
                 .postalCode("68022")
                 .state("NE")
+                .address2("string")
                 .build()
         assertThat(address).isNotNull
         assertThat(address.address1()).isEqualTo("123 Old Forest Way")

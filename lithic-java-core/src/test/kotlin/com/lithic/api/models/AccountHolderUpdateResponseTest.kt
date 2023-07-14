@@ -10,9 +10,9 @@ class AccountHolderUpdateResponseTest {
         val accountHolderUpdateResponse =
             AccountHolderUpdateResponse.builder()
                 .token("string")
+                .businessAccountToken("string")
                 .email("string")
                 .phoneNumber("string")
-                .businessAccountToken("string")
                 .build()
         assertThat(accountHolderUpdateResponse).isNotNull
         assertThat(accountHolderUpdateResponse.token()).contains("string")

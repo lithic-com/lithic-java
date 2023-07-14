@@ -10,16 +10,16 @@ class AggregateBalanceTest {
     fun createAggregateBalance() {
         val aggregateBalance =
             AggregateBalance.builder()
-                .financialAccountType(AggregateBalance.FinancialAccountType.ISSUING)
-                .currency("string")
                 .availableAmount(123L)
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .currency("string")
+                .financialAccountType(AggregateBalance.FinancialAccountType.ISSUING)
+                .lastFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .lastTransactionEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .lastTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .pendingAmount(123L)
                 .totalAmount(123L)
-                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .lastTransactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .lastTransactionEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .lastFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(aggregateBalance).isNotNull
         assertThat(aggregateBalance.financialAccountType())
