@@ -17,8 +17,8 @@ class EventTest {
                 .build()
         assertThat(event).isNotNull
         assertThat(event.token()).isEqualTo("msg_1srOrx2ZWZBpBUvZwXKQmoEYga1")
+        assertThat(event.created()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(event.eventType()).isEqualTo(Event.EventType.CARD_CREATED)
         assertThat(event.payload()).isEqualTo(Event.Payload.builder().build())
-        assertThat(event.created()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
     }
 }

@@ -33,6 +33,7 @@ class FinancialTransactionTest {
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
         assertThat(financialTransaction).isNotNull
+        assertThat(financialTransaction.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(financialTransaction.category()).contains(FinancialTransaction.Category.CARD)
         assertThat(financialTransaction.created())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -52,7 +53,6 @@ class FinancialTransactionTest {
         assertThat(financialTransaction.result()).contains(FinancialTransaction.Result.APPROVED)
         assertThat(financialTransaction.settledAmount()).contains(123L)
         assertThat(financialTransaction.status()).contains(FinancialTransaction.Status.DECLINED)
-        assertThat(financialTransaction.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(financialTransaction.updated())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
     }
