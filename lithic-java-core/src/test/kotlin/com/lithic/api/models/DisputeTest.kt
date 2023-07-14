@@ -10,16 +10,17 @@ class DisputeTest {
     fun createDispute() {
         val dispute =
             Dispute.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .amount(123L)
                 .arbitrationDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .customerNote("string")
                 .networkClaimIds(listOf("string"))
-                .primaryClaimId("string")
                 .networkFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .networkReasonCode("string")
                 .prearbitrationDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .primaryClaimId("string")
                 .reason(Dispute.Reason.ATM_CASH_MISDISPENSE)
                 .representmentDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .resolutionAmount(123L)
@@ -27,7 +28,6 @@ class DisputeTest {
                 .resolutionNote("string")
                 .resolutionReason(Dispute.ResolutionReason.CASE_LOST)
                 .status(Dispute.Status.NEW)
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(dispute).isNotNull

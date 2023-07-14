@@ -9,23 +9,23 @@ class KycExemptTest {
     fun createKycExempt() {
         val kycExempt =
             KycExempt.builder()
-                .workflow(KycExempt.Workflow.KYC_EXEMPT)
-                .kycExemptionType(KycExempt.KycExemptionType.AUTHORIZED_USER)
-                .firstName("string")
-                .lastName("string")
                 .email("string")
+                .firstName("string")
+                .kycExemptionType(KycExempt.KycExemptionType.AUTHORIZED_USER)
+                .lastName("string")
                 .phoneNumber("string")
-                .businessAccountToken("string")
+                .workflow(KycExempt.Workflow.KYC_EXEMPT)
                 .address(
                     Address.builder()
                         .address1("123 Old Forest Way")
-                        .address2("string")
                         .city("Omaha")
                         .country("USA")
                         .postalCode("68022")
                         .state("NE")
+                        .address2("string")
                         .build()
                 )
+                .businessAccountToken("string")
                 .build()
         assertThat(kycExempt).isNotNull
         assertThat(kycExempt.workflow()).isEqualTo(KycExempt.Workflow.KYC_EXEMPT)
@@ -40,11 +40,11 @@ class KycExemptTest {
             .contains(
                 Address.builder()
                     .address1("123 Old Forest Way")
-                    .address2("string")
                     .city("Omaha")
                     .country("USA")
                     .postalCode("68022")
                     .state("NE")
+                    .address2("string")
                     .build()
             )
     }

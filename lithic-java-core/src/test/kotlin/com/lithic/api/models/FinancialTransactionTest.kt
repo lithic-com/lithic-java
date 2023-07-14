@@ -10,6 +10,7 @@ class FinancialTransactionTest {
     fun createFinancialTransaction() {
         val financialTransaction =
             FinancialTransaction.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .category(FinancialTransaction.Category.CARD)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("string")
@@ -17,10 +18,10 @@ class FinancialTransactionTest {
                 .events(
                     listOf(
                         FinancialTransaction.FinancialEvent.builder()
+                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .amount(123L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .result(FinancialTransaction.FinancialEvent.Result.APPROVED)
-                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .type(FinancialTransaction.FinancialEvent.Type.ACH_INSUFFICIENT_FUNDS)
                             .build()
                     )
@@ -29,7 +30,6 @@ class FinancialTransactionTest {
                 .result(FinancialTransaction.Result.APPROVED)
                 .settledAmount(123L)
                 .status(FinancialTransaction.Status.DECLINED)
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
         assertThat(financialTransaction).isNotNull
@@ -41,10 +41,10 @@ class FinancialTransactionTest {
         assertThat(financialTransaction.events().get())
             .containsExactly(
                 FinancialTransaction.FinancialEvent.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .amount(123L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .result(FinancialTransaction.FinancialEvent.Result.APPROVED)
-                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .type(FinancialTransaction.FinancialEvent.Type.ACH_INSUFFICIENT_FUNDS)
                     .build()
             )

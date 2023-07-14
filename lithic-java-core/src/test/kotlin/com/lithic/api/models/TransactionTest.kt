@@ -10,37 +10,20 @@ class TransactionTest {
     fun createTransaction() {
         val transaction =
             Transaction.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .acquirerReferenceNumber("xxxxxxxxxxxxxxxxxxxxxxx")
                 .amount(123L)
                 .authorizationAmount(123L)
                 .authorizationCode("xxxxxx")
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .cardholderAuthentication(
-                    Transaction.CardholderAuthentication.builder()
-                        ._3dsVersion("string")
-                        .acquirerExemption(
-                            Transaction.CardholderAuthentication.AcquirerExemption
-                                .AUTHENTICATION_OUTAGE_EXCEPTION
-                        )
-                        .liabilityShift(
-                            Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
-                        )
-                        .verificationAttempted(
-                            Transaction.CardholderAuthentication.VerificationAttempted.APP_LOGIN
-                        )
-                        .verificationResult(
-                            Transaction.CardholderAuthentication.VerificationResult.CANCELLED
-                        )
-                        .build()
-                )
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .events(
                     listOf(
                         Transaction.TransactionEvent.builder()
+                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .amount(123L)
                             .created(OffsetDateTime.parse("2018-05-29T21:16:05Z"))
                             .result(Transaction.TransactionEvent.Result.ACCOUNT_STATE_TRANSACTION)
-                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                             .build()
                     )
@@ -62,7 +45,24 @@ class TransactionTest {
                 .result(Transaction.Result.ACCOUNT_STATE_TRANSACTION)
                 .settledAmount(123L)
                 .status(Transaction.Status.BOUNCED)
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .cardholderAuthentication(
+                    Transaction.CardholderAuthentication.builder()
+                        ._3dsVersion("string")
+                        .acquirerExemption(
+                            Transaction.CardholderAuthentication.AcquirerExemption
+                                .AUTHENTICATION_OUTAGE_EXCEPTION
+                        )
+                        .liabilityShift(
+                            Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
+                        )
+                        .verificationAttempted(
+                            Transaction.CardholderAuthentication.VerificationAttempted.APP_LOGIN
+                        )
+                        .verificationResult(
+                            Transaction.CardholderAuthentication.VerificationResult.CANCELLED
+                        )
+                        .build()
+                )
                 .build()
         assertThat(transaction).isNotNull
         assertThat(transaction.acquirerReferenceNumber()).contains("xxxxxxxxxxxxxxxxxxxxxxx")
@@ -94,10 +94,10 @@ class TransactionTest {
         assertThat(transaction.events())
             .containsExactly(
                 Transaction.TransactionEvent.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .amount(123L)
                     .created(OffsetDateTime.parse("2018-05-29T21:16:05Z"))
                     .result(Transaction.TransactionEvent.Result.ACCOUNT_STATE_TRANSACTION)
-                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                     .build()
             )
