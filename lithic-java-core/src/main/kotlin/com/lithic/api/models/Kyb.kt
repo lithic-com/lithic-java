@@ -93,7 +93,7 @@ private constructor(
     fun tosTimestamp(): String = tosTimestamp.getRequired("tos_timestamp")
 
     /** Company website URL. */
-    fun websiteUrl(): String = websiteUrl.getRequired("website_url")
+    fun websiteUrl(): Optional<String> = Optional.ofNullable(websiteUrl.getNullable("website_url"))
 
     /** Specifies the type of KYB workflow to run. */
     fun workflow(): Workflow = workflow.getRequired("workflow")
