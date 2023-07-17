@@ -93,9 +93,9 @@ class KybTest {
                 )
                 .natureOfBusiness("Software company selling solutions to the restaurant industry")
                 .tosTimestamp("2018-05-29T21:16:05Z")
-                .websiteUrl("www.mybusiness.com")
                 .workflow(Kyb.Workflow.KYB_BASIC)
                 .kybPassedTimestamp("2018-05-29T21:16:05Z")
+                .websiteUrl("www.mybusiness.com")
                 .build()
         assertThat(kyb).isNotNull
         assertThat(kyb.beneficialOwnerEntities())
@@ -183,8 +183,8 @@ class KybTest {
         assertThat(kyb.natureOfBusiness())
             .isEqualTo("Software company selling solutions to the restaurant industry")
         assertThat(kyb.tosTimestamp()).isEqualTo("2018-05-29T21:16:05Z")
-        assertThat(kyb.websiteUrl()).isEqualTo("www.mybusiness.com")
         assertThat(kyb.workflow()).isEqualTo(Kyb.Workflow.KYB_BASIC)
         assertThat(kyb.kybPassedTimestamp()).contains("2018-05-29T21:16:05Z")
+        assertThat(kyb.websiteUrl()).contains("www.mybusiness.com")
     }
 }
