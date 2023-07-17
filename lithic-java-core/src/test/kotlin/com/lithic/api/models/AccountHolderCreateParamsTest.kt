@@ -97,9 +97,9 @@ class AccountHolderCreateParamsTest {
                         "Software company selling solutions to the restaurant industry"
                     )
                     .tosTimestamp("2018-05-29T21:16:05Z")
-                    .websiteUrl("www.mybusiness.com")
                     .workflow(Kyb.Workflow.KYB_BASIC)
                     .kybPassedTimestamp("2018-05-29T21:16:05Z")
+                    .websiteUrl("www.mybusiness.com")
                     .build()
             )
             .build()
@@ -197,9 +197,9 @@ class AccountHolderCreateParamsTest {
                             "Software company selling solutions to the restaurant industry"
                         )
                         .tosTimestamp("2018-05-29T21:16:05Z")
-                        .websiteUrl("www.mybusiness.com")
                         .workflow(Kyb.Workflow.KYB_BASIC)
                         .kybPassedTimestamp("2018-05-29T21:16:05Z")
+                        .websiteUrl("www.mybusiness.com")
                         .build()
                 )
                 .build()
