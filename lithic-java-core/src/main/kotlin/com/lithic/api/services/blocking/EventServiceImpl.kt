@@ -8,6 +8,8 @@ import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.Event
+import com.lithic.api.models.EventListAttemptsPage
+import com.lithic.api.models.EventListAttemptsParams
 import com.lithic.api.models.EventListPage
 import com.lithic.api.models.EventListParams
 import com.lithic.api.models.EventRetrieveParams
@@ -78,6 +80,35 @@ constructor(
                     }
                 }
                 .let { EventListPage.of(this, params, it) }
+        }
+    }
+
+    private val listAttemptsHandler: Handler<EventListAttemptsPage.Response> =
+        jsonHandler<EventListAttemptsPage.Response>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** List all the message attempts for a given event. */
+    override fun listAttempts(
+        params: EventListAttemptsParams,
+        requestOptions: RequestOptions
+    ): EventListAttemptsPage {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.GET)
+                .addPathSegments("events", params.getPathParam(0), "attempts")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .let { listAttemptsHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+                .let { EventListAttemptsPage.of(this, params, it) }
         }
     }
 

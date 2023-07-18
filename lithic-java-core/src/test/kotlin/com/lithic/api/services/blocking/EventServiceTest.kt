@@ -4,6 +4,7 @@ import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.core.JsonString
 import com.lithic.api.models.*
+import com.lithic.api.models.EventListAttemptsParams
 import com.lithic.api.models.EventListParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -36,6 +37,23 @@ class EventServiceTest {
                 .build()
         val eventService = client.events()
         val response = eventService.list(EventListParams.builder().build())
+        println(response)
+        response.data().forEach { it.validate() }
+    }
+
+    @Test
+    fun callListAttempts() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("test-api-key")
+                .webhookSecret("string")
+                .build()
+        val eventService = client.events()
+        val response =
+            eventService.listAttempts(
+                EventListAttemptsParams.builder().eventToken("string").build()
+            )
         println(response)
         response.data().forEach { it.validate() }
     }

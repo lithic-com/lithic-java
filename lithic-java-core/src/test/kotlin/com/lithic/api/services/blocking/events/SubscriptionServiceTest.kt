@@ -3,6 +3,7 @@ package com.lithic.api.services.blocking.events
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
+import com.lithic.api.models.EventSubscriptionListAttemptsParams
 import com.lithic.api.models.EventSubscriptionListParams
 import java.time.OffsetDateTime
 import org.junit.jupiter.api.Disabled
@@ -101,6 +102,25 @@ class SubscriptionServiceTest {
         subscriptionService.delete(
             EventSubscriptionDeleteParams.builder().eventSubscriptionToken("string").build()
         )
+    }
+
+    @Test
+    fun callListAttempts() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("test-api-key")
+                .webhookSecret("string")
+                .build()
+        val subscriptionService = client.events().subscriptions()
+        val response =
+            subscriptionService.listAttempts(
+                EventSubscriptionListAttemptsParams.builder()
+                    .eventSubscriptionToken("string")
+                    .build()
+            )
+        println(response)
+        response.data().forEach { it.validate() }
     }
 
     @Disabled("Prism Mock server doesnt want Accept header, but server requires it.")
