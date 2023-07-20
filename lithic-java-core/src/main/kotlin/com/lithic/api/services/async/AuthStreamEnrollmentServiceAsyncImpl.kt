@@ -49,7 +49,7 @@ constructor(
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
             response
-                .let { retrieveHandler.handle(it) }
+                .use { retrieveHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -76,7 +76,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
-            response.let { disenrollHandler.handle(it) }
+            response.use { disenrollHandler.handle(it) }
         }
     }
 
@@ -110,7 +110,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
-            response.let { enrollHandler.handle(it) }
+            response.use { enrollHandler.handle(it) }
         }
     }
 
@@ -139,7 +139,7 @@ constructor(
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
             response
-                .let { retrieveSecretHandler.handle(it) }
+                .use { retrieveSecretHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -171,7 +171,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
-            response.let { rotateSecretHandler.handle(it) }
+            response.use { rotateSecretHandler.handle(it) }
         }
     }
 }
