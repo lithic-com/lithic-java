@@ -54,7 +54,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { retrieveHandler.handle(it) }
+                .use { retrieveHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -82,7 +82,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { listHandler.handle(it) }
+                .use { listHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -119,7 +119,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { simulateAuthorizationHandler.handle(it) }
+                .use { simulateAuthorizationHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -152,7 +152,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { simulateAuthorizationAdviceHandler.handle(it) }
+                .use { simulateAuthorizationAdviceHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -186,7 +186,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { simulateClearingHandler.handle(it) }
+                .use { simulateClearingHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -219,7 +219,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { simulateCreditAuthorizationHandler.handle(it) }
+                .use { simulateCreditAuthorizationHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -251,7 +251,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { simulateReturnHandler.handle(it) }
+                .use { simulateReturnHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -284,7 +284,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { simulateReturnReversalHandler.handle(it) }
+                .use { simulateReturnReversalHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -319,7 +319,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { simulateVoidHandler.handle(it) }
+                .use { simulateVoidHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()

@@ -16,6 +16,7 @@ class EventListParamsTest {
             .startingAfter("string")
             .endingBefore("string")
             .eventTypes(listOf(EventListParams.EventType.CARD_CREATED))
+            .withContent(true)
             .build()
     }
 
@@ -29,6 +30,7 @@ class EventListParamsTest {
                 .startingAfter("string")
                 .endingBefore("string")
                 .eventTypes(listOf(EventListParams.EventType.CARD_CREATED))
+                .withContent(true)
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put("begin", listOf("2019-12-27T18:11:19.117Z"))
@@ -37,6 +39,7 @@ class EventListParamsTest {
         expected.put("starting_after", listOf("string"))
         expected.put("ending_before", listOf("string"))
         expected.put("event_types", listOf(EventListParams.EventType.CARD_CREATED.toString()))
+        expected.put("with_content", listOf("true"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 

@@ -65,7 +65,7 @@ constructor(
             )
             .let { response ->
                 response
-                    .let { createHandler.handle(it) }
+                    .use { createHandler.handle(it) }
                     .apply {
                         if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                             validate()
@@ -92,7 +92,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { retrieveHandler.handle(it) }
+                .use { retrieveHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -121,7 +121,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { updateHandler.handle(it) }
+                .use { updateHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -163,7 +163,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { createWebhookHandler.handle(it) }
+                .use { createWebhookHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -205,7 +205,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { listDocumentsHandler.handle(it) }
+                .use { listDocumentsHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -241,7 +241,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { resubmitHandler.handle(it) }
+                .use { resubmitHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -287,7 +287,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { retrieveDocumentHandler.handle(it) }
+                .use { retrieveDocumentHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -332,7 +332,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { uploadDocumentHandler.handle(it) }
+                .use { uploadDocumentHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()

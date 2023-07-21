@@ -39,7 +39,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { createHandler.handle(it) }
+                .use { createHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()

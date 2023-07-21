@@ -47,7 +47,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { retrieveHandler.handle(it) }
+                .use { retrieveHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -73,7 +73,7 @@ constructor(
                 .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
         clientOptions.httpClient.execute(request, requestOptions).let { response ->
-            response.let { disenrollHandler.handle(it) }
+            response.use { disenrollHandler.handle(it) }
         }
     }
 
@@ -103,7 +103,7 @@ constructor(
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()
         clientOptions.httpClient.execute(request, requestOptions).let { response ->
-            response.let { enrollHandler.handle(it) }
+            response.use { enrollHandler.handle(it) }
         }
     }
 
@@ -131,7 +131,7 @@ constructor(
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
-                .let { retrieveSecretHandler.handle(it) }
+                .use { retrieveSecretHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -162,7 +162,7 @@ constructor(
                 .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
         clientOptions.httpClient.execute(request, requestOptions).let { response ->
-            response.let { rotateSecretHandler.handle(it) }
+            response.use { rotateSecretHandler.handle(it) }
         }
     }
 }

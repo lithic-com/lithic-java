@@ -56,7 +56,7 @@ constructor(
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
             response
-                .let { retrieveHandler.handle(it) }
+                .use { retrieveHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -85,7 +85,7 @@ constructor(
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
             response
-                .let { listHandler.handle(it) }
+                .use { listHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -123,7 +123,7 @@ constructor(
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
             response
-                .let { simulateAuthorizationHandler.handle(it) }
+                .use { simulateAuthorizationHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -157,7 +157,7 @@ constructor(
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
             response
-                .let { simulateAuthorizationAdviceHandler.handle(it) }
+                .use { simulateAuthorizationAdviceHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -192,7 +192,7 @@ constructor(
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
             response
-                .let { simulateClearingHandler.handle(it) }
+                .use { simulateClearingHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -226,7 +226,7 @@ constructor(
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
             response
-                .let { simulateCreditAuthorizationHandler.handle(it) }
+                .use { simulateCreditAuthorizationHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -259,7 +259,7 @@ constructor(
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
             response
-                .let { simulateReturnHandler.handle(it) }
+                .use { simulateReturnHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -293,7 +293,7 @@ constructor(
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
             response
-                .let { simulateReturnReversalHandler.handle(it) }
+                .use { simulateReturnReversalHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
@@ -329,7 +329,7 @@ constructor(
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
             ->
             response
-                .let { simulateVoidHandler.handle(it) }
+                .use { simulateVoidHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
