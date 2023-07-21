@@ -202,6 +202,36 @@ constructor(
         }
     }
 
+    private val listAttemptsHandler: Handler<EventSubscriptionListAttemptsPageAsync.Response> =
+        jsonHandler<EventSubscriptionListAttemptsPageAsync.Response>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** List all the message attempts for a given event subscription. */
+    override fun listAttempts(
+        params: EventSubscriptionListAttemptsParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<EventSubscriptionListAttemptsPageAsync> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.GET)
+                .addPathSegments("event_subscriptions", params.getPathParam(0), "attempts")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .let { listAttemptsHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+                .let { EventSubscriptionListAttemptsPageAsync.of(this, params, it) }
+        }
+    }
+
     private val recoverHandler: Handler<Void?> = emptyHandler().withErrorHandler(errorHandler)
 
     /** Resend all failed messages since a given time. */
