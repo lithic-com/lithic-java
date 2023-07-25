@@ -41,6 +41,8 @@ interface LithicClientAsync {
 
     fun webhooks(): WebhookServiceAsync
 
+    fun externalBankAccounts(): ExternalBankAccountServiceAsync
+
     /** API status check */
     @JvmOverloads
     fun apiStatus(
