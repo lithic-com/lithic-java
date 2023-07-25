@@ -63,6 +63,10 @@ constructor(
 
     private val webhooks: WebhookService by lazy { WebhookServiceImpl(clientOptions) }
 
+    private val externalBankAccounts: ExternalBankAccountService by lazy {
+        ExternalBankAccountServiceImpl(clientOptions)
+    }
+
     override fun async(): LithicClientAsync = async
 
     override fun accounts(): AccountService = accounts
@@ -94,6 +98,8 @@ constructor(
     override fun responderEndpoints(): ResponderEndpointService = responderEndpoints
 
     override fun webhooks(): WebhookService = webhooks
+
+    override fun externalBankAccounts(): ExternalBankAccountService = externalBankAccounts
 
     private val apiStatusHandler: Handler<ApiStatus> =
         jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
