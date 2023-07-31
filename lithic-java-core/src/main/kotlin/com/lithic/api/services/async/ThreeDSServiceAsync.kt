@@ -3,11 +3,11 @@
 package com.lithic.api.services.async
 
 import com.lithic.api.services.async.threeDS.AuthenticationServiceAsync
-import com.lithic.api.services.async.threeDS.DescisioningServiceAsync
+import com.lithic.api.services.async.threeDS.DecisioningServiceAsync
 
 interface ThreeDSServiceAsync {
 
     fun authentication(): AuthenticationServiceAsync
 
-    fun descisioning(): DescisioningServiceAsync
+    fun decisioning(): DecisioningServiceAsync
 }

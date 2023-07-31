@@ -3,11 +3,11 @@
 package com.lithic.api.services.blocking.threeDS
 
 import com.lithic.api.core.RequestOptions
-import com.lithic.api.models.DescisioningRetrieveSecretResponse
-import com.lithic.api.models.ThreeDDescisioningRetrieveSecretParams
-import com.lithic.api.models.ThreeDDescisioningRotateSecretParams
+import com.lithic.api.models.DecisioningRetrieveSecretResponse
+import com.lithic.api.models.ThreeDDecisioningRetrieveSecretParams
+import com.lithic.api.models.ThreeDDecisioningRotateSecretParams
 
-interface DescisioningService {
+interface DecisioningService {
 
     /**
      * Retrieve the 3DS Decisioning HMAC secret key. If one does not exist for your program yet,
@@ -19,9 +19,9 @@ interface DescisioningService {
      */
     @JvmOverloads
     fun retrieveSecret(
-        params: ThreeDDescisioningRetrieveSecretParams,
+        params: ThreeDDecisioningRetrieveSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): DescisioningRetrieveSecretResponse
+    ): DecisioningRetrieveSecretResponse
 
     /**
      * Generate a new 3DS Decisioning HMAC secret key. The old secret key will be deactivated 24
@@ -31,7 +31,7 @@ interface DescisioningService {
      */
     @JvmOverloads
     fun rotateSecret(
-        params: ThreeDDescisioningRotateSecretParams,
+        params: ThreeDDecisioningRotateSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
     )
 }

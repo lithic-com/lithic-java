@@ -1,4 +1,4 @@
-package com.lithic.api.services.blocking.threeDS
+package com.lithic.api.services.async.threeDS
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
@@ -6,24 +6,25 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
-import com.lithic.api.models.DescisioningRetrieveSecretResponse
-import com.lithic.api.models.ThreeDDescisioningRetrieveSecretParams
-import com.lithic.api.models.ThreeDDescisioningRotateSecretParams
+import com.lithic.api.models.DecisioningRetrieveSecretResponse
+import com.lithic.api.models.ThreeDDecisioningRetrieveSecretParams
+import com.lithic.api.models.ThreeDDecisioningRotateSecretParams
 import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
+import java.util.concurrent.CompletableFuture
 
-class DescisioningServiceImpl
+class DecisioningServiceAsyncImpl
 constructor(
     private val clientOptions: ClientOptions,
-) : DescisioningService {
+) : DecisioningServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
-    private val retrieveSecretHandler: Handler<DescisioningRetrieveSecretResponse> =
-        jsonHandler<DescisioningRetrieveSecretResponse>(clientOptions.jsonMapper)
+    private val retrieveSecretHandler: Handler<DecisioningRetrieveSecretResponse> =
+        jsonHandler<DecisioningRetrieveSecretResponse>(clientOptions.jsonMapper)
             .withErrorHandler(errorHandler)
 
     /**
@@ -35,9 +36,9 @@ constructor(
      * more detail about verifying 3DS Decisioning requests.
      */
     override fun retrieveSecret(
-        params: ThreeDDescisioningRetrieveSecretParams,
+        params: ThreeDDecisioningRetrieveSecretParams,
         requestOptions: RequestOptions
-    ): DescisioningRetrieveSecretResponse {
+    ): CompletableFuture<DecisioningRetrieveSecretResponse> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -46,7 +47,8 @@ constructor(
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
                 .build()
-        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
             response
                 .use { retrieveSecretHandler.handle(it) }
                 .apply {
@@ -66,9 +68,9 @@ constructor(
      * request to retrieve the new secret key.
      */
     override fun rotateSecret(
-        params: ThreeDDescisioningRotateSecretParams,
+        params: ThreeDDecisioningRotateSecretParams,
         requestOptions: RequestOptions
-    ) {
+    ): CompletableFuture<Void> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -78,7 +80,8 @@ constructor(
                 .putAllHeaders(params.getHeaders())
                 .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()
-        clientOptions.httpClient.execute(request, requestOptions).let { response ->
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
             response.use { rotateSecretHandler.handle(it) }
         }
     }
