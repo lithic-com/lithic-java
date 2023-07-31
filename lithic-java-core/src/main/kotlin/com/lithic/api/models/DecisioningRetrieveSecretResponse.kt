@@ -13,9 +13,9 @@ import com.lithic.api.core.toUnmodifiable
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = DescisioningRetrieveSecretResponse.Builder::class)
+@JsonDeserialize(builder = DecisioningRetrieveSecretResponse.Builder::class)
 @NoAutoDetect
-class DescisioningRetrieveSecretResponse
+class DecisioningRetrieveSecretResponse
 private constructor(
     private val secret: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
@@ -35,7 +35,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate(): DescisioningRetrieveSecretResponse = apply {
+    fun validate(): DecisioningRetrieveSecretResponse = apply {
         if (!validated) {
             secret()
             validated = true
@@ -49,7 +49,7 @@ private constructor(
             return true
         }
 
-        return other is DescisioningRetrieveSecretResponse &&
+        return other is DecisioningRetrieveSecretResponse &&
             this.secret == other.secret &&
             this.additionalProperties == other.additionalProperties
     }
@@ -62,7 +62,7 @@ private constructor(
     }
 
     override fun toString() =
-        "DescisioningRetrieveSecretResponse{secret=$secret, additionalProperties=$additionalProperties}"
+        "DecisioningRetrieveSecretResponse{secret=$secret, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -75,10 +75,10 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(descisioningRetrieveSecretResponse: DescisioningRetrieveSecretResponse) =
+        internal fun from(decisioningRetrieveSecretResponse: DecisioningRetrieveSecretResponse) =
             apply {
-                this.secret = descisioningRetrieveSecretResponse.secret
-                additionalProperties(descisioningRetrieveSecretResponse.additionalProperties)
+                this.secret = decisioningRetrieveSecretResponse.secret
+                additionalProperties(decisioningRetrieveSecretResponse.additionalProperties)
             }
 
         /** The 3DS Decisioning HMAC secret */
@@ -103,7 +103,7 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): DescisioningRetrieveSecretResponse =
-            DescisioningRetrieveSecretResponse(secret, additionalProperties.toUnmodifiable())
+        fun build(): DecisioningRetrieveSecretResponse =
+            DecisioningRetrieveSecretResponse(secret, additionalProperties.toUnmodifiable())
     }
 }

@@ -5,8 +5,8 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.services.async.threeDS.AuthenticationServiceAsync
 import com.lithic.api.services.async.threeDS.AuthenticationServiceAsyncImpl
-import com.lithic.api.services.async.threeDS.DescisioningServiceAsync
-import com.lithic.api.services.async.threeDS.DescisioningServiceAsyncImpl
+import com.lithic.api.services.async.threeDS.DecisioningServiceAsync
+import com.lithic.api.services.async.threeDS.DecisioningServiceAsyncImpl
 import com.lithic.api.services.errorHandler
 
 class ThreeDSServiceAsyncImpl
@@ -20,11 +20,11 @@ constructor(
         AuthenticationServiceAsyncImpl(clientOptions)
     }
 
-    private val descisioning: DescisioningServiceAsync by lazy {
-        DescisioningServiceAsyncImpl(clientOptions)
+    private val decisioning: DecisioningServiceAsync by lazy {
+        DecisioningServiceAsyncImpl(clientOptions)
     }
 
     override fun authentication(): AuthenticationServiceAsync = authentication
 
-    override fun descisioning(): DescisioningServiceAsync = descisioning
+    override fun decisioning(): DecisioningServiceAsync = decisioning
 }
