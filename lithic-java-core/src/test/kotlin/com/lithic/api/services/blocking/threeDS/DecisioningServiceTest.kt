@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 @ExtendWith(TestServerExtension::class)
-class DescisioningServiceTest {
+class DecisioningServiceTest {
 
     @Test
     fun callRetrieveSecret() {
@@ -17,13 +17,13 @@ class DescisioningServiceTest {
                 .apiKey("test-api-key")
                 .webhookSecret("string")
                 .build()
-        val descisioningService = client.threeDS().descisioning()
-        val descisioningRetrieveSecretResponse =
-            descisioningService.retrieveSecret(
-                ThreeDDescisioningRetrieveSecretParams.builder().build()
+        val decisioningService = client.threeDS().decisioning()
+        val decisioningRetrieveSecretResponse =
+            decisioningService.retrieveSecret(
+                ThreeDDecisioningRetrieveSecretParams.builder().build()
             )
-        println(descisioningRetrieveSecretResponse)
-        descisioningRetrieveSecretResponse.validate()
+        println(decisioningRetrieveSecretResponse)
+        decisioningRetrieveSecretResponse.validate()
     }
 
     @Test
@@ -34,7 +34,7 @@ class DescisioningServiceTest {
                 .apiKey("test-api-key")
                 .webhookSecret("string")
                 .build()
-        val descisioningService = client.threeDS().descisioning()
-        descisioningService.rotateSecret(ThreeDDescisioningRotateSecretParams.builder().build())
+        val decisioningService = client.threeDS().decisioning()
+        decisioningService.rotateSecret(ThreeDDecisioningRotateSecretParams.builder().build())
     }
 }
