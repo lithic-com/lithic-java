@@ -81,7 +81,7 @@ class ExternalBankAccountServiceTest {
                         ExternalBankAccountAddress.builder()
                             .address1("x")
                             .city("x")
-                            .country("US")
+                            .country("USD")
                             .postalCode("11201")
                             .state("xx")
                             .address2("x")

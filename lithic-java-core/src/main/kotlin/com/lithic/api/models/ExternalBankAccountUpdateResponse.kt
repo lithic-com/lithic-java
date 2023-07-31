@@ -82,8 +82,8 @@ private constructor(
     fun currency(): String = currency.getRequired("currency")
 
     /**
-     * The country that the bank account is located in using ISO 3166-1. We will only accept US bank
-     * accounts e.g., US
+     * The country that the bank account is located in using ISO 3166-1. We will only accept USA
+     * bank accounts e.g., USA
      */
     fun country(): String = country.getRequired("country")
 
@@ -150,8 +150,8 @@ private constructor(
     @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
     /**
-     * The country that the bank account is located in using ISO 3166-1. We will only accept US bank
-     * accounts e.g., US
+     * The country that the bank account is located in using ISO 3166-1. We will only accept USA
+     * bank accounts e.g., USA
      */
     @JsonProperty("country") @ExcludeMissing fun _country() = country
 
@@ -420,14 +420,14 @@ private constructor(
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /**
-         * The country that the bank account is located in using ISO 3166-1. We will only accept US
-         * bank accounts e.g., US
+         * The country that the bank account is located in using ISO 3166-1. We will only accept USA
+         * bank accounts e.g., USA
          */
         fun country(country: String) = country(JsonField.of(country))
 
         /**
-         * The country that the bank account is located in using ISO 3166-1. We will only accept US
-         * bank accounts e.g., US
+         * The country that the bank account is located in using ISO 3166-1. We will only accept USA
+         * bank accounts e.g., USA
          */
         @JsonProperty("country")
         @ExcludeMissing
