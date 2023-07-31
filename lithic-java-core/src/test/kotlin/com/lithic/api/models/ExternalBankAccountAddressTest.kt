@@ -11,7 +11,7 @@ class ExternalBankAccountAddressTest {
             ExternalBankAccountAddress.builder()
                 .address1("x")
                 .city("x")
-                .country("US")
+                .country("USD")
                 .postalCode("11201")
                 .state("xx")
                 .address2("x")
@@ -19,7 +19,7 @@ class ExternalBankAccountAddressTest {
         assertThat(externalBankAccountAddress).isNotNull
         assertThat(externalBankAccountAddress.address1()).isEqualTo("x")
         assertThat(externalBankAccountAddress.city()).isEqualTo("x")
-        assertThat(externalBankAccountAddress.country()).isEqualTo("US")
+        assertThat(externalBankAccountAddress.country()).isEqualTo("USD")
         assertThat(externalBankAccountAddress.postalCode()).isEqualTo("11201")
         assertThat(externalBankAccountAddress.state()).isEqualTo("xx")
         assertThat(externalBankAccountAddress.address2()).contains("x")
