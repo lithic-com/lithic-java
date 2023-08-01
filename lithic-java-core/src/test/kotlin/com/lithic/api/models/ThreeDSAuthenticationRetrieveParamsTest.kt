@@ -4,11 +4,11 @@ import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class ThreeDAuthenticationRetrieveParamsTest {
+class ThreeDSAuthenticationRetrieveParamsTest {
 
     @Test
-    fun createThreeDAuthenticationRetrieveParams() {
-        ThreeDAuthenticationRetrieveParams.builder()
+    fun createThreeDSAuthenticationRetrieveParams() {
+        ThreeDSAuthenticationRetrieveParams.builder()
             .threeDSAuthenticationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
@@ -16,7 +16,7 @@ class ThreeDAuthenticationRetrieveParamsTest {
     @Test
     fun getPathParam() {
         val params =
-            ThreeDAuthenticationRetrieveParams.builder()
+            ThreeDSAuthenticationRetrieveParams.builder()
                 .threeDSAuthenticationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(params).isNotNull

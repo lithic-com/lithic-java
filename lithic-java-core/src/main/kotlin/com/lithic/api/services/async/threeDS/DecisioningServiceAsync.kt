@@ -4,8 +4,8 @@ package com.lithic.api.services.async.threeDS
 
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.DecisioningRetrieveSecretResponse
-import com.lithic.api.models.ThreeDDecisioningRetrieveSecretParams
-import com.lithic.api.models.ThreeDDecisioningRotateSecretParams
+import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
+import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
 import java.util.concurrent.CompletableFuture
 
 interface DecisioningServiceAsync {
@@ -20,7 +20,7 @@ interface DecisioningServiceAsync {
      */
     @JvmOverloads
     fun retrieveSecret(
-        params: ThreeDDecisioningRetrieveSecretParams,
+        params: ThreeDSDecisioningRetrieveSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<DecisioningRetrieveSecretResponse>
 
@@ -32,7 +32,7 @@ interface DecisioningServiceAsync {
      */
     @JvmOverloads
     fun rotateSecret(
-        params: ThreeDDecisioningRotateSecretParams,
+        params: ThreeDSDecisioningRotateSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<Void>
 }

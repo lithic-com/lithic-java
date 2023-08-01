@@ -7,8 +7,8 @@ import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.DecisioningRetrieveSecretResponse
-import com.lithic.api.models.ThreeDDecisioningRetrieveSecretParams
-import com.lithic.api.models.ThreeDDecisioningRotateSecretParams
+import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
+import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
 import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
@@ -35,7 +35,7 @@ constructor(
      * more detail about verifying 3DS Decisioning requests.
      */
     override fun retrieveSecret(
-        params: ThreeDDecisioningRetrieveSecretParams,
+        params: ThreeDSDecisioningRetrieveSecretParams,
         requestOptions: RequestOptions
     ): DecisioningRetrieveSecretResponse {
         val request =
@@ -66,7 +66,7 @@ constructor(
      * request to retrieve the new secret key.
      */
     override fun rotateSecret(
-        params: ThreeDDecisioningRotateSecretParams,
+        params: ThreeDSDecisioningRotateSecretParams,
         requestOptions: RequestOptions
     ) {
         val request =
