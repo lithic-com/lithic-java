@@ -5,15 +5,25 @@ import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
 import java.util.Objects
 
-class ThreeDDecisioningRetrieveSecretParams
+class ThreeDSAuthenticationRetrieveParams
 constructor(
+    private val threeDSAuthenticationToken: String,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
+    fun threeDSAuthenticationToken(): String = threeDSAuthenticationToken
+
     @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+
+    fun getPathParam(index: Int): String {
+        return when (index) {
+            0 -> threeDSAuthenticationToken
+            else -> ""
+        }
+    }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
 
@@ -24,17 +34,22 @@ constructor(
             return true
         }
 
-        return other is ThreeDDecisioningRetrieveSecretParams &&
+        return other is ThreeDSAuthenticationRetrieveParams &&
+            this.threeDSAuthenticationToken == other.threeDSAuthenticationToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(additionalQueryParams, additionalHeaders)
+        return Objects.hash(
+            threeDSAuthenticationToken,
+            additionalQueryParams,
+            additionalHeaders,
+        )
     }
 
     override fun toString() =
-        "ThreeDDecisioningRetrieveSecretParams{additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "ThreeDSAuthenticationRetrieveParams{threeDSAuthenticationToken=$threeDSAuthenticationToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -46,15 +61,22 @@ constructor(
     @NoAutoDetect
     class Builder {
 
+        private var threeDSAuthenticationToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(
-            threeDDecisioningRetrieveSecretParams: ThreeDDecisioningRetrieveSecretParams
+            threeDSAuthenticationRetrieveParams: ThreeDSAuthenticationRetrieveParams
         ) = apply {
-            additionalQueryParams(threeDDecisioningRetrieveSecretParams.additionalQueryParams)
-            additionalHeaders(threeDDecisioningRetrieveSecretParams.additionalHeaders)
+            this.threeDSAuthenticationToken =
+                threeDSAuthenticationRetrieveParams.threeDSAuthenticationToken
+            additionalQueryParams(threeDSAuthenticationRetrieveParams.additionalQueryParams)
+            additionalHeaders(threeDSAuthenticationRetrieveParams.additionalHeaders)
+        }
+
+        fun threeDSAuthenticationToken(threeDSAuthenticationToken: String) = apply {
+            this.threeDSAuthenticationToken = threeDSAuthenticationToken
         }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
@@ -97,10 +119,13 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): ThreeDDecisioningRetrieveSecretParams =
-            ThreeDDecisioningRetrieveSecretParams(
+        fun build(): ThreeDSAuthenticationRetrieveParams =
+            ThreeDSAuthenticationRetrieveParams(
+                checkNotNull(threeDSAuthenticationToken) {
+                    "`threeDSAuthenticationToken` is required but was not set"
+                },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable()
+                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )
     }
 }

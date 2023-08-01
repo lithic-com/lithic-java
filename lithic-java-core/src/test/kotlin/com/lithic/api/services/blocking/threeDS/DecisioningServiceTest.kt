@@ -20,7 +20,7 @@ class DecisioningServiceTest {
         val decisioningService = client.threeDS().decisioning()
         val decisioningRetrieveSecretResponse =
             decisioningService.retrieveSecret(
-                ThreeDDecisioningRetrieveSecretParams.builder().build()
+                ThreeDSDecisioningRetrieveSecretParams.builder().build()
             )
         println(decisioningRetrieveSecretResponse)
         decisioningRetrieveSecretResponse.validate()
@@ -35,6 +35,6 @@ class DecisioningServiceTest {
                 .webhookSecret("string")
                 .build()
         val decisioningService = client.threeDS().decisioning()
-        decisioningService.rotateSecret(ThreeDDecisioningRotateSecretParams.builder().build())
+        decisioningService.rotateSecret(ThreeDSDecisioningRotateSecretParams.builder().build())
     }
 }

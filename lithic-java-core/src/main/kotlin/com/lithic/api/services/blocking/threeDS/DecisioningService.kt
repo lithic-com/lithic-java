@@ -4,8 +4,8 @@ package com.lithic.api.services.blocking.threeDS
 
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.DecisioningRetrieveSecretResponse
-import com.lithic.api.models.ThreeDDecisioningRetrieveSecretParams
-import com.lithic.api.models.ThreeDDecisioningRotateSecretParams
+import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
+import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
 
 interface DecisioningService {
 
@@ -19,7 +19,7 @@ interface DecisioningService {
      */
     @JvmOverloads
     fun retrieveSecret(
-        params: ThreeDDecisioningRetrieveSecretParams,
+        params: ThreeDSDecisioningRetrieveSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): DecisioningRetrieveSecretResponse
 
@@ -31,7 +31,7 @@ interface DecisioningService {
      */
     @JvmOverloads
     fun rotateSecret(
-        params: ThreeDDecisioningRotateSecretParams,
+        params: ThreeDSDecisioningRotateSecretParams,
         requestOptions: RequestOptions = RequestOptions.none()
     )
 }

@@ -7,7 +7,7 @@ import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.AuthenticationRetrieveResponse
-import com.lithic.api.models.ThreeDAuthenticationRetrieveParams
+import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
@@ -25,7 +25,7 @@ constructor(
 
     /** Get 3DS Authentication by token */
     override fun retrieve(
-        params: ThreeDAuthenticationRetrieveParams,
+        params: ThreeDSAuthenticationRetrieveParams,
         requestOptions: RequestOptions
     ): AuthenticationRetrieveResponse {
         val request =

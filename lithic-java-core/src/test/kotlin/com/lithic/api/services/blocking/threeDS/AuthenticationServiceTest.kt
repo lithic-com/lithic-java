@@ -20,7 +20,7 @@ class AuthenticationServiceTest {
         val authenticationService = client.threeDS().authentication()
         val authenticationRetrieveResponse =
             authenticationService.retrieve(
-                ThreeDAuthenticationRetrieveParams.builder()
+                ThreeDSAuthenticationRetrieveParams.builder()
                     .threeDSAuthenticationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
