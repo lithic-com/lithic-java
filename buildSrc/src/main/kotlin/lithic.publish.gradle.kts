@@ -49,9 +49,9 @@ configure<PublishingExtension> {
 }
 
 signing {
-    val signingKeyId = System.getenv("GPG_SIGNING_KEY_ID")
-    val signingKey = System.getenv("GPG_SIGNING_KEY")
-    val signingPassword = System.getenv("GPG_SIGNING_PASSWORD")
+    val signingKeyId = System.getenv("GPG_SIGNING_KEY_ID")?.ifBlank { null }
+    val signingKey = System.getenv("GPG_SIGNING_KEY")?.ifBlank { null }
+    val signingPassword = System.getenv("GPG_SIGNING_PASSWORD")?.ifBlank { null }
     if (signingKey != null && signingPassword != null) {
         useInMemoryPgpKeys(
             signingKeyId,
