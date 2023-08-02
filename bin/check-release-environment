@@ -14,6 +14,10 @@ if [ -z "${SONATYPE_PASSWORD}" ]; then
   errors+=("The LITHIC_SONATYPE_PASSWORD secret has not been set. Please set it in either this repository's secrets or your organisation secrets")
 fi
 
+if [ -z "${GPG_SIGNING_KEY_ID}" ]; then
+  errors+=("The LITHIC_SONATYPE_GPG_SIGNING_KEY_ID secret has not been set. Please set it in either this repository's secrets or your organisation secrets")
+fi
+
 if [ -z "${GPG_SIGNING_KEY}" ]; then
   errors+=("The LITHIC_SONATYPE_GPG_SIGNING_KEY secret has not been set. Please set it in either this repository's secrets or your organisation secrets")
 fi
