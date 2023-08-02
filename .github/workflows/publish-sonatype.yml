@@ -26,7 +26,7 @@ jobs:
 
       - name: Publish to Sonatype
         run: |
-          ./gradlew publish
+          ./gradlew publish --stacktrace
         env:
           SONATYPE_USERNAME: ${{ secrets.LITHIC_SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.LITHIC_SONATYPE_PASSWORD }}
