@@ -42,6 +42,8 @@ interface LithicClient {
 
     fun externalBankAccounts(): ExternalBankAccountService
 
+    fun payments(): PaymentService
+
     fun threeDS(): ThreeDSService
 
     /** API status check */

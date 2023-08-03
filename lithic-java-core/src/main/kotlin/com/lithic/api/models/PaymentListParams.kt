@@ -7,35 +7,28 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
-import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-class FinancialTransactionListParams
+class PaymentListParams
 constructor(
-    private val financialAccountToken: String,
-    private val category: Category?,
+    private val financialAccountToken: String?,
     private val status: Status?,
     private val result: Result?,
-    private val begin: OffsetDateTime?,
-    private val end: OffsetDateTime?,
+    private val pageSize: Long?,
     private val startingAfter: String?,
     private val endingBefore: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
-    fun financialAccountToken(): String = financialAccountToken
-
-    fun category(): Optional<Category> = Optional.ofNullable(category)
+    fun financialAccountToken(): Optional<String> = Optional.ofNullable(financialAccountToken)
 
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
     fun result(): Optional<Result> = Optional.ofNullable(result)
 
-    fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
-
-    fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
@@ -44,11 +37,12 @@ constructor(
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
-        this.category?.let { params.put("category", listOf(it.toString())) }
+        this.financialAccountToken?.let {
+            params.put("financial_account_token", listOf(it.toString()))
+        }
         this.status?.let { params.put("status", listOf(it.toString())) }
         this.result?.let { params.put("result", listOf(it.toString())) }
-        this.begin?.let { params.put("begin", listOf(it.toString())) }
-        this.end?.let { params.put("end", listOf(it.toString())) }
+        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
         this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
@@ -56,13 +50,6 @@ constructor(
     }
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
-
-    fun getPathParam(index: Int): String {
-        return when (index) {
-            0 -> financialAccountToken
-            else -> ""
-        }
-    }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
 
@@ -73,13 +60,11 @@ constructor(
             return true
         }
 
-        return other is FinancialTransactionListParams &&
+        return other is PaymentListParams &&
             this.financialAccountToken == other.financialAccountToken &&
-            this.category == other.category &&
             this.status == other.status &&
             this.result == other.result &&
-            this.begin == other.begin &&
-            this.end == other.end &&
+            this.pageSize == other.pageSize &&
             this.startingAfter == other.startingAfter &&
             this.endingBefore == other.endingBefore &&
             this.additionalQueryParams == other.additionalQueryParams &&
@@ -89,11 +74,9 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             financialAccountToken,
-            category,
             status,
             result,
-            begin,
-            end,
+            pageSize,
             startingAfter,
             endingBefore,
             additionalQueryParams,
@@ -102,7 +85,7 @@ constructor(
     }
 
     override fun toString() =
-        "FinancialTransactionListParams{financialAccountToken=$financialAccountToken, category=$category, status=$status, result=$result, begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "PaymentListParams{financialAccountToken=$financialAccountToken, status=$status, result=$result, pageSize=$pageSize, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -115,54 +98,36 @@ constructor(
     class Builder {
 
         private var financialAccountToken: String? = null
-        private var category: Category? = null
         private var status: Status? = null
         private var result: Result? = null
-        private var begin: OffsetDateTime? = null
-        private var end: OffsetDateTime? = null
+        private var pageSize: Long? = null
         private var startingAfter: String? = null
         private var endingBefore: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(financialTransactionListParams: FinancialTransactionListParams) = apply {
-            this.financialAccountToken = financialTransactionListParams.financialAccountToken
-            this.category = financialTransactionListParams.category
-            this.status = financialTransactionListParams.status
-            this.result = financialTransactionListParams.result
-            this.begin = financialTransactionListParams.begin
-            this.end = financialTransactionListParams.end
-            this.startingAfter = financialTransactionListParams.startingAfter
-            this.endingBefore = financialTransactionListParams.endingBefore
-            additionalQueryParams(financialTransactionListParams.additionalQueryParams)
-            additionalHeaders(financialTransactionListParams.additionalHeaders)
+        internal fun from(paymentListParams: PaymentListParams) = apply {
+            this.financialAccountToken = paymentListParams.financialAccountToken
+            this.status = paymentListParams.status
+            this.result = paymentListParams.result
+            this.pageSize = paymentListParams.pageSize
+            this.startingAfter = paymentListParams.startingAfter
+            this.endingBefore = paymentListParams.endingBefore
+            additionalQueryParams(paymentListParams.additionalQueryParams)
+            additionalHeaders(paymentListParams.additionalHeaders)
         }
 
         fun financialAccountToken(financialAccountToken: String) = apply {
             this.financialAccountToken = financialAccountToken
         }
 
-        /** Financial Transaction category to be returned. */
-        fun category(category: Category) = apply { this.category = category }
-
-        /** Financial Transaction status to be returned. */
         fun status(status: Status) = apply { this.status = status }
 
-        /** Financial Transaction result to be returned. */
         fun result(result: Result) = apply { this.result = result }
 
-        /**
-         * Date string in RFC 3339 format. Only entries created after the specified date will be
-         * included. UTC time zone.
-         */
-        fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
-
-        /**
-         * Date string in RFC 3339 format. Only entries created before the specified date will be
-         * included. UTC time zone.
-         */
-        fun end(end: OffsetDateTime) = apply { this.end = end }
+        /** Page size (for pagination). */
+        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
@@ -216,84 +181,17 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): FinancialTransactionListParams =
-            FinancialTransactionListParams(
-                checkNotNull(financialAccountToken) {
-                    "`financialAccountToken` is required but was not set"
-                },
-                category,
+        fun build(): PaymentListParams =
+            PaymentListParams(
+                financialAccountToken,
                 status,
                 result,
-                begin,
-                end,
+                pageSize,
                 startingAfter,
                 endingBefore,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )
-    }
-
-    class Category
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
-
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Category && this.value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
-        companion object {
-
-            @JvmField val ACH = Category(JsonField.of("ACH"))
-
-            @JvmField val CARD = Category(JsonField.of("CARD"))
-
-            @JvmField val TRANSFER = Category(JsonField.of("TRANSFER"))
-
-            @JvmStatic fun of(value: String) = Category(JsonField.of(value))
-        }
-
-        enum class Known {
-            ACH,
-            CARD,
-            TRANSFER,
-        }
-
-        enum class Value {
-            ACH,
-            CARD,
-            TRANSFER,
-            _UNKNOWN,
-        }
-
-        fun value(): Value =
-            when (this) {
-                ACH -> Value.ACH
-                CARD -> Value.CARD
-                TRANSFER -> Value.TRANSFER
-                else -> Value._UNKNOWN
-            }
-
-        fun known(): Known =
-            when (this) {
-                ACH -> Known.ACH
-                CARD -> Known.CARD
-                TRANSFER -> Known.TRANSFER
-                else -> throw LithicInvalidDataException("Unknown Category: $value")
-            }
-
-        fun asString(): String = _value().asStringOrThrow()
     }
 
     class Result
@@ -375,53 +273,53 @@ constructor(
 
         companion object {
 
-            @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
-
-            @JvmField val EXPIRED = Status(JsonField.of("EXPIRED"))
-
             @JvmField val PENDING = Status(JsonField.of("PENDING"))
+
+            @JvmField val VOIDED = Status(JsonField.of("VOIDED"))
 
             @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
 
-            @JvmField val VOIDED = Status(JsonField.of("VOIDED"))
+            @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
+
+            @JvmField val EXPIRED = Status(JsonField.of("EXPIRED"))
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
 
         enum class Known {
+            PENDING,
+            VOIDED,
+            SETTLED,
             DECLINED,
             EXPIRED,
-            PENDING,
-            SETTLED,
-            VOIDED,
         }
 
         enum class Value {
+            PENDING,
+            VOIDED,
+            SETTLED,
             DECLINED,
             EXPIRED,
-            PENDING,
-            SETTLED,
-            VOIDED,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
+                PENDING -> Value.PENDING
+                VOIDED -> Value.VOIDED
+                SETTLED -> Value.SETTLED
                 DECLINED -> Value.DECLINED
                 EXPIRED -> Value.EXPIRED
-                PENDING -> Value.PENDING
-                SETTLED -> Value.SETTLED
-                VOIDED -> Value.VOIDED
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
+                PENDING -> Known.PENDING
+                VOIDED -> Known.VOIDED
+                SETTLED -> Known.SETTLED
                 DECLINED -> Known.DECLINED
                 EXPIRED -> Known.EXPIRED
-                PENDING -> Known.PENDING
-                SETTLED -> Known.SETTLED
-                VOIDED -> Known.VOIDED
                 else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
 
