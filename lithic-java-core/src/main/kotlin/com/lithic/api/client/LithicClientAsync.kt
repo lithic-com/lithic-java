@@ -43,6 +43,8 @@ interface LithicClientAsync {
 
     fun externalBankAccounts(): ExternalBankAccountServiceAsync
 
+    fun payments(): PaymentServiceAsync
+
     fun threeDS(): ThreeDSServiceAsync
 
     /** API status check */

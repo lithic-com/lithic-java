@@ -855,272 +855,6 @@ private constructor(
         }
     }
 
-    /**
-     * Object containing data about the app used in the e-commerce transaction. Present if the
-     * channel is 'APP_BASED'.
-     */
-    @JsonDeserialize(builder = App.Builder::class)
-    @NoAutoDetect
-    class App
-    private constructor(
-        private val deviceInfo: JsonField<String>,
-        private val ip: JsonField<String>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
-
-        private var validated: Boolean = false
-
-        private var hashCode: Int = 0
-
-        /**
-         * Device information gathered from the cardholder's device - JSON name/value pairs that is
-         * Base64url encoded. Maps to EMV 3DS field deviceInfo.
-         */
-        fun deviceInfo(): Optional<String> =
-            Optional.ofNullable(deviceInfo.getNullable("device_info"))
-
-        /**
-         * External IP address used by the app generating the 3DS authentication request. Maps to
-         * EMV 3DS field appIp.
-         */
-        fun ip(): Optional<String> = Optional.ofNullable(ip.getNullable("ip"))
-
-        /**
-         * Device information gathered from the cardholder's device - JSON name/value pairs that is
-         * Base64url encoded. Maps to EMV 3DS field deviceInfo.
-         */
-        @JsonProperty("device_info") @ExcludeMissing fun _deviceInfo() = deviceInfo
-
-        /**
-         * External IP address used by the app generating the 3DS authentication request. Maps to
-         * EMV 3DS field appIp.
-         */
-        @JsonProperty("ip") @ExcludeMissing fun _ip() = ip
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        fun validate(): App = apply {
-            if (!validated) {
-                deviceInfo()
-                ip()
-                validated = true
-            }
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is App &&
-                this.deviceInfo == other.deviceInfo &&
-                this.ip == other.ip &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        deviceInfo,
-                        ip,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "App{deviceInfo=$deviceInfo, ip=$ip, additionalProperties=$additionalProperties}"
-
-        companion object {
-
-            @JvmStatic fun builder() = Builder()
-        }
-
-        class Builder {
-
-            private var deviceInfo: JsonField<String> = JsonMissing.of()
-            private var ip: JsonField<String> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(app: App) = apply {
-                this.deviceInfo = app.deviceInfo
-                this.ip = app.ip
-                additionalProperties(app.additionalProperties)
-            }
-
-            /**
-             * Device information gathered from the cardholder's device - JSON name/value pairs that
-             * is Base64url encoded. Maps to EMV 3DS field deviceInfo.
-             */
-            fun deviceInfo(deviceInfo: String) = deviceInfo(JsonField.of(deviceInfo))
-
-            /**
-             * Device information gathered from the cardholder's device - JSON name/value pairs that
-             * is Base64url encoded. Maps to EMV 3DS field deviceInfo.
-             */
-            @JsonProperty("device_info")
-            @ExcludeMissing
-            fun deviceInfo(deviceInfo: JsonField<String>) = apply { this.deviceInfo = deviceInfo }
-
-            /**
-             * External IP address used by the app generating the 3DS authentication request. Maps
-             * to EMV 3DS field appIp.
-             */
-            fun ip(ip: String) = ip(JsonField.of(ip))
-
-            /**
-             * External IP address used by the app generating the 3DS authentication request. Maps
-             * to EMV 3DS field appIp.
-             */
-            @JsonProperty("ip")
-            @ExcludeMissing
-            fun ip(ip: JsonField<String>) = apply { this.ip = ip }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            @JsonAnySetter
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun build(): App =
-                App(
-                    deviceInfo,
-                    ip,
-                    additionalProperties.toUnmodifiable(),
-                )
-        }
-    }
-
-    class AuthenticationRequestType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
-
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AuthenticationRequestType && this.value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
-        companion object {
-
-            @JvmField
-            val PAYMENT_TRANSACTION = AuthenticationRequestType(JsonField.of("PAYMENT_TRANSACTION"))
-
-            @JvmField
-            val RECURRING_TRANSACTION =
-                AuthenticationRequestType(JsonField.of("RECURRING_TRANSACTION"))
-
-            @JvmField
-            val INSTALLMENT_TRANSACTION =
-                AuthenticationRequestType(JsonField.of("INSTALLMENT_TRANSACTION"))
-
-            @JvmField val ADD_CARD = AuthenticationRequestType(JsonField.of("ADD_CARD"))
-
-            @JvmField val MAINTAIN_CARD = AuthenticationRequestType(JsonField.of("MAINTAIN_CARD"))
-
-            @JvmField
-            val EMV_TOKEN_CARDHOLDER_VERIFICATION =
-                AuthenticationRequestType(JsonField.of("EMV_TOKEN_CARDHOLDER_VERIFICATION"))
-
-            @JvmField
-            val BILLING_AGREEMENT = AuthenticationRequestType(JsonField.of("BILLING_AGREEMENT"))
-
-            @JvmField val SPLIT_SHIPMENT = AuthenticationRequestType(JsonField.of("SPLIT_SHIPMENT"))
-
-            @JvmField
-            val DELAYED_SHIPMENT = AuthenticationRequestType(JsonField.of("DELAYED_SHIPMENT"))
-
-            @JvmField val SPLIT_PAYMENT = AuthenticationRequestType(JsonField.of("SPLIT_PAYMENT"))
-
-            @JvmStatic fun of(value: String) = AuthenticationRequestType(JsonField.of(value))
-        }
-
-        enum class Known {
-            PAYMENT_TRANSACTION,
-            RECURRING_TRANSACTION,
-            INSTALLMENT_TRANSACTION,
-            ADD_CARD,
-            MAINTAIN_CARD,
-            EMV_TOKEN_CARDHOLDER_VERIFICATION,
-            BILLING_AGREEMENT,
-            SPLIT_SHIPMENT,
-            DELAYED_SHIPMENT,
-            SPLIT_PAYMENT,
-        }
-
-        enum class Value {
-            PAYMENT_TRANSACTION,
-            RECURRING_TRANSACTION,
-            INSTALLMENT_TRANSACTION,
-            ADD_CARD,
-            MAINTAIN_CARD,
-            EMV_TOKEN_CARDHOLDER_VERIFICATION,
-            BILLING_AGREEMENT,
-            SPLIT_SHIPMENT,
-            DELAYED_SHIPMENT,
-            SPLIT_PAYMENT,
-            _UNKNOWN,
-        }
-
-        fun value(): Value =
-            when (this) {
-                PAYMENT_TRANSACTION -> Value.PAYMENT_TRANSACTION
-                RECURRING_TRANSACTION -> Value.RECURRING_TRANSACTION
-                INSTALLMENT_TRANSACTION -> Value.INSTALLMENT_TRANSACTION
-                ADD_CARD -> Value.ADD_CARD
-                MAINTAIN_CARD -> Value.MAINTAIN_CARD
-                EMV_TOKEN_CARDHOLDER_VERIFICATION -> Value.EMV_TOKEN_CARDHOLDER_VERIFICATION
-                BILLING_AGREEMENT -> Value.BILLING_AGREEMENT
-                SPLIT_SHIPMENT -> Value.SPLIT_SHIPMENT
-                DELAYED_SHIPMENT -> Value.DELAYED_SHIPMENT
-                SPLIT_PAYMENT -> Value.SPLIT_PAYMENT
-                else -> Value._UNKNOWN
-            }
-
-        fun known(): Known =
-            when (this) {
-                PAYMENT_TRANSACTION -> Known.PAYMENT_TRANSACTION
-                RECURRING_TRANSACTION -> Known.RECURRING_TRANSACTION
-                INSTALLMENT_TRANSACTION -> Known.INSTALLMENT_TRANSACTION
-                ADD_CARD -> Known.ADD_CARD
-                MAINTAIN_CARD -> Known.MAINTAIN_CARD
-                EMV_TOKEN_CARDHOLDER_VERIFICATION -> Known.EMV_TOKEN_CARDHOLDER_VERIFICATION
-                BILLING_AGREEMENT -> Known.BILLING_AGREEMENT
-                SPLIT_SHIPMENT -> Known.SPLIT_SHIPMENT
-                DELAYED_SHIPMENT -> Known.DELAYED_SHIPMENT
-                SPLIT_PAYMENT -> Known.SPLIT_PAYMENT
-                else ->
-                    throw LithicInvalidDataException("Unknown AuthenticationRequestType: $value")
-            }
-
-        fun asString(): String = _value().asStringOrThrow()
-    }
-
     class AuthenticationResult
     @JsonCreator
     private constructor(
@@ -1176,289 +910,6 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
-    }
-
-    /**
-     * Object containing data about the browser used in the e-commerce transaction. Present if the
-     * channel is 'BROWSER'.
-     */
-    @JsonDeserialize(builder = Browser.Builder::class)
-    @NoAutoDetect
-    class Browser
-    private constructor(
-        private val ip: JsonField<String>,
-        private val javaEnabled: JsonField<Boolean>,
-        private val javascriptEnabled: JsonField<Boolean>,
-        private val language: JsonField<String>,
-        private val timeZone: JsonField<String>,
-        private val userAgent: JsonField<String>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
-
-        private var validated: Boolean = false
-
-        private var hashCode: Int = 0
-
-        /**
-         * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
-         * merchant or digital wallet). Maps to EMV 3DS field browserIP.
-         */
-        fun ip(): Optional<String> = Optional.ofNullable(ip.getNullable("ip"))
-
-        /**
-         * Indicates whether the cardholder's browser has the ability to execute Java. Maps to EMV
-         * 3DS field browserJavaEnabled.
-         */
-        fun javaEnabled(): Optional<Boolean> =
-            Optional.ofNullable(javaEnabled.getNullable("java_enabled"))
-
-        /**
-         * Indicates whether the cardholder's browser has the ability to execute JavaScript. Maps to
-         * EMV 3DS field browserJavascriptEnabled.
-         */
-        fun javascriptEnabled(): Optional<Boolean> =
-            Optional.ofNullable(javascriptEnabled.getNullable("javascript_enabled"))
-
-        /**
-         * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
-         * browserLanguage.
-         */
-        fun language(): Optional<String> = Optional.ofNullable(language.getNullable("language"))
-
-        /**
-         * Time zone of the cardholder's browser offset in minutes between UTC and the cardholder
-         * browser's local time. The offset is positive if the local time is behind UTC and negative
-         * if it is ahead. Maps to EMV 3DS field browserTz.
-         */
-        fun timeZone(): Optional<String> = Optional.ofNullable(timeZone.getNullable("time_zone"))
-
-        /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
-        fun userAgent(): Optional<String> = Optional.ofNullable(userAgent.getNullable("user_agent"))
-
-        /**
-         * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
-         * merchant or digital wallet). Maps to EMV 3DS field browserIP.
-         */
-        @JsonProperty("ip") @ExcludeMissing fun _ip() = ip
-
-        /**
-         * Indicates whether the cardholder's browser has the ability to execute Java. Maps to EMV
-         * 3DS field browserJavaEnabled.
-         */
-        @JsonProperty("java_enabled") @ExcludeMissing fun _javaEnabled() = javaEnabled
-
-        /**
-         * Indicates whether the cardholder's browser has the ability to execute JavaScript. Maps to
-         * EMV 3DS field browserJavascriptEnabled.
-         */
-        @JsonProperty("javascript_enabled")
-        @ExcludeMissing
-        fun _javascriptEnabled() = javascriptEnabled
-
-        /**
-         * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
-         * browserLanguage.
-         */
-        @JsonProperty("language") @ExcludeMissing fun _language() = language
-
-        /**
-         * Time zone of the cardholder's browser offset in minutes between UTC and the cardholder
-         * browser's local time. The offset is positive if the local time is behind UTC and negative
-         * if it is ahead. Maps to EMV 3DS field browserTz.
-         */
-        @JsonProperty("time_zone") @ExcludeMissing fun _timeZone() = timeZone
-
-        /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
-        @JsonProperty("user_agent") @ExcludeMissing fun _userAgent() = userAgent
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        fun validate(): Browser = apply {
-            if (!validated) {
-                ip()
-                javaEnabled()
-                javascriptEnabled()
-                language()
-                timeZone()
-                userAgent()
-                validated = true
-            }
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Browser &&
-                this.ip == other.ip &&
-                this.javaEnabled == other.javaEnabled &&
-                this.javascriptEnabled == other.javascriptEnabled &&
-                this.language == other.language &&
-                this.timeZone == other.timeZone &&
-                this.userAgent == other.userAgent &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        ip,
-                        javaEnabled,
-                        javascriptEnabled,
-                        language,
-                        timeZone,
-                        userAgent,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Browser{ip=$ip, javaEnabled=$javaEnabled, javascriptEnabled=$javascriptEnabled, language=$language, timeZone=$timeZone, userAgent=$userAgent, additionalProperties=$additionalProperties}"
-
-        companion object {
-
-            @JvmStatic fun builder() = Builder()
-        }
-
-        class Builder {
-
-            private var ip: JsonField<String> = JsonMissing.of()
-            private var javaEnabled: JsonField<Boolean> = JsonMissing.of()
-            private var javascriptEnabled: JsonField<Boolean> = JsonMissing.of()
-            private var language: JsonField<String> = JsonMissing.of()
-            private var timeZone: JsonField<String> = JsonMissing.of()
-            private var userAgent: JsonField<String> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(browser: Browser) = apply {
-                this.ip = browser.ip
-                this.javaEnabled = browser.javaEnabled
-                this.javascriptEnabled = browser.javascriptEnabled
-                this.language = browser.language
-                this.timeZone = browser.timeZone
-                this.userAgent = browser.userAgent
-                additionalProperties(browser.additionalProperties)
-            }
-
-            /**
-             * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
-             * merchant or digital wallet). Maps to EMV 3DS field browserIP.
-             */
-            fun ip(ip: String) = ip(JsonField.of(ip))
-
-            /**
-             * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
-             * merchant or digital wallet). Maps to EMV 3DS field browserIP.
-             */
-            @JsonProperty("ip")
-            @ExcludeMissing
-            fun ip(ip: JsonField<String>) = apply { this.ip = ip }
-
-            /**
-             * Indicates whether the cardholder's browser has the ability to execute Java. Maps to
-             * EMV 3DS field browserJavaEnabled.
-             */
-            fun javaEnabled(javaEnabled: Boolean) = javaEnabled(JsonField.of(javaEnabled))
-
-            /**
-             * Indicates whether the cardholder's browser has the ability to execute Java. Maps to
-             * EMV 3DS field browserJavaEnabled.
-             */
-            @JsonProperty("java_enabled")
-            @ExcludeMissing
-            fun javaEnabled(javaEnabled: JsonField<Boolean>) = apply {
-                this.javaEnabled = javaEnabled
-            }
-
-            /**
-             * Indicates whether the cardholder's browser has the ability to execute JavaScript.
-             * Maps to EMV 3DS field browserJavascriptEnabled.
-             */
-            fun javascriptEnabled(javascriptEnabled: Boolean) =
-                javascriptEnabled(JsonField.of(javascriptEnabled))
-
-            /**
-             * Indicates whether the cardholder's browser has the ability to execute JavaScript.
-             * Maps to EMV 3DS field browserJavascriptEnabled.
-             */
-            @JsonProperty("javascript_enabled")
-            @ExcludeMissing
-            fun javascriptEnabled(javascriptEnabled: JsonField<Boolean>) = apply {
-                this.javascriptEnabled = javascriptEnabled
-            }
-
-            /**
-             * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
-             * browserLanguage.
-             */
-            fun language(language: String) = language(JsonField.of(language))
-
-            /**
-             * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
-             * browserLanguage.
-             */
-            @JsonProperty("language")
-            @ExcludeMissing
-            fun language(language: JsonField<String>) = apply { this.language = language }
-
-            /**
-             * Time zone of the cardholder's browser offset in minutes between UTC and the
-             * cardholder browser's local time. The offset is positive if the local time is behind
-             * UTC and negative if it is ahead. Maps to EMV 3DS field browserTz.
-             */
-            fun timeZone(timeZone: String) = timeZone(JsonField.of(timeZone))
-
-            /**
-             * Time zone of the cardholder's browser offset in minutes between UTC and the
-             * cardholder browser's local time. The offset is positive if the local time is behind
-             * UTC and negative if it is ahead. Maps to EMV 3DS field browserTz.
-             */
-            @JsonProperty("time_zone")
-            @ExcludeMissing
-            fun timeZone(timeZone: JsonField<String>) = apply { this.timeZone = timeZone }
-
-            /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
-            fun userAgent(userAgent: String) = userAgent(JsonField.of(userAgent))
-
-            /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
-            @JsonProperty("user_agent")
-            @ExcludeMissing
-            fun userAgent(userAgent: JsonField<String>) = apply { this.userAgent = userAgent }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            @JsonAnySetter
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun build(): Browser =
-                Browser(
-                    ip,
-                    javaEnabled,
-                    javascriptEnabled,
-                    language,
-                    timeZone,
-                    userAgent,
-                    additionalProperties.toUnmodifiable(),
-                )
-        }
     }
 
     class CardExpiryCheck
@@ -3193,158 +2644,6 @@ private constructor(
         }
     }
 
-    class ThreeRiRequestType
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
-
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is ThreeRiRequestType && this.value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
-        companion object {
-
-            @JvmField
-            val RECURRING_TRANSACTION = ThreeRiRequestType(JsonField.of("RECURRING_TRANSACTION"))
-
-            @JvmField
-            val INSTALLMENT_TRANSACTION =
-                ThreeRiRequestType(JsonField.of("INSTALLMENT_TRANSACTION"))
-
-            @JvmField val ADD_CARD = ThreeRiRequestType(JsonField.of("ADD_CARD"))
-
-            @JvmField
-            val MAINTAIN_CARD_INFO = ThreeRiRequestType(JsonField.of("MAINTAIN_CARD_INFO"))
-
-            @JvmField
-            val ACCOUNT_VERIFICATION = ThreeRiRequestType(JsonField.of("ACCOUNT_VERIFICATION"))
-
-            @JvmField val SPLIT_SHIPMENT = ThreeRiRequestType(JsonField.of("SPLIT_SHIPMENT"))
-
-            @JvmField val TOP_UP = ThreeRiRequestType(JsonField.of("TOP_UP"))
-
-            @JvmField val MAIL_ORDER = ThreeRiRequestType(JsonField.of("MAIL_ORDER"))
-
-            @JvmField val TELEPHONE_ORDER = ThreeRiRequestType(JsonField.of("TELEPHONE_ORDER"))
-
-            @JvmField
-            val TRUST_LIST_STATUS_CHECK =
-                ThreeRiRequestType(JsonField.of("TRUST_LIST_STATUS_CHECK"))
-
-            @JvmField val OTHER_PAYMENT = ThreeRiRequestType(JsonField.of("OTHER_PAYMENT"))
-
-            @JvmField val BILLING_AGREEMENT = ThreeRiRequestType(JsonField.of("BILLING_AGREEMENT"))
-
-            @JvmField
-            val DEVICE_BINDING_STATUS_CHECK =
-                ThreeRiRequestType(JsonField.of("DEVICE_BINDING_STATUS_CHECK"))
-
-            @JvmField
-            val CARD_SECURITY_CODE_STATUS_CHECK =
-                ThreeRiRequestType(JsonField.of("CARD_SECURITY_CODE_STATUS_CHECK"))
-
-            @JvmField val DELAYED_SHIPMENT = ThreeRiRequestType(JsonField.of("DELAYED_SHIPMENT"))
-
-            @JvmField val SPLIT_PAYMENT = ThreeRiRequestType(JsonField.of("SPLIT_PAYMENT"))
-
-            @JvmStatic fun of(value: String) = ThreeRiRequestType(JsonField.of(value))
-        }
-
-        enum class Known {
-            RECURRING_TRANSACTION,
-            INSTALLMENT_TRANSACTION,
-            ADD_CARD,
-            MAINTAIN_CARD_INFO,
-            ACCOUNT_VERIFICATION,
-            SPLIT_SHIPMENT,
-            TOP_UP,
-            MAIL_ORDER,
-            TELEPHONE_ORDER,
-            TRUST_LIST_STATUS_CHECK,
-            OTHER_PAYMENT,
-            BILLING_AGREEMENT,
-            DEVICE_BINDING_STATUS_CHECK,
-            CARD_SECURITY_CODE_STATUS_CHECK,
-            DELAYED_SHIPMENT,
-            SPLIT_PAYMENT,
-        }
-
-        enum class Value {
-            RECURRING_TRANSACTION,
-            INSTALLMENT_TRANSACTION,
-            ADD_CARD,
-            MAINTAIN_CARD_INFO,
-            ACCOUNT_VERIFICATION,
-            SPLIT_SHIPMENT,
-            TOP_UP,
-            MAIL_ORDER,
-            TELEPHONE_ORDER,
-            TRUST_LIST_STATUS_CHECK,
-            OTHER_PAYMENT,
-            BILLING_AGREEMENT,
-            DEVICE_BINDING_STATUS_CHECK,
-            CARD_SECURITY_CODE_STATUS_CHECK,
-            DELAYED_SHIPMENT,
-            SPLIT_PAYMENT,
-            _UNKNOWN,
-        }
-
-        fun value(): Value =
-            when (this) {
-                RECURRING_TRANSACTION -> Value.RECURRING_TRANSACTION
-                INSTALLMENT_TRANSACTION -> Value.INSTALLMENT_TRANSACTION
-                ADD_CARD -> Value.ADD_CARD
-                MAINTAIN_CARD_INFO -> Value.MAINTAIN_CARD_INFO
-                ACCOUNT_VERIFICATION -> Value.ACCOUNT_VERIFICATION
-                SPLIT_SHIPMENT -> Value.SPLIT_SHIPMENT
-                TOP_UP -> Value.TOP_UP
-                MAIL_ORDER -> Value.MAIL_ORDER
-                TELEPHONE_ORDER -> Value.TELEPHONE_ORDER
-                TRUST_LIST_STATUS_CHECK -> Value.TRUST_LIST_STATUS_CHECK
-                OTHER_PAYMENT -> Value.OTHER_PAYMENT
-                BILLING_AGREEMENT -> Value.BILLING_AGREEMENT
-                DEVICE_BINDING_STATUS_CHECK -> Value.DEVICE_BINDING_STATUS_CHECK
-                CARD_SECURITY_CODE_STATUS_CHECK -> Value.CARD_SECURITY_CODE_STATUS_CHECK
-                DELAYED_SHIPMENT -> Value.DELAYED_SHIPMENT
-                SPLIT_PAYMENT -> Value.SPLIT_PAYMENT
-                else -> Value._UNKNOWN
-            }
-
-        fun known(): Known =
-            when (this) {
-                RECURRING_TRANSACTION -> Known.RECURRING_TRANSACTION
-                INSTALLMENT_TRANSACTION -> Known.INSTALLMENT_TRANSACTION
-                ADD_CARD -> Known.ADD_CARD
-                MAINTAIN_CARD_INFO -> Known.MAINTAIN_CARD_INFO
-                ACCOUNT_VERIFICATION -> Known.ACCOUNT_VERIFICATION
-                SPLIT_SHIPMENT -> Known.SPLIT_SHIPMENT
-                TOP_UP -> Known.TOP_UP
-                MAIL_ORDER -> Known.MAIL_ORDER
-                TELEPHONE_ORDER -> Known.TELEPHONE_ORDER
-                TRUST_LIST_STATUS_CHECK -> Known.TRUST_LIST_STATUS_CHECK
-                OTHER_PAYMENT -> Known.OTHER_PAYMENT
-                BILLING_AGREEMENT -> Known.BILLING_AGREEMENT
-                DEVICE_BINDING_STATUS_CHECK -> Known.DEVICE_BINDING_STATUS_CHECK
-                CARD_SECURITY_CODE_STATUS_CHECK -> Known.CARD_SECURITY_CODE_STATUS_CHECK
-                DELAYED_SHIPMENT -> Known.DELAYED_SHIPMENT
-                SPLIT_PAYMENT -> Known.SPLIT_PAYMENT
-                else -> throw LithicInvalidDataException("Unknown ThreeRiRequestType: $value")
-            }
-
-        fun asString(): String = _value().asStringOrThrow()
-    }
-
     /**
      * Object containing data about the e-commerce transaction for which the merchant is requesting
      * authentication.
@@ -3661,5 +2960,706 @@ private constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+    }
+
+    /**
+     * Object containing data about the app used in the e-commerce transaction. Present if the
+     * channel is 'APP_BASED'.
+     */
+    @JsonDeserialize(builder = App.Builder::class)
+    @NoAutoDetect
+    class App
+    private constructor(
+        private val deviceInfo: JsonField<String>,
+        private val ip: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
+
+        private var validated: Boolean = false
+
+        private var hashCode: Int = 0
+
+        /**
+         * Device information gathered from the cardholder's device - JSON name/value pairs that is
+         * Base64url encoded. Maps to EMV 3DS field deviceInfo.
+         */
+        fun deviceInfo(): Optional<String> =
+            Optional.ofNullable(deviceInfo.getNullable("device_info"))
+
+        /**
+         * External IP address used by the app generating the 3DS authentication request. Maps to
+         * EMV 3DS field appIp.
+         */
+        fun ip(): Optional<String> = Optional.ofNullable(ip.getNullable("ip"))
+
+        /**
+         * Device information gathered from the cardholder's device - JSON name/value pairs that is
+         * Base64url encoded. Maps to EMV 3DS field deviceInfo.
+         */
+        @JsonProperty("device_info") @ExcludeMissing fun _deviceInfo() = deviceInfo
+
+        /**
+         * External IP address used by the app generating the 3DS authentication request. Maps to
+         * EMV 3DS field appIp.
+         */
+        @JsonProperty("ip") @ExcludeMissing fun _ip() = ip
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun validate(): App = apply {
+            if (!validated) {
+                deviceInfo()
+                ip()
+                validated = true
+            }
+        }
+
+        fun toBuilder() = Builder().from(this)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is App &&
+                this.deviceInfo == other.deviceInfo &&
+                this.ip == other.ip &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        deviceInfo,
+                        ip,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "App{deviceInfo=$deviceInfo, ip=$ip, additionalProperties=$additionalProperties}"
+
+        companion object {
+
+            @JvmStatic fun builder() = Builder()
+        }
+
+        class Builder {
+
+            private var deviceInfo: JsonField<String> = JsonMissing.of()
+            private var ip: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(app: App) = apply {
+                this.deviceInfo = app.deviceInfo
+                this.ip = app.ip
+                additionalProperties(app.additionalProperties)
+            }
+
+            /**
+             * Device information gathered from the cardholder's device - JSON name/value pairs that
+             * is Base64url encoded. Maps to EMV 3DS field deviceInfo.
+             */
+            fun deviceInfo(deviceInfo: String) = deviceInfo(JsonField.of(deviceInfo))
+
+            /**
+             * Device information gathered from the cardholder's device - JSON name/value pairs that
+             * is Base64url encoded. Maps to EMV 3DS field deviceInfo.
+             */
+            @JsonProperty("device_info")
+            @ExcludeMissing
+            fun deviceInfo(deviceInfo: JsonField<String>) = apply { this.deviceInfo = deviceInfo }
+
+            /**
+             * External IP address used by the app generating the 3DS authentication request. Maps
+             * to EMV 3DS field appIp.
+             */
+            fun ip(ip: String) = ip(JsonField.of(ip))
+
+            /**
+             * External IP address used by the app generating the 3DS authentication request. Maps
+             * to EMV 3DS field appIp.
+             */
+            @JsonProperty("ip")
+            @ExcludeMissing
+            fun ip(ip: JsonField<String>) = apply { this.ip = ip }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            @JsonAnySetter
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                this.additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun build(): App =
+                App(
+                    deviceInfo,
+                    ip,
+                    additionalProperties.toUnmodifiable(),
+                )
+        }
+    }
+
+    class AuthenticationRequestType
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AuthenticationRequestType && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField
+            val PAYMENT_TRANSACTION = AuthenticationRequestType(JsonField.of("PAYMENT_TRANSACTION"))
+
+            @JvmField
+            val RECURRING_TRANSACTION =
+                AuthenticationRequestType(JsonField.of("RECURRING_TRANSACTION"))
+
+            @JvmField
+            val INSTALLMENT_TRANSACTION =
+                AuthenticationRequestType(JsonField.of("INSTALLMENT_TRANSACTION"))
+
+            @JvmField val ADD_CARD = AuthenticationRequestType(JsonField.of("ADD_CARD"))
+
+            @JvmField val MAINTAIN_CARD = AuthenticationRequestType(JsonField.of("MAINTAIN_CARD"))
+
+            @JvmField
+            val EMV_TOKEN_CARDHOLDER_VERIFICATION =
+                AuthenticationRequestType(JsonField.of("EMV_TOKEN_CARDHOLDER_VERIFICATION"))
+
+            @JvmField
+            val BILLING_AGREEMENT = AuthenticationRequestType(JsonField.of("BILLING_AGREEMENT"))
+
+            @JvmField val SPLIT_SHIPMENT = AuthenticationRequestType(JsonField.of("SPLIT_SHIPMENT"))
+
+            @JvmField
+            val DELAYED_SHIPMENT = AuthenticationRequestType(JsonField.of("DELAYED_SHIPMENT"))
+
+            @JvmField val SPLIT_PAYMENT = AuthenticationRequestType(JsonField.of("SPLIT_PAYMENT"))
+
+            @JvmStatic fun of(value: String) = AuthenticationRequestType(JsonField.of(value))
+        }
+
+        enum class Known {
+            PAYMENT_TRANSACTION,
+            RECURRING_TRANSACTION,
+            INSTALLMENT_TRANSACTION,
+            ADD_CARD,
+            MAINTAIN_CARD,
+            EMV_TOKEN_CARDHOLDER_VERIFICATION,
+            BILLING_AGREEMENT,
+            SPLIT_SHIPMENT,
+            DELAYED_SHIPMENT,
+            SPLIT_PAYMENT,
+        }
+
+        enum class Value {
+            PAYMENT_TRANSACTION,
+            RECURRING_TRANSACTION,
+            INSTALLMENT_TRANSACTION,
+            ADD_CARD,
+            MAINTAIN_CARD,
+            EMV_TOKEN_CARDHOLDER_VERIFICATION,
+            BILLING_AGREEMENT,
+            SPLIT_SHIPMENT,
+            DELAYED_SHIPMENT,
+            SPLIT_PAYMENT,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                PAYMENT_TRANSACTION -> Value.PAYMENT_TRANSACTION
+                RECURRING_TRANSACTION -> Value.RECURRING_TRANSACTION
+                INSTALLMENT_TRANSACTION -> Value.INSTALLMENT_TRANSACTION
+                ADD_CARD -> Value.ADD_CARD
+                MAINTAIN_CARD -> Value.MAINTAIN_CARD
+                EMV_TOKEN_CARDHOLDER_VERIFICATION -> Value.EMV_TOKEN_CARDHOLDER_VERIFICATION
+                BILLING_AGREEMENT -> Value.BILLING_AGREEMENT
+                SPLIT_SHIPMENT -> Value.SPLIT_SHIPMENT
+                DELAYED_SHIPMENT -> Value.DELAYED_SHIPMENT
+                SPLIT_PAYMENT -> Value.SPLIT_PAYMENT
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                PAYMENT_TRANSACTION -> Known.PAYMENT_TRANSACTION
+                RECURRING_TRANSACTION -> Known.RECURRING_TRANSACTION
+                INSTALLMENT_TRANSACTION -> Known.INSTALLMENT_TRANSACTION
+                ADD_CARD -> Known.ADD_CARD
+                MAINTAIN_CARD -> Known.MAINTAIN_CARD
+                EMV_TOKEN_CARDHOLDER_VERIFICATION -> Known.EMV_TOKEN_CARDHOLDER_VERIFICATION
+                BILLING_AGREEMENT -> Known.BILLING_AGREEMENT
+                SPLIT_SHIPMENT -> Known.SPLIT_SHIPMENT
+                DELAYED_SHIPMENT -> Known.DELAYED_SHIPMENT
+                SPLIT_PAYMENT -> Known.SPLIT_PAYMENT
+                else ->
+                    throw LithicInvalidDataException("Unknown AuthenticationRequestType: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+    }
+
+    /**
+     * Object containing data about the browser used in the e-commerce transaction. Present if the
+     * channel is 'BROWSER'.
+     */
+    @JsonDeserialize(builder = Browser.Builder::class)
+    @NoAutoDetect
+    class Browser
+    private constructor(
+        private val ip: JsonField<String>,
+        private val javaEnabled: JsonField<Boolean>,
+        private val javascriptEnabled: JsonField<Boolean>,
+        private val language: JsonField<String>,
+        private val timeZone: JsonField<String>,
+        private val userAgent: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
+
+        private var validated: Boolean = false
+
+        private var hashCode: Int = 0
+
+        /**
+         * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
+         * merchant or digital wallet). Maps to EMV 3DS field browserIP.
+         */
+        fun ip(): Optional<String> = Optional.ofNullable(ip.getNullable("ip"))
+
+        /**
+         * Indicates whether the cardholder's browser has the ability to execute Java. Maps to EMV
+         * 3DS field browserJavaEnabled.
+         */
+        fun javaEnabled(): Optional<Boolean> =
+            Optional.ofNullable(javaEnabled.getNullable("java_enabled"))
+
+        /**
+         * Indicates whether the cardholder's browser has the ability to execute JavaScript. Maps to
+         * EMV 3DS field browserJavascriptEnabled.
+         */
+        fun javascriptEnabled(): Optional<Boolean> =
+            Optional.ofNullable(javascriptEnabled.getNullable("javascript_enabled"))
+
+        /**
+         * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
+         * browserLanguage.
+         */
+        fun language(): Optional<String> = Optional.ofNullable(language.getNullable("language"))
+
+        /**
+         * Time zone of the cardholder's browser offset in minutes between UTC and the cardholder
+         * browser's local time. The offset is positive if the local time is behind UTC and negative
+         * if it is ahead. Maps to EMV 3DS field browserTz.
+         */
+        fun timeZone(): Optional<String> = Optional.ofNullable(timeZone.getNullable("time_zone"))
+
+        /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
+        fun userAgent(): Optional<String> = Optional.ofNullable(userAgent.getNullable("user_agent"))
+
+        /**
+         * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
+         * merchant or digital wallet). Maps to EMV 3DS field browserIP.
+         */
+        @JsonProperty("ip") @ExcludeMissing fun _ip() = ip
+
+        /**
+         * Indicates whether the cardholder's browser has the ability to execute Java. Maps to EMV
+         * 3DS field browserJavaEnabled.
+         */
+        @JsonProperty("java_enabled") @ExcludeMissing fun _javaEnabled() = javaEnabled
+
+        /**
+         * Indicates whether the cardholder's browser has the ability to execute JavaScript. Maps to
+         * EMV 3DS field browserJavascriptEnabled.
+         */
+        @JsonProperty("javascript_enabled")
+        @ExcludeMissing
+        fun _javascriptEnabled() = javascriptEnabled
+
+        /**
+         * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
+         * browserLanguage.
+         */
+        @JsonProperty("language") @ExcludeMissing fun _language() = language
+
+        /**
+         * Time zone of the cardholder's browser offset in minutes between UTC and the cardholder
+         * browser's local time. The offset is positive if the local time is behind UTC and negative
+         * if it is ahead. Maps to EMV 3DS field browserTz.
+         */
+        @JsonProperty("time_zone") @ExcludeMissing fun _timeZone() = timeZone
+
+        /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
+        @JsonProperty("user_agent") @ExcludeMissing fun _userAgent() = userAgent
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun validate(): Browser = apply {
+            if (!validated) {
+                ip()
+                javaEnabled()
+                javascriptEnabled()
+                language()
+                timeZone()
+                userAgent()
+                validated = true
+            }
+        }
+
+        fun toBuilder() = Builder().from(this)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Browser &&
+                this.ip == other.ip &&
+                this.javaEnabled == other.javaEnabled &&
+                this.javascriptEnabled == other.javascriptEnabled &&
+                this.language == other.language &&
+                this.timeZone == other.timeZone &&
+                this.userAgent == other.userAgent &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        ip,
+                        javaEnabled,
+                        javascriptEnabled,
+                        language,
+                        timeZone,
+                        userAgent,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "Browser{ip=$ip, javaEnabled=$javaEnabled, javascriptEnabled=$javascriptEnabled, language=$language, timeZone=$timeZone, userAgent=$userAgent, additionalProperties=$additionalProperties}"
+
+        companion object {
+
+            @JvmStatic fun builder() = Builder()
+        }
+
+        class Builder {
+
+            private var ip: JsonField<String> = JsonMissing.of()
+            private var javaEnabled: JsonField<Boolean> = JsonMissing.of()
+            private var javascriptEnabled: JsonField<Boolean> = JsonMissing.of()
+            private var language: JsonField<String> = JsonMissing.of()
+            private var timeZone: JsonField<String> = JsonMissing.of()
+            private var userAgent: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(browser: Browser) = apply {
+                this.ip = browser.ip
+                this.javaEnabled = browser.javaEnabled
+                this.javascriptEnabled = browser.javascriptEnabled
+                this.language = browser.language
+                this.timeZone = browser.timeZone
+                this.userAgent = browser.userAgent
+                additionalProperties(browser.additionalProperties)
+            }
+
+            /**
+             * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
+             * merchant or digital wallet). Maps to EMV 3DS field browserIP.
+             */
+            fun ip(ip: String) = ip(JsonField.of(ip))
+
+            /**
+             * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
+             * merchant or digital wallet). Maps to EMV 3DS field browserIP.
+             */
+            @JsonProperty("ip")
+            @ExcludeMissing
+            fun ip(ip: JsonField<String>) = apply { this.ip = ip }
+
+            /**
+             * Indicates whether the cardholder's browser has the ability to execute Java. Maps to
+             * EMV 3DS field browserJavaEnabled.
+             */
+            fun javaEnabled(javaEnabled: Boolean) = javaEnabled(JsonField.of(javaEnabled))
+
+            /**
+             * Indicates whether the cardholder's browser has the ability to execute Java. Maps to
+             * EMV 3DS field browserJavaEnabled.
+             */
+            @JsonProperty("java_enabled")
+            @ExcludeMissing
+            fun javaEnabled(javaEnabled: JsonField<Boolean>) = apply {
+                this.javaEnabled = javaEnabled
+            }
+
+            /**
+             * Indicates whether the cardholder's browser has the ability to execute JavaScript.
+             * Maps to EMV 3DS field browserJavascriptEnabled.
+             */
+            fun javascriptEnabled(javascriptEnabled: Boolean) =
+                javascriptEnabled(JsonField.of(javascriptEnabled))
+
+            /**
+             * Indicates whether the cardholder's browser has the ability to execute JavaScript.
+             * Maps to EMV 3DS field browserJavascriptEnabled.
+             */
+            @JsonProperty("javascript_enabled")
+            @ExcludeMissing
+            fun javascriptEnabled(javascriptEnabled: JsonField<Boolean>) = apply {
+                this.javascriptEnabled = javascriptEnabled
+            }
+
+            /**
+             * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
+             * browserLanguage.
+             */
+            fun language(language: String) = language(JsonField.of(language))
+
+            /**
+             * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
+             * browserLanguage.
+             */
+            @JsonProperty("language")
+            @ExcludeMissing
+            fun language(language: JsonField<String>) = apply { this.language = language }
+
+            /**
+             * Time zone of the cardholder's browser offset in minutes between UTC and the
+             * cardholder browser's local time. The offset is positive if the local time is behind
+             * UTC and negative if it is ahead. Maps to EMV 3DS field browserTz.
+             */
+            fun timeZone(timeZone: String) = timeZone(JsonField.of(timeZone))
+
+            /**
+             * Time zone of the cardholder's browser offset in minutes between UTC and the
+             * cardholder browser's local time. The offset is positive if the local time is behind
+             * UTC and negative if it is ahead. Maps to EMV 3DS field browserTz.
+             */
+            @JsonProperty("time_zone")
+            @ExcludeMissing
+            fun timeZone(timeZone: JsonField<String>) = apply { this.timeZone = timeZone }
+
+            /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
+            fun userAgent(userAgent: String) = userAgent(JsonField.of(userAgent))
+
+            /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
+            @JsonProperty("user_agent")
+            @ExcludeMissing
+            fun userAgent(userAgent: JsonField<String>) = apply { this.userAgent = userAgent }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            @JsonAnySetter
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                this.additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun build(): Browser =
+                Browser(
+                    ip,
+                    javaEnabled,
+                    javascriptEnabled,
+                    language,
+                    timeZone,
+                    userAgent,
+                    additionalProperties.toUnmodifiable(),
+                )
+        }
+    }
+
+    class ThreeRiRequestType
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ThreeRiRequestType && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField
+            val RECURRING_TRANSACTION = ThreeRiRequestType(JsonField.of("RECURRING_TRANSACTION"))
+
+            @JvmField
+            val INSTALLMENT_TRANSACTION =
+                ThreeRiRequestType(JsonField.of("INSTALLMENT_TRANSACTION"))
+
+            @JvmField val ADD_CARD = ThreeRiRequestType(JsonField.of("ADD_CARD"))
+
+            @JvmField
+            val MAINTAIN_CARD_INFO = ThreeRiRequestType(JsonField.of("MAINTAIN_CARD_INFO"))
+
+            @JvmField
+            val ACCOUNT_VERIFICATION = ThreeRiRequestType(JsonField.of("ACCOUNT_VERIFICATION"))
+
+            @JvmField val SPLIT_SHIPMENT = ThreeRiRequestType(JsonField.of("SPLIT_SHIPMENT"))
+
+            @JvmField val TOP_UP = ThreeRiRequestType(JsonField.of("TOP_UP"))
+
+            @JvmField val MAIL_ORDER = ThreeRiRequestType(JsonField.of("MAIL_ORDER"))
+
+            @JvmField val TELEPHONE_ORDER = ThreeRiRequestType(JsonField.of("TELEPHONE_ORDER"))
+
+            @JvmField
+            val TRUST_LIST_STATUS_CHECK =
+                ThreeRiRequestType(JsonField.of("TRUST_LIST_STATUS_CHECK"))
+
+            @JvmField val OTHER_PAYMENT = ThreeRiRequestType(JsonField.of("OTHER_PAYMENT"))
+
+            @JvmField val BILLING_AGREEMENT = ThreeRiRequestType(JsonField.of("BILLING_AGREEMENT"))
+
+            @JvmField
+            val DEVICE_BINDING_STATUS_CHECK =
+                ThreeRiRequestType(JsonField.of("DEVICE_BINDING_STATUS_CHECK"))
+
+            @JvmField
+            val CARD_SECURITY_CODE_STATUS_CHECK =
+                ThreeRiRequestType(JsonField.of("CARD_SECURITY_CODE_STATUS_CHECK"))
+
+            @JvmField val DELAYED_SHIPMENT = ThreeRiRequestType(JsonField.of("DELAYED_SHIPMENT"))
+
+            @JvmField val SPLIT_PAYMENT = ThreeRiRequestType(JsonField.of("SPLIT_PAYMENT"))
+
+            @JvmStatic fun of(value: String) = ThreeRiRequestType(JsonField.of(value))
+        }
+
+        enum class Known {
+            RECURRING_TRANSACTION,
+            INSTALLMENT_TRANSACTION,
+            ADD_CARD,
+            MAINTAIN_CARD_INFO,
+            ACCOUNT_VERIFICATION,
+            SPLIT_SHIPMENT,
+            TOP_UP,
+            MAIL_ORDER,
+            TELEPHONE_ORDER,
+            TRUST_LIST_STATUS_CHECK,
+            OTHER_PAYMENT,
+            BILLING_AGREEMENT,
+            DEVICE_BINDING_STATUS_CHECK,
+            CARD_SECURITY_CODE_STATUS_CHECK,
+            DELAYED_SHIPMENT,
+            SPLIT_PAYMENT,
+        }
+
+        enum class Value {
+            RECURRING_TRANSACTION,
+            INSTALLMENT_TRANSACTION,
+            ADD_CARD,
+            MAINTAIN_CARD_INFO,
+            ACCOUNT_VERIFICATION,
+            SPLIT_SHIPMENT,
+            TOP_UP,
+            MAIL_ORDER,
+            TELEPHONE_ORDER,
+            TRUST_LIST_STATUS_CHECK,
+            OTHER_PAYMENT,
+            BILLING_AGREEMENT,
+            DEVICE_BINDING_STATUS_CHECK,
+            CARD_SECURITY_CODE_STATUS_CHECK,
+            DELAYED_SHIPMENT,
+            SPLIT_PAYMENT,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                RECURRING_TRANSACTION -> Value.RECURRING_TRANSACTION
+                INSTALLMENT_TRANSACTION -> Value.INSTALLMENT_TRANSACTION
+                ADD_CARD -> Value.ADD_CARD
+                MAINTAIN_CARD_INFO -> Value.MAINTAIN_CARD_INFO
+                ACCOUNT_VERIFICATION -> Value.ACCOUNT_VERIFICATION
+                SPLIT_SHIPMENT -> Value.SPLIT_SHIPMENT
+                TOP_UP -> Value.TOP_UP
+                MAIL_ORDER -> Value.MAIL_ORDER
+                TELEPHONE_ORDER -> Value.TELEPHONE_ORDER
+                TRUST_LIST_STATUS_CHECK -> Value.TRUST_LIST_STATUS_CHECK
+                OTHER_PAYMENT -> Value.OTHER_PAYMENT
+                BILLING_AGREEMENT -> Value.BILLING_AGREEMENT
+                DEVICE_BINDING_STATUS_CHECK -> Value.DEVICE_BINDING_STATUS_CHECK
+                CARD_SECURITY_CODE_STATUS_CHECK -> Value.CARD_SECURITY_CODE_STATUS_CHECK
+                DELAYED_SHIPMENT -> Value.DELAYED_SHIPMENT
+                SPLIT_PAYMENT -> Value.SPLIT_PAYMENT
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                RECURRING_TRANSACTION -> Known.RECURRING_TRANSACTION
+                INSTALLMENT_TRANSACTION -> Known.INSTALLMENT_TRANSACTION
+                ADD_CARD -> Known.ADD_CARD
+                MAINTAIN_CARD_INFO -> Known.MAINTAIN_CARD_INFO
+                ACCOUNT_VERIFICATION -> Known.ACCOUNT_VERIFICATION
+                SPLIT_SHIPMENT -> Known.SPLIT_SHIPMENT
+                TOP_UP -> Known.TOP_UP
+                MAIL_ORDER -> Known.MAIL_ORDER
+                TELEPHONE_ORDER -> Known.TELEPHONE_ORDER
+                TRUST_LIST_STATUS_CHECK -> Known.TRUST_LIST_STATUS_CHECK
+                OTHER_PAYMENT -> Known.OTHER_PAYMENT
+                BILLING_AGREEMENT -> Known.BILLING_AGREEMENT
+                DEVICE_BINDING_STATUS_CHECK -> Known.DEVICE_BINDING_STATUS_CHECK
+                CARD_SECURITY_CODE_STATUS_CHECK -> Known.CARD_SECURITY_CODE_STATUS_CHECK
+                DELAYED_SHIPMENT -> Known.DELAYED_SHIPMENT
+                SPLIT_PAYMENT -> Known.SPLIT_PAYMENT
+                else -> throw LithicInvalidDataException("Unknown ThreeRiRequestType: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }
