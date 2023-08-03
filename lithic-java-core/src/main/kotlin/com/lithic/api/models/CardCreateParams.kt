@@ -803,63 +803,6 @@ constructor(
             )
     }
 
-    class State
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
-
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is State && this.value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
-        companion object {
-
-            @JvmField val OPEN = State(JsonField.of("OPEN"))
-
-            @JvmField val PAUSED = State(JsonField.of("PAUSED"))
-
-            @JvmStatic fun of(value: String) = State(JsonField.of(value))
-        }
-
-        enum class Known {
-            OPEN,
-            PAUSED,
-        }
-
-        enum class Value {
-            OPEN,
-            PAUSED,
-            _UNKNOWN,
-        }
-
-        fun value(): Value =
-            when (this) {
-                OPEN -> Value.OPEN
-                PAUSED -> Value.PAUSED
-                else -> Value._UNKNOWN
-            }
-
-        fun known(): Known =
-            when (this) {
-                OPEN -> Known.OPEN
-                PAUSED -> Known.PAUSED
-                else -> throw LithicInvalidDataException("Unknown State: $value")
-            }
-
-        fun asString(): String = _value().asStringOrThrow()
-    }
-
     class Type
     @JsonCreator
     private constructor(
@@ -988,6 +931,63 @@ constructor(
                 STANDARD_WITH_TRACKING -> Known.STANDARD_WITH_TRACKING
                 EXPEDITED -> Known.EXPEDITED
                 else -> throw LithicInvalidDataException("Unknown ShippingMethod: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+    }
+
+    class State
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is State && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val OPEN = State(JsonField.of("OPEN"))
+
+            @JvmField val PAUSED = State(JsonField.of("PAUSED"))
+
+            @JvmStatic fun of(value: String) = State(JsonField.of(value))
+        }
+
+        enum class Known {
+            OPEN,
+            PAUSED,
+        }
+
+        enum class Value {
+            OPEN,
+            PAUSED,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                OPEN -> Value.OPEN
+                PAUSED -> Value.PAUSED
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                OPEN -> Known.OPEN
+                PAUSED -> Known.PAUSED
+                else -> throw LithicInvalidDataException("Unknown State: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

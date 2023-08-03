@@ -299,57 +299,6 @@ private constructor(
             )
     }
 
-    class Workflow
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) {
-
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Workflow && this.value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
-        companion object {
-
-            @JvmField val KYC_EXEMPT = Workflow(JsonField.of("KYC_EXEMPT"))
-
-            @JvmStatic fun of(value: String) = Workflow(JsonField.of(value))
-        }
-
-        enum class Known {
-            KYC_EXEMPT,
-        }
-
-        enum class Value {
-            KYC_EXEMPT,
-            _UNKNOWN,
-        }
-
-        fun value(): Value =
-            when (this) {
-                KYC_EXEMPT -> Value.KYC_EXEMPT
-                else -> Value._UNKNOWN
-            }
-
-        fun known(): Known =
-            when (this) {
-                KYC_EXEMPT -> Known.KYC_EXEMPT
-                else -> throw LithicInvalidDataException("Unknown Workflow: $value")
-            }
-
-        fun asString(): String = _value().asStringOrThrow()
-    }
-
     class KycExemptionType
     @JsonCreator
     private constructor(
@@ -402,6 +351,57 @@ private constructor(
                 AUTHORIZED_USER -> Known.AUTHORIZED_USER
                 PREPAID_CARD_USER -> Known.PREPAID_CARD_USER
                 else -> throw LithicInvalidDataException("Unknown KycExemptionType: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+    }
+
+    class Workflow
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Workflow && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val KYC_EXEMPT = Workflow(JsonField.of("KYC_EXEMPT"))
+
+            @JvmStatic fun of(value: String) = Workflow(JsonField.of(value))
+        }
+
+        enum class Known {
+            KYC_EXEMPT,
+        }
+
+        enum class Value {
+            KYC_EXEMPT,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                KYC_EXEMPT -> Value.KYC_EXEMPT
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                KYC_EXEMPT -> Known.KYC_EXEMPT
+                else -> throw LithicInvalidDataException("Unknown Workflow: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

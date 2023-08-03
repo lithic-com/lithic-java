@@ -67,6 +67,8 @@ constructor(
         ExternalBankAccountServiceImpl(clientOptions)
     }
 
+    private val payments: PaymentService by lazy { PaymentServiceImpl(clientOptions) }
+
     private val threeDS: ThreeDSService by lazy { ThreeDSServiceImpl(clientOptions) }
 
     override fun async(): LithicClientAsync = async
@@ -102,6 +104,8 @@ constructor(
     override fun webhooks(): WebhookService = webhooks
 
     override fun externalBankAccounts(): ExternalBankAccountService = externalBankAccounts
+
+    override fun payments(): PaymentService = payments
 
     override fun threeDS(): ThreeDSService = threeDS
 

@@ -497,6 +497,194 @@ private constructor(
         fun asString(): String = _value().asStringOrThrow()
     }
 
+    @JsonDeserialize(builder = AccountHolder.Builder::class)
+    @NoAutoDetect
+    class AccountHolder
+    private constructor(
+        private val token: JsonField<String>,
+        private val phoneNumber: JsonField<String>,
+        private val email: JsonField<String>,
+        private val businessAccountToken: JsonField<String>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
+
+        private var validated: Boolean = false
+
+        private var hashCode: Int = 0
+
+        /** Globally unique identifier for the account holder. */
+        fun token(): String = token.getRequired("token")
+
+        /** Phone number of the individual. */
+        fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
+
+        /** Email address. */
+        fun email(): String = email.getRequired("email")
+
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Account_token of the enrolled business associated with an enrolled
+         * AUTHORIZED_USER individual.
+         */
+        fun businessAccountToken(): String =
+            businessAccountToken.getRequired("business_account_token")
+
+        /** Globally unique identifier for the account holder. */
+        @JsonProperty("token") @ExcludeMissing fun _token() = token
+
+        /** Phone number of the individual. */
+        @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
+
+        /** Email address. */
+        @JsonProperty("email") @ExcludeMissing fun _email() = email
+
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Account_token of the enrolled business associated with an enrolled
+         * AUTHORIZED_USER individual.
+         */
+        @JsonProperty("business_account_token")
+        @ExcludeMissing
+        fun _businessAccountToken() = businessAccountToken
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun validate(): AccountHolder = apply {
+            if (!validated) {
+                token()
+                phoneNumber()
+                email()
+                businessAccountToken()
+                validated = true
+            }
+        }
+
+        fun toBuilder() = Builder().from(this)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AccountHolder &&
+                this.token == other.token &&
+                this.phoneNumber == other.phoneNumber &&
+                this.email == other.email &&
+                this.businessAccountToken == other.businessAccountToken &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        token,
+                        phoneNumber,
+                        email,
+                        businessAccountToken,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "AccountHolder{token=$token, phoneNumber=$phoneNumber, email=$email, businessAccountToken=$businessAccountToken, additionalProperties=$additionalProperties}"
+
+        companion object {
+
+            @JvmStatic fun builder() = Builder()
+        }
+
+        class Builder {
+
+            private var token: JsonField<String> = JsonMissing.of()
+            private var phoneNumber: JsonField<String> = JsonMissing.of()
+            private var email: JsonField<String> = JsonMissing.of()
+            private var businessAccountToken: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(accountHolder: AccountHolder) = apply {
+                this.token = accountHolder.token
+                this.phoneNumber = accountHolder.phoneNumber
+                this.email = accountHolder.email
+                this.businessAccountToken = accountHolder.businessAccountToken
+                additionalProperties(accountHolder.additionalProperties)
+            }
+
+            /** Globally unique identifier for the account holder. */
+            fun token(token: String) = token(JsonField.of(token))
+
+            /** Globally unique identifier for the account holder. */
+            @JsonProperty("token")
+            @ExcludeMissing
+            fun token(token: JsonField<String>) = apply { this.token = token }
+
+            /** Phone number of the individual. */
+            fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
+
+            /** Phone number of the individual. */
+            @JsonProperty("phone_number")
+            @ExcludeMissing
+            fun phoneNumber(phoneNumber: JsonField<String>) = apply {
+                this.phoneNumber = phoneNumber
+            }
+
+            /** Email address. */
+            fun email(email: String) = email(JsonField.of(email))
+
+            /** Email address. */
+            @JsonProperty("email")
+            @ExcludeMissing
+            fun email(email: JsonField<String>) = apply { this.email = email }
+
+            /**
+             * Only applicable for customers using the KYC-Exempt workflow to enroll authorized
+             * users of businesses. Account_token of the enrolled business associated with an
+             * enrolled AUTHORIZED_USER individual.
+             */
+            fun businessAccountToken(businessAccountToken: String) =
+                businessAccountToken(JsonField.of(businessAccountToken))
+
+            /**
+             * Only applicable for customers using the KYC-Exempt workflow to enroll authorized
+             * users of businesses. Account_token of the enrolled business associated with an
+             * enrolled AUTHORIZED_USER individual.
+             */
+            @JsonProperty("business_account_token")
+            @ExcludeMissing
+            fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
+                this.businessAccountToken = businessAccountToken
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            @JsonAnySetter
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                this.additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun build(): AccountHolder =
+                AccountHolder(
+                    token,
+                    phoneNumber,
+                    email,
+                    businessAccountToken,
+                    additionalProperties.toUnmodifiable(),
+                )
+        }
+    }
+
     @JsonDeserialize(builder = VerificationAddress.Builder::class)
     @NoAutoDetect
     class VerificationAddress
@@ -722,194 +910,6 @@ private constructor(
                     state,
                     postalCode,
                     country,
-                    additionalProperties.toUnmodifiable(),
-                )
-        }
-    }
-
-    @JsonDeserialize(builder = AccountHolder.Builder::class)
-    @NoAutoDetect
-    class AccountHolder
-    private constructor(
-        private val token: JsonField<String>,
-        private val phoneNumber: JsonField<String>,
-        private val email: JsonField<String>,
-        private val businessAccountToken: JsonField<String>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
-
-        private var validated: Boolean = false
-
-        private var hashCode: Int = 0
-
-        /** Globally unique identifier for the account holder. */
-        fun token(): String = token.getRequired("token")
-
-        /** Phone number of the individual. */
-        fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
-
-        /** Email address. */
-        fun email(): String = email.getRequired("email")
-
-        /**
-         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-         * businesses. Account_token of the enrolled business associated with an enrolled
-         * AUTHORIZED_USER individual.
-         */
-        fun businessAccountToken(): String =
-            businessAccountToken.getRequired("business_account_token")
-
-        /** Globally unique identifier for the account holder. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
-
-        /** Phone number of the individual. */
-        @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
-
-        /** Email address. */
-        @JsonProperty("email") @ExcludeMissing fun _email() = email
-
-        /**
-         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-         * businesses. Account_token of the enrolled business associated with an enrolled
-         * AUTHORIZED_USER individual.
-         */
-        @JsonProperty("business_account_token")
-        @ExcludeMissing
-        fun _businessAccountToken() = businessAccountToken
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        fun validate(): AccountHolder = apply {
-            if (!validated) {
-                token()
-                phoneNumber()
-                email()
-                businessAccountToken()
-                validated = true
-            }
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AccountHolder &&
-                this.token == other.token &&
-                this.phoneNumber == other.phoneNumber &&
-                this.email == other.email &&
-                this.businessAccountToken == other.businessAccountToken &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        token,
-                        phoneNumber,
-                        email,
-                        businessAccountToken,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "AccountHolder{token=$token, phoneNumber=$phoneNumber, email=$email, businessAccountToken=$businessAccountToken, additionalProperties=$additionalProperties}"
-
-        companion object {
-
-            @JvmStatic fun builder() = Builder()
-        }
-
-        class Builder {
-
-            private var token: JsonField<String> = JsonMissing.of()
-            private var phoneNumber: JsonField<String> = JsonMissing.of()
-            private var email: JsonField<String> = JsonMissing.of()
-            private var businessAccountToken: JsonField<String> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(accountHolder: AccountHolder) = apply {
-                this.token = accountHolder.token
-                this.phoneNumber = accountHolder.phoneNumber
-                this.email = accountHolder.email
-                this.businessAccountToken = accountHolder.businessAccountToken
-                additionalProperties(accountHolder.additionalProperties)
-            }
-
-            /** Globally unique identifier for the account holder. */
-            fun token(token: String) = token(JsonField.of(token))
-
-            /** Globally unique identifier for the account holder. */
-            @JsonProperty("token")
-            @ExcludeMissing
-            fun token(token: JsonField<String>) = apply { this.token = token }
-
-            /** Phone number of the individual. */
-            fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
-
-            /** Phone number of the individual. */
-            @JsonProperty("phone_number")
-            @ExcludeMissing
-            fun phoneNumber(phoneNumber: JsonField<String>) = apply {
-                this.phoneNumber = phoneNumber
-            }
-
-            /** Email address. */
-            fun email(email: String) = email(JsonField.of(email))
-
-            /** Email address. */
-            @JsonProperty("email")
-            @ExcludeMissing
-            fun email(email: JsonField<String>) = apply { this.email = email }
-
-            /**
-             * Only applicable for customers using the KYC-Exempt workflow to enroll authorized
-             * users of businesses. Account_token of the enrolled business associated with an
-             * enrolled AUTHORIZED_USER individual.
-             */
-            fun businessAccountToken(businessAccountToken: String) =
-                businessAccountToken(JsonField.of(businessAccountToken))
-
-            /**
-             * Only applicable for customers using the KYC-Exempt workflow to enroll authorized
-             * users of businesses. Account_token of the enrolled business associated with an
-             * enrolled AUTHORIZED_USER individual.
-             */
-            @JsonProperty("business_account_token")
-            @ExcludeMissing
-            fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
-                this.businessAccountToken = businessAccountToken
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            @JsonAnySetter
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun build(): AccountHolder =
-                AccountHolder(
-                    token,
-                    phoneNumber,
-                    email,
-                    businessAccountToken,
                     additionalProperties.toUnmodifiable(),
                 )
         }

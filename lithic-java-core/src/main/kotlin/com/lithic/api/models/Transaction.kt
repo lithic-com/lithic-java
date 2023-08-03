@@ -615,848 +615,6 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = CardholderAuthentication.Builder::class)
-    @NoAutoDetect
-    class CardholderAuthentication
-    private constructor(
-        private val _3dsVersion: JsonField<String>,
-        private val acquirerExemption: JsonField<AcquirerExemption>,
-        private val liabilityShift: JsonField<LiabilityShift>,
-        private val verificationAttempted: JsonField<VerificationAttempted>,
-        private val verificationResult: JsonField<VerificationResult>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
-
-        private var validated: Boolean = false
-
-        private var hashCode: Int = 0
-
-        /**
-         * 3-D Secure Protocol version. Possible values:
-         *
-         * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
-         * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
-         * - `null`: 3-D Secure was not used for the transaction
-         */
-        fun _3dsVersion(): Optional<String> =
-            Optional.ofNullable(_3dsVersion.getNullable("3ds_version"))
-
-        /**
-         * Exemption applied by the ACS to authenticate the transaction without requesting a
-         * challenge. Possible values:
-         *
-         * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
-         * - `LOW_VALUE`: Low Value Payment exemption.
-         * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
-         * - `NONE`: No exemption applied.
-         * - `RECURRING_PAYMENT`: Recurring Payment exemption.
-         * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
-         * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication Delegation
-         * exemption.
-         * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-         * exemption.
-         *
-         * Maps to the 3-D Secure `transChallengeExemption` field.
-         */
-        fun acquirerExemption(): AcquirerExemption =
-            acquirerExemption.getRequired("acquirer_exemption")
-
-        /**
-         * Indicates whether chargeback liability shift applies to the transaction. Possible values:
-         *
-         * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
-         * chargeback liability shift applies.
-         * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
-         * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
-         * acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
-         * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is
-         * liable.
-         * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-         * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
-         */
-        fun liabilityShift(): LiabilityShift = liabilityShift.getRequired("liability_shift")
-
-        /**
-         * Verification attempted values:
-         *
-         * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
-         * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
-         * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
-         * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
-         * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
-         * Identity Check Express, recurring transactions, etc.)
-         * - `OTP`: One-time password verification was attempted by the ACS.
-         */
-        fun verificationAttempted(): VerificationAttempted =
-            verificationAttempted.getRequired("verification_attempted")
-
-        /**
-         * This field partially maps to the `transStatus` field in the
-         * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/) and
-         * Mastercard SPA2 AAV leading indicators.
-         *
-         * Verification result values:
-         *
-         * - `CANCELLED`: Authentication/Account verification could not be performed, `transStatus =
-         * U`.
-         * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the utilization
-         * of exemptions could also result in `transStatus = N`, inspect the `acquirer_exemption`
-         * field for more information.
-         * - `FRICTIONLESS`: Attempts processing performed, the transaction was not authenticated,
-         * but a proof of attempted authentication/verification is provided. `transStatus = A` and
-         * the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
-         * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
-         * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
-         * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer is
-         * rejecting authentication/verification and requests that authorization not be attempted.
-         * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading AAV
-         * indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`, `kR`,
-         * `kS`}.
-         *
-         * Note that the following `transStatus` values are not represented by this field:
-         *
-         * - `C`: Challenge Required
-         * - `D`: Challenge Required; decoupled authentication confirmed
-         * - `I`: Informational only
-         * - `S`: Challenge using Secure Payment Confirmation (SPC)
-         */
-        fun verificationResult(): VerificationResult =
-            verificationResult.getRequired("verification_result")
-
-        /**
-         * 3-D Secure Protocol version. Possible values:
-         *
-         * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
-         * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
-         * - `null`: 3-D Secure was not used for the transaction
-         */
-        @JsonProperty("3ds_version") @ExcludeMissing fun __3dsVersion() = _3dsVersion
-
-        /**
-         * Exemption applied by the ACS to authenticate the transaction without requesting a
-         * challenge. Possible values:
-         *
-         * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
-         * - `LOW_VALUE`: Low Value Payment exemption.
-         * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
-         * - `NONE`: No exemption applied.
-         * - `RECURRING_PAYMENT`: Recurring Payment exemption.
-         * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
-         * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication Delegation
-         * exemption.
-         * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-         * exemption.
-         *
-         * Maps to the 3-D Secure `transChallengeExemption` field.
-         */
-        @JsonProperty("acquirer_exemption")
-        @ExcludeMissing
-        fun _acquirerExemption() = acquirerExemption
-
-        /**
-         * Indicates whether chargeback liability shift applies to the transaction. Possible values:
-         *
-         * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
-         * chargeback liability shift applies.
-         * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
-         * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
-         * acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
-         * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is
-         * liable.
-         * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-         * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
-         */
-        @JsonProperty("liability_shift") @ExcludeMissing fun _liabilityShift() = liabilityShift
-
-        /**
-         * Verification attempted values:
-         *
-         * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
-         * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
-         * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
-         * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
-         * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
-         * Identity Check Express, recurring transactions, etc.)
-         * - `OTP`: One-time password verification was attempted by the ACS.
-         */
-        @JsonProperty("verification_attempted")
-        @ExcludeMissing
-        fun _verificationAttempted() = verificationAttempted
-
-        /**
-         * This field partially maps to the `transStatus` field in the
-         * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/) and
-         * Mastercard SPA2 AAV leading indicators.
-         *
-         * Verification result values:
-         *
-         * - `CANCELLED`: Authentication/Account verification could not be performed, `transStatus =
-         * U`.
-         * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the utilization
-         * of exemptions could also result in `transStatus = N`, inspect the `acquirer_exemption`
-         * field for more information.
-         * - `FRICTIONLESS`: Attempts processing performed, the transaction was not authenticated,
-         * but a proof of attempted authentication/verification is provided. `transStatus = A` and
-         * the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
-         * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
-         * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
-         * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer is
-         * rejecting authentication/verification and requests that authorization not be attempted.
-         * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading AAV
-         * indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`, `kR`,
-         * `kS`}.
-         *
-         * Note that the following `transStatus` values are not represented by this field:
-         *
-         * - `C`: Challenge Required
-         * - `D`: Challenge Required; decoupled authentication confirmed
-         * - `I`: Informational only
-         * - `S`: Challenge using Secure Payment Confirmation (SPC)
-         */
-        @JsonProperty("verification_result")
-        @ExcludeMissing
-        fun _verificationResult() = verificationResult
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        fun validate(): CardholderAuthentication = apply {
-            if (!validated) {
-                _3dsVersion()
-                acquirerExemption()
-                liabilityShift()
-                verificationAttempted()
-                verificationResult()
-                validated = true
-            }
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is CardholderAuthentication &&
-                this._3dsVersion == other._3dsVersion &&
-                this.acquirerExemption == other.acquirerExemption &&
-                this.liabilityShift == other.liabilityShift &&
-                this.verificationAttempted == other.verificationAttempted &&
-                this.verificationResult == other.verificationResult &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        _3dsVersion,
-                        acquirerExemption,
-                        liabilityShift,
-                        verificationAttempted,
-                        verificationResult,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "CardholderAuthentication{_3dsVersion=$_3dsVersion, acquirerExemption=$acquirerExemption, liabilityShift=$liabilityShift, verificationAttempted=$verificationAttempted, verificationResult=$verificationResult, additionalProperties=$additionalProperties}"
-
-        companion object {
-
-            @JvmStatic fun builder() = Builder()
-        }
-
-        class Builder {
-
-            private var _3dsVersion: JsonField<String> = JsonMissing.of()
-            private var acquirerExemption: JsonField<AcquirerExemption> = JsonMissing.of()
-            private var liabilityShift: JsonField<LiabilityShift> = JsonMissing.of()
-            private var verificationAttempted: JsonField<VerificationAttempted> = JsonMissing.of()
-            private var verificationResult: JsonField<VerificationResult> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(cardholderAuthentication: CardholderAuthentication) = apply {
-                this._3dsVersion = cardholderAuthentication._3dsVersion
-                this.acquirerExemption = cardholderAuthentication.acquirerExemption
-                this.liabilityShift = cardholderAuthentication.liabilityShift
-                this.verificationAttempted = cardholderAuthentication.verificationAttempted
-                this.verificationResult = cardholderAuthentication.verificationResult
-                additionalProperties(cardholderAuthentication.additionalProperties)
-            }
-
-            /**
-             * 3-D Secure Protocol version. Possible values:
-             *
-             * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
-             * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
-             * - `null`: 3-D Secure was not used for the transaction
-             */
-            fun _3dsVersion(_3dsVersion: String) = _3dsVersion(JsonField.of(_3dsVersion))
-
-            /**
-             * 3-D Secure Protocol version. Possible values:
-             *
-             * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
-             * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
-             * - `null`: 3-D Secure was not used for the transaction
-             */
-            @JsonProperty("3ds_version")
-            @ExcludeMissing
-            fun _3dsVersion(_3dsVersion: JsonField<String>) = apply {
-                this._3dsVersion = _3dsVersion
-            }
-
-            /**
-             * Exemption applied by the ACS to authenticate the transaction without requesting a
-             * challenge. Possible values:
-             *
-             * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
-             * - `LOW_VALUE`: Low Value Payment exemption.
-             * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
-             * - `NONE`: No exemption applied.
-             * - `RECURRING_PAYMENT`: Recurring Payment exemption.
-             * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
-             * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication
-             * Delegation exemption.
-             * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-             * exemption.
-             *
-             * Maps to the 3-D Secure `transChallengeExemption` field.
-             */
-            fun acquirerExemption(acquirerExemption: AcquirerExemption) =
-                acquirerExemption(JsonField.of(acquirerExemption))
-
-            /**
-             * Exemption applied by the ACS to authenticate the transaction without requesting a
-             * challenge. Possible values:
-             *
-             * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
-             * - `LOW_VALUE`: Low Value Payment exemption.
-             * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
-             * - `NONE`: No exemption applied.
-             * - `RECURRING_PAYMENT`: Recurring Payment exemption.
-             * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
-             * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication
-             * Delegation exemption.
-             * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-             * exemption.
-             *
-             * Maps to the 3-D Secure `transChallengeExemption` field.
-             */
-            @JsonProperty("acquirer_exemption")
-            @ExcludeMissing
-            fun acquirerExemption(acquirerExemption: JsonField<AcquirerExemption>) = apply {
-                this.acquirerExemption = acquirerExemption
-            }
-
-            /**
-             * Indicates whether chargeback liability shift applies to the transaction. Possible
-             * values:
-             *
-             * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure
-             * flow, chargeback liability shift applies.
-             * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
-             * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
-             * acquirer and in this case the `acquirer_exemption` field is expected to be not
-             * `NONE`.
-             * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant
-             * is liable.
-             * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-             * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
-             */
-            fun liabilityShift(liabilityShift: LiabilityShift) =
-                liabilityShift(JsonField.of(liabilityShift))
-
-            /**
-             * Indicates whether chargeback liability shift applies to the transaction. Possible
-             * values:
-             *
-             * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure
-             * flow, chargeback liability shift applies.
-             * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
-             * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
-             * acquirer and in this case the `acquirer_exemption` field is expected to be not
-             * `NONE`.
-             * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant
-             * is liable.
-             * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-             * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
-             */
-            @JsonProperty("liability_shift")
-            @ExcludeMissing
-            fun liabilityShift(liabilityShift: JsonField<LiabilityShift>) = apply {
-                this.liabilityShift = liabilityShift
-            }
-
-            /**
-             * Verification attempted values:
-             *
-             * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
-             * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
-             * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
-             * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
-             * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
-             * Identity Check Express, recurring transactions, etc.)
-             * - `OTP`: One-time password verification was attempted by the ACS.
-             */
-            fun verificationAttempted(verificationAttempted: VerificationAttempted) =
-                verificationAttempted(JsonField.of(verificationAttempted))
-
-            /**
-             * Verification attempted values:
-             *
-             * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
-             * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
-             * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
-             * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
-             * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
-             * Identity Check Express, recurring transactions, etc.)
-             * - `OTP`: One-time password verification was attempted by the ACS.
-             */
-            @JsonProperty("verification_attempted")
-            @ExcludeMissing
-            fun verificationAttempted(verificationAttempted: JsonField<VerificationAttempted>) =
-                apply {
-                    this.verificationAttempted = verificationAttempted
-                }
-
-            /**
-             * This field partially maps to the `transStatus` field in the
-             * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/)
-             * and Mastercard SPA2 AAV leading indicators.
-             *
-             * Verification result values:
-             *
-             * - `CANCELLED`: Authentication/Account verification could not be performed,
-             * `transStatus = U`.
-             * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the
-             * utilization of exemptions could also result in `transStatus = N`, inspect the
-             * `acquirer_exemption` field for more information.
-             * - `FRICTIONLESS`: Attempts processing performed, the transaction was not
-             * authenticated, but a proof of attempted authentication/verification is provided.
-             * `transStatus = A` and the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
-             * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
-             * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
-             * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer
-             * is rejecting authentication/verification and requests that authorization not be
-             * attempted.
-             * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading
-             * AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`,
-             * `kR`, `kS`}.
-             *
-             * Note that the following `transStatus` values are not represented by this field:
-             *
-             * - `C`: Challenge Required
-             * - `D`: Challenge Required; decoupled authentication confirmed
-             * - `I`: Informational only
-             * - `S`: Challenge using Secure Payment Confirmation (SPC)
-             */
-            fun verificationResult(verificationResult: VerificationResult) =
-                verificationResult(JsonField.of(verificationResult))
-
-            /**
-             * This field partially maps to the `transStatus` field in the
-             * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/)
-             * and Mastercard SPA2 AAV leading indicators.
-             *
-             * Verification result values:
-             *
-             * - `CANCELLED`: Authentication/Account verification could not be performed,
-             * `transStatus = U`.
-             * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the
-             * utilization of exemptions could also result in `transStatus = N`, inspect the
-             * `acquirer_exemption` field for more information.
-             * - `FRICTIONLESS`: Attempts processing performed, the transaction was not
-             * authenticated, but a proof of attempted authentication/verification is provided.
-             * `transStatus = A` and the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
-             * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
-             * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
-             * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer
-             * is rejecting authentication/verification and requests that authorization not be
-             * attempted.
-             * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading
-             * AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`,
-             * `kR`, `kS`}.
-             *
-             * Note that the following `transStatus` values are not represented by this field:
-             *
-             * - `C`: Challenge Required
-             * - `D`: Challenge Required; decoupled authentication confirmed
-             * - `I`: Informational only
-             * - `S`: Challenge using Secure Payment Confirmation (SPC)
-             */
-            @JsonProperty("verification_result")
-            @ExcludeMissing
-            fun verificationResult(verificationResult: JsonField<VerificationResult>) = apply {
-                this.verificationResult = verificationResult
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            @JsonAnySetter
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun build(): CardholderAuthentication =
-                CardholderAuthentication(
-                    _3dsVersion,
-                    acquirerExemption,
-                    liabilityShift,
-                    verificationAttempted,
-                    verificationResult,
-                    additionalProperties.toUnmodifiable(),
-                )
-        }
-
-        class AcquirerExemption
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) {
-
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is AcquirerExemption && this.value == other.value
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
-            companion object {
-
-                @JvmField
-                val AUTHENTICATION_OUTAGE_EXCEPTION =
-                    AcquirerExemption(JsonField.of("AUTHENTICATION_OUTAGE_EXCEPTION"))
-
-                @JvmField val LOW_VALUE = AcquirerExemption(JsonField.of("LOW_VALUE"))
-
-                @JvmField
-                val MERCHANT_INITIATED_TRANSACTION =
-                    AcquirerExemption(JsonField.of("MERCHANT_INITIATED_TRANSACTION"))
-
-                @JvmField val NONE = AcquirerExemption(JsonField.of("NONE"))
-
-                @JvmField
-                val RECURRING_PAYMENT = AcquirerExemption(JsonField.of("RECURRING_PAYMENT"))
-
-                @JvmField
-                val SECURE_CORPORATE_PAYMENT =
-                    AcquirerExemption(JsonField.of("SECURE_CORPORATE_PAYMENT"))
-
-                @JvmField
-                val STRONG_CUSTOMER_AUTHENTICATION_DELEGATION =
-                    AcquirerExemption(JsonField.of("STRONG_CUSTOMER_AUTHENTICATION_DELEGATION"))
-
-                @JvmField
-                val TRANSACTION_RISK_ANALYSIS =
-                    AcquirerExemption(JsonField.of("TRANSACTION_RISK_ANALYSIS"))
-
-                @JvmStatic fun of(value: String) = AcquirerExemption(JsonField.of(value))
-            }
-
-            enum class Known {
-                AUTHENTICATION_OUTAGE_EXCEPTION,
-                LOW_VALUE,
-                MERCHANT_INITIATED_TRANSACTION,
-                NONE,
-                RECURRING_PAYMENT,
-                SECURE_CORPORATE_PAYMENT,
-                STRONG_CUSTOMER_AUTHENTICATION_DELEGATION,
-                TRANSACTION_RISK_ANALYSIS,
-            }
-
-            enum class Value {
-                AUTHENTICATION_OUTAGE_EXCEPTION,
-                LOW_VALUE,
-                MERCHANT_INITIATED_TRANSACTION,
-                NONE,
-                RECURRING_PAYMENT,
-                SECURE_CORPORATE_PAYMENT,
-                STRONG_CUSTOMER_AUTHENTICATION_DELEGATION,
-                TRANSACTION_RISK_ANALYSIS,
-                _UNKNOWN,
-            }
-
-            fun value(): Value =
-                when (this) {
-                    AUTHENTICATION_OUTAGE_EXCEPTION -> Value.AUTHENTICATION_OUTAGE_EXCEPTION
-                    LOW_VALUE -> Value.LOW_VALUE
-                    MERCHANT_INITIATED_TRANSACTION -> Value.MERCHANT_INITIATED_TRANSACTION
-                    NONE -> Value.NONE
-                    RECURRING_PAYMENT -> Value.RECURRING_PAYMENT
-                    SECURE_CORPORATE_PAYMENT -> Value.SECURE_CORPORATE_PAYMENT
-                    STRONG_CUSTOMER_AUTHENTICATION_DELEGATION ->
-                        Value.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
-                    TRANSACTION_RISK_ANALYSIS -> Value.TRANSACTION_RISK_ANALYSIS
-                    else -> Value._UNKNOWN
-                }
-
-            fun known(): Known =
-                when (this) {
-                    AUTHENTICATION_OUTAGE_EXCEPTION -> Known.AUTHENTICATION_OUTAGE_EXCEPTION
-                    LOW_VALUE -> Known.LOW_VALUE
-                    MERCHANT_INITIATED_TRANSACTION -> Known.MERCHANT_INITIATED_TRANSACTION
-                    NONE -> Known.NONE
-                    RECURRING_PAYMENT -> Known.RECURRING_PAYMENT
-                    SECURE_CORPORATE_PAYMENT -> Known.SECURE_CORPORATE_PAYMENT
-                    STRONG_CUSTOMER_AUTHENTICATION_DELEGATION ->
-                        Known.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
-                    TRANSACTION_RISK_ANALYSIS -> Known.TRANSACTION_RISK_ANALYSIS
-                    else -> throw LithicInvalidDataException("Unknown AcquirerExemption: $value")
-                }
-
-            fun asString(): String = _value().asStringOrThrow()
-        }
-
-        class LiabilityShift
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) {
-
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is LiabilityShift && this.value == other.value
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
-            companion object {
-
-                @JvmField val _3DS_AUTHENTICATED = LiabilityShift(JsonField.of("3DS_AUTHENTICATED"))
-
-                @JvmField
-                val ACQUIRER_EXEMPTION = LiabilityShift(JsonField.of("ACQUIRER_EXEMPTION"))
-
-                @JvmField val NONE = LiabilityShift(JsonField.of("NONE"))
-
-                @JvmField
-                val TOKEN_AUTHENTICATED = LiabilityShift(JsonField.of("TOKEN_AUTHENTICATED"))
-
-                @JvmStatic fun of(value: String) = LiabilityShift(JsonField.of(value))
-            }
-
-            enum class Known {
-                _3DS_AUTHENTICATED,
-                ACQUIRER_EXEMPTION,
-                NONE,
-                TOKEN_AUTHENTICATED,
-            }
-
-            enum class Value {
-                _3DS_AUTHENTICATED,
-                ACQUIRER_EXEMPTION,
-                NONE,
-                TOKEN_AUTHENTICATED,
-                _UNKNOWN,
-            }
-
-            fun value(): Value =
-                when (this) {
-                    _3DS_AUTHENTICATED -> Value._3DS_AUTHENTICATED
-                    ACQUIRER_EXEMPTION -> Value.ACQUIRER_EXEMPTION
-                    NONE -> Value.NONE
-                    TOKEN_AUTHENTICATED -> Value.TOKEN_AUTHENTICATED
-                    else -> Value._UNKNOWN
-                }
-
-            fun known(): Known =
-                when (this) {
-                    _3DS_AUTHENTICATED -> Known._3DS_AUTHENTICATED
-                    ACQUIRER_EXEMPTION -> Known.ACQUIRER_EXEMPTION
-                    NONE -> Known.NONE
-                    TOKEN_AUTHENTICATED -> Known.TOKEN_AUTHENTICATED
-                    else -> throw LithicInvalidDataException("Unknown LiabilityShift: $value")
-                }
-
-            fun asString(): String = _value().asStringOrThrow()
-        }
-
-        class VerificationAttempted
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) {
-
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is VerificationAttempted && this.value == other.value
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
-            companion object {
-
-                @JvmField val APP_LOGIN = VerificationAttempted(JsonField.of("APP_LOGIN"))
-
-                @JvmField val BIOMETRIC = VerificationAttempted(JsonField.of("BIOMETRIC"))
-
-                @JvmField val NONE = VerificationAttempted(JsonField.of("NONE"))
-
-                @JvmField val OTHER = VerificationAttempted(JsonField.of("OTHER"))
-
-                @JvmField val OTP = VerificationAttempted(JsonField.of("OTP"))
-
-                @JvmStatic fun of(value: String) = VerificationAttempted(JsonField.of(value))
-            }
-
-            enum class Known {
-                APP_LOGIN,
-                BIOMETRIC,
-                NONE,
-                OTHER,
-                OTP,
-            }
-
-            enum class Value {
-                APP_LOGIN,
-                BIOMETRIC,
-                NONE,
-                OTHER,
-                OTP,
-                _UNKNOWN,
-            }
-
-            fun value(): Value =
-                when (this) {
-                    APP_LOGIN -> Value.APP_LOGIN
-                    BIOMETRIC -> Value.BIOMETRIC
-                    NONE -> Value.NONE
-                    OTHER -> Value.OTHER
-                    OTP -> Value.OTP
-                    else -> Value._UNKNOWN
-                }
-
-            fun known(): Known =
-                when (this) {
-                    APP_LOGIN -> Known.APP_LOGIN
-                    BIOMETRIC -> Known.BIOMETRIC
-                    NONE -> Known.NONE
-                    OTHER -> Known.OTHER
-                    OTP -> Known.OTP
-                    else ->
-                        throw LithicInvalidDataException("Unknown VerificationAttempted: $value")
-                }
-
-            fun asString(): String = _value().asStringOrThrow()
-        }
-
-        class VerificationResult
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) {
-
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is VerificationResult && this.value == other.value
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
-            companion object {
-
-                @JvmField val CANCELLED = VerificationResult(JsonField.of("CANCELLED"))
-
-                @JvmField val FAILED = VerificationResult(JsonField.of("FAILED"))
-
-                @JvmField val FRICTIONLESS = VerificationResult(JsonField.of("FRICTIONLESS"))
-
-                @JvmField val NOT_ATTEMPTED = VerificationResult(JsonField.of("NOT_ATTEMPTED"))
-
-                @JvmField val REJECTED = VerificationResult(JsonField.of("REJECTED"))
-
-                @JvmField val SUCCESS = VerificationResult(JsonField.of("SUCCESS"))
-
-                @JvmStatic fun of(value: String) = VerificationResult(JsonField.of(value))
-            }
-
-            enum class Known {
-                CANCELLED,
-                FAILED,
-                FRICTIONLESS,
-                NOT_ATTEMPTED,
-                REJECTED,
-                SUCCESS,
-            }
-
-            enum class Value {
-                CANCELLED,
-                FAILED,
-                FRICTIONLESS,
-                NOT_ATTEMPTED,
-                REJECTED,
-                SUCCESS,
-                _UNKNOWN,
-            }
-
-            fun value(): Value =
-                when (this) {
-                    CANCELLED -> Value.CANCELLED
-                    FAILED -> Value.FAILED
-                    FRICTIONLESS -> Value.FRICTIONLESS
-                    NOT_ATTEMPTED -> Value.NOT_ATTEMPTED
-                    REJECTED -> Value.REJECTED
-                    SUCCESS -> Value.SUCCESS
-                    else -> Value._UNKNOWN
-                }
-
-            fun known(): Known =
-                when (this) {
-                    CANCELLED -> Known.CANCELLED
-                    FAILED -> Known.FAILED
-                    FRICTIONLESS -> Known.FRICTIONLESS
-                    NOT_ATTEMPTED -> Known.NOT_ATTEMPTED
-                    REJECTED -> Known.REJECTED
-                    SUCCESS -> Known.SUCCESS
-                    else -> throw LithicInvalidDataException("Unknown VerificationResult: $value")
-                }
-
-            fun asString(): String = _value().asStringOrThrow()
-        }
-    }
-
     /**
      * A single card transaction may include multiple events that affect the transaction state and
      * lifecycle.
@@ -2706,5 +1864,847 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+    }
+
+    @JsonDeserialize(builder = CardholderAuthentication.Builder::class)
+    @NoAutoDetect
+    class CardholderAuthentication
+    private constructor(
+        private val _3dsVersion: JsonField<String>,
+        private val acquirerExemption: JsonField<AcquirerExemption>,
+        private val liabilityShift: JsonField<LiabilityShift>,
+        private val verificationAttempted: JsonField<VerificationAttempted>,
+        private val verificationResult: JsonField<VerificationResult>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
+
+        private var validated: Boolean = false
+
+        private var hashCode: Int = 0
+
+        /**
+         * 3-D Secure Protocol version. Possible values:
+         *
+         * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
+         * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
+         * - `null`: 3-D Secure was not used for the transaction
+         */
+        fun _3dsVersion(): Optional<String> =
+            Optional.ofNullable(_3dsVersion.getNullable("3ds_version"))
+
+        /**
+         * Exemption applied by the ACS to authenticate the transaction without requesting a
+         * challenge. Possible values:
+         *
+         * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
+         * - `LOW_VALUE`: Low Value Payment exemption.
+         * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
+         * - `NONE`: No exemption applied.
+         * - `RECURRING_PAYMENT`: Recurring Payment exemption.
+         * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
+         * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication Delegation
+         * exemption.
+         * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
+         * exemption.
+         *
+         * Maps to the 3-D Secure `transChallengeExemption` field.
+         */
+        fun acquirerExemption(): AcquirerExemption =
+            acquirerExemption.getRequired("acquirer_exemption")
+
+        /**
+         * Indicates whether chargeback liability shift applies to the transaction. Possible values:
+         *
+         * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
+         * chargeback liability shift applies.
+         * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
+         * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
+         * acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
+         * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is
+         * liable.
+         * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
+         * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
+         */
+        fun liabilityShift(): LiabilityShift = liabilityShift.getRequired("liability_shift")
+
+        /**
+         * Verification attempted values:
+         *
+         * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
+         * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
+         * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
+         * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+         * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
+         * Identity Check Express, recurring transactions, etc.)
+         * - `OTP`: One-time password verification was attempted by the ACS.
+         */
+        fun verificationAttempted(): VerificationAttempted =
+            verificationAttempted.getRequired("verification_attempted")
+
+        /**
+         * This field partially maps to the `transStatus` field in the
+         * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/) and
+         * Mastercard SPA2 AAV leading indicators.
+         *
+         * Verification result values:
+         *
+         * - `CANCELLED`: Authentication/Account verification could not be performed, `transStatus =
+         * U`.
+         * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the utilization
+         * of exemptions could also result in `transStatus = N`, inspect the `acquirer_exemption`
+         * field for more information.
+         * - `FRICTIONLESS`: Attempts processing performed, the transaction was not authenticated,
+         * but a proof of attempted authentication/verification is provided. `transStatus = A` and
+         * the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+         * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
+         * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+         * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer is
+         * rejecting authentication/verification and requests that authorization not be attempted.
+         * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading AAV
+         * indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`, `kR`,
+         * `kS`}.
+         *
+         * Note that the following `transStatus` values are not represented by this field:
+         *
+         * - `C`: Challenge Required
+         * - `D`: Challenge Required; decoupled authentication confirmed
+         * - `I`: Informational only
+         * - `S`: Challenge using Secure Payment Confirmation (SPC)
+         */
+        fun verificationResult(): VerificationResult =
+            verificationResult.getRequired("verification_result")
+
+        /**
+         * 3-D Secure Protocol version. Possible values:
+         *
+         * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
+         * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
+         * - `null`: 3-D Secure was not used for the transaction
+         */
+        @JsonProperty("3ds_version") @ExcludeMissing fun __3dsVersion() = _3dsVersion
+
+        /**
+         * Exemption applied by the ACS to authenticate the transaction without requesting a
+         * challenge. Possible values:
+         *
+         * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
+         * - `LOW_VALUE`: Low Value Payment exemption.
+         * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
+         * - `NONE`: No exemption applied.
+         * - `RECURRING_PAYMENT`: Recurring Payment exemption.
+         * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
+         * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication Delegation
+         * exemption.
+         * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
+         * exemption.
+         *
+         * Maps to the 3-D Secure `transChallengeExemption` field.
+         */
+        @JsonProperty("acquirer_exemption")
+        @ExcludeMissing
+        fun _acquirerExemption() = acquirerExemption
+
+        /**
+         * Indicates whether chargeback liability shift applies to the transaction. Possible values:
+         *
+         * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
+         * chargeback liability shift applies.
+         * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
+         * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
+         * acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
+         * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is
+         * liable.
+         * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
+         * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
+         */
+        @JsonProperty("liability_shift") @ExcludeMissing fun _liabilityShift() = liabilityShift
+
+        /**
+         * Verification attempted values:
+         *
+         * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
+         * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
+         * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
+         * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+         * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
+         * Identity Check Express, recurring transactions, etc.)
+         * - `OTP`: One-time password verification was attempted by the ACS.
+         */
+        @JsonProperty("verification_attempted")
+        @ExcludeMissing
+        fun _verificationAttempted() = verificationAttempted
+
+        /**
+         * This field partially maps to the `transStatus` field in the
+         * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/) and
+         * Mastercard SPA2 AAV leading indicators.
+         *
+         * Verification result values:
+         *
+         * - `CANCELLED`: Authentication/Account verification could not be performed, `transStatus =
+         * U`.
+         * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the utilization
+         * of exemptions could also result in `transStatus = N`, inspect the `acquirer_exemption`
+         * field for more information.
+         * - `FRICTIONLESS`: Attempts processing performed, the transaction was not authenticated,
+         * but a proof of attempted authentication/verification is provided. `transStatus = A` and
+         * the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+         * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
+         * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+         * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer is
+         * rejecting authentication/verification and requests that authorization not be attempted.
+         * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading AAV
+         * indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`, `kR`,
+         * `kS`}.
+         *
+         * Note that the following `transStatus` values are not represented by this field:
+         *
+         * - `C`: Challenge Required
+         * - `D`: Challenge Required; decoupled authentication confirmed
+         * - `I`: Informational only
+         * - `S`: Challenge using Secure Payment Confirmation (SPC)
+         */
+        @JsonProperty("verification_result")
+        @ExcludeMissing
+        fun _verificationResult() = verificationResult
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun validate(): CardholderAuthentication = apply {
+            if (!validated) {
+                _3dsVersion()
+                acquirerExemption()
+                liabilityShift()
+                verificationAttempted()
+                verificationResult()
+                validated = true
+            }
+        }
+
+        fun toBuilder() = Builder().from(this)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is CardholderAuthentication &&
+                this._3dsVersion == other._3dsVersion &&
+                this.acquirerExemption == other.acquirerExemption &&
+                this.liabilityShift == other.liabilityShift &&
+                this.verificationAttempted == other.verificationAttempted &&
+                this.verificationResult == other.verificationResult &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        _3dsVersion,
+                        acquirerExemption,
+                        liabilityShift,
+                        verificationAttempted,
+                        verificationResult,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "CardholderAuthentication{_3dsVersion=$_3dsVersion, acquirerExemption=$acquirerExemption, liabilityShift=$liabilityShift, verificationAttempted=$verificationAttempted, verificationResult=$verificationResult, additionalProperties=$additionalProperties}"
+
+        companion object {
+
+            @JvmStatic fun builder() = Builder()
+        }
+
+        class Builder {
+
+            private var _3dsVersion: JsonField<String> = JsonMissing.of()
+            private var acquirerExemption: JsonField<AcquirerExemption> = JsonMissing.of()
+            private var liabilityShift: JsonField<LiabilityShift> = JsonMissing.of()
+            private var verificationAttempted: JsonField<VerificationAttempted> = JsonMissing.of()
+            private var verificationResult: JsonField<VerificationResult> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(cardholderAuthentication: CardholderAuthentication) = apply {
+                this._3dsVersion = cardholderAuthentication._3dsVersion
+                this.acquirerExemption = cardholderAuthentication.acquirerExemption
+                this.liabilityShift = cardholderAuthentication.liabilityShift
+                this.verificationAttempted = cardholderAuthentication.verificationAttempted
+                this.verificationResult = cardholderAuthentication.verificationResult
+                additionalProperties(cardholderAuthentication.additionalProperties)
+            }
+
+            /**
+             * 3-D Secure Protocol version. Possible values:
+             *
+             * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
+             * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
+             * - `null`: 3-D Secure was not used for the transaction
+             */
+            fun _3dsVersion(_3dsVersion: String) = _3dsVersion(JsonField.of(_3dsVersion))
+
+            /**
+             * 3-D Secure Protocol version. Possible values:
+             *
+             * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
+             * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
+             * - `null`: 3-D Secure was not used for the transaction
+             */
+            @JsonProperty("3ds_version")
+            @ExcludeMissing
+            fun _3dsVersion(_3dsVersion: JsonField<String>) = apply {
+                this._3dsVersion = _3dsVersion
+            }
+
+            /**
+             * Exemption applied by the ACS to authenticate the transaction without requesting a
+             * challenge. Possible values:
+             *
+             * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
+             * - `LOW_VALUE`: Low Value Payment exemption.
+             * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
+             * - `NONE`: No exemption applied.
+             * - `RECURRING_PAYMENT`: Recurring Payment exemption.
+             * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
+             * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication
+             * Delegation exemption.
+             * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
+             * exemption.
+             *
+             * Maps to the 3-D Secure `transChallengeExemption` field.
+             */
+            fun acquirerExemption(acquirerExemption: AcquirerExemption) =
+                acquirerExemption(JsonField.of(acquirerExemption))
+
+            /**
+             * Exemption applied by the ACS to authenticate the transaction without requesting a
+             * challenge. Possible values:
+             *
+             * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
+             * - `LOW_VALUE`: Low Value Payment exemption.
+             * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
+             * - `NONE`: No exemption applied.
+             * - `RECURRING_PAYMENT`: Recurring Payment exemption.
+             * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
+             * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication
+             * Delegation exemption.
+             * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
+             * exemption.
+             *
+             * Maps to the 3-D Secure `transChallengeExemption` field.
+             */
+            @JsonProperty("acquirer_exemption")
+            @ExcludeMissing
+            fun acquirerExemption(acquirerExemption: JsonField<AcquirerExemption>) = apply {
+                this.acquirerExemption = acquirerExemption
+            }
+
+            /**
+             * Indicates whether chargeback liability shift applies to the transaction. Possible
+             * values:
+             *
+             * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure
+             * flow, chargeback liability shift applies.
+             * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
+             * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
+             * acquirer and in this case the `acquirer_exemption` field is expected to be not
+             * `NONE`.
+             * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant
+             * is liable.
+             * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
+             * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
+             */
+            fun liabilityShift(liabilityShift: LiabilityShift) =
+                liabilityShift(JsonField.of(liabilityShift))
+
+            /**
+             * Indicates whether chargeback liability shift applies to the transaction. Possible
+             * values:
+             *
+             * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure
+             * flow, chargeback liability shift applies.
+             * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
+             * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
+             * acquirer and in this case the `acquirer_exemption` field is expected to be not
+             * `NONE`.
+             * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant
+             * is liable.
+             * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
+             * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
+             */
+            @JsonProperty("liability_shift")
+            @ExcludeMissing
+            fun liabilityShift(liabilityShift: JsonField<LiabilityShift>) = apply {
+                this.liabilityShift = liabilityShift
+            }
+
+            /**
+             * Verification attempted values:
+             *
+             * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
+             * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
+             * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
+             * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+             * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
+             * Identity Check Express, recurring transactions, etc.)
+             * - `OTP`: One-time password verification was attempted by the ACS.
+             */
+            fun verificationAttempted(verificationAttempted: VerificationAttempted) =
+                verificationAttempted(JsonField.of(verificationAttempted))
+
+            /**
+             * Verification attempted values:
+             *
+             * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
+             * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
+             * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
+             * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+             * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
+             * Identity Check Express, recurring transactions, etc.)
+             * - `OTP`: One-time password verification was attempted by the ACS.
+             */
+            @JsonProperty("verification_attempted")
+            @ExcludeMissing
+            fun verificationAttempted(verificationAttempted: JsonField<VerificationAttempted>) =
+                apply {
+                    this.verificationAttempted = verificationAttempted
+                }
+
+            /**
+             * This field partially maps to the `transStatus` field in the
+             * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/)
+             * and Mastercard SPA2 AAV leading indicators.
+             *
+             * Verification result values:
+             *
+             * - `CANCELLED`: Authentication/Account verification could not be performed,
+             * `transStatus = U`.
+             * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the
+             * utilization of exemptions could also result in `transStatus = N`, inspect the
+             * `acquirer_exemption` field for more information.
+             * - `FRICTIONLESS`: Attempts processing performed, the transaction was not
+             * authenticated, but a proof of attempted authentication/verification is provided.
+             * `transStatus = A` and the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+             * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
+             * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+             * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer
+             * is rejecting authentication/verification and requests that authorization not be
+             * attempted.
+             * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading
+             * AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`,
+             * `kR`, `kS`}.
+             *
+             * Note that the following `transStatus` values are not represented by this field:
+             *
+             * - `C`: Challenge Required
+             * - `D`: Challenge Required; decoupled authentication confirmed
+             * - `I`: Informational only
+             * - `S`: Challenge using Secure Payment Confirmation (SPC)
+             */
+            fun verificationResult(verificationResult: VerificationResult) =
+                verificationResult(JsonField.of(verificationResult))
+
+            /**
+             * This field partially maps to the `transStatus` field in the
+             * [EMVCo 3-D Secure specification](https://www.emvco.com/emv-technologies/3d-secure/)
+             * and Mastercard SPA2 AAV leading indicators.
+             *
+             * Verification result values:
+             *
+             * - `CANCELLED`: Authentication/Account verification could not be performed,
+             * `transStatus = U`.
+             * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the
+             * utilization of exemptions could also result in `transStatus = N`, inspect the
+             * `acquirer_exemption` field for more information.
+             * - `FRICTIONLESS`: Attempts processing performed, the transaction was not
+             * authenticated, but a proof of attempted authentication/verification is provided.
+             * `transStatus = A` and the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+             * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
+             * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+             * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer
+             * is rejecting authentication/verification and requests that authorization not be
+             * attempted.
+             * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading
+             * AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`,
+             * `kR`, `kS`}.
+             *
+             * Note that the following `transStatus` values are not represented by this field:
+             *
+             * - `C`: Challenge Required
+             * - `D`: Challenge Required; decoupled authentication confirmed
+             * - `I`: Informational only
+             * - `S`: Challenge using Secure Payment Confirmation (SPC)
+             */
+            @JsonProperty("verification_result")
+            @ExcludeMissing
+            fun verificationResult(verificationResult: JsonField<VerificationResult>) = apply {
+                this.verificationResult = verificationResult
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            @JsonAnySetter
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                this.additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun build(): CardholderAuthentication =
+                CardholderAuthentication(
+                    _3dsVersion,
+                    acquirerExemption,
+                    liabilityShift,
+                    verificationAttempted,
+                    verificationResult,
+                    additionalProperties.toUnmodifiable(),
+                )
+        }
+
+        class AcquirerExemption
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is AcquirerExemption && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField
+                val AUTHENTICATION_OUTAGE_EXCEPTION =
+                    AcquirerExemption(JsonField.of("AUTHENTICATION_OUTAGE_EXCEPTION"))
+
+                @JvmField val LOW_VALUE = AcquirerExemption(JsonField.of("LOW_VALUE"))
+
+                @JvmField
+                val MERCHANT_INITIATED_TRANSACTION =
+                    AcquirerExemption(JsonField.of("MERCHANT_INITIATED_TRANSACTION"))
+
+                @JvmField val NONE = AcquirerExemption(JsonField.of("NONE"))
+
+                @JvmField
+                val RECURRING_PAYMENT = AcquirerExemption(JsonField.of("RECURRING_PAYMENT"))
+
+                @JvmField
+                val SECURE_CORPORATE_PAYMENT =
+                    AcquirerExemption(JsonField.of("SECURE_CORPORATE_PAYMENT"))
+
+                @JvmField
+                val STRONG_CUSTOMER_AUTHENTICATION_DELEGATION =
+                    AcquirerExemption(JsonField.of("STRONG_CUSTOMER_AUTHENTICATION_DELEGATION"))
+
+                @JvmField
+                val TRANSACTION_RISK_ANALYSIS =
+                    AcquirerExemption(JsonField.of("TRANSACTION_RISK_ANALYSIS"))
+
+                @JvmStatic fun of(value: String) = AcquirerExemption(JsonField.of(value))
+            }
+
+            enum class Known {
+                AUTHENTICATION_OUTAGE_EXCEPTION,
+                LOW_VALUE,
+                MERCHANT_INITIATED_TRANSACTION,
+                NONE,
+                RECURRING_PAYMENT,
+                SECURE_CORPORATE_PAYMENT,
+                STRONG_CUSTOMER_AUTHENTICATION_DELEGATION,
+                TRANSACTION_RISK_ANALYSIS,
+            }
+
+            enum class Value {
+                AUTHENTICATION_OUTAGE_EXCEPTION,
+                LOW_VALUE,
+                MERCHANT_INITIATED_TRANSACTION,
+                NONE,
+                RECURRING_PAYMENT,
+                SECURE_CORPORATE_PAYMENT,
+                STRONG_CUSTOMER_AUTHENTICATION_DELEGATION,
+                TRANSACTION_RISK_ANALYSIS,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    AUTHENTICATION_OUTAGE_EXCEPTION -> Value.AUTHENTICATION_OUTAGE_EXCEPTION
+                    LOW_VALUE -> Value.LOW_VALUE
+                    MERCHANT_INITIATED_TRANSACTION -> Value.MERCHANT_INITIATED_TRANSACTION
+                    NONE -> Value.NONE
+                    RECURRING_PAYMENT -> Value.RECURRING_PAYMENT
+                    SECURE_CORPORATE_PAYMENT -> Value.SECURE_CORPORATE_PAYMENT
+                    STRONG_CUSTOMER_AUTHENTICATION_DELEGATION ->
+                        Value.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
+                    TRANSACTION_RISK_ANALYSIS -> Value.TRANSACTION_RISK_ANALYSIS
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    AUTHENTICATION_OUTAGE_EXCEPTION -> Known.AUTHENTICATION_OUTAGE_EXCEPTION
+                    LOW_VALUE -> Known.LOW_VALUE
+                    MERCHANT_INITIATED_TRANSACTION -> Known.MERCHANT_INITIATED_TRANSACTION
+                    NONE -> Known.NONE
+                    RECURRING_PAYMENT -> Known.RECURRING_PAYMENT
+                    SECURE_CORPORATE_PAYMENT -> Known.SECURE_CORPORATE_PAYMENT
+                    STRONG_CUSTOMER_AUTHENTICATION_DELEGATION ->
+                        Known.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
+                    TRANSACTION_RISK_ANALYSIS -> Known.TRANSACTION_RISK_ANALYSIS
+                    else -> throw LithicInvalidDataException("Unknown AcquirerExemption: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
+
+        class LiabilityShift
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is LiabilityShift && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val _3DS_AUTHENTICATED = LiabilityShift(JsonField.of("3DS_AUTHENTICATED"))
+
+                @JvmField
+                val ACQUIRER_EXEMPTION = LiabilityShift(JsonField.of("ACQUIRER_EXEMPTION"))
+
+                @JvmField val NONE = LiabilityShift(JsonField.of("NONE"))
+
+                @JvmField
+                val TOKEN_AUTHENTICATED = LiabilityShift(JsonField.of("TOKEN_AUTHENTICATED"))
+
+                @JvmStatic fun of(value: String) = LiabilityShift(JsonField.of(value))
+            }
+
+            enum class Known {
+                _3DS_AUTHENTICATED,
+                ACQUIRER_EXEMPTION,
+                NONE,
+                TOKEN_AUTHENTICATED,
+            }
+
+            enum class Value {
+                _3DS_AUTHENTICATED,
+                ACQUIRER_EXEMPTION,
+                NONE,
+                TOKEN_AUTHENTICATED,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    _3DS_AUTHENTICATED -> Value._3DS_AUTHENTICATED
+                    ACQUIRER_EXEMPTION -> Value.ACQUIRER_EXEMPTION
+                    NONE -> Value.NONE
+                    TOKEN_AUTHENTICATED -> Value.TOKEN_AUTHENTICATED
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    _3DS_AUTHENTICATED -> Known._3DS_AUTHENTICATED
+                    ACQUIRER_EXEMPTION -> Known.ACQUIRER_EXEMPTION
+                    NONE -> Known.NONE
+                    TOKEN_AUTHENTICATED -> Known.TOKEN_AUTHENTICATED
+                    else -> throw LithicInvalidDataException("Unknown LiabilityShift: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
+
+        class VerificationAttempted
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is VerificationAttempted && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val APP_LOGIN = VerificationAttempted(JsonField.of("APP_LOGIN"))
+
+                @JvmField val BIOMETRIC = VerificationAttempted(JsonField.of("BIOMETRIC"))
+
+                @JvmField val NONE = VerificationAttempted(JsonField.of("NONE"))
+
+                @JvmField val OTHER = VerificationAttempted(JsonField.of("OTHER"))
+
+                @JvmField val OTP = VerificationAttempted(JsonField.of("OTP"))
+
+                @JvmStatic fun of(value: String) = VerificationAttempted(JsonField.of(value))
+            }
+
+            enum class Known {
+                APP_LOGIN,
+                BIOMETRIC,
+                NONE,
+                OTHER,
+                OTP,
+            }
+
+            enum class Value {
+                APP_LOGIN,
+                BIOMETRIC,
+                NONE,
+                OTHER,
+                OTP,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    APP_LOGIN -> Value.APP_LOGIN
+                    BIOMETRIC -> Value.BIOMETRIC
+                    NONE -> Value.NONE
+                    OTHER -> Value.OTHER
+                    OTP -> Value.OTP
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    APP_LOGIN -> Known.APP_LOGIN
+                    BIOMETRIC -> Known.BIOMETRIC
+                    NONE -> Known.NONE
+                    OTHER -> Known.OTHER
+                    OTP -> Known.OTP
+                    else ->
+                        throw LithicInvalidDataException("Unknown VerificationAttempted: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
+
+        class VerificationResult
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is VerificationResult && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val CANCELLED = VerificationResult(JsonField.of("CANCELLED"))
+
+                @JvmField val FAILED = VerificationResult(JsonField.of("FAILED"))
+
+                @JvmField val FRICTIONLESS = VerificationResult(JsonField.of("FRICTIONLESS"))
+
+                @JvmField val NOT_ATTEMPTED = VerificationResult(JsonField.of("NOT_ATTEMPTED"))
+
+                @JvmField val REJECTED = VerificationResult(JsonField.of("REJECTED"))
+
+                @JvmField val SUCCESS = VerificationResult(JsonField.of("SUCCESS"))
+
+                @JvmStatic fun of(value: String) = VerificationResult(JsonField.of(value))
+            }
+
+            enum class Known {
+                CANCELLED,
+                FAILED,
+                FRICTIONLESS,
+                NOT_ATTEMPTED,
+                REJECTED,
+                SUCCESS,
+            }
+
+            enum class Value {
+                CANCELLED,
+                FAILED,
+                FRICTIONLESS,
+                NOT_ATTEMPTED,
+                REJECTED,
+                SUCCESS,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    CANCELLED -> Value.CANCELLED
+                    FAILED -> Value.FAILED
+                    FRICTIONLESS -> Value.FRICTIONLESS
+                    NOT_ATTEMPTED -> Value.NOT_ATTEMPTED
+                    REJECTED -> Value.REJECTED
+                    SUCCESS -> Value.SUCCESS
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    CANCELLED -> Known.CANCELLED
+                    FAILED -> Known.FAILED
+                    FRICTIONLESS -> Known.FRICTIONLESS
+                    NOT_ATTEMPTED -> Known.NOT_ATTEMPTED
+                    REJECTED -> Known.REJECTED
+                    SUCCESS -> Known.SUCCESS
+                    else -> throw LithicInvalidDataException("Unknown VerificationResult: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
     }
 }
