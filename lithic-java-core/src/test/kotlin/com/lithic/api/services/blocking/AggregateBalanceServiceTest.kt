@@ -16,7 +16,6 @@ class AggregateBalanceServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val aggregateBalanceService = client.aggregateBalances()
         val response = aggregateBalanceService.list(AggregateBalanceListParams.builder().build())

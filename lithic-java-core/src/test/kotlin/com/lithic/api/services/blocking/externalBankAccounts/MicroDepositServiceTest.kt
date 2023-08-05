@@ -15,7 +15,6 @@ class MicroDepositServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val microDepositService = client.externalBankAccounts().microDeposits()
         val microDepositCreateResponse =

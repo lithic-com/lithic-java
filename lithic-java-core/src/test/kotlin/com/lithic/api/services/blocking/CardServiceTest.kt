@@ -17,7 +17,6 @@ class CardServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val cardService = client.cards()
         val card =
@@ -63,7 +62,6 @@ class CardServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val cardService = client.cards()
         val card =
@@ -82,7 +80,6 @@ class CardServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val cardService = client.cards()
         val card =
@@ -108,7 +105,6 @@ class CardServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val cardService = client.cards()
         val response = cardService.list(CardListParams.builder().build())
@@ -122,7 +118,6 @@ class CardServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val cardService = client.cards()
         val cardEmbedResponse =
@@ -139,7 +134,6 @@ class CardServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val cardService = client.cards()
         val cardProvisionResponse =
@@ -162,7 +156,6 @@ class CardServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val cardService = client.cards()
         val card =
