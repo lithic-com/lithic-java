@@ -18,7 +18,6 @@ class EventServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val eventService = client.events()
         val event =
@@ -33,7 +32,6 @@ class EventServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val eventService = client.events()
         val response = eventService.list(EventListParams.builder().build())
@@ -47,7 +45,6 @@ class EventServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val eventService = client.events()
         val response =

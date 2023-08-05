@@ -16,7 +16,6 @@ class ResponderEndpointServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val responderEndpointService = client.responderEndpoints()
         val responderEndpointCreateResponse =
@@ -37,7 +36,6 @@ class ResponderEndpointServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val responderEndpointService = client.responderEndpoints()
         responderEndpointService.delete(
@@ -53,7 +51,6 @@ class ResponderEndpointServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val responderEndpointService = client.responderEndpoints()
         val responderEndpointStatus =

@@ -19,7 +19,6 @@ class SubscriptionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val eventSubscription =
@@ -41,7 +40,6 @@ class SubscriptionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val eventSubscription =
@@ -58,7 +56,6 @@ class SubscriptionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val eventSubscription =
@@ -81,7 +78,6 @@ class SubscriptionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val response = subscriptionService.list(EventSubscriptionListParams.builder().build())
@@ -96,7 +92,6 @@ class SubscriptionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.delete(
@@ -110,7 +105,6 @@ class SubscriptionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val response =
@@ -130,7 +124,6 @@ class SubscriptionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.recover(
@@ -149,7 +142,6 @@ class SubscriptionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.replayMissing(
@@ -167,7 +159,6 @@ class SubscriptionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val subscriptionRetrieveSecretResponse =
@@ -187,7 +178,6 @@ class SubscriptionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.rotateSecret(

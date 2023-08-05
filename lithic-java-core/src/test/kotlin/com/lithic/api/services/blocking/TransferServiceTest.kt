@@ -16,7 +16,6 @@ class TransferServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val transferService = client.transfers()
         val transferCreateResponse =
