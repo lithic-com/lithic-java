@@ -18,7 +18,6 @@ class DisputeServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val disputeService = client.disputes()
         val dispute =
@@ -41,7 +40,6 @@ class DisputeServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val disputeService = client.disputes()
         val dispute =
@@ -60,7 +58,6 @@ class DisputeServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val disputeService = client.disputes()
         val dispute =
@@ -83,7 +80,6 @@ class DisputeServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val disputeService = client.disputes()
         val response = disputeService.list(DisputeListParams.builder().build())
@@ -97,7 +93,6 @@ class DisputeServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val disputeService = client.disputes()
         val dispute =
@@ -116,7 +111,6 @@ class DisputeServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val disputeService = client.disputes()
         val disputeEvidence =
@@ -136,7 +130,6 @@ class DisputeServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val disputeService = client.disputes()
         val disputeEvidence =
@@ -156,7 +149,6 @@ class DisputeServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val disputeService = client.disputes()
         val response =
@@ -175,7 +167,6 @@ class DisputeServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val disputeService = client.disputes()
         val disputeEvidence =

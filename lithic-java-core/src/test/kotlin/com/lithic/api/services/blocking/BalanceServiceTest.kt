@@ -16,7 +16,6 @@ class BalanceServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val balanceService = client.balances()
         val response = balanceService.list(BalanceListParams.builder().build())

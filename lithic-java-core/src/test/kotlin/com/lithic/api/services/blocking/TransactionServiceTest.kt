@@ -16,7 +16,6 @@ class TransactionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val transactionService = client.transactions()
         val transaction =
@@ -35,7 +34,6 @@ class TransactionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val transactionService = client.transactions()
         val response = transactionService.list(TransactionListParams.builder().build())
@@ -49,7 +47,6 @@ class TransactionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateAuthorizationResponse =
@@ -76,7 +73,6 @@ class TransactionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateAuthorizationAdviceResponse =
@@ -96,7 +92,6 @@ class TransactionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateClearingResponse =
@@ -116,7 +111,6 @@ class TransactionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateCreditAuthorizationResponse =
@@ -139,7 +133,6 @@ class TransactionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateReturnResponse =
@@ -160,7 +153,6 @@ class TransactionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateReturnReversalResponse =
@@ -179,7 +171,6 @@ class TransactionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateVoidResponse =

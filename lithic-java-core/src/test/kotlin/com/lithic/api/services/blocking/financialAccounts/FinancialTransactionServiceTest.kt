@@ -16,7 +16,6 @@ class FinancialTransactionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val financialTransactionService = client.financialAccounts().financialTransactions()
         val financialTransaction =
@@ -36,7 +35,6 @@ class FinancialTransactionServiceTest {
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("test-api-key")
-                .webhookSecret("string")
                 .build()
         val financialTransactionService = client.financialAccounts().financialTransactions()
         val response =
