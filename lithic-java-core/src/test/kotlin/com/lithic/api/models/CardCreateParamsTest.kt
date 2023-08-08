@@ -37,6 +37,7 @@ class CardCreateParamsTest {
                     .build()
             )
             .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+            .carrier(Carrier.builder().qrCodeUrl("string").build())
             .build()
     }
 
@@ -72,6 +73,7 @@ class CardCreateParamsTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -104,6 +106,7 @@ class CardCreateParamsTest {
                     .build()
             )
         assertThat(body.shippingMethod()).isEqualTo(CardCreateParams.ShippingMethod.STANDARD)
+        assertThat(body.carrier()).isEqualTo(Carrier.builder().qrCodeUrl("string").build())
     }
 
     @Test
