@@ -27,6 +27,7 @@ class CardReissueParamsTest {
             )
             .shippingMethod(CardReissueParams.ShippingMethod.STANDARD)
             .productId("string")
+            .carrier(Carrier.builder().qrCodeUrl("string").build())
             .build()
     }
 
@@ -52,6 +53,7 @@ class CardReissueParamsTest {
                 )
                 .shippingMethod(CardReissueParams.ShippingMethod.STANDARD)
                 .productId("string")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -73,6 +75,7 @@ class CardReissueParamsTest {
             )
         assertThat(body.shippingMethod()).isEqualTo(CardReissueParams.ShippingMethod.STANDARD)
         assertThat(body.productId()).isEqualTo("string")
+        assertThat(body.carrier()).isEqualTo(Carrier.builder().qrCodeUrl("string").build())
     }
 
     @Test
