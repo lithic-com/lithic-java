@@ -88,6 +88,7 @@ class ServiceParamsTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .additionalHeaders(additionalHeaders)
                 .additionalBodyProperties(additionalBodyProperties)
                 .additionalQueryParams(additionalQueryParams)

@@ -88,6 +88,7 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
 
         val expected =
@@ -157,6 +158,7 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
 
         stubFor(
@@ -202,6 +204,7 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
 
         stubFor(
@@ -247,6 +250,7 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
 
         stubFor(
@@ -292,6 +296,7 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
 
         stubFor(
@@ -337,6 +342,7 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
 
         stubFor(
@@ -382,6 +388,7 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
 
         stubFor(
@@ -427,6 +434,7 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
 
         stubFor(
@@ -472,6 +480,7 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
 
         stubFor(
@@ -522,6 +531,7 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
 
         stubFor(post(anyUrl()).willReturn(status(200).withBody("Not JSON")))
@@ -566,6 +576,7 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
                 .build()
 
         stubFor(post(anyUrl()).willReturn(status(400).withBody("Not JSON")))

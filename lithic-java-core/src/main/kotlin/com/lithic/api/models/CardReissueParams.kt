@@ -21,6 +21,7 @@ constructor(
     private val shippingAddress: ShippingAddress?,
     private val shippingMethod: ShippingMethod?,
     private val productId: String?,
+    private val carrier: Carrier?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -34,12 +35,15 @@ constructor(
 
     fun productId(): Optional<String> = Optional.ofNullable(productId)
 
+    fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier)
+
     @JvmSynthetic
     internal fun getBody(): CardReissueBody {
         return CardReissueBody(
             shippingAddress,
             shippingMethod,
             productId,
+            carrier,
             additionalBodyProperties,
         )
     }
@@ -62,6 +66,7 @@ constructor(
         private val shippingAddress: ShippingAddress?,
         private val shippingMethod: ShippingMethod?,
         private val productId: String?,
+        private val carrier: Carrier?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -88,6 +93,9 @@ constructor(
          */
         @JsonProperty("product_id") fun productId(): String? = productId
 
+        /** If omitted, the previous carrier will be used. */
+        @JsonProperty("carrier") fun carrier(): Carrier? = carrier
+
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -103,6 +111,7 @@ constructor(
                 this.shippingAddress == other.shippingAddress &&
                 this.shippingMethod == other.shippingMethod &&
                 this.productId == other.productId &&
+                this.carrier == other.carrier &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -113,6 +122,7 @@ constructor(
                         shippingAddress,
                         shippingMethod,
                         productId,
+                        carrier,
                         additionalProperties,
                     )
             }
@@ -120,7 +130,7 @@ constructor(
         }
 
         override fun toString() =
-            "CardReissueBody{shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, productId=$productId, additionalProperties=$additionalProperties}"
+            "CardReissueBody{shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, productId=$productId, carrier=$carrier, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -132,6 +142,7 @@ constructor(
             private var shippingAddress: ShippingAddress? = null
             private var shippingMethod: ShippingMethod? = null
             private var productId: String? = null
+            private var carrier: Carrier? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -139,6 +150,7 @@ constructor(
                 this.shippingAddress = cardReissueBody.shippingAddress
                 this.shippingMethod = cardReissueBody.shippingMethod
                 this.productId = cardReissueBody.productId
+                this.carrier = cardReissueBody.carrier
                 additionalProperties(cardReissueBody.additionalProperties)
             }
 
@@ -171,6 +183,10 @@ constructor(
             @JsonProperty("product_id")
             fun productId(productId: String) = apply { this.productId = productId }
 
+            /** If omitted, the previous carrier will be used. */
+            @JsonProperty("carrier")
+            fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 this.additionalProperties.putAll(additionalProperties)
@@ -190,6 +206,7 @@ constructor(
                     shippingAddress,
                     shippingMethod,
                     productId,
+                    carrier,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -211,6 +228,7 @@ constructor(
             this.shippingAddress == other.shippingAddress &&
             this.shippingMethod == other.shippingMethod &&
             this.productId == other.productId &&
+            this.carrier == other.carrier &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -222,6 +240,7 @@ constructor(
             shippingAddress,
             shippingMethod,
             productId,
+            carrier,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -229,7 +248,7 @@ constructor(
     }
 
     override fun toString() =
-        "CardReissueParams{cardToken=$cardToken, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, productId=$productId, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "CardReissueParams{cardToken=$cardToken, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, productId=$productId, carrier=$carrier, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -245,6 +264,7 @@ constructor(
         private var shippingAddress: ShippingAddress? = null
         private var shippingMethod: ShippingMethod? = null
         private var productId: String? = null
+        private var carrier: Carrier? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -255,6 +275,7 @@ constructor(
             this.shippingAddress = cardReissueParams.shippingAddress
             this.shippingMethod = cardReissueParams.shippingMethod
             this.productId = cardReissueParams.productId
+            this.carrier = cardReissueParams.carrier
             additionalQueryParams(cardReissueParams.additionalQueryParams)
             additionalHeaders(cardReissueParams.additionalHeaders)
             additionalBodyProperties(cardReissueParams.additionalBodyProperties)
@@ -286,6 +307,9 @@ constructor(
          * before use.
          */
         fun productId(productId: String) = apply { this.productId = productId }
+
+        /** If omitted, the previous carrier will be used. */
+        fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -347,6 +371,7 @@ constructor(
                 shippingAddress,
                 shippingMethod,
                 productId,
+                carrier,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),
