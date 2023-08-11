@@ -17,7 +17,7 @@ import java.util.Optional
 @NoAutoDetect
 class SubscriptionRetrieveSecretResponse
 private constructor(
-    private val key: JsonField<String>,
+    private val secret: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -25,9 +25,11 @@ private constructor(
 
     private var hashCode: Int = 0
 
-    fun key(): Optional<String> = Optional.ofNullable(key.getNullable("key"))
+    /** The secret for the event subscription. */
+    fun secret(): Optional<String> = Optional.ofNullable(secret.getNullable("secret"))
 
-    @JsonProperty("key") @ExcludeMissing fun _key() = key
+    /** The secret for the event subscription. */
+    @JsonProperty("secret") @ExcludeMissing fun _secret() = secret
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -35,7 +37,7 @@ private constructor(
 
     fun validate(): SubscriptionRetrieveSecretResponse = apply {
         if (!validated) {
-            key()
+            secret()
             validated = true
         }
     }
@@ -48,19 +50,19 @@ private constructor(
         }
 
         return other is SubscriptionRetrieveSecretResponse &&
-            this.key == other.key &&
+            this.secret == other.secret &&
             this.additionalProperties == other.additionalProperties
     }
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode = Objects.hash(key, additionalProperties)
+            hashCode = Objects.hash(secret, additionalProperties)
         }
         return hashCode
     }
 
     override fun toString() =
-        "SubscriptionRetrieveSecretResponse{key=$key, additionalProperties=$additionalProperties}"
+        "SubscriptionRetrieveSecretResponse{secret=$secret, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -69,21 +71,23 @@ private constructor(
 
     class Builder {
 
-        private var key: JsonField<String> = JsonMissing.of()
+        private var secret: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(subscriptionRetrieveSecretResponse: SubscriptionRetrieveSecretResponse) =
             apply {
-                this.key = subscriptionRetrieveSecretResponse.key
+                this.secret = subscriptionRetrieveSecretResponse.secret
                 additionalProperties(subscriptionRetrieveSecretResponse.additionalProperties)
             }
 
-        fun key(key: String) = key(JsonField.of(key))
+        /** The secret for the event subscription. */
+        fun secret(secret: String) = secret(JsonField.of(secret))
 
-        @JsonProperty("key")
+        /** The secret for the event subscription. */
+        @JsonProperty("secret")
         @ExcludeMissing
-        fun key(key: JsonField<String>) = apply { this.key = key }
+        fun secret(secret: JsonField<String>) = apply { this.secret = secret }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -100,6 +104,6 @@ private constructor(
         }
 
         fun build(): SubscriptionRetrieveSecretResponse =
-            SubscriptionRetrieveSecretResponse(key, additionalProperties.toUnmodifiable())
+            SubscriptionRetrieveSecretResponse(secret, additionalProperties.toUnmodifiable())
     }
 }

@@ -8,8 +8,8 @@ class SubscriptionRetrieveSecretResponseTest {
     @Test
     fun createSubscriptionRetrieveSecretResponse() {
         val subscriptionRetrieveSecretResponse =
-            SubscriptionRetrieveSecretResponse.builder().key("string").build()
+            SubscriptionRetrieveSecretResponse.builder().secret("string").build()
         assertThat(subscriptionRetrieveSecretResponse).isNotNull
-        assertThat(subscriptionRetrieveSecretResponse.key()).contains("string")
+        assertThat(subscriptionRetrieveSecretResponse.secret()).contains("string")
     }
 }
