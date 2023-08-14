@@ -107,7 +107,7 @@ constructor(
         private var pageSize: Long? = null
         private var startingAfter: String? = null
         private var endingBefore: String? = null
-        private var eventTypes: List<EventType>? = null
+        private var eventTypes: MutableList<EventType> = mutableListOf()
         private var withContent: Boolean? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -119,7 +119,7 @@ constructor(
             this.pageSize = eventListParams.pageSize
             this.startingAfter = eventListParams.startingAfter
             this.endingBefore = eventListParams.endingBefore
-            this.eventTypes = eventListParams.eventTypes
+            this.eventTypes(eventListParams.eventTypes ?: listOf())
             this.withContent = eventListParams.withContent
             additionalQueryParams(eventListParams.additionalQueryParams)
             additionalHeaders(eventListParams.additionalHeaders)
@@ -153,7 +153,13 @@ constructor(
         fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
         /** Event types to filter events by. */
-        fun eventTypes(eventTypes: List<EventType>) = apply { this.eventTypes = eventTypes }
+        fun eventTypes(eventTypes: List<EventType>) = apply {
+            this.eventTypes.clear()
+            this.eventTypes.addAll(eventTypes)
+        }
+
+        /** Event types to filter events by. */
+        fun addEventType(eventType: EventType) = apply { this.eventTypes.add(eventType) }
 
         /** Whether to include the event payload content in the response. */
         fun withContent(withContent: Boolean) = apply { this.withContent = withContent }
@@ -205,7 +211,7 @@ constructor(
                 pageSize,
                 startingAfter,
                 endingBefore,
-                eventTypes?.toUnmodifiable(),
+                if (eventTypes.size == 0) null else eventTypes.toUnmodifiable(),
                 withContent,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),

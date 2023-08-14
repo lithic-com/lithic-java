@@ -119,11 +119,11 @@ constructor(
     class Builder {
 
         private var accountToken: String? = null
-        private var ownerTypes: List<OwnerType>? = null
-        private var accountTypes: List<AccountType>? = null
-        private var states: List<AccountState>? = null
-        private var verificationStates: List<VerificationState>? = null
-        private var countries: List<String>? = null
+        private var ownerTypes: MutableList<OwnerType> = mutableListOf()
+        private var accountTypes: MutableList<AccountType> = mutableListOf()
+        private var states: MutableList<AccountState> = mutableListOf()
+        private var verificationStates: MutableList<VerificationState> = mutableListOf()
+        private var countries: MutableList<String> = mutableListOf()
         private var pageSize: Long? = null
         private var startingAfter: String? = null
         private var endingBefore: String? = null
@@ -133,11 +133,11 @@ constructor(
         @JvmSynthetic
         internal fun from(externalBankAccountListParams: ExternalBankAccountListParams) = apply {
             this.accountToken = externalBankAccountListParams.accountToken
-            this.ownerTypes = externalBankAccountListParams.ownerTypes
-            this.accountTypes = externalBankAccountListParams.accountTypes
-            this.states = externalBankAccountListParams.states
-            this.verificationStates = externalBankAccountListParams.verificationStates
-            this.countries = externalBankAccountListParams.countries
+            this.ownerTypes(externalBankAccountListParams.ownerTypes ?: listOf())
+            this.accountTypes(externalBankAccountListParams.accountTypes ?: listOf())
+            this.states(externalBankAccountListParams.states ?: listOf())
+            this.verificationStates(externalBankAccountListParams.verificationStates ?: listOf())
+            this.countries(externalBankAccountListParams.countries ?: listOf())
             this.pageSize = externalBankAccountListParams.pageSize
             this.startingAfter = externalBankAccountListParams.startingAfter
             this.endingBefore = externalBankAccountListParams.endingBefore
@@ -147,19 +147,42 @@ constructor(
 
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
-        fun ownerTypes(ownerTypes: List<OwnerType>) = apply { this.ownerTypes = ownerTypes }
+        fun ownerTypes(ownerTypes: List<OwnerType>) = apply {
+            this.ownerTypes.clear()
+            this.ownerTypes.addAll(ownerTypes)
+        }
+
+        fun addOwnerType(ownerType: OwnerType) = apply { this.ownerTypes.add(ownerType) }
 
         fun accountTypes(accountTypes: List<AccountType>) = apply {
-            this.accountTypes = accountTypes
+            this.accountTypes.clear()
+            this.accountTypes.addAll(accountTypes)
         }
 
-        fun states(states: List<AccountState>) = apply { this.states = states }
+        fun addAccountType(accountType: AccountType) = apply { this.accountTypes.add(accountType) }
+
+        fun states(states: List<AccountState>) = apply {
+            this.states.clear()
+            this.states.addAll(states)
+        }
+
+        fun addState(state: AccountState) = apply { this.states.add(state) }
 
         fun verificationStates(verificationStates: List<VerificationState>) = apply {
-            this.verificationStates = verificationStates
+            this.verificationStates.clear()
+            this.verificationStates.addAll(verificationStates)
         }
 
-        fun countries(countries: List<String>) = apply { this.countries = countries }
+        fun addVerificationState(verificationState: VerificationState) = apply {
+            this.verificationStates.add(verificationState)
+        }
+
+        fun countries(countries: List<String>) = apply {
+            this.countries.clear()
+            this.countries.addAll(countries)
+        }
+
+        fun addCountry(country: String) = apply { this.countries.add(country) }
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
@@ -219,11 +242,11 @@ constructor(
         fun build(): ExternalBankAccountListParams =
             ExternalBankAccountListParams(
                 accountToken,
-                ownerTypes?.toUnmodifiable(),
-                accountTypes?.toUnmodifiable(),
-                states?.toUnmodifiable(),
-                verificationStates?.toUnmodifiable(),
-                countries?.toUnmodifiable(),
+                if (ownerTypes.size == 0) null else ownerTypes.toUnmodifiable(),
+                if (accountTypes.size == 0) null else accountTypes.toUnmodifiable(),
+                if (states.size == 0) null else states.toUnmodifiable(),
+                if (verificationStates.size == 0) null else verificationStates.toUnmodifiable(),
+                if (countries.size == 0) null else countries.toUnmodifiable(),
                 pageSize,
                 startingAfter,
                 endingBefore,

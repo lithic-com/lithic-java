@@ -260,10 +260,10 @@ constructor(
     class Builder {
 
         private var authRuleToken: String? = null
-        private var allowedMcc: List<String>? = null
-        private var blockedMcc: List<String>? = null
-        private var allowedCountries: List<String>? = null
-        private var blockedCountries: List<String>? = null
+        private var allowedMcc: MutableList<String> = mutableListOf()
+        private var blockedMcc: MutableList<String> = mutableListOf()
+        private var allowedCountries: MutableList<String> = mutableListOf()
+        private var blockedCountries: MutableList<String> = mutableListOf()
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -271,10 +271,10 @@ constructor(
         @JvmSynthetic
         internal fun from(authRuleUpdateParams: AuthRuleUpdateParams) = apply {
             this.authRuleToken = authRuleUpdateParams.authRuleToken
-            this.allowedMcc = authRuleUpdateParams.allowedMcc
-            this.blockedMcc = authRuleUpdateParams.blockedMcc
-            this.allowedCountries = authRuleUpdateParams.allowedCountries
-            this.blockedCountries = authRuleUpdateParams.blockedCountries
+            this.allowedMcc(authRuleUpdateParams.allowedMcc ?: listOf())
+            this.blockedMcc(authRuleUpdateParams.blockedMcc ?: listOf())
+            this.allowedCountries(authRuleUpdateParams.allowedCountries ?: listOf())
+            this.blockedCountries(authRuleUpdateParams.blockedCountries ?: listOf())
             additionalQueryParams(authRuleUpdateParams.additionalQueryParams)
             additionalHeaders(authRuleUpdateParams.additionalHeaders)
             additionalBodyProperties(authRuleUpdateParams.additionalBodyProperties)
@@ -286,21 +286,49 @@ constructor(
          * Array of merchant category codes for which the Auth Rule will permit transactions. Note
          * that only this field or `blocked_mcc` can be used for a given Auth Rule.
          */
-        fun allowedMcc(allowedMcc: List<String>) = apply { this.allowedMcc = allowedMcc }
+        fun allowedMcc(allowedMcc: List<String>) = apply {
+            this.allowedMcc.clear()
+            this.allowedMcc.addAll(allowedMcc)
+        }
+
+        /**
+         * Array of merchant category codes for which the Auth Rule will permit transactions. Note
+         * that only this field or `blocked_mcc` can be used for a given Auth Rule.
+         */
+        fun addAllowedMcc(allowedMcc: String) = apply { this.allowedMcc.add(allowedMcc) }
 
         /**
          * Array of merchant category codes for which the Auth Rule will automatically decline
          * transactions. Note that only this field or `allowed_mcc` can be used for a given Auth
          * Rule.
          */
-        fun blockedMcc(blockedMcc: List<String>) = apply { this.blockedMcc = blockedMcc }
+        fun blockedMcc(blockedMcc: List<String>) = apply {
+            this.blockedMcc.clear()
+            this.blockedMcc.addAll(blockedMcc)
+        }
+
+        /**
+         * Array of merchant category codes for which the Auth Rule will automatically decline
+         * transactions. Note that only this field or `allowed_mcc` can be used for a given Auth
+         * Rule.
+         */
+        fun addBlockedMcc(blockedMcc: String) = apply { this.blockedMcc.add(blockedMcc) }
 
         /**
          * Array of country codes for which the Auth Rule will permit transactions. Note that only
          * this field or `blocked_countries` can be used for a given Auth Rule.
          */
         fun allowedCountries(allowedCountries: List<String>) = apply {
-            this.allowedCountries = allowedCountries
+            this.allowedCountries.clear()
+            this.allowedCountries.addAll(allowedCountries)
+        }
+
+        /**
+         * Array of country codes for which the Auth Rule will permit transactions. Note that only
+         * this field or `blocked_countries` can be used for a given Auth Rule.
+         */
+        fun addAllowedCountry(allowedCountry: String) = apply {
+            this.allowedCountries.add(allowedCountry)
         }
 
         /**
@@ -308,7 +336,16 @@ constructor(
          * Note that only this field or `allowed_countries` can be used for a given Auth Rule.
          */
         fun blockedCountries(blockedCountries: List<String>) = apply {
-            this.blockedCountries = blockedCountries
+            this.blockedCountries.clear()
+            this.blockedCountries.addAll(blockedCountries)
+        }
+
+        /**
+         * Array of country codes for which the Auth Rule will automatically decline transactions.
+         * Note that only this field or `allowed_countries` can be used for a given Auth Rule.
+         */
+        fun addBlockedCountry(blockedCountry: String) = apply {
+            this.blockedCountries.add(blockedCountry)
         }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
@@ -368,10 +405,10 @@ constructor(
         fun build(): AuthRuleUpdateParams =
             AuthRuleUpdateParams(
                 checkNotNull(authRuleToken) { "`authRuleToken` is required but was not set" },
-                allowedMcc?.toUnmodifiable(),
-                blockedMcc?.toUnmodifiable(),
-                allowedCountries?.toUnmodifiable(),
-                blockedCountries?.toUnmodifiable(),
+                if (allowedMcc.size == 0) null else allowedMcc.toUnmodifiable(),
+                if (blockedMcc.size == 0) null else blockedMcc.toUnmodifiable(),
+                if (allowedCountries.size == 0) null else allowedCountries.toUnmodifiable(),
+                if (blockedCountries.size == 0) null else blockedCountries.toUnmodifiable(),
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

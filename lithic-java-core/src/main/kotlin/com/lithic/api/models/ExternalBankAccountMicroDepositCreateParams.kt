@@ -167,7 +167,7 @@ constructor(
     class Builder {
 
         private var externalBankAccountToken: String? = null
-        private var microDeposits: List<Long>? = null
+        private var microDeposits: MutableList<Long> = mutableListOf()
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -178,7 +178,7 @@ constructor(
         ) = apply {
             this.externalBankAccountToken =
                 externalBankAccountMicroDepositCreateParams.externalBankAccountToken
-            this.microDeposits = externalBankAccountMicroDepositCreateParams.microDeposits
+            this.microDeposits(externalBankAccountMicroDepositCreateParams.microDeposits)
             additionalQueryParams(externalBankAccountMicroDepositCreateParams.additionalQueryParams)
             additionalHeaders(externalBankAccountMicroDepositCreateParams.additionalHeaders)
             additionalBodyProperties(
@@ -190,7 +190,12 @@ constructor(
             this.externalBankAccountToken = externalBankAccountToken
         }
 
-        fun microDeposits(microDeposits: List<Long>) = apply { this.microDeposits = microDeposits }
+        fun microDeposits(microDeposits: List<Long>) = apply {
+            this.microDeposits.clear()
+            this.microDeposits.addAll(microDeposits)
+        }
+
+        fun addMicroDeposit(microDeposit: Long) = apply { this.microDeposits.add(microDeposit) }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
