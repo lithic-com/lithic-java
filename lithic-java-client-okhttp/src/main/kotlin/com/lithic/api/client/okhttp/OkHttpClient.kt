@@ -165,7 +165,8 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
     class Builder {
 
         private var baseUrl: HttpUrl? = null
-        private var timeout: Duration = Duration.ofMinutes(5)
+        // default timeout is 1 minute
+        private var timeout: Duration = Duration.ofSeconds(60)
         private var proxy: Proxy? = null
 
         fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl.toHttpUrl() }
