@@ -224,8 +224,8 @@ constructor(
     class Builder {
 
         private var authRuleToken: String? = null
-        private var cardTokens: List<String>? = null
-        private var accountTokens: List<String>? = null
+        private var cardTokens: MutableList<String> = mutableListOf()
+        private var accountTokens: MutableList<String> = mutableListOf()
         private var programLevel: Boolean? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -234,8 +234,8 @@ constructor(
         @JvmSynthetic
         internal fun from(authRuleApplyParams: AuthRuleApplyParams) = apply {
             this.authRuleToken = authRuleApplyParams.authRuleToken
-            this.cardTokens = authRuleApplyParams.cardTokens
-            this.accountTokens = authRuleApplyParams.accountTokens
+            this.cardTokens(authRuleApplyParams.cardTokens ?: listOf())
+            this.accountTokens(authRuleApplyParams.accountTokens ?: listOf())
             this.programLevel = authRuleApplyParams.programLevel
             additionalQueryParams(authRuleApplyParams.additionalQueryParams)
             additionalHeaders(authRuleApplyParams.additionalHeaders)
@@ -248,15 +248,31 @@ constructor(
          * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
          * only this field or `account_tokens` can be provided for a given Auth Rule.
          */
-        fun cardTokens(cardTokens: List<String>) = apply { this.cardTokens = cardTokens }
+        fun cardTokens(cardTokens: List<String>) = apply {
+            this.cardTokens.clear()
+            this.cardTokens.addAll(cardTokens)
+        }
+
+        /**
+         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
+         * only this field or `account_tokens` can be provided for a given Auth Rule.
+         */
+        fun addCardToken(cardToken: String) = apply { this.cardTokens.add(cardToken) }
 
         /**
          * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
          * that only this field or `card_tokens` can be provided for a given Auth Rule.
          */
         fun accountTokens(accountTokens: List<String>) = apply {
-            this.accountTokens = accountTokens
+            this.accountTokens.clear()
+            this.accountTokens.addAll(accountTokens)
         }
+
+        /**
+         * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
+         * that only this field or `card_tokens` can be provided for a given Auth Rule.
+         */
+        fun addAccountToken(accountToken: String) = apply { this.accountTokens.add(accountToken) }
 
         /** Boolean indicating whether the Auth Rule is applied at the program level. */
         fun programLevel(programLevel: Boolean) = apply { this.programLevel = programLevel }
@@ -318,8 +334,8 @@ constructor(
         fun build(): AuthRuleApplyParams =
             AuthRuleApplyParams(
                 checkNotNull(authRuleToken) { "`authRuleToken` is required but was not set" },
-                cardTokens?.toUnmodifiable(),
-                accountTokens?.toUnmodifiable(),
+                if (cardTokens.size == 0) null else cardTokens.toUnmodifiable(),
+                if (accountTokens.size == 0) null else accountTokens.toUnmodifiable(),
                 programLevel,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),

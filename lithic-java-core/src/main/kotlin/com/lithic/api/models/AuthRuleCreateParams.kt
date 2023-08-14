@@ -301,12 +301,12 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var allowedMcc: List<String>? = null
-        private var blockedMcc: List<String>? = null
-        private var allowedCountries: List<String>? = null
-        private var blockedCountries: List<String>? = null
-        private var accountTokens: List<String>? = null
-        private var cardTokens: List<String>? = null
+        private var allowedMcc: MutableList<String> = mutableListOf()
+        private var blockedMcc: MutableList<String> = mutableListOf()
+        private var allowedCountries: MutableList<String> = mutableListOf()
+        private var blockedCountries: MutableList<String> = mutableListOf()
+        private var accountTokens: MutableList<String> = mutableListOf()
+        private var cardTokens: MutableList<String> = mutableListOf()
         private var programLevel: Boolean? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -314,12 +314,12 @@ constructor(
 
         @JvmSynthetic
         internal fun from(authRuleCreateParams: AuthRuleCreateParams) = apply {
-            this.allowedMcc = authRuleCreateParams.allowedMcc
-            this.blockedMcc = authRuleCreateParams.blockedMcc
-            this.allowedCountries = authRuleCreateParams.allowedCountries
-            this.blockedCountries = authRuleCreateParams.blockedCountries
-            this.accountTokens = authRuleCreateParams.accountTokens
-            this.cardTokens = authRuleCreateParams.cardTokens
+            this.allowedMcc(authRuleCreateParams.allowedMcc ?: listOf())
+            this.blockedMcc(authRuleCreateParams.blockedMcc ?: listOf())
+            this.allowedCountries(authRuleCreateParams.allowedCountries ?: listOf())
+            this.blockedCountries(authRuleCreateParams.blockedCountries ?: listOf())
+            this.accountTokens(authRuleCreateParams.accountTokens ?: listOf())
+            this.cardTokens(authRuleCreateParams.cardTokens ?: listOf())
             this.programLevel = authRuleCreateParams.programLevel
             additionalQueryParams(authRuleCreateParams.additionalQueryParams)
             additionalHeaders(authRuleCreateParams.additionalHeaders)
@@ -327,10 +327,22 @@ constructor(
         }
 
         /** Merchant category codes for which the Auth Rule permits transactions. */
-        fun allowedMcc(allowedMcc: List<String>) = apply { this.allowedMcc = allowedMcc }
+        fun allowedMcc(allowedMcc: List<String>) = apply {
+            this.allowedMcc.clear()
+            this.allowedMcc.addAll(allowedMcc)
+        }
+
+        /** Merchant category codes for which the Auth Rule permits transactions. */
+        fun addAllowedMcc(allowedMcc: String) = apply { this.allowedMcc.add(allowedMcc) }
 
         /** Merchant category codes for which the Auth Rule automatically declines transactions. */
-        fun blockedMcc(blockedMcc: List<String>) = apply { this.blockedMcc = blockedMcc }
+        fun blockedMcc(blockedMcc: List<String>) = apply {
+            this.blockedMcc.clear()
+            this.blockedMcc.addAll(blockedMcc)
+        }
+
+        /** Merchant category codes for which the Auth Rule automatically declines transactions. */
+        fun addBlockedMcc(blockedMcc: String) = apply { this.blockedMcc.add(blockedMcc) }
 
         /**
          * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a list
@@ -338,12 +350,28 @@ constructor(
          * Rule does not override the Lithic-wide restrictions.
          */
         fun allowedCountries(allowedCountries: List<String>) = apply {
-            this.allowedCountries = allowedCountries
+            this.allowedCountries.clear()
+            this.allowedCountries.addAll(allowedCountries)
+        }
+
+        /**
+         * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a list
+         * of countries in which all transactions are blocked; "allowing" those countries in an Auth
+         * Rule does not override the Lithic-wide restrictions.
+         */
+        fun addAllowedCountry(allowedCountry: String) = apply {
+            this.allowedCountries.add(allowedCountry)
         }
 
         /** Countries in which the Auth Rule automatically declines transactions. */
         fun blockedCountries(blockedCountries: List<String>) = apply {
-            this.blockedCountries = blockedCountries
+            this.blockedCountries.clear()
+            this.blockedCountries.addAll(blockedCountries)
+        }
+
+        /** Countries in which the Auth Rule automatically declines transactions. */
+        fun addBlockedCountry(blockedCountry: String) = apply {
+            this.blockedCountries.add(blockedCountry)
         }
 
         /**
@@ -351,14 +379,30 @@ constructor(
          * that only this field or `card_tokens` can be provided for a given Auth Rule.
          */
         fun accountTokens(accountTokens: List<String>) = apply {
-            this.accountTokens = accountTokens
+            this.accountTokens.clear()
+            this.accountTokens.addAll(accountTokens)
+        }
+
+        /**
+         * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
+         * that only this field or `card_tokens` can be provided for a given Auth Rule.
+         */
+        fun addAccountToken(accountToken: String) = apply { this.accountTokens.add(accountToken) }
+
+        /**
+         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
+         * only this field or `account_tokens` can be provided for a given Auth Rule.
+         */
+        fun cardTokens(cardTokens: List<String>) = apply {
+            this.cardTokens.clear()
+            this.cardTokens.addAll(cardTokens)
         }
 
         /**
          * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
          * only this field or `account_tokens` can be provided for a given Auth Rule.
          */
-        fun cardTokens(cardTokens: List<String>) = apply { this.cardTokens = cardTokens }
+        fun addCardToken(cardToken: String) = apply { this.cardTokens.add(cardToken) }
 
         /** Boolean indicating whether the Auth Rule is applied at the program level. */
         fun programLevel(programLevel: Boolean) = apply { this.programLevel = programLevel }
@@ -419,12 +463,12 @@ constructor(
 
         fun build(): AuthRuleCreateParams =
             AuthRuleCreateParams(
-                allowedMcc?.toUnmodifiable(),
-                blockedMcc?.toUnmodifiable(),
-                allowedCountries?.toUnmodifiable(),
-                blockedCountries?.toUnmodifiable(),
-                accountTokens?.toUnmodifiable(),
-                cardTokens?.toUnmodifiable(),
+                if (allowedMcc.size == 0) null else allowedMcc.toUnmodifiable(),
+                if (blockedMcc.size == 0) null else blockedMcc.toUnmodifiable(),
+                if (allowedCountries.size == 0) null else allowedCountries.toUnmodifiable(),
+                if (blockedCountries.size == 0) null else blockedCountries.toUnmodifiable(),
+                if (accountTokens.size == 0) null else accountTokens.toUnmodifiable(),
+                if (cardTokens.size == 0) null else cardTokens.toUnmodifiable(),
                 programLevel,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),

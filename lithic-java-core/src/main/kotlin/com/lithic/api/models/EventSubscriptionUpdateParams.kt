@@ -239,7 +239,7 @@ constructor(
         private var eventSubscriptionToken: String? = null
         private var description: String? = null
         private var disabled: Boolean? = null
-        private var eventTypes: List<EventType>? = null
+        private var eventTypes: MutableList<EventType> = mutableListOf()
         private var url: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -250,7 +250,7 @@ constructor(
             this.eventSubscriptionToken = eventSubscriptionUpdateParams.eventSubscriptionToken
             this.description = eventSubscriptionUpdateParams.description
             this.disabled = eventSubscriptionUpdateParams.disabled
-            this.eventTypes = eventSubscriptionUpdateParams.eventTypes
+            this.eventTypes(eventSubscriptionUpdateParams.eventTypes ?: listOf())
             this.url = eventSubscriptionUpdateParams.url
             additionalQueryParams(eventSubscriptionUpdateParams.additionalQueryParams)
             additionalHeaders(eventSubscriptionUpdateParams.additionalHeaders)
@@ -271,7 +271,16 @@ constructor(
          * Indicates types of events that will be sent to this subscription. If left blank, all
          * types will be sent.
          */
-        fun eventTypes(eventTypes: List<EventType>) = apply { this.eventTypes = eventTypes }
+        fun eventTypes(eventTypes: List<EventType>) = apply {
+            this.eventTypes.clear()
+            this.eventTypes.addAll(eventTypes)
+        }
+
+        /**
+         * Indicates types of events that will be sent to this subscription. If left blank, all
+         * types will be sent.
+         */
+        fun addEventType(eventType: EventType) = apply { this.eventTypes.add(eventType) }
 
         /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
         fun url(url: String) = apply { this.url = url }
@@ -337,7 +346,7 @@ constructor(
                 },
                 description,
                 disabled,
-                eventTypes?.toUnmodifiable(),
+                if (eventTypes.size == 0) null else eventTypes.toUnmodifiable(),
                 checkNotNull(url) { "`url` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
