@@ -56,6 +56,9 @@
       "hidden": true
     }
   ],
+  "reviewers": [
+    "marcel-stainless"
+  ],
   "release-type": "simple",
   "extra-files": [
     "README.md",
