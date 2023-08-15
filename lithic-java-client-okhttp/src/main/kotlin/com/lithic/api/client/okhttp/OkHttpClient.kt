@@ -33,7 +33,13 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
 
     private fun getClient(requestOptions: RequestOptions): okhttp3.OkHttpClient {
         val timeout = requestOptions.timeout ?: return okHttpClient
-        return okHttpClient.newBuilder().callTimeout(timeout).build()
+        return okHttpClient
+            .newBuilder()
+            .connectTimeout(timeout)
+            .readTimeout(timeout)
+            .writeTimeout(timeout)
+            .callTimeout(if (timeout.seconds == 0L) timeout else timeout.plusSeconds(30))
+            .build()
     }
 
     override fun execute(
@@ -177,7 +183,13 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
 
         fun build(): OkHttpClient {
             return OkHttpClient(
-                okhttp3.OkHttpClient.Builder().callTimeout(timeout).proxy(proxy).build(),
+                okhttp3.OkHttpClient.Builder()
+                    .connectTimeout(timeout)
+                    .readTimeout(timeout)
+                    .writeTimeout(timeout)
+                    .callTimeout(if (timeout.seconds == 0L) timeout else timeout.plusSeconds(30))
+                    .proxy(proxy)
+                    .build(),
                 checkNotNull(baseUrl) { "`baseUrl` is required but was not set" },
             )
         }
