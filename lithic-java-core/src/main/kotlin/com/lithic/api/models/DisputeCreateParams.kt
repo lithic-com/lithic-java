@@ -19,9 +19,9 @@ import java.util.Optional
 class DisputeCreateParams
 constructor(
     private val amount: Long,
-    private val customerFiledDate: OffsetDateTime?,
     private val reason: Reason,
     private val transactionToken: String,
+    private val customerFiledDate: OffsetDateTime?,
     private val customerNote: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
@@ -30,11 +30,11 @@ constructor(
 
     fun amount(): Long = amount
 
-    fun customerFiledDate(): Optional<OffsetDateTime> = Optional.ofNullable(customerFiledDate)
-
     fun reason(): Reason = reason
 
     fun transactionToken(): String = transactionToken
+
+    fun customerFiledDate(): Optional<OffsetDateTime> = Optional.ofNullable(customerFiledDate)
 
     fun customerNote(): Optional<String> = Optional.ofNullable(customerNote)
 
@@ -42,9 +42,9 @@ constructor(
     internal fun getBody(): DisputeCreateBody {
         return DisputeCreateBody(
             amount,
-            customerFiledDate,
             reason,
             transactionToken,
+            customerFiledDate,
             customerNote,
             additionalBodyProperties,
         )
@@ -59,9 +59,9 @@ constructor(
     class DisputeCreateBody
     internal constructor(
         private val amount: Long?,
-        private val customerFiledDate: OffsetDateTime?,
         private val reason: Reason?,
         private val transactionToken: String?,
+        private val customerFiledDate: OffsetDateTime?,
         private val customerNote: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
@@ -71,15 +71,15 @@ constructor(
         /** Amount to dispute */
         @JsonProperty("amount") fun amount(): Long? = amount
 
-        /** Date the customer filed the dispute */
-        @JsonProperty("customer_filed_date")
-        fun customerFiledDate(): OffsetDateTime? = customerFiledDate
-
         /** Reason for dispute */
         @JsonProperty("reason") fun reason(): Reason? = reason
 
         /** Transaction to dispute */
         @JsonProperty("transaction_token") fun transactionToken(): String? = transactionToken
+
+        /** Date the customer filed the dispute */
+        @JsonProperty("customer_filed_date")
+        fun customerFiledDate(): OffsetDateTime? = customerFiledDate
 
         /** Customer description of dispute */
         @JsonProperty("customer_note") fun customerNote(): String? = customerNote
@@ -97,9 +97,9 @@ constructor(
 
             return other is DisputeCreateBody &&
                 this.amount == other.amount &&
-                this.customerFiledDate == other.customerFiledDate &&
                 this.reason == other.reason &&
                 this.transactionToken == other.transactionToken &&
+                this.customerFiledDate == other.customerFiledDate &&
                 this.customerNote == other.customerNote &&
                 this.additionalProperties == other.additionalProperties
         }
@@ -109,9 +109,9 @@ constructor(
                 hashCode =
                     Objects.hash(
                         amount,
-                        customerFiledDate,
                         reason,
                         transactionToken,
+                        customerFiledDate,
                         customerNote,
                         additionalProperties,
                     )
@@ -120,7 +120,7 @@ constructor(
         }
 
         override fun toString() =
-            "DisputeCreateBody{amount=$amount, customerFiledDate=$customerFiledDate, reason=$reason, transactionToken=$transactionToken, customerNote=$customerNote, additionalProperties=$additionalProperties}"
+            "DisputeCreateBody{amount=$amount, reason=$reason, transactionToken=$transactionToken, customerFiledDate=$customerFiledDate, customerNote=$customerNote, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -130,30 +130,24 @@ constructor(
         class Builder {
 
             private var amount: Long? = null
-            private var customerFiledDate: OffsetDateTime? = null
             private var reason: Reason? = null
             private var transactionToken: String? = null
+            private var customerFiledDate: OffsetDateTime? = null
             private var customerNote: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(disputeCreateBody: DisputeCreateBody) = apply {
                 this.amount = disputeCreateBody.amount
-                this.customerFiledDate = disputeCreateBody.customerFiledDate
                 this.reason = disputeCreateBody.reason
                 this.transactionToken = disputeCreateBody.transactionToken
+                this.customerFiledDate = disputeCreateBody.customerFiledDate
                 this.customerNote = disputeCreateBody.customerNote
                 additionalProperties(disputeCreateBody.additionalProperties)
             }
 
             /** Amount to dispute */
             @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
-
-            /** Date the customer filed the dispute */
-            @JsonProperty("customer_filed_date")
-            fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
-                this.customerFiledDate = customerFiledDate
-            }
 
             /** Reason for dispute */
             @JsonProperty("reason") fun reason(reason: Reason) = apply { this.reason = reason }
@@ -162,6 +156,12 @@ constructor(
             @JsonProperty("transaction_token")
             fun transactionToken(transactionToken: String) = apply {
                 this.transactionToken = transactionToken
+            }
+
+            /** Date the customer filed the dispute */
+            @JsonProperty("customer_filed_date")
+            fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
+                this.customerFiledDate = customerFiledDate
             }
 
             /** Customer description of dispute */
@@ -185,11 +185,11 @@ constructor(
             fun build(): DisputeCreateBody =
                 DisputeCreateBody(
                     checkNotNull(amount) { "`amount` is required but was not set" },
-                    customerFiledDate,
                     checkNotNull(reason) { "`reason` is required but was not set" },
                     checkNotNull(transactionToken) {
                         "`transactionToken` is required but was not set"
                     },
+                    customerFiledDate,
                     customerNote,
                     additionalProperties.toUnmodifiable(),
                 )
@@ -209,9 +209,9 @@ constructor(
 
         return other is DisputeCreateParams &&
             this.amount == other.amount &&
-            this.customerFiledDate == other.customerFiledDate &&
             this.reason == other.reason &&
             this.transactionToken == other.transactionToken &&
+            this.customerFiledDate == other.customerFiledDate &&
             this.customerNote == other.customerNote &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
@@ -221,9 +221,9 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             amount,
-            customerFiledDate,
             reason,
             transactionToken,
+            customerFiledDate,
             customerNote,
             additionalQueryParams,
             additionalHeaders,
@@ -232,7 +232,7 @@ constructor(
     }
 
     override fun toString() =
-        "DisputeCreateParams{amount=$amount, customerFiledDate=$customerFiledDate, reason=$reason, transactionToken=$transactionToken, customerNote=$customerNote, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "DisputeCreateParams{amount=$amount, reason=$reason, transactionToken=$transactionToken, customerFiledDate=$customerFiledDate, customerNote=$customerNote, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -245,9 +245,9 @@ constructor(
     class Builder {
 
         private var amount: Long? = null
-        private var customerFiledDate: OffsetDateTime? = null
         private var reason: Reason? = null
         private var transactionToken: String? = null
+        private var customerFiledDate: OffsetDateTime? = null
         private var customerNote: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -256,9 +256,9 @@ constructor(
         @JvmSynthetic
         internal fun from(disputeCreateParams: DisputeCreateParams) = apply {
             this.amount = disputeCreateParams.amount
-            this.customerFiledDate = disputeCreateParams.customerFiledDate
             this.reason = disputeCreateParams.reason
             this.transactionToken = disputeCreateParams.transactionToken
+            this.customerFiledDate = disputeCreateParams.customerFiledDate
             this.customerNote = disputeCreateParams.customerNote
             additionalQueryParams(disputeCreateParams.additionalQueryParams)
             additionalHeaders(disputeCreateParams.additionalHeaders)
@@ -268,17 +268,17 @@ constructor(
         /** Amount to dispute */
         fun amount(amount: Long) = apply { this.amount = amount }
 
-        /** Date the customer filed the dispute */
-        fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
-            this.customerFiledDate = customerFiledDate
-        }
-
         /** Reason for dispute */
         fun reason(reason: Reason) = apply { this.reason = reason }
 
         /** Transaction to dispute */
         fun transactionToken(transactionToken: String) = apply {
             this.transactionToken = transactionToken
+        }
+
+        /** Date the customer filed the dispute */
+        fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
+            this.customerFiledDate = customerFiledDate
         }
 
         /** Customer description of dispute */
@@ -341,9 +341,9 @@ constructor(
         fun build(): DisputeCreateParams =
             DisputeCreateParams(
                 checkNotNull(amount) { "`amount` is required but was not set" },
-                customerFiledDate,
                 checkNotNull(reason) { "`reason` is required but was not set" },
                 checkNotNull(transactionToken) { "`transactionToken` is required but was not set" },
+                customerFiledDate,
                 customerNote,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),

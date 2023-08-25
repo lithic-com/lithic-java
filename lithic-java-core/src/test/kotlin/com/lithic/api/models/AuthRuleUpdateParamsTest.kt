@@ -10,10 +10,10 @@ class AuthRuleUpdateParamsTest {
     fun createAuthRuleUpdateParams() {
         AuthRuleUpdateParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .allowedMcc(listOf("string"))
-            .blockedMcc(listOf("string"))
             .allowedCountries(listOf("string"))
+            .allowedMcc(listOf("string"))
             .blockedCountries(listOf("string"))
+            .blockedMcc(listOf("string"))
             .build()
     }
 
@@ -22,17 +22,17 @@ class AuthRuleUpdateParamsTest {
         val params =
             AuthRuleUpdateParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .allowedMcc(listOf("string"))
-                .blockedMcc(listOf("string"))
                 .allowedCountries(listOf("string"))
+                .allowedMcc(listOf("string"))
                 .blockedCountries(listOf("string"))
+                .blockedMcc(listOf("string"))
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.allowedMcc()).isEqualTo(listOf("string"))
-        assertThat(body.blockedMcc()).isEqualTo(listOf("string"))
         assertThat(body.allowedCountries()).isEqualTo(listOf("string"))
+        assertThat(body.allowedMcc()).isEqualTo(listOf("string"))
         assertThat(body.blockedCountries()).isEqualTo(listOf("string"))
+        assertThat(body.blockedMcc()).isEqualTo(listOf("string"))
     }
 
     @Test

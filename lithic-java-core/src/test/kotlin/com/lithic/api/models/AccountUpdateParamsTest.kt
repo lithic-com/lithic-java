@@ -13,6 +13,7 @@ class AccountUpdateParamsTest {
             .dailySpendLimit(123L)
             .lifetimeSpendLimit(123L)
             .monthlySpendLimit(123L)
+            .state(AccountUpdateParams.State.ACTIVE)
             .verificationAddress(
                 AccountUpdateParams.VerificationAddress.builder()
                     .address1("string")
@@ -23,7 +24,6 @@ class AccountUpdateParamsTest {
                     .state("string")
                     .build()
             )
-            .state(AccountUpdateParams.State.ACTIVE)
             .build()
     }
 
@@ -35,6 +35,7 @@ class AccountUpdateParamsTest {
                 .dailySpendLimit(123L)
                 .lifetimeSpendLimit(123L)
                 .monthlySpendLimit(123L)
+                .state(AccountUpdateParams.State.ACTIVE)
                 .verificationAddress(
                     AccountUpdateParams.VerificationAddress.builder()
                         .address1("string")
@@ -45,13 +46,13 @@ class AccountUpdateParamsTest {
                         .state("string")
                         .build()
                 )
-                .state(AccountUpdateParams.State.ACTIVE)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.dailySpendLimit()).isEqualTo(123L)
         assertThat(body.lifetimeSpendLimit()).isEqualTo(123L)
         assertThat(body.monthlySpendLimit()).isEqualTo(123L)
+        assertThat(body.state()).isEqualTo(AccountUpdateParams.State.ACTIVE)
         assertThat(body.verificationAddress())
             .isEqualTo(
                 AccountUpdateParams.VerificationAddress.builder()
@@ -63,7 +64,6 @@ class AccountUpdateParamsTest {
                     .state("string")
                     .build()
             )
-        assertThat(body.state()).isEqualTo(AccountUpdateParams.State.ACTIVE)
     }
 
     @Test

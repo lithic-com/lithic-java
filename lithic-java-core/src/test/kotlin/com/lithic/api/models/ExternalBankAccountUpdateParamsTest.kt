@@ -11,10 +11,6 @@ class ExternalBankAccountUpdateParamsTest {
     fun createExternalBankAccountUpdateParams() {
         ExternalBankAccountUpdateParams.builder()
             .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .owner("x")
-            .ownerType(OwnerType.INDIVIDUAL)
-            .name("x")
-            .companyId("x")
             .address(
                 ExternalBankAccountAddress.builder()
                     .address1("x")
@@ -25,8 +21,12 @@ class ExternalBankAccountUpdateParamsTest {
                     .address2("x")
                     .build()
             )
+            .companyId("x")
             .dob(LocalDate.parse("2019-12-27"))
             .doingBusinessAs("string")
+            .name("x")
+            .owner("x")
+            .ownerType(OwnerType.INDIVIDUAL)
             .build()
     }
 
@@ -35,10 +35,6 @@ class ExternalBankAccountUpdateParamsTest {
         val params =
             ExternalBankAccountUpdateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .owner("x")
-                .ownerType(OwnerType.INDIVIDUAL)
-                .name("x")
-                .companyId("x")
                 .address(
                     ExternalBankAccountAddress.builder()
                         .address1("x")
@@ -49,15 +45,15 @@ class ExternalBankAccountUpdateParamsTest {
                         .address2("x")
                         .build()
                 )
+                .companyId("x")
                 .dob(LocalDate.parse("2019-12-27"))
                 .doingBusinessAs("string")
+                .name("x")
+                .owner("x")
+                .ownerType(OwnerType.INDIVIDUAL)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.owner()).isEqualTo("x")
-        assertThat(body.ownerType()).isEqualTo(OwnerType.INDIVIDUAL)
-        assertThat(body.name()).isEqualTo("x")
-        assertThat(body.companyId()).isEqualTo("x")
         assertThat(body.address())
             .isEqualTo(
                 ExternalBankAccountAddress.builder()
@@ -69,8 +65,12 @@ class ExternalBankAccountUpdateParamsTest {
                     .address2("x")
                     .build()
             )
+        assertThat(body.companyId()).isEqualTo("x")
         assertThat(body.dob()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(body.doingBusinessAs()).isEqualTo("string")
+        assertThat(body.name()).isEqualTo("x")
+        assertThat(body.owner()).isEqualTo("x")
+        assertThat(body.ownerType()).isEqualTo(OwnerType.INDIVIDUAL)
     }
 
     @Test

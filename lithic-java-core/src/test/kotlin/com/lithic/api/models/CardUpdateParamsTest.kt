@@ -10,13 +10,13 @@ class CardUpdateParamsTest {
     fun createCardUpdateParams() {
         CardUpdateParams.builder()
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .authRuleToken("string")
+            .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
             .memo("New Card")
+            .pin("string")
             .spendLimit(123L)
             .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-            .authRuleToken("string")
             .state(CardUpdateParams.State.CLOSED)
-            .pin("string")
-            .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
             .build()
     }
 
@@ -25,23 +25,23 @@ class CardUpdateParamsTest {
         val params =
             CardUpdateParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .authRuleToken("string")
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .memo("New Card")
+                .pin("string")
                 .spendLimit(123L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .authRuleToken("string")
                 .state(CardUpdateParams.State.CLOSED)
-                .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
+        assertThat(body.authRuleToken()).isEqualTo("string")
+        assertThat(body.digitalCardArtToken()).isEqualTo("00000000-0000-0000-1000-000000000000")
         assertThat(body.memo()).isEqualTo("New Card")
+        assertThat(body.pin()).isEqualTo("string")
         assertThat(body.spendLimit()).isEqualTo(123L)
         assertThat(body.spendLimitDuration()).isEqualTo(SpendLimitDuration.ANNUALLY)
-        assertThat(body.authRuleToken()).isEqualTo("string")
         assertThat(body.state()).isEqualTo(CardUpdateParams.State.CLOSED)
-        assertThat(body.pin()).isEqualTo("string")
-        assertThat(body.digitalCardArtToken()).isEqualTo("00000000-0000-0000-1000-000000000000")
     }
 
     @Test

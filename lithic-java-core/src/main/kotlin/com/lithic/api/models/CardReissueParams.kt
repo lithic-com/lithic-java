@@ -18,10 +18,10 @@ import java.util.Optional
 class CardReissueParams
 constructor(
     private val cardToken: String,
+    private val carrier: Carrier?,
+    private val productId: String?,
     private val shippingAddress: ShippingAddress?,
     private val shippingMethod: ShippingMethod?,
-    private val productId: String?,
-    private val carrier: Carrier?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -29,21 +29,21 @@ constructor(
 
     fun cardToken(): String = cardToken
 
+    fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier)
+
+    fun productId(): Optional<String> = Optional.ofNullable(productId)
+
     fun shippingAddress(): Optional<ShippingAddress> = Optional.ofNullable(shippingAddress)
 
     fun shippingMethod(): Optional<ShippingMethod> = Optional.ofNullable(shippingMethod)
 
-    fun productId(): Optional<String> = Optional.ofNullable(productId)
-
-    fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier)
-
     @JvmSynthetic
     internal fun getBody(): CardReissueBody {
         return CardReissueBody(
+            carrier,
+            productId,
             shippingAddress,
             shippingMethod,
-            productId,
-            carrier,
             additionalBodyProperties,
         )
     }
@@ -63,14 +63,24 @@ constructor(
     @NoAutoDetect
     class CardReissueBody
     internal constructor(
+        private val carrier: Carrier?,
+        private val productId: String?,
         private val shippingAddress: ShippingAddress?,
         private val shippingMethod: ShippingMethod?,
-        private val productId: String?,
-        private val carrier: Carrier?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
+
+        /** If omitted, the previous carrier will be used. */
+        @JsonProperty("carrier") fun carrier(): Carrier? = carrier
+
+        /**
+         * Specifies the configuration (e.g. physical card art) that the card should be manufactured
+         * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
+         * before use.
+         */
+        @JsonProperty("product_id") fun productId(): String? = productId
 
         /** If omitted, the previous shipping address will be used. */
         @JsonProperty("shipping_address") fun shippingAddress(): ShippingAddress? = shippingAddress
@@ -89,16 +99,6 @@ constructor(
          */
         @JsonProperty("shipping_method") fun shippingMethod(): ShippingMethod? = shippingMethod
 
-        /**
-         * Specifies the configuration (e.g. physical card art) that the card should be manufactured
-         * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
-         * before use.
-         */
-        @JsonProperty("product_id") fun productId(): String? = productId
-
-        /** If omitted, the previous carrier will be used. */
-        @JsonProperty("carrier") fun carrier(): Carrier? = carrier
-
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -111,10 +111,10 @@ constructor(
             }
 
             return other is CardReissueBody &&
+                this.carrier == other.carrier &&
+                this.productId == other.productId &&
                 this.shippingAddress == other.shippingAddress &&
                 this.shippingMethod == other.shippingMethod &&
-                this.productId == other.productId &&
-                this.carrier == other.carrier &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -122,10 +122,10 @@ constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
+                        carrier,
+                        productId,
                         shippingAddress,
                         shippingMethod,
-                        productId,
-                        carrier,
                         additionalProperties,
                     )
             }
@@ -133,7 +133,7 @@ constructor(
         }
 
         override fun toString() =
-            "CardReissueBody{shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, productId=$productId, carrier=$carrier, additionalProperties=$additionalProperties}"
+            "CardReissueBody{carrier=$carrier, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -142,20 +142,32 @@ constructor(
 
         class Builder {
 
+            private var carrier: Carrier? = null
+            private var productId: String? = null
             private var shippingAddress: ShippingAddress? = null
             private var shippingMethod: ShippingMethod? = null
-            private var productId: String? = null
-            private var carrier: Carrier? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(cardReissueBody: CardReissueBody) = apply {
+                this.carrier = cardReissueBody.carrier
+                this.productId = cardReissueBody.productId
                 this.shippingAddress = cardReissueBody.shippingAddress
                 this.shippingMethod = cardReissueBody.shippingMethod
-                this.productId = cardReissueBody.productId
-                this.carrier = cardReissueBody.carrier
                 additionalProperties(cardReissueBody.additionalProperties)
             }
+
+            /** If omitted, the previous carrier will be used. */
+            @JsonProperty("carrier")
+            fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
+
+            /**
+             * Specifies the configuration (e.g. physical card art) that the card should be
+             * manufactured with, and only applies to cards of type `PHYSICAL`. This must be
+             * configured with Lithic before use.
+             */
+            @JsonProperty("product_id")
+            fun productId(productId: String) = apply { this.productId = productId }
 
             /** If omitted, the previous shipping address will be used. */
             @JsonProperty("shipping_address")
@@ -181,18 +193,6 @@ constructor(
                 this.shippingMethod = shippingMethod
             }
 
-            /**
-             * Specifies the configuration (e.g. physical card art) that the card should be
-             * manufactured with, and only applies to cards of type `PHYSICAL`. This must be
-             * configured with Lithic before use.
-             */
-            @JsonProperty("product_id")
-            fun productId(productId: String) = apply { this.productId = productId }
-
-            /** If omitted, the previous carrier will be used. */
-            @JsonProperty("carrier")
-            fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
-
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 this.additionalProperties.putAll(additionalProperties)
@@ -209,10 +209,10 @@ constructor(
 
             fun build(): CardReissueBody =
                 CardReissueBody(
+                    carrier,
+                    productId,
                     shippingAddress,
                     shippingMethod,
-                    productId,
-                    carrier,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -231,10 +231,10 @@ constructor(
 
         return other is CardReissueParams &&
             this.cardToken == other.cardToken &&
+            this.carrier == other.carrier &&
+            this.productId == other.productId &&
             this.shippingAddress == other.shippingAddress &&
             this.shippingMethod == other.shippingMethod &&
-            this.productId == other.productId &&
-            this.carrier == other.carrier &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -243,10 +243,10 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             cardToken,
+            carrier,
+            productId,
             shippingAddress,
             shippingMethod,
-            productId,
-            carrier,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -254,7 +254,7 @@ constructor(
     }
 
     override fun toString() =
-        "CardReissueParams{cardToken=$cardToken, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, productId=$productId, carrier=$carrier, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "CardReissueParams{cardToken=$cardToken, carrier=$carrier, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -267,10 +267,10 @@ constructor(
     class Builder {
 
         private var cardToken: String? = null
+        private var carrier: Carrier? = null
+        private var productId: String? = null
         private var shippingAddress: ShippingAddress? = null
         private var shippingMethod: ShippingMethod? = null
-        private var productId: String? = null
-        private var carrier: Carrier? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -278,16 +278,26 @@ constructor(
         @JvmSynthetic
         internal fun from(cardReissueParams: CardReissueParams) = apply {
             this.cardToken = cardReissueParams.cardToken
+            this.carrier = cardReissueParams.carrier
+            this.productId = cardReissueParams.productId
             this.shippingAddress = cardReissueParams.shippingAddress
             this.shippingMethod = cardReissueParams.shippingMethod
-            this.productId = cardReissueParams.productId
-            this.carrier = cardReissueParams.carrier
             additionalQueryParams(cardReissueParams.additionalQueryParams)
             additionalHeaders(cardReissueParams.additionalHeaders)
             additionalBodyProperties(cardReissueParams.additionalBodyProperties)
         }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
+
+        /** If omitted, the previous carrier will be used. */
+        fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
+
+        /**
+         * Specifies the configuration (e.g. physical card art) that the card should be manufactured
+         * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
+         * before use.
+         */
+        fun productId(productId: String) = apply { this.productId = productId }
 
         /** If omitted, the previous shipping address will be used. */
         fun shippingAddress(shippingAddress: ShippingAddress) = apply {
@@ -309,16 +319,6 @@ constructor(
         fun shippingMethod(shippingMethod: ShippingMethod) = apply {
             this.shippingMethod = shippingMethod
         }
-
-        /**
-         * Specifies the configuration (e.g. physical card art) that the card should be manufactured
-         * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
-         * before use.
-         */
-        fun productId(productId: String) = apply { this.productId = productId }
-
-        /** If omitted, the previous carrier will be used. */
-        fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -377,10 +377,10 @@ constructor(
         fun build(): CardReissueParams =
             CardReissueParams(
                 checkNotNull(cardToken) { "`cardToken` is required but was not set" },
+                carrier,
+                productId,
                 shippingAddress,
                 shippingMethod,
-                productId,
-                carrier,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

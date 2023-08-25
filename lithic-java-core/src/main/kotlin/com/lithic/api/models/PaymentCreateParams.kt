@@ -17,49 +17,49 @@ import java.util.Optional
 
 class PaymentCreateParams
 constructor(
-    private val financialAccountToken: String,
-    private val externalBankAccountToken: String,
-    private val type: Type,
     private val amount: Long,
-    private val memo: String?,
-    private val methodAttributes: PaymentMethodAttributes,
+    private val externalBankAccountToken: String,
+    private val financialAccountToken: String,
     private val method: Method,
+    private val methodAttributes: PaymentMethodAttributes,
+    private val type: Type,
     private val token: String?,
+    private val memo: String?,
     private val userDefinedId: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun financialAccountToken(): String = financialAccountToken
+    fun amount(): Long = amount
 
     fun externalBankAccountToken(): String = externalBankAccountToken
 
-    fun type(): Type = type
-
-    fun amount(): Long = amount
-
-    fun memo(): Optional<String> = Optional.ofNullable(memo)
-
-    fun methodAttributes(): PaymentMethodAttributes = methodAttributes
+    fun financialAccountToken(): String = financialAccountToken
 
     fun method(): Method = method
 
+    fun methodAttributes(): PaymentMethodAttributes = methodAttributes
+
+    fun type(): Type = type
+
     fun token(): Optional<String> = Optional.ofNullable(token)
+
+    fun memo(): Optional<String> = Optional.ofNullable(memo)
 
     fun userDefinedId(): Optional<String> = Optional.ofNullable(userDefinedId)
 
     @JvmSynthetic
     internal fun getBody(): PaymentCreateBody {
         return PaymentCreateBody(
-            financialAccountToken,
-            externalBankAccountToken,
-            type,
             amount,
-            memo,
-            methodAttributes,
+            externalBankAccountToken,
+            financialAccountToken,
             method,
+            methodAttributes,
+            type,
             token,
+            memo,
             userDefinedId,
             additionalBodyProperties,
         )
@@ -73,38 +73,38 @@ constructor(
     @NoAutoDetect
     class PaymentCreateBody
     internal constructor(
-        private val financialAccountToken: String?,
-        private val externalBankAccountToken: String?,
-        private val type: Type?,
         private val amount: Long?,
-        private val memo: String?,
-        private val methodAttributes: PaymentMethodAttributes?,
+        private val externalBankAccountToken: String?,
+        private val financialAccountToken: String?,
         private val method: Method?,
+        private val methodAttributes: PaymentMethodAttributes?,
+        private val type: Type?,
         private val token: String?,
+        private val memo: String?,
         private val userDefinedId: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
 
-        @JsonProperty("financial_account_token")
-        fun financialAccountToken(): String? = financialAccountToken
+        @JsonProperty("amount") fun amount(): Long? = amount
 
         @JsonProperty("external_bank_account_token")
         fun externalBankAccountToken(): String? = externalBankAccountToken
 
-        @JsonProperty("type") fun type(): Type? = type
+        @JsonProperty("financial_account_token")
+        fun financialAccountToken(): String? = financialAccountToken
 
-        @JsonProperty("amount") fun amount(): Long? = amount
-
-        @JsonProperty("memo") fun memo(): String? = memo
+        @JsonProperty("method") fun method(): Method? = method
 
         @JsonProperty("method_attributes")
         fun methodAttributes(): PaymentMethodAttributes? = methodAttributes
 
-        @JsonProperty("method") fun method(): Method? = method
+        @JsonProperty("type") fun type(): Type? = type
 
         @JsonProperty("token") fun token(): String? = token
+
+        @JsonProperty("memo") fun memo(): String? = memo
 
         @JsonProperty("user_defined_id") fun userDefinedId(): String? = userDefinedId
 
@@ -120,14 +120,14 @@ constructor(
             }
 
             return other is PaymentCreateBody &&
-                this.financialAccountToken == other.financialAccountToken &&
-                this.externalBankAccountToken == other.externalBankAccountToken &&
-                this.type == other.type &&
                 this.amount == other.amount &&
-                this.memo == other.memo &&
-                this.methodAttributes == other.methodAttributes &&
+                this.externalBankAccountToken == other.externalBankAccountToken &&
+                this.financialAccountToken == other.financialAccountToken &&
                 this.method == other.method &&
+                this.methodAttributes == other.methodAttributes &&
+                this.type == other.type &&
                 this.token == other.token &&
+                this.memo == other.memo &&
                 this.userDefinedId == other.userDefinedId &&
                 this.additionalProperties == other.additionalProperties
         }
@@ -136,14 +136,14 @@ constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
-                        financialAccountToken,
-                        externalBankAccountToken,
-                        type,
                         amount,
-                        memo,
-                        methodAttributes,
+                        externalBankAccountToken,
+                        financialAccountToken,
                         method,
+                        methodAttributes,
+                        type,
                         token,
+                        memo,
                         userDefinedId,
                         additionalProperties,
                     )
@@ -152,7 +152,7 @@ constructor(
         }
 
         override fun toString() =
-            "PaymentCreateBody{financialAccountToken=$financialAccountToken, externalBankAccountToken=$externalBankAccountToken, type=$type, amount=$amount, memo=$memo, methodAttributes=$methodAttributes, method=$method, token=$token, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+            "PaymentCreateBody{amount=$amount, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, type=$type, token=$token, memo=$memo, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -161,29 +161,36 @@ constructor(
 
         class Builder {
 
-            private var financialAccountToken: String? = null
-            private var externalBankAccountToken: String? = null
-            private var type: Type? = null
             private var amount: Long? = null
-            private var memo: String? = null
-            private var methodAttributes: PaymentMethodAttributes? = null
+            private var externalBankAccountToken: String? = null
+            private var financialAccountToken: String? = null
             private var method: Method? = null
+            private var methodAttributes: PaymentMethodAttributes? = null
+            private var type: Type? = null
             private var token: String? = null
+            private var memo: String? = null
             private var userDefinedId: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(paymentCreateBody: PaymentCreateBody) = apply {
-                this.financialAccountToken = paymentCreateBody.financialAccountToken
-                this.externalBankAccountToken = paymentCreateBody.externalBankAccountToken
-                this.type = paymentCreateBody.type
                 this.amount = paymentCreateBody.amount
-                this.memo = paymentCreateBody.memo
-                this.methodAttributes = paymentCreateBody.methodAttributes
+                this.externalBankAccountToken = paymentCreateBody.externalBankAccountToken
+                this.financialAccountToken = paymentCreateBody.financialAccountToken
                 this.method = paymentCreateBody.method
+                this.methodAttributes = paymentCreateBody.methodAttributes
+                this.type = paymentCreateBody.type
                 this.token = paymentCreateBody.token
+                this.memo = paymentCreateBody.memo
                 this.userDefinedId = paymentCreateBody.userDefinedId
                 additionalProperties(paymentCreateBody.additionalProperties)
+            }
+
+            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+
+            @JsonProperty("external_bank_account_token")
+            fun externalBankAccountToken(externalBankAccountToken: String) = apply {
+                this.externalBankAccountToken = externalBankAccountToken
             }
 
             @JsonProperty("financial_account_token")
@@ -191,25 +198,18 @@ constructor(
                 this.financialAccountToken = financialAccountToken
             }
 
-            @JsonProperty("external_bank_account_token")
-            fun externalBankAccountToken(externalBankAccountToken: String) = apply {
-                this.externalBankAccountToken = externalBankAccountToken
-            }
-
-            @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
-
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
-
-            @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
+            @JsonProperty("method") fun method(method: Method) = apply { this.method = method }
 
             @JsonProperty("method_attributes")
             fun methodAttributes(methodAttributes: PaymentMethodAttributes) = apply {
                 this.methodAttributes = methodAttributes
             }
 
-            @JsonProperty("method") fun method(method: Method) = apply { this.method = method }
+            @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
 
             @JsonProperty("token") fun token(token: String) = apply { this.token = token }
+
+            @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
 
             @JsonProperty("user_defined_id")
             fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
@@ -230,20 +230,20 @@ constructor(
 
             fun build(): PaymentCreateBody =
                 PaymentCreateBody(
-                    checkNotNull(financialAccountToken) {
-                        "`financialAccountToken` is required but was not set"
-                    },
+                    checkNotNull(amount) { "`amount` is required but was not set" },
                     checkNotNull(externalBankAccountToken) {
                         "`externalBankAccountToken` is required but was not set"
                     },
-                    checkNotNull(type) { "`type` is required but was not set" },
-                    checkNotNull(amount) { "`amount` is required but was not set" },
-                    memo,
+                    checkNotNull(financialAccountToken) {
+                        "`financialAccountToken` is required but was not set"
+                    },
+                    checkNotNull(method) { "`method` is required but was not set" },
                     checkNotNull(methodAttributes) {
                         "`methodAttributes` is required but was not set"
                     },
-                    checkNotNull(method) { "`method` is required but was not set" },
+                    checkNotNull(type) { "`type` is required but was not set" },
                     token,
+                    memo,
                     userDefinedId,
                     additionalProperties.toUnmodifiable(),
                 )
@@ -262,14 +262,14 @@ constructor(
         }
 
         return other is PaymentCreateParams &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.externalBankAccountToken == other.externalBankAccountToken &&
-            this.type == other.type &&
             this.amount == other.amount &&
-            this.memo == other.memo &&
-            this.methodAttributes == other.methodAttributes &&
+            this.externalBankAccountToken == other.externalBankAccountToken &&
+            this.financialAccountToken == other.financialAccountToken &&
             this.method == other.method &&
+            this.methodAttributes == other.methodAttributes &&
+            this.type == other.type &&
             this.token == other.token &&
+            this.memo == other.memo &&
             this.userDefinedId == other.userDefinedId &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
@@ -278,14 +278,14 @@ constructor(
 
     override fun hashCode(): Int {
         return Objects.hash(
-            financialAccountToken,
-            externalBankAccountToken,
-            type,
             amount,
-            memo,
-            methodAttributes,
+            externalBankAccountToken,
+            financialAccountToken,
             method,
+            methodAttributes,
+            type,
             token,
+            memo,
             userDefinedId,
             additionalQueryParams,
             additionalHeaders,
@@ -294,7 +294,7 @@ constructor(
     }
 
     override fun toString() =
-        "PaymentCreateParams{financialAccountToken=$financialAccountToken, externalBankAccountToken=$externalBankAccountToken, type=$type, amount=$amount, memo=$memo, methodAttributes=$methodAttributes, method=$method, token=$token, userDefinedId=$userDefinedId, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "PaymentCreateParams{amount=$amount, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, type=$type, token=$token, memo=$memo, userDefinedId=$userDefinedId, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -306,14 +306,14 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var financialAccountToken: String? = null
-        private var externalBankAccountToken: String? = null
-        private var type: Type? = null
         private var amount: Long? = null
-        private var memo: String? = null
-        private var methodAttributes: PaymentMethodAttributes? = null
+        private var externalBankAccountToken: String? = null
+        private var financialAccountToken: String? = null
         private var method: Method? = null
+        private var methodAttributes: PaymentMethodAttributes? = null
+        private var type: Type? = null
         private var token: String? = null
+        private var memo: String? = null
         private var userDefinedId: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -321,41 +321,41 @@ constructor(
 
         @JvmSynthetic
         internal fun from(paymentCreateParams: PaymentCreateParams) = apply {
-            this.financialAccountToken = paymentCreateParams.financialAccountToken
-            this.externalBankAccountToken = paymentCreateParams.externalBankAccountToken
-            this.type = paymentCreateParams.type
             this.amount = paymentCreateParams.amount
-            this.memo = paymentCreateParams.memo
-            this.methodAttributes = paymentCreateParams.methodAttributes
+            this.externalBankAccountToken = paymentCreateParams.externalBankAccountToken
+            this.financialAccountToken = paymentCreateParams.financialAccountToken
             this.method = paymentCreateParams.method
+            this.methodAttributes = paymentCreateParams.methodAttributes
+            this.type = paymentCreateParams.type
             this.token = paymentCreateParams.token
+            this.memo = paymentCreateParams.memo
             this.userDefinedId = paymentCreateParams.userDefinedId
             additionalQueryParams(paymentCreateParams.additionalQueryParams)
             additionalHeaders(paymentCreateParams.additionalHeaders)
             additionalBodyProperties(paymentCreateParams.additionalBodyProperties)
         }
 
-        fun financialAccountToken(financialAccountToken: String) = apply {
-            this.financialAccountToken = financialAccountToken
-        }
+        fun amount(amount: Long) = apply { this.amount = amount }
 
         fun externalBankAccountToken(externalBankAccountToken: String) = apply {
             this.externalBankAccountToken = externalBankAccountToken
         }
 
-        fun type(type: Type) = apply { this.type = type }
+        fun financialAccountToken(financialAccountToken: String) = apply {
+            this.financialAccountToken = financialAccountToken
+        }
 
-        fun amount(amount: Long) = apply { this.amount = amount }
-
-        fun memo(memo: String) = apply { this.memo = memo }
+        fun method(method: Method) = apply { this.method = method }
 
         fun methodAttributes(methodAttributes: PaymentMethodAttributes) = apply {
             this.methodAttributes = methodAttributes
         }
 
-        fun method(method: Method) = apply { this.method = method }
+        fun type(type: Type) = apply { this.type = type }
 
         fun token(token: String) = apply { this.token = token }
+
+        fun memo(memo: String) = apply { this.memo = memo }
 
         fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
 
@@ -415,18 +415,18 @@ constructor(
 
         fun build(): PaymentCreateParams =
             PaymentCreateParams(
-                checkNotNull(financialAccountToken) {
-                    "`financialAccountToken` is required but was not set"
-                },
+                checkNotNull(amount) { "`amount` is required but was not set" },
                 checkNotNull(externalBankAccountToken) {
                     "`externalBankAccountToken` is required but was not set"
                 },
-                checkNotNull(type) { "`type` is required but was not set" },
-                checkNotNull(amount) { "`amount` is required but was not set" },
-                memo,
-                checkNotNull(methodAttributes) { "`methodAttributes` is required but was not set" },
+                checkNotNull(financialAccountToken) {
+                    "`financialAccountToken` is required but was not set"
+                },
                 checkNotNull(method) { "`method` is required but was not set" },
+                checkNotNull(methodAttributes) { "`methodAttributes` is required but was not set" },
+                checkNotNull(type) { "`type` is required but was not set" },
                 token,
+                memo,
                 userDefinedId,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),

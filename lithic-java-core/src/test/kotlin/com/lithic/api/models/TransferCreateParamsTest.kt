@@ -10,6 +10,7 @@ class TransferCreateParamsTest {
     @Test
     fun createTransferCreateParams() {
         TransferCreateParams.builder()
+            .amount(123L)
             .from(
                 FinancialAccount.builder()
                     .token("3fa85f64-5717-4562-b3fc-2c963f66afa6")
@@ -30,7 +31,6 @@ class TransferCreateParamsTest {
                     .routingNumber("string")
                     .build()
             )
-            .amount(123L)
             .memo("string")
             .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
@@ -40,6 +40,7 @@ class TransferCreateParamsTest {
     fun getBody() {
         val params =
             TransferCreateParams.builder()
+                .amount(123L)
                 .from(
                     FinancialAccount.builder()
                         .token("3fa85f64-5717-4562-b3fc-2c963f66afa6")
@@ -60,12 +61,12 @@ class TransferCreateParamsTest {
                         .routingNumber("string")
                         .build()
                 )
-                .amount(123L)
                 .memo("string")
                 .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
+        assertThat(body.amount()).isEqualTo(123L)
         assertThat(body.from())
             .isEqualTo(
                 FinancialAccount.builder()
@@ -88,7 +89,6 @@ class TransferCreateParamsTest {
                     .routingNumber("string")
                     .build()
             )
-        assertThat(body.amount()).isEqualTo(123L)
         assertThat(body.memo()).isEqualTo("string")
         assertThat(body.transactionToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
@@ -97,6 +97,7 @@ class TransferCreateParamsTest {
     fun getBodyWithoutOptionalFields() {
         val params =
             TransferCreateParams.builder()
+                .amount(123L)
                 .from(
                     FinancialAccount.builder()
                         .token("3fa85f64-5717-4562-b3fc-2c963f66afa6")
@@ -113,10 +114,10 @@ class TransferCreateParamsTest {
                         .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
                 )
-                .amount(123L)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
+        assertThat(body.amount()).isEqualTo(123L)
         assertThat(body.from())
             .isEqualTo(
                 FinancialAccount.builder()
@@ -135,6 +136,5 @@ class TransferCreateParamsTest {
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
-        assertThat(body.amount()).isEqualTo(123L)
     }
 }

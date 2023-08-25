@@ -21,8 +21,8 @@ constructor(
     private val dailySpendLimit: Long?,
     private val lifetimeSpendLimit: Long?,
     private val monthlySpendLimit: Long?,
-    private val verificationAddress: VerificationAddress?,
     private val state: State?,
+    private val verificationAddress: VerificationAddress?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -36,10 +36,10 @@ constructor(
 
     fun monthlySpendLimit(): Optional<Long> = Optional.ofNullable(monthlySpendLimit)
 
+    fun state(): Optional<State> = Optional.ofNullable(state)
+
     fun verificationAddress(): Optional<VerificationAddress> =
         Optional.ofNullable(verificationAddress)
-
-    fun state(): Optional<State> = Optional.ofNullable(state)
 
     @JvmSynthetic
     internal fun getBody(): AccountUpdateBody {
@@ -47,8 +47,8 @@ constructor(
             dailySpendLimit,
             lifetimeSpendLimit,
             monthlySpendLimit,
-            verificationAddress,
             state,
+            verificationAddress,
             additionalBodyProperties,
         )
     }
@@ -71,8 +71,8 @@ constructor(
         private val dailySpendLimit: Long?,
         private val lifetimeSpendLimit: Long?,
         private val monthlySpendLimit: Long?,
-        private val verificationAddress: VerificationAddress?,
         private val state: State?,
+        private val verificationAddress: VerificationAddress?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -100,15 +100,15 @@ constructor(
          */
         @JsonProperty("monthly_spend_limit") fun monthlySpendLimit(): Long? = monthlySpendLimit
 
+        /** Account states. */
+        @JsonProperty("state") fun state(): State? = state
+
         /**
          * Address used during Address Verification Service (AVS) checks during transactions if
          * enabled via Auth Rules.
          */
         @JsonProperty("verification_address")
         fun verificationAddress(): VerificationAddress? = verificationAddress
-
-        /** Account states. */
-        @JsonProperty("state") fun state(): State? = state
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -125,8 +125,8 @@ constructor(
                 this.dailySpendLimit == other.dailySpendLimit &&
                 this.lifetimeSpendLimit == other.lifetimeSpendLimit &&
                 this.monthlySpendLimit == other.monthlySpendLimit &&
-                this.verificationAddress == other.verificationAddress &&
                 this.state == other.state &&
+                this.verificationAddress == other.verificationAddress &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -137,8 +137,8 @@ constructor(
                         dailySpendLimit,
                         lifetimeSpendLimit,
                         monthlySpendLimit,
-                        verificationAddress,
                         state,
+                        verificationAddress,
                         additionalProperties,
                     )
             }
@@ -146,7 +146,7 @@ constructor(
         }
 
         override fun toString() =
-            "AccountUpdateBody{dailySpendLimit=$dailySpendLimit, lifetimeSpendLimit=$lifetimeSpendLimit, monthlySpendLimit=$monthlySpendLimit, verificationAddress=$verificationAddress, state=$state, additionalProperties=$additionalProperties}"
+            "AccountUpdateBody{dailySpendLimit=$dailySpendLimit, lifetimeSpendLimit=$lifetimeSpendLimit, monthlySpendLimit=$monthlySpendLimit, state=$state, verificationAddress=$verificationAddress, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -158,8 +158,8 @@ constructor(
             private var dailySpendLimit: Long? = null
             private var lifetimeSpendLimit: Long? = null
             private var monthlySpendLimit: Long? = null
-            private var verificationAddress: VerificationAddress? = null
             private var state: State? = null
+            private var verificationAddress: VerificationAddress? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -167,8 +167,8 @@ constructor(
                 this.dailySpendLimit = accountUpdateBody.dailySpendLimit
                 this.lifetimeSpendLimit = accountUpdateBody.lifetimeSpendLimit
                 this.monthlySpendLimit = accountUpdateBody.monthlySpendLimit
-                this.verificationAddress = accountUpdateBody.verificationAddress
                 this.state = accountUpdateBody.state
+                this.verificationAddress = accountUpdateBody.verificationAddress
                 additionalProperties(accountUpdateBody.additionalProperties)
             }
 
@@ -203,6 +203,9 @@ constructor(
                 this.monthlySpendLimit = monthlySpendLimit
             }
 
+            /** Account states. */
+            @JsonProperty("state") fun state(state: State) = apply { this.state = state }
+
             /**
              * Address used during Address Verification Service (AVS) checks during transactions if
              * enabled via Auth Rules.
@@ -211,9 +214,6 @@ constructor(
             fun verificationAddress(verificationAddress: VerificationAddress) = apply {
                 this.verificationAddress = verificationAddress
             }
-
-            /** Account states. */
-            @JsonProperty("state") fun state(state: State) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -234,8 +234,8 @@ constructor(
                     dailySpendLimit,
                     lifetimeSpendLimit,
                     monthlySpendLimit,
-                    verificationAddress,
                     state,
+                    verificationAddress,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -257,8 +257,8 @@ constructor(
             this.dailySpendLimit == other.dailySpendLimit &&
             this.lifetimeSpendLimit == other.lifetimeSpendLimit &&
             this.monthlySpendLimit == other.monthlySpendLimit &&
-            this.verificationAddress == other.verificationAddress &&
             this.state == other.state &&
+            this.verificationAddress == other.verificationAddress &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -270,8 +270,8 @@ constructor(
             dailySpendLimit,
             lifetimeSpendLimit,
             monthlySpendLimit,
-            verificationAddress,
             state,
+            verificationAddress,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -279,7 +279,7 @@ constructor(
     }
 
     override fun toString() =
-        "AccountUpdateParams{accountToken=$accountToken, dailySpendLimit=$dailySpendLimit, lifetimeSpendLimit=$lifetimeSpendLimit, monthlySpendLimit=$monthlySpendLimit, verificationAddress=$verificationAddress, state=$state, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "AccountUpdateParams{accountToken=$accountToken, dailySpendLimit=$dailySpendLimit, lifetimeSpendLimit=$lifetimeSpendLimit, monthlySpendLimit=$monthlySpendLimit, state=$state, verificationAddress=$verificationAddress, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -295,8 +295,8 @@ constructor(
         private var dailySpendLimit: Long? = null
         private var lifetimeSpendLimit: Long? = null
         private var monthlySpendLimit: Long? = null
-        private var verificationAddress: VerificationAddress? = null
         private var state: State? = null
+        private var verificationAddress: VerificationAddress? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -307,8 +307,8 @@ constructor(
             this.dailySpendLimit = accountUpdateParams.dailySpendLimit
             this.lifetimeSpendLimit = accountUpdateParams.lifetimeSpendLimit
             this.monthlySpendLimit = accountUpdateParams.monthlySpendLimit
-            this.verificationAddress = accountUpdateParams.verificationAddress
             this.state = accountUpdateParams.state
+            this.verificationAddress = accountUpdateParams.verificationAddress
             additionalQueryParams(accountUpdateParams.additionalQueryParams)
             additionalHeaders(accountUpdateParams.additionalHeaders)
             additionalBodyProperties(accountUpdateParams.additionalBodyProperties)
@@ -344,6 +344,9 @@ constructor(
             this.monthlySpendLimit = monthlySpendLimit
         }
 
+        /** Account states. */
+        fun state(state: State) = apply { this.state = state }
+
         /**
          * Address used during Address Verification Service (AVS) checks during transactions if
          * enabled via Auth Rules.
@@ -351,9 +354,6 @@ constructor(
         fun verificationAddress(verificationAddress: VerificationAddress) = apply {
             this.verificationAddress = verificationAddress
         }
-
-        /** Account states. */
-        fun state(state: State) = apply { this.state = state }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -415,8 +415,8 @@ constructor(
                 dailySpendLimit,
                 lifetimeSpendLimit,
                 monthlySpendLimit,
-                verificationAddress,
                 state,
+                verificationAddress,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),
