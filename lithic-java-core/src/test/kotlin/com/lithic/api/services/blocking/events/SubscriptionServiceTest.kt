@@ -24,10 +24,10 @@ class SubscriptionServiceTest {
         val eventSubscription =
             subscriptionService.create(
                 EventSubscriptionCreateParams.builder()
+                    .url("https://example.com")
                     .description("string")
                     .disabled(true)
                     .eventTypes(listOf(EventSubscriptionCreateParams.EventType.CARD_CREATED))
-                    .url("https://example.com")
                     .build()
             )
         println(eventSubscription)
@@ -62,10 +62,10 @@ class SubscriptionServiceTest {
             subscriptionService.update(
                 EventSubscriptionUpdateParams.builder()
                     .eventSubscriptionToken("string")
+                    .url("https://example.com")
                     .description("string")
                     .disabled(true)
                     .eventTypes(listOf(EventSubscriptionUpdateParams.EventType.CARD_CREATED))
-                    .url("https://example.com")
                     .build()
             )
         println(eventSubscription)

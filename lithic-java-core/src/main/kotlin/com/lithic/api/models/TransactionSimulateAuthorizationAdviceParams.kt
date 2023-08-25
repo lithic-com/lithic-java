@@ -13,22 +13,22 @@ import java.util.Objects
 
 class TransactionSimulateAuthorizationAdviceParams
 constructor(
-    private val amount: Long,
     private val token: String,
+    private val amount: Long,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun amount(): Long = amount
-
     fun token(): String = token
+
+    fun amount(): Long = amount
 
     @JvmSynthetic
     internal fun getBody(): TransactionSimulateAuthorizationAdviceBody {
         return TransactionSimulateAuthorizationAdviceBody(
-            amount,
             token,
+            amount,
             additionalBodyProperties,
         )
     }
@@ -41,21 +41,21 @@ constructor(
     @NoAutoDetect
     class TransactionSimulateAuthorizationAdviceBody
     internal constructor(
-        private val amount: Long?,
         private val token: String?,
+        private val amount: Long?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
+
+        /** The transaction token returned from the /v1/simulate/authorize response. */
+        @JsonProperty("token") fun token(): String? = token
 
         /**
          * Amount (in cents) to authorize. This amount will override the transaction's amount that
          * was originally set by /v1/simulate/authorize.
          */
         @JsonProperty("amount") fun amount(): Long? = amount
-
-        /** The transaction token returned from the /v1/simulate/authorize response. */
-        @JsonProperty("token") fun token(): String? = token
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -69,8 +69,8 @@ constructor(
             }
 
             return other is TransactionSimulateAuthorizationAdviceBody &&
-                this.amount == other.amount &&
                 this.token == other.token &&
+                this.amount == other.amount &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -78,8 +78,8 @@ constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
-                        amount,
                         token,
+                        amount,
                         additionalProperties,
                     )
             }
@@ -87,7 +87,7 @@ constructor(
         }
 
         override fun toString() =
-            "TransactionSimulateAuthorizationAdviceBody{amount=$amount, token=$token, additionalProperties=$additionalProperties}"
+            "TransactionSimulateAuthorizationAdviceBody{token=$token, amount=$amount, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -96,8 +96,8 @@ constructor(
 
         class Builder {
 
-            private var amount: Long? = null
             private var token: String? = null
+            private var amount: Long? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -105,21 +105,21 @@ constructor(
                 transactionSimulateAuthorizationAdviceBody:
                     TransactionSimulateAuthorizationAdviceBody
             ) = apply {
-                this.amount = transactionSimulateAuthorizationAdviceBody.amount
                 this.token = transactionSimulateAuthorizationAdviceBody.token
+                this.amount = transactionSimulateAuthorizationAdviceBody.amount
                 additionalProperties(
                     transactionSimulateAuthorizationAdviceBody.additionalProperties
                 )
             }
+
+            /** The transaction token returned from the /v1/simulate/authorize response. */
+            @JsonProperty("token") fun token(token: String) = apply { this.token = token }
 
             /**
              * Amount (in cents) to authorize. This amount will override the transaction's amount
              * that was originally set by /v1/simulate/authorize.
              */
             @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
-
-            /** The transaction token returned from the /v1/simulate/authorize response. */
-            @JsonProperty("token") fun token(token: String) = apply { this.token = token }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -137,8 +137,8 @@ constructor(
 
             fun build(): TransactionSimulateAuthorizationAdviceBody =
                 TransactionSimulateAuthorizationAdviceBody(
-                    checkNotNull(amount) { "`amount` is required but was not set" },
                     checkNotNull(token) { "`token` is required but was not set" },
+                    checkNotNull(amount) { "`amount` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -156,8 +156,8 @@ constructor(
         }
 
         return other is TransactionSimulateAuthorizationAdviceParams &&
-            this.amount == other.amount &&
             this.token == other.token &&
+            this.amount == other.amount &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -165,8 +165,8 @@ constructor(
 
     override fun hashCode(): Int {
         return Objects.hash(
-            amount,
             token,
+            amount,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -174,7 +174,7 @@ constructor(
     }
 
     override fun toString() =
-        "TransactionSimulateAuthorizationAdviceParams{amount=$amount, token=$token, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "TransactionSimulateAuthorizationAdviceParams{token=$token, amount=$amount, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -186,8 +186,8 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var amount: Long? = null
         private var token: String? = null
+        private var amount: Long? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -197,8 +197,8 @@ constructor(
             transactionSimulateAuthorizationAdviceParams:
                 TransactionSimulateAuthorizationAdviceParams
         ) = apply {
-            this.amount = transactionSimulateAuthorizationAdviceParams.amount
             this.token = transactionSimulateAuthorizationAdviceParams.token
+            this.amount = transactionSimulateAuthorizationAdviceParams.amount
             additionalQueryParams(
                 transactionSimulateAuthorizationAdviceParams.additionalQueryParams
             )
@@ -208,14 +208,14 @@ constructor(
             )
         }
 
+        /** The transaction token returned from the /v1/simulate/authorize response. */
+        fun token(token: String) = apply { this.token = token }
+
         /**
          * Amount (in cents) to authorize. This amount will override the transaction's amount that
          * was originally set by /v1/simulate/authorize.
          */
         fun amount(amount: Long) = apply { this.amount = amount }
-
-        /** The transaction token returned from the /v1/simulate/authorize response. */
-        fun token(token: String) = apply { this.token = token }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -273,8 +273,8 @@ constructor(
 
         fun build(): TransactionSimulateAuthorizationAdviceParams =
             TransactionSimulateAuthorizationAdviceParams(
-                checkNotNull(amount) { "`amount` is required but was not set" },
                 checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(amount) { "`amount` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

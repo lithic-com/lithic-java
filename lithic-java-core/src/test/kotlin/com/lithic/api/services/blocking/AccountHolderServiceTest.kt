@@ -149,9 +149,9 @@ class AccountHolderServiceTest {
             accountHolderService.update(
                 AccountHolderUpdateParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .businessAccountToken("string")
                     .email("string")
                     .phoneNumber("string")
-                    .businessAccountToken("string")
                     .build()
             )
         println(accountHolderUpdateResponse)
@@ -204,8 +204,6 @@ class AccountHolderServiceTest {
             accountHolderService.resubmit(
                 AccountHolderResubmitParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
-                    .tosTimestamp("2018-05-29T21:16:05Z")
                     .individual(
                         AccountHolderResubmitParams.Individual.builder()
                             .address(
@@ -226,6 +224,8 @@ class AccountHolderServiceTest {
                             .phoneNumber("+12124007676")
                             .build()
                     )
+                    .tosTimestamp("2018-05-29T21:16:05Z")
+                    .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
                     .build()
             )
         println(accountHolder)

@@ -21,8 +21,8 @@ class ResponderEndpointServiceTest {
         val responderEndpointCreateResponse =
             responderEndpointService.create(
                 ResponderEndpointCreateParams.builder()
-                    .url("https://example.com")
                     .type(ResponderEndpointCreateParams.Type.TOKENIZATION_DECISIONING)
+                    .url("https://example.com")
                     .build()
             )
         println(responderEndpointCreateResponse)

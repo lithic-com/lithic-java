@@ -10,8 +10,8 @@ class AuthRuleApplyParamsTest {
     fun createAuthRuleApplyParams() {
         AuthRuleApplyParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .cardTokens(listOf("string"))
             .accountTokens(listOf("string"))
+            .cardTokens(listOf("string"))
             .programLevel(true)
             .build()
     }
@@ -21,14 +21,14 @@ class AuthRuleApplyParamsTest {
         val params =
             AuthRuleApplyParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .cardTokens(listOf("string"))
                 .accountTokens(listOf("string"))
+                .cardTokens(listOf("string"))
                 .programLevel(true)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.cardTokens()).isEqualTo(listOf("string"))
         assertThat(body.accountTokens()).isEqualTo(listOf("string"))
+        assertThat(body.cardTokens()).isEqualTo(listOf("string"))
         assertThat(body.programLevel()).isEqualTo(true)
     }
 

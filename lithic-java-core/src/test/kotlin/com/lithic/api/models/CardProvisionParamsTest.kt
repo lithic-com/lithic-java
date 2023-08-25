@@ -10,10 +10,10 @@ class CardProvisionParamsTest {
     fun createCardProvisionParams() {
         CardProvisionParams.builder()
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .certificate("U3RhaW5sZXNzIHJvY2tz")
             .digitalWallet(CardProvisionParams.DigitalWallet.APPLE_PAY)
             .nonce("U3RhaW5sZXNzIHJvY2tz")
             .nonceSignature("U3RhaW5sZXNzIHJvY2tz")
-            .certificate("U3RhaW5sZXNzIHJvY2tz")
             .build()
     }
 
@@ -22,17 +22,17 @@ class CardProvisionParamsTest {
         val params =
             CardProvisionParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .certificate("U3RhaW5sZXNzIHJvY2tz")
                 .digitalWallet(CardProvisionParams.DigitalWallet.APPLE_PAY)
                 .nonce("U3RhaW5sZXNzIHJvY2tz")
                 .nonceSignature("U3RhaW5sZXNzIHJvY2tz")
-                .certificate("U3RhaW5sZXNzIHJvY2tz")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
+        assertThat(body.certificate()).isEqualTo("U3RhaW5sZXNzIHJvY2tz")
         assertThat(body.digitalWallet()).isEqualTo(CardProvisionParams.DigitalWallet.APPLE_PAY)
         assertThat(body.nonce()).isEqualTo("U3RhaW5sZXNzIHJvY2tz")
         assertThat(body.nonceSignature()).isEqualTo("U3RhaW5sZXNzIHJvY2tz")
-        assertThat(body.certificate()).isEqualTo("U3RhaW5sZXNzIHJvY2tz")
     }
 
     @Test

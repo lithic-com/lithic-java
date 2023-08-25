@@ -18,13 +18,13 @@ import java.util.Optional
 class CardUpdateParams
 constructor(
     private val cardToken: String,
+    private val authRuleToken: String?,
+    private val digitalCardArtToken: String?,
     private val memo: String?,
+    private val pin: String?,
     private val spendLimit: Long?,
     private val spendLimitDuration: SpendLimitDuration?,
-    private val authRuleToken: String?,
     private val state: State?,
-    private val pin: String?,
-    private val digitalCardArtToken: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -32,30 +32,30 @@ constructor(
 
     fun cardToken(): String = cardToken
 
+    fun authRuleToken(): Optional<String> = Optional.ofNullable(authRuleToken)
+
+    fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken)
+
     fun memo(): Optional<String> = Optional.ofNullable(memo)
+
+    fun pin(): Optional<String> = Optional.ofNullable(pin)
 
     fun spendLimit(): Optional<Long> = Optional.ofNullable(spendLimit)
 
     fun spendLimitDuration(): Optional<SpendLimitDuration> = Optional.ofNullable(spendLimitDuration)
 
-    fun authRuleToken(): Optional<String> = Optional.ofNullable(authRuleToken)
-
     fun state(): Optional<State> = Optional.ofNullable(state)
-
-    fun pin(): Optional<String> = Optional.ofNullable(pin)
-
-    fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken)
 
     @JvmSynthetic
     internal fun getBody(): CardUpdateBody {
         return CardUpdateBody(
+            authRuleToken,
+            digitalCardArtToken,
             memo,
+            pin,
             spendLimit,
             spendLimitDuration,
-            authRuleToken,
             state,
-            pin,
-            digitalCardArtToken,
             additionalBodyProperties,
         )
     }
@@ -75,23 +75,46 @@ constructor(
     @NoAutoDetect
     class CardUpdateBody
     internal constructor(
+        private val authRuleToken: String?,
+        private val digitalCardArtToken: String?,
         private val memo: String?,
+        private val pin: String?,
         private val spendLimit: Long?,
         private val spendLimitDuration: SpendLimitDuration?,
-        private val authRuleToken: String?,
         private val state: State?,
-        private val pin: String?,
-        private val digitalCardArtToken: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
 
         /**
+         * Identifier for any Auth Rules that will be applied to transactions taking place with the
+         * card.
+         */
+        @JsonProperty("auth_rule_token") fun authRuleToken(): String? = authRuleToken
+
+        /**
+         * Specifies the digital card art to be displayed in the user’s digital wallet after
+         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
+         * .
+         */
+        @JsonProperty("digital_card_art_token")
+        fun digitalCardArtToken(): String? = digitalCardArtToken
+
+        /**
          * Friendly name to identify the card. We recommend against using this field to store JSON
          * data as it can cause unexpected behavior.
          */
         @JsonProperty("memo") fun memo(): String? = memo
+
+        /**
+         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
+         * See
+         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
+         */
+        @JsonProperty("pin") fun pin(): String? = pin
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -116,12 +139,6 @@ constructor(
         fun spendLimitDuration(): SpendLimitDuration? = spendLimitDuration
 
         /**
-         * Identifier for any Auth Rules that will be applied to transactions taking place with the
-         * card.
-         */
-        @JsonProperty("auth_rule_token") fun authRuleToken(): String? = authRuleToken
-
-        /**
          * Card state values:
          *
          * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
@@ -129,23 +146,6 @@ constructor(
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
         @JsonProperty("state") fun state(): State? = state
-
-        /**
-         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
-         * See
-         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
-         */
-        @JsonProperty("pin") fun pin(): String? = pin
-
-        /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet after
-         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-         * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-         * .
-         */
-        @JsonProperty("digital_card_art_token")
-        fun digitalCardArtToken(): String? = digitalCardArtToken
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -159,13 +159,13 @@ constructor(
             }
 
             return other is CardUpdateBody &&
+                this.authRuleToken == other.authRuleToken &&
+                this.digitalCardArtToken == other.digitalCardArtToken &&
                 this.memo == other.memo &&
+                this.pin == other.pin &&
                 this.spendLimit == other.spendLimit &&
                 this.spendLimitDuration == other.spendLimitDuration &&
-                this.authRuleToken == other.authRuleToken &&
                 this.state == other.state &&
-                this.pin == other.pin &&
-                this.digitalCardArtToken == other.digitalCardArtToken &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -173,13 +173,13 @@ constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
+                        authRuleToken,
+                        digitalCardArtToken,
                         memo,
+                        pin,
                         spendLimit,
                         spendLimitDuration,
-                        authRuleToken,
                         state,
-                        pin,
-                        digitalCardArtToken,
                         additionalProperties,
                     )
             }
@@ -187,7 +187,7 @@ constructor(
         }
 
         override fun toString() =
-            "CardUpdateBody{memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, authRuleToken=$authRuleToken, state=$state, pin=$pin, digitalCardArtToken=$digitalCardArtToken, additionalProperties=$additionalProperties}"
+            "CardUpdateBody{authRuleToken=$authRuleToken, digitalCardArtToken=$digitalCardArtToken, memo=$memo, pin=$pin, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -196,25 +196,44 @@ constructor(
 
         class Builder {
 
+            private var authRuleToken: String? = null
+            private var digitalCardArtToken: String? = null
             private var memo: String? = null
+            private var pin: String? = null
             private var spendLimit: Long? = null
             private var spendLimitDuration: SpendLimitDuration? = null
-            private var authRuleToken: String? = null
             private var state: State? = null
-            private var pin: String? = null
-            private var digitalCardArtToken: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(cardUpdateBody: CardUpdateBody) = apply {
+                this.authRuleToken = cardUpdateBody.authRuleToken
+                this.digitalCardArtToken = cardUpdateBody.digitalCardArtToken
                 this.memo = cardUpdateBody.memo
+                this.pin = cardUpdateBody.pin
                 this.spendLimit = cardUpdateBody.spendLimit
                 this.spendLimitDuration = cardUpdateBody.spendLimitDuration
-                this.authRuleToken = cardUpdateBody.authRuleToken
                 this.state = cardUpdateBody.state
-                this.pin = cardUpdateBody.pin
-                this.digitalCardArtToken = cardUpdateBody.digitalCardArtToken
                 additionalProperties(cardUpdateBody.additionalProperties)
+            }
+
+            /**
+             * Identifier for any Auth Rules that will be applied to transactions taking place with
+             * the card.
+             */
+            @JsonProperty("auth_rule_token")
+            fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
+
+            /**
+             * Specifies the digital card art to be displayed in the user’s digital wallet after
+             * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+             * use. See
+             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
+             * .
+             */
+            @JsonProperty("digital_card_art_token")
+            fun digitalCardArtToken(digitalCardArtToken: String) = apply {
+                this.digitalCardArtToken = digitalCardArtToken
             }
 
             /**
@@ -222,6 +241,14 @@ constructor(
              * JSON data as it can cause unexpected behavior.
              */
             @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
+
+            /**
+             * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
+             * `VIRTUAL`. See
+             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise)
+             * .
+             */
+            @JsonProperty("pin") fun pin(pin: String) = apply { this.pin = pin }
 
             /**
              * Amount (in cents) to limit approved authorizations. Transaction requests above the
@@ -249,13 +276,6 @@ constructor(
             }
 
             /**
-             * Identifier for any Auth Rules that will be applied to transactions taking place with
-             * the card.
-             */
-            @JsonProperty("auth_rule_token")
-            fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
-
-            /**
              * Card state values:
              *
              * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be
@@ -265,26 +285,6 @@ constructor(
              * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
             @JsonProperty("state") fun state(state: State) = apply { this.state = state }
-
-            /**
-             * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
-             * `VIRTUAL`. See
-             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise)
-             * .
-             */
-            @JsonProperty("pin") fun pin(pin: String) = apply { this.pin = pin }
-
-            /**
-             * Specifies the digital card art to be displayed in the user’s digital wallet after
-             * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-             * use. See
-             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-             * .
-             */
-            @JsonProperty("digital_card_art_token")
-            fun digitalCardArtToken(digitalCardArtToken: String) = apply {
-                this.digitalCardArtToken = digitalCardArtToken
-            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -302,13 +302,13 @@ constructor(
 
             fun build(): CardUpdateBody =
                 CardUpdateBody(
+                    authRuleToken,
+                    digitalCardArtToken,
                     memo,
+                    pin,
                     spendLimit,
                     spendLimitDuration,
-                    authRuleToken,
                     state,
-                    pin,
-                    digitalCardArtToken,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -327,13 +327,13 @@ constructor(
 
         return other is CardUpdateParams &&
             this.cardToken == other.cardToken &&
+            this.authRuleToken == other.authRuleToken &&
+            this.digitalCardArtToken == other.digitalCardArtToken &&
             this.memo == other.memo &&
+            this.pin == other.pin &&
             this.spendLimit == other.spendLimit &&
             this.spendLimitDuration == other.spendLimitDuration &&
-            this.authRuleToken == other.authRuleToken &&
             this.state == other.state &&
-            this.pin == other.pin &&
-            this.digitalCardArtToken == other.digitalCardArtToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -342,13 +342,13 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             cardToken,
+            authRuleToken,
+            digitalCardArtToken,
             memo,
+            pin,
             spendLimit,
             spendLimitDuration,
-            authRuleToken,
             state,
-            pin,
-            digitalCardArtToken,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -356,7 +356,7 @@ constructor(
     }
 
     override fun toString() =
-        "CardUpdateParams{cardToken=$cardToken, memo=$memo, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, authRuleToken=$authRuleToken, state=$state, pin=$pin, digitalCardArtToken=$digitalCardArtToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "CardUpdateParams{cardToken=$cardToken, authRuleToken=$authRuleToken, digitalCardArtToken=$digitalCardArtToken, memo=$memo, pin=$pin, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -369,13 +369,13 @@ constructor(
     class Builder {
 
         private var cardToken: String? = null
+        private var authRuleToken: String? = null
+        private var digitalCardArtToken: String? = null
         private var memo: String? = null
+        private var pin: String? = null
         private var spendLimit: Long? = null
         private var spendLimitDuration: SpendLimitDuration? = null
-        private var authRuleToken: String? = null
         private var state: State? = null
-        private var pin: String? = null
-        private var digitalCardArtToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -383,13 +383,13 @@ constructor(
         @JvmSynthetic
         internal fun from(cardUpdateParams: CardUpdateParams) = apply {
             this.cardToken = cardUpdateParams.cardToken
+            this.authRuleToken = cardUpdateParams.authRuleToken
+            this.digitalCardArtToken = cardUpdateParams.digitalCardArtToken
             this.memo = cardUpdateParams.memo
+            this.pin = cardUpdateParams.pin
             this.spendLimit = cardUpdateParams.spendLimit
             this.spendLimitDuration = cardUpdateParams.spendLimitDuration
-            this.authRuleToken = cardUpdateParams.authRuleToken
             this.state = cardUpdateParams.state
-            this.pin = cardUpdateParams.pin
-            this.digitalCardArtToken = cardUpdateParams.digitalCardArtToken
             additionalQueryParams(cardUpdateParams.additionalQueryParams)
             additionalHeaders(cardUpdateParams.additionalHeaders)
             additionalBodyProperties(cardUpdateParams.additionalBodyProperties)
@@ -398,10 +398,34 @@ constructor(
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
 
         /**
+         * Identifier for any Auth Rules that will be applied to transactions taking place with the
+         * card.
+         */
+        fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
+
+        /**
+         * Specifies the digital card art to be displayed in the user’s digital wallet after
+         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
+         * .
+         */
+        fun digitalCardArtToken(digitalCardArtToken: String) = apply {
+            this.digitalCardArtToken = digitalCardArtToken
+        }
+
+        /**
          * Friendly name to identify the card. We recommend against using this field to store JSON
          * data as it can cause unexpected behavior.
          */
         fun memo(memo: String) = apply { this.memo = memo }
+
+        /**
+         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
+         * See
+         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
+         */
+        fun pin(pin: String) = apply { this.pin = pin }
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -427,12 +451,6 @@ constructor(
         }
 
         /**
-         * Identifier for any Auth Rules that will be applied to transactions taking place with the
-         * card.
-         */
-        fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
-
-        /**
          * Card state values:
          *
          * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
@@ -440,24 +458,6 @@ constructor(
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
         fun state(state: State) = apply { this.state = state }
-
-        /**
-         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
-         * See
-         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
-         */
-        fun pin(pin: String) = apply { this.pin = pin }
-
-        /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet after
-         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-         * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-         * .
-         */
-        fun digitalCardArtToken(digitalCardArtToken: String) = apply {
-            this.digitalCardArtToken = digitalCardArtToken
-        }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -516,13 +516,13 @@ constructor(
         fun build(): CardUpdateParams =
             CardUpdateParams(
                 checkNotNull(cardToken) { "`cardToken` is required but was not set" },
+                authRuleToken,
+                digitalCardArtToken,
                 memo,
+                pin,
                 spendLimit,
                 spendLimitDuration,
-                authRuleToken,
                 state,
-                pin,
-                digitalCardArtToken,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

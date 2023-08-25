@@ -21,18 +21,18 @@ class PaymentServiceTest {
         val paymentCreateResponse =
             paymentService.create(
                 PaymentCreateParams.builder()
-                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .type(PaymentCreateParams.Type.PAYMENT)
                     .amount(123L)
-                    .memo("string")
+                    .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .method(PaymentCreateParams.Method.ACH_NEXT_DAY)
                     .methodAttributes(
                         PaymentCreateParams.PaymentMethodAttributes.builder()
                             .secCode(PaymentCreateParams.PaymentMethodAttributes.SecCode.PPD)
                             .build()
                     )
-                    .method(PaymentCreateParams.Method.ACH_NEXT_DAY)
+                    .type(PaymentCreateParams.Type.PAYMENT)
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .memo("string")
                     .userDefinedId("string")
                     .build()
             )
