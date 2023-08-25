@@ -45,6 +45,7 @@ class AccountServiceTest {
                     .dailySpendLimit(123L)
                     .lifetimeSpendLimit(123L)
                     .monthlySpendLimit(123L)
+                    .state(AccountUpdateParams.State.ACTIVE)
                     .verificationAddress(
                         AccountUpdateParams.VerificationAddress.builder()
                             .address1("string")
@@ -55,7 +56,6 @@ class AccountServiceTest {
                             .state("string")
                             .build()
                     )
-                    .state(AccountUpdateParams.State.ACTIVE)
                     .build()
             )
         println(account)

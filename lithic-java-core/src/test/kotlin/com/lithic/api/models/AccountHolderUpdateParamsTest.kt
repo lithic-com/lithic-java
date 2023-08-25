@@ -10,9 +10,9 @@ class AccountHolderUpdateParamsTest {
     fun createAccountHolderUpdateParams() {
         AccountHolderUpdateParams.builder()
             .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .businessAccountToken("string")
             .email("string")
             .phoneNumber("string")
-            .businessAccountToken("string")
             .build()
     }
 
@@ -21,15 +21,15 @@ class AccountHolderUpdateParamsTest {
         val params =
             AccountHolderUpdateParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .businessAccountToken("string")
                 .email("string")
                 .phoneNumber("string")
-                .businessAccountToken("string")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
+        assertThat(body.businessAccountToken()).isEqualTo("string")
         assertThat(body.email()).isEqualTo("string")
         assertThat(body.phoneNumber()).isEqualTo("string")
-        assertThat(body.businessAccountToken()).isEqualTo("string")
     }
 
     @Test

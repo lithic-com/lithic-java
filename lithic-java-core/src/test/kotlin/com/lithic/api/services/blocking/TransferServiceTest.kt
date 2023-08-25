@@ -21,6 +21,7 @@ class TransferServiceTest {
         val transferCreateResponse =
             transferService.create(
                 TransferCreateParams.builder()
+                    .amount(123L)
                     .from(
                         FinancialAccount.builder()
                             .token("3fa85f64-5717-4562-b3fc-2c963f66afa6")
@@ -41,7 +42,6 @@ class TransferServiceTest {
                             .routingNumber("string")
                             .build()
                     )
-                    .amount(123L)
                     .memo("string")
                     .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()

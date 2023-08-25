@@ -21,11 +21,11 @@ class AuthRuleServiceTest {
         val authRuleCreateResponse =
             authRuleService.create(
                 AuthRuleCreateParams.builder()
-                    .allowedMcc(listOf("string"))
-                    .blockedMcc(listOf("string"))
-                    .allowedCountries(listOf("string"))
-                    .blockedCountries(listOf("string"))
                     .accountTokens(listOf("string"))
+                    .allowedCountries(listOf("string"))
+                    .allowedMcc(listOf("string"))
+                    .blockedCountries(listOf("string"))
+                    .blockedMcc(listOf("string"))
                     .cardTokens(listOf("string"))
                     .programLevel(true)
                     .build()
@@ -64,10 +64,10 @@ class AuthRuleServiceTest {
             authRuleService.update(
                 AuthRuleUpdateParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .allowedMcc(listOf("string"))
-                    .blockedMcc(listOf("string"))
                     .allowedCountries(listOf("string"))
+                    .allowedMcc(listOf("string"))
                     .blockedCountries(listOf("string"))
+                    .blockedMcc(listOf("string"))
                     .build()
             )
         println(authRuleUpdateResponse)
@@ -99,8 +99,8 @@ class AuthRuleServiceTest {
             authRuleService.apply(
                 AuthRuleApplyParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .cardTokens(listOf("string"))
                     .accountTokens(listOf("string"))
+                    .cardTokens(listOf("string"))
                     .programLevel(true)
                     .build()
             )
@@ -119,8 +119,8 @@ class AuthRuleServiceTest {
         val authRuleRemoveResponse =
             authRuleService.remove(
                 AuthRuleRemoveParams.builder()
-                    .cardTokens(listOf("string"))
                     .accountTokens(listOf("string"))
+                    .cardTokens(listOf("string"))
                     .programLevel(true)
                     .build()
             )

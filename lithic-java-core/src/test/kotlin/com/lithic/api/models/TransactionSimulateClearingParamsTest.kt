@@ -9,8 +9,8 @@ class TransactionSimulateClearingParamsTest {
     @Test
     fun createTransactionSimulateClearingParams() {
         TransactionSimulateClearingParams.builder()
-            .amount(123L)
             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .amount(123L)
             .build()
     }
 
@@ -18,13 +18,13 @@ class TransactionSimulateClearingParamsTest {
     fun getBody() {
         val params =
             TransactionSimulateClearingParams.builder()
-                .amount(123L)
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .amount(123L)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.amount()).isEqualTo(123L)
     }
 
     @Test

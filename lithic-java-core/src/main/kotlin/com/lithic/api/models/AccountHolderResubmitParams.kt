@@ -17,9 +17,9 @@ import java.util.Objects
 class AccountHolderResubmitParams
 constructor(
     private val accountHolderToken: String,
-    private val workflow: Workflow,
-    private val tosTimestamp: String,
     private val individual: Individual,
+    private val tosTimestamp: String,
+    private val workflow: Workflow,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -27,18 +27,18 @@ constructor(
 
     fun accountHolderToken(): String = accountHolderToken
 
-    fun workflow(): Workflow = workflow
+    fun individual(): Individual = individual
 
     fun tosTimestamp(): String = tosTimestamp
 
-    fun individual(): Individual = individual
+    fun workflow(): Workflow = workflow
 
     @JvmSynthetic
     internal fun getBody(): AccountHolderResubmitBody {
         return AccountHolderResubmitBody(
-            workflow,
-            tosTimestamp,
             individual,
+            tosTimestamp,
+            workflow,
             additionalBodyProperties,
         )
     }
@@ -58,15 +58,18 @@ constructor(
     @NoAutoDetect
     class AccountHolderResubmitBody
     internal constructor(
-        private val workflow: Workflow?,
-        private val tosTimestamp: String?,
         private val individual: Individual?,
+        private val tosTimestamp: String?,
+        private val workflow: Workflow?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
 
-        @JsonProperty("workflow") fun workflow(): Workflow? = workflow
+        /**
+         * Information on individual for whom the account is being opened and KYC is being re-run.
+         */
+        @JsonProperty("individual") fun individual(): Individual? = individual
 
         /**
          * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
@@ -75,10 +78,7 @@ constructor(
          */
         @JsonProperty("tos_timestamp") fun tosTimestamp(): String? = tosTimestamp
 
-        /**
-         * Information on individual for whom the account is being opened and KYC is being re-run.
-         */
-        @JsonProperty("individual") fun individual(): Individual? = individual
+        @JsonProperty("workflow") fun workflow(): Workflow? = workflow
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -92,9 +92,9 @@ constructor(
             }
 
             return other is AccountHolderResubmitBody &&
-                this.workflow == other.workflow &&
-                this.tosTimestamp == other.tosTimestamp &&
                 this.individual == other.individual &&
+                this.tosTimestamp == other.tosTimestamp &&
+                this.workflow == other.workflow &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -102,9 +102,9 @@ constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
-                        workflow,
-                        tosTimestamp,
                         individual,
+                        tosTimestamp,
+                        workflow,
                         additionalProperties,
                     )
             }
@@ -112,7 +112,7 @@ constructor(
         }
 
         override fun toString() =
-            "AccountHolderResubmitBody{workflow=$workflow, tosTimestamp=$tosTimestamp, individual=$individual, additionalProperties=$additionalProperties}"
+            "AccountHolderResubmitBody{individual=$individual, tosTimestamp=$tosTimestamp, workflow=$workflow, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -121,21 +121,25 @@ constructor(
 
         class Builder {
 
-            private var workflow: Workflow? = null
-            private var tosTimestamp: String? = null
             private var individual: Individual? = null
+            private var tosTimestamp: String? = null
+            private var workflow: Workflow? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(accountHolderResubmitBody: AccountHolderResubmitBody) = apply {
-                this.workflow = accountHolderResubmitBody.workflow
-                this.tosTimestamp = accountHolderResubmitBody.tosTimestamp
                 this.individual = accountHolderResubmitBody.individual
+                this.tosTimestamp = accountHolderResubmitBody.tosTimestamp
+                this.workflow = accountHolderResubmitBody.workflow
                 additionalProperties(accountHolderResubmitBody.additionalProperties)
             }
 
-            @JsonProperty("workflow")
-            fun workflow(workflow: Workflow) = apply { this.workflow = workflow }
+            /**
+             * Information on individual for whom the account is being opened and KYC is being
+             * re-run.
+             */
+            @JsonProperty("individual")
+            fun individual(individual: Individual) = apply { this.individual = individual }
 
             /**
              * An RFC 3339 timestamp indicating when the account holder accepted the applicable
@@ -145,12 +149,8 @@ constructor(
             @JsonProperty("tos_timestamp")
             fun tosTimestamp(tosTimestamp: String) = apply { this.tosTimestamp = tosTimestamp }
 
-            /**
-             * Information on individual for whom the account is being opened and KYC is being
-             * re-run.
-             */
-            @JsonProperty("individual")
-            fun individual(individual: Individual) = apply { this.individual = individual }
+            @JsonProperty("workflow")
+            fun workflow(workflow: Workflow) = apply { this.workflow = workflow }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -168,9 +168,9 @@ constructor(
 
             fun build(): AccountHolderResubmitBody =
                 AccountHolderResubmitBody(
-                    checkNotNull(workflow) { "`workflow` is required but was not set" },
-                    checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
                     checkNotNull(individual) { "`individual` is required but was not set" },
+                    checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
+                    checkNotNull(workflow) { "`workflow` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -189,9 +189,9 @@ constructor(
 
         return other is AccountHolderResubmitParams &&
             this.accountHolderToken == other.accountHolderToken &&
-            this.workflow == other.workflow &&
-            this.tosTimestamp == other.tosTimestamp &&
             this.individual == other.individual &&
+            this.tosTimestamp == other.tosTimestamp &&
+            this.workflow == other.workflow &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -200,9 +200,9 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             accountHolderToken,
-            workflow,
-            tosTimestamp,
             individual,
+            tosTimestamp,
+            workflow,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -210,7 +210,7 @@ constructor(
     }
 
     override fun toString() =
-        "AccountHolderResubmitParams{accountHolderToken=$accountHolderToken, workflow=$workflow, tosTimestamp=$tosTimestamp, individual=$individual, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "AccountHolderResubmitParams{accountHolderToken=$accountHolderToken, individual=$individual, tosTimestamp=$tosTimestamp, workflow=$workflow, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -223,9 +223,9 @@ constructor(
     class Builder {
 
         private var accountHolderToken: String? = null
-        private var workflow: Workflow? = null
-        private var tosTimestamp: String? = null
         private var individual: Individual? = null
+        private var tosTimestamp: String? = null
+        private var workflow: Workflow? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -233,9 +233,9 @@ constructor(
         @JvmSynthetic
         internal fun from(accountHolderResubmitParams: AccountHolderResubmitParams) = apply {
             this.accountHolderToken = accountHolderResubmitParams.accountHolderToken
-            this.workflow = accountHolderResubmitParams.workflow
-            this.tosTimestamp = accountHolderResubmitParams.tosTimestamp
             this.individual = accountHolderResubmitParams.individual
+            this.tosTimestamp = accountHolderResubmitParams.tosTimestamp
+            this.workflow = accountHolderResubmitParams.workflow
             additionalQueryParams(accountHolderResubmitParams.additionalQueryParams)
             additionalHeaders(accountHolderResubmitParams.additionalHeaders)
             additionalBodyProperties(accountHolderResubmitParams.additionalBodyProperties)
@@ -245,7 +245,10 @@ constructor(
             this.accountHolderToken = accountHolderToken
         }
 
-        fun workflow(workflow: Workflow) = apply { this.workflow = workflow }
+        /**
+         * Information on individual for whom the account is being opened and KYC is being re-run.
+         */
+        fun individual(individual: Individual) = apply { this.individual = individual }
 
         /**
          * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
@@ -254,10 +257,7 @@ constructor(
          */
         fun tosTimestamp(tosTimestamp: String) = apply { this.tosTimestamp = tosTimestamp }
 
-        /**
-         * Information on individual for whom the account is being opened and KYC is being re-run.
-         */
-        fun individual(individual: Individual) = apply { this.individual = individual }
+        fun workflow(workflow: Workflow) = apply { this.workflow = workflow }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -318,9 +318,9 @@ constructor(
                 checkNotNull(accountHolderToken) {
                     "`accountHolderToken` is required but was not set"
                 },
-                checkNotNull(workflow) { "`workflow` is required but was not set" },
-                checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
                 checkNotNull(individual) { "`individual` is required but was not set" },
+                checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
+                checkNotNull(workflow) { "`workflow` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

@@ -10,8 +10,6 @@ class AccountHolderResubmitParamsTest {
     fun createAccountHolderResubmitParams() {
         AccountHolderResubmitParams.builder()
             .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
-            .tosTimestamp("2018-05-29T21:16:05Z")
             .individual(
                 AccountHolderResubmitParams.Individual.builder()
                     .address(
@@ -32,6 +30,8 @@ class AccountHolderResubmitParamsTest {
                     .phoneNumber("+12124007676")
                     .build()
             )
+            .tosTimestamp("2018-05-29T21:16:05Z")
+            .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
             .build()
     }
 
@@ -40,8 +40,6 @@ class AccountHolderResubmitParamsTest {
         val params =
             AccountHolderResubmitParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
-                .tosTimestamp("2018-05-29T21:16:05Z")
                 .individual(
                     AccountHolderResubmitParams.Individual.builder()
                         .address(
@@ -62,11 +60,11 @@ class AccountHolderResubmitParamsTest {
                         .phoneNumber("+12124007676")
                         .build()
                 )
+                .tosTimestamp("2018-05-29T21:16:05Z")
+                .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.workflow()).isEqualTo(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
-        assertThat(body.tosTimestamp()).isEqualTo("2018-05-29T21:16:05Z")
         assertThat(body.individual())
             .isEqualTo(
                 AccountHolderResubmitParams.Individual.builder()
@@ -88,6 +86,8 @@ class AccountHolderResubmitParamsTest {
                     .phoneNumber("+12124007676")
                     .build()
             )
+        assertThat(body.tosTimestamp()).isEqualTo("2018-05-29T21:16:05Z")
+        assertThat(body.workflow()).isEqualTo(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
     }
 
     @Test
@@ -95,8 +95,6 @@ class AccountHolderResubmitParamsTest {
         val params =
             AccountHolderResubmitParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
-                .tosTimestamp("2018-05-29T21:16:05Z")
                 .individual(
                     AccountHolderResubmitParams.Individual.builder()
                         .address(
@@ -116,11 +114,11 @@ class AccountHolderResubmitParamsTest {
                         .phoneNumber("+12124007676")
                         .build()
                 )
+                .tosTimestamp("2018-05-29T21:16:05Z")
+                .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.workflow()).isEqualTo(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
-        assertThat(body.tosTimestamp()).isEqualTo("2018-05-29T21:16:05Z")
         assertThat(body.individual())
             .isEqualTo(
                 AccountHolderResubmitParams.Individual.builder()
@@ -141,6 +139,8 @@ class AccountHolderResubmitParamsTest {
                     .phoneNumber("+12124007676")
                     .build()
             )
+        assertThat(body.tosTimestamp()).isEqualTo("2018-05-29T21:16:05Z")
+        assertThat(body.workflow()).isEqualTo(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
     }
 
     @Test
@@ -148,8 +148,6 @@ class AccountHolderResubmitParamsTest {
         val params =
             AccountHolderResubmitParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
-                .tosTimestamp("2018-05-29T21:16:05Z")
                 .individual(
                     AccountHolderResubmitParams.Individual.builder()
                         .address(
@@ -169,6 +167,8 @@ class AccountHolderResubmitParamsTest {
                         .phoneNumber("+12124007676")
                         .build()
                 )
+                .tosTimestamp("2018-05-29T21:16:05Z")
+                .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
                 .build()
         assertThat(params).isNotNull
         // path param "accountHolderToken"

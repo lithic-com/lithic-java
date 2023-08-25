@@ -60,17 +60,15 @@ class ErrorHandlingTest {
     fun cardsCreate200() {
         val params =
             CardCreateParams.builder()
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .expMonth("06")
                 .expYear("2027")
                 .memo("New Card")
-                .spendLimit(123L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardCreateParams.State.OPEN)
-                .type(CardCreateParams.Type.VIRTUAL)
                 .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .productId("1")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -88,7 +86,9 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .spendLimit(123L)
+                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .state(CardCreateParams.State.OPEN)
                 .build()
 
         val expected =
@@ -130,17 +130,15 @@ class ErrorHandlingTest {
     fun cardsCreate400() {
         val params =
             CardCreateParams.builder()
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .expMonth("06")
                 .expYear("2027")
                 .memo("New Card")
-                .spendLimit(123L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardCreateParams.State.OPEN)
-                .type(CardCreateParams.Type.VIRTUAL)
                 .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .productId("1")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -158,7 +156,9 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .spendLimit(123L)
+                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .state(CardCreateParams.State.OPEN)
                 .build()
 
         stubFor(
@@ -176,17 +176,15 @@ class ErrorHandlingTest {
     fun cardsCreate401() {
         val params =
             CardCreateParams.builder()
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .expMonth("06")
                 .expYear("2027")
                 .memo("New Card")
-                .spendLimit(123L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardCreateParams.State.OPEN)
-                .type(CardCreateParams.Type.VIRTUAL)
                 .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .productId("1")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -204,7 +202,9 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .spendLimit(123L)
+                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .state(CardCreateParams.State.OPEN)
                 .build()
 
         stubFor(
@@ -222,17 +222,15 @@ class ErrorHandlingTest {
     fun cardsCreate403() {
         val params =
             CardCreateParams.builder()
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .expMonth("06")
                 .expYear("2027")
                 .memo("New Card")
-                .spendLimit(123L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardCreateParams.State.OPEN)
-                .type(CardCreateParams.Type.VIRTUAL)
                 .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .productId("1")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -250,7 +248,9 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .spendLimit(123L)
+                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .state(CardCreateParams.State.OPEN)
                 .build()
 
         stubFor(
@@ -268,17 +268,15 @@ class ErrorHandlingTest {
     fun cardsCreate404() {
         val params =
             CardCreateParams.builder()
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .expMonth("06")
                 .expYear("2027")
                 .memo("New Card")
-                .spendLimit(123L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardCreateParams.State.OPEN)
-                .type(CardCreateParams.Type.VIRTUAL)
                 .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .productId("1")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -296,7 +294,9 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .spendLimit(123L)
+                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .state(CardCreateParams.State.OPEN)
                 .build()
 
         stubFor(
@@ -314,17 +314,15 @@ class ErrorHandlingTest {
     fun cardsCreate422() {
         val params =
             CardCreateParams.builder()
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .expMonth("06")
                 .expYear("2027")
                 .memo("New Card")
-                .spendLimit(123L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardCreateParams.State.OPEN)
-                .type(CardCreateParams.Type.VIRTUAL)
                 .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .productId("1")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -342,7 +340,9 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .spendLimit(123L)
+                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .state(CardCreateParams.State.OPEN)
                 .build()
 
         stubFor(
@@ -360,17 +360,15 @@ class ErrorHandlingTest {
     fun cardsCreate429() {
         val params =
             CardCreateParams.builder()
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .expMonth("06")
                 .expYear("2027")
                 .memo("New Card")
-                .spendLimit(123L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardCreateParams.State.OPEN)
-                .type(CardCreateParams.Type.VIRTUAL)
                 .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .productId("1")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -388,7 +386,9 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .spendLimit(123L)
+                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .state(CardCreateParams.State.OPEN)
                 .build()
 
         stubFor(
@@ -406,17 +406,15 @@ class ErrorHandlingTest {
     fun cardsCreate500() {
         val params =
             CardCreateParams.builder()
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .expMonth("06")
                 .expYear("2027")
                 .memo("New Card")
-                .spendLimit(123L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardCreateParams.State.OPEN)
-                .type(CardCreateParams.Type.VIRTUAL)
                 .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .productId("1")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -434,7 +432,9 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .spendLimit(123L)
+                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .state(CardCreateParams.State.OPEN)
                 .build()
 
         stubFor(
@@ -452,17 +452,15 @@ class ErrorHandlingTest {
     fun unexpectedStatusCode() {
         val params =
             CardCreateParams.builder()
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .expMonth("06")
                 .expYear("2027")
                 .memo("New Card")
-                .spendLimit(123L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardCreateParams.State.OPEN)
-                .type(CardCreateParams.Type.VIRTUAL)
                 .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .productId("1")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -480,7 +478,9 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .spendLimit(123L)
+                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .state(CardCreateParams.State.OPEN)
                 .build()
 
         stubFor(
@@ -503,17 +503,15 @@ class ErrorHandlingTest {
     fun invalidBody() {
         val params =
             CardCreateParams.builder()
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .expMonth("06")
                 .expYear("2027")
                 .memo("New Card")
-                .spendLimit(123L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardCreateParams.State.OPEN)
-                .type(CardCreateParams.Type.VIRTUAL)
                 .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .productId("1")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -531,7 +529,9 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .spendLimit(123L)
+                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .state(CardCreateParams.State.OPEN)
                 .build()
 
         stubFor(post(anyUrl()).willReturn(status(200).withBody("Not JSON")))
@@ -548,17 +548,15 @@ class ErrorHandlingTest {
     fun invalidErrorBody() {
         val params =
             CardCreateParams.builder()
+                .type(CardCreateParams.Type.VIRTUAL)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
+                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .expMonth("06")
                 .expYear("2027")
                 .memo("New Card")
-                .spendLimit(123L)
-                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
-                .state(CardCreateParams.State.OPEN)
-                .type(CardCreateParams.Type.VIRTUAL)
                 .pin("string")
-                .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
                 .productId("1")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -576,7 +574,9 @@ class ErrorHandlingTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
+                .spendLimit(123L)
+                .spendLimitDuration(SpendLimitDuration.ANNUALLY)
+                .state(CardCreateParams.State.OPEN)
                 .build()
 
         stubFor(post(anyUrl()).willReturn(status(400).withBody("Not JSON")))

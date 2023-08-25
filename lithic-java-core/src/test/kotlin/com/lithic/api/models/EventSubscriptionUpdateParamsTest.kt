@@ -10,10 +10,10 @@ class EventSubscriptionUpdateParamsTest {
     fun createEventSubscriptionUpdateParams() {
         EventSubscriptionUpdateParams.builder()
             .eventSubscriptionToken("string")
+            .url("https://example.com")
             .description("string")
             .disabled(true)
             .eventTypes(listOf(EventSubscriptionUpdateParams.EventType.CARD_CREATED))
-            .url("https://example.com")
             .build()
     }
 
@@ -22,18 +22,18 @@ class EventSubscriptionUpdateParamsTest {
         val params =
             EventSubscriptionUpdateParams.builder()
                 .eventSubscriptionToken("string")
+                .url("https://example.com")
                 .description("string")
                 .disabled(true)
                 .eventTypes(listOf(EventSubscriptionUpdateParams.EventType.CARD_CREATED))
-                .url("https://example.com")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
+        assertThat(body.url()).isEqualTo("https://example.com")
         assertThat(body.description()).isEqualTo("string")
         assertThat(body.disabled()).isEqualTo(true)
         assertThat(body.eventTypes())
             .isEqualTo(listOf(EventSubscriptionUpdateParams.EventType.CARD_CREATED))
-        assertThat(body.url()).isEqualTo("https://example.com")
     }
 
     @Test

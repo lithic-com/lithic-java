@@ -9,8 +9,8 @@ class ResponderEndpointCreateParamsTest {
     @Test
     fun createResponderEndpointCreateParams() {
         ResponderEndpointCreateParams.builder()
-            .url("https://example.com")
             .type(ResponderEndpointCreateParams.Type.TOKENIZATION_DECISIONING)
+            .url("https://example.com")
             .build()
     }
 
@@ -18,14 +18,14 @@ class ResponderEndpointCreateParamsTest {
     fun getBody() {
         val params =
             ResponderEndpointCreateParams.builder()
-                .url("https://example.com")
                 .type(ResponderEndpointCreateParams.Type.TOKENIZATION_DECISIONING)
+                .url("https://example.com")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.url()).isEqualTo("https://example.com")
         assertThat(body.type())
             .isEqualTo(ResponderEndpointCreateParams.Type.TOKENIZATION_DECISIONING)
+        assertThat(body.url()).isEqualTo("https://example.com")
     }
 
     @Test

@@ -70,10 +70,6 @@ class ExternalBankAccountServiceTest {
             externalBankAccountService.update(
                 ExternalBankAccountUpdateParams.builder()
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .owner("x")
-                    .ownerType(OwnerType.INDIVIDUAL)
-                    .name("x")
-                    .companyId("x")
                     .address(
                         ExternalBankAccountAddress.builder()
                             .address1("x")
@@ -84,8 +80,12 @@ class ExternalBankAccountServiceTest {
                             .address2("x")
                             .build()
                     )
+                    .companyId("x")
                     .dob(LocalDate.parse("2019-12-27"))
                     .doingBusinessAs("string")
+                    .name("x")
+                    .owner("x")
+                    .ownerType(OwnerType.INDIVIDUAL)
                     .build()
             )
         println(externalBankAccountUpdateResponse)
