@@ -2,7 +2,7 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.12.1)
+[![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.12.2)
 
 <!-- x-release-please-end -->
 
@@ -27,7 +27,7 @@ The API documentation can be found [here](https://docs.lithic.com).
 <!-- x-release-please-start-version -->
 
 ```kotlin
-implementation("com.lithic.api:lithic-java:0.12.1")
+implementation("com.lithic.api:lithic-java:0.12.2")
 ```
 
 #### Maven
@@ -36,7 +36,7 @@ implementation("com.lithic.api:lithic-java:0.12.1")
 <dependency>
     <groupId>com.lithic.api</groupId>
     <artifactId>lithic-java</artifactId>
-    <version>0.12.1</version>
+    <version>0.12.2</version>
 </dependency>
 ```
 
