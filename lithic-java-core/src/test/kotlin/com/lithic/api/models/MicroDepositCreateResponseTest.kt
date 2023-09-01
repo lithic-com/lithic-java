@@ -38,6 +38,7 @@ class MicroDepositCreateResponseTest {
                 .dob(LocalDate.parse("2019-12-27"))
                 .doingBusinessAs("string")
                 .name("string")
+                .userDefinedId("string")
                 .build()
         assertThat(microDepositCreateResponse).isNotNull
         assertThat(microDepositCreateResponse.token())
@@ -76,5 +77,6 @@ class MicroDepositCreateResponseTest {
         assertThat(microDepositCreateResponse.dob()).contains(LocalDate.parse("2019-12-27"))
         assertThat(microDepositCreateResponse.doingBusinessAs()).contains("string")
         assertThat(microDepositCreateResponse.name()).contains("string")
+        assertThat(microDepositCreateResponse.userDefinedId()).contains("string")
     }
 }

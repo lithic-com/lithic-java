@@ -25,14 +25,14 @@ import java.util.concurrent.CompletableFuture
 
 interface TransactionServiceAsync {
 
-    /** Get specific transaction. */
+    /** Get specific card transaction. */
     @JvmOverloads
     fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<Transaction>
 
-    /** List transactions. */
+    /** List card transactions. */
     @JvmOverloads
     fun list(
         params: TransactionListParams,

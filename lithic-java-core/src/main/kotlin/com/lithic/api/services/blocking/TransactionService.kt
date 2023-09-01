@@ -24,14 +24,14 @@ import com.lithic.api.models.TransactionSimulateVoidResponse
 
 interface TransactionService {
 
-    /** Get specific transaction. */
+    /** Get specific card transaction. */
     @JvmOverloads
     fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): Transaction
 
-    /** List transactions. */
+    /** List card transactions. */
     @JvmOverloads
     fun list(
         params: TransactionListParams,

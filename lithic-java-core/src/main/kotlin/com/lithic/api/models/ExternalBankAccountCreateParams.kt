@@ -332,6 +332,7 @@ constructor(
         private val processorToken: String?,
         private val dob: LocalDate?,
         private val doingBusinessAs: String?,
+        private val userDefinedId: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -355,6 +356,8 @@ constructor(
 
         @JsonProperty("doing_business_as") fun doingBusinessAs(): String? = doingBusinessAs
 
+        @JsonProperty("user_defined_id") fun userDefinedId(): String? = userDefinedId
+
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -375,6 +378,7 @@ constructor(
                 this.processorToken == other.processorToken &&
                 this.dob == other.dob &&
                 this.doingBusinessAs == other.doingBusinessAs &&
+                this.userDefinedId == other.userDefinedId &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -390,6 +394,7 @@ constructor(
                         processorToken,
                         dob,
                         doingBusinessAs,
+                        userDefinedId,
                         additionalProperties,
                     )
             }
@@ -397,7 +402,7 @@ constructor(
         }
 
         override fun toString() =
-            "PlaidCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, processorToken=$processorToken, dob=$dob, doingBusinessAs=$doingBusinessAs, additionalProperties=$additionalProperties}"
+            "PlaidCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, processorToken=$processorToken, dob=$dob, doingBusinessAs=$doingBusinessAs, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -414,6 +419,7 @@ constructor(
             private var processorToken: String? = null
             private var dob: LocalDate? = null
             private var doingBusinessAs: String? = null
+            private var userDefinedId: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -427,6 +433,7 @@ constructor(
                     this.processorToken = plaidCreateBankAccountApiRequest.processorToken
                     this.dob = plaidCreateBankAccountApiRequest.dob
                     this.doingBusinessAs = plaidCreateBankAccountApiRequest.doingBusinessAs
+                    this.userDefinedId = plaidCreateBankAccountApiRequest.userDefinedId
                     additionalProperties(plaidCreateBankAccountApiRequest.additionalProperties)
                 }
 
@@ -459,6 +466,9 @@ constructor(
                 this.doingBusinessAs = doingBusinessAs
             }
 
+            @JsonProperty("user_defined_id")
+            fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 this.additionalProperties.putAll(additionalProperties)
@@ -485,6 +495,7 @@ constructor(
                     checkNotNull(processorToken) { "`processorToken` is required but was not set" },
                     dob,
                     doingBusinessAs,
+                    userDefinedId,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -509,6 +520,7 @@ constructor(
         private val address: ExternalBankAccountAddress?,
         private val dob: LocalDate?,
         private val doingBusinessAs: String?,
+        private val userDefinedId: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -557,6 +569,8 @@ constructor(
 
         @JsonProperty("doing_business_as") fun doingBusinessAs(): String? = doingBusinessAs
 
+        @JsonProperty("user_defined_id") fun userDefinedId(): String? = userDefinedId
+
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -584,6 +598,7 @@ constructor(
                 this.address == other.address &&
                 this.dob == other.dob &&
                 this.doingBusinessAs == other.doingBusinessAs &&
+                this.userDefinedId == other.userDefinedId &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -606,6 +621,7 @@ constructor(
                         address,
                         dob,
                         doingBusinessAs,
+                        userDefinedId,
                         additionalProperties,
                     )
             }
@@ -613,7 +629,7 @@ constructor(
         }
 
         override fun toString() =
-            "BankVerifiedCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, type=$type, routingNumber=$routingNumber, accountNumber=$accountNumber, name=$name, country=$country, currency=$currency, verificationEnforcement=$verificationEnforcement, address=$address, dob=$dob, doingBusinessAs=$doingBusinessAs, additionalProperties=$additionalProperties}"
+            "BankVerifiedCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, type=$type, routingNumber=$routingNumber, accountNumber=$accountNumber, name=$name, country=$country, currency=$currency, verificationEnforcement=$verificationEnforcement, address=$address, dob=$dob, doingBusinessAs=$doingBusinessAs, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -637,6 +653,7 @@ constructor(
             private var address: ExternalBankAccountAddress? = null
             private var dob: LocalDate? = null
             private var doingBusinessAs: String? = null
+            private var userDefinedId: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -659,6 +676,7 @@ constructor(
                 this.address = bankVerifiedCreateBankAccountApiRequest.address
                 this.dob = bankVerifiedCreateBankAccountApiRequest.dob
                 this.doingBusinessAs = bankVerifiedCreateBankAccountApiRequest.doingBusinessAs
+                this.userDefinedId = bankVerifiedCreateBankAccountApiRequest.userDefinedId
                 additionalProperties(bankVerifiedCreateBankAccountApiRequest.additionalProperties)
             }
 
@@ -719,6 +737,9 @@ constructor(
                 this.doingBusinessAs = doingBusinessAs
             }
 
+            @JsonProperty("user_defined_id")
+            fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 this.additionalProperties.putAll(additionalProperties)
@@ -752,6 +773,7 @@ constructor(
                     address,
                     dob,
                     doingBusinessAs,
+                    userDefinedId,
                     additionalProperties.toUnmodifiable(),
                 )
         }
