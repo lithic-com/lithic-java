@@ -21,6 +21,8 @@ interface LithicClientAsync {
 
     fun tokenizationDecisioning(): TokenizationDecisioningServiceAsync
 
+    fun tokenizations(): TokenizationServiceAsync
+
     fun cards(): CardServiceAsync
 
     fun balances(): BalanceServiceAsync
