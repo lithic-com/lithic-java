@@ -1567,7 +1567,7 @@ private constructor(
             @JvmField val BROWSER = Channel(JsonField.of("BROWSER"))
 
             @JvmField
-            val THREE_RI_REQUESTER_INITIATED = Channel(JsonField.of("THREE_RI_REQUESTER_INITIATED"))
+            val THREE_DS_REQUESTOR_INITIATED = Channel(JsonField.of("THREE_DS_REQUESTOR_INITIATED"))
 
             @JvmStatic fun of(value: String) = Channel(JsonField.of(value))
         }
@@ -1575,13 +1575,13 @@ private constructor(
         enum class Known {
             APP_BASED,
             BROWSER,
-            THREE_RI_REQUESTER_INITIATED,
+            THREE_DS_REQUESTOR_INITIATED,
         }
 
         enum class Value {
             APP_BASED,
             BROWSER,
-            THREE_RI_REQUESTER_INITIATED,
+            THREE_DS_REQUESTOR_INITIATED,
             _UNKNOWN,
         }
 
@@ -1589,7 +1589,7 @@ private constructor(
             when (this) {
                 APP_BASED -> Value.APP_BASED
                 BROWSER -> Value.BROWSER
-                THREE_RI_REQUESTER_INITIATED -> Value.THREE_RI_REQUESTER_INITIATED
+                THREE_DS_REQUESTOR_INITIATED -> Value.THREE_DS_REQUESTOR_INITIATED
                 else -> Value._UNKNOWN
             }
 
@@ -1597,7 +1597,7 @@ private constructor(
             when (this) {
                 APP_BASED -> Known.APP_BASED
                 BROWSER -> Known.BROWSER
-                THREE_RI_REQUESTER_INITIATED -> Known.THREE_RI_REQUESTER_INITIATED
+                THREE_DS_REQUESTOR_INITIATED -> Known.THREE_DS_REQUESTOR_INITIATED
                 else -> throw LithicInvalidDataException("Unknown Channel: $value")
             }
 

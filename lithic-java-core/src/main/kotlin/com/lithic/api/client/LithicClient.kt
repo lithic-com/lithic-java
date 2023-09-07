@@ -20,6 +20,8 @@ interface LithicClient {
 
     fun tokenizationDecisioning(): TokenizationDecisioningService
 
+    fun tokenizations(): TokenizationService
+
     fun cards(): CardService
 
     fun balances(): BalanceService
