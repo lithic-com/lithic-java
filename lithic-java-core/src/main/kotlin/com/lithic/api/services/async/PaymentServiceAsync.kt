@@ -11,6 +11,8 @@ import com.lithic.api.models.PaymentListParams
 import com.lithic.api.models.PaymentRetrieveParams
 import com.lithic.api.models.PaymentSimulateReleaseParams
 import com.lithic.api.models.PaymentSimulateReleaseResponse
+import com.lithic.api.models.PaymentSimulateReturnParams
+import com.lithic.api.models.PaymentSimulateReturnResponse
 import java.util.concurrent.CompletableFuture
 
 interface PaymentServiceAsync {
@@ -42,4 +44,11 @@ interface PaymentServiceAsync {
         params: PaymentSimulateReleaseParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<PaymentSimulateReleaseResponse>
+
+    /** Simulates a return of a Payment. */
+    @JvmOverloads
+    fun simulateReturn(
+        params: PaymentSimulateReturnParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<PaymentSimulateReturnResponse>
 }

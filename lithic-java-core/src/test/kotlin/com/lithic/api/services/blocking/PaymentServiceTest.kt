@@ -86,4 +86,23 @@ class PaymentServiceTest {
         println(paymentSimulateReleaseResponse)
         paymentSimulateReleaseResponse.validate()
     }
+
+    @Test
+    fun callSimulateReturn() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("test-api-key")
+                .build()
+        val paymentService = client.payments()
+        val paymentSimulateReturnResponse =
+            paymentService.simulateReturn(
+                PaymentSimulateReturnParams.builder()
+                    .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .returnReasonCode("string")
+                    .build()
+            )
+        println(paymentSimulateReturnResponse)
+        paymentSimulateReturnResponse.validate()
+    }
 }
