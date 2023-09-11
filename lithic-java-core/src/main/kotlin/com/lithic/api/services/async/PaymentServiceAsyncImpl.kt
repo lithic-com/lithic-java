@@ -14,6 +14,8 @@ import com.lithic.api.models.PaymentListParams
 import com.lithic.api.models.PaymentRetrieveParams
 import com.lithic.api.models.PaymentSimulateReleaseParams
 import com.lithic.api.models.PaymentSimulateReleaseResponse
+import com.lithic.api.models.PaymentSimulateReturnParams
+import com.lithic.api.models.PaymentSimulateReturnResponse
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -136,6 +138,36 @@ constructor(
             ->
             response
                 .use { simulateReleaseHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val simulateReturnHandler: Handler<PaymentSimulateReturnResponse> =
+        jsonHandler<PaymentSimulateReturnResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** Simulates a return of a Payment. */
+    override fun simulateReturn(
+        params: PaymentSimulateReturnParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<PaymentSimulateReturnResponse> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("simulate", "payments", "return")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { simulateReturnHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
