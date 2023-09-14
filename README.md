@@ -311,7 +311,7 @@ This library throws exceptions in a single hierarchy for easy handling:
 
 ### Retries
 
-Requests that experience certain errors are automatically retried 2 times by default, with a short exponential backoff. Connection errors (for example, due to a network connectivity problem), 409 Conflict, 429 Rate Limit, and >=500 Internal errors will all be retried by default.
+Requests that experience certain errors are automatically retried 2 times by default, with a short exponential backoff. Connection errors (for example, due to a network connectivity problem), 408 Request Timeout, 409 Conflict, 429 Rate Limit, and >=500 Internal errors will all be retried by default.
 You can provide a `maxRetries` on the client builder to configure this:
 
 ```java
