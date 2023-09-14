@@ -137,6 +137,8 @@ private constructor(
             shouldRetryHeader == "true" -> true
             shouldRetryHeader == "false" -> false
 
+            // Retry on request timeouts
+            statusCode == 408 -> true
             // Retry on lock timeouts
             statusCode == 409 -> true
             // Retry on rate limits
