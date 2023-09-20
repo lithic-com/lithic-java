@@ -15,6 +15,7 @@ import com.lithic.api.models.EventSubscriptionReplayMissingParams
 import com.lithic.api.models.EventSubscriptionRetrieveParams
 import com.lithic.api.models.EventSubscriptionRetrieveSecretParams
 import com.lithic.api.models.EventSubscriptionRotateSecretParams
+import com.lithic.api.models.EventSubscriptionSendSimulatedExampleParams
 import com.lithic.api.models.EventSubscriptionUpdateParams
 import com.lithic.api.models.SubscriptionRetrieveSecretResponse
 
@@ -93,6 +94,13 @@ interface SubscriptionService {
     @JvmOverloads
     fun rotateSecret(
         params: EventSubscriptionRotateSecretParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    )
+
+    /** Send an example message for event. */
+    @JvmOverloads
+    fun sendSimulatedExample(
+        params: EventSubscriptionSendSimulatedExampleParams,
         requestOptions: RequestOptions = RequestOptions.none()
     )
 }

@@ -6,10 +6,9 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
+import com.lithic.api.models.AuthRule
 import com.lithic.api.models.AuthRuleApplyParams
-import com.lithic.api.models.AuthRuleApplyResponse
 import com.lithic.api.models.AuthRuleCreateParams
-import com.lithic.api.models.AuthRuleCreateResponse
 import com.lithic.api.models.AuthRuleListPageAsync
 import com.lithic.api.models.AuthRuleListParams
 import com.lithic.api.models.AuthRuleRemoveParams
@@ -17,7 +16,6 @@ import com.lithic.api.models.AuthRuleRemoveResponse
 import com.lithic.api.models.AuthRuleRetrieveParams
 import com.lithic.api.models.AuthRuleRetrieveResponse
 import com.lithic.api.models.AuthRuleUpdateParams
-import com.lithic.api.models.AuthRuleUpdateResponse
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -31,8 +29,8 @@ constructor(
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
-    private val createHandler: Handler<AuthRuleCreateResponse> =
-        jsonHandler<AuthRuleCreateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    private val createHandler: Handler<AuthRule> =
+        jsonHandler<AuthRule>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
      * Creates an authorization rule (Auth Rule) and applies it at the program, account, or card
@@ -41,7 +39,7 @@ constructor(
     override fun create(
         params: AuthRuleCreateParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<AuthRuleCreateResponse> {
+    ): CompletableFuture<AuthRule> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -95,14 +93,14 @@ constructor(
         }
     }
 
-    private val updateHandler: Handler<AuthRuleUpdateResponse> =
-        jsonHandler<AuthRuleUpdateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    private val updateHandler: Handler<AuthRule> =
+        jsonHandler<AuthRule>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Update the properties associated with an existing authorization rule (Auth Rule). */
     override fun update(
         params: AuthRuleUpdateParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<AuthRuleUpdateResponse> {
+    ): CompletableFuture<AuthRule> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.PUT)
@@ -154,14 +152,14 @@ constructor(
         }
     }
 
-    private val applyHandler: Handler<AuthRuleApplyResponse> =
-        jsonHandler<AuthRuleApplyResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    private val applyHandler: Handler<AuthRule> =
+        jsonHandler<AuthRule>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Applies an existing authorization rule (Auth Rule) to an program, account, or card level. */
     override fun apply(
         params: AuthRuleApplyParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<AuthRuleApplyResponse> {
+    ): CompletableFuture<AuthRule> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
