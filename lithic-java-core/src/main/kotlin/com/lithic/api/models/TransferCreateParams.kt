@@ -15,8 +15,8 @@ import java.util.Optional
 class TransferCreateParams
 constructor(
     private val amount: Long,
-    private val from: FinancialAccount,
-    private val to: FinancialAccount,
+    private val from: String,
+    private val to: String,
     private val memo: String?,
     private val transactionToken: String?,
     private val additionalQueryParams: Map<String, List<String>>,
@@ -26,9 +26,9 @@ constructor(
 
     fun amount(): Long = amount
 
-    fun from(): FinancialAccount = from
+    fun from(): String = from
 
-    fun to(): FinancialAccount = to
+    fun to(): String = to
 
     fun memo(): Optional<String> = Optional.ofNullable(memo)
 
@@ -55,8 +55,8 @@ constructor(
     class TransferCreateBody
     internal constructor(
         private val amount: Long?,
-        private val from: FinancialAccount?,
-        private val to: FinancialAccount?,
+        private val from: String?,
+        private val to: String?,
         private val memo: String?,
         private val transactionToken: String?,
         private val additionalProperties: Map<String, JsonValue>,
@@ -70,11 +70,11 @@ constructor(
          */
         @JsonProperty("amount") fun amount(): Long? = amount
 
-        /** Financial Account */
-        @JsonProperty("from") fun from(): FinancialAccount? = from
+        /** Globally unique identifier for the financial account that will send the funds. */
+        @JsonProperty("from") fun from(): String? = from
 
-        /** Financial Account */
-        @JsonProperty("to") fun to(): FinancialAccount? = to
+        /** Globally unique identifier for the financial account that will receive the funds. */
+        @JsonProperty("to") fun to(): String? = to
 
         /** Optional descriptor for the transfer. */
         @JsonProperty("memo") fun memo(): String? = memo
@@ -128,8 +128,8 @@ constructor(
         class Builder {
 
             private var amount: Long? = null
-            private var from: FinancialAccount? = null
-            private var to: FinancialAccount? = null
+            private var from: String? = null
+            private var to: String? = null
             private var memo: String? = null
             private var transactionToken: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -150,11 +150,11 @@ constructor(
              */
             @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
 
-            /** Financial Account */
-            @JsonProperty("from") fun from(from: FinancialAccount) = apply { this.from = from }
+            /** Globally unique identifier for the financial account that will send the funds. */
+            @JsonProperty("from") fun from(from: String) = apply { this.from = from }
 
-            /** Financial Account */
-            @JsonProperty("to") fun to(to: FinancialAccount) = apply { this.to = to }
+            /** Globally unique identifier for the financial account that will receive the funds. */
+            @JsonProperty("to") fun to(to: String) = apply { this.to = to }
 
             /** Optional descriptor for the transfer. */
             @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
@@ -240,8 +240,8 @@ constructor(
     class Builder {
 
         private var amount: Long? = null
-        private var from: FinancialAccount? = null
-        private var to: FinancialAccount? = null
+        private var from: String? = null
+        private var to: String? = null
         private var memo: String? = null
         private var transactionToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -266,11 +266,11 @@ constructor(
          */
         fun amount(amount: Long) = apply { this.amount = amount }
 
-        /** Financial Account */
-        fun from(from: FinancialAccount) = apply { this.from = from }
+        /** Globally unique identifier for the financial account that will send the funds. */
+        fun from(from: String) = apply { this.from = from }
 
-        /** Financial Account */
-        fun to(to: FinancialAccount) = apply { this.to = to }
+        /** Globally unique identifier for the financial account that will receive the funds. */
+        fun to(to: String) = apply { this.to = to }
 
         /** Optional descriptor for the transfer. */
         fun memo(memo: String) = apply { this.memo = memo }

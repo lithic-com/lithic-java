@@ -18,7 +18,7 @@ class AuthRuleServiceTest {
                 .apiKey("test-api-key")
                 .build()
         val authRuleService = client.authRules()
-        val authRuleCreateResponse =
+        val authRule =
             authRuleService.create(
                 AuthRuleCreateParams.builder()
                     .accountTokens(listOf("string"))
@@ -30,8 +30,8 @@ class AuthRuleServiceTest {
                     .programLevel(true)
                     .build()
             )
-        println(authRuleCreateResponse)
-        authRuleCreateResponse.validate()
+        println(authRule)
+        authRule.validate()
     }
 
     @Test
@@ -60,7 +60,7 @@ class AuthRuleServiceTest {
                 .apiKey("test-api-key")
                 .build()
         val authRuleService = client.authRules()
-        val authRuleUpdateResponse =
+        val authRule =
             authRuleService.update(
                 AuthRuleUpdateParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -70,8 +70,8 @@ class AuthRuleServiceTest {
                     .blockedMcc(listOf("string"))
                     .build()
             )
-        println(authRuleUpdateResponse)
-        authRuleUpdateResponse.validate()
+        println(authRule)
+        authRule.validate()
     }
 
     @Test
@@ -95,7 +95,7 @@ class AuthRuleServiceTest {
                 .apiKey("test-api-key")
                 .build()
         val authRuleService = client.authRules()
-        val authRuleApplyResponse =
+        val authRule =
             authRuleService.apply(
                 AuthRuleApplyParams.builder()
                     .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -104,8 +104,8 @@ class AuthRuleServiceTest {
                     .programLevel(true)
                     .build()
             )
-        println(authRuleApplyResponse)
-        authRuleApplyResponse.validate()
+        println(authRule)
+        authRule.validate()
     }
 
     @Test

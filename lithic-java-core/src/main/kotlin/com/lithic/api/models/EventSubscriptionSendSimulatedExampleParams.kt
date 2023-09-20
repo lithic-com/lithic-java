@@ -15,13 +15,10 @@ import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
 
-class EventSubscriptionUpdateParams
+class EventSubscriptionSendSimulatedExampleParams
 constructor(
     private val eventSubscriptionToken: String,
-    private val url: String,
-    private val description: String?,
-    private val disabled: Boolean?,
-    private val eventTypes: List<EventType>?,
+    private val eventType: EventType?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -29,23 +26,11 @@ constructor(
 
     fun eventSubscriptionToken(): String = eventSubscriptionToken
 
-    fun url(): String = url
-
-    fun description(): Optional<String> = Optional.ofNullable(description)
-
-    fun disabled(): Optional<Boolean> = Optional.ofNullable(disabled)
-
-    fun eventTypes(): Optional<List<EventType>> = Optional.ofNullable(eventTypes)
+    fun eventType(): Optional<EventType> = Optional.ofNullable(eventType)
 
     @JvmSynthetic
-    internal fun getBody(): EventSubscriptionUpdateBody {
-        return EventSubscriptionUpdateBody(
-            url,
-            description,
-            disabled,
-            eventTypes,
-            additionalBodyProperties,
-        )
+    internal fun getBody(): EventSubscriptionSendSimulatedExampleBody {
+        return EventSubscriptionSendSimulatedExampleBody(eventType, additionalBodyProperties)
     }
 
     @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
@@ -59,33 +44,18 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = EventSubscriptionUpdateBody.Builder::class)
+    @JsonDeserialize(builder = EventSubscriptionSendSimulatedExampleBody.Builder::class)
     @NoAutoDetect
-    class EventSubscriptionUpdateBody
+    class EventSubscriptionSendSimulatedExampleBody
     internal constructor(
-        private val url: String?,
-        private val description: String?,
-        private val disabled: Boolean?,
-        private val eventTypes: List<EventType>?,
+        private val eventType: EventType?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
 
-        /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
-        @JsonProperty("url") fun url(): String? = url
-
-        /** Event subscription description. */
-        @JsonProperty("description") fun description(): String? = description
-
-        /** Whether the event subscription is active (false) or inactive (true). */
-        @JsonProperty("disabled") fun disabled(): Boolean? = disabled
-
-        /**
-         * Indicates types of events that will be sent to this subscription. If left blank, all
-         * types will be sent.
-         */
-        @JsonProperty("event_types") fun eventTypes(): List<EventType>? = eventTypes
+        /** Event type to send example message for. */
+        @JsonProperty("event_type") fun eventType(): EventType? = eventType
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -98,30 +68,20 @@ constructor(
                 return true
             }
 
-            return other is EventSubscriptionUpdateBody &&
-                this.url == other.url &&
-                this.description == other.description &&
-                this.disabled == other.disabled &&
-                this.eventTypes == other.eventTypes &&
+            return other is EventSubscriptionSendSimulatedExampleBody &&
+                this.eventType == other.eventType &&
                 this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        url,
-                        description,
-                        disabled,
-                        eventTypes,
-                        additionalProperties,
-                    )
+                hashCode = Objects.hash(eventType, additionalProperties)
             }
             return hashCode
         }
 
         override fun toString() =
-            "EventSubscriptionUpdateBody{url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalProperties=$additionalProperties}"
+            "EventSubscriptionSendSimulatedExampleBody{eventType=$eventType, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -130,38 +90,20 @@ constructor(
 
         class Builder {
 
-            private var url: String? = null
-            private var description: String? = null
-            private var disabled: Boolean? = null
-            private var eventTypes: List<EventType>? = null
+            private var eventType: EventType? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(eventSubscriptionUpdateBody: EventSubscriptionUpdateBody) = apply {
-                this.url = eventSubscriptionUpdateBody.url
-                this.description = eventSubscriptionUpdateBody.description
-                this.disabled = eventSubscriptionUpdateBody.disabled
-                this.eventTypes = eventSubscriptionUpdateBody.eventTypes
-                additionalProperties(eventSubscriptionUpdateBody.additionalProperties)
+            internal fun from(
+                eventSubscriptionSendSimulatedExampleBody: EventSubscriptionSendSimulatedExampleBody
+            ) = apply {
+                this.eventType = eventSubscriptionSendSimulatedExampleBody.eventType
+                additionalProperties(eventSubscriptionSendSimulatedExampleBody.additionalProperties)
             }
 
-            /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
-            @JsonProperty("url") fun url(url: String) = apply { this.url = url }
-
-            /** Event subscription description. */
-            @JsonProperty("description")
-            fun description(description: String) = apply { this.description = description }
-
-            /** Whether the event subscription is active (false) or inactive (true). */
-            @JsonProperty("disabled")
-            fun disabled(disabled: Boolean) = apply { this.disabled = disabled }
-
-            /**
-             * Indicates types of events that will be sent to this subscription. If left blank, all
-             * types will be sent.
-             */
-            @JsonProperty("event_types")
-            fun eventTypes(eventTypes: List<EventType>) = apply { this.eventTypes = eventTypes }
+            /** Event type to send example message for. */
+            @JsonProperty("event_type")
+            fun eventType(eventType: EventType) = apply { this.eventType = eventType }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -177,13 +119,10 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): EventSubscriptionUpdateBody =
-                EventSubscriptionUpdateBody(
-                    checkNotNull(url) { "`url` is required but was not set" },
-                    description,
-                    disabled,
-                    eventTypes?.toUnmodifiable(),
-                    additionalProperties.toUnmodifiable(),
+            fun build(): EventSubscriptionSendSimulatedExampleBody =
+                EventSubscriptionSendSimulatedExampleBody(
+                    eventType,
+                    additionalProperties.toUnmodifiable()
                 )
         }
     }
@@ -199,12 +138,9 @@ constructor(
             return true
         }
 
-        return other is EventSubscriptionUpdateParams &&
+        return other is EventSubscriptionSendSimulatedExampleParams &&
             this.eventSubscriptionToken == other.eventSubscriptionToken &&
-            this.url == other.url &&
-            this.description == other.description &&
-            this.disabled == other.disabled &&
-            this.eventTypes == other.eventTypes &&
+            this.eventType == other.eventType &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -213,10 +149,7 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             eventSubscriptionToken,
-            url,
-            description,
-            disabled,
-            eventTypes,
+            eventType,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -224,7 +157,7 @@ constructor(
     }
 
     override fun toString() =
-        "EventSubscriptionUpdateParams{eventSubscriptionToken=$eventSubscriptionToken, url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "EventSubscriptionSendSimulatedExampleParams{eventSubscriptionToken=$eventSubscriptionToken, eventType=$eventType, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -237,53 +170,31 @@ constructor(
     class Builder {
 
         private var eventSubscriptionToken: String? = null
-        private var url: String? = null
-        private var description: String? = null
-        private var disabled: Boolean? = null
-        private var eventTypes: MutableList<EventType> = mutableListOf()
+        private var eventType: EventType? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(eventSubscriptionUpdateParams: EventSubscriptionUpdateParams) = apply {
-            this.eventSubscriptionToken = eventSubscriptionUpdateParams.eventSubscriptionToken
-            this.url = eventSubscriptionUpdateParams.url
-            this.description = eventSubscriptionUpdateParams.description
-            this.disabled = eventSubscriptionUpdateParams.disabled
-            this.eventTypes(eventSubscriptionUpdateParams.eventTypes ?: listOf())
-            additionalQueryParams(eventSubscriptionUpdateParams.additionalQueryParams)
-            additionalHeaders(eventSubscriptionUpdateParams.additionalHeaders)
-            additionalBodyProperties(eventSubscriptionUpdateParams.additionalBodyProperties)
+        internal fun from(
+            eventSubscriptionSendSimulatedExampleParams: EventSubscriptionSendSimulatedExampleParams
+        ) = apply {
+            this.eventSubscriptionToken =
+                eventSubscriptionSendSimulatedExampleParams.eventSubscriptionToken
+            this.eventType = eventSubscriptionSendSimulatedExampleParams.eventType
+            additionalQueryParams(eventSubscriptionSendSimulatedExampleParams.additionalQueryParams)
+            additionalHeaders(eventSubscriptionSendSimulatedExampleParams.additionalHeaders)
+            additionalBodyProperties(
+                eventSubscriptionSendSimulatedExampleParams.additionalBodyProperties
+            )
         }
 
         fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
             this.eventSubscriptionToken = eventSubscriptionToken
         }
 
-        /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
-        fun url(url: String) = apply { this.url = url }
-
-        /** Event subscription description. */
-        fun description(description: String) = apply { this.description = description }
-
-        /** Whether the event subscription is active (false) or inactive (true). */
-        fun disabled(disabled: Boolean) = apply { this.disabled = disabled }
-
-        /**
-         * Indicates types of events that will be sent to this subscription. If left blank, all
-         * types will be sent.
-         */
-        fun eventTypes(eventTypes: List<EventType>) = apply {
-            this.eventTypes.clear()
-            this.eventTypes.addAll(eventTypes)
-        }
-
-        /**
-         * Indicates types of events that will be sent to this subscription. If left blank, all
-         * types will be sent.
-         */
-        fun addEventType(eventType: EventType) = apply { this.eventTypes.add(eventType) }
+        /** Event type to send example message for. */
+        fun eventType(eventType: EventType) = apply { this.eventType = eventType }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -339,15 +250,12 @@ constructor(
                 this.additionalBodyProperties.putAll(additionalBodyProperties)
             }
 
-        fun build(): EventSubscriptionUpdateParams =
-            EventSubscriptionUpdateParams(
+        fun build(): EventSubscriptionSendSimulatedExampleParams =
+            EventSubscriptionSendSimulatedExampleParams(
                 checkNotNull(eventSubscriptionToken) {
                     "`eventSubscriptionToken` is required but was not set"
                 },
-                checkNotNull(url) { "`url` is required but was not set" },
-                description,
-                disabled,
-                if (eventTypes.size == 0) null else eventTypes.toUnmodifiable(),
+                eventType,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),
