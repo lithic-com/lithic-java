@@ -7,8 +7,11 @@ import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.AuthenticationRetrieveResponse
+import com.lithic.api.models.AuthenticationSimulateResponse
 import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
+import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 import com.lithic.api.services.errorHandler
+import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
 
@@ -39,6 +42,39 @@ constructor(
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { retrieveHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val simulateHandler: Handler<AuthenticationSimulateResponse> =
+        jsonHandler<AuthenticationSimulateResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /**
+     * Simulates a 3DS authentication request from the payment network as if it came from an ACS. If
+     * you're configured for 3DS Customer Decisioning, simulating authentications requires your
+     * customer decisioning endpoint to be set up properly (respond with a valid JSON).
+     */
+    override fun simulate(
+        params: ThreeDSAuthenticationSimulateParams,
+        requestOptions: RequestOptions
+    ): AuthenticationSimulateResponse {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("three_ds_authentication", "simulate")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { simulateHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()

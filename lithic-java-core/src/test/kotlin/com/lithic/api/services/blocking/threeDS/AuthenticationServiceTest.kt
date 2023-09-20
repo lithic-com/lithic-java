@@ -26,4 +26,36 @@ class AuthenticationServiceTest {
         println(authenticationRetrieveResponse)
         authenticationRetrieveResponse.validate()
     }
+
+    @Test
+    fun callSimulate() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("test-api-key")
+                .build()
+        val authenticationService = client.threeDS().authentication()
+        val authenticationSimulateResponse =
+            authenticationService.simulate(
+                ThreeDSAuthenticationSimulateParams.builder()
+                    .merchant(
+                        ThreeDSAuthenticationSimulateParams.Merchant.builder()
+                            .id("OODKZAPJVN4YS7O")
+                            .country("USA")
+                            .mcc("5812")
+                            .name("COFFEE SHOP")
+                            .build()
+                    )
+                    .pan("4111111289144142")
+                    .transaction(
+                        ThreeDSAuthenticationSimulateParams.Transaction.builder()
+                            .amount(123L)
+                            .currency("GBP")
+                            .build()
+                    )
+                    .build()
+            )
+        println(authenticationSimulateResponse)
+        authenticationSimulateResponse.validate()
+    }
 }

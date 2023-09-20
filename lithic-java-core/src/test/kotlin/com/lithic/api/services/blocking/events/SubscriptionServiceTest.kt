@@ -184,4 +184,20 @@ class SubscriptionServiceTest {
             EventSubscriptionRotateSecretParams.builder().eventSubscriptionToken("string").build()
         )
     }
+
+    @Test
+    fun callSendSimulatedExample() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("test-api-key")
+                .build()
+        val subscriptionService = client.events().subscriptions()
+        subscriptionService.sendSimulatedExample(
+            EventSubscriptionSendSimulatedExampleParams.builder()
+                .eventSubscriptionToken("string")
+                .eventType(EventSubscriptionSendSimulatedExampleParams.EventType.CARD_CREATED)
+                .build()
+        )
+    }
 }
