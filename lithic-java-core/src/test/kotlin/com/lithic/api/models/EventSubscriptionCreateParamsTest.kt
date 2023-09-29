@@ -12,7 +12,7 @@ class EventSubscriptionCreateParamsTest {
             .url("https://example.com")
             .description("string")
             .disabled(true)
-            .eventTypes(listOf(EventSubscriptionCreateParams.EventType.CARD_CREATED))
+            .eventTypes(listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED))
             .build()
     }
 
@@ -23,7 +23,7 @@ class EventSubscriptionCreateParamsTest {
                 .url("https://example.com")
                 .description("string")
                 .disabled(true)
-                .eventTypes(listOf(EventSubscriptionCreateParams.EventType.CARD_CREATED))
+                .eventTypes(listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED))
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -31,7 +31,7 @@ class EventSubscriptionCreateParamsTest {
         assertThat(body.description()).isEqualTo("string")
         assertThat(body.disabled()).isEqualTo(true)
         assertThat(body.eventTypes())
-            .isEqualTo(listOf(EventSubscriptionCreateParams.EventType.CARD_CREATED))
+            .isEqualTo(listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED))
     }
 
     @Test

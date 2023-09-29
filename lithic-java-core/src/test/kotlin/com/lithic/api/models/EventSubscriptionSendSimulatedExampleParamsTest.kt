@@ -10,7 +10,7 @@ class EventSubscriptionSendSimulatedExampleParamsTest {
     fun createEventSubscriptionSendSimulatedExampleParams() {
         EventSubscriptionSendSimulatedExampleParams.builder()
             .eventSubscriptionToken("string")
-            .eventType(EventSubscriptionSendSimulatedExampleParams.EventType.CARD_CREATED)
+            .eventType(EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED)
             .build()
     }
 
@@ -19,12 +19,14 @@ class EventSubscriptionSendSimulatedExampleParamsTest {
         val params =
             EventSubscriptionSendSimulatedExampleParams.builder()
                 .eventSubscriptionToken("string")
-                .eventType(EventSubscriptionSendSimulatedExampleParams.EventType.CARD_CREATED)
+                .eventType(
+                    EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED
+                )
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.eventType())
-            .isEqualTo(EventSubscriptionSendSimulatedExampleParams.EventType.CARD_CREATED)
+            .isEqualTo(EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED)
     }
 
     @Test
