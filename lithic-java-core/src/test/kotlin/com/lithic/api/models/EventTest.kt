@@ -12,13 +12,13 @@ class EventTest {
             Event.builder()
                 .token("msg_1srOrx2ZWZBpBUvZwXKQmoEYga1")
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .eventType(Event.EventType.CARD_CREATED)
+                .eventType(Event.EventType.ACCOUNT_HOLDER_CREATED)
                 .payload(Event.Payload.builder().build())
                 .build()
         assertThat(event).isNotNull
         assertThat(event.token()).isEqualTo("msg_1srOrx2ZWZBpBUvZwXKQmoEYga1")
         assertThat(event.created()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(event.eventType()).isEqualTo(Event.EventType.CARD_CREATED)
+        assertThat(event.eventType()).isEqualTo(Event.EventType.ACCOUNT_HOLDER_CREATED)
         assertThat(event.payload()).isEqualTo(Event.Payload.builder().build())
     }
 }

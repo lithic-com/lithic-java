@@ -5,8 +5,6 @@ package com.lithic.api.services.async
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.AccountHolder
 import com.lithic.api.models.AccountHolderCreateParams
-import com.lithic.api.models.AccountHolderCreateWebhookParams
-import com.lithic.api.models.AccountHolderCreateWebhookResponse
 import com.lithic.api.models.AccountHolderDocument
 import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListDocumentsResponse
@@ -47,26 +45,6 @@ interface AccountHolderServiceAsync {
         params: AccountHolderUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<AccountHolderUpdateResponse>
-
-    /**
-     * Create a webhook to receive KYC or KYB evaluation events.
-     *
-     * There are two types of account holder webhooks:
-     *
-     * - `verification`: Webhook sent when the status of a KYC or KYB evaluation changes from
-     * `PENDING_DOCUMENT` (KYC) or `PENDING` (KYB) to `ACCEPTED` or `REJECTED`.
-     * - `document_upload_front`/`document_upload_back`: Webhook sent when a document upload fails.
-     *
-     * After a webhook has been created, this endpoint can be used to rotate a webhooks HMAC token
-     * or modify the registered URL. Only a single webhook is allowed per program. Since HMAC
-     * verification is available, the IP addresses from which KYC/KYB webhooks are sent are subject
-     * to change.
-     */
-    @JvmOverloads
-    fun createWebhook(
-        params: AccountHolderCreateWebhookParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<AccountHolderCreateWebhookResponse>
 
     /**
      * Retrieve the status of account holder document uploads, or retrieve the upload URLs to

@@ -15,7 +15,7 @@ class EventListParamsTest {
             .pageSize(123L)
             .startingAfter("string")
             .endingBefore("string")
-            .eventTypes(listOf(EventListParams.EventType.CARD_CREATED))
+            .eventTypes(listOf(EventListParams.EventType.ACCOUNT_HOLDER_CREATED))
             .withContent(true)
             .build()
     }
@@ -29,7 +29,7 @@ class EventListParamsTest {
                 .pageSize(123L)
                 .startingAfter("string")
                 .endingBefore("string")
-                .eventTypes(listOf(EventListParams.EventType.CARD_CREATED))
+                .eventTypes(listOf(EventListParams.EventType.ACCOUNT_HOLDER_CREATED))
                 .withContent(true)
                 .build()
         val expected = mutableMapOf<String, List<String>>()
@@ -38,7 +38,10 @@ class EventListParamsTest {
         expected.put("page_size", listOf("123"))
         expected.put("starting_after", listOf("string"))
         expected.put("ending_before", listOf("string"))
-        expected.put("event_types", listOf(EventListParams.EventType.CARD_CREATED.toString()))
+        expected.put(
+            "event_types",
+            listOf(EventListParams.EventType.ACCOUNT_HOLDER_CREATED.toString())
+        )
         expected.put("with_content", listOf("true"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }

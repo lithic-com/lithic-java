@@ -159,22 +159,6 @@ class AccountHolderServiceTest {
     }
 
     @Test
-    fun callCreateWebhook() {
-        val client =
-            LithicOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
-                .build()
-        val accountHolderService = client.accountHolders()
-        val accountHolderCreateWebhookResponse =
-            accountHolderService.createWebhook(
-                AccountHolderCreateWebhookParams.builder().url("string").build()
-            )
-        println(accountHolderCreateWebhookResponse)
-        accountHolderCreateWebhookResponse.validate()
-    }
-
-    @Test
     fun callListDocuments() {
         val client =
             LithicOkHttpClient.builder()
