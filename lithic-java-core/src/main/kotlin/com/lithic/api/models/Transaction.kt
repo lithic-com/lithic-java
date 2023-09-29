@@ -20,6 +20,7 @@ import java.util.Optional
 @NoAutoDetect
 class Transaction
 private constructor(
+    private val acquirerFee: JsonField<Long>,
     private val acquirerReferenceNumber: JsonField<String>,
     private val amount: JsonField<Long>,
     private val authorizationAmount: JsonField<Long>,
@@ -45,9 +46,15 @@ private constructor(
     private var hashCode: Int = 0
 
     /**
-     * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
-     * transaction originated from the Mastercard network. This number may be used for dispute
-     * tracking.
+     * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
+     * currency. Will be zero if no fee is assessed. Rebates may be transmitted as a negative value
+     * to indicate credited fees.
+     */
+    fun acquirerFee(): Long = acquirerFee.getRequired("acquirer_fee")
+
+    /**
+     * Unique identifier assigned to a transaction by the acquirer that can be used in dispute and
+     * chargeback filing.
      */
     fun acquirerReferenceNumber(): Optional<String> =
         Optional.ofNullable(acquirerReferenceNumber.getNullable("acquirer_reference_number"))
@@ -131,9 +138,15 @@ private constructor(
     fun token(): String = token.getRequired("token")
 
     /**
-     * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
-     * transaction originated from the Mastercard network. This number may be used for dispute
-     * tracking.
+     * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
+     * currency. Will be zero if no fee is assessed. Rebates may be transmitted as a negative value
+     * to indicate credited fees.
+     */
+    @JsonProperty("acquirer_fee") @ExcludeMissing fun _acquirerFee() = acquirerFee
+
+    /**
+     * Unique identifier assigned to a transaction by the acquirer that can be used in dispute and
+     * chargeback filing.
      */
     @JsonProperty("acquirer_reference_number")
     @ExcludeMissing
@@ -227,6 +240,7 @@ private constructor(
 
     fun validate(): Transaction = apply {
         if (!validated) {
+            acquirerFee()
             acquirerReferenceNumber()
             amount()
             authorizationAmount()
@@ -256,6 +270,7 @@ private constructor(
         }
 
         return other is Transaction &&
+            this.acquirerFee == other.acquirerFee &&
             this.acquirerReferenceNumber == other.acquirerReferenceNumber &&
             this.amount == other.amount &&
             this.authorizationAmount == other.authorizationAmount &&
@@ -280,6 +295,7 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
+                    acquirerFee,
                     acquirerReferenceNumber,
                     amount,
                     authorizationAmount,
@@ -304,7 +320,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Transaction{acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, authorizationAmount=$authorizationAmount, authorizationCode=$authorizationCode, cardToken=$cardToken, cardholderAuthentication=$cardholderAuthentication, created=$created, events=$events, merchant=$merchant, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, network=$network, result=$result, settledAmount=$settledAmount, status=$status, token=$token, additionalProperties=$additionalProperties}"
+        "Transaction{acquirerFee=$acquirerFee, acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, authorizationAmount=$authorizationAmount, authorizationCode=$authorizationCode, cardToken=$cardToken, cardholderAuthentication=$cardholderAuthentication, created=$created, events=$events, merchant=$merchant, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, network=$network, result=$result, settledAmount=$settledAmount, status=$status, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -313,6 +329,7 @@ private constructor(
 
     class Builder {
 
+        private var acquirerFee: JsonField<Long> = JsonMissing.of()
         private var acquirerReferenceNumber: JsonField<String> = JsonMissing.of()
         private var amount: JsonField<Long> = JsonMissing.of()
         private var authorizationAmount: JsonField<Long> = JsonMissing.of()
@@ -334,6 +351,7 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(transaction: Transaction) = apply {
+            this.acquirerFee = transaction.acquirerFee
             this.acquirerReferenceNumber = transaction.acquirerReferenceNumber
             this.amount = transaction.amount
             this.authorizationAmount = transaction.authorizationAmount
@@ -355,17 +373,31 @@ private constructor(
         }
 
         /**
-         * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
-         * transaction originated from the Mastercard network. This number may be used for dispute
-         * tracking.
+         * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
+         * currency. Will be zero if no fee is assessed. Rebates may be transmitted as a negative
+         * value to indicate credited fees.
+         */
+        fun acquirerFee(acquirerFee: Long) = acquirerFee(JsonField.of(acquirerFee))
+
+        /**
+         * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
+         * currency. Will be zero if no fee is assessed. Rebates may be transmitted as a negative
+         * value to indicate credited fees.
+         */
+        @JsonProperty("acquirer_fee")
+        @ExcludeMissing
+        fun acquirerFee(acquirerFee: JsonField<Long>) = apply { this.acquirerFee = acquirerFee }
+
+        /**
+         * Unique identifier assigned to a transaction by the acquirer that can be used in dispute
+         * and chargeback filing.
          */
         fun acquirerReferenceNumber(acquirerReferenceNumber: String) =
             acquirerReferenceNumber(JsonField.of(acquirerReferenceNumber))
 
         /**
-         * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
-         * transaction originated from the Mastercard network. This number may be used for dispute
-         * tracking.
+         * Unique identifier assigned to a transaction by the acquirer that can be used in dispute
+         * and chargeback filing.
          */
         @JsonProperty("acquirer_reference_number")
         @ExcludeMissing
@@ -594,6 +626,7 @@ private constructor(
 
         fun build(): Transaction =
             Transaction(
+                acquirerFee,
                 acquirerReferenceNumber,
                 amount,
                 authorizationAmount,
@@ -1872,9 +1905,12 @@ private constructor(
     private constructor(
         private val _3dsVersion: JsonField<String>,
         private val acquirerExemption: JsonField<AcquirerExemption>,
+        private val authenticationResult: JsonField<AuthenticationResult>,
+        private val decisionMadeBy: JsonField<DecisionMadeBy>,
         private val liabilityShift: JsonField<LiabilityShift>,
         private val verificationAttempted: JsonField<VerificationAttempted>,
         private val verificationResult: JsonField<VerificationResult>,
+        private val threeDSAuthenticationToken: JsonField<String>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -1883,7 +1919,7 @@ private constructor(
         private var hashCode: Int = 0
 
         /**
-         * 3-D Secure Protocol version. Possible values:
+         * 3-D Secure Protocol version. Possible enum values:
          *
          * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
          * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
@@ -1894,7 +1930,7 @@ private constructor(
 
         /**
          * Exemption applied by the ACS to authenticate the transaction without requesting a
-         * challenge. Possible values:
+         * challenge. Possible enum values:
          *
          * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
          * - `LOW_VALUE`: Low Value Payment exemption.
@@ -1913,7 +1949,40 @@ private constructor(
             acquirerExemption.getRequired("acquirer_exemption")
 
         /**
-         * Indicates whether chargeback liability shift applies to the transaction. Possible values:
+         * Outcome of the 3DS authentication process. Possible enum values:
+         *
+         * - `SUCCESS`: 3DS authentication was successful and the transaction is considered
+         * authenticated.
+         * - `DECLINE`: 3DS authentication was attempted but was unsuccessful — i.e., the issuer
+         * declined to authenticate the cardholder; note that Lithic populates this value on a
+         * best-effort basis based on common data across the 3DS authentication and ASA data
+         * elements.
+         * - `ATTEMPTS`: 3DS authentication was attempted but full authentication did not occur. A
+         * proof of attempted authenticated is provided by the merchant.
+         * - `NONE`: 3DS authentication was not performed on the transaction.
+         */
+        fun authenticationResult(): AuthenticationResult =
+            authenticationResult.getRequired("authentication_result")
+
+        /**
+         * Indicator for which party made the 3DS authentication decision. Possible enum values:
+         *
+         * - `NETWORK`: A networks tand-in service decided on the outcome; for token authentications
+         * (as indicated in the `liability_shift` attribute), this is the default value
+         * - `LITHIC_DEFAULT`: A default decision was made by Lithic, without running a rules-based
+         * authentication; this value will be set on card programs that do not participate in one of
+         * our two 3DS product tiers
+         * - `LITHIC_RULES`: A rules-based authentication was conducted by Lithic and Lithic decided
+         * on the outcome
+         * - `CUSTOMER_ENDPOINT`: Lithic customer decided on the outcome based on a real-time
+         * request sent to a configured endpoint
+         * - `UNKNOWN`: Data on which party decided is unavailable
+         */
+        fun decisionMadeBy(): DecisionMadeBy = decisionMadeBy.getRequired("decision_made_by")
+
+        /**
+         * Indicates whether chargeback liability shift applies to the transaction. Possible enum
+         * values:
          *
          * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
          * chargeback liability shift applies.
@@ -1975,7 +2044,15 @@ private constructor(
             verificationResult.getRequired("verification_result")
 
         /**
-         * 3-D Secure Protocol version. Possible values:
+         * Unique identifier you can use to match a given 3DS authentication and the transaction.
+         * Note that in cases where liability shift does not occur, this token is matched to the
+         * transaction on a best-effort basis.
+         */
+        fun threeDSAuthenticationToken(): String =
+            threeDSAuthenticationToken.getRequired("three_ds_authentication_token")
+
+        /**
+         * 3-D Secure Protocol version. Possible enum values:
          *
          * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
          * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
@@ -1985,7 +2062,7 @@ private constructor(
 
         /**
          * Exemption applied by the ACS to authenticate the transaction without requesting a
-         * challenge. Possible values:
+         * challenge. Possible enum values:
          *
          * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
          * - `LOW_VALUE`: Low Value Payment exemption.
@@ -2005,7 +2082,41 @@ private constructor(
         fun _acquirerExemption() = acquirerExemption
 
         /**
-         * Indicates whether chargeback liability shift applies to the transaction. Possible values:
+         * Outcome of the 3DS authentication process. Possible enum values:
+         *
+         * - `SUCCESS`: 3DS authentication was successful and the transaction is considered
+         * authenticated.
+         * - `DECLINE`: 3DS authentication was attempted but was unsuccessful — i.e., the issuer
+         * declined to authenticate the cardholder; note that Lithic populates this value on a
+         * best-effort basis based on common data across the 3DS authentication and ASA data
+         * elements.
+         * - `ATTEMPTS`: 3DS authentication was attempted but full authentication did not occur. A
+         * proof of attempted authenticated is provided by the merchant.
+         * - `NONE`: 3DS authentication was not performed on the transaction.
+         */
+        @JsonProperty("authentication_result")
+        @ExcludeMissing
+        fun _authenticationResult() = authenticationResult
+
+        /**
+         * Indicator for which party made the 3DS authentication decision. Possible enum values:
+         *
+         * - `NETWORK`: A networks tand-in service decided on the outcome; for token authentications
+         * (as indicated in the `liability_shift` attribute), this is the default value
+         * - `LITHIC_DEFAULT`: A default decision was made by Lithic, without running a rules-based
+         * authentication; this value will be set on card programs that do not participate in one of
+         * our two 3DS product tiers
+         * - `LITHIC_RULES`: A rules-based authentication was conducted by Lithic and Lithic decided
+         * on the outcome
+         * - `CUSTOMER_ENDPOINT`: Lithic customer decided on the outcome based on a real-time
+         * request sent to a configured endpoint
+         * - `UNKNOWN`: Data on which party decided is unavailable
+         */
+        @JsonProperty("decision_made_by") @ExcludeMissing fun _decisionMadeBy() = decisionMadeBy
+
+        /**
+         * Indicates whether chargeback liability shift applies to the transaction. Possible enum
+         * values:
          *
          * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
          * chargeback liability shift applies.
@@ -2068,6 +2179,15 @@ private constructor(
         @ExcludeMissing
         fun _verificationResult() = verificationResult
 
+        /**
+         * Unique identifier you can use to match a given 3DS authentication and the transaction.
+         * Note that in cases where liability shift does not occur, this token is matched to the
+         * transaction on a best-effort basis.
+         */
+        @JsonProperty("three_ds_authentication_token")
+        @ExcludeMissing
+        fun _threeDSAuthenticationToken() = threeDSAuthenticationToken
+
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -2076,9 +2196,12 @@ private constructor(
             if (!validated) {
                 _3dsVersion()
                 acquirerExemption()
+                authenticationResult()
+                decisionMadeBy()
                 liabilityShift()
                 verificationAttempted()
                 verificationResult()
+                threeDSAuthenticationToken()
                 validated = true
             }
         }
@@ -2093,9 +2216,12 @@ private constructor(
             return other is CardholderAuthentication &&
                 this._3dsVersion == other._3dsVersion &&
                 this.acquirerExemption == other.acquirerExemption &&
+                this.authenticationResult == other.authenticationResult &&
+                this.decisionMadeBy == other.decisionMadeBy &&
                 this.liabilityShift == other.liabilityShift &&
                 this.verificationAttempted == other.verificationAttempted &&
                 this.verificationResult == other.verificationResult &&
+                this.threeDSAuthenticationToken == other.threeDSAuthenticationToken &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -2105,9 +2231,12 @@ private constructor(
                     Objects.hash(
                         _3dsVersion,
                         acquirerExemption,
+                        authenticationResult,
+                        decisionMadeBy,
                         liabilityShift,
                         verificationAttempted,
                         verificationResult,
+                        threeDSAuthenticationToken,
                         additionalProperties,
                     )
             }
@@ -2115,7 +2244,7 @@ private constructor(
         }
 
         override fun toString() =
-            "CardholderAuthentication{_3dsVersion=$_3dsVersion, acquirerExemption=$acquirerExemption, liabilityShift=$liabilityShift, verificationAttempted=$verificationAttempted, verificationResult=$verificationResult, additionalProperties=$additionalProperties}"
+            "CardholderAuthentication{_3dsVersion=$_3dsVersion, acquirerExemption=$acquirerExemption, authenticationResult=$authenticationResult, decisionMadeBy=$decisionMadeBy, liabilityShift=$liabilityShift, verificationAttempted=$verificationAttempted, verificationResult=$verificationResult, threeDSAuthenticationToken=$threeDSAuthenticationToken, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -2126,23 +2255,30 @@ private constructor(
 
             private var _3dsVersion: JsonField<String> = JsonMissing.of()
             private var acquirerExemption: JsonField<AcquirerExemption> = JsonMissing.of()
+            private var authenticationResult: JsonField<AuthenticationResult> = JsonMissing.of()
+            private var decisionMadeBy: JsonField<DecisionMadeBy> = JsonMissing.of()
             private var liabilityShift: JsonField<LiabilityShift> = JsonMissing.of()
             private var verificationAttempted: JsonField<VerificationAttempted> = JsonMissing.of()
             private var verificationResult: JsonField<VerificationResult> = JsonMissing.of()
+            private var threeDSAuthenticationToken: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(cardholderAuthentication: CardholderAuthentication) = apply {
                 this._3dsVersion = cardholderAuthentication._3dsVersion
                 this.acquirerExemption = cardholderAuthentication.acquirerExemption
+                this.authenticationResult = cardholderAuthentication.authenticationResult
+                this.decisionMadeBy = cardholderAuthentication.decisionMadeBy
                 this.liabilityShift = cardholderAuthentication.liabilityShift
                 this.verificationAttempted = cardholderAuthentication.verificationAttempted
                 this.verificationResult = cardholderAuthentication.verificationResult
+                this.threeDSAuthenticationToken =
+                    cardholderAuthentication.threeDSAuthenticationToken
                 additionalProperties(cardholderAuthentication.additionalProperties)
             }
 
             /**
-             * 3-D Secure Protocol version. Possible values:
+             * 3-D Secure Protocol version. Possible enum values:
              *
              * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
              * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
@@ -2151,7 +2287,7 @@ private constructor(
             fun _3dsVersion(_3dsVersion: String) = _3dsVersion(JsonField.of(_3dsVersion))
 
             /**
-             * 3-D Secure Protocol version. Possible values:
+             * 3-D Secure Protocol version. Possible enum values:
              *
              * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
              * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
@@ -2165,7 +2301,7 @@ private constructor(
 
             /**
              * Exemption applied by the ACS to authenticate the transaction without requesting a
-             * challenge. Possible values:
+             * challenge. Possible enum values:
              *
              * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
              * - `LOW_VALUE`: Low Value Payment exemption.
@@ -2185,7 +2321,7 @@ private constructor(
 
             /**
              * Exemption applied by the ACS to authenticate the transaction without requesting a
-             * challenge. Possible values:
+             * challenge. Possible enum values:
              *
              * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
              * - `LOW_VALUE`: Low Value Payment exemption.
@@ -2207,8 +2343,83 @@ private constructor(
             }
 
             /**
+             * Outcome of the 3DS authentication process. Possible enum values:
+             *
+             * - `SUCCESS`: 3DS authentication was successful and the transaction is considered
+             * authenticated.
+             * - `DECLINE`: 3DS authentication was attempted but was unsuccessful — i.e., the issuer
+             * declined to authenticate the cardholder; note that Lithic populates this value on a
+             * best-effort basis based on common data across the 3DS authentication and ASA data
+             * elements.
+             * - `ATTEMPTS`: 3DS authentication was attempted but full authentication did not occur.
+             * A proof of attempted authenticated is provided by the merchant.
+             * - `NONE`: 3DS authentication was not performed on the transaction.
+             */
+            fun authenticationResult(authenticationResult: AuthenticationResult) =
+                authenticationResult(JsonField.of(authenticationResult))
+
+            /**
+             * Outcome of the 3DS authentication process. Possible enum values:
+             *
+             * - `SUCCESS`: 3DS authentication was successful and the transaction is considered
+             * authenticated.
+             * - `DECLINE`: 3DS authentication was attempted but was unsuccessful — i.e., the issuer
+             * declined to authenticate the cardholder; note that Lithic populates this value on a
+             * best-effort basis based on common data across the 3DS authentication and ASA data
+             * elements.
+             * - `ATTEMPTS`: 3DS authentication was attempted but full authentication did not occur.
+             * A proof of attempted authenticated is provided by the merchant.
+             * - `NONE`: 3DS authentication was not performed on the transaction.
+             */
+            @JsonProperty("authentication_result")
+            @ExcludeMissing
+            fun authenticationResult(authenticationResult: JsonField<AuthenticationResult>) =
+                apply {
+                    this.authenticationResult = authenticationResult
+                }
+
+            /**
+             * Indicator for which party made the 3DS authentication decision. Possible enum values:
+             *
+             * - `NETWORK`: A networks tand-in service decided on the outcome; for token
+             * authentications (as indicated in the `liability_shift` attribute), this is the
+             * default value
+             * - `LITHIC_DEFAULT`: A default decision was made by Lithic, without running a
+             * rules-based authentication; this value will be set on card programs that do not
+             * participate in one of our two 3DS product tiers
+             * - `LITHIC_RULES`: A rules-based authentication was conducted by Lithic and Lithic
+             * decided on the outcome
+             * - `CUSTOMER_ENDPOINT`: Lithic customer decided on the outcome based on a real-time
+             * request sent to a configured endpoint
+             * - `UNKNOWN`: Data on which party decided is unavailable
+             */
+            fun decisionMadeBy(decisionMadeBy: DecisionMadeBy) =
+                decisionMadeBy(JsonField.of(decisionMadeBy))
+
+            /**
+             * Indicator for which party made the 3DS authentication decision. Possible enum values:
+             *
+             * - `NETWORK`: A networks tand-in service decided on the outcome; for token
+             * authentications (as indicated in the `liability_shift` attribute), this is the
+             * default value
+             * - `LITHIC_DEFAULT`: A default decision was made by Lithic, without running a
+             * rules-based authentication; this value will be set on card programs that do not
+             * participate in one of our two 3DS product tiers
+             * - `LITHIC_RULES`: A rules-based authentication was conducted by Lithic and Lithic
+             * decided on the outcome
+             * - `CUSTOMER_ENDPOINT`: Lithic customer decided on the outcome based on a real-time
+             * request sent to a configured endpoint
+             * - `UNKNOWN`: Data on which party decided is unavailable
+             */
+            @JsonProperty("decision_made_by")
+            @ExcludeMissing
+            fun decisionMadeBy(decisionMadeBy: JsonField<DecisionMadeBy>) = apply {
+                this.decisionMadeBy = decisionMadeBy
+            }
+
+            /**
              * Indicates whether chargeback liability shift applies to the transaction. Possible
-             * values:
+             * enum values:
              *
              * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure
              * flow, chargeback liability shift applies.
@@ -2226,7 +2437,7 @@ private constructor(
 
             /**
              * Indicates whether chargeback liability shift applies to the transaction. Possible
-             * values:
+             * enum values:
              *
              * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure
              * flow, chargeback liability shift applies.
@@ -2348,6 +2559,25 @@ private constructor(
                 this.verificationResult = verificationResult
             }
 
+            /**
+             * Unique identifier you can use to match a given 3DS authentication and the
+             * transaction. Note that in cases where liability shift does not occur, this token is
+             * matched to the transaction on a best-effort basis.
+             */
+            fun threeDSAuthenticationToken(threeDSAuthenticationToken: String) =
+                threeDSAuthenticationToken(JsonField.of(threeDSAuthenticationToken))
+
+            /**
+             * Unique identifier you can use to match a given 3DS authentication and the
+             * transaction. Note that in cases where liability shift does not occur, this token is
+             * matched to the transaction on a best-effort basis.
+             */
+            @JsonProperty("three_ds_authentication_token")
+            @ExcludeMissing
+            fun threeDSAuthenticationToken(threeDSAuthenticationToken: JsonField<String>) = apply {
+                this.threeDSAuthenticationToken = threeDSAuthenticationToken
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 this.additionalProperties.putAll(additionalProperties)
@@ -2366,9 +2596,12 @@ private constructor(
                 CardholderAuthentication(
                     _3dsVersion,
                     acquirerExemption,
+                    authenticationResult,
+                    decisionMadeBy,
                     liabilityShift,
                     verificationAttempted,
                     verificationResult,
+                    threeDSAuthenticationToken,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -2474,6 +2707,150 @@ private constructor(
                         Known.STRONG_CUSTOMER_AUTHENTICATION_DELEGATION
                     TRANSACTION_RISK_ANALYSIS -> Known.TRANSACTION_RISK_ANALYSIS
                     else -> throw LithicInvalidDataException("Unknown AcquirerExemption: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
+
+        class AuthenticationResult
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is AuthenticationResult && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val SUCCESS = AuthenticationResult(JsonField.of("SUCCESS"))
+
+                @JvmField val DECLINE = AuthenticationResult(JsonField.of("DECLINE"))
+
+                @JvmField val ATTEMPTS = AuthenticationResult(JsonField.of("ATTEMPTS"))
+
+                @JvmField val NONE = AuthenticationResult(JsonField.of("NONE"))
+
+                @JvmStatic fun of(value: String) = AuthenticationResult(JsonField.of(value))
+            }
+
+            enum class Known {
+                SUCCESS,
+                DECLINE,
+                ATTEMPTS,
+                NONE,
+            }
+
+            enum class Value {
+                SUCCESS,
+                DECLINE,
+                ATTEMPTS,
+                NONE,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    SUCCESS -> Value.SUCCESS
+                    DECLINE -> Value.DECLINE
+                    ATTEMPTS -> Value.ATTEMPTS
+                    NONE -> Value.NONE
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    SUCCESS -> Known.SUCCESS
+                    DECLINE -> Known.DECLINE
+                    ATTEMPTS -> Known.ATTEMPTS
+                    NONE -> Known.NONE
+                    else -> throw LithicInvalidDataException("Unknown AuthenticationResult: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
+
+        class DecisionMadeBy
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is DecisionMadeBy && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val NETWORK = DecisionMadeBy(JsonField.of("NETWORK"))
+
+                @JvmField val LITHIC_DEFAULT = DecisionMadeBy(JsonField.of("LITHIC_DEFAULT"))
+
+                @JvmField val LITHIC_RULES = DecisionMadeBy(JsonField.of("LITHIC_RULES"))
+
+                @JvmField val CUSTOMER_ENDPOINT = DecisionMadeBy(JsonField.of("CUSTOMER_ENDPOINT"))
+
+                @JvmField val UNKNOWN = DecisionMadeBy(JsonField.of("UNKNOWN"))
+
+                @JvmStatic fun of(value: String) = DecisionMadeBy(JsonField.of(value))
+            }
+
+            enum class Known {
+                NETWORK,
+                LITHIC_DEFAULT,
+                LITHIC_RULES,
+                CUSTOMER_ENDPOINT,
+                UNKNOWN,
+            }
+
+            enum class Value {
+                NETWORK,
+                LITHIC_DEFAULT,
+                LITHIC_RULES,
+                CUSTOMER_ENDPOINT,
+                UNKNOWN,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    NETWORK -> Value.NETWORK
+                    LITHIC_DEFAULT -> Value.LITHIC_DEFAULT
+                    LITHIC_RULES -> Value.LITHIC_RULES
+                    CUSTOMER_ENDPOINT -> Value.CUSTOMER_ENDPOINT
+                    UNKNOWN -> Value.UNKNOWN
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    NETWORK -> Known.NETWORK
+                    LITHIC_DEFAULT -> Known.LITHIC_DEFAULT
+                    LITHIC_RULES -> Known.LITHIC_RULES
+                    CUSTOMER_ENDPOINT -> Known.CUSTOMER_ENDPOINT
+                    UNKNOWN -> Known.UNKNOWN
+                    else -> throw LithicInvalidDataException("Unknown DecisionMadeBy: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()

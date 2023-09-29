@@ -27,7 +27,9 @@ class SubscriptionServiceTest {
                     .url("https://example.com")
                     .description("string")
                     .disabled(true)
-                    .eventTypes(listOf(EventSubscriptionCreateParams.EventType.CARD_CREATED))
+                    .eventTypes(
+                        listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED)
+                    )
                     .build()
             )
         println(eventSubscription)
@@ -65,7 +67,9 @@ class SubscriptionServiceTest {
                     .url("https://example.com")
                     .description("string")
                     .disabled(true)
-                    .eventTypes(listOf(EventSubscriptionUpdateParams.EventType.CARD_CREATED))
+                    .eventTypes(
+                        listOf(EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED)
+                    )
                     .build()
             )
         println(eventSubscription)
@@ -196,7 +200,9 @@ class SubscriptionServiceTest {
         subscriptionService.sendSimulatedExample(
             EventSubscriptionSendSimulatedExampleParams.builder()
                 .eventSubscriptionToken("string")
-                .eventType(EventSubscriptionSendSimulatedExampleParams.EventType.CARD_CREATED)
+                .eventType(
+                    EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED
+                )
                 .build()
         )
     }
