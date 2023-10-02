@@ -55,7 +55,7 @@ class TestServerExtension : BeforeAllCallback, ExecutionCondition {
 
     companion object {
 
-        val BASE_URL = System.getenv("API_BASE_URL") ?: "http://localhost:4010"
+        val BASE_URL = System.getenv("TEST_API_BASE_URL") ?: "http://localhost:4010"
 
         const val SKIP_TESTS_ENV: String = "SKIP_MOCK_TESTS"
     }
