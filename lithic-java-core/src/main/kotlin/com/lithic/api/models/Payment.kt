@@ -31,11 +31,11 @@ private constructor(
     private val status: JsonField<FinancialTransaction.Status>,
     private val token: JsonField<String>,
     private val updated: JsonField<OffsetDateTime>,
-    private val methodAttributes: JsonField<Payment.PaymentMethodAttributes>,
+    private val methodAttributes: JsonField<PaymentMethodAttributes>,
     private val externalBankAccountToken: JsonField<String>,
-    private val direction: JsonField<Payment.Direction>,
-    private val source: JsonField<Payment.Source>,
-    private val method: JsonField<Payment.Method>,
+    private val direction: JsonField<Direction>,
+    private val source: JsonField<Source>,
+    private val method: JsonField<Method>,
     private val userDefinedId: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
@@ -105,17 +105,17 @@ private constructor(
     /** Date and time when the financial transaction was last updated. UTC time zone. */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
-    fun methodAttributes(): Payment.PaymentMethodAttributes =
+    fun methodAttributes(): PaymentMethodAttributes =
         methodAttributes.getRequired("method_attributes")
 
     fun externalBankAccountToken(): Optional<String> =
         Optional.ofNullable(externalBankAccountToken.getNullable("external_bank_account_token"))
 
-    fun direction(): Payment.Direction = direction.getRequired("direction")
+    fun direction(): Direction = direction.getRequired("direction")
 
-    fun source(): Payment.Source = source.getRequired("source")
+    fun source(): Source = source.getRequired("source")
 
-    fun method(): Payment.Method = method.getRequired("method")
+    fun method(): Method = method.getRequired("method")
 
     fun userDefinedId(): Optional<String> =
         Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
@@ -313,11 +313,11 @@ private constructor(
         private var status: JsonField<FinancialTransaction.Status> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var methodAttributes: JsonField<Payment.PaymentMethodAttributes> = JsonMissing.of()
+        private var methodAttributes: JsonField<PaymentMethodAttributes> = JsonMissing.of()
         private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
-        private var direction: JsonField<Payment.Direction> = JsonMissing.of()
-        private var source: JsonField<Payment.Source> = JsonMissing.of()
-        private var method: JsonField<Payment.Method> = JsonMissing.of()
+        private var direction: JsonField<Direction> = JsonMissing.of()
+        private var source: JsonField<Source> = JsonMissing.of()
+        private var method: JsonField<Method> = JsonMissing.of()
         private var userDefinedId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -497,12 +497,12 @@ private constructor(
         @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
-        fun methodAttributes(methodAttributes: Payment.PaymentMethodAttributes) =
+        fun methodAttributes(methodAttributes: PaymentMethodAttributes) =
             methodAttributes(JsonField.of(methodAttributes))
 
         @JsonProperty("method_attributes")
         @ExcludeMissing
-        fun methodAttributes(methodAttributes: JsonField<Payment.PaymentMethodAttributes>) = apply {
+        fun methodAttributes(methodAttributes: JsonField<PaymentMethodAttributes>) = apply {
             this.methodAttributes = methodAttributes
         }
 
@@ -515,25 +515,23 @@ private constructor(
             this.externalBankAccountToken = externalBankAccountToken
         }
 
-        fun direction(direction: Payment.Direction) = direction(JsonField.of(direction))
+        fun direction(direction: Direction) = direction(JsonField.of(direction))
 
         @JsonProperty("direction")
         @ExcludeMissing
-        fun direction(direction: JsonField<Payment.Direction>) = apply {
-            this.direction = direction
-        }
+        fun direction(direction: JsonField<Direction>) = apply { this.direction = direction }
 
-        fun source(source: Payment.Source) = source(JsonField.of(source))
+        fun source(source: Source) = source(JsonField.of(source))
 
         @JsonProperty("source")
         @ExcludeMissing
-        fun source(source: JsonField<Payment.Source>) = apply { this.source = source }
+        fun source(source: JsonField<Source>) = apply { this.source = source }
 
-        fun method(method: Payment.Method) = method(JsonField.of(method))
+        fun method(method: Method) = method(JsonField.of(method))
 
         @JsonProperty("method")
         @ExcludeMissing
-        fun method(method: JsonField<Payment.Method>) = apply { this.method = method }
+        fun method(method: JsonField<Method>) = apply { this.method = method }
 
         fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
