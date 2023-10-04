@@ -1,3 +1,5 @@
+// File generated from our OpenAPI spec by Stainless.
+
 package com.lithic.api.errors
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
