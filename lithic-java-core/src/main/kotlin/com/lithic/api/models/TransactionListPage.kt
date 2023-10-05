@@ -29,11 +29,7 @@ private constructor(
 
     fun data(): List<Transaction> = response().data()
 
-    fun page(): Long = response().page()
-
-    fun totalEntries(): Long = response().totalEntries()
-
-    fun totalPages(): Long = response().totalPages()
+    fun hasMore(): Boolean = response().hasMore()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -58,11 +54,7 @@ private constructor(
         "TransactionListPage{transactionsService=$transactionsService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean {
-        if (data().isEmpty()) {
-            return false
-        }
-
-        return page() < totalPages()
+        return data().isEmpty()
     }
 
     fun getNextPageParams(): Optional<TransactionListParams> {
@@ -70,9 +62,21 @@ private constructor(
             return Optional.empty()
         }
 
-        return Optional.of(
-            TransactionListParams.builder().from(params).page(params.page().orElse(0) + 1).build()
-        )
+        return if (params.endingBefore().isPresent) {
+            Optional.of(
+                TransactionListParams.builder()
+                    .from(params)
+                    .endingBefore(data().first().token())
+                    .build()
+            )
+        } else {
+            Optional.of(
+                TransactionListParams.builder()
+                    .from(params)
+                    .startingAfter(data().last().token())
+                    .build()
+            )
+        }
     }
 
     fun getNextPage(): Optional<TransactionListPage> {
@@ -101,9 +105,7 @@ private constructor(
     class Response
     constructor(
         private val data: JsonField<List<Transaction>>,
-        private val page: JsonField<Long>,
-        private val totalEntries: JsonField<Long>,
-        private val totalPages: JsonField<Long>,
+        private val hasMore: JsonField<Boolean>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -111,22 +113,13 @@ private constructor(
 
         fun data(): List<Transaction> = data.getNullable("data") ?: listOf()
 
-        fun page(): Long = page.getRequired("page")
-
-        fun totalEntries(): Long = totalEntries.getRequired("total_entries")
-
-        fun totalPages(): Long = totalPages.getRequired("total_pages")
+        fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
         @JsonProperty("data")
         fun _data(): Optional<JsonField<List<Transaction>>> = Optional.ofNullable(data)
 
-        @JsonProperty("page") fun _page(): Optional<JsonField<Long>> = Optional.ofNullable(page)
-
-        @JsonProperty("total_entries")
-        fun _totalEntries(): Optional<JsonField<Long>> = Optional.ofNullable(totalEntries)
-
-        @JsonProperty("total_pages")
-        fun _totalPages(): Optional<JsonField<Long>> = Optional.ofNullable(totalPages)
+        @JsonProperty("has_more")
+        fun _hasMore(): Optional<JsonField<Boolean>> = Optional.ofNullable(hasMore)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -135,9 +128,7 @@ private constructor(
         fun validate(): Response = apply {
             if (!validated) {
                 data().map { it.validate() }
-                page()
-                totalEntries()
-                totalPages()
+                hasMore()
                 validated = true
             }
         }
@@ -151,24 +142,20 @@ private constructor(
 
             return other is Response &&
                 this.data == other.data &&
-                this.page == other.page &&
-                this.totalEntries == other.totalEntries &&
-                this.totalPages == other.totalPages &&
+                this.hasMore == other.hasMore &&
                 this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
             return Objects.hash(
                 data,
-                page,
-                totalEntries,
-                totalPages,
+                hasMore,
                 additionalProperties,
             )
         }
 
         override fun toString() =
-            "TransactionListPage.Response{data=$data, page=$page, totalEntries=$totalEntries, totalPages=$totalPages, additionalProperties=$additionalProperties}"
+            "TransactionListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -178,17 +165,13 @@ private constructor(
         class Builder {
 
             private var data: JsonField<List<Transaction>> = JsonMissing.of()
-            private var page: JsonField<Long> = JsonMissing.of()
-            private var totalEntries: JsonField<Long> = JsonMissing.of()
-            private var totalPages: JsonField<Long> = JsonMissing.of()
+            private var hasMore: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(page: Response) = apply {
                 this.data = page.data
-                this.page = page.page
-                this.totalEntries = page.totalEntries
-                this.totalPages = page.totalPages
+                this.hasMore = page.hasMore
                 this.additionalProperties.putAll(page.additionalProperties)
             }
 
@@ -197,21 +180,10 @@ private constructor(
             @JsonProperty("data")
             fun data(data: JsonField<List<Transaction>>) = apply { this.data = data }
 
-            fun page(page: Long) = page(JsonField.of(page))
+            fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
-            @JsonProperty("page") fun page(page: JsonField<Long>) = apply { this.page = page }
-
-            fun totalEntries(totalEntries: Long) = totalEntries(JsonField.of(totalEntries))
-
-            @JsonProperty("total_entries")
-            fun totalEntries(totalEntries: JsonField<Long>) = apply {
-                this.totalEntries = totalEntries
-            }
-
-            fun totalPages(totalPages: Long) = totalPages(JsonField.of(totalPages))
-
-            @JsonProperty("total_pages")
-            fun totalPages(totalPages: JsonField<Long>) = apply { this.totalPages = totalPages }
+            @JsonProperty("has_more")
+            fun hasMore(hasMore: JsonField<Boolean>) = apply { this.hasMore = hasMore }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
@@ -221,9 +193,7 @@ private constructor(
             fun build() =
                 Response(
                     data,
-                    page,
-                    totalEntries,
-                    totalPages,
+                    hasMore,
                     additionalProperties.toUnmodifiable(),
                 )
         }

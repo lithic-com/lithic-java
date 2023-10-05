@@ -38,10 +38,10 @@ private constructor(
     private var hashCode: Int = 0
 
     /** Globally unique identifier. */
-    fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+    fun token(): String = token.getRequired("token")
 
     /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
-    fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+    fun state(): State = state.getRequired("state")
 
     /** Merchant category codes for which the Auth Rule permits transactions. */
     fun allowedMcc(): Optional<List<String>> =
