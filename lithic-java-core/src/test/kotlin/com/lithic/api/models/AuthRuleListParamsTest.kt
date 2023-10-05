@@ -10,14 +10,24 @@ class AuthRuleListParamsTest {
 
     @Test
     fun createAuthRuleListParams() {
-        AuthRuleListParams.builder().page(123L).pageSize(123L).build()
+        AuthRuleListParams.builder()
+            .startingAfter("string")
+            .endingBefore("string")
+            .pageSize(123L)
+            .build()
     }
 
     @Test
     fun getQueryParams() {
-        val params = AuthRuleListParams.builder().page(123L).pageSize(123L).build()
+        val params =
+            AuthRuleListParams.builder()
+                .startingAfter("string")
+                .endingBefore("string")
+                .pageSize(123L)
+                .build()
         val expected = mutableMapOf<String, List<String>>()
-        expected.put("page", listOf("123"))
+        expected.put("starting_after", listOf("string"))
+        expected.put("ending_before", listOf("string"))
         expected.put("page_size", listOf("123"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
