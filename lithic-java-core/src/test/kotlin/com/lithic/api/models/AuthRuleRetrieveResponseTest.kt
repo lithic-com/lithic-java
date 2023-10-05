@@ -15,6 +15,7 @@ class AuthRuleRetrieveResponseTest {
                     listOf(
                         AuthRule.builder()
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .state(AuthRule.State.ACTIVE)
                             .accountTokens(listOf("string"))
                             .allowedCountries(listOf("string"))
                             .allowedMcc(listOf("string"))
@@ -22,7 +23,6 @@ class AuthRuleRetrieveResponseTest {
                             .blockedMcc(listOf("string"))
                             .cardTokens(listOf("string"))
                             .programLevel(true)
-                            .state(AuthRule.State.ACTIVE)
                             .build()
                     )
                 )
@@ -32,6 +32,7 @@ class AuthRuleRetrieveResponseTest {
             .containsExactly(
                 AuthRule.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .state(AuthRule.State.ACTIVE)
                     .accountTokens(listOf("string"))
                     .allowedCountries(listOf("string"))
                     .allowedMcc(listOf("string"))
@@ -39,7 +40,6 @@ class AuthRuleRetrieveResponseTest {
                     .blockedMcc(listOf("string"))
                     .cardTokens(listOf("string"))
                     .programLevel(true)
-                    .state(AuthRule.State.ACTIVE)
                     .build()
             )
     }

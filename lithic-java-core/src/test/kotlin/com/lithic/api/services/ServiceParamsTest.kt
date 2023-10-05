@@ -155,7 +155,8 @@ class ServiceParamsTest {
                 .state(CardListParams.State.OPEN)
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .page(123L)
+                .startingAfter("string")
+                .endingBefore("string")
                 .pageSize(123L)
                 .additionalHeaders(additionalHeaders)
                 .additionalQueryParams(additionalQueryParams)
@@ -195,9 +196,7 @@ class ServiceParamsTest {
                             .build()
                     )
                 )
-                .page(123L)
-                .totalEntries(123L)
-                .totalPages(123L)
+                .hasMore(true)
                 .build()
 
         stubFor(
