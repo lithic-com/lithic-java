@@ -19,7 +19,7 @@ class DisputeServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
         val dispute =
@@ -41,7 +41,7 @@ class DisputeServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
         val dispute =
@@ -59,7 +59,7 @@ class DisputeServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
         val dispute =
@@ -81,7 +81,7 @@ class DisputeServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
         val response = disputeService.list(DisputeListParams.builder().build())
@@ -94,7 +94,7 @@ class DisputeServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
         val dispute =
@@ -112,7 +112,7 @@ class DisputeServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
         val disputeEvidence =
@@ -131,7 +131,7 @@ class DisputeServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
         val disputeEvidence =
@@ -150,7 +150,7 @@ class DisputeServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
         val response =
@@ -168,7 +168,7 @@ class DisputeServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val disputeService = client.disputes()
         val disputeEvidence =

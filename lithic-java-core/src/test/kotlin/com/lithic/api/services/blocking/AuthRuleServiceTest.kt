@@ -17,7 +17,7 @@ class AuthRuleServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authRuleService = client.authRules()
         val authRule =
@@ -41,7 +41,7 @@ class AuthRuleServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authRuleService = client.authRules()
         val authRuleRetrieveResponse =
@@ -59,7 +59,7 @@ class AuthRuleServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authRuleService = client.authRules()
         val authRule =
@@ -81,7 +81,7 @@ class AuthRuleServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authRuleService = client.authRules()
         val response = authRuleService.list(AuthRuleListParams.builder().build())
@@ -94,7 +94,7 @@ class AuthRuleServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authRuleService = client.authRules()
         val authRule =
@@ -115,7 +115,7 @@ class AuthRuleServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authRuleService = client.authRules()
         val authRuleRemoveResponse =

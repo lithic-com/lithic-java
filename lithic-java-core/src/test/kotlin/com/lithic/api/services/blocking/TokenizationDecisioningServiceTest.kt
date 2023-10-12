@@ -16,7 +16,7 @@ class TokenizationDecisioningServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val tokenizationDecisioningService = client.tokenizationDecisioning()
         val tokenizationSecret =
@@ -32,7 +32,7 @@ class TokenizationDecisioningServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val tokenizationDecisioningService = client.tokenizationDecisioning()
         val tokenizationDecisioningRotateSecretResponse =

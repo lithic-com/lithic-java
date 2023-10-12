@@ -16,7 +16,7 @@ class DecisioningServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val decisioningService = client.threeDS().decisioning()
         val decisioningRetrieveSecretResponse =
@@ -32,7 +32,7 @@ class DecisioningServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val decisioningService = client.threeDS().decisioning()
         decisioningService.rotateSecret(ThreeDSDecisioningRotateSecretParams.builder().build())

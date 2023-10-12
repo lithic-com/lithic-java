@@ -17,7 +17,7 @@ class AggregateBalanceServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val aggregateBalanceService = client.aggregateBalances()
         val response = aggregateBalanceService.list(AggregateBalanceListParams.builder().build())

@@ -17,7 +17,7 @@ class BalanceServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val balanceService = client.financialAccounts().balances()
         val response =

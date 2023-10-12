@@ -18,7 +18,7 @@ class ExternalBankAccountServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val externalBankAccountService = client.externalBankAccounts()
         val externalBankAccountCreateResponse =
@@ -48,7 +48,7 @@ class ExternalBankAccountServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val externalBankAccountService = client.externalBankAccounts()
         val externalBankAccountRetrieveResponse =
@@ -66,7 +66,7 @@ class ExternalBankAccountServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val externalBankAccountService = client.externalBankAccounts()
         val externalBankAccountUpdateResponse =
@@ -101,7 +101,7 @@ class ExternalBankAccountServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val externalBankAccountService = client.externalBankAccounts()
         val bankAccountsApiResponse =
