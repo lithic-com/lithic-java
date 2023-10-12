@@ -17,10 +17,10 @@ class EventListParams
 constructor(
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
-    private val pageSize: Long?,
-    private val startingAfter: String?,
     private val endingBefore: String?,
     private val eventTypes: List<EventType>?,
+    private val pageSize: Long?,
+    private val startingAfter: String?,
     private val withContent: Boolean?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
@@ -30,13 +30,13 @@ constructor(
 
     fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
-    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
-
-    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
-
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
     fun eventTypes(): Optional<List<EventType>> = Optional.ofNullable(eventTypes)
+
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
+
+    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
     fun withContent(): Optional<Boolean> = Optional.ofNullable(withContent)
 
@@ -45,10 +45,10 @@ constructor(
         val params = mutableMapOf<String, List<String>>()
         this.begin?.let { params.put("begin", listOf(it.toString())) }
         this.end?.let { params.put("end", listOf(it.toString())) }
-        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
-        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         this.eventTypes?.let { params.put("event_types", listOf(it.joinToString(separator = ","))) }
+        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
+        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.withContent?.let { params.put("with_content", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
@@ -68,10 +68,10 @@ constructor(
         return other is EventListParams &&
             this.begin == other.begin &&
             this.end == other.end &&
-            this.pageSize == other.pageSize &&
-            this.startingAfter == other.startingAfter &&
             this.endingBefore == other.endingBefore &&
             this.eventTypes == other.eventTypes &&
+            this.pageSize == other.pageSize &&
+            this.startingAfter == other.startingAfter &&
             this.withContent == other.withContent &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
@@ -81,10 +81,10 @@ constructor(
         return Objects.hash(
             begin,
             end,
-            pageSize,
-            startingAfter,
             endingBefore,
             eventTypes,
+            pageSize,
+            startingAfter,
             withContent,
             additionalQueryParams,
             additionalHeaders,
@@ -92,7 +92,7 @@ constructor(
     }
 
     override fun toString() =
-        "EventListParams{begin=$begin, end=$end, pageSize=$pageSize, startingAfter=$startingAfter, endingBefore=$endingBefore, eventTypes=$eventTypes, withContent=$withContent, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "EventListParams{begin=$begin, end=$end, endingBefore=$endingBefore, eventTypes=$eventTypes, pageSize=$pageSize, startingAfter=$startingAfter, withContent=$withContent, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -106,10 +106,10 @@ constructor(
 
         private var begin: OffsetDateTime? = null
         private var end: OffsetDateTime? = null
-        private var pageSize: Long? = null
-        private var startingAfter: String? = null
         private var endingBefore: String? = null
         private var eventTypes: MutableList<EventType> = mutableListOf()
+        private var pageSize: Long? = null
+        private var startingAfter: String? = null
         private var withContent: Boolean? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -118,10 +118,10 @@ constructor(
         internal fun from(eventListParams: EventListParams) = apply {
             this.begin = eventListParams.begin
             this.end = eventListParams.end
-            this.pageSize = eventListParams.pageSize
-            this.startingAfter = eventListParams.startingAfter
             this.endingBefore = eventListParams.endingBefore
             this.eventTypes(eventListParams.eventTypes ?: listOf())
+            this.pageSize = eventListParams.pageSize
+            this.startingAfter = eventListParams.startingAfter
             this.withContent = eventListParams.withContent
             additionalQueryParams(eventListParams.additionalQueryParams)
             additionalHeaders(eventListParams.additionalHeaders)
@@ -139,15 +139,6 @@ constructor(
          */
         fun end(end: OffsetDateTime) = apply { this.end = end }
 
-        /** Page size (for pagination). */
-        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
-
-        /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
-        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
-
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
@@ -162,6 +153,15 @@ constructor(
 
         /** Event types to filter events by. */
         fun addEventType(eventType: EventType) = apply { this.eventTypes.add(eventType) }
+
+        /** Page size (for pagination). */
+        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
+
+        /**
+         * A cursor representing an item's token after which a page of results should begin. Used to
+         * retrieve the next page of results after this item.
+         */
+        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
         /** Whether to include the event payload content in the response. */
         fun withContent(withContent: Boolean) = apply { this.withContent = withContent }
@@ -210,10 +210,10 @@ constructor(
             EventListParams(
                 begin,
                 end,
-                pageSize,
-                startingAfter,
                 endingBefore,
                 if (eventTypes.size == 0) null else eventTypes.toUnmodifiable(),
+                pageSize,
+                startingAfter,
                 withContent,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),

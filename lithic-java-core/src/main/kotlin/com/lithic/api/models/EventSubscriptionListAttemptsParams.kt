@@ -16,11 +16,11 @@ import java.util.Optional
 class EventSubscriptionListAttemptsParams
 constructor(
     private val eventSubscriptionToken: String,
-    private val pageSize: Long?,
-    private val startingAfter: String?,
-    private val endingBefore: String?,
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
+    private val endingBefore: String?,
+    private val pageSize: Long?,
+    private val startingAfter: String?,
     private val status: Status?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
@@ -28,26 +28,26 @@ constructor(
 
     fun eventSubscriptionToken(): String = eventSubscriptionToken
 
-    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
-
-    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
-
-    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
-
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
 
     fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
+
+    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
+
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
+
+    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
-        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
-        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
-        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         this.begin?.let { params.put("begin", listOf(it.toString())) }
         this.end?.let { params.put("end", listOf(it.toString())) }
+        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
+        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
+        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.status?.let { params.put("status", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
@@ -73,11 +73,11 @@ constructor(
 
         return other is EventSubscriptionListAttemptsParams &&
             this.eventSubscriptionToken == other.eventSubscriptionToken &&
-            this.pageSize == other.pageSize &&
-            this.startingAfter == other.startingAfter &&
-            this.endingBefore == other.endingBefore &&
             this.begin == other.begin &&
             this.end == other.end &&
+            this.endingBefore == other.endingBefore &&
+            this.pageSize == other.pageSize &&
+            this.startingAfter == other.startingAfter &&
             this.status == other.status &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
@@ -86,11 +86,11 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             eventSubscriptionToken,
-            pageSize,
-            startingAfter,
-            endingBefore,
             begin,
             end,
+            endingBefore,
+            pageSize,
+            startingAfter,
             status,
             additionalQueryParams,
             additionalHeaders,
@@ -98,7 +98,7 @@ constructor(
     }
 
     override fun toString() =
-        "EventSubscriptionListAttemptsParams{eventSubscriptionToken=$eventSubscriptionToken, pageSize=$pageSize, startingAfter=$startingAfter, endingBefore=$endingBefore, begin=$begin, end=$end, status=$status, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "EventSubscriptionListAttemptsParams{eventSubscriptionToken=$eventSubscriptionToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, status=$status, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -111,11 +111,11 @@ constructor(
     class Builder {
 
         private var eventSubscriptionToken: String? = null
-        private var pageSize: Long? = null
-        private var startingAfter: String? = null
-        private var endingBefore: String? = null
         private var begin: OffsetDateTime? = null
         private var end: OffsetDateTime? = null
+        private var endingBefore: String? = null
+        private var pageSize: Long? = null
+        private var startingAfter: String? = null
         private var status: Status? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -125,11 +125,11 @@ constructor(
             eventSubscriptionListAttemptsParams: EventSubscriptionListAttemptsParams
         ) = apply {
             this.eventSubscriptionToken = eventSubscriptionListAttemptsParams.eventSubscriptionToken
-            this.pageSize = eventSubscriptionListAttemptsParams.pageSize
-            this.startingAfter = eventSubscriptionListAttemptsParams.startingAfter
-            this.endingBefore = eventSubscriptionListAttemptsParams.endingBefore
             this.begin = eventSubscriptionListAttemptsParams.begin
             this.end = eventSubscriptionListAttemptsParams.end
+            this.endingBefore = eventSubscriptionListAttemptsParams.endingBefore
+            this.pageSize = eventSubscriptionListAttemptsParams.pageSize
+            this.startingAfter = eventSubscriptionListAttemptsParams.startingAfter
             this.status = eventSubscriptionListAttemptsParams.status
             additionalQueryParams(eventSubscriptionListAttemptsParams.additionalQueryParams)
             additionalHeaders(eventSubscriptionListAttemptsParams.additionalHeaders)
@@ -138,21 +138,6 @@ constructor(
         fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
             this.eventSubscriptionToken = eventSubscriptionToken
         }
-
-        /** Page size (for pagination). */
-        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
-
-        /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
-        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
-
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
-        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
         /**
          * Date string in RFC 3339 format. Only entries created after the specified date will be
@@ -165,6 +150,21 @@ constructor(
          * included. UTC time zone.
          */
         fun end(end: OffsetDateTime) = apply { this.end = end }
+
+        /**
+         * A cursor representing an item's token before which a page of results should end. Used to
+         * retrieve the previous page of results before this item.
+         */
+        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
+
+        /** Page size (for pagination). */
+        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
+
+        /**
+         * A cursor representing an item's token after which a page of results should begin. Used to
+         * retrieve the next page of results after this item.
+         */
+        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
         fun status(status: Status) = apply { this.status = status }
 
@@ -213,11 +213,11 @@ constructor(
                 checkNotNull(eventSubscriptionToken) {
                     "`eventSubscriptionToken` is required but was not set"
                 },
-                pageSize,
-                startingAfter,
-                endingBefore,
                 begin,
                 end,
+                endingBefore,
+                pageSize,
+                startingAfter,
                 status,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),

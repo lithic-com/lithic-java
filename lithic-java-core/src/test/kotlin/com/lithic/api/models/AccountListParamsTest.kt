@@ -14,9 +14,9 @@ class AccountListParamsTest {
         AccountListParams.builder()
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-            .startingAfter("string")
             .endingBefore("string")
             .pageSize(123L)
+            .startingAfter("string")
             .build()
     }
 
@@ -26,16 +26,16 @@ class AccountListParamsTest {
             AccountListParams.builder()
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .startingAfter("string")
                 .endingBefore("string")
                 .pageSize(123L)
+                .startingAfter("string")
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put("begin", listOf("2019-12-27T18:11:19.117Z"))
         expected.put("end", listOf("2019-12-27T18:11:19.117Z"))
-        expected.put("starting_after", listOf("string"))
         expected.put("ending_before", listOf("string"))
         expected.put("page_size", listOf("123"))
+        expected.put("starting_after", listOf("string"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 

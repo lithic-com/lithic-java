@@ -13,11 +13,11 @@ class DisputeListEvidencesParamsTest {
     fun createDisputeListEvidencesParams() {
         DisputeListEvidencesParams.builder()
             .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .pageSize(123L)
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-            .startingAfter("string")
             .endingBefore("string")
+            .pageSize(123L)
+            .startingAfter("string")
             .build()
     }
 
@@ -26,18 +26,18 @@ class DisputeListEvidencesParamsTest {
         val params =
             DisputeListEvidencesParams.builder()
                 .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .pageSize(123L)
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .startingAfter("string")
                 .endingBefore("string")
+                .pageSize(123L)
+                .startingAfter("string")
                 .build()
         val expected = mutableMapOf<String, List<String>>()
-        expected.put("page_size", listOf("123"))
         expected.put("begin", listOf("2019-12-27T18:11:19.117Z"))
         expected.put("end", listOf("2019-12-27T18:11:19.117Z"))
-        expected.put("starting_after", listOf("string"))
         expected.put("ending_before", listOf("string"))
+        expected.put("page_size", listOf("123"))
+        expected.put("starting_after", listOf("string"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 
