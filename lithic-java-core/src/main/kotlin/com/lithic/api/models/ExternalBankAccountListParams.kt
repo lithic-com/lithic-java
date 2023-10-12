@@ -15,53 +15,53 @@ import java.util.Optional
 class ExternalBankAccountListParams
 constructor(
     private val accountToken: String?,
-    private val ownerTypes: List<OwnerType>?,
     private val accountTypes: List<AccountType>?,
-    private val states: List<AccountState>?,
-    private val verificationStates: List<VerificationState>?,
     private val countries: List<String>?,
+    private val endingBefore: String?,
+    private val ownerTypes: List<OwnerType>?,
     private val pageSize: Long?,
     private val startingAfter: String?,
-    private val endingBefore: String?,
+    private val states: List<AccountState>?,
+    private val verificationStates: List<VerificationState>?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
+    fun accountTypes(): Optional<List<AccountType>> = Optional.ofNullable(accountTypes)
+
+    fun countries(): Optional<List<String>> = Optional.ofNullable(countries)
+
+    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
+
     fun ownerTypes(): Optional<List<OwnerType>> = Optional.ofNullable(ownerTypes)
 
-    fun accountTypes(): Optional<List<AccountType>> = Optional.ofNullable(accountTypes)
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
+
+    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
     fun states(): Optional<List<AccountState>> = Optional.ofNullable(states)
 
     fun verificationStates(): Optional<List<VerificationState>> =
         Optional.ofNullable(verificationStates)
 
-    fun countries(): Optional<List<String>> = Optional.ofNullable(countries)
-
-    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
-
-    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
-
-    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
-
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
         this.accountToken?.let { params.put("account_token", listOf(it.toString())) }
-        this.ownerTypes?.let { params.put("owner_types", listOf(it.joinToString(separator = ","))) }
         this.accountTypes?.let {
             params.put("account_types", listOf(it.joinToString(separator = ",")))
         }
+        this.countries?.let { params.put("countries", listOf(it.joinToString(separator = ","))) }
+        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
+        this.ownerTypes?.let { params.put("owner_types", listOf(it.joinToString(separator = ","))) }
+        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
+        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.states?.let { params.put("states", listOf(it.joinToString(separator = ","))) }
         this.verificationStates?.let {
             params.put("verification_states", listOf(it.joinToString(separator = ",")))
         }
-        this.countries?.let { params.put("countries", listOf(it.joinToString(separator = ","))) }
-        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
-        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
-        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
@@ -79,14 +79,14 @@ constructor(
 
         return other is ExternalBankAccountListParams &&
             this.accountToken == other.accountToken &&
-            this.ownerTypes == other.ownerTypes &&
             this.accountTypes == other.accountTypes &&
-            this.states == other.states &&
-            this.verificationStates == other.verificationStates &&
             this.countries == other.countries &&
+            this.endingBefore == other.endingBefore &&
+            this.ownerTypes == other.ownerTypes &&
             this.pageSize == other.pageSize &&
             this.startingAfter == other.startingAfter &&
-            this.endingBefore == other.endingBefore &&
+            this.states == other.states &&
+            this.verificationStates == other.verificationStates &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
@@ -94,21 +94,21 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             accountToken,
-            ownerTypes,
             accountTypes,
-            states,
-            verificationStates,
             countries,
+            endingBefore,
+            ownerTypes,
             pageSize,
             startingAfter,
-            endingBefore,
+            states,
+            verificationStates,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "ExternalBankAccountListParams{accountToken=$accountToken, ownerTypes=$ownerTypes, accountTypes=$accountTypes, states=$states, verificationStates=$verificationStates, countries=$countries, pageSize=$pageSize, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "ExternalBankAccountListParams{accountToken=$accountToken, accountTypes=$accountTypes, countries=$countries, endingBefore=$endingBefore, ownerTypes=$ownerTypes, pageSize=$pageSize, startingAfter=$startingAfter, states=$states, verificationStates=$verificationStates, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -121,33 +121,53 @@ constructor(
     class Builder {
 
         private var accountToken: String? = null
-        private var ownerTypes: MutableList<OwnerType> = mutableListOf()
         private var accountTypes: MutableList<AccountType> = mutableListOf()
-        private var states: MutableList<AccountState> = mutableListOf()
-        private var verificationStates: MutableList<VerificationState> = mutableListOf()
         private var countries: MutableList<String> = mutableListOf()
+        private var endingBefore: String? = null
+        private var ownerTypes: MutableList<OwnerType> = mutableListOf()
         private var pageSize: Long? = null
         private var startingAfter: String? = null
-        private var endingBefore: String? = null
+        private var states: MutableList<AccountState> = mutableListOf()
+        private var verificationStates: MutableList<VerificationState> = mutableListOf()
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(externalBankAccountListParams: ExternalBankAccountListParams) = apply {
             this.accountToken = externalBankAccountListParams.accountToken
-            this.ownerTypes(externalBankAccountListParams.ownerTypes ?: listOf())
             this.accountTypes(externalBankAccountListParams.accountTypes ?: listOf())
-            this.states(externalBankAccountListParams.states ?: listOf())
-            this.verificationStates(externalBankAccountListParams.verificationStates ?: listOf())
             this.countries(externalBankAccountListParams.countries ?: listOf())
+            this.endingBefore = externalBankAccountListParams.endingBefore
+            this.ownerTypes(externalBankAccountListParams.ownerTypes ?: listOf())
             this.pageSize = externalBankAccountListParams.pageSize
             this.startingAfter = externalBankAccountListParams.startingAfter
-            this.endingBefore = externalBankAccountListParams.endingBefore
+            this.states(externalBankAccountListParams.states ?: listOf())
+            this.verificationStates(externalBankAccountListParams.verificationStates ?: listOf())
             additionalQueryParams(externalBankAccountListParams.additionalQueryParams)
             additionalHeaders(externalBankAccountListParams.additionalHeaders)
         }
 
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+
+        fun accountTypes(accountTypes: List<AccountType>) = apply {
+            this.accountTypes.clear()
+            this.accountTypes.addAll(accountTypes)
+        }
+
+        fun addAccountType(accountType: AccountType) = apply { this.accountTypes.add(accountType) }
+
+        fun countries(countries: List<String>) = apply {
+            this.countries.clear()
+            this.countries.addAll(countries)
+        }
+
+        fun addCountry(country: String) = apply { this.countries.add(country) }
+
+        /**
+         * A cursor representing an item's token before which a page of results should end. Used to
+         * retrieve the previous page of results before this item.
+         */
+        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
         fun ownerTypes(ownerTypes: List<OwnerType>) = apply {
             this.ownerTypes.clear()
@@ -156,12 +176,14 @@ constructor(
 
         fun addOwnerType(ownerType: OwnerType) = apply { this.ownerTypes.add(ownerType) }
 
-        fun accountTypes(accountTypes: List<AccountType>) = apply {
-            this.accountTypes.clear()
-            this.accountTypes.addAll(accountTypes)
-        }
+        /** Page size (for pagination). */
+        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
 
-        fun addAccountType(accountType: AccountType) = apply { this.accountTypes.add(accountType) }
+        /**
+         * A cursor representing an item's token after which a page of results should begin. Used to
+         * retrieve the next page of results after this item.
+         */
+        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
         fun states(states: List<AccountState>) = apply {
             this.states.clear()
@@ -178,28 +200,6 @@ constructor(
         fun addVerificationState(verificationState: VerificationState) = apply {
             this.verificationStates.add(verificationState)
         }
-
-        fun countries(countries: List<String>) = apply {
-            this.countries.clear()
-            this.countries.addAll(countries)
-        }
-
-        fun addCountry(country: String) = apply { this.countries.add(country) }
-
-        /** Page size (for pagination). */
-        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
-
-        /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
-        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
-
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
-        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -244,14 +244,14 @@ constructor(
         fun build(): ExternalBankAccountListParams =
             ExternalBankAccountListParams(
                 accountToken,
-                if (ownerTypes.size == 0) null else ownerTypes.toUnmodifiable(),
                 if (accountTypes.size == 0) null else accountTypes.toUnmodifiable(),
-                if (states.size == 0) null else states.toUnmodifiable(),
-                if (verificationStates.size == 0) null else verificationStates.toUnmodifiable(),
                 if (countries.size == 0) null else countries.toUnmodifiable(),
+                endingBefore,
+                if (ownerTypes.size == 0) null else ownerTypes.toUnmodifiable(),
                 pageSize,
                 startingAfter,
-                endingBefore,
+                if (states.size == 0) null else states.toUnmodifiable(),
+                if (verificationStates.size == 0) null else verificationStates.toUnmodifiable(),
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

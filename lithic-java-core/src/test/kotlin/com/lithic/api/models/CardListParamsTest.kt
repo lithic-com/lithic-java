@@ -13,12 +13,12 @@ class CardListParamsTest {
     fun createCardListParams() {
         CardListParams.builder()
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .state(CardListParams.State.OPEN)
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-            .startingAfter("string")
             .endingBefore("string")
             .pageSize(123L)
+            .startingAfter("string")
+            .state(CardListParams.State.OPEN)
             .build()
     }
 
@@ -27,21 +27,21 @@ class CardListParamsTest {
         val params =
             CardListParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .state(CardListParams.State.OPEN)
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .startingAfter("string")
                 .endingBefore("string")
                 .pageSize(123L)
+                .startingAfter("string")
+                .state(CardListParams.State.OPEN)
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put("account_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
-        expected.put("state", listOf(CardListParams.State.OPEN.toString()))
         expected.put("begin", listOf("2019-12-27T18:11:19.117Z"))
         expected.put("end", listOf("2019-12-27T18:11:19.117Z"))
-        expected.put("starting_after", listOf("string"))
         expected.put("ending_before", listOf("string"))
         expected.put("page_size", listOf("123"))
+        expected.put("starting_after", listOf("string"))
+        expected.put("state", listOf(CardListParams.State.OPEN.toString()))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 

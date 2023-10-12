@@ -15,43 +15,43 @@ import java.util.Optional
 
 class DisputeListParams
 constructor(
-    private val transactionTokens: List<String>?,
-    private val status: Status?,
-    private val pageSize: Long?,
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
-    private val startingAfter: String?,
     private val endingBefore: String?,
+    private val pageSize: Long?,
+    private val startingAfter: String?,
+    private val status: Status?,
+    private val transactionTokens: List<String>?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
-
-    fun transactionTokens(): Optional<List<String>> = Optional.ofNullable(transactionTokens)
-
-    fun status(): Optional<Status> = Optional.ofNullable(status)
-
-    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
 
     fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
+    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
+
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
+
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
-    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
+    fun status(): Optional<Status> = Optional.ofNullable(status)
+
+    fun transactionTokens(): Optional<List<String>> = Optional.ofNullable(transactionTokens)
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
+        this.begin?.let { params.put("begin", listOf(it.toString())) }
+        this.end?.let { params.put("end", listOf(it.toString())) }
+        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
+        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
+        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
+        this.status?.let { params.put("status", listOf(it.toString())) }
         this.transactionTokens?.let {
             params.put("transaction_tokens", listOf(it.joinToString(separator = ",")))
         }
-        this.status?.let { params.put("status", listOf(it.toString())) }
-        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
-        this.begin?.let { params.put("begin", listOf(it.toString())) }
-        this.end?.let { params.put("end", listOf(it.toString())) }
-        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
-        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
@@ -68,33 +68,33 @@ constructor(
         }
 
         return other is DisputeListParams &&
-            this.transactionTokens == other.transactionTokens &&
-            this.status == other.status &&
-            this.pageSize == other.pageSize &&
             this.begin == other.begin &&
             this.end == other.end &&
-            this.startingAfter == other.startingAfter &&
             this.endingBefore == other.endingBefore &&
+            this.pageSize == other.pageSize &&
+            this.startingAfter == other.startingAfter &&
+            this.status == other.status &&
+            this.transactionTokens == other.transactionTokens &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
-            transactionTokens,
-            status,
-            pageSize,
             begin,
             end,
-            startingAfter,
             endingBefore,
+            pageSize,
+            startingAfter,
+            status,
+            transactionTokens,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "DisputeListParams{transactionTokens=$transactionTokens, status=$status, pageSize=$pageSize, begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "DisputeListParams{begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, status=$status, transactionTokens=$transactionTokens, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -106,45 +106,28 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var transactionTokens: MutableList<String> = mutableListOf()
-        private var status: Status? = null
-        private var pageSize: Long? = null
         private var begin: OffsetDateTime? = null
         private var end: OffsetDateTime? = null
-        private var startingAfter: String? = null
         private var endingBefore: String? = null
+        private var pageSize: Long? = null
+        private var startingAfter: String? = null
+        private var status: Status? = null
+        private var transactionTokens: MutableList<String> = mutableListOf()
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(disputeListParams: DisputeListParams) = apply {
-            this.transactionTokens(disputeListParams.transactionTokens ?: listOf())
-            this.status = disputeListParams.status
-            this.pageSize = disputeListParams.pageSize
             this.begin = disputeListParams.begin
             this.end = disputeListParams.end
-            this.startingAfter = disputeListParams.startingAfter
             this.endingBefore = disputeListParams.endingBefore
+            this.pageSize = disputeListParams.pageSize
+            this.startingAfter = disputeListParams.startingAfter
+            this.status = disputeListParams.status
+            this.transactionTokens(disputeListParams.transactionTokens ?: listOf())
             additionalQueryParams(disputeListParams.additionalQueryParams)
             additionalHeaders(disputeListParams.additionalHeaders)
         }
-
-        /** Transaction tokens to filter by. */
-        fun transactionTokens(transactionTokens: List<String>) = apply {
-            this.transactionTokens.clear()
-            this.transactionTokens.addAll(transactionTokens)
-        }
-
-        /** Transaction tokens to filter by. */
-        fun addTransactionToken(transactionToken: String) = apply {
-            this.transactionTokens.add(transactionToken)
-        }
-
-        /** List disputes of a specific status. */
-        fun status(status: Status) = apply { this.status = status }
-
-        /** Page size (for pagination). */
-        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
 
         /**
          * Date string in RFC 3339 format. Only entries created after the specified date will be
@@ -159,16 +142,33 @@ constructor(
         fun end(end: OffsetDateTime) = apply { this.end = end }
 
         /**
+         * A cursor representing an item's token before which a page of results should end. Used to
+         * retrieve the previous page of results before this item.
+         */
+        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
+
+        /** Page size (for pagination). */
+        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
+
+        /**
          * A cursor representing an item's token after which a page of results should begin. Used to
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
-        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
+        /** List disputes of a specific status. */
+        fun status(status: Status) = apply { this.status = status }
+
+        /** Transaction tokens to filter by. */
+        fun transactionTokens(transactionTokens: List<String>) = apply {
+            this.transactionTokens.clear()
+            this.transactionTokens.addAll(transactionTokens)
+        }
+
+        /** Transaction tokens to filter by. */
+        fun addTransactionToken(transactionToken: String) = apply {
+            this.transactionTokens.add(transactionToken)
+        }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -212,13 +212,13 @@ constructor(
 
         fun build(): DisputeListParams =
             DisputeListParams(
-                if (transactionTokens.size == 0) null else transactionTokens.toUnmodifiable(),
-                status,
-                pageSize,
                 begin,
                 end,
-                startingAfter,
                 endingBefore,
+                pageSize,
+                startingAfter,
+                status,
+                if (transactionTokens.size == 0) null else transactionTokens.toUnmodifiable(),
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

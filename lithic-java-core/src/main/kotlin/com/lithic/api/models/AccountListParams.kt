@@ -13,9 +13,9 @@ class AccountListParams
 constructor(
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
-    private val startingAfter: String?,
     private val endingBefore: String?,
     private val pageSize: Long?,
+    private val startingAfter: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
@@ -24,20 +24,20 @@ constructor(
 
     fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
-    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
-
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
+
+    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
         this.begin?.let { params.put("begin", listOf(it.toString())) }
         this.end?.let { params.put("end", listOf(it.toString())) }
-        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
+        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
@@ -56,9 +56,9 @@ constructor(
         return other is AccountListParams &&
             this.begin == other.begin &&
             this.end == other.end &&
-            this.startingAfter == other.startingAfter &&
             this.endingBefore == other.endingBefore &&
             this.pageSize == other.pageSize &&
+            this.startingAfter == other.startingAfter &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
@@ -67,16 +67,16 @@ constructor(
         return Objects.hash(
             begin,
             end,
-            startingAfter,
             endingBefore,
             pageSize,
+            startingAfter,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "AccountListParams{begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, pageSize=$pageSize, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "AccountListParams{begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -90,9 +90,9 @@ constructor(
 
         private var begin: OffsetDateTime? = null
         private var end: OffsetDateTime? = null
-        private var startingAfter: String? = null
         private var endingBefore: String? = null
         private var pageSize: Long? = null
+        private var startingAfter: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
@@ -100,9 +100,9 @@ constructor(
         internal fun from(accountListParams: AccountListParams) = apply {
             this.begin = accountListParams.begin
             this.end = accountListParams.end
-            this.startingAfter = accountListParams.startingAfter
             this.endingBefore = accountListParams.endingBefore
             this.pageSize = accountListParams.pageSize
+            this.startingAfter = accountListParams.startingAfter
             additionalQueryParams(accountListParams.additionalQueryParams)
             additionalHeaders(accountListParams.additionalHeaders)
         }
@@ -120,12 +120,6 @@ constructor(
         fun end(end: OffsetDateTime) = apply { this.end = end }
 
         /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
-        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
-
-        /**
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
@@ -133,6 +127,12 @@ constructor(
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
+
+        /**
+         * A cursor representing an item's token after which a page of results should begin. Used to
+         * retrieve the next page of results after this item.
+         */
+        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -178,9 +178,9 @@ constructor(
             AccountListParams(
                 begin,
                 end,
-                startingAfter,
                 endingBefore,
                 pageSize,
+                startingAfter,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

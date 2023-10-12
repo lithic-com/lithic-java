@@ -16,44 +16,44 @@ import java.util.Optional
 class TransactionListParams
 constructor(
     private val accountToken: String?,
-    private val cardToken: String?,
-    private val result: Result?,
     private val begin: OffsetDateTime?,
+    private val cardToken: String?,
     private val end: OffsetDateTime?,
-    private val startingAfter: String?,
     private val endingBefore: String?,
     private val pageSize: Long?,
+    private val result: Result?,
+    private val startingAfter: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
-    fun cardToken(): Optional<String> = Optional.ofNullable(cardToken)
-
-    fun result(): Optional<Result> = Optional.ofNullable(result)
-
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
 
-    fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
+    fun cardToken(): Optional<String> = Optional.ofNullable(cardToken)
 
-    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
+    fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
+    fun result(): Optional<Result> = Optional.ofNullable(result)
+
+    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
+
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
         this.accountToken?.let { params.put("account_token", listOf(it.toString())) }
-        this.cardToken?.let { params.put("card_token", listOf(it.toString())) }
-        this.result?.let { params.put("result", listOf(it.toString())) }
         this.begin?.let { params.put("begin", listOf(it.toString())) }
+        this.cardToken?.let { params.put("card_token", listOf(it.toString())) }
         this.end?.let { params.put("end", listOf(it.toString())) }
-        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
+        this.result?.let { params.put("result", listOf(it.toString())) }
+        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
@@ -71,13 +71,13 @@ constructor(
 
         return other is TransactionListParams &&
             this.accountToken == other.accountToken &&
-            this.cardToken == other.cardToken &&
-            this.result == other.result &&
             this.begin == other.begin &&
+            this.cardToken == other.cardToken &&
             this.end == other.end &&
-            this.startingAfter == other.startingAfter &&
             this.endingBefore == other.endingBefore &&
             this.pageSize == other.pageSize &&
+            this.result == other.result &&
+            this.startingAfter == other.startingAfter &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
@@ -85,20 +85,20 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             accountToken,
-            cardToken,
-            result,
             begin,
+            cardToken,
             end,
-            startingAfter,
             endingBefore,
             pageSize,
+            result,
+            startingAfter,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "TransactionListParams{accountToken=$accountToken, cardToken=$cardToken, result=$result, begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, pageSize=$pageSize, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "TransactionListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -111,26 +111,26 @@ constructor(
     class Builder {
 
         private var accountToken: String? = null
-        private var cardToken: String? = null
-        private var result: Result? = null
         private var begin: OffsetDateTime? = null
+        private var cardToken: String? = null
         private var end: OffsetDateTime? = null
-        private var startingAfter: String? = null
         private var endingBefore: String? = null
         private var pageSize: Long? = null
+        private var result: Result? = null
+        private var startingAfter: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(transactionListParams: TransactionListParams) = apply {
             this.accountToken = transactionListParams.accountToken
-            this.cardToken = transactionListParams.cardToken
-            this.result = transactionListParams.result
             this.begin = transactionListParams.begin
+            this.cardToken = transactionListParams.cardToken
             this.end = transactionListParams.end
-            this.startingAfter = transactionListParams.startingAfter
             this.endingBefore = transactionListParams.endingBefore
             this.pageSize = transactionListParams.pageSize
+            this.result = transactionListParams.result
+            this.startingAfter = transactionListParams.startingAfter
             additionalQueryParams(transactionListParams.additionalQueryParams)
             additionalHeaders(transactionListParams.additionalHeaders)
         }
@@ -138,32 +138,20 @@ constructor(
         /** Filters for transactions associated with a specific account. */
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
-        /** Filters for transactions associated with a specific card. */
-        fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
-
-        /**
-         * Filters for transactions using transaction result field. Can filter by `APPROVED`, and
-         * `DECLINED`.
-         */
-        fun result(result: Result) = apply { this.result = result }
-
         /**
          * Date string in RFC 3339 format. Only entries created after the specified date will be
          * included. UTC time zone.
          */
         fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
 
+        /** Filters for transactions associated with a specific card. */
+        fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
+
         /**
          * Date string in RFC 3339 format. Only entries created before the specified date will be
          * included. UTC time zone.
          */
         fun end(end: OffsetDateTime) = apply { this.end = end }
-
-        /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
-        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -173,6 +161,18 @@ constructor(
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
+
+        /**
+         * Filters for transactions using transaction result field. Can filter by `APPROVED`, and
+         * `DECLINED`.
+         */
+        fun result(result: Result) = apply { this.result = result }
+
+        /**
+         * A cursor representing an item's token after which a page of results should begin. Used to
+         * retrieve the next page of results after this item.
+         */
+        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -217,13 +217,13 @@ constructor(
         fun build(): TransactionListParams =
             TransactionListParams(
                 accountToken,
-                cardToken,
-                result,
                 begin,
+                cardToken,
                 end,
-                startingAfter,
                 endingBefore,
                 pageSize,
+                result,
+                startingAfter,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )
