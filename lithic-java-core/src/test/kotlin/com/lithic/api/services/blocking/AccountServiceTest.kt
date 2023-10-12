@@ -18,7 +18,7 @@ class AccountServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val accountService = client.accounts()
         val account =
@@ -37,7 +37,7 @@ class AccountServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val accountService = client.accounts()
         val account =
@@ -69,7 +69,7 @@ class AccountServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val accountService = client.accounts()
         val response = accountService.list(AccountListParams.builder().build())

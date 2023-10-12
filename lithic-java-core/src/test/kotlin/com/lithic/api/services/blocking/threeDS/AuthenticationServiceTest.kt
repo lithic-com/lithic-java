@@ -16,7 +16,7 @@ class AuthenticationServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authenticationService = client.threeDS().authentication()
         val authenticationRetrieveResponse =
@@ -34,7 +34,7 @@ class AuthenticationServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authenticationService = client.threeDS().authentication()
         val authenticationSimulateResponse =

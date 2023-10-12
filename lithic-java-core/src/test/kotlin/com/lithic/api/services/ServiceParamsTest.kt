@@ -32,17 +32,15 @@ class ServiceParamsTest {
 
     private val JSON_MAPPER: JsonMapper = jsonMapper()
 
-    private val API_KEY: String = "apiKey"
-
     private lateinit var client: LithicClient
 
     @BeforeEach
     fun beforeEach(wmRuntimeInfo: WireMockRuntimeInfo) {
         client =
             LithicOkHttpClient.builder()
-                .apiKey(API_KEY)
+                .apiKey("My Lithic API Key")
+                .webhookSecret("My Webhook Secret")
                 .baseUrl(wmRuntimeInfo.getHttpBaseUrl())
-                .webhookSecret("string")
                 .build()
     }
 

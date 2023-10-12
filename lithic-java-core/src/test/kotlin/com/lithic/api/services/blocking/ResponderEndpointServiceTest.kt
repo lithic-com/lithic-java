@@ -17,7 +17,7 @@ class ResponderEndpointServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val responderEndpointService = client.responderEndpoints()
         val responderEndpointCreateResponse =
@@ -37,7 +37,7 @@ class ResponderEndpointServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val responderEndpointService = client.responderEndpoints()
         responderEndpointService.delete(
@@ -52,7 +52,7 @@ class ResponderEndpointServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val responderEndpointService = client.responderEndpoints()
         val responderEndpointStatus =

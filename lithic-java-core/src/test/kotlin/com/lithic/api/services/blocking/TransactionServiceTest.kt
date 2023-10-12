@@ -17,7 +17,7 @@ class TransactionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
         val transaction =
@@ -35,7 +35,7 @@ class TransactionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
         val response = transactionService.list(TransactionListParams.builder().build())
@@ -48,7 +48,7 @@ class TransactionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateAuthorizationResponse =
@@ -74,7 +74,7 @@ class TransactionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateAuthorizationAdviceResponse =
@@ -93,7 +93,7 @@ class TransactionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateClearingResponse =
@@ -112,7 +112,7 @@ class TransactionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateCreditAuthorizationResponse =
@@ -134,7 +134,7 @@ class TransactionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateReturnResponse =
@@ -154,7 +154,7 @@ class TransactionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateReturnReversalResponse =
@@ -172,7 +172,7 @@ class TransactionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
         val transactionSimulateVoidResponse =

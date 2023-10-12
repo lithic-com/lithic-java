@@ -16,7 +16,7 @@ class AccountHolderServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolder =
@@ -126,7 +126,7 @@ class AccountHolderServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolder =
@@ -144,7 +144,7 @@ class AccountHolderServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolderUpdateResponse =
@@ -165,7 +165,7 @@ class AccountHolderServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolderListDocumentsResponse =
@@ -183,7 +183,7 @@ class AccountHolderServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolder =
@@ -223,7 +223,7 @@ class AccountHolderServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolderDocument =
@@ -242,7 +242,7 @@ class AccountHolderServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
         val accountHolderDocument =

@@ -16,9 +16,9 @@ private constructor(
     @get:JvmName("clock") val clock: Clock,
     @get:JvmName("baseUrl") val baseUrl: String,
     @get:JvmName("apiKey") val apiKey: String,
+    @get:JvmName("webhookSecret") val webhookSecret: String?,
     @get:JvmName("headers") val headers: ListMultimap<String, String>,
     @get:JvmName("responseValidation") val responseValidation: Boolean,
-    @get:JvmName("webhookSecret") val webhookSecret: String?,
 ) {
 
     companion object {
@@ -112,9 +112,9 @@ private constructor(
                 clock,
                 baseUrl,
                 apiKey!!,
+                webhookSecret,
                 headers.toUnmodifiable(),
                 responseValidation,
-                webhookSecret,
             )
         }
     }

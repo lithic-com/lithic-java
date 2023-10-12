@@ -17,7 +17,7 @@ class PaymentServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
         val paymentCreateResponse =
@@ -46,7 +46,7 @@ class PaymentServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
         val payment =
@@ -63,7 +63,7 @@ class PaymentServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
         val response = paymentService.list(PaymentListParams.builder().build())
@@ -76,7 +76,7 @@ class PaymentServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
         val paymentSimulateReleaseResponse =
@@ -94,7 +94,7 @@ class PaymentServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val paymentService = client.payments()
         val paymentSimulateReturnResponse =
