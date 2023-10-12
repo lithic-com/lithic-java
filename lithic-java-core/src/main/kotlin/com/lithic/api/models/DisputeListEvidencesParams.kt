@@ -12,35 +12,35 @@ import java.util.Optional
 class DisputeListEvidencesParams
 constructor(
     private val disputeToken: String,
-    private val pageSize: Long?,
     private val begin: OffsetDateTime?,
     private val end: OffsetDateTime?,
-    private val startingAfter: String?,
     private val endingBefore: String?,
+    private val pageSize: Long?,
+    private val startingAfter: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
     fun disputeToken(): String = disputeToken
 
-    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
-
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
 
     fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
-    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
-
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
+
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
+
+    fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
-        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
         this.begin?.let { params.put("begin", listOf(it.toString())) }
         this.end?.let { params.put("end", listOf(it.toString())) }
-        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
+        this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
+        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
@@ -65,11 +65,11 @@ constructor(
 
         return other is DisputeListEvidencesParams &&
             this.disputeToken == other.disputeToken &&
-            this.pageSize == other.pageSize &&
             this.begin == other.begin &&
             this.end == other.end &&
-            this.startingAfter == other.startingAfter &&
             this.endingBefore == other.endingBefore &&
+            this.pageSize == other.pageSize &&
+            this.startingAfter == other.startingAfter &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
@@ -77,18 +77,18 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             disputeToken,
-            pageSize,
             begin,
             end,
-            startingAfter,
             endingBefore,
+            pageSize,
+            startingAfter,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "DisputeListEvidencesParams{disputeToken=$disputeToken, pageSize=$pageSize, begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "DisputeListEvidencesParams{disputeToken=$disputeToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -101,30 +101,27 @@ constructor(
     class Builder {
 
         private var disputeToken: String? = null
-        private var pageSize: Long? = null
         private var begin: OffsetDateTime? = null
         private var end: OffsetDateTime? = null
-        private var startingAfter: String? = null
         private var endingBefore: String? = null
+        private var pageSize: Long? = null
+        private var startingAfter: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(disputeListEvidencesParams: DisputeListEvidencesParams) = apply {
             this.disputeToken = disputeListEvidencesParams.disputeToken
-            this.pageSize = disputeListEvidencesParams.pageSize
             this.begin = disputeListEvidencesParams.begin
             this.end = disputeListEvidencesParams.end
-            this.startingAfter = disputeListEvidencesParams.startingAfter
             this.endingBefore = disputeListEvidencesParams.endingBefore
+            this.pageSize = disputeListEvidencesParams.pageSize
+            this.startingAfter = disputeListEvidencesParams.startingAfter
             additionalQueryParams(disputeListEvidencesParams.additionalQueryParams)
             additionalHeaders(disputeListEvidencesParams.additionalHeaders)
         }
 
         fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
-
-        /** Page size (for pagination). */
-        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
 
         /**
          * Date string in RFC 3339 format. Only entries created after the specified date will be
@@ -139,16 +136,19 @@ constructor(
         fun end(end: OffsetDateTime) = apply { this.end = end }
 
         /**
-         * A cursor representing an item's token after which a page of results should begin. Used to
-         * retrieve the next page of results after this item.
-         */
-        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
-
-        /**
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
         fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
+
+        /** Page size (for pagination). */
+        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
+
+        /**
+         * A cursor representing an item's token after which a page of results should begin. Used to
+         * retrieve the next page of results after this item.
+         */
+        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -193,11 +193,11 @@ constructor(
         fun build(): DisputeListEvidencesParams =
             DisputeListEvidencesParams(
                 checkNotNull(disputeToken) { "`disputeToken` is required but was not set" },
-                pageSize,
                 begin,
                 end,
-                startingAfter,
                 endingBefore,
+                pageSize,
+                startingAfter,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

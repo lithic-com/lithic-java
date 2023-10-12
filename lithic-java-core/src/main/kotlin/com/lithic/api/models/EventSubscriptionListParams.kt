@@ -10,25 +10,25 @@ import java.util.Optional
 
 class EventSubscriptionListParams
 constructor(
+    private val endingBefore: String?,
     private val pageSize: Long?,
     private val startingAfter: String?,
-    private val endingBefore: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
+
+    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
-    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
-
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
+        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
         this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
-        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
@@ -45,25 +45,25 @@ constructor(
         }
 
         return other is EventSubscriptionListParams &&
+            this.endingBefore == other.endingBefore &&
             this.pageSize == other.pageSize &&
             this.startingAfter == other.startingAfter &&
-            this.endingBefore == other.endingBefore &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
         return Objects.hash(
+            endingBefore,
             pageSize,
             startingAfter,
-            endingBefore,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "EventSubscriptionListParams{pageSize=$pageSize, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "EventSubscriptionListParams{endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -75,20 +75,26 @@ constructor(
     @NoAutoDetect
     class Builder {
 
+        private var endingBefore: String? = null
         private var pageSize: Long? = null
         private var startingAfter: String? = null
-        private var endingBefore: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(eventSubscriptionListParams: EventSubscriptionListParams) = apply {
+            this.endingBefore = eventSubscriptionListParams.endingBefore
             this.pageSize = eventSubscriptionListParams.pageSize
             this.startingAfter = eventSubscriptionListParams.startingAfter
-            this.endingBefore = eventSubscriptionListParams.endingBefore
             additionalQueryParams(eventSubscriptionListParams.additionalQueryParams)
             additionalHeaders(eventSubscriptionListParams.additionalHeaders)
         }
+
+        /**
+         * A cursor representing an item's token before which a page of results should end. Used to
+         * retrieve the previous page of results before this item.
+         */
+        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
@@ -98,12 +104,6 @@ constructor(
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
-
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
-        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -147,9 +147,9 @@ constructor(
 
         fun build(): EventSubscriptionListParams =
             EventSubscriptionListParams(
+                endingBefore,
                 pageSize,
                 startingAfter,
-                endingBefore,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

@@ -16,43 +16,43 @@ import java.util.Optional
 class FinancialTransactionListParams
 constructor(
     private val financialAccountToken: String,
-    private val category: Category?,
-    private val status: Status?,
-    private val result: Result?,
     private val begin: OffsetDateTime?,
+    private val category: Category?,
     private val end: OffsetDateTime?,
-    private val startingAfter: String?,
     private val endingBefore: String?,
+    private val result: Result?,
+    private val startingAfter: String?,
+    private val status: Status?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
 
     fun financialAccountToken(): String = financialAccountToken
 
-    fun category(): Optional<Category> = Optional.ofNullable(category)
-
-    fun status(): Optional<Status> = Optional.ofNullable(status)
-
-    fun result(): Optional<Result> = Optional.ofNullable(result)
-
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
+
+    fun category(): Optional<Category> = Optional.ofNullable(category)
 
     fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
+    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
+
+    fun result(): Optional<Result> = Optional.ofNullable(result)
+
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
-    fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
+    fun status(): Optional<Status> = Optional.ofNullable(status)
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
-        this.category?.let { params.put("category", listOf(it.toString())) }
-        this.status?.let { params.put("status", listOf(it.toString())) }
-        this.result?.let { params.put("result", listOf(it.toString())) }
         this.begin?.let { params.put("begin", listOf(it.toString())) }
+        this.category?.let { params.put("category", listOf(it.toString())) }
         this.end?.let { params.put("end", listOf(it.toString())) }
-        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
+        this.result?.let { params.put("result", listOf(it.toString())) }
+        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
+        this.status?.let { params.put("status", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
@@ -77,13 +77,13 @@ constructor(
 
         return other is FinancialTransactionListParams &&
             this.financialAccountToken == other.financialAccountToken &&
-            this.category == other.category &&
-            this.status == other.status &&
-            this.result == other.result &&
             this.begin == other.begin &&
+            this.category == other.category &&
             this.end == other.end &&
-            this.startingAfter == other.startingAfter &&
             this.endingBefore == other.endingBefore &&
+            this.result == other.result &&
+            this.startingAfter == other.startingAfter &&
+            this.status == other.status &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
@@ -91,20 +91,20 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             financialAccountToken,
-            category,
-            status,
-            result,
             begin,
+            category,
             end,
-            startingAfter,
             endingBefore,
+            result,
+            startingAfter,
+            status,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "FinancialTransactionListParams{financialAccountToken=$financialAccountToken, category=$category, status=$status, result=$result, begin=$begin, end=$end, startingAfter=$startingAfter, endingBefore=$endingBefore, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "FinancialTransactionListParams{financialAccountToken=$financialAccountToken, begin=$begin, category=$category, end=$end, endingBefore=$endingBefore, result=$result, startingAfter=$startingAfter, status=$status, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -117,26 +117,26 @@ constructor(
     class Builder {
 
         private var financialAccountToken: String? = null
-        private var category: Category? = null
-        private var status: Status? = null
-        private var result: Result? = null
         private var begin: OffsetDateTime? = null
+        private var category: Category? = null
         private var end: OffsetDateTime? = null
-        private var startingAfter: String? = null
         private var endingBefore: String? = null
+        private var result: Result? = null
+        private var startingAfter: String? = null
+        private var status: Status? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(financialTransactionListParams: FinancialTransactionListParams) = apply {
             this.financialAccountToken = financialTransactionListParams.financialAccountToken
-            this.category = financialTransactionListParams.category
-            this.status = financialTransactionListParams.status
-            this.result = financialTransactionListParams.result
             this.begin = financialTransactionListParams.begin
+            this.category = financialTransactionListParams.category
             this.end = financialTransactionListParams.end
-            this.startingAfter = financialTransactionListParams.startingAfter
             this.endingBefore = financialTransactionListParams.endingBefore
+            this.result = financialTransactionListParams.result
+            this.startingAfter = financialTransactionListParams.startingAfter
+            this.status = financialTransactionListParams.status
             additionalQueryParams(financialTransactionListParams.additionalQueryParams)
             additionalHeaders(financialTransactionListParams.additionalHeaders)
         }
@@ -145,20 +145,14 @@ constructor(
             this.financialAccountToken = financialAccountToken
         }
 
-        /** Financial Transaction category to be returned. */
-        fun category(category: Category) = apply { this.category = category }
-
-        /** Financial Transaction status to be returned. */
-        fun status(status: Status) = apply { this.status = status }
-
-        /** Financial Transaction result to be returned. */
-        fun result(result: Result) = apply { this.result = result }
-
         /**
          * Date string in RFC 3339 format. Only entries created after the specified date will be
          * included. UTC time zone.
          */
         fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
+
+        /** Financial Transaction category to be returned. */
+        fun category(category: Category) = apply { this.category = category }
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified date will be
@@ -167,16 +161,22 @@ constructor(
         fun end(end: OffsetDateTime) = apply { this.end = end }
 
         /**
+         * A cursor representing an item's token before which a page of results should end. Used to
+         * retrieve the previous page of results before this item.
+         */
+        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
+
+        /** Financial Transaction result to be returned. */
+        fun result(result: Result) = apply { this.result = result }
+
+        /**
          * A cursor representing an item's token after which a page of results should begin. Used to
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
-        /**
-         * A cursor representing an item's token before which a page of results should end. Used to
-         * retrieve the previous page of results before this item.
-         */
-        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
+        /** Financial Transaction status to be returned. */
+        fun status(status: Status) = apply { this.status = status }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -223,13 +223,13 @@ constructor(
                 checkNotNull(financialAccountToken) {
                     "`financialAccountToken` is required but was not set"
                 },
-                category,
-                status,
-                result,
                 begin,
+                category,
                 end,
-                startingAfter,
                 endingBefore,
+                result,
+                startingAfter,
+                status,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )

@@ -12,14 +12,14 @@ class ExternalBankAccountListParamsTest {
     fun createExternalBankAccountListParams() {
         ExternalBankAccountListParams.builder()
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .ownerTypes(listOf(OwnerType.INDIVIDUAL))
             .accountTypes(listOf(ExternalBankAccountListParams.AccountType.CHECKING))
-            .states(listOf(ExternalBankAccountListParams.AccountState.ENABLED))
-            .verificationStates(listOf(ExternalBankAccountListParams.VerificationState.PENDING))
             .countries(listOf("string"))
+            .endingBefore("string")
+            .ownerTypes(listOf(OwnerType.INDIVIDUAL))
             .pageSize(123L)
             .startingAfter("string")
-            .endingBefore("string")
+            .states(listOf(ExternalBankAccountListParams.AccountState.ENABLED))
+            .verificationStates(listOf(ExternalBankAccountListParams.VerificationState.PENDING))
             .build()
     }
 
@@ -28,22 +28,26 @@ class ExternalBankAccountListParamsTest {
         val params =
             ExternalBankAccountListParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .ownerTypes(listOf(OwnerType.INDIVIDUAL))
                 .accountTypes(listOf(ExternalBankAccountListParams.AccountType.CHECKING))
-                .states(listOf(ExternalBankAccountListParams.AccountState.ENABLED))
-                .verificationStates(listOf(ExternalBankAccountListParams.VerificationState.PENDING))
                 .countries(listOf("string"))
+                .endingBefore("string")
+                .ownerTypes(listOf(OwnerType.INDIVIDUAL))
                 .pageSize(123L)
                 .startingAfter("string")
-                .endingBefore("string")
+                .states(listOf(ExternalBankAccountListParams.AccountState.ENABLED))
+                .verificationStates(listOf(ExternalBankAccountListParams.VerificationState.PENDING))
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put("account_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
-        expected.put("owner_types", listOf(OwnerType.INDIVIDUAL.toString()))
         expected.put(
             "account_types",
             listOf(ExternalBankAccountListParams.AccountType.CHECKING.toString())
         )
+        expected.put("countries", listOf("string"))
+        expected.put("ending_before", listOf("string"))
+        expected.put("owner_types", listOf(OwnerType.INDIVIDUAL.toString()))
+        expected.put("page_size", listOf("123"))
+        expected.put("starting_after", listOf("string"))
         expected.put(
             "states",
             listOf(ExternalBankAccountListParams.AccountState.ENABLED.toString())
@@ -52,10 +56,6 @@ class ExternalBankAccountListParamsTest {
             "verification_states",
             listOf(ExternalBankAccountListParams.VerificationState.PENDING.toString())
         )
-        expected.put("countries", listOf("string"))
-        expected.put("page_size", listOf("123"))
-        expected.put("starting_after", listOf("string"))
-        expected.put("ending_before", listOf("string"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 
