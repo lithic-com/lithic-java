@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.google.common.collect.ListMultimap
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
+import com.lithic.api.core.getRequiredHeader
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.errors.LithicException
@@ -56,15 +57,9 @@ constructor(
                 throw LithicException("Invalid webhook secret")
             }
 
-        val msgId =
-            headers.get("webhook-id").getOrNull(0)
-                ?: throw LithicException("Could not find webhook-id header")
-        val msgSignture =
-            headers.get("webhook-signature").getOrNull(0)
-                ?: throw LithicException("Could not find webhook-signature header")
-        val msgTimestamp =
-            headers.get("webhook-timestamp").getOrNull(0)
-                ?: throw LithicException("Could not find webhook-timestamp header")
+        val msgId = headers.getRequiredHeader("webhook-id")
+        val msgSignature = headers.getRequiredHeader("webhook-signature")
+        val msgTimestamp = headers.getRequiredHeader("webhook-timestamp")
 
         val timestamp =
             try {
@@ -86,7 +81,7 @@ constructor(
         val expectedSignature =
             mac.doFinal("$msgId.${timestamp.epochSecond}.$payload".toByteArray())
 
-        msgSignture.splitToSequence(" ").forEach {
+        msgSignature.splitToSequence(" ").forEach {
             val parts = it.split(",")
             if (parts.size != 2) {
                 return@forEach
