@@ -17,7 +17,7 @@ class AuthStreamEnrollmentServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authStreamEnrollmentService = client.authStreamEnrollment()
         val authStreamEnrollment =
@@ -34,7 +34,7 @@ class AuthStreamEnrollmentServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authStreamEnrollmentService = client.authStreamEnrollment()
         authStreamEnrollmentService.disenroll(AuthStreamEnrollmentDisenrollParams.builder().build())
@@ -46,7 +46,7 @@ class AuthStreamEnrollmentServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authStreamEnrollmentService = client.authStreamEnrollment()
         authStreamEnrollmentService.enroll(
@@ -59,7 +59,7 @@ class AuthStreamEnrollmentServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authStreamEnrollmentService = client.authStreamEnrollment()
         val authStreamSecret =
@@ -75,7 +75,7 @@ class AuthStreamEnrollmentServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val authStreamEnrollmentService = client.authStreamEnrollment()
         authStreamEnrollmentService.rotateSecret(

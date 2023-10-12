@@ -17,7 +17,7 @@ class FinancialAccountServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val financialAccountService = client.financialAccounts()
         val response = financialAccountService.list(FinancialAccountListParams.builder().build())

@@ -41,8 +41,6 @@ class ErrorHandlingTest {
 
     private val JSON_MAPPER: JsonMapper = jsonMapper()
 
-    private val API_KEY: String = "apiKey"
-
     private val LITHIC_ERROR: LithicError =
         LithicError.builder().putAdditionalProperty("key", JsonString.of("value")).build()
 
@@ -52,9 +50,9 @@ class ErrorHandlingTest {
     fun beforeEach(wmRuntimeInfo: WireMockRuntimeInfo) {
         client =
             LithicOkHttpClient.builder()
-                .apiKey(API_KEY)
                 .baseUrl(wmRuntimeInfo.getHttpBaseUrl())
-                .webhookSecret("string")
+                .apiKey("My Lithic API Key")
+                .webhookSecret("My Webhook Secret")
                 .build()
     }
 

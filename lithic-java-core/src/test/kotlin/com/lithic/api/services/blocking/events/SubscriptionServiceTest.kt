@@ -20,7 +20,7 @@ class SubscriptionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val eventSubscription =
@@ -43,7 +43,7 @@ class SubscriptionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val eventSubscription =
@@ -59,7 +59,7 @@ class SubscriptionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val eventSubscription =
@@ -83,7 +83,7 @@ class SubscriptionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val response = subscriptionService.list(EventSubscriptionListParams.builder().build())
@@ -97,7 +97,7 @@ class SubscriptionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.delete(
@@ -110,7 +110,7 @@ class SubscriptionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val response =
@@ -129,7 +129,7 @@ class SubscriptionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.recover(
@@ -147,7 +147,7 @@ class SubscriptionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.replayMissing(
@@ -164,7 +164,7 @@ class SubscriptionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
         val subscriptionRetrieveSecretResponse =
@@ -183,7 +183,7 @@ class SubscriptionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.rotateSecret(
@@ -196,7 +196,7 @@ class SubscriptionServiceTest {
         val client =
             LithicOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("test-api-key")
+                .apiKey("My Lithic API Key")
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.sendSimulatedExample(

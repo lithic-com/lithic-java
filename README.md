@@ -45,15 +45,15 @@ implementation("com.lithic.api:lithic-java:0.13.2")
 Use `LithicOkHttpClient.builder()` to configure the client. At a minimum you need to set `.apiKey()`:
 
 ```java
-import com.lithic.api.client.LithicClient;
+import com.lithic.api.client.LithicOkHttpClient;
 import com.lithic.api.client.okhttp.LithicOkHttpClient;
 
 LithicClient client = LithicOkHttpClient.builder()
-    .apiKey("<your API Key>")
+    .apiKey("My Lithic API Key")
     .build();
 ```
 
-Alternately, use `LithicOkHttpClient.fromEnv()` to read client arguments from environment variables:
+Alternately, set the environment with `LITHIC_API_KEY` or `LITHIC_WEBHOOK_SECRET`, and use `LithicOkHttpClient.fromEnv()` to read from the environment.
 
 ```java
 LithicClient client = LithicOkHttpClient.fromEnv();
