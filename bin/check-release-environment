@@ -3,23 +3,23 @@
 errors=()
 
 if [ -z "${STAINLESS_API_KEY}" ]; then
-  errors+=("The STAINLESS_API_KEY secret has not been set. Please contact Stainless for an API key & set it in your organisation secrets on GitHub.")
+  errors+=("The STAINLESS_API_KEY secret has not been set. Please contact Stainless for an API key & set it in your organization secrets on GitHub.")
 fi
 
 if [ -z "${SONATYPE_USERNAME}" ]; then
-  errors+=("The LITHIC_SONATYPE_USERNAME secret has not been set. Please set it in either this repository's secrets or your organisation secrets")
+  errors+=("The LITHIC_SONATYPE_USERNAME secret has not been set. Please set it in either this repository's secrets or your organization secrets")
 fi
 
 if [ -z "${SONATYPE_PASSWORD}" ]; then
-  errors+=("The LITHIC_SONATYPE_PASSWORD secret has not been set. Please set it in either this repository's secrets or your organisation secrets")
+  errors+=("The LITHIC_SONATYPE_PASSWORD secret has not been set. Please set it in either this repository's secrets or your organization secrets")
 fi
 
 if [ -z "${GPG_SIGNING_KEY}" ]; then
-  errors+=("The LITHIC_SONATYPE_GPG_SIGNING_KEY secret has not been set. Please set it in either this repository's secrets or your organisation secrets")
+  errors+=("The LITHIC_SONATYPE_GPG_SIGNING_KEY secret has not been set. Please set it in either this repository's secrets or your organization secrets")
 fi
 
 if [ -z "${GPG_SIGNING_PASSWORD}" ]; then
-  errors+=("The LITHIC_SONATYPE_GPG_SIGNING_PASSWORD secret has not been set. Please set it in either this repository's secrets or your organisation secrets")
+  errors+=("The LITHIC_SONATYPE_GPG_SIGNING_PASSWORD secret has not been set. Please set it in either this repository's secrets or your organization secrets")
 fi
 
 len=${#errors[@]}
