@@ -77,6 +77,10 @@ constructor(
 
     private val threeDS: ThreeDSService by lazy { ThreeDSServiceImpl(clientOptions) }
 
+    private val reports: ReportService by lazy { ReportServiceImpl(clientOptions) }
+
+    private val cardProduct: CardProductService by lazy { CardProductServiceImpl(clientOptions) }
+
     override fun async(): LithicClientAsync = async
 
     override fun accounts(): AccountService = accounts
@@ -116,6 +120,10 @@ constructor(
     override fun payments(): PaymentService = payments
 
     override fun threeDS(): ThreeDSService = threeDS
+
+    override fun reports(): ReportService = reports
+
+    override fun cardProduct(): CardProductService = cardProduct
 
     private val apiStatusHandler: Handler<ApiStatus> =
         jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

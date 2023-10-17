@@ -30,6 +30,8 @@ class PaymentServiceTest {
                     .methodAttributes(
                         PaymentCreateParams.PaymentMethodAttributes.builder()
                             .secCode(PaymentCreateParams.PaymentMethodAttributes.SecCode.PPD)
+                            .retries(123L)
+                            .returnReasonCode("string")
                             .build()
                     )
                     .type(PaymentCreateParams.Type.PAYMENT)
@@ -69,6 +71,23 @@ class PaymentServiceTest {
         val response = paymentService.list(PaymentListParams.builder().build())
         println(response)
         response.data().forEach { it.validate() }
+    }
+
+    @Test
+    fun callRetry() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val paymentService = client.payments()
+        val paymentRetryResponse =
+            paymentService.retry(
+                PaymentRetryParams.builder()
+                    .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+        println(paymentRetryResponse)
     }
 
     @Test

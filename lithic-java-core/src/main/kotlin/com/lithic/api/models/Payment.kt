@@ -698,6 +698,8 @@ private constructor(
     @NoAutoDetect
     class PaymentMethodAttributes
     private constructor(
+        private val retries: JsonField<Long>,
+        private val returnReasonCode: JsonField<String>,
         private val secCode: JsonField<SecCode>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
@@ -706,7 +708,18 @@ private constructor(
 
         private var hashCode: Int = 0
 
+        fun retries(): Optional<Long> = Optional.ofNullable(retries.getNullable("retries"))
+
+        fun returnReasonCode(): Optional<String> =
+            Optional.ofNullable(returnReasonCode.getNullable("return_reason_code"))
+
         fun secCode(): SecCode = secCode.getRequired("sec_code")
+
+        @JsonProperty("retries") @ExcludeMissing fun _retries() = retries
+
+        @JsonProperty("return_reason_code")
+        @ExcludeMissing
+        fun _returnReasonCode() = returnReasonCode
 
         @JsonProperty("sec_code") @ExcludeMissing fun _secCode() = secCode
 
@@ -716,6 +729,8 @@ private constructor(
 
         fun validate(): PaymentMethodAttributes = apply {
             if (!validated) {
+                retries()
+                returnReasonCode()
                 secCode()
                 validated = true
             }
@@ -729,19 +744,27 @@ private constructor(
             }
 
             return other is PaymentMethodAttributes &&
+                this.retries == other.retries &&
+                this.returnReasonCode == other.returnReasonCode &&
                 this.secCode == other.secCode &&
                 this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(secCode, additionalProperties)
+                hashCode =
+                    Objects.hash(
+                        retries,
+                        returnReasonCode,
+                        secCode,
+                        additionalProperties,
+                    )
             }
             return hashCode
         }
 
         override fun toString() =
-            "PaymentMethodAttributes{secCode=$secCode, additionalProperties=$additionalProperties}"
+            "PaymentMethodAttributes{retries=$retries, returnReasonCode=$returnReasonCode, secCode=$secCode, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -750,13 +773,32 @@ private constructor(
 
         class Builder {
 
+            private var retries: JsonField<Long> = JsonMissing.of()
+            private var returnReasonCode: JsonField<String> = JsonMissing.of()
             private var secCode: JsonField<SecCode> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(paymentMethodAttributes: PaymentMethodAttributes) = apply {
+                this.retries = paymentMethodAttributes.retries
+                this.returnReasonCode = paymentMethodAttributes.returnReasonCode
                 this.secCode = paymentMethodAttributes.secCode
                 additionalProperties(paymentMethodAttributes.additionalProperties)
+            }
+
+            fun retries(retries: Long) = retries(JsonField.of(retries))
+
+            @JsonProperty("retries")
+            @ExcludeMissing
+            fun retries(retries: JsonField<Long>) = apply { this.retries = retries }
+
+            fun returnReasonCode(returnReasonCode: String) =
+                returnReasonCode(JsonField.of(returnReasonCode))
+
+            @JsonProperty("return_reason_code")
+            @ExcludeMissing
+            fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
+                this.returnReasonCode = returnReasonCode
             }
 
             fun secCode(secCode: SecCode) = secCode(JsonField.of(secCode))
@@ -780,7 +822,12 @@ private constructor(
             }
 
             fun build(): PaymentMethodAttributes =
-                PaymentMethodAttributes(secCode, additionalProperties.toUnmodifiable())
+                PaymentMethodAttributes(
+                    retries,
+                    returnReasonCode,
+                    secCode,
+                    additionalProperties.toUnmodifiable(),
+                )
         }
 
         class SecCode

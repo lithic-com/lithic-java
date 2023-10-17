@@ -14,6 +14,8 @@ import com.lithic.api.services.async.financialAccounts.BalanceServiceAsync
 import com.lithic.api.services.async.financialAccounts.BalanceServiceAsyncImpl
 import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsync
 import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsyncImpl
+import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
+import com.lithic.api.services.async.financialAccounts.StatementServiceAsyncImpl
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
@@ -32,9 +34,15 @@ constructor(
         FinancialTransactionServiceAsyncImpl(clientOptions)
     }
 
+    private val statements: StatementServiceAsync by lazy {
+        StatementServiceAsyncImpl(clientOptions)
+    }
+
     override fun balances(): BalanceServiceAsync = balances
 
     override fun financialTransactions(): FinancialTransactionServiceAsync = financialTransactions
+
+    override fun statements(): StatementServiceAsync = statements
 
     private val listHandler: Handler<FinancialAccountListPageAsync.Response> =
         jsonHandler<FinancialAccountListPageAsync.Response>(clientOptions.jsonMapper)

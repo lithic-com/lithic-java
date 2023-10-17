@@ -13,6 +13,8 @@ import com.lithic.api.models.AccountListPageAsync
 import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountUpdateParams
+import com.lithic.api.services.async.accounts.CreditConfigurationServiceAsync
+import com.lithic.api.services.async.accounts.CreditConfigurationServiceAsyncImpl
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -25,6 +27,12 @@ constructor(
 ) : AccountServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+    private val creditConfigurations: CreditConfigurationServiceAsync by lazy {
+        CreditConfigurationServiceAsyncImpl(clientOptions)
+    }
+
+    override fun creditConfigurations(): CreditConfigurationServiceAsync = creditConfigurations
 
     private val retrieveHandler: Handler<Account> =
         jsonHandler<Account>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
