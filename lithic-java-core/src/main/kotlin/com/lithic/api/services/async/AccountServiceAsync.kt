@@ -10,9 +10,12 @@ import com.lithic.api.models.AccountListPageAsync
 import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountUpdateParams
+import com.lithic.api.services.async.accounts.CreditConfigurationServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface AccountServiceAsync {
+
+    fun creditConfigurations(): CreditConfigurationServiceAsync
 
     /** Get account configuration such as spend limits. */
     @JvmOverloads

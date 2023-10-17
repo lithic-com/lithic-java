@@ -24,7 +24,10 @@ class FinancialTransactionTest {
                             .amount(123L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .result(FinancialTransaction.FinancialEvent.Result.APPROVED)
-                            .type(FinancialTransaction.FinancialEvent.Type.ACH_INSUFFICIENT_FUNDS)
+                            .type(
+                                FinancialTransaction.FinancialEvent.FinancialEventType
+                                    .ACH_INSUFFICIENT_FUNDS
+                            )
                             .build()
                     )
                 )
@@ -48,7 +51,10 @@ class FinancialTransactionTest {
                     .amount(123L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .result(FinancialTransaction.FinancialEvent.Result.APPROVED)
-                    .type(FinancialTransaction.FinancialEvent.Type.ACH_INSUFFICIENT_FUNDS)
+                    .type(
+                        FinancialTransaction.FinancialEvent.FinancialEventType
+                            .ACH_INSUFFICIENT_FUNDS
+                    )
                     .build()
             )
         assertThat(financialTransaction.pendingAmount()).isEqualTo(123L)

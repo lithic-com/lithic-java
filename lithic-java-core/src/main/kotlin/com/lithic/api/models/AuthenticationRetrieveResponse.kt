@@ -35,6 +35,7 @@ private constructor(
     private val created: JsonField<OffsetDateTime>,
     private val decisionMadeBy: JsonField<DecisionMadeBy>,
     private val merchant: JsonField<Merchant>,
+    private val messageCategory: JsonField<MessageCategory>,
     private val threeRiRequestType: JsonField<ThreeRiRequestType>,
     private val token: JsonField<String>,
     private val transaction: JsonField<Transaction>,
@@ -56,7 +57,8 @@ private constructor(
      * spec (e.g., specific fields that only certain card networks send but are not required across
      * all 3DS requests).
      */
-    fun additionalData(): AdditionalData = additionalData.getRequired("additional_data")
+    fun additionalData(): Optional<AdditionalData> =
+        Optional.ofNullable(additionalData.getNullable("additional_data"))
 
     /**
      * Object containing data about the app used in the e-commerce transaction. Present if the
@@ -108,6 +110,12 @@ private constructor(
     fun merchant(): Merchant = merchant.getRequired("merchant")
 
     /**
+     * Either PAYMENT_AUTHENTICATION or NON_PAYMENT_AUTHENTICATION. For NON_PAYMENT_AUTHENTICATION,
+     * additional_data and transaction fields are not populated.
+     */
+    fun messageCategory(): MessageCategory = messageCategory.getRequired("message_category")
+
+    /**
      * Type of 3DS Requestor Initiated (3RI) request i.e., a 3DS authentication that takes place at
      * the initiation of the merchant rather than the cardholder. The most common example of this is
      * where a merchant is authenticating before billing for a recurring transaction such as a pay
@@ -123,7 +131,8 @@ private constructor(
      * Object containing data about the e-commerce transaction for which the merchant is requesting
      * authentication.
      */
-    fun transaction(): Transaction = transaction.getRequired("transaction")
+    fun transaction(): Optional<Transaction> =
+        Optional.ofNullable(transaction.getNullable("transaction"))
 
     /**
      * Type of account/card that is being used for the transaction. Maps to EMV 3DS field acctType.
@@ -188,6 +197,12 @@ private constructor(
     @JsonProperty("merchant") @ExcludeMissing fun _merchant() = merchant
 
     /**
+     * Either PAYMENT_AUTHENTICATION or NON_PAYMENT_AUTHENTICATION. For NON_PAYMENT_AUTHENTICATION,
+     * additional_data and transaction fields are not populated.
+     */
+    @JsonProperty("message_category") @ExcludeMissing fun _messageCategory() = messageCategory
+
+    /**
      * Type of 3DS Requestor Initiated (3RI) request i.e., a 3DS authentication that takes place at
      * the initiation of the merchant rather than the cardholder. The most common example of this is
      * where a merchant is authenticating before billing for a recurring transaction such as a pay
@@ -213,7 +228,7 @@ private constructor(
     fun validate(): AuthenticationRetrieveResponse = apply {
         if (!validated) {
             accountType()
-            additionalData().validate()
+            additionalData().map { it.validate() }
             app().map { it.validate() }
             authenticationRequestType()
             authenticationResult()
@@ -225,9 +240,10 @@ private constructor(
             created()
             decisionMadeBy()
             merchant().validate()
+            messageCategory()
             threeRiRequestType()
             token()
-            transaction().validate()
+            transaction().map { it.validate() }
             validated = true
         }
     }
@@ -253,6 +269,7 @@ private constructor(
             this.created == other.created &&
             this.decisionMadeBy == other.decisionMadeBy &&
             this.merchant == other.merchant &&
+            this.messageCategory == other.messageCategory &&
             this.threeRiRequestType == other.threeRiRequestType &&
             this.token == other.token &&
             this.transaction == other.transaction &&
@@ -276,6 +293,7 @@ private constructor(
                     created,
                     decisionMadeBy,
                     merchant,
+                    messageCategory,
                     threeRiRequestType,
                     token,
                     transaction,
@@ -286,7 +304,7 @@ private constructor(
     }
 
     override fun toString() =
-        "AuthenticationRetrieveResponse{accountType=$accountType, additionalData=$additionalData, app=$app, authenticationRequestType=$authenticationRequestType, authenticationResult=$authenticationResult, browser=$browser, cardExpiryCheck=$cardExpiryCheck, cardToken=$cardToken, cardholder=$cardholder, channel=$channel, created=$created, decisionMadeBy=$decisionMadeBy, merchant=$merchant, threeRiRequestType=$threeRiRequestType, token=$token, transaction=$transaction, additionalProperties=$additionalProperties}"
+        "AuthenticationRetrieveResponse{accountType=$accountType, additionalData=$additionalData, app=$app, authenticationRequestType=$authenticationRequestType, authenticationResult=$authenticationResult, browser=$browser, cardExpiryCheck=$cardExpiryCheck, cardToken=$cardToken, cardholder=$cardholder, channel=$channel, created=$created, decisionMadeBy=$decisionMadeBy, merchant=$merchant, messageCategory=$messageCategory, threeRiRequestType=$threeRiRequestType, token=$token, transaction=$transaction, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -309,6 +327,7 @@ private constructor(
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var decisionMadeBy: JsonField<DecisionMadeBy> = JsonMissing.of()
         private var merchant: JsonField<Merchant> = JsonMissing.of()
+        private var messageCategory: JsonField<MessageCategory> = JsonMissing.of()
         private var threeRiRequestType: JsonField<ThreeRiRequestType> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
         private var transaction: JsonField<Transaction> = JsonMissing.of()
@@ -330,6 +349,7 @@ private constructor(
             this.created = authenticationRetrieveResponse.created
             this.decisionMadeBy = authenticationRetrieveResponse.decisionMadeBy
             this.merchant = authenticationRetrieveResponse.merchant
+            this.messageCategory = authenticationRetrieveResponse.messageCategory
             this.threeRiRequestType = authenticationRetrieveResponse.threeRiRequestType
             this.token = authenticationRetrieveResponse.token
             this.transaction = authenticationRetrieveResponse.transaction
@@ -496,6 +516,23 @@ private constructor(
         fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
         /**
+         * Either PAYMENT_AUTHENTICATION or NON_PAYMENT_AUTHENTICATION. For
+         * NON_PAYMENT_AUTHENTICATION, additional_data and transaction fields are not populated.
+         */
+        fun messageCategory(messageCategory: MessageCategory) =
+            messageCategory(JsonField.of(messageCategory))
+
+        /**
+         * Either PAYMENT_AUTHENTICATION or NON_PAYMENT_AUTHENTICATION. For
+         * NON_PAYMENT_AUTHENTICATION, additional_data and transaction fields are not populated.
+         */
+        @JsonProperty("message_category")
+        @ExcludeMissing
+        fun messageCategory(messageCategory: JsonField<MessageCategory>) = apply {
+            this.messageCategory = messageCategory
+        }
+
+        /**
          * Type of 3DS Requestor Initiated (3RI) request i.e., a 3DS authentication that takes place
          * at the initiation of the merchant rather than the cardholder. The most common example of
          * this is where a merchant is authenticating before billing for a recurring transaction
@@ -569,6 +606,7 @@ private constructor(
                 created,
                 decisionMadeBy,
                 merchant,
+                messageCategory,
                 threeRiRequestType,
                 token,
                 transaction,
@@ -637,224 +675,6 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
-    }
-
-    /**
-     * Object containing additional data about the 3DS request that is beyond the EMV 3DS standard
-     * spec (e.g., specific fields that only certain card networks send but are not required across
-     * all 3DS requests).
-     */
-    @JsonDeserialize(builder = AdditionalData.Builder::class)
-    @NoAutoDetect
-    class AdditionalData
-    private constructor(
-        private val networkDecision: JsonField<NetworkDecision>,
-        private val networkRiskScore: JsonField<Double>,
-        private val additionalProperties: Map<String, JsonValue>,
-    ) {
-
-        private var validated: Boolean = false
-
-        private var hashCode: Int = 0
-
-        /**
-         * Mastercard only: Indicates whether the network would have considered the authentication
-         * request to be low risk or not.
-         */
-        fun networkDecision(): Optional<NetworkDecision> =
-            Optional.ofNullable(networkDecision.getNullable("network_decision"))
-
-        /**
-         * Mastercard only: Assessment by the network of the authentication risk level, with a
-         * higher value indicating a higher amount of risk.
-         */
-        fun networkRiskScore(): Optional<Double> =
-            Optional.ofNullable(networkRiskScore.getNullable("network_risk_score"))
-
-        /**
-         * Mastercard only: Indicates whether the network would have considered the authentication
-         * request to be low risk or not.
-         */
-        @JsonProperty("network_decision") @ExcludeMissing fun _networkDecision() = networkDecision
-
-        /**
-         * Mastercard only: Assessment by the network of the authentication risk level, with a
-         * higher value indicating a higher amount of risk.
-         */
-        @JsonProperty("network_risk_score")
-        @ExcludeMissing
-        fun _networkRiskScore() = networkRiskScore
-
-        @JsonAnyGetter
-        @ExcludeMissing
-        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
-
-        fun validate(): AdditionalData = apply {
-            if (!validated) {
-                networkDecision()
-                networkRiskScore()
-                validated = true
-            }
-        }
-
-        fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AdditionalData &&
-                this.networkDecision == other.networkDecision &&
-                this.networkRiskScore == other.networkRiskScore &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        networkDecision,
-                        networkRiskScore,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "AdditionalData{networkDecision=$networkDecision, networkRiskScore=$networkRiskScore, additionalProperties=$additionalProperties}"
-
-        companion object {
-
-            @JvmStatic fun builder() = Builder()
-        }
-
-        class Builder {
-
-            private var networkDecision: JsonField<NetworkDecision> = JsonMissing.of()
-            private var networkRiskScore: JsonField<Double> = JsonMissing.of()
-            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
-
-            @JvmSynthetic
-            internal fun from(additionalData: AdditionalData) = apply {
-                this.networkDecision = additionalData.networkDecision
-                this.networkRiskScore = additionalData.networkRiskScore
-                additionalProperties(additionalData.additionalProperties)
-            }
-
-            /**
-             * Mastercard only: Indicates whether the network would have considered the
-             * authentication request to be low risk or not.
-             */
-            fun networkDecision(networkDecision: NetworkDecision) =
-                networkDecision(JsonField.of(networkDecision))
-
-            /**
-             * Mastercard only: Indicates whether the network would have considered the
-             * authentication request to be low risk or not.
-             */
-            @JsonProperty("network_decision")
-            @ExcludeMissing
-            fun networkDecision(networkDecision: JsonField<NetworkDecision>) = apply {
-                this.networkDecision = networkDecision
-            }
-
-            /**
-             * Mastercard only: Assessment by the network of the authentication risk level, with a
-             * higher value indicating a higher amount of risk.
-             */
-            fun networkRiskScore(networkRiskScore: Double) =
-                networkRiskScore(JsonField.of(networkRiskScore))
-
-            /**
-             * Mastercard only: Assessment by the network of the authentication risk level, with a
-             * higher value indicating a higher amount of risk.
-             */
-            @JsonProperty("network_risk_score")
-            @ExcludeMissing
-            fun networkRiskScore(networkRiskScore: JsonField<Double>) = apply {
-                this.networkRiskScore = networkRiskScore
-            }
-
-            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            @JsonAnySetter
-            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
-            }
-
-            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
-                this.additionalProperties.putAll(additionalProperties)
-            }
-
-            fun build(): AdditionalData =
-                AdditionalData(
-                    networkDecision,
-                    networkRiskScore,
-                    additionalProperties.toUnmodifiable(),
-                )
-        }
-
-        class NetworkDecision
-        @JsonCreator
-        private constructor(
-            private val value: JsonField<String>,
-        ) {
-
-            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is NetworkDecision && this.value == other.value
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
-            companion object {
-
-                @JvmField val LOW_RISK = NetworkDecision(JsonField.of("LOW_RISK"))
-
-                @JvmField val NOT_LOW_RISK = NetworkDecision(JsonField.of("NOT_LOW_RISK"))
-
-                @JvmStatic fun of(value: String) = NetworkDecision(JsonField.of(value))
-            }
-
-            enum class Known {
-                LOW_RISK,
-                NOT_LOW_RISK,
-            }
-
-            enum class Value {
-                LOW_RISK,
-                NOT_LOW_RISK,
-                _UNKNOWN,
-            }
-
-            fun value(): Value =
-                when (this) {
-                    LOW_RISK -> Value.LOW_RISK
-                    NOT_LOW_RISK -> Value.NOT_LOW_RISK
-                    else -> Value._UNKNOWN
-                }
-
-            fun known(): Known =
-                when (this) {
-                    LOW_RISK -> Known.LOW_RISK
-                    NOT_LOW_RISK -> Known.NOT_LOW_RISK
-                    else -> throw LithicInvalidDataException("Unknown NetworkDecision: $value")
-                }
-
-            fun asString(): String = _value().asStringOrThrow()
-        }
     }
 
     class AuthenticationResult
@@ -2646,19 +2466,77 @@ private constructor(
         }
     }
 
-    /**
-     * Object containing data about the e-commerce transaction for which the merchant is requesting
-     * authentication.
-     */
-    @JsonDeserialize(builder = Transaction.Builder::class)
-    @NoAutoDetect
-    class Transaction
+    class MessageCategory
+    @JsonCreator
     private constructor(
-        private val amount: JsonField<Double>,
-        private val currency: JsonField<String>,
-        private val currencyExponent: JsonField<Double>,
-        private val dateTime: JsonField<OffsetDateTime>,
-        private val type: JsonField<Type>,
+        private val value: JsonField<String>,
+    ) {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is MessageCategory && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField
+            val PAYMENT_AUTHENTICATION = MessageCategory(JsonField.of("PAYMENT_AUTHENTICATION"))
+
+            @JvmField
+            val NON_PAYMENT_AUTHENTICATION =
+                MessageCategory(JsonField.of("NON_PAYMENT_AUTHENTICATION"))
+
+            @JvmStatic fun of(value: String) = MessageCategory(JsonField.of(value))
+        }
+
+        enum class Known {
+            PAYMENT_AUTHENTICATION,
+            NON_PAYMENT_AUTHENTICATION,
+        }
+
+        enum class Value {
+            PAYMENT_AUTHENTICATION,
+            NON_PAYMENT_AUTHENTICATION,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                PAYMENT_AUTHENTICATION -> Value.PAYMENT_AUTHENTICATION
+                NON_PAYMENT_AUTHENTICATION -> Value.NON_PAYMENT_AUTHENTICATION
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                PAYMENT_AUTHENTICATION -> Known.PAYMENT_AUTHENTICATION
+                NON_PAYMENT_AUTHENTICATION -> Known.NON_PAYMENT_AUTHENTICATION
+                else -> throw LithicInvalidDataException("Unknown MessageCategory: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+    }
+
+    /**
+     * Object containing additional data about the 3DS request that is beyond the EMV 3DS standard
+     * spec (e.g., specific fields that only certain card networks send but are not required across
+     * all 3DS requests).
+     */
+    @JsonDeserialize(builder = AdditionalData.Builder::class)
+    @NoAutoDetect
+    class AdditionalData
+    private constructor(
+        private val networkDecision: JsonField<NetworkDecision>,
+        private val networkRiskScore: JsonField<Double>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -2667,72 +2545,41 @@ private constructor(
         private var hashCode: Int = 0
 
         /**
-         * Amount of the purchase in minor units of currency with all punctuation removed. Maps to
-         * EMV 3DS field purchaseAmount.
+         * Mastercard only: Indicates whether the network would have considered the authentication
+         * request to be low risk or not.
          */
-        fun amount(): Double = amount.getRequired("amount")
-
-        /** Currency of the purchase. Maps to EMV 3DS field purchaseCurrency. */
-        fun currency(): String = currency.getRequired("currency")
+        fun networkDecision(): Optional<NetworkDecision> =
+            Optional.ofNullable(networkDecision.getNullable("network_decision"))
 
         /**
-         * Minor units of currency, as specified in ISO 4217 currency exponent. Maps to EMV 3DS
-         * field purchaseExponent.
+         * Mastercard only: Assessment by the network of the authentication risk level, with a
+         * higher value indicating a higher amount of risk.
          */
-        fun currencyExponent(): Double = currencyExponent.getRequired("currency_exponent")
+        fun networkRiskScore(): Optional<Double> =
+            Optional.ofNullable(networkRiskScore.getNullable("network_risk_score"))
 
         /**
-         * Date and time when the authentication was generated by the merchant/acquirer's 3DS
-         * server. Maps to EMV 3DS field purchaseDate.
+         * Mastercard only: Indicates whether the network would have considered the authentication
+         * request to be low risk or not.
          */
-        fun dateTime(): OffsetDateTime = dateTime.getRequired("date_time")
+        @JsonProperty("network_decision") @ExcludeMissing fun _networkDecision() = networkDecision
 
         /**
-         * Type of the transaction for which a 3DS authentication request is occurring. Maps to EMV
-         * 3DS field transType.
+         * Mastercard only: Assessment by the network of the authentication risk level, with a
+         * higher value indicating a higher amount of risk.
          */
-        fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
-
-        /**
-         * Amount of the purchase in minor units of currency with all punctuation removed. Maps to
-         * EMV 3DS field purchaseAmount.
-         */
-        @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
-
-        /** Currency of the purchase. Maps to EMV 3DS field purchaseCurrency. */
-        @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
-
-        /**
-         * Minor units of currency, as specified in ISO 4217 currency exponent. Maps to EMV 3DS
-         * field purchaseExponent.
-         */
-        @JsonProperty("currency_exponent")
+        @JsonProperty("network_risk_score")
         @ExcludeMissing
-        fun _currencyExponent() = currencyExponent
-
-        /**
-         * Date and time when the authentication was generated by the merchant/acquirer's 3DS
-         * server. Maps to EMV 3DS field purchaseDate.
-         */
-        @JsonProperty("date_time") @ExcludeMissing fun _dateTime() = dateTime
-
-        /**
-         * Type of the transaction for which a 3DS authentication request is occurring. Maps to EMV
-         * 3DS field transType.
-         */
-        @JsonProperty("type") @ExcludeMissing fun _type() = type
+        fun _networkRiskScore() = networkRiskScore
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate(): Transaction = apply {
+        fun validate(): AdditionalData = apply {
             if (!validated) {
-                amount()
-                currency()
-                currencyExponent()
-                dateTime()
-                type()
+                networkDecision()
+                networkRiskScore()
                 validated = true
             }
         }
@@ -2744,12 +2591,9 @@ private constructor(
                 return true
             }
 
-            return other is Transaction &&
-                this.amount == other.amount &&
-                this.currency == other.currency &&
-                this.currencyExponent == other.currencyExponent &&
-                this.dateTime == other.dateTime &&
-                this.type == other.type &&
+            return other is AdditionalData &&
+                this.networkDecision == other.networkDecision &&
+                this.networkRiskScore == other.networkRiskScore &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -2757,11 +2601,8 @@ private constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
-                        amount,
-                        currency,
-                        currencyExponent,
-                        dateTime,
-                        type,
+                        networkDecision,
+                        networkRiskScore,
                         additionalProperties,
                     )
             }
@@ -2769,7 +2610,7 @@ private constructor(
         }
 
         override fun toString() =
-            "Transaction{amount=$amount, currency=$currency, currencyExponent=$currencyExponent, dateTime=$dateTime, type=$type, additionalProperties=$additionalProperties}"
+            "AdditionalData{networkDecision=$networkDecision, networkRiskScore=$networkRiskScore, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -2778,89 +2619,50 @@ private constructor(
 
         class Builder {
 
-            private var amount: JsonField<Double> = JsonMissing.of()
-            private var currency: JsonField<String> = JsonMissing.of()
-            private var currencyExponent: JsonField<Double> = JsonMissing.of()
-            private var dateTime: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var type: JsonField<Type> = JsonMissing.of()
+            private var networkDecision: JsonField<NetworkDecision> = JsonMissing.of()
+            private var networkRiskScore: JsonField<Double> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(transaction: Transaction) = apply {
-                this.amount = transaction.amount
-                this.currency = transaction.currency
-                this.currencyExponent = transaction.currencyExponent
-                this.dateTime = transaction.dateTime
-                this.type = transaction.type
-                additionalProperties(transaction.additionalProperties)
+            internal fun from(additionalData: AdditionalData) = apply {
+                this.networkDecision = additionalData.networkDecision
+                this.networkRiskScore = additionalData.networkRiskScore
+                additionalProperties(additionalData.additionalProperties)
             }
 
             /**
-             * Amount of the purchase in minor units of currency with all punctuation removed. Maps
-             * to EMV 3DS field purchaseAmount.
+             * Mastercard only: Indicates whether the network would have considered the
+             * authentication request to be low risk or not.
              */
-            fun amount(amount: Double) = amount(JsonField.of(amount))
+            fun networkDecision(networkDecision: NetworkDecision) =
+                networkDecision(JsonField.of(networkDecision))
 
             /**
-             * Amount of the purchase in minor units of currency with all punctuation removed. Maps
-             * to EMV 3DS field purchaseAmount.
+             * Mastercard only: Indicates whether the network would have considered the
+             * authentication request to be low risk or not.
              */
-            @JsonProperty("amount")
+            @JsonProperty("network_decision")
             @ExcludeMissing
-            fun amount(amount: JsonField<Double>) = apply { this.amount = amount }
-
-            /** Currency of the purchase. Maps to EMV 3DS field purchaseCurrency. */
-            fun currency(currency: String) = currency(JsonField.of(currency))
-
-            /** Currency of the purchase. Maps to EMV 3DS field purchaseCurrency. */
-            @JsonProperty("currency")
-            @ExcludeMissing
-            fun currency(currency: JsonField<String>) = apply { this.currency = currency }
-
-            /**
-             * Minor units of currency, as specified in ISO 4217 currency exponent. Maps to EMV 3DS
-             * field purchaseExponent.
-             */
-            fun currencyExponent(currencyExponent: Double) =
-                currencyExponent(JsonField.of(currencyExponent))
-
-            /**
-             * Minor units of currency, as specified in ISO 4217 currency exponent. Maps to EMV 3DS
-             * field purchaseExponent.
-             */
-            @JsonProperty("currency_exponent")
-            @ExcludeMissing
-            fun currencyExponent(currencyExponent: JsonField<Double>) = apply {
-                this.currencyExponent = currencyExponent
+            fun networkDecision(networkDecision: JsonField<NetworkDecision>) = apply {
+                this.networkDecision = networkDecision
             }
 
             /**
-             * Date and time when the authentication was generated by the merchant/acquirer's 3DS
-             * server. Maps to EMV 3DS field purchaseDate.
+             * Mastercard only: Assessment by the network of the authentication risk level, with a
+             * higher value indicating a higher amount of risk.
              */
-            fun dateTime(dateTime: OffsetDateTime) = dateTime(JsonField.of(dateTime))
+            fun networkRiskScore(networkRiskScore: Double) =
+                networkRiskScore(JsonField.of(networkRiskScore))
 
             /**
-             * Date and time when the authentication was generated by the merchant/acquirer's 3DS
-             * server. Maps to EMV 3DS field purchaseDate.
+             * Mastercard only: Assessment by the network of the authentication risk level, with a
+             * higher value indicating a higher amount of risk.
              */
-            @JsonProperty("date_time")
+            @JsonProperty("network_risk_score")
             @ExcludeMissing
-            fun dateTime(dateTime: JsonField<OffsetDateTime>) = apply { this.dateTime = dateTime }
-
-            /**
-             * Type of the transaction for which a 3DS authentication request is occurring. Maps to
-             * EMV 3DS field transType.
-             */
-            fun type(type: Type) = type(JsonField.of(type))
-
-            /**
-             * Type of the transaction for which a 3DS authentication request is occurring. Maps to
-             * EMV 3DS field transType.
-             */
-            @JsonProperty("type")
-            @ExcludeMissing
-            fun type(type: JsonField<Type>) = apply { this.type = type }
+            fun networkRiskScore(networkRiskScore: JsonField<Double>) = apply {
+                this.networkRiskScore = networkRiskScore
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -2876,18 +2678,15 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Transaction =
-                Transaction(
-                    amount,
-                    currency,
-                    currencyExponent,
-                    dateTime,
-                    type,
+            fun build(): AdditionalData =
+                AdditionalData(
+                    networkDecision,
+                    networkRiskScore,
                     additionalProperties.toUnmodifiable(),
                 )
         }
 
-        class Type
+        class NetworkDecision
         @JsonCreator
         private constructor(
             private val value: JsonField<String>,
@@ -2900,7 +2699,7 @@ private constructor(
                     return true
                 }
 
-                return other is Type && this.value == other.value
+                return other is NetworkDecision && this.value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -2909,55 +2708,36 @@ private constructor(
 
             companion object {
 
-                @JvmField val GOODS_SERVICE_PURCHASE = Type(JsonField.of("GOODS_SERVICE_PURCHASE"))
+                @JvmField val LOW_RISK = NetworkDecision(JsonField.of("LOW_RISK"))
 
-                @JvmField val CHECK_ACCEPTANCE = Type(JsonField.of("CHECK_ACCEPTANCE"))
+                @JvmField val NOT_LOW_RISK = NetworkDecision(JsonField.of("NOT_LOW_RISK"))
 
-                @JvmField val ACCOUNT_FUNDING = Type(JsonField.of("ACCOUNT_FUNDING"))
-
-                @JvmField val QUASI_CASH_TRANSACTION = Type(JsonField.of("QUASI_CASH_TRANSACTION"))
-
-                @JvmField
-                val PREPAID_ACTIVATION_AND_LOAD = Type(JsonField.of("PREPAID_ACTIVATION_AND_LOAD"))
-
-                @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+                @JvmStatic fun of(value: String) = NetworkDecision(JsonField.of(value))
             }
 
             enum class Known {
-                GOODS_SERVICE_PURCHASE,
-                CHECK_ACCEPTANCE,
-                ACCOUNT_FUNDING,
-                QUASI_CASH_TRANSACTION,
-                PREPAID_ACTIVATION_AND_LOAD,
+                LOW_RISK,
+                NOT_LOW_RISK,
             }
 
             enum class Value {
-                GOODS_SERVICE_PURCHASE,
-                CHECK_ACCEPTANCE,
-                ACCOUNT_FUNDING,
-                QUASI_CASH_TRANSACTION,
-                PREPAID_ACTIVATION_AND_LOAD,
+                LOW_RISK,
+                NOT_LOW_RISK,
                 _UNKNOWN,
             }
 
             fun value(): Value =
                 when (this) {
-                    GOODS_SERVICE_PURCHASE -> Value.GOODS_SERVICE_PURCHASE
-                    CHECK_ACCEPTANCE -> Value.CHECK_ACCEPTANCE
-                    ACCOUNT_FUNDING -> Value.ACCOUNT_FUNDING
-                    QUASI_CASH_TRANSACTION -> Value.QUASI_CASH_TRANSACTION
-                    PREPAID_ACTIVATION_AND_LOAD -> Value.PREPAID_ACTIVATION_AND_LOAD
+                    LOW_RISK -> Value.LOW_RISK
+                    NOT_LOW_RISK -> Value.NOT_LOW_RISK
                     else -> Value._UNKNOWN
                 }
 
             fun known(): Known =
                 when (this) {
-                    GOODS_SERVICE_PURCHASE -> Known.GOODS_SERVICE_PURCHASE
-                    CHECK_ACCEPTANCE -> Known.CHECK_ACCEPTANCE
-                    ACCOUNT_FUNDING -> Known.ACCOUNT_FUNDING
-                    QUASI_CASH_TRANSACTION -> Known.QUASI_CASH_TRANSACTION
-                    PREPAID_ACTIVATION_AND_LOAD -> Known.PREPAID_ACTIVATION_AND_LOAD
-                    else -> throw LithicInvalidDataException("Unknown Type: $value")
+                    LOW_RISK -> Known.LOW_RISK
+                    NOT_LOW_RISK -> Known.NOT_LOW_RISK
+                    else -> throw LithicInvalidDataException("Unknown NetworkDecision: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
@@ -3663,5 +3443,323 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+    }
+
+    /**
+     * Object containing data about the e-commerce transaction for which the merchant is requesting
+     * authentication.
+     */
+    @JsonDeserialize(builder = Transaction.Builder::class)
+    @NoAutoDetect
+    class Transaction
+    private constructor(
+        private val amount: JsonField<Double>,
+        private val currency: JsonField<String>,
+        private val currencyExponent: JsonField<Double>,
+        private val dateTime: JsonField<OffsetDateTime>,
+        private val type: JsonField<Type>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
+
+        private var validated: Boolean = false
+
+        private var hashCode: Int = 0
+
+        /**
+         * Amount of the purchase in minor units of currency with all punctuation removed. Maps to
+         * EMV 3DS field purchaseAmount.
+         */
+        fun amount(): Double = amount.getRequired("amount")
+
+        /** Currency of the purchase. Maps to EMV 3DS field purchaseCurrency. */
+        fun currency(): String = currency.getRequired("currency")
+
+        /**
+         * Minor units of currency, as specified in ISO 4217 currency exponent. Maps to EMV 3DS
+         * field purchaseExponent.
+         */
+        fun currencyExponent(): Double = currencyExponent.getRequired("currency_exponent")
+
+        /**
+         * Date and time when the authentication was generated by the merchant/acquirer's 3DS
+         * server. Maps to EMV 3DS field purchaseDate.
+         */
+        fun dateTime(): OffsetDateTime = dateTime.getRequired("date_time")
+
+        /**
+         * Type of the transaction for which a 3DS authentication request is occurring. Maps to EMV
+         * 3DS field transType.
+         */
+        fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
+
+        /**
+         * Amount of the purchase in minor units of currency with all punctuation removed. Maps to
+         * EMV 3DS field purchaseAmount.
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+        /** Currency of the purchase. Maps to EMV 3DS field purchaseCurrency. */
+        @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+
+        /**
+         * Minor units of currency, as specified in ISO 4217 currency exponent. Maps to EMV 3DS
+         * field purchaseExponent.
+         */
+        @JsonProperty("currency_exponent")
+        @ExcludeMissing
+        fun _currencyExponent() = currencyExponent
+
+        /**
+         * Date and time when the authentication was generated by the merchant/acquirer's 3DS
+         * server. Maps to EMV 3DS field purchaseDate.
+         */
+        @JsonProperty("date_time") @ExcludeMissing fun _dateTime() = dateTime
+
+        /**
+         * Type of the transaction for which a 3DS authentication request is occurring. Maps to EMV
+         * 3DS field transType.
+         */
+        @JsonProperty("type") @ExcludeMissing fun _type() = type
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun validate(): Transaction = apply {
+            if (!validated) {
+                amount()
+                currency()
+                currencyExponent()
+                dateTime()
+                type()
+                validated = true
+            }
+        }
+
+        fun toBuilder() = Builder().from(this)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Transaction &&
+                this.amount == other.amount &&
+                this.currency == other.currency &&
+                this.currencyExponent == other.currencyExponent &&
+                this.dateTime == other.dateTime &&
+                this.type == other.type &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        currency,
+                        currencyExponent,
+                        dateTime,
+                        type,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "Transaction{amount=$amount, currency=$currency, currencyExponent=$currencyExponent, dateTime=$dateTime, type=$type, additionalProperties=$additionalProperties}"
+
+        companion object {
+
+            @JvmStatic fun builder() = Builder()
+        }
+
+        class Builder {
+
+            private var amount: JsonField<Double> = JsonMissing.of()
+            private var currency: JsonField<String> = JsonMissing.of()
+            private var currencyExponent: JsonField<Double> = JsonMissing.of()
+            private var dateTime: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var type: JsonField<Type> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(transaction: Transaction) = apply {
+                this.amount = transaction.amount
+                this.currency = transaction.currency
+                this.currencyExponent = transaction.currencyExponent
+                this.dateTime = transaction.dateTime
+                this.type = transaction.type
+                additionalProperties(transaction.additionalProperties)
+            }
+
+            /**
+             * Amount of the purchase in minor units of currency with all punctuation removed. Maps
+             * to EMV 3DS field purchaseAmount.
+             */
+            fun amount(amount: Double) = amount(JsonField.of(amount))
+
+            /**
+             * Amount of the purchase in minor units of currency with all punctuation removed. Maps
+             * to EMV 3DS field purchaseAmount.
+             */
+            @JsonProperty("amount")
+            @ExcludeMissing
+            fun amount(amount: JsonField<Double>) = apply { this.amount = amount }
+
+            /** Currency of the purchase. Maps to EMV 3DS field purchaseCurrency. */
+            fun currency(currency: String) = currency(JsonField.of(currency))
+
+            /** Currency of the purchase. Maps to EMV 3DS field purchaseCurrency. */
+            @JsonProperty("currency")
+            @ExcludeMissing
+            fun currency(currency: JsonField<String>) = apply { this.currency = currency }
+
+            /**
+             * Minor units of currency, as specified in ISO 4217 currency exponent. Maps to EMV 3DS
+             * field purchaseExponent.
+             */
+            fun currencyExponent(currencyExponent: Double) =
+                currencyExponent(JsonField.of(currencyExponent))
+
+            /**
+             * Minor units of currency, as specified in ISO 4217 currency exponent. Maps to EMV 3DS
+             * field purchaseExponent.
+             */
+            @JsonProperty("currency_exponent")
+            @ExcludeMissing
+            fun currencyExponent(currencyExponent: JsonField<Double>) = apply {
+                this.currencyExponent = currencyExponent
+            }
+
+            /**
+             * Date and time when the authentication was generated by the merchant/acquirer's 3DS
+             * server. Maps to EMV 3DS field purchaseDate.
+             */
+            fun dateTime(dateTime: OffsetDateTime) = dateTime(JsonField.of(dateTime))
+
+            /**
+             * Date and time when the authentication was generated by the merchant/acquirer's 3DS
+             * server. Maps to EMV 3DS field purchaseDate.
+             */
+            @JsonProperty("date_time")
+            @ExcludeMissing
+            fun dateTime(dateTime: JsonField<OffsetDateTime>) = apply { this.dateTime = dateTime }
+
+            /**
+             * Type of the transaction for which a 3DS authentication request is occurring. Maps to
+             * EMV 3DS field transType.
+             */
+            fun type(type: Type) = type(JsonField.of(type))
+
+            /**
+             * Type of the transaction for which a 3DS authentication request is occurring. Maps to
+             * EMV 3DS field transType.
+             */
+            @JsonProperty("type")
+            @ExcludeMissing
+            fun type(type: JsonField<Type>) = apply { this.type = type }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            @JsonAnySetter
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                this.additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun build(): Transaction =
+                Transaction(
+                    amount,
+                    currency,
+                    currencyExponent,
+                    dateTime,
+                    type,
+                    additionalProperties.toUnmodifiable(),
+                )
+        }
+
+        class Type
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Type && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val GOODS_SERVICE_PURCHASE = Type(JsonField.of("GOODS_SERVICE_PURCHASE"))
+
+                @JvmField val CHECK_ACCEPTANCE = Type(JsonField.of("CHECK_ACCEPTANCE"))
+
+                @JvmField val ACCOUNT_FUNDING = Type(JsonField.of("ACCOUNT_FUNDING"))
+
+                @JvmField val QUASI_CASH_TRANSACTION = Type(JsonField.of("QUASI_CASH_TRANSACTION"))
+
+                @JvmField
+                val PREPAID_ACTIVATION_AND_LOAD = Type(JsonField.of("PREPAID_ACTIVATION_AND_LOAD"))
+
+                @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+            }
+
+            enum class Known {
+                GOODS_SERVICE_PURCHASE,
+                CHECK_ACCEPTANCE,
+                ACCOUNT_FUNDING,
+                QUASI_CASH_TRANSACTION,
+                PREPAID_ACTIVATION_AND_LOAD,
+            }
+
+            enum class Value {
+                GOODS_SERVICE_PURCHASE,
+                CHECK_ACCEPTANCE,
+                ACCOUNT_FUNDING,
+                QUASI_CASH_TRANSACTION,
+                PREPAID_ACTIVATION_AND_LOAD,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    GOODS_SERVICE_PURCHASE -> Value.GOODS_SERVICE_PURCHASE
+                    CHECK_ACCEPTANCE -> Value.CHECK_ACCEPTANCE
+                    ACCOUNT_FUNDING -> Value.ACCOUNT_FUNDING
+                    QUASI_CASH_TRANSACTION -> Value.QUASI_CASH_TRANSACTION
+                    PREPAID_ACTIVATION_AND_LOAD -> Value.PREPAID_ACTIVATION_AND_LOAD
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    GOODS_SERVICE_PURCHASE -> Known.GOODS_SERVICE_PURCHASE
+                    CHECK_ACCEPTANCE -> Known.CHECK_ACCEPTANCE
+                    ACCOUNT_FUNDING -> Known.ACCOUNT_FUNDING
+                    QUASI_CASH_TRANSACTION -> Known.QUASI_CASH_TRANSACTION
+                    PREPAID_ACTIVATION_AND_LOAD -> Known.PREPAID_ACTIVATION_AND_LOAD
+                    else -> throw LithicInvalidDataException("Unknown Type: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
     }
 }

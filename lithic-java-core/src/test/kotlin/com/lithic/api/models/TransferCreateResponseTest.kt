@@ -26,7 +26,10 @@ class TransferCreateResponseTest {
                                     .amount(123L)
                                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                     .result(Transfer.FinancialEvent.Result.APPROVED)
-                                    .type(Transfer.FinancialEvent.Type.ACH_INSUFFICIENT_FUNDS)
+                                    .type(
+                                        Transfer.FinancialEvent.FinancialEventType
+                                            .ACH_INSUFFICIENT_FUNDS
+                                    )
                                     .build()
                             )
                         )
@@ -90,7 +93,10 @@ class TransferCreateResponseTest {
                                 .amount(123L)
                                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                 .result(Transfer.FinancialEvent.Result.APPROVED)
-                                .type(Transfer.FinancialEvent.Type.ACH_INSUFFICIENT_FUNDS)
+                                .type(
+                                    Transfer.FinancialEvent.FinancialEventType
+                                        .ACH_INSUFFICIENT_FUNDS
+                                )
                                 .build()
                         )
                     )

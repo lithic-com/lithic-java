@@ -51,6 +51,10 @@ interface LithicClientAsync {
 
     fun threeDS(): ThreeDSServiceAsync
 
+    fun reports(): ReportServiceAsync
+
+    fun cardProduct(): CardProductServiceAsync
+
     /** API status check */
     @JvmOverloads
     fun apiStatus(

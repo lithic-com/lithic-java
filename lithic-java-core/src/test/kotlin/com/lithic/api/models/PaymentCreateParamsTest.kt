@@ -18,6 +18,8 @@ class PaymentCreateParamsTest {
             .methodAttributes(
                 PaymentCreateParams.PaymentMethodAttributes.builder()
                     .secCode(PaymentCreateParams.PaymentMethodAttributes.SecCode.PPD)
+                    .retries(123L)
+                    .returnReasonCode("string")
                     .build()
             )
             .type(PaymentCreateParams.Type.PAYMENT)
@@ -38,6 +40,8 @@ class PaymentCreateParamsTest {
                 .methodAttributes(
                     PaymentCreateParams.PaymentMethodAttributes.builder()
                         .secCode(PaymentCreateParams.PaymentMethodAttributes.SecCode.PPD)
+                        .retries(123L)
+                        .returnReasonCode("string")
                         .build()
                 )
                 .type(PaymentCreateParams.Type.PAYMENT)
@@ -56,6 +60,8 @@ class PaymentCreateParamsTest {
             .isEqualTo(
                 PaymentCreateParams.PaymentMethodAttributes.builder()
                     .secCode(PaymentCreateParams.PaymentMethodAttributes.SecCode.PPD)
+                    .retries(123L)
+                    .returnReasonCode("string")
                     .build()
             )
         assertThat(body.type()).isEqualTo(PaymentCreateParams.Type.PAYMENT)

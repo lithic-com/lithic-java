@@ -20,6 +20,12 @@ import com.lithic.api.models.CardProvisionResponse
 import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRetrieveParams
 import com.lithic.api.models.CardUpdateParams
+import com.lithic.api.services.async.cards.AggregateBalanceServiceAsync
+import com.lithic.api.services.async.cards.AggregateBalanceServiceAsyncImpl
+import com.lithic.api.services.async.cards.BalanceServiceAsync
+import com.lithic.api.services.async.cards.BalanceServiceAsyncImpl
+import com.lithic.api.services.async.cards.FinancialTransactionServiceAsync
+import com.lithic.api.services.async.cards.FinancialTransactionServiceAsyncImpl
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -38,6 +44,22 @@ constructor(
 ) : CardServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+    private val aggregateBalances: AggregateBalanceServiceAsync by lazy {
+        AggregateBalanceServiceAsyncImpl(clientOptions)
+    }
+
+    private val balances: BalanceServiceAsync by lazy { BalanceServiceAsyncImpl(clientOptions) }
+
+    private val financialTransactions: FinancialTransactionServiceAsync by lazy {
+        FinancialTransactionServiceAsyncImpl(clientOptions)
+    }
+
+    override fun aggregateBalances(): AggregateBalanceServiceAsync = aggregateBalances
+
+    override fun balances(): BalanceServiceAsync = balances
+
+    override fun financialTransactions(): FinancialTransactionServiceAsync = financialTransactions
 
     private val createHandler: Handler<Card> =
         jsonHandler<Card>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
