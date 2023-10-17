@@ -9,12 +9,15 @@ import com.lithic.api.models.FinancialAccountListPage
 import com.lithic.api.models.FinancialAccountListParams
 import com.lithic.api.services.blocking.financialAccounts.BalanceService
 import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
+import com.lithic.api.services.blocking.financialAccounts.StatementService
 
 interface FinancialAccountService {
 
     fun balances(): BalanceService
 
     fun financialTransactions(): FinancialTransactionService
+
+    fun statements(): StatementService
 
     /** Retrieve information on your financial accounts including routing and account number. */
     @JvmOverloads

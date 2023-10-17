@@ -17,8 +17,17 @@ import com.lithic.api.models.CardProvisionResponse
 import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRetrieveParams
 import com.lithic.api.models.CardUpdateParams
+import com.lithic.api.services.blocking.cards.AggregateBalanceService
+import com.lithic.api.services.blocking.cards.BalanceService
+import com.lithic.api.services.blocking.cards.FinancialTransactionService
 
 interface CardService {
+
+    fun aggregateBalances(): AggregateBalanceService
+
+    fun balances(): BalanceService
+
+    fun financialTransactions(): FinancialTransactionService
 
     /**
      * Create a new virtual or physical card. Parameters `pin`, `shipping_address`, and `product_id`

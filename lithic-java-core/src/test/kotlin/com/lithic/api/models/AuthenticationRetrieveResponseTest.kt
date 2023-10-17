@@ -14,14 +14,6 @@ class AuthenticationRetrieveResponseTest {
             AuthenticationRetrieveResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountType(AuthenticationRetrieveResponse.AccountType.NOT_APPLICABLE)
-                .additionalData(
-                    AuthenticationRetrieveResponse.AdditionalData.builder()
-                        .networkDecision(
-                            AuthenticationRetrieveResponse.AdditionalData.NetworkDecision.LOW_RISK
-                        )
-                        .networkRiskScore(42.23)
-                        .build()
-                )
                 .authenticationResult(AuthenticationRetrieveResponse.AuthenticationResult.SUCCESS)
                 .cardExpiryCheck(AuthenticationRetrieveResponse.CardExpiryCheck.MATCH)
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -97,15 +89,15 @@ class AuthenticationRetrieveResponseTest {
                         )
                         .build()
                 )
-                .transaction(
-                    AuthenticationRetrieveResponse.Transaction.builder()
-                        .amount(42.23)
-                        .currency("xxx")
-                        .currencyExponent(42.23)
-                        .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .type(
-                            AuthenticationRetrieveResponse.Transaction.Type.GOODS_SERVICE_PURCHASE
+                .messageCategory(
+                    AuthenticationRetrieveResponse.MessageCategory.PAYMENT_AUTHENTICATION
+                )
+                .additionalData(
+                    AuthenticationRetrieveResponse.AdditionalData.builder()
+                        .networkDecision(
+                            AuthenticationRetrieveResponse.AdditionalData.NetworkDecision.LOW_RISK
                         )
+                        .networkRiskScore(42.23)
                         .build()
                 )
                 .app(
@@ -130,21 +122,23 @@ class AuthenticationRetrieveResponseTest {
                 .threeRiRequestType(
                     AuthenticationRetrieveResponse.ThreeRiRequestType.RECURRING_TRANSACTION
                 )
+                .transaction(
+                    AuthenticationRetrieveResponse.Transaction.builder()
+                        .amount(42.23)
+                        .currency("xxx")
+                        .currencyExponent(42.23)
+                        .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .type(
+                            AuthenticationRetrieveResponse.Transaction.Type.GOODS_SERVICE_PURCHASE
+                        )
+                        .build()
+                )
                 .build()
         assertThat(authenticationRetrieveResponse).isNotNull
         assertThat(authenticationRetrieveResponse.token())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(authenticationRetrieveResponse.accountType())
             .contains(AuthenticationRetrieveResponse.AccountType.NOT_APPLICABLE)
-        assertThat(authenticationRetrieveResponse.additionalData())
-            .isEqualTo(
-                AuthenticationRetrieveResponse.AdditionalData.builder()
-                    .networkDecision(
-                        AuthenticationRetrieveResponse.AdditionalData.NetworkDecision.LOW_RISK
-                    )
-                    .networkRiskScore(42.23)
-                    .build()
-            )
         assertThat(authenticationRetrieveResponse.authenticationResult())
             .contains(AuthenticationRetrieveResponse.AuthenticationResult.SUCCESS)
         assertThat(authenticationRetrieveResponse.cardExpiryCheck())
@@ -224,14 +218,15 @@ class AuthenticationRetrieveResponseTest {
                     )
                     .build()
             )
-        assertThat(authenticationRetrieveResponse.transaction())
-            .isEqualTo(
-                AuthenticationRetrieveResponse.Transaction.builder()
-                    .amount(42.23)
-                    .currency("xxx")
-                    .currencyExponent(42.23)
-                    .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .type(AuthenticationRetrieveResponse.Transaction.Type.GOODS_SERVICE_PURCHASE)
+        assertThat(authenticationRetrieveResponse.messageCategory())
+            .isEqualTo(AuthenticationRetrieveResponse.MessageCategory.PAYMENT_AUTHENTICATION)
+        assertThat(authenticationRetrieveResponse.additionalData())
+            .contains(
+                AuthenticationRetrieveResponse.AdditionalData.builder()
+                    .networkDecision(
+                        AuthenticationRetrieveResponse.AdditionalData.NetworkDecision.LOW_RISK
+                    )
+                    .networkRiskScore(42.23)
                     .build()
             )
         assertThat(authenticationRetrieveResponse.app())
@@ -256,5 +251,15 @@ class AuthenticationRetrieveResponseTest {
             )
         assertThat(authenticationRetrieveResponse.threeRiRequestType())
             .contains(AuthenticationRetrieveResponse.ThreeRiRequestType.RECURRING_TRANSACTION)
+        assertThat(authenticationRetrieveResponse.transaction())
+            .contains(
+                AuthenticationRetrieveResponse.Transaction.builder()
+                    .amount(42.23)
+                    .currency("xxx")
+                    .currencyExponent(42.23)
+                    .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .type(AuthenticationRetrieveResponse.Transaction.Type.GOODS_SERVICE_PURCHASE)
+                    .build()
+            )
     }
 }

@@ -14,6 +14,8 @@ import com.lithic.api.models.PaymentCreateResponse
 import com.lithic.api.models.PaymentListPage
 import com.lithic.api.models.PaymentListParams
 import com.lithic.api.models.PaymentRetrieveParams
+import com.lithic.api.models.PaymentRetryParams
+import com.lithic.api.models.PaymentRetryResponse
 import com.lithic.api.models.PaymentSimulateReleaseParams
 import com.lithic.api.models.PaymentSimulateReleaseResponse
 import com.lithic.api.models.PaymentSimulateReturnParams
@@ -105,6 +107,34 @@ constructor(
                     }
                 }
                 .let { PaymentListPage.of(this, params, it) }
+        }
+    }
+
+    private val retryHandler: Handler<PaymentRetryResponse> =
+        jsonHandler<PaymentRetryResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+    /** Retry an origination which has been returned. */
+    override fun retry(
+        params: PaymentRetryParams,
+        requestOptions: RequestOptions
+    ): PaymentRetryResponse {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("payments", params.getPathParam(0), "retry")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { retryHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
         }
     }
 

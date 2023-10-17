@@ -497,11 +497,17 @@ constructor(
     @NoAutoDetect
     class PaymentMethodAttributes
     private constructor(
+        private val retries: Long?,
+        private val returnReasonCode: String?,
         private val secCode: SecCode?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
+
+        @JsonProperty("retries") fun retries(): Long? = retries
+
+        @JsonProperty("return_reason_code") fun returnReasonCode(): String? = returnReasonCode
 
         @JsonProperty("sec_code") fun secCode(): SecCode? = secCode
 
@@ -517,19 +523,27 @@ constructor(
             }
 
             return other is PaymentMethodAttributes &&
+                this.retries == other.retries &&
+                this.returnReasonCode == other.returnReasonCode &&
                 this.secCode == other.secCode &&
                 this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(secCode, additionalProperties)
+                hashCode =
+                    Objects.hash(
+                        retries,
+                        returnReasonCode,
+                        secCode,
+                        additionalProperties,
+                    )
             }
             return hashCode
         }
 
         override fun toString() =
-            "PaymentMethodAttributes{secCode=$secCode, additionalProperties=$additionalProperties}"
+            "PaymentMethodAttributes{retries=$retries, returnReasonCode=$returnReasonCode, secCode=$secCode, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -538,13 +552,24 @@ constructor(
 
         class Builder {
 
+            private var retries: Long? = null
+            private var returnReasonCode: String? = null
             private var secCode: SecCode? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(paymentMethodAttributes: PaymentMethodAttributes) = apply {
+                this.retries = paymentMethodAttributes.retries
+                this.returnReasonCode = paymentMethodAttributes.returnReasonCode
                 this.secCode = paymentMethodAttributes.secCode
                 additionalProperties(paymentMethodAttributes.additionalProperties)
+            }
+
+            @JsonProperty("retries") fun retries(retries: Long) = apply { this.retries = retries }
+
+            @JsonProperty("return_reason_code")
+            fun returnReasonCode(returnReasonCode: String) = apply {
+                this.returnReasonCode = returnReasonCode
             }
 
             @JsonProperty("sec_code")
@@ -566,8 +591,10 @@ constructor(
 
             fun build(): PaymentMethodAttributes =
                 PaymentMethodAttributes(
+                    retries,
+                    returnReasonCode,
                     checkNotNull(secCode) { "`secCode` is required but was not set" },
-                    additionalProperties.toUnmodifiable()
+                    additionalProperties.toUnmodifiable(),
                 )
         }
 

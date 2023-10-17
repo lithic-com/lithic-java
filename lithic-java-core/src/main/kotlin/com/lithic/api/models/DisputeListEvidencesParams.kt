@@ -124,13 +124,13 @@ constructor(
         fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
 
         /**
-         * Date string in RFC 3339 format. Only entries created after the specified date will be
+         * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
         fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
 
         /**
-         * Date string in RFC 3339 format. Only entries created before the specified date will be
+         * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
         fun end(end: OffsetDateTime) = apply { this.end = end }

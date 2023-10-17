@@ -17,9 +17,18 @@ import com.lithic.api.models.CardProvisionResponse
 import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRetrieveParams
 import com.lithic.api.models.CardUpdateParams
+import com.lithic.api.services.async.cards.AggregateBalanceServiceAsync
+import com.lithic.api.services.async.cards.BalanceServiceAsync
+import com.lithic.api.services.async.cards.FinancialTransactionServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface CardServiceAsync {
+
+    fun aggregateBalances(): AggregateBalanceServiceAsync
+
+    fun balances(): BalanceServiceAsync
+
+    fun financialTransactions(): FinancialTransactionServiceAsync
 
     /**
      * Create a new virtual or physical card. Parameters `pin`, `shipping_address`, and `product_id`

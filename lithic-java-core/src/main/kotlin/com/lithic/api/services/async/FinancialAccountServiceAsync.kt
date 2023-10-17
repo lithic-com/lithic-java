@@ -9,6 +9,7 @@ import com.lithic.api.models.FinancialAccountListPageAsync
 import com.lithic.api.models.FinancialAccountListParams
 import com.lithic.api.services.async.financialAccounts.BalanceServiceAsync
 import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsync
+import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface FinancialAccountServiceAsync {
@@ -16,6 +17,8 @@ interface FinancialAccountServiceAsync {
     fun balances(): BalanceServiceAsync
 
     fun financialTransactions(): FinancialTransactionServiceAsync
+
+    fun statements(): StatementServiceAsync
 
     /** Retrieve information on your financial accounts including routing and account number. */
     @JvmOverloads
