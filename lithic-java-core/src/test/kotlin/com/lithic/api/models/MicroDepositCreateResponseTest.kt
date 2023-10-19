@@ -41,6 +41,7 @@ class MicroDepositCreateResponseTest {
                 .doingBusinessAs("string")
                 .name("string")
                 .userDefinedId("string")
+                .verificationFailedReason("string")
                 .build()
         assertThat(microDepositCreateResponse).isNotNull
         assertThat(microDepositCreateResponse.token())
@@ -80,5 +81,6 @@ class MicroDepositCreateResponseTest {
         assertThat(microDepositCreateResponse.doingBusinessAs()).contains("string")
         assertThat(microDepositCreateResponse.name()).contains("string")
         assertThat(microDepositCreateResponse.userDefinedId()).contains("string")
+        assertThat(microDepositCreateResponse.verificationFailedReason()).contains("string")
     }
 }
