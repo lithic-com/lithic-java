@@ -41,6 +41,7 @@ class ExternalBankAccountCreateResponseTest {
                 .doingBusinessAs("string")
                 .name("string")
                 .userDefinedId("string")
+                .verificationFailedReason("string")
                 .build()
         assertThat(externalBankAccountCreateResponse).isNotNull
         assertThat(externalBankAccountCreateResponse.token())
@@ -80,5 +81,6 @@ class ExternalBankAccountCreateResponseTest {
         assertThat(externalBankAccountCreateResponse.doingBusinessAs()).contains("string")
         assertThat(externalBankAccountCreateResponse.name()).contains("string")
         assertThat(externalBankAccountCreateResponse.userDefinedId()).contains("string")
+        assertThat(externalBankAccountCreateResponse.verificationFailedReason()).contains("string")
     }
 }
