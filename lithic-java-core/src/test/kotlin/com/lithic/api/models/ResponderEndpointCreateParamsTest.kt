@@ -11,7 +11,7 @@ class ResponderEndpointCreateParamsTest {
     @Test
     fun createResponderEndpointCreateParams() {
         ResponderEndpointCreateParams.builder()
-            .type(ResponderEndpointCreateParams.Type.TOKENIZATION_DECISIONING)
+            .type(ResponderEndpointCreateParams.Type.AUTH_STREAM_ACCESS)
             .url("https://example.com")
             .build()
     }
@@ -20,13 +20,12 @@ class ResponderEndpointCreateParamsTest {
     fun getBody() {
         val params =
             ResponderEndpointCreateParams.builder()
-                .type(ResponderEndpointCreateParams.Type.TOKENIZATION_DECISIONING)
+                .type(ResponderEndpointCreateParams.Type.AUTH_STREAM_ACCESS)
                 .url("https://example.com")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.type())
-            .isEqualTo(ResponderEndpointCreateParams.Type.TOKENIZATION_DECISIONING)
+        assertThat(body.type()).isEqualTo(ResponderEndpointCreateParams.Type.AUTH_STREAM_ACCESS)
         assertThat(body.url()).isEqualTo("https://example.com")
     }
 

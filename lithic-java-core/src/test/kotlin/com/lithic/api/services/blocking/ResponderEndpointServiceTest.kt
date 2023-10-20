@@ -23,7 +23,7 @@ class ResponderEndpointServiceTest {
         val responderEndpointCreateResponse =
             responderEndpointService.create(
                 ResponderEndpointCreateParams.builder()
-                    .type(ResponderEndpointCreateParams.Type.TOKENIZATION_DECISIONING)
+                    .type(ResponderEndpointCreateParams.Type.AUTH_STREAM_ACCESS)
                     .url("https://example.com")
                     .build()
             )
@@ -42,7 +42,7 @@ class ResponderEndpointServiceTest {
         val responderEndpointService = client.responderEndpoints()
         responderEndpointService.delete(
             ResponderEndpointDeleteParams.builder()
-                .type(ResponderEndpointDeleteParams.Type.TOKENIZATION_DECISIONING)
+                .type(ResponderEndpointDeleteParams.Type.AUTH_STREAM_ACCESS)
                 .build()
         )
     }
@@ -58,7 +58,7 @@ class ResponderEndpointServiceTest {
         val responderEndpointStatus =
             responderEndpointService.checkStatus(
                 ResponderEndpointCheckStatusParams.builder()
-                    .type(ResponderEndpointCheckStatusParams.Type.TOKENIZATION_DECISIONING)
+                    .type(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS)
                     .build()
             )
         println(responderEndpointStatus)

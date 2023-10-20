@@ -11,7 +11,7 @@ class ResponderEndpointCheckStatusParamsTest {
     @Test
     fun createResponderEndpointCheckStatusParams() {
         ResponderEndpointCheckStatusParams.builder()
-            .type(ResponderEndpointCheckStatusParams.Type.TOKENIZATION_DECISIONING)
+            .type(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS)
             .build()
     }
 
@@ -19,12 +19,12 @@ class ResponderEndpointCheckStatusParamsTest {
     fun getQueryParams() {
         val params =
             ResponderEndpointCheckStatusParams.builder()
-                .type(ResponderEndpointCheckStatusParams.Type.TOKENIZATION_DECISIONING)
+                .type(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS)
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put(
             "type",
-            listOf(ResponderEndpointCheckStatusParams.Type.TOKENIZATION_DECISIONING.toString())
+            listOf(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS.toString())
         )
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
@@ -33,12 +33,12 @@ class ResponderEndpointCheckStatusParamsTest {
     fun getQueryParamsWithoutOptionalFields() {
         val params =
             ResponderEndpointCheckStatusParams.builder()
-                .type(ResponderEndpointCheckStatusParams.Type.TOKENIZATION_DECISIONING)
+                .type(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS)
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put(
             "type",
-            listOf(ResponderEndpointCheckStatusParams.Type.TOKENIZATION_DECISIONING.toString())
+            listOf(ResponderEndpointCheckStatusParams.Type.AUTH_STREAM_ACCESS.toString())
         )
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
