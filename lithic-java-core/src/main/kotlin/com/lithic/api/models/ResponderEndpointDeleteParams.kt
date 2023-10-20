@@ -178,6 +178,8 @@ constructor(
 
         companion object {
 
+            @JvmField val AUTH_STREAM_ACCESS = Type(JsonField.of("AUTH_STREAM_ACCESS"))
+
             @JvmField val TOKENIZATION_DECISIONING = Type(JsonField.of("TOKENIZATION_DECISIONING"))
 
             @JvmField val THREE_DS_DECISIONING = Type(JsonField.of("THREE_DS_DECISIONING"))
@@ -186,11 +188,13 @@ constructor(
         }
 
         enum class Known {
+            AUTH_STREAM_ACCESS,
             TOKENIZATION_DECISIONING,
             THREE_DS_DECISIONING,
         }
 
         enum class Value {
+            AUTH_STREAM_ACCESS,
             TOKENIZATION_DECISIONING,
             THREE_DS_DECISIONING,
             _UNKNOWN,
@@ -198,6 +202,7 @@ constructor(
 
         fun value(): Value =
             when (this) {
+                AUTH_STREAM_ACCESS -> Value.AUTH_STREAM_ACCESS
                 TOKENIZATION_DECISIONING -> Value.TOKENIZATION_DECISIONING
                 THREE_DS_DECISIONING -> Value.THREE_DS_DECISIONING
                 else -> Value._UNKNOWN
@@ -205,6 +210,7 @@ constructor(
 
         fun known(): Known =
             when (this) {
+                AUTH_STREAM_ACCESS -> Known.AUTH_STREAM_ACCESS
                 TOKENIZATION_DECISIONING -> Known.TOKENIZATION_DECISIONING
                 THREE_DS_DECISIONING -> Known.THREE_DS_DECISIONING
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
