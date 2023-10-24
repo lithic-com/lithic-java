@@ -77,7 +77,8 @@ internal class RetryingHttpClientTest {
                 .willReturn(ok())
                 .willSetStateTo("COMPLETED")
         )
-        val retryingClient = RetryingHttpClient.builder().httpClient(httpClient).build()
+        val retryingClient =
+            RetryingHttpClient.builder().httpClient(httpClient).maxRetries(2).build()
         val response = retryingClient.execute(request)
         assertThat(response.statusCode()).isEqualTo(200)
         verify(3, postRequestedFor(urlPathEqualTo("/something")))
