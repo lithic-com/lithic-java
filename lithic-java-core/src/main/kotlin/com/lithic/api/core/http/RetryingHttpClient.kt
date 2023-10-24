@@ -178,12 +178,12 @@ private constructor(
         }
 
         // Apply exponential backoff, but not more than the max.
-        val backoffSeconds = min(0.5 * 2.0.pow(retries - 1), 2.0)
+        val backoffSeconds = min(0.5 * 2.0.pow(retries - 1), 8.0)
 
         // Apply some jitter
-        val jitter = ThreadLocalRandom.current().nextDouble()
+        val jitter = 1.0 - 0.25 * ThreadLocalRandom.current().nextDouble()
 
-        return (TimeUnit.SECONDS.toMillis(1) * backoffSeconds + jitter).toLong()
+        return (TimeUnit.SECONDS.toMillis(1) * backoffSeconds * jitter).toLong()
     }
 
     private fun sleepAsync(millis: Long): CompletableFuture<Void> {
