@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.14.0 (2023-10-25)
+
+Full Changelog: [v0.13.2...v0.14.0](https://github.com/lithic-com/lithic-java/compare/v0.13.2...v0.14.0)
+
+### Features
+
+* **api:** add AUTH_STREAM_ACCESS to responder endpoints ([#105](https://github.com/lithic-com/lithic-java/issues/105)) ([b01cf1b](https://github.com/lithic-com/lithic-java/commit/b01cf1b36c665f0828edf1bf2dd2042391472a5e))
+* **api:** add verification_failed_reason ([#103](https://github.com/lithic-com/lithic-java/issues/103)) ([618b16e](https://github.com/lithic-com/lithic-java/commit/618b16e0e8d1edcefdcd539a1798f8eccc32df0f))
+* **api:** updates ([#102](https://github.com/lithic-com/lithic-java/issues/102)) ([61700a3](https://github.com/lithic-com/lithic-java/commit/61700a3cfc8046353fbdc608d9b76429115b1c2d))
+* **client:** adjust retry behavior ([#106](https://github.com/lithic-com/lithic-java/issues/106)) ([e9552ac](https://github.com/lithic-com/lithic-java/commit/e9552ac88a91d55b0c7b6b2a8fbc85a265c7bbea))
+* make webhook headers case insensitive ([#100](https://github.com/lithic-com/lithic-java/issues/100)) ([584b496](https://github.com/lithic-com/lithic-java/commit/584b4966f529f3fc17d0877ed4d83661d07d54ef))
+
+
+### Chores
+
+* **internal:** minor reformatting ([#98](https://github.com/lithic-com/lithic-java/issues/98)) ([f8fc0a6](https://github.com/lithic-com/lithic-java/commit/f8fc0a6a33e3a0655a3c749a197a9991b56214d8))
+* **internal:** rearrange client arguments ([#97](https://github.com/lithic-com/lithic-java/issues/97)) ([c545e8b](https://github.com/lithic-com/lithic-java/commit/c545e8b9aa5efc21bb1eb6e1872198c5df1c49e6))
+* update README ([#95](https://github.com/lithic-com/lithic-java/issues/95)) ([cc8fd59](https://github.com/lithic-com/lithic-java/commit/cc8fd59702d5ea7345f315504f68cb2f10137548))
+
+
+### Documentation
+
+* organisation -&gt; organization (UK to US English) ([#101](https://github.com/lithic-com/lithic-java/issues/101)) ([360cb24](https://github.com/lithic-com/lithic-java/commit/360cb2410b34676d6889747bda40cf24f5cd7a72))
+
 ## 0.13.2 (2023-10-05)
 
 Full Changelog: [v0.13.1...v0.13.2](https://github.com/lithic-com/lithic-java/compare/v0.13.1...v0.13.2)
