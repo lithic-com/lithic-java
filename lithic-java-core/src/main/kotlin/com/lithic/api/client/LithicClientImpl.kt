@@ -81,6 +81,12 @@ constructor(
 
     private val cardProduct: CardProductService by lazy { CardProductServiceImpl(clientOptions) }
 
+    private val cardPrograms: CardProgramService by lazy { CardProgramServiceImpl(clientOptions) }
+
+    private val digitalCardArt: DigitalCardArtService by lazy {
+        DigitalCardArtServiceImpl(clientOptions)
+    }
+
     override fun async(): LithicClientAsync = async
 
     override fun accounts(): AccountService = accounts
@@ -124,6 +130,10 @@ constructor(
     override fun reports(): ReportService = reports
 
     override fun cardProduct(): CardProductService = cardProduct
+
+    override fun cardPrograms(): CardProgramService = cardPrograms
+
+    override fun digitalCardArt(): DigitalCardArtService = digitalCardArt
 
     private val apiStatusHandler: Handler<ApiStatus> =
         jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

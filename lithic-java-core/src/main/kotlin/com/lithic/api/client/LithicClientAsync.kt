@@ -55,6 +55,10 @@ interface LithicClientAsync {
 
     fun cardProduct(): CardProductServiceAsync
 
+    fun cardPrograms(): CardProgramServiceAsync
+
+    fun digitalCardArt(): DigitalCardArtServiceAsync
+
     /** API status check */
     @JvmOverloads
     fun apiStatus(
