@@ -5,15 +5,15 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.RequestOptions
-import com.lithic.api.models.TransferCreateParams
-import com.lithic.api.models.TransferCreateResponse
+import com.lithic.api.models.DigitalCardArtListPage
+import com.lithic.api.models.DigitalCardArtListParams
 
-interface TransferService {
+interface DigitalCardArtService {
 
-    /** ransfer funds between two financial accounts or between a financial account and card */
+    /** List digital card art. */
     @JvmOverloads
-    fun create(
-        params: TransferCreateParams,
+    fun list(
+        params: DigitalCardArtListParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): TransferCreateResponse
+    ): DigitalCardArtListPage
 }
