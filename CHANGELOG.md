@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.15.0 (2023-10-26)
+
+Full Changelog: [v0.14.0...v0.15.0](https://github.com/lithic-com/lithic-java/compare/v0.14.0...v0.15.0)
+
+### Features
+
+* **api:** add CardProgram and DigitalCardArt resources ([#109](https://github.com/lithic-com/lithic-java/issues/109)) ([1960910](https://github.com/lithic-com/lithic-java/commit/196091025bfbc7996ca8736709bb70feb45891e0))
+
 ## 0.14.0 (2023-10-24)
 
 Full Changelog: [v0.13.2...v0.14.0](https://github.com/lithic-com/lithic-java/compare/v0.13.2...v0.14.0)
