@@ -5,16 +5,16 @@
 package com.lithic.api.services.async
 
 import com.lithic.api.core.RequestOptions
-import com.lithic.api.models.TransferCreateParams
-import com.lithic.api.models.TransferCreateResponse
+import com.lithic.api.models.DigitalCardArtListPageAsync
+import com.lithic.api.models.DigitalCardArtListParams
 import java.util.concurrent.CompletableFuture
 
-interface TransferServiceAsync {
+interface DigitalCardArtServiceAsync {
 
-    /** ransfer funds between two financial accounts or between a financial account and card */
+    /** List digital card art. */
     @JvmOverloads
-    fun create(
-        params: TransferCreateParams,
+    fun list(
+        params: DigitalCardArtListParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<TransferCreateResponse>
+    ): CompletableFuture<DigitalCardArtListPageAsync>
 }

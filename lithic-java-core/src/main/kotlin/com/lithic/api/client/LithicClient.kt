@@ -54,6 +54,10 @@ interface LithicClient {
 
     fun cardProduct(): CardProductService
 
+    fun cardPrograms(): CardProgramService
+
+    fun digitalCardArt(): DigitalCardArtService
+
     /** API status check */
     @JvmOverloads
     fun apiStatus(
