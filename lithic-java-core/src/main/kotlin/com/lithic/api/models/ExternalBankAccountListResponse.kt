@@ -40,6 +40,7 @@ private constructor(
     private val token: JsonField<String>,
     private val type: JsonField<Type>,
     private val userDefinedId: JsonField<String>,
+    private val verificationAttempts: JsonField<Long>,
     private val verificationFailedReason: JsonField<String>,
     private val verificationMethod: JsonField<VerificationMethod>,
     private val verificationState: JsonField<VerificationState>,
@@ -115,6 +116,9 @@ private constructor(
     fun userDefinedId(): Optional<String> =
         Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
 
+    /** The number of attempts at verification */
+    fun verificationAttempts(): Long = verificationAttempts.getRequired("verification_attempts")
+
     /**
      * Optional free text description of the reason for the failed verification. For ACH
      * micro-deposits returned, this field will display the reason return code sent by the ACH
@@ -189,6 +193,11 @@ private constructor(
 
     @JsonProperty("user_defined_id") @ExcludeMissing fun _userDefinedId() = userDefinedId
 
+    /** The number of attempts at verification */
+    @JsonProperty("verification_attempts")
+    @ExcludeMissing
+    fun _verificationAttempts() = verificationAttempts
+
     /**
      * Optional free text description of the reason for the failed verification. For ACH
      * micro-deposits returned, this field will display the reason return code sent by the ACH
@@ -227,6 +236,7 @@ private constructor(
             token()
             type()
             userDefinedId()
+            verificationAttempts()
             verificationFailedReason()
             verificationMethod()
             verificationState()
@@ -259,6 +269,7 @@ private constructor(
             this.token == other.token &&
             this.type == other.type &&
             this.userDefinedId == other.userDefinedId &&
+            this.verificationAttempts == other.verificationAttempts &&
             this.verificationFailedReason == other.verificationFailedReason &&
             this.verificationMethod == other.verificationMethod &&
             this.verificationState == other.verificationState &&
@@ -286,6 +297,7 @@ private constructor(
                     token,
                     type,
                     userDefinedId,
+                    verificationAttempts,
                     verificationFailedReason,
                     verificationMethod,
                     verificationState,
@@ -296,7 +308,7 @@ private constructor(
     }
 
     override fun toString() =
-        "ExternalBankAccountListResponse{accountToken=$accountToken, address=$address, companyId=$companyId, country=$country, created=$created, currency=$currency, dob=$dob, doingBusinessAs=$doingBusinessAs, lastFour=$lastFour, name=$name, owner=$owner, ownerType=$ownerType, routingNumber=$routingNumber, state=$state, token=$token, type=$type, userDefinedId=$userDefinedId, verificationFailedReason=$verificationFailedReason, verificationMethod=$verificationMethod, verificationState=$verificationState, additionalProperties=$additionalProperties}"
+        "ExternalBankAccountListResponse{accountToken=$accountToken, address=$address, companyId=$companyId, country=$country, created=$created, currency=$currency, dob=$dob, doingBusinessAs=$doingBusinessAs, lastFour=$lastFour, name=$name, owner=$owner, ownerType=$ownerType, routingNumber=$routingNumber, state=$state, token=$token, type=$type, userDefinedId=$userDefinedId, verificationAttempts=$verificationAttempts, verificationFailedReason=$verificationFailedReason, verificationMethod=$verificationMethod, verificationState=$verificationState, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -322,6 +334,7 @@ private constructor(
         private var token: JsonField<String> = JsonMissing.of()
         private var type: JsonField<Type> = JsonMissing.of()
         private var userDefinedId: JsonField<String> = JsonMissing.of()
+        private var verificationAttempts: JsonField<Long> = JsonMissing.of()
         private var verificationFailedReason: JsonField<String> = JsonMissing.of()
         private var verificationMethod: JsonField<VerificationMethod> = JsonMissing.of()
         private var verificationState: JsonField<VerificationState> = JsonMissing.of()
@@ -347,6 +360,7 @@ private constructor(
                 this.token = externalBankAccountListResponse.token
                 this.type = externalBankAccountListResponse.type
                 this.userDefinedId = externalBankAccountListResponse.userDefinedId
+                this.verificationAttempts = externalBankAccountListResponse.verificationAttempts
                 this.verificationFailedReason =
                     externalBankAccountListResponse.verificationFailedReason
                 this.verificationMethod = externalBankAccountListResponse.verificationMethod
@@ -529,6 +543,17 @@ private constructor(
             this.userDefinedId = userDefinedId
         }
 
+        /** The number of attempts at verification */
+        fun verificationAttempts(verificationAttempts: Long) =
+            verificationAttempts(JsonField.of(verificationAttempts))
+
+        /** The number of attempts at verification */
+        @JsonProperty("verification_attempts")
+        @ExcludeMissing
+        fun verificationAttempts(verificationAttempts: JsonField<Long>) = apply {
+            this.verificationAttempts = verificationAttempts
+        }
+
         /**
          * Optional free text description of the reason for the failed verification. For ACH
          * micro-deposits returned, this field will display the reason return code sent by the ACH
@@ -599,6 +624,7 @@ private constructor(
                 token,
                 type,
                 userDefinedId,
+                verificationAttempts,
                 verificationFailedReason,
                 verificationMethod,
                 verificationState,
