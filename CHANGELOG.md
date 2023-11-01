@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.16.0 (2023-11-01)
+
+Full Changelog: [v0.15.0...v0.16.0](https://github.com/lithic-com/lithic-java/compare/v0.15.0...v0.16.0)
+
+### Features
+
+* **api:** add verification_attempts response property ([#113](https://github.com/lithic-com/lithic-java/issues/113)) ([947713f](https://github.com/lithic-com/lithic-java/commit/947713f58e87023d2179c6cf1fd727f97f0547d3))
+* **github:** include a devcontainer setup ([#111](https://github.com/lithic-com/lithic-java/issues/111)) ([799818f](https://github.com/lithic-com/lithic-java/commit/799818f12f21c5ed966c912ff79047e5292e9024))
+
 ## 0.15.0 (2023-10-26)
 
 Full Changelog: [v0.14.0...v0.15.0](https://github.com/lithic-com/lithic-java/compare/v0.14.0...v0.15.0)
