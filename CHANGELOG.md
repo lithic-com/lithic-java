@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.17.0 (2023-11-08)
+
+Full Changelog: [v0.16.0...v0.17.0](https://github.com/lithic-com/lithic-java/compare/v0.16.0...v0.17.0)
+
+### Features
+
+* **client:** allow binary returns ([#114](https://github.com/lithic-com/lithic-java/issues/114)) ([050b48c](https://github.com/lithic-com/lithic-java/commit/050b48ca2018972730f068baaf073d294c97e8b6))
+
+
+### Bug Fixes
+
+* **api:** correct type for other fees details ([#118](https://github.com/lithic-com/lithic-java/issues/118)) ([625cc6d](https://github.com/lithic-com/lithic-java/commit/625cc6d2a70b7a9881ec9cb588745824cc89f3d1))
+
+
+### Chores
+
+* remove bad tests ([#117](https://github.com/lithic-com/lithic-java/issues/117)) ([2381c4c](https://github.com/lithic-com/lithic-java/commit/2381c4c9a03b94e6d58db1069d55e7f153d6ecd0))
+
+
+### Documentation
+
+* improve account holder control person documentation ([#116](https://github.com/lithic-com/lithic-java/issues/116)) ([b1cab62](https://github.com/lithic-com/lithic-java/commit/b1cab622b2e09fecb78156ff1cab93e61f06d839))
+
 ## 0.16.0 (2023-11-01)
 
 Full Changelog: [v0.15.0...v0.16.0](https://github.com/lithic-com/lithic-java/compare/v0.15.0...v0.16.0)
