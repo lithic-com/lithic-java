@@ -30,6 +30,8 @@ class PaymentServiceTest {
                     .methodAttributes(
                         PaymentCreateParams.PaymentMethodAttributes.builder()
                             .secCode(PaymentCreateParams.PaymentMethodAttributes.SecCode.PPD)
+                            .companyId("string")
+                            .receiptRoutingNumber("string")
                             .retries(123L)
                             .returnReasonCode("string")
                             .build()
