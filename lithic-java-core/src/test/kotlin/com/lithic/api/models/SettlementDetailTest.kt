@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import com.lithic.api.core.JsonValue
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -20,16 +19,11 @@ class SettlementDetailTest {
                 .created(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
                 .currency("840")
                 .disputesGrossAmount(123L)
-                .eventTokens(listOf(JsonValue.from(mapOf<String, Any>())))
+                .eventTokens(listOf("string"))
                 .institution("00001")
                 .interchangeGrossAmount(123L)
                 .network(SettlementDetail.Network.MASTERCARD)
-                .otherFeesDetails(
-                    SettlementDetail.OtherFeesDetails.builder()
-                        .title(JsonValue.from(mapOf<String, Any>()))
-                        .type(JsonValue.from(mapOf<String, Any>()))
-                        .build()
-                )
+                .otherFeesDetails(SettlementDetail.OtherFeesDetails.builder().isa(123L).build())
                 .otherFeesGrossAmount(123L)
                 .reportDate("2023-06-01")
                 .settlementDate("2023-06-01")
@@ -48,18 +42,12 @@ class SettlementDetailTest {
             .isEqualTo(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
         assertThat(settlementDetail.currency()).isEqualTo("840")
         assertThat(settlementDetail.disputesGrossAmount()).isEqualTo(123L)
-        assertThat(settlementDetail.eventTokens())
-            .containsExactly(JsonValue.from(mapOf<String, Any>()))
+        assertThat(settlementDetail.eventTokens()).containsExactly("string")
         assertThat(settlementDetail.institution()).isEqualTo("00001")
         assertThat(settlementDetail.interchangeGrossAmount()).isEqualTo(123L)
         assertThat(settlementDetail.network()).isEqualTo(SettlementDetail.Network.MASTERCARD)
         assertThat(settlementDetail.otherFeesDetails())
-            .isEqualTo(
-                SettlementDetail.OtherFeesDetails.builder()
-                    .title(JsonValue.from(mapOf<String, Any>()))
-                    .type(JsonValue.from(mapOf<String, Any>()))
-                    .build()
-            )
+            .isEqualTo(SettlementDetail.OtherFeesDetails.builder().isa(123L).build())
         assertThat(settlementDetail.otherFeesGrossAmount()).isEqualTo(123L)
         assertThat(settlementDetail.reportDate()).isEqualTo("2023-06-01")
         assertThat(settlementDetail.settlementDate()).isEqualTo("2023-06-01")
