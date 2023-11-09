@@ -14,15 +14,15 @@ class EventSubscriptionTest {
                 .token("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
                 .description("string")
                 .disabled(true)
-                .eventTypes(listOf(EventSubscription.EventType.ACCOUNT_HOLDER_CREATED))
                 .url("https://example.com")
+                .eventTypes(listOf(EventSubscription.EventType.ACCOUNT_HOLDER_CREATED))
                 .build()
         assertThat(eventSubscription).isNotNull
         assertThat(eventSubscription.token()).isEqualTo("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
         assertThat(eventSubscription.description()).isEqualTo("string")
         assertThat(eventSubscription.disabled()).isEqualTo(true)
+        assertThat(eventSubscription.url()).isEqualTo("https://example.com")
         assertThat(eventSubscription.eventTypes().get())
             .containsExactly(EventSubscription.EventType.ACCOUNT_HOLDER_CREATED)
-        assertThat(eventSubscription.url()).isEqualTo("https://example.com")
     }
 }

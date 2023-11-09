@@ -49,7 +49,7 @@ class AuthenticationRetrieveResponseTest {
                 )
                 .channel(AuthenticationRetrieveResponse.Channel.APP_BASED)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.LITHIC_DEFAULT)
+                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.NETWORK)
                 .merchant(
                     AuthenticationRetrieveResponse.Merchant.builder()
                         .id("string")
@@ -181,7 +181,7 @@ class AuthenticationRetrieveResponseTest {
         assertThat(authenticationRetrieveResponse.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(authenticationRetrieveResponse.decisionMadeBy())
-            .contains(AuthenticationRetrieveResponse.DecisionMadeBy.LITHIC_DEFAULT)
+            .contains(AuthenticationRetrieveResponse.DecisionMadeBy.NETWORK)
         assertThat(authenticationRetrieveResponse.merchant())
             .isEqualTo(
                 AuthenticationRetrieveResponse.Merchant.builder()
