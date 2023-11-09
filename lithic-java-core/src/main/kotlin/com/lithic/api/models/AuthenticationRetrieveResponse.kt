@@ -1448,41 +1448,53 @@ private constructor(
 
         companion object {
 
+            @JvmField val NETWORK = DecisionMadeBy(JsonField.of("NETWORK"))
+
             @JvmField val LITHIC_DEFAULT = DecisionMadeBy(JsonField.of("LITHIC_DEFAULT"))
 
             @JvmField val LITHIC_RULES = DecisionMadeBy(JsonField.of("LITHIC_RULES"))
 
             @JvmField val CUSTOMER_ENDPOINT = DecisionMadeBy(JsonField.of("CUSTOMER_ENDPOINT"))
 
+            @JvmField val UNKNOWN = DecisionMadeBy(JsonField.of("UNKNOWN"))
+
             @JvmStatic fun of(value: String) = DecisionMadeBy(JsonField.of(value))
         }
 
         enum class Known {
+            NETWORK,
             LITHIC_DEFAULT,
             LITHIC_RULES,
             CUSTOMER_ENDPOINT,
+            UNKNOWN,
         }
 
         enum class Value {
+            NETWORK,
             LITHIC_DEFAULT,
             LITHIC_RULES,
             CUSTOMER_ENDPOINT,
+            UNKNOWN,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
+                NETWORK -> Value.NETWORK
                 LITHIC_DEFAULT -> Value.LITHIC_DEFAULT
                 LITHIC_RULES -> Value.LITHIC_RULES
                 CUSTOMER_ENDPOINT -> Value.CUSTOMER_ENDPOINT
+                UNKNOWN -> Value.UNKNOWN
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
+                NETWORK -> Known.NETWORK
                 LITHIC_DEFAULT -> Known.LITHIC_DEFAULT
                 LITHIC_RULES -> Known.LITHIC_RULES
                 CUSTOMER_ENDPOINT -> Known.CUSTOMER_ENDPOINT
+                UNKNOWN -> Known.UNKNOWN
                 else -> throw LithicInvalidDataException("Unknown DecisionMadeBy: $value")
             }
 
