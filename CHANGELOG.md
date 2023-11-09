@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.18.0 (2023-11-09)
+
+Full Changelog: [v0.17.0...v0.18.0](https://github.com/lithic-com/lithic-java/compare/v0.17.0...v0.18.0)
+
+### Features
+
+* **api:** updates ([#119](https://github.com/lithic-com/lithic-java/issues/119)) ([c805cba](https://github.com/lithic-com/lithic-java/commit/c805cbad5f1f3f427580e092e459dadc0fe0f780))
+
 ## 0.17.0 (2023-11-08)
 
 Full Changelog: [v0.16.0...v0.17.0](https://github.com/lithic-com/lithic-java/compare/v0.16.0...v0.17.0)
