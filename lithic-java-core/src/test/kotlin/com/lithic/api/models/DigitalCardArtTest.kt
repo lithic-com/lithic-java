@@ -18,6 +18,7 @@ class DigitalCardArtTest {
                 .description("string")
                 .isEnabled(true)
                 .network(DigitalCardArt.Network.MASTERCARD)
+                .isCardProgramDefault(true)
                 .build()
         assertThat(digitalCardArt).isNotNull
         assertThat(digitalCardArt.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -28,5 +29,6 @@ class DigitalCardArtTest {
         assertThat(digitalCardArt.description()).isEqualTo("string")
         assertThat(digitalCardArt.isEnabled()).isEqualTo(true)
         assertThat(digitalCardArt.network()).isEqualTo(DigitalCardArt.Network.MASTERCARD)
+        assertThat(digitalCardArt.isCardProgramDefault()).contains(true)
     }
 }
