@@ -9,11 +9,14 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
+import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
 class PaymentListParams
 constructor(
+    private val begin: OffsetDateTime?,
+    private val end: OffsetDateTime?,
     private val endingBefore: String?,
     private val financialAccountToken: String?,
     private val pageSize: Long?,
@@ -23,6 +26,10 @@ constructor(
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
+
+    fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
+
+    fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
@@ -39,6 +46,8 @@ constructor(
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
+        this.begin?.let { params.put("begin", listOf(it.toString())) }
+        this.end?.let { params.put("end", listOf(it.toString())) }
         this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         this.financialAccountToken?.let {
             params.put("financial_account_token", listOf(it.toString()))
@@ -63,6 +72,8 @@ constructor(
         }
 
         return other is PaymentListParams &&
+            this.begin == other.begin &&
+            this.end == other.end &&
             this.endingBefore == other.endingBefore &&
             this.financialAccountToken == other.financialAccountToken &&
             this.pageSize == other.pageSize &&
@@ -75,6 +86,8 @@ constructor(
 
     override fun hashCode(): Int {
         return Objects.hash(
+            begin,
+            end,
             endingBefore,
             financialAccountToken,
             pageSize,
@@ -87,7 +100,7 @@ constructor(
     }
 
     override fun toString() =
-        "PaymentListParams{endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "PaymentListParams{begin=$begin, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -99,6 +112,8 @@ constructor(
     @NoAutoDetect
     class Builder {
 
+        private var begin: OffsetDateTime? = null
+        private var end: OffsetDateTime? = null
         private var endingBefore: String? = null
         private var financialAccountToken: String? = null
         private var pageSize: Long? = null
@@ -110,6 +125,8 @@ constructor(
 
         @JvmSynthetic
         internal fun from(paymentListParams: PaymentListParams) = apply {
+            this.begin = paymentListParams.begin
+            this.end = paymentListParams.end
             this.endingBefore = paymentListParams.endingBefore
             this.financialAccountToken = paymentListParams.financialAccountToken
             this.pageSize = paymentListParams.pageSize
@@ -119,6 +136,18 @@ constructor(
             additionalQueryParams(paymentListParams.additionalQueryParams)
             additionalHeaders(paymentListParams.additionalHeaders)
         }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created after the specified time will be
+         * included. UTC time zone.
+         */
+        fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created before the specified time will be
+         * included. UTC time zone.
+         */
+        fun end(end: OffsetDateTime) = apply { this.end = end }
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
@@ -185,6 +214,8 @@ constructor(
 
         fun build(): PaymentListParams =
             PaymentListParams(
+                begin,
+                end,
                 endingBefore,
                 financialAccountToken,
                 pageSize,
@@ -275,53 +306,47 @@ constructor(
 
         companion object {
 
-            @JvmField val PENDING = Status(JsonField.of("PENDING"))
-
-            @JvmField val VOIDED = Status(JsonField.of("VOIDED"))
-
-            @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
-
             @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
 
-            @JvmField val EXPIRED = Status(JsonField.of("EXPIRED"))
+            @JvmField val PENDING = Status(JsonField.of("PENDING"))
+
+            @JvmField val RETURNED = Status(JsonField.of("RETURNED"))
+
+            @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
 
         enum class Known {
-            PENDING,
-            VOIDED,
-            SETTLED,
             DECLINED,
-            EXPIRED,
+            PENDING,
+            RETURNED,
+            SETTLED,
         }
 
         enum class Value {
-            PENDING,
-            VOIDED,
-            SETTLED,
             DECLINED,
-            EXPIRED,
+            PENDING,
+            RETURNED,
+            SETTLED,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                PENDING -> Value.PENDING
-                VOIDED -> Value.VOIDED
-                SETTLED -> Value.SETTLED
                 DECLINED -> Value.DECLINED
-                EXPIRED -> Value.EXPIRED
+                PENDING -> Value.PENDING
+                RETURNED -> Value.RETURNED
+                SETTLED -> Value.SETTLED
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                PENDING -> Known.PENDING
-                VOIDED -> Known.VOIDED
-                SETTLED -> Known.SETTLED
                 DECLINED -> Known.DECLINED
-                EXPIRED -> Known.EXPIRED
+                PENDING -> Known.PENDING
+                RETURNED -> Known.RETURNED
+                SETTLED -> Known.SETTLED
                 else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
 
