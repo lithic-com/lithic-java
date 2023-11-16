@@ -16,6 +16,7 @@ import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
+import java.util.Optional
 
 @JsonDeserialize(builder = DigitalCardArt.Builder::class)
 @NoAutoDetect
@@ -24,6 +25,7 @@ private constructor(
     private val token: JsonField<String>,
     private val cardProgramToken: JsonField<String>,
     private val isEnabled: JsonField<Boolean>,
+    private val isCardProgramDefault: JsonField<Boolean>,
     private val created: JsonField<OffsetDateTime>,
     private val network: JsonField<Network>,
     private val description: JsonField<String>,
@@ -43,6 +45,10 @@ private constructor(
     /** Whether the card art is enabled. */
     fun isEnabled(): Boolean = isEnabled.getRequired("is_enabled")
 
+    /** Whether the card art is the default card art to be added upon tokenization. */
+    fun isCardProgramDefault(): Optional<Boolean> =
+        Optional.ofNullable(isCardProgramDefault.getNullable("is_card_program_default"))
+
     /** Timestamp of when card art was created. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
@@ -60,6 +66,11 @@ private constructor(
 
     /** Whether the card art is enabled. */
     @JsonProperty("is_enabled") @ExcludeMissing fun _isEnabled() = isEnabled
+
+    /** Whether the card art is the default card art to be added upon tokenization. */
+    @JsonProperty("is_card_program_default")
+    @ExcludeMissing
+    fun _isCardProgramDefault() = isCardProgramDefault
 
     /** Timestamp of when card art was created. */
     @JsonProperty("created") @ExcludeMissing fun _created() = created
@@ -79,6 +90,7 @@ private constructor(
             token()
             cardProgramToken()
             isEnabled()
+            isCardProgramDefault()
             created()
             network()
             description()
@@ -97,6 +109,7 @@ private constructor(
             this.token == other.token &&
             this.cardProgramToken == other.cardProgramToken &&
             this.isEnabled == other.isEnabled &&
+            this.isCardProgramDefault == other.isCardProgramDefault &&
             this.created == other.created &&
             this.network == other.network &&
             this.description == other.description &&
@@ -110,6 +123,7 @@ private constructor(
                     token,
                     cardProgramToken,
                     isEnabled,
+                    isCardProgramDefault,
                     created,
                     network,
                     description,
@@ -120,7 +134,7 @@ private constructor(
     }
 
     override fun toString() =
-        "DigitalCardArt{token=$token, cardProgramToken=$cardProgramToken, isEnabled=$isEnabled, created=$created, network=$network, description=$description, additionalProperties=$additionalProperties}"
+        "DigitalCardArt{token=$token, cardProgramToken=$cardProgramToken, isEnabled=$isEnabled, isCardProgramDefault=$isCardProgramDefault, created=$created, network=$network, description=$description, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -132,6 +146,7 @@ private constructor(
         private var token: JsonField<String> = JsonMissing.of()
         private var cardProgramToken: JsonField<String> = JsonMissing.of()
         private var isEnabled: JsonField<Boolean> = JsonMissing.of()
+        private var isCardProgramDefault: JsonField<Boolean> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var network: JsonField<Network> = JsonMissing.of()
         private var description: JsonField<String> = JsonMissing.of()
@@ -142,6 +157,7 @@ private constructor(
             this.token = digitalCardArt.token
             this.cardProgramToken = digitalCardArt.cardProgramToken
             this.isEnabled = digitalCardArt.isEnabled
+            this.isCardProgramDefault = digitalCardArt.isCardProgramDefault
             this.created = digitalCardArt.created
             this.network = digitalCardArt.network
             this.description = digitalCardArt.description
@@ -174,6 +190,17 @@ private constructor(
         @JsonProperty("is_enabled")
         @ExcludeMissing
         fun isEnabled(isEnabled: JsonField<Boolean>) = apply { this.isEnabled = isEnabled }
+
+        /** Whether the card art is the default card art to be added upon tokenization. */
+        fun isCardProgramDefault(isCardProgramDefault: Boolean) =
+            isCardProgramDefault(JsonField.of(isCardProgramDefault))
+
+        /** Whether the card art is the default card art to be added upon tokenization. */
+        @JsonProperty("is_card_program_default")
+        @ExcludeMissing
+        fun isCardProgramDefault(isCardProgramDefault: JsonField<Boolean>) = apply {
+            this.isCardProgramDefault = isCardProgramDefault
+        }
 
         /** Timestamp of when card art was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -218,6 +245,7 @@ private constructor(
                 token,
                 cardProgramToken,
                 isEnabled,
+                isCardProgramDefault,
                 created,
                 network,
                 description,
