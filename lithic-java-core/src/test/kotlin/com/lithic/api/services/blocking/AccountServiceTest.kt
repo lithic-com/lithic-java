@@ -76,4 +76,22 @@ class AccountServiceTest {
         println(response)
         response.data().forEach { it.validate() }
     }
+
+    @Test
+    fun callRetrieveSpendLimits() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val accountService = client.accounts()
+        val accountSpendLimits =
+            accountService.retrieveSpendLimits(
+                AccountRetrieveSpendLimitsParams.builder()
+                    .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+        println(accountSpendLimits)
+        accountSpendLimits.validate()
+    }
 }

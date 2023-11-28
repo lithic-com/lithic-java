@@ -9,6 +9,8 @@ import com.lithic.api.models.Account
 import com.lithic.api.models.AccountListPageAsync
 import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
+import com.lithic.api.models.AccountRetrieveSpendLimitsParams
+import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
 import com.lithic.api.services.async.accounts.CreditConfigurationServiceAsync
 import java.util.concurrent.CompletableFuture
@@ -42,4 +44,16 @@ interface AccountServiceAsync {
         params: AccountListParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<AccountListPageAsync>
+
+    /**
+     * Get an Account's available spend limits, which is based on the spend limit configured on the
+     * Account and the amount already spent over the spend limit's duration. For example, if the
+     * Account has a daily spend limit of $1000 configured, and has spent $600 in the last 24 hours,
+     * the available spend limit returned would be $400.
+     */
+    @JvmOverloads
+    fun retrieveSpendLimits(
+        params: AccountRetrieveSpendLimitsParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<AccountSpendLimits>
 }

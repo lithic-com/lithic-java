@@ -190,6 +190,24 @@ class CardServiceTest {
     }
 
     @Test
+    fun callRetrieveSpendLimits() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val cardService = client.cards()
+        val cardSpendLimits =
+            cardService.retrieveSpendLimits(
+                CardRetrieveSpendLimitsParams.builder()
+                    .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+        println(cardSpendLimits)
+        cardSpendLimits.validate()
+    }
+
+    @Test
     fun callGetEmbedHtml() {
         val client =
             LithicOkHttpClient.builder()
