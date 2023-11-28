@@ -12,6 +12,8 @@ import com.lithic.api.models.Account
 import com.lithic.api.models.AccountListPageAsync
 import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
+import com.lithic.api.models.AccountRetrieveSpendLimitsParams
+import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
 import com.lithic.api.services.async.accounts.CreditConfigurationServiceAsync
 import com.lithic.api.services.async.accounts.CreditConfigurationServiceAsyncImpl
@@ -123,6 +125,39 @@ constructor(
                     }
                 }
                 .let { AccountListPageAsync.of(this, params, it) }
+        }
+    }
+
+    private val retrieveSpendLimitsHandler: Handler<AccountSpendLimits> =
+        jsonHandler<AccountSpendLimits>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+    /**
+     * Get an Account's available spend limits, which is based on the spend limit configured on the
+     * Account and the amount already spent over the spend limit's duration. For example, if the
+     * Account has a daily spend limit of $1000 configured, and has spent $600 in the last 24 hours,
+     * the available spend limit returned would be $400.
+     */
+    override fun retrieveSpendLimits(
+        params: AccountRetrieveSpendLimitsParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<AccountSpendLimits> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.GET)
+                .addPathSegments("accounts", params.getPathParam(0), "spend_limits")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { retrieveSpendLimitsHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
         }
     }
 }

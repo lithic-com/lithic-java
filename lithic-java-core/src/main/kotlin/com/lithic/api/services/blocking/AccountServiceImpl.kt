@@ -12,6 +12,8 @@ import com.lithic.api.models.Account
 import com.lithic.api.models.AccountListPage
 import com.lithic.api.models.AccountListParams
 import com.lithic.api.models.AccountRetrieveParams
+import com.lithic.api.models.AccountRetrieveSpendLimitsParams
+import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
 import com.lithic.api.services.blocking.accounts.CreditConfigurationService
 import com.lithic.api.services.blocking.accounts.CreditConfigurationServiceImpl
@@ -110,6 +112,38 @@ constructor(
                     }
                 }
                 .let { AccountListPage.of(this, params, it) }
+        }
+    }
+
+    private val retrieveSpendLimitsHandler: Handler<AccountSpendLimits> =
+        jsonHandler<AccountSpendLimits>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+    /**
+     * Get an Account's available spend limits, which is based on the spend limit configured on the
+     * Account and the amount already spent over the spend limit's duration. For example, if the
+     * Account has a daily spend limit of $1000 configured, and has spent $600 in the last 24 hours,
+     * the available spend limit returned would be $400.
+     */
+    override fun retrieveSpendLimits(
+        params: AccountRetrieveSpendLimitsParams,
+        requestOptions: RequestOptions
+    ): AccountSpendLimits {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.GET)
+                .addPathSegments("accounts", params.getPathParam(0), "spend_limits")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { retrieveSpendLimitsHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
         }
     }
 }
