@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.20.0 (2023-11-28)
+
+Full Changelog: [v0.19.0...v0.20.0](https://github.com/lithic-com/lithic-java/compare/v0.19.0...v0.20.0)
+
+### Features
+
+* **api:** add `get spend_limits` endpoints to `cards` and `accounts` ([#125](https://github.com/lithic-com/lithic-java/issues/125)) ([09da657](https://github.com/lithic-com/lithic-java/commit/09da6575aed91a6028ed6ea86be3176c85401b94))
+
+
+### Chores
+
+* **internal:** update stats file ([#123](https://github.com/lithic-com/lithic-java/issues/123)) ([5c92da3](https://github.com/lithic-com/lithic-java/commit/5c92da33f724ff6776e4275a218ebae9bd1876d9))
+
 ## 0.19.0 (2023-11-16)
 
 Full Changelog: [v0.18.0...v0.19.0](https://github.com/lithic-com/lithic-java/compare/v0.18.0...v0.19.0)
