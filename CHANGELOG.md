@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.21.0 (2023-12-05)
+
+Full Changelog: [v0.20.0...v0.21.0](https://github.com/lithic-com/lithic-java/compare/v0.20.0...v0.21.0)
+
+### Features
+
+* **api:** remove `CLOSED` account enum and update docstrings ([#128](https://github.com/lithic-com/lithic-java/issues/128)) ([ef7909d](https://github.com/lithic-com/lithic-java/commit/ef7909d435cab146bda53788a4363ebe12e617a9))
+
 ## 0.20.0 (2023-11-28)
 
 Full Changelog: [v0.19.0...v0.20.0](https://github.com/lithic-com/lithic-java/compare/v0.19.0...v0.20.0)
