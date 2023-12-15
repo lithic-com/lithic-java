@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.22.0 (2023-12-15)
+
+Full Changelog: [v0.21.0...v0.22.0](https://github.com/lithic-com/lithic-java/compare/v0.21.0...v0.22.0)
+
+### Features
+
+* **api:** rename `token` and `type` to `financial_account_token` and `financial_account_type` ([#131](https://github.com/lithic-com/lithic-java/issues/131)) ([0cd3a82](https://github.com/lithic-com/lithic-java/commit/0cd3a82bc66a6b17906b12c3ef7bb29ea305c2a2))
+
 ## 0.21.0 (2023-12-05)
 
 Full Changelog: [v0.20.0...v0.21.0](https://github.com/lithic-com/lithic-java/compare/v0.20.0...v0.21.0)
