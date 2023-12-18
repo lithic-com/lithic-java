@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.23.0 (2023-12-18)
+
+Full Changelog: [v0.22.0...v0.23.0](https://github.com/lithic-com/lithic-java/compare/v0.22.0...v0.23.0)
+
+### Features
+
+* **api:** remove /auth_stream enrollment endpoints ([#134](https://github.com/lithic-com/lithic-java/issues/134)) ([dd32a7e](https://github.com/lithic-com/lithic-java/commit/dd32a7e75ba37841e180e6d7272cadd5c34adf03))
+
+
+### Chores
+
+* **ci:** run release workflow once per day ([#132](https://github.com/lithic-com/lithic-java/issues/132)) ([74c5bba](https://github.com/lithic-com/lithic-java/commit/74c5bba79c6f3eeb2fb838470460a8257b7630c8))
+
 ## 0.22.0 (2023-12-15)
 
 Full Changelog: [v0.21.0...v0.22.0](https://github.com/lithic-com/lithic-java/compare/v0.21.0...v0.22.0)
