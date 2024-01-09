@@ -21,10 +21,10 @@ import java.util.Optional
 @NoAutoDetect
 class Kyb
 private constructor(
-    private val businessEntity: JsonField<BusinessEntity>,
     private val beneficialOwnerEntities: JsonField<List<BusinessEntity>>,
-    private val beneficialOwnerIndividuals: JsonField<List<Individual>>,
-    private val controlPerson: JsonField<Individual>,
+    private val beneficialOwnerIndividuals: JsonField<List<KybIndividual>>,
+    private val businessEntity: JsonField<BusinessEntity>,
+    private val controlPerson: JsonField<KybIndividual>,
     private val kybPassedTimestamp: JsonField<String>,
     private val natureOfBusiness: JsonField<String>,
     private val tosTimestamp: JsonField<String>,
@@ -36,9 +36,6 @@ private constructor(
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
-
-    /** Information for business for which the account is being opened and KYB is being run. */
-    fun businessEntity(): BusinessEntity = businessEntity.getRequired("business_entity")
 
     /**
      * List of all entities with >25% ownership in the company. If no entity or individual owns >25%
@@ -61,8 +58,11 @@ private constructor(
      * an entity, pass in an empty list. However, either this parameter or
      * `beneficial_owner_entities` must be populated.
      */
-    fun beneficialOwnerIndividuals(): List<Individual> =
+    fun beneficialOwnerIndividuals(): List<KybIndividual> =
         beneficialOwnerIndividuals.getRequired("beneficial_owner_individuals")
+
+    /** Information for business for which the account is being opened and KYB is being run. */
+    fun businessEntity(): BusinessEntity = businessEntity.getRequired("business_entity")
 
     /**
      * An individual with significant responsibility for managing the legal entity (e.g., a Chief
@@ -73,7 +73,7 @@ private constructor(
      * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
      * (Section II) for more background.
      */
-    fun controlPerson(): Individual = controlPerson.getRequired("control_person")
+    fun controlPerson(): KybIndividual = controlPerson.getRequired("control_person")
 
     /**
      * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with a
@@ -100,9 +100,6 @@ private constructor(
     /** Specifies the type of KYB workflow to run. */
     fun workflow(): Workflow = workflow.getRequired("workflow")
 
-    /** Information for business for which the account is being opened and KYB is being run. */
-    @JsonProperty("business_entity") @ExcludeMissing fun _businessEntity() = businessEntity
-
     /**
      * List of all entities with >25% ownership in the company. If no entity or individual owns >25%
      * of the company, and the largest shareholder is an entity, please identify them in this field.
@@ -128,6 +125,9 @@ private constructor(
     @JsonProperty("beneficial_owner_individuals")
     @ExcludeMissing
     fun _beneficialOwnerIndividuals() = beneficialOwnerIndividuals
+
+    /** Information for business for which the account is being opened and KYB is being run. */
+    @JsonProperty("business_entity") @ExcludeMissing fun _businessEntity() = businessEntity
 
     /**
      * An individual with significant responsibility for managing the legal entity (e.g., a Chief
@@ -172,9 +172,9 @@ private constructor(
 
     fun validate(): Kyb = apply {
         if (!validated) {
-            businessEntity().validate()
             beneficialOwnerEntities().forEach { it.validate() }
             beneficialOwnerIndividuals().forEach { it.validate() }
+            businessEntity().validate()
             controlPerson().validate()
             kybPassedTimestamp()
             natureOfBusiness()
@@ -193,9 +193,9 @@ private constructor(
         }
 
         return other is Kyb &&
-            this.businessEntity == other.businessEntity &&
             this.beneficialOwnerEntities == other.beneficialOwnerEntities &&
             this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
+            this.businessEntity == other.businessEntity &&
             this.controlPerson == other.controlPerson &&
             this.kybPassedTimestamp == other.kybPassedTimestamp &&
             this.natureOfBusiness == other.natureOfBusiness &&
@@ -209,9 +209,9 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
-                    businessEntity,
                     beneficialOwnerEntities,
                     beneficialOwnerIndividuals,
+                    businessEntity,
                     controlPerson,
                     kybPassedTimestamp,
                     natureOfBusiness,
@@ -225,7 +225,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Kyb{businessEntity=$businessEntity, beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, controlPerson=$controlPerson, kybPassedTimestamp=$kybPassedTimestamp, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, additionalProperties=$additionalProperties}"
+        "Kyb{beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, kybPassedTimestamp=$kybPassedTimestamp, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -234,10 +234,10 @@ private constructor(
 
     class Builder {
 
-        private var businessEntity: JsonField<BusinessEntity> = JsonMissing.of()
         private var beneficialOwnerEntities: JsonField<List<BusinessEntity>> = JsonMissing.of()
-        private var beneficialOwnerIndividuals: JsonField<List<Individual>> = JsonMissing.of()
-        private var controlPerson: JsonField<Individual> = JsonMissing.of()
+        private var beneficialOwnerIndividuals: JsonField<List<KybIndividual>> = JsonMissing.of()
+        private var businessEntity: JsonField<BusinessEntity> = JsonMissing.of()
+        private var controlPerson: JsonField<KybIndividual> = JsonMissing.of()
         private var kybPassedTimestamp: JsonField<String> = JsonMissing.of()
         private var natureOfBusiness: JsonField<String> = JsonMissing.of()
         private var tosTimestamp: JsonField<String> = JsonMissing.of()
@@ -247,9 +247,9 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(kyb: Kyb) = apply {
-            this.businessEntity = kyb.businessEntity
             this.beneficialOwnerEntities = kyb.beneficialOwnerEntities
             this.beneficialOwnerIndividuals = kyb.beneficialOwnerIndividuals
+            this.businessEntity = kyb.businessEntity
             this.controlPerson = kyb.controlPerson
             this.kybPassedTimestamp = kyb.kybPassedTimestamp
             this.natureOfBusiness = kyb.natureOfBusiness
@@ -257,17 +257,6 @@ private constructor(
             this.websiteUrl = kyb.websiteUrl
             this.workflow = kyb.workflow
             additionalProperties(kyb.additionalProperties)
-        }
-
-        /** Information for business for which the account is being opened and KYB is being run. */
-        fun businessEntity(businessEntity: BusinessEntity) =
-            businessEntity(JsonField.of(businessEntity))
-
-        /** Information for business for which the account is being opened and KYB is being run. */
-        @JsonProperty("business_entity")
-        @ExcludeMissing
-        fun businessEntity(businessEntity: JsonField<BusinessEntity>) = apply {
-            this.businessEntity = businessEntity
         }
 
         /**
@@ -307,7 +296,7 @@ private constructor(
          * is an entity, pass in an empty list. However, either this parameter or
          * `beneficial_owner_entities` must be populated.
          */
-        fun beneficialOwnerIndividuals(beneficialOwnerIndividuals: List<Individual>) =
+        fun beneficialOwnerIndividuals(beneficialOwnerIndividuals: List<KybIndividual>) =
             beneficialOwnerIndividuals(JsonField.of(beneficialOwnerIndividuals))
 
         /**
@@ -321,10 +310,21 @@ private constructor(
          */
         @JsonProperty("beneficial_owner_individuals")
         @ExcludeMissing
-        fun beneficialOwnerIndividuals(beneficialOwnerIndividuals: JsonField<List<Individual>>) =
+        fun beneficialOwnerIndividuals(beneficialOwnerIndividuals: JsonField<List<KybIndividual>>) =
             apply {
                 this.beneficialOwnerIndividuals = beneficialOwnerIndividuals
             }
+
+        /** Information for business for which the account is being opened and KYB is being run. */
+        fun businessEntity(businessEntity: BusinessEntity) =
+            businessEntity(JsonField.of(businessEntity))
+
+        /** Information for business for which the account is being opened and KYB is being run. */
+        @JsonProperty("business_entity")
+        @ExcludeMissing
+        fun businessEntity(businessEntity: JsonField<BusinessEntity>) = apply {
+            this.businessEntity = businessEntity
+        }
 
         /**
          * An individual with significant responsibility for managing the legal entity (e.g., a
@@ -336,7 +336,7 @@ private constructor(
          * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
          * (Section II) for more background.
          */
-        fun controlPerson(controlPerson: Individual) = controlPerson(JsonField.of(controlPerson))
+        fun controlPerson(controlPerson: KybIndividual) = controlPerson(JsonField.of(controlPerson))
 
         /**
          * An individual with significant responsibility for managing the legal entity (e.g., a
@@ -350,7 +350,7 @@ private constructor(
          */
         @JsonProperty("control_person")
         @ExcludeMissing
-        fun controlPerson(controlPerson: JsonField<Individual>) = apply {
+        fun controlPerson(controlPerson: JsonField<KybIndividual>) = apply {
             this.controlPerson = controlPerson
         }
 
@@ -440,9 +440,9 @@ private constructor(
 
         fun build(): Kyb =
             Kyb(
-                businessEntity,
                 beneficialOwnerEntities.map { it.toUnmodifiable() },
                 beneficialOwnerIndividuals.map { it.toUnmodifiable() },
+                businessEntity,
                 controlPerson,
                 kybPassedTimestamp,
                 natureOfBusiness,
@@ -711,9 +711,10 @@ private constructor(
         }
     }
 
-    @JsonDeserialize(builder = Individual.Builder::class)
+    /** Individuals associated with a KYB application. Phone number is optional. */
+    @JsonDeserialize(builder = KybIndividual.Builder::class)
     @NoAutoDetect
-    class Individual
+    class KybIndividual
     private constructor(
         private val address: JsonField<Address>,
         private val dob: JsonField<String>,
@@ -759,7 +760,8 @@ private constructor(
         fun lastName(): String = lastName.getRequired("last_name")
 
         /** Individual's phone number, entered in E.164 format. */
-        fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
+        fun phoneNumber(): Optional<String> =
+            Optional.ofNullable(phoneNumber.getNullable("phone_number"))
 
         /**
          * Individual's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
@@ -797,7 +799,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate(): Individual = apply {
+        fun validate(): KybIndividual = apply {
             if (!validated) {
                 address().validate()
                 dob()
@@ -817,7 +819,7 @@ private constructor(
                 return true
             }
 
-            return other is Individual &&
+            return other is KybIndividual &&
                 this.address == other.address &&
                 this.dob == other.dob &&
                 this.email == other.email &&
@@ -846,7 +848,7 @@ private constructor(
         }
 
         override fun toString() =
-            "Individual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
+            "KybIndividual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -865,15 +867,15 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(individual: Individual) = apply {
-                this.address = individual.address
-                this.dob = individual.dob
-                this.email = individual.email
-                this.firstName = individual.firstName
-                this.governmentId = individual.governmentId
-                this.lastName = individual.lastName
-                this.phoneNumber = individual.phoneNumber
-                additionalProperties(individual.additionalProperties)
+            internal fun from(kybIndividual: KybIndividual) = apply {
+                this.address = kybIndividual.address
+                this.dob = kybIndividual.dob
+                this.email = kybIndividual.email
+                this.firstName = kybIndividual.firstName
+                this.governmentId = kybIndividual.governmentId
+                this.lastName = kybIndividual.lastName
+                this.phoneNumber = kybIndividual.phoneNumber
+                additionalProperties(kybIndividual.additionalProperties)
             }
 
             /**
@@ -972,8 +974,8 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): Individual =
-                Individual(
+            fun build(): KybIndividual =
+                KybIndividual(
                     address,
                     dob,
                     email,

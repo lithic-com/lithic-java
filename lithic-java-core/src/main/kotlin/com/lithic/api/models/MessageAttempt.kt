@@ -28,8 +28,8 @@ private constructor(
     private val response: JsonField<String>,
     private val responseStatusCode: JsonField<Long>,
     private val status: JsonField<Status>,
-    private val url: JsonField<String>,
     private val token: JsonField<String>,
+    private val url: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -60,10 +60,10 @@ private constructor(
     /** The status of the event attempt. */
     fun status(): Status = status.getRequired("status")
 
-    fun url(): String = url.getRequired("url")
-
     /** Globally unique identifier. */
     fun token(): String = token.getRequired("token")
+
+    fun url(): String = url.getRequired("url")
 
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
@@ -91,10 +91,10 @@ private constructor(
     /** The status of the event attempt. */
     @JsonProperty("status") @ExcludeMissing fun _status() = status
 
-    @JsonProperty("url") @ExcludeMissing fun _url() = url
-
     /** Globally unique identifier. */
     @JsonProperty("token") @ExcludeMissing fun _token() = token
+
+    @JsonProperty("url") @ExcludeMissing fun _url() = url
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -108,8 +108,8 @@ private constructor(
             response()
             responseStatusCode()
             status()
-            url()
             token()
+            url()
             validated = true
         }
     }
@@ -128,8 +128,8 @@ private constructor(
             this.response == other.response &&
             this.responseStatusCode == other.responseStatusCode &&
             this.status == other.status &&
-            this.url == other.url &&
             this.token == other.token &&
+            this.url == other.url &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -143,8 +143,8 @@ private constructor(
                     response,
                     responseStatusCode,
                     status,
-                    url,
                     token,
+                    url,
                     additionalProperties,
                 )
         }
@@ -152,7 +152,7 @@ private constructor(
     }
 
     override fun toString() =
-        "MessageAttempt{created=$created, eventSubscriptionToken=$eventSubscriptionToken, eventToken=$eventToken, response=$response, responseStatusCode=$responseStatusCode, status=$status, url=$url, token=$token, additionalProperties=$additionalProperties}"
+        "MessageAttempt{created=$created, eventSubscriptionToken=$eventSubscriptionToken, eventToken=$eventToken, response=$response, responseStatusCode=$responseStatusCode, status=$status, token=$token, url=$url, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -167,8 +167,8 @@ private constructor(
         private var response: JsonField<String> = JsonMissing.of()
         private var responseStatusCode: JsonField<Long> = JsonMissing.of()
         private var status: JsonField<Status> = JsonMissing.of()
-        private var url: JsonField<String> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
+        private var url: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -179,8 +179,8 @@ private constructor(
             this.response = messageAttempt.response
             this.responseStatusCode = messageAttempt.responseStatusCode
             this.status = messageAttempt.status
-            this.url = messageAttempt.url
             this.token = messageAttempt.token
+            this.url = messageAttempt.url
             additionalProperties(messageAttempt.additionalProperties)
         }
 
@@ -246,12 +246,6 @@ private constructor(
         @ExcludeMissing
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
-        fun url(url: String) = url(JsonField.of(url))
-
-        @JsonProperty("url")
-        @ExcludeMissing
-        fun url(url: JsonField<String>) = apply { this.url = url }
-
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
@@ -259,6 +253,12 @@ private constructor(
         @JsonProperty("token")
         @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
+
+        fun url(url: String) = url(JsonField.of(url))
+
+        @JsonProperty("url")
+        @ExcludeMissing
+        fun url(url: JsonField<String>) = apply { this.url = url }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -282,8 +282,8 @@ private constructor(
                 response,
                 responseStatusCode,
                 status,
-                url,
                 token,
+                url,
                 additionalProperties.toUnmodifiable(),
             )
     }

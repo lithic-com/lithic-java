@@ -29,10 +29,10 @@ private constructor(
     private val customerFiledDate: JsonField<OffsetDateTime>,
     private val customerNote: JsonField<String>,
     private val networkClaimIds: JsonField<List<String>>,
-    private val primaryClaimId: JsonField<String>,
     private val networkFiledDate: JsonField<OffsetDateTime>,
     private val networkReasonCode: JsonField<String>,
     private val prearbitrationDate: JsonField<OffsetDateTime>,
+    private val primaryClaimId: JsonField<String>,
     private val reason: JsonField<Reason>,
     private val representmentDate: JsonField<OffsetDateTime>,
     private val resolutionAmount: JsonField<Long>,
@@ -71,13 +71,6 @@ private constructor(
     fun networkClaimIds(): Optional<List<String>> =
         Optional.ofNullable(networkClaimIds.getNullable("network_claim_ids"))
 
-    /**
-     * Unique identifier for the dispute from the network. If there are multiple, this will be the
-     * first claim id set by the network
-     */
-    fun primaryClaimId(): Optional<String> =
-        Optional.ofNullable(primaryClaimId.getNullable("primary_claim_id"))
-
     /** Date that the dispute was submitted to the network. */
     fun networkFiledDate(): Optional<OffsetDateTime> =
         Optional.ofNullable(networkFiledDate.getNullable("network_filed_date"))
@@ -89,6 +82,13 @@ private constructor(
     /** Date dispute entered pre-arbitration. */
     fun prearbitrationDate(): Optional<OffsetDateTime> =
         Optional.ofNullable(prearbitrationDate.getNullable("prearbitration_date"))
+
+    /**
+     * Unique identifier for the dispute from the network. If there are multiple, this will be the
+     * first claim id set by the network
+     */
+    fun primaryClaimId(): Optional<String> =
+        Optional.ofNullable(primaryClaimId.getNullable("primary_claim_id"))
 
     /**
      * Dispute reason:
@@ -193,12 +193,6 @@ private constructor(
     /** Unique identifiers for the dispute from the network. */
     @JsonProperty("network_claim_ids") @ExcludeMissing fun _networkClaimIds() = networkClaimIds
 
-    /**
-     * Unique identifier for the dispute from the network. If there are multiple, this will be the
-     * first claim id set by the network
-     */
-    @JsonProperty("primary_claim_id") @ExcludeMissing fun _primaryClaimId() = primaryClaimId
-
     /** Date that the dispute was submitted to the network. */
     @JsonProperty("network_filed_date") @ExcludeMissing fun _networkFiledDate() = networkFiledDate
 
@@ -211,6 +205,12 @@ private constructor(
     @JsonProperty("prearbitration_date")
     @ExcludeMissing
     fun _prearbitrationDate() = prearbitrationDate
+
+    /**
+     * Unique identifier for the dispute from the network. If there are multiple, this will be the
+     * first claim id set by the network
+     */
+    @JsonProperty("primary_claim_id") @ExcludeMissing fun _primaryClaimId() = primaryClaimId
 
     /**
      * Dispute reason:
@@ -302,10 +302,10 @@ private constructor(
             customerFiledDate()
             customerNote()
             networkClaimIds()
-            primaryClaimId()
             networkFiledDate()
             networkReasonCode()
             prearbitrationDate()
+            primaryClaimId()
             reason()
             representmentDate()
             resolutionAmount()
@@ -333,10 +333,10 @@ private constructor(
             this.customerFiledDate == other.customerFiledDate &&
             this.customerNote == other.customerNote &&
             this.networkClaimIds == other.networkClaimIds &&
-            this.primaryClaimId == other.primaryClaimId &&
             this.networkFiledDate == other.networkFiledDate &&
             this.networkReasonCode == other.networkReasonCode &&
             this.prearbitrationDate == other.prearbitrationDate &&
+            this.primaryClaimId == other.primaryClaimId &&
             this.reason == other.reason &&
             this.representmentDate == other.representmentDate &&
             this.resolutionAmount == other.resolutionAmount &&
@@ -359,10 +359,10 @@ private constructor(
                     customerFiledDate,
                     customerNote,
                     networkClaimIds,
-                    primaryClaimId,
                     networkFiledDate,
                     networkReasonCode,
                     prearbitrationDate,
+                    primaryClaimId,
                     reason,
                     representmentDate,
                     resolutionAmount,
@@ -379,7 +379,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Dispute{amount=$amount, arbitrationDate=$arbitrationDate, created=$created, customerFiledDate=$customerFiledDate, customerNote=$customerNote, networkClaimIds=$networkClaimIds, primaryClaimId=$primaryClaimId, networkFiledDate=$networkFiledDate, networkReasonCode=$networkReasonCode, prearbitrationDate=$prearbitrationDate, reason=$reason, representmentDate=$representmentDate, resolutionAmount=$resolutionAmount, resolutionDate=$resolutionDate, resolutionNote=$resolutionNote, resolutionReason=$resolutionReason, status=$status, token=$token, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
+        "Dispute{amount=$amount, arbitrationDate=$arbitrationDate, created=$created, customerFiledDate=$customerFiledDate, customerNote=$customerNote, networkClaimIds=$networkClaimIds, networkFiledDate=$networkFiledDate, networkReasonCode=$networkReasonCode, prearbitrationDate=$prearbitrationDate, primaryClaimId=$primaryClaimId, reason=$reason, representmentDate=$representmentDate, resolutionAmount=$resolutionAmount, resolutionDate=$resolutionDate, resolutionNote=$resolutionNote, resolutionReason=$resolutionReason, status=$status, token=$token, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -394,10 +394,10 @@ private constructor(
         private var customerFiledDate: JsonField<OffsetDateTime> = JsonMissing.of()
         private var customerNote: JsonField<String> = JsonMissing.of()
         private var networkClaimIds: JsonField<List<String>> = JsonMissing.of()
-        private var primaryClaimId: JsonField<String> = JsonMissing.of()
         private var networkFiledDate: JsonField<OffsetDateTime> = JsonMissing.of()
         private var networkReasonCode: JsonField<String> = JsonMissing.of()
         private var prearbitrationDate: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var primaryClaimId: JsonField<String> = JsonMissing.of()
         private var reason: JsonField<Reason> = JsonMissing.of()
         private var representmentDate: JsonField<OffsetDateTime> = JsonMissing.of()
         private var resolutionAmount: JsonField<Long> = JsonMissing.of()
@@ -417,10 +417,10 @@ private constructor(
             this.customerFiledDate = dispute.customerFiledDate
             this.customerNote = dispute.customerNote
             this.networkClaimIds = dispute.networkClaimIds
-            this.primaryClaimId = dispute.primaryClaimId
             this.networkFiledDate = dispute.networkFiledDate
             this.networkReasonCode = dispute.networkReasonCode
             this.prearbitrationDate = dispute.prearbitrationDate
+            this.primaryClaimId = dispute.primaryClaimId
             this.reason = dispute.reason
             this.representmentDate = dispute.representmentDate
             this.resolutionAmount = dispute.resolutionAmount
@@ -492,22 +492,6 @@ private constructor(
             this.networkClaimIds = networkClaimIds
         }
 
-        /**
-         * Unique identifier for the dispute from the network. If there are multiple, this will be
-         * the first claim id set by the network
-         */
-        fun primaryClaimId(primaryClaimId: String) = primaryClaimId(JsonField.of(primaryClaimId))
-
-        /**
-         * Unique identifier for the dispute from the network. If there are multiple, this will be
-         * the first claim id set by the network
-         */
-        @JsonProperty("primary_claim_id")
-        @ExcludeMissing
-        fun primaryClaimId(primaryClaimId: JsonField<String>) = apply {
-            this.primaryClaimId = primaryClaimId
-        }
-
         /** Date that the dispute was submitted to the network. */
         fun networkFiledDate(networkFiledDate: OffsetDateTime) =
             networkFiledDate(JsonField.of(networkFiledDate))
@@ -539,6 +523,22 @@ private constructor(
         @ExcludeMissing
         fun prearbitrationDate(prearbitrationDate: JsonField<OffsetDateTime>) = apply {
             this.prearbitrationDate = prearbitrationDate
+        }
+
+        /**
+         * Unique identifier for the dispute from the network. If there are multiple, this will be
+         * the first claim id set by the network
+         */
+        fun primaryClaimId(primaryClaimId: String) = primaryClaimId(JsonField.of(primaryClaimId))
+
+        /**
+         * Unique identifier for the dispute from the network. If there are multiple, this will be
+         * the first claim id set by the network
+         */
+        @JsonProperty("primary_claim_id")
+        @ExcludeMissing
+        fun primaryClaimId(primaryClaimId: JsonField<String>) = apply {
+            this.primaryClaimId = primaryClaimId
         }
 
         /**
@@ -756,10 +756,10 @@ private constructor(
                 customerFiledDate,
                 customerNote,
                 networkClaimIds.map { it.toUnmodifiable() },
-                primaryClaimId,
                 networkFiledDate,
                 networkReasonCode,
                 prearbitrationDate,
+                primaryClaimId,
                 reason,
                 representmentDate,
                 resolutionAmount,
@@ -822,11 +822,11 @@ private constructor(
 
             @JvmField val PROCESSING_ERROR = Reason(JsonField.of("PROCESSING_ERROR"))
 
-            @JvmField val REFUND_NOT_PROCESSED = Reason(JsonField.of("REFUND_NOT_PROCESSED"))
-
             @JvmField
             val RECURRING_TRANSACTION_NOT_CANCELLED =
                 Reason(JsonField.of("RECURRING_TRANSACTION_NOT_CANCELLED"))
+
+            @JvmField val REFUND_NOT_PROCESSED = Reason(JsonField.of("REFUND_NOT_PROCESSED"))
 
             @JvmStatic fun of(value: String) = Reason(JsonField.of(value))
         }
@@ -844,8 +844,8 @@ private constructor(
             MISSING_AUTH,
             OTHER,
             PROCESSING_ERROR,
-            REFUND_NOT_PROCESSED,
             RECURRING_TRANSACTION_NOT_CANCELLED,
+            REFUND_NOT_PROCESSED,
         }
 
         enum class Value {
@@ -861,8 +861,8 @@ private constructor(
             MISSING_AUTH,
             OTHER,
             PROCESSING_ERROR,
-            REFUND_NOT_PROCESSED,
             RECURRING_TRANSACTION_NOT_CANCELLED,
+            REFUND_NOT_PROCESSED,
             _UNKNOWN,
         }
 
@@ -880,8 +880,8 @@ private constructor(
                 MISSING_AUTH -> Value.MISSING_AUTH
                 OTHER -> Value.OTHER
                 PROCESSING_ERROR -> Value.PROCESSING_ERROR
-                REFUND_NOT_PROCESSED -> Value.REFUND_NOT_PROCESSED
                 RECURRING_TRANSACTION_NOT_CANCELLED -> Value.RECURRING_TRANSACTION_NOT_CANCELLED
+                REFUND_NOT_PROCESSED -> Value.REFUND_NOT_PROCESSED
                 else -> Value._UNKNOWN
             }
 
@@ -899,8 +899,8 @@ private constructor(
                 MISSING_AUTH -> Known.MISSING_AUTH
                 OTHER -> Known.OTHER
                 PROCESSING_ERROR -> Known.PROCESSING_ERROR
-                REFUND_NOT_PROCESSED -> Known.REFUND_NOT_PROCESSED
                 RECURRING_TRANSACTION_NOT_CANCELLED -> Known.RECURRING_TRANSACTION_NOT_CANCELLED
+                REFUND_NOT_PROCESSED -> Known.REFUND_NOT_PROCESSED
                 else -> throw LithicInvalidDataException("Unknown Reason: $value")
             }
 
@@ -1092,71 +1092,71 @@ private constructor(
 
         companion object {
 
+            @JvmField val ARBITRATION = Status(JsonField.of("ARBITRATION"))
+
+            @JvmField val CASE_CLOSED = Status(JsonField.of("CASE_CLOSED"))
+
+            @JvmField val CASE_WON = Status(JsonField.of("CASE_WON"))
+
             @JvmField val NEW = Status(JsonField.of("NEW"))
 
             @JvmField val PENDING_CUSTOMER = Status(JsonField.of("PENDING_CUSTOMER"))
 
-            @JvmField val SUBMITTED = Status(JsonField.of("SUBMITTED"))
+            @JvmField val PREARBITRATION = Status(JsonField.of("PREARBITRATION"))
 
             @JvmField val REPRESENTMENT = Status(JsonField.of("REPRESENTMENT"))
 
-            @JvmField val PREARBITRATION = Status(JsonField.of("PREARBITRATION"))
-
-            @JvmField val ARBITRATION = Status(JsonField.of("ARBITRATION"))
-
-            @JvmField val CASE_WON = Status(JsonField.of("CASE_WON"))
-
-            @JvmField val CASE_CLOSED = Status(JsonField.of("CASE_CLOSED"))
+            @JvmField val SUBMITTED = Status(JsonField.of("SUBMITTED"))
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
 
         enum class Known {
+            ARBITRATION,
+            CASE_CLOSED,
+            CASE_WON,
             NEW,
             PENDING_CUSTOMER,
-            SUBMITTED,
-            REPRESENTMENT,
             PREARBITRATION,
-            ARBITRATION,
-            CASE_WON,
-            CASE_CLOSED,
+            REPRESENTMENT,
+            SUBMITTED,
         }
 
         enum class Value {
+            ARBITRATION,
+            CASE_CLOSED,
+            CASE_WON,
             NEW,
             PENDING_CUSTOMER,
-            SUBMITTED,
-            REPRESENTMENT,
             PREARBITRATION,
-            ARBITRATION,
-            CASE_WON,
-            CASE_CLOSED,
+            REPRESENTMENT,
+            SUBMITTED,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
+                ARBITRATION -> Value.ARBITRATION
+                CASE_CLOSED -> Value.CASE_CLOSED
+                CASE_WON -> Value.CASE_WON
                 NEW -> Value.NEW
                 PENDING_CUSTOMER -> Value.PENDING_CUSTOMER
-                SUBMITTED -> Value.SUBMITTED
-                REPRESENTMENT -> Value.REPRESENTMENT
                 PREARBITRATION -> Value.PREARBITRATION
-                ARBITRATION -> Value.ARBITRATION
-                CASE_WON -> Value.CASE_WON
-                CASE_CLOSED -> Value.CASE_CLOSED
+                REPRESENTMENT -> Value.REPRESENTMENT
+                SUBMITTED -> Value.SUBMITTED
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
+                ARBITRATION -> Known.ARBITRATION
+                CASE_CLOSED -> Known.CASE_CLOSED
+                CASE_WON -> Known.CASE_WON
                 NEW -> Known.NEW
                 PENDING_CUSTOMER -> Known.PENDING_CUSTOMER
-                SUBMITTED -> Known.SUBMITTED
-                REPRESENTMENT -> Known.REPRESENTMENT
                 PREARBITRATION -> Known.PREARBITRATION
-                ARBITRATION -> Known.ARBITRATION
-                CASE_WON -> Known.CASE_WON
-                CASE_CLOSED -> Known.CASE_CLOSED
+                REPRESENTMENT -> Known.REPRESENTMENT
+                SUBMITTED -> Known.SUBMITTED
                 else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
 

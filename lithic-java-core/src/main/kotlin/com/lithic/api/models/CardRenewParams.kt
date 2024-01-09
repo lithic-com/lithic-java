@@ -17,12 +17,14 @@ import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
 
-class CardReissueParams
+class CardRenewParams
 constructor(
     private val cardToken: String,
+    private val shippingAddress: ShippingAddress,
     private val carrier: Carrier?,
+    private val expMonth: String?,
+    private val expYear: String?,
     private val productId: String?,
-    private val shippingAddress: ShippingAddress?,
     private val shippingMethod: ShippingMethod?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
@@ -31,20 +33,26 @@ constructor(
 
     fun cardToken(): String = cardToken
 
+    fun shippingAddress(): ShippingAddress = shippingAddress
+
     fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier)
 
-    fun productId(): Optional<String> = Optional.ofNullable(productId)
+    fun expMonth(): Optional<String> = Optional.ofNullable(expMonth)
 
-    fun shippingAddress(): Optional<ShippingAddress> = Optional.ofNullable(shippingAddress)
+    fun expYear(): Optional<String> = Optional.ofNullable(expYear)
+
+    fun productId(): Optional<String> = Optional.ofNullable(productId)
 
     fun shippingMethod(): Optional<ShippingMethod> = Optional.ofNullable(shippingMethod)
 
     @JvmSynthetic
-    internal fun getBody(): CardReissueBody {
-        return CardReissueBody(
-            carrier,
-            productId,
+    internal fun getBody(): CardRenewBody {
+        return CardRenewBody(
             shippingAddress,
+            carrier,
+            expMonth,
+            expYear,
+            productId,
             shippingMethod,
             additionalBodyProperties,
         )
@@ -61,21 +69,38 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = CardReissueBody.Builder::class)
+    @JsonDeserialize(builder = CardRenewBody.Builder::class)
     @NoAutoDetect
-    class CardReissueBody
+    class CardRenewBody
     internal constructor(
-        private val carrier: Carrier?,
-        private val productId: String?,
         private val shippingAddress: ShippingAddress?,
+        private val carrier: Carrier?,
+        private val expMonth: String?,
+        private val expYear: String?,
+        private val productId: String?,
         private val shippingMethod: ShippingMethod?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
 
+        /** The shipping address this card will be sent to. */
+        @JsonProperty("shipping_address") fun shippingAddress(): ShippingAddress? = shippingAddress
+
         /** If omitted, the previous carrier will be used. */
         @JsonProperty("carrier") fun carrier(): Carrier? = carrier
+
+        /**
+         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date six years in the future will be generated.
+         */
+        @JsonProperty("exp_month") fun expMonth(): String? = expMonth
+
+        /**
+         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date six years in the future will be generated.
+         */
+        @JsonProperty("exp_year") fun expYear(): String? = expYear
 
         /**
          * Specifies the configuration (e.g. physical card art) that the card should be manufactured
@@ -83,9 +108,6 @@ constructor(
          * before use.
          */
         @JsonProperty("product_id") fun productId(): String? = productId
-
-        /** If omitted, the previous shipping address will be used. */
-        @JsonProperty("shipping_address") fun shippingAddress(): ShippingAddress? = shippingAddress
 
         /**
          * Shipping method for the card. Use of options besides `STANDARD` require additional
@@ -112,10 +134,12 @@ constructor(
                 return true
             }
 
-            return other is CardReissueBody &&
-                this.carrier == other.carrier &&
-                this.productId == other.productId &&
+            return other is CardRenewBody &&
                 this.shippingAddress == other.shippingAddress &&
+                this.carrier == other.carrier &&
+                this.expMonth == other.expMonth &&
+                this.expYear == other.expYear &&
+                this.productId == other.productId &&
                 this.shippingMethod == other.shippingMethod &&
                 this.additionalProperties == other.additionalProperties
         }
@@ -124,9 +148,11 @@ constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
-                        carrier,
-                        productId,
                         shippingAddress,
+                        carrier,
+                        expMonth,
+                        expYear,
+                        productId,
                         shippingMethod,
                         additionalProperties,
                     )
@@ -135,7 +161,7 @@ constructor(
         }
 
         override fun toString() =
-            "CardReissueBody{carrier=$carrier, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
+            "CardRenewBody{shippingAddress=$shippingAddress, carrier=$carrier, expMonth=$expMonth, expYear=$expYear, productId=$productId, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -144,24 +170,48 @@ constructor(
 
         class Builder {
 
-            private var carrier: Carrier? = null
-            private var productId: String? = null
             private var shippingAddress: ShippingAddress? = null
+            private var carrier: Carrier? = null
+            private var expMonth: String? = null
+            private var expYear: String? = null
+            private var productId: String? = null
             private var shippingMethod: ShippingMethod? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(cardReissueBody: CardReissueBody) = apply {
-                this.carrier = cardReissueBody.carrier
-                this.productId = cardReissueBody.productId
-                this.shippingAddress = cardReissueBody.shippingAddress
-                this.shippingMethod = cardReissueBody.shippingMethod
-                additionalProperties(cardReissueBody.additionalProperties)
+            internal fun from(cardRenewBody: CardRenewBody) = apply {
+                this.shippingAddress = cardRenewBody.shippingAddress
+                this.carrier = cardRenewBody.carrier
+                this.expMonth = cardRenewBody.expMonth
+                this.expYear = cardRenewBody.expYear
+                this.productId = cardRenewBody.productId
+                this.shippingMethod = cardRenewBody.shippingMethod
+                additionalProperties(cardRenewBody.additionalProperties)
+            }
+
+            /** The shipping address this card will be sent to. */
+            @JsonProperty("shipping_address")
+            fun shippingAddress(shippingAddress: ShippingAddress) = apply {
+                this.shippingAddress = shippingAddress
             }
 
             /** If omitted, the previous carrier will be used. */
             @JsonProperty("carrier")
             fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
+
+            /**
+             * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+             * expiration date six years in the future will be generated.
+             */
+            @JsonProperty("exp_month")
+            fun expMonth(expMonth: String) = apply { this.expMonth = expMonth }
+
+            /**
+             * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+             * expiration date six years in the future will be generated.
+             */
+            @JsonProperty("exp_year")
+            fun expYear(expYear: String) = apply { this.expYear = expYear }
 
             /**
              * Specifies the configuration (e.g. physical card art) that the card should be
@@ -170,12 +220,6 @@ constructor(
              */
             @JsonProperty("product_id")
             fun productId(productId: String) = apply { this.productId = productId }
-
-            /** If omitted, the previous shipping address will be used. */
-            @JsonProperty("shipping_address")
-            fun shippingAddress(shippingAddress: ShippingAddress) = apply {
-                this.shippingAddress = shippingAddress
-            }
 
             /**
              * Shipping method for the card. Use of options besides `STANDARD` require additional
@@ -209,11 +253,15 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): CardReissueBody =
-                CardReissueBody(
+            fun build(): CardRenewBody =
+                CardRenewBody(
+                    checkNotNull(shippingAddress) {
+                        "`shippingAddress` is required but was not set"
+                    },
                     carrier,
+                    expMonth,
+                    expYear,
                     productId,
-                    shippingAddress,
                     shippingMethod,
                     additionalProperties.toUnmodifiable(),
                 )
@@ -231,11 +279,13 @@ constructor(
             return true
         }
 
-        return other is CardReissueParams &&
+        return other is CardRenewParams &&
             this.cardToken == other.cardToken &&
-            this.carrier == other.carrier &&
-            this.productId == other.productId &&
             this.shippingAddress == other.shippingAddress &&
+            this.carrier == other.carrier &&
+            this.expMonth == other.expMonth &&
+            this.expYear == other.expYear &&
+            this.productId == other.productId &&
             this.shippingMethod == other.shippingMethod &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
@@ -245,9 +295,11 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             cardToken,
-            carrier,
-            productId,
             shippingAddress,
+            carrier,
+            expMonth,
+            expYear,
+            productId,
             shippingMethod,
             additionalQueryParams,
             additionalHeaders,
@@ -256,7 +308,7 @@ constructor(
     }
 
     override fun toString() =
-        "CardReissueParams{cardToken=$cardToken, carrier=$carrier, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "CardRenewParams{cardToken=$cardToken, shippingAddress=$shippingAddress, carrier=$carrier, expMonth=$expMonth, expYear=$expYear, productId=$productId, shippingMethod=$shippingMethod, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -269,30 +321,51 @@ constructor(
     class Builder {
 
         private var cardToken: String? = null
-        private var carrier: Carrier? = null
-        private var productId: String? = null
         private var shippingAddress: ShippingAddress? = null
+        private var carrier: Carrier? = null
+        private var expMonth: String? = null
+        private var expYear: String? = null
+        private var productId: String? = null
         private var shippingMethod: ShippingMethod? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(cardReissueParams: CardReissueParams) = apply {
-            this.cardToken = cardReissueParams.cardToken
-            this.carrier = cardReissueParams.carrier
-            this.productId = cardReissueParams.productId
-            this.shippingAddress = cardReissueParams.shippingAddress
-            this.shippingMethod = cardReissueParams.shippingMethod
-            additionalQueryParams(cardReissueParams.additionalQueryParams)
-            additionalHeaders(cardReissueParams.additionalHeaders)
-            additionalBodyProperties(cardReissueParams.additionalBodyProperties)
+        internal fun from(cardRenewParams: CardRenewParams) = apply {
+            this.cardToken = cardRenewParams.cardToken
+            this.shippingAddress = cardRenewParams.shippingAddress
+            this.carrier = cardRenewParams.carrier
+            this.expMonth = cardRenewParams.expMonth
+            this.expYear = cardRenewParams.expYear
+            this.productId = cardRenewParams.productId
+            this.shippingMethod = cardRenewParams.shippingMethod
+            additionalQueryParams(cardRenewParams.additionalQueryParams)
+            additionalHeaders(cardRenewParams.additionalHeaders)
+            additionalBodyProperties(cardRenewParams.additionalBodyProperties)
         }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
 
+        /** The shipping address this card will be sent to. */
+        fun shippingAddress(shippingAddress: ShippingAddress) = apply {
+            this.shippingAddress = shippingAddress
+        }
+
         /** If omitted, the previous carrier will be used. */
         fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
+
+        /**
+         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date six years in the future will be generated.
+         */
+        fun expMonth(expMonth: String) = apply { this.expMonth = expMonth }
+
+        /**
+         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date six years in the future will be generated.
+         */
+        fun expYear(expYear: String) = apply { this.expYear = expYear }
 
         /**
          * Specifies the configuration (e.g. physical card art) that the card should be manufactured
@@ -300,11 +373,6 @@ constructor(
          * before use.
          */
         fun productId(productId: String) = apply { this.productId = productId }
-
-        /** If omitted, the previous shipping address will be used. */
-        fun shippingAddress(shippingAddress: ShippingAddress) = apply {
-            this.shippingAddress = shippingAddress
-        }
 
         /**
          * Shipping method for the card. Use of options besides `STANDARD` require additional
@@ -376,12 +444,14 @@ constructor(
                 this.additionalBodyProperties.putAll(additionalBodyProperties)
             }
 
-        fun build(): CardReissueParams =
-            CardReissueParams(
+        fun build(): CardRenewParams =
+            CardRenewParams(
                 checkNotNull(cardToken) { "`cardToken` is required but was not set" },
+                checkNotNull(shippingAddress) { "`shippingAddress` is required but was not set" },
                 carrier,
+                expMonth,
+                expYear,
                 productId,
-                shippingAddress,
                 shippingMethod,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),

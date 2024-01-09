@@ -13,7 +13,7 @@ class FinancialTransactionTest {
         val financialTransaction =
             FinancialTransaction.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .category(FinancialTransaction.Category.CARD)
+                .category(FinancialTransaction.Category.ACH)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("string")
                 .descriptor("string")
@@ -39,7 +39,7 @@ class FinancialTransactionTest {
                 .build()
         assertThat(financialTransaction).isNotNull
         assertThat(financialTransaction.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(financialTransaction.category()).isEqualTo(FinancialTransaction.Category.CARD)
+        assertThat(financialTransaction.category()).isEqualTo(FinancialTransaction.Category.ACH)
         assertThat(financialTransaction.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(financialTransaction.currency()).isEqualTo("string")

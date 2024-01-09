@@ -15,7 +15,7 @@ class LineItemListResponseTest {
             LineItemListResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .amount(123L)
-                .category(LineItemListResponse.Category.CARD)
+                .category(LineItemListResponse.Category.ACH)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("string")
                 .eventType(LineItemListResponse.FinancialEventType.ACH_INSUFFICIENT_FUNDS)
@@ -28,7 +28,7 @@ class LineItemListResponseTest {
         assertThat(lineItemListResponse).isNotNull
         assertThat(lineItemListResponse.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(lineItemListResponse.amount()).isEqualTo(123L)
-        assertThat(lineItemListResponse.category()).isEqualTo(LineItemListResponse.Category.CARD)
+        assertThat(lineItemListResponse.category()).isEqualTo(LineItemListResponse.Category.ACH)
         assertThat(lineItemListResponse.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(lineItemListResponse.currency()).isEqualTo("string")

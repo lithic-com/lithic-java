@@ -39,13 +39,13 @@ class SettlementServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val settlementService = client.reports().settlement()
-        val settlementSummaryResponse =
+        val settlementReport =
             settlementService.summary(
                 ReportSettlementSummaryParams.builder()
                     .reportDate(LocalDate.parse("2019-12-27"))
                     .build()
             )
-        println(settlementSummaryResponse)
-        settlementSummaryResponse.validate()
+        println(settlementReport)
+        settlementReport.validate()
     }
 }

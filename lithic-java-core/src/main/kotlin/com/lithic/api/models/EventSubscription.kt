@@ -25,8 +25,8 @@ private constructor(
     private val description: JsonField<String>,
     private val disabled: JsonField<Boolean>,
     private val eventTypes: JsonField<List<EventType>>,
-    private val url: JsonField<String>,
     private val token: JsonField<String>,
+    private val url: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -43,10 +43,10 @@ private constructor(
     fun eventTypes(): Optional<List<EventType>> =
         Optional.ofNullable(eventTypes.getNullable("event_types"))
 
-    fun url(): String = url.getRequired("url")
-
     /** Globally unique identifier. */
     fun token(): String = token.getRequired("token")
+
+    fun url(): String = url.getRequired("url")
 
     /** A description of the subscription. */
     @JsonProperty("description") @ExcludeMissing fun _description() = description
@@ -56,10 +56,10 @@ private constructor(
 
     @JsonProperty("event_types") @ExcludeMissing fun _eventTypes() = eventTypes
 
-    @JsonProperty("url") @ExcludeMissing fun _url() = url
-
     /** Globally unique identifier. */
     @JsonProperty("token") @ExcludeMissing fun _token() = token
+
+    @JsonProperty("url") @ExcludeMissing fun _url() = url
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -70,8 +70,8 @@ private constructor(
             description()
             disabled()
             eventTypes()
-            url()
             token()
+            url()
             validated = true
         }
     }
@@ -87,8 +87,8 @@ private constructor(
             this.description == other.description &&
             this.disabled == other.disabled &&
             this.eventTypes == other.eventTypes &&
-            this.url == other.url &&
             this.token == other.token &&
+            this.url == other.url &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -99,8 +99,8 @@ private constructor(
                     description,
                     disabled,
                     eventTypes,
-                    url,
                     token,
+                    url,
                     additionalProperties,
                 )
         }
@@ -108,7 +108,7 @@ private constructor(
     }
 
     override fun toString() =
-        "EventSubscription{description=$description, disabled=$disabled, eventTypes=$eventTypes, url=$url, token=$token, additionalProperties=$additionalProperties}"
+        "EventSubscription{description=$description, disabled=$disabled, eventTypes=$eventTypes, token=$token, url=$url, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -120,8 +120,8 @@ private constructor(
         private var description: JsonField<String> = JsonMissing.of()
         private var disabled: JsonField<Boolean> = JsonMissing.of()
         private var eventTypes: JsonField<List<EventType>> = JsonMissing.of()
-        private var url: JsonField<String> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
+        private var url: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -129,8 +129,8 @@ private constructor(
             this.description = eventSubscription.description
             this.disabled = eventSubscription.disabled
             this.eventTypes = eventSubscription.eventTypes
-            this.url = eventSubscription.url
             this.token = eventSubscription.token
+            this.url = eventSubscription.url
             additionalProperties(eventSubscription.additionalProperties)
         }
 
@@ -158,12 +158,6 @@ private constructor(
             this.eventTypes = eventTypes
         }
 
-        fun url(url: String) = url(JsonField.of(url))
-
-        @JsonProperty("url")
-        @ExcludeMissing
-        fun url(url: JsonField<String>) = apply { this.url = url }
-
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
@@ -171,6 +165,12 @@ private constructor(
         @JsonProperty("token")
         @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
+
+        fun url(url: String) = url(JsonField.of(url))
+
+        @JsonProperty("url")
+        @ExcludeMissing
+        fun url(url: JsonField<String>) = apply { this.url = url }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -191,8 +191,8 @@ private constructor(
                 description,
                 disabled,
                 eventTypes.map { it.toUnmodifiable() },
-                url,
                 token,
+                url,
                 additionalProperties.toUnmodifiable(),
             )
     }
@@ -226,7 +226,11 @@ private constructor(
             @JvmField
             val ACCOUNT_HOLDER_VERIFICATION = EventType(JsonField.of("account_holder.verification"))
 
+            @JvmField val BALANCE_UPDATED = EventType(JsonField.of("balance.updated"))
+
             @JvmField val CARD_CREATED = EventType(JsonField.of("card.created"))
+
+            @JvmField val CARD_RENEWED = EventType(JsonField.of("card.renewed"))
 
             @JvmField val CARD_SHIPPED = EventType(JsonField.of("card.shipped"))
 
@@ -254,14 +258,14 @@ private constructor(
                 EventType(JsonField.of("dispute_evidence.upload_failed"))
 
             @JvmField
-            val THREE_DS_AUTHENTICATION_CREATED =
-                EventType(JsonField.of("three_ds_authentication.created"))
-
-            @JvmField
             val PAYMENT_TRANSACTION_CREATED = EventType(JsonField.of("payment_transaction.created"))
 
             @JvmField
             val PAYMENT_TRANSACTION_UPDATED = EventType(JsonField.of("payment_transaction.updated"))
+
+            @JvmField
+            val THREE_DS_AUTHENTICATION_CREATED =
+                EventType(JsonField.of("three_ds_authentication.created"))
 
             @JvmField
             val TRANSFER_TRANSACTION_CREATED =
@@ -274,7 +278,9 @@ private constructor(
             ACCOUNT_HOLDER_CREATED,
             ACCOUNT_HOLDER_UPDATED,
             ACCOUNT_HOLDER_VERIFICATION,
+            BALANCE_UPDATED,
             CARD_CREATED,
+            CARD_RENEWED,
             CARD_SHIPPED,
             CARD_TRANSACTION_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
@@ -282,9 +288,9 @@ private constructor(
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
             DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
-            THREE_DS_AUTHENTICATION_CREATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
+            THREE_DS_AUTHENTICATION_CREATED,
             TRANSFER_TRANSACTION_CREATED,
         }
 
@@ -292,7 +298,9 @@ private constructor(
             ACCOUNT_HOLDER_CREATED,
             ACCOUNT_HOLDER_UPDATED,
             ACCOUNT_HOLDER_VERIFICATION,
+            BALANCE_UPDATED,
             CARD_CREATED,
+            CARD_RENEWED,
             CARD_SHIPPED,
             CARD_TRANSACTION_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
@@ -300,9 +308,9 @@ private constructor(
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
             DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
-            THREE_DS_AUTHENTICATION_CREATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
+            THREE_DS_AUTHENTICATION_CREATED,
             TRANSFER_TRANSACTION_CREATED,
             _UNKNOWN,
         }
@@ -312,7 +320,9 @@ private constructor(
                 ACCOUNT_HOLDER_CREATED -> Value.ACCOUNT_HOLDER_CREATED
                 ACCOUNT_HOLDER_UPDATED -> Value.ACCOUNT_HOLDER_UPDATED
                 ACCOUNT_HOLDER_VERIFICATION -> Value.ACCOUNT_HOLDER_VERIFICATION
+                BALANCE_UPDATED -> Value.BALANCE_UPDATED
                 CARD_CREATED -> Value.CARD_CREATED
+                CARD_RENEWED -> Value.CARD_RENEWED
                 CARD_SHIPPED -> Value.CARD_SHIPPED
                 CARD_TRANSACTION_UPDATED -> Value.CARD_TRANSACTION_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
@@ -322,9 +332,9 @@ private constructor(
                     Value.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
                 DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Value.DISPUTE_EVIDENCE_UPLOAD_FAILED
-                THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
                 PAYMENT_TRANSACTION_CREATED -> Value.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Value.PAYMENT_TRANSACTION_UPDATED
+                THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
                 TRANSFER_TRANSACTION_CREATED -> Value.TRANSFER_TRANSACTION_CREATED
                 else -> Value._UNKNOWN
             }
@@ -334,7 +344,9 @@ private constructor(
                 ACCOUNT_HOLDER_CREATED -> Known.ACCOUNT_HOLDER_CREATED
                 ACCOUNT_HOLDER_UPDATED -> Known.ACCOUNT_HOLDER_UPDATED
                 ACCOUNT_HOLDER_VERIFICATION -> Known.ACCOUNT_HOLDER_VERIFICATION
+                BALANCE_UPDATED -> Known.BALANCE_UPDATED
                 CARD_CREATED -> Known.CARD_CREATED
+                CARD_RENEWED -> Known.CARD_RENEWED
                 CARD_SHIPPED -> Known.CARD_SHIPPED
                 CARD_TRANSACTION_UPDATED -> Known.CARD_TRANSACTION_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
@@ -344,9 +356,9 @@ private constructor(
                     Known.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
                 DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Known.DISPUTE_EVIDENCE_UPLOAD_FAILED
-                THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED
                 PAYMENT_TRANSACTION_CREATED -> Known.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Known.PAYMENT_TRANSACTION_UPDATED
+                THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED
                 TRANSFER_TRANSACTION_CREATED -> Known.TRANSFER_TRANSACTION_CREATED
                 else -> throw LithicInvalidDataException("Unknown EventType: $value")
             }

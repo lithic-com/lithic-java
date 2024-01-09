@@ -18,7 +18,7 @@ class CardListParamsTest {
             .endingBefore("string")
             .pageSize(123L)
             .startingAfter("string")
-            .state(CardListParams.State.OPEN)
+            .state(CardListParams.State.CLOSED)
             .build()
     }
 
@@ -32,7 +32,7 @@ class CardListParamsTest {
                 .endingBefore("string")
                 .pageSize(123L)
                 .startingAfter("string")
-                .state(CardListParams.State.OPEN)
+                .state(CardListParams.State.CLOSED)
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put("account_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
@@ -41,7 +41,7 @@ class CardListParamsTest {
         expected.put("ending_before", listOf("string"))
         expected.put("page_size", listOf("123"))
         expected.put("starting_after", listOf("string"))
-        expected.put("state", listOf(CardListParams.State.OPEN.toString()))
+        expected.put("state", listOf(CardListParams.State.CLOSED.toString()))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 

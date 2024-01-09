@@ -8,7 +8,7 @@ import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.ReportSettlementListDetailsPage
 import com.lithic.api.models.ReportSettlementListDetailsParams
 import com.lithic.api.models.ReportSettlementSummaryParams
-import com.lithic.api.models.SettlementSummaryResponse
+import com.lithic.api.models.SettlementReport
 
 interface SettlementService {
 
@@ -24,5 +24,5 @@ interface SettlementService {
     fun summary(
         params: ReportSettlementSummaryParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): SettlementSummaryResponse
+    ): SettlementReport
 }

@@ -21,13 +21,13 @@ import java.util.Objects
 @NoAutoDetect
 class Tokenization
 private constructor(
-    private val token: JsonField<String>,
-    private val tokenRequestorName: JsonField<TokenRequestorName>,
     private val accountToken: JsonField<String>,
     private val cardToken: JsonField<String>,
-    private val tokenUniqueReference: JsonField<String>,
-    private val status: JsonField<Status>,
     private val createdAt: JsonField<OffsetDateTime>,
+    private val status: JsonField<Status>,
+    private val token: JsonField<String>,
+    private val tokenRequestorName: JsonField<TokenRequestorName>,
+    private val tokenUniqueReference: JsonField<String>,
     private val updatedAt: JsonField<OffsetDateTime>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
@@ -35,6 +35,18 @@ private constructor(
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
+
+    /** The account token associated with the card being tokenized. */
+    fun accountToken(): String = accountToken.getRequired("account_token")
+
+    /** The card token associated with the card being tokenized. */
+    fun cardToken(): String = cardToken.getRequired("card_token")
+
+    /** Date and time when the tokenization first occurred. UTC time zone. */
+    fun createdAt(): OffsetDateTime = createdAt.getRequired("created_at")
+
+    /** The status of the tokenization request */
+    fun status(): Status = status.getRequired("status")
 
     /**
      * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
@@ -47,23 +59,23 @@ private constructor(
     fun tokenRequestorName(): TokenRequestorName =
         tokenRequestorName.getRequired("token_requestor_name")
 
-    /** The account token associated with the card being tokenized. */
-    fun accountToken(): String = accountToken.getRequired("account_token")
-
-    /** The card token associated with the card being tokenized. */
-    fun cardToken(): String = cardToken.getRequired("card_token")
-
     /** The network's unique reference for the tokenization. */
     fun tokenUniqueReference(): String = tokenUniqueReference.getRequired("token_unique_reference")
 
-    /** The status of the tokenization request */
-    fun status(): Status = status.getRequired("status")
-
-    /** Date and time when the tokenization first occurred. UTC time zone. */
-    fun createdAt(): OffsetDateTime = createdAt.getRequired("created_at")
-
     /** Latest date and time when the tokenization was updated. UTC time zone. */
     fun updatedAt(): OffsetDateTime = updatedAt.getRequired("updated_at")
+
+    /** The account token associated with the card being tokenized. */
+    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
+
+    /** The card token associated with the card being tokenized. */
+    @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
+
+    /** Date and time when the tokenization first occurred. UTC time zone. */
+    @JsonProperty("created_at") @ExcludeMissing fun _createdAt() = createdAt
+
+    /** The status of the tokenization request */
+    @JsonProperty("status") @ExcludeMissing fun _status() = status
 
     /**
      * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
@@ -77,22 +89,10 @@ private constructor(
     @ExcludeMissing
     fun _tokenRequestorName() = tokenRequestorName
 
-    /** The account token associated with the card being tokenized. */
-    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
-
-    /** The card token associated with the card being tokenized. */
-    @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
-
     /** The network's unique reference for the tokenization. */
     @JsonProperty("token_unique_reference")
     @ExcludeMissing
     fun _tokenUniqueReference() = tokenUniqueReference
-
-    /** The status of the tokenization request */
-    @JsonProperty("status") @ExcludeMissing fun _status() = status
-
-    /** Date and time when the tokenization first occurred. UTC time zone. */
-    @JsonProperty("created_at") @ExcludeMissing fun _createdAt() = createdAt
 
     /** Latest date and time when the tokenization was updated. UTC time zone. */
     @JsonProperty("updated_at") @ExcludeMissing fun _updatedAt() = updatedAt
@@ -103,13 +103,13 @@ private constructor(
 
     fun validate(): Tokenization = apply {
         if (!validated) {
-            token()
-            tokenRequestorName()
             accountToken()
             cardToken()
-            tokenUniqueReference()
-            status()
             createdAt()
+            status()
+            token()
+            tokenRequestorName()
+            tokenUniqueReference()
             updatedAt()
             validated = true
         }
@@ -123,13 +123,13 @@ private constructor(
         }
 
         return other is Tokenization &&
-            this.token == other.token &&
-            this.tokenRequestorName == other.tokenRequestorName &&
             this.accountToken == other.accountToken &&
             this.cardToken == other.cardToken &&
-            this.tokenUniqueReference == other.tokenUniqueReference &&
-            this.status == other.status &&
             this.createdAt == other.createdAt &&
+            this.status == other.status &&
+            this.token == other.token &&
+            this.tokenRequestorName == other.tokenRequestorName &&
+            this.tokenUniqueReference == other.tokenUniqueReference &&
             this.updatedAt == other.updatedAt &&
             this.additionalProperties == other.additionalProperties
     }
@@ -138,13 +138,13 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
-                    token,
-                    tokenRequestorName,
                     accountToken,
                     cardToken,
-                    tokenUniqueReference,
-                    status,
                     createdAt,
+                    status,
+                    token,
+                    tokenRequestorName,
+                    tokenUniqueReference,
                     updatedAt,
                     additionalProperties,
                 )
@@ -153,7 +153,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Tokenization{token=$token, tokenRequestorName=$tokenRequestorName, accountToken=$accountToken, cardToken=$cardToken, tokenUniqueReference=$tokenUniqueReference, status=$status, createdAt=$createdAt, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
+        "Tokenization{accountToken=$accountToken, cardToken=$cardToken, createdAt=$createdAt, status=$status, token=$token, tokenRequestorName=$tokenRequestorName, tokenUniqueReference=$tokenUniqueReference, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -162,28 +162,62 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var tokenRequestorName: JsonField<TokenRequestorName> = JsonMissing.of()
         private var accountToken: JsonField<String> = JsonMissing.of()
         private var cardToken: JsonField<String> = JsonMissing.of()
-        private var tokenUniqueReference: JsonField<String> = JsonMissing.of()
-        private var status: JsonField<Status> = JsonMissing.of()
         private var createdAt: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var status: JsonField<Status> = JsonMissing.of()
+        private var token: JsonField<String> = JsonMissing.of()
+        private var tokenRequestorName: JsonField<TokenRequestorName> = JsonMissing.of()
+        private var tokenUniqueReference: JsonField<String> = JsonMissing.of()
         private var updatedAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(tokenization: Tokenization) = apply {
-            this.token = tokenization.token
-            this.tokenRequestorName = tokenization.tokenRequestorName
             this.accountToken = tokenization.accountToken
             this.cardToken = tokenization.cardToken
-            this.tokenUniqueReference = tokenization.tokenUniqueReference
-            this.status = tokenization.status
             this.createdAt = tokenization.createdAt
+            this.status = tokenization.status
+            this.token = tokenization.token
+            this.tokenRequestorName = tokenization.tokenRequestorName
+            this.tokenUniqueReference = tokenization.tokenUniqueReference
             this.updatedAt = tokenization.updatedAt
             additionalProperties(tokenization.additionalProperties)
         }
+
+        /** The account token associated with the card being tokenized. */
+        fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
+
+        /** The account token associated with the card being tokenized. */
+        @JsonProperty("account_token")
+        @ExcludeMissing
+        fun accountToken(accountToken: JsonField<String>) = apply {
+            this.accountToken = accountToken
+        }
+
+        /** The card token associated with the card being tokenized. */
+        fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
+
+        /** The card token associated with the card being tokenized. */
+        @JsonProperty("card_token")
+        @ExcludeMissing
+        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
+
+        /** Date and time when the tokenization first occurred. UTC time zone. */
+        fun createdAt(createdAt: OffsetDateTime) = createdAt(JsonField.of(createdAt))
+
+        /** Date and time when the tokenization first occurred. UTC time zone. */
+        @JsonProperty("created_at")
+        @ExcludeMissing
+        fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply { this.createdAt = createdAt }
+
+        /** The status of the tokenization request */
+        fun status(status: Status) = status(JsonField.of(status))
+
+        /** The status of the tokenization request */
+        @JsonProperty("status")
+        @ExcludeMissing
+        fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /**
          * A fixed-width 23-digit numeric identifier for the Transaction that may be set if the
@@ -212,24 +246,6 @@ private constructor(
             this.tokenRequestorName = tokenRequestorName
         }
 
-        /** The account token associated with the card being tokenized. */
-        fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
-
-        /** The account token associated with the card being tokenized. */
-        @JsonProperty("account_token")
-        @ExcludeMissing
-        fun accountToken(accountToken: JsonField<String>) = apply {
-            this.accountToken = accountToken
-        }
-
-        /** The card token associated with the card being tokenized. */
-        fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
-
-        /** The card token associated with the card being tokenized. */
-        @JsonProperty("card_token")
-        @ExcludeMissing
-        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
-
         /** The network's unique reference for the tokenization. */
         fun tokenUniqueReference(tokenUniqueReference: String) =
             tokenUniqueReference(JsonField.of(tokenUniqueReference))
@@ -240,22 +256,6 @@ private constructor(
         fun tokenUniqueReference(tokenUniqueReference: JsonField<String>) = apply {
             this.tokenUniqueReference = tokenUniqueReference
         }
-
-        /** The status of the tokenization request */
-        fun status(status: Status) = status(JsonField.of(status))
-
-        /** The status of the tokenization request */
-        @JsonProperty("status")
-        @ExcludeMissing
-        fun status(status: JsonField<Status>) = apply { this.status = status }
-
-        /** Date and time when the tokenization first occurred. UTC time zone. */
-        fun createdAt(createdAt: OffsetDateTime) = createdAt(JsonField.of(createdAt))
-
-        /** Date and time when the tokenization first occurred. UTC time zone. */
-        @JsonProperty("created_at")
-        @ExcludeMissing
-        fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply { this.createdAt = createdAt }
 
         /** Latest date and time when the tokenization was updated. UTC time zone. */
         fun updatedAt(updatedAt: OffsetDateTime) = updatedAt(JsonField.of(updatedAt))
@@ -281,13 +281,13 @@ private constructor(
 
         fun build(): Tokenization =
             Tokenization(
-                token,
-                tokenRequestorName,
                 accountToken,
                 cardToken,
-                tokenUniqueReference,
-                status,
                 createdAt,
+                status,
+                token,
+                tokenRequestorName,
+                tokenUniqueReference,
                 updatedAt,
                 additionalProperties.toUnmodifiable(),
             )

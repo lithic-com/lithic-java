@@ -17,7 +17,7 @@ class DisputeListParamsTest {
             .endingBefore("string")
             .pageSize(123L)
             .startingAfter("string")
-            .status(DisputeListParams.Status.NEW)
+            .status(DisputeListParams.Status.ARBITRATION)
             .transactionTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
             .build()
     }
@@ -31,7 +31,7 @@ class DisputeListParamsTest {
                 .endingBefore("string")
                 .pageSize(123L)
                 .startingAfter("string")
-                .status(DisputeListParams.Status.NEW)
+                .status(DisputeListParams.Status.ARBITRATION)
                 .transactionTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
                 .build()
         val expected = mutableMapOf<String, List<String>>()
@@ -40,7 +40,7 @@ class DisputeListParamsTest {
         expected.put("ending_before", listOf("string"))
         expected.put("page_size", listOf("123"))
         expected.put("starting_after", listOf("string"))
-        expected.put("status", listOf(DisputeListParams.Status.NEW.toString()))
+        expected.put("status", listOf(DisputeListParams.Status.ARBITRATION.toString()))
         expected.put("transaction_tokens", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }

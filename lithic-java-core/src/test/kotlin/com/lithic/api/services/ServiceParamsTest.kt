@@ -57,7 +57,7 @@ class ServiceParamsTest {
 
         val params =
             CardCreateParams.builder()
-                .type(CardCreateParams.Type.VIRTUAL)
+                .type(CardCreateParams.Type.MERCHANT_LOCKED)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
                 .carrier(Carrier.builder().qrCodeUrl("string").build())
@@ -67,6 +67,7 @@ class ServiceParamsTest {
                 .memo("New Card")
                 .pin("string")
                 .productId("1")
+                .replacementFor("00000000-0000-0000-1000-000000000000")
                 .shippingAddress(
                     ShippingAddress.builder()
                         .address1("5 Broad Street")
@@ -82,7 +83,7 @@ class ServiceParamsTest {
                         .phoneNumber("+12124007676")
                         .build()
                 )
-                .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                 .spendLimit(123L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(CardCreateParams.State.OPEN)
@@ -100,7 +101,7 @@ class ServiceParamsTest {
                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .lastFour("xxxx")
-                        .state(Card.FundingAccount.State.ENABLED)
+                        .state(Card.FundingAccount.State.DELETED)
                         .type(Card.FundingAccount.Type.DEPOSITORY_CHECKING)
                         .accountName("string")
                         .nickname("x")
@@ -110,7 +111,7 @@ class ServiceParamsTest {
                 .spendLimit(123L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(Card.State.CLOSED)
-                .type(Card.Type.VIRTUAL)
+                .type(Card.Type.MERCHANT_LOCKED)
                 .authRuleTokens(listOf("string"))
                 .cvv("776")
                 .digitalCardArtToken("00000000-0000-0000-1000-000000000000")
