@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.24.0 (2024-01-09)
+
+Full Changelog: [v0.23.0...v0.24.0](https://github.com/lithic-com/lithic-java/compare/v0.23.0...v0.24.0)
+
+### Features
+
+* **api:** add card renew endpoint ([#138](https://github.com/lithic-com/lithic-java/issues/138)) ([9b6576d](https://github.com/lithic-com/lithic-java/commit/9b6576d4abce29c770401d78882cc91204c911ab))
+
+
+### Chores
+
+* add .keep files for examples and custom code directories ([#137](https://github.com/lithic-com/lithic-java/issues/137)) ([eaa9cc3](https://github.com/lithic-com/lithic-java/commit/eaa9cc314c3e20a2a2aa778db9b5f3717cf823b7))
+* **internal:** bump license ([#135](https://github.com/lithic-com/lithic-java/issues/135)) ([05eb588](https://github.com/lithic-com/lithic-java/commit/05eb588cdb015c268ed66f7c6671579bbf38085d))
+
 ## 0.23.0 (2023-12-18)
 
 Full Changelog: [v0.22.0...v0.23.0](https://github.com/lithic-com/lithic-java/compare/v0.22.0...v0.23.0)
