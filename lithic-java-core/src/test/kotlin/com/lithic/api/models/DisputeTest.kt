@@ -29,7 +29,7 @@ class DisputeTest {
                 .resolutionDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .resolutionNote("string")
                 .resolutionReason(Dispute.ResolutionReason.CASE_LOST)
-                .status(Dispute.Status.NEW)
+                .status(Dispute.Status.ARBITRATION)
                 .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(dispute).isNotNull
@@ -56,7 +56,7 @@ class DisputeTest {
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(dispute.resolutionNote()).contains("string")
         assertThat(dispute.resolutionReason()).contains(Dispute.ResolutionReason.CASE_LOST)
-        assertThat(dispute.status()).isEqualTo(Dispute.Status.NEW)
+        assertThat(dispute.status()).isEqualTo(Dispute.Status.ARBITRATION)
         assertThat(dispute.transactionToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }

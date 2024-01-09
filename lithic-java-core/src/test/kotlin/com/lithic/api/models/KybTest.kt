@@ -34,7 +34,7 @@ class KybTest {
                 )
                 .beneficialOwnerIndividuals(
                     listOf(
-                        Kyb.Individual.builder()
+                        Kyb.KybIndividual.builder()
                             .address(
                                 Address.builder()
                                     .address1("123 Old Forest Way")
@@ -74,7 +74,7 @@ class KybTest {
                         .build()
                 )
                 .controlPerson(
-                    Kyb.Individual.builder()
+                    Kyb.KybIndividual.builder()
                         .address(
                             Address.builder()
                                 .address1("123 Old Forest Way")
@@ -122,7 +122,7 @@ class KybTest {
             )
         assertThat(kyb.beneficialOwnerIndividuals())
             .containsExactly(
-                Kyb.Individual.builder()
+                Kyb.KybIndividual.builder()
                     .address(
                         Address.builder()
                             .address1("123 Old Forest Way")
@@ -163,7 +163,7 @@ class KybTest {
             )
         assertThat(kyb.controlPerson())
             .isEqualTo(
-                Kyb.Individual.builder()
+                Kyb.KybIndividual.builder()
                     .address(
                         Address.builder()
                             .address1("123 Old Forest Way")

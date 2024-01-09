@@ -19,16 +19,16 @@ import java.util.Objects
 @NoAutoDetect
 class SettlementReport
 private constructor(
+    private val created: JsonField<OffsetDateTime>,
     private val currency: JsonField<String>,
+    private val details: JsonField<List<SettlementSummaryDetails>>,
+    private val disputesGrossAmount: JsonField<Long>,
+    private val interchangeGrossAmount: JsonField<Long>,
+    private val otherFeesGrossAmount: JsonField<Long>,
+    private val reportDate: JsonField<String>,
     private val settledNetAmount: JsonField<Long>,
     private val transactionsGrossAmount: JsonField<Long>,
-    private val interchangeGrossAmount: JsonField<Long>,
-    private val disputesGrossAmount: JsonField<Long>,
-    private val otherFeesGrossAmount: JsonField<Long>,
-    private val details: JsonField<List<SettlementSummaryDetails>>,
-    private val created: JsonField<OffsetDateTime>,
     private val updated: JsonField<OffsetDateTime>,
-    private val reportDate: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -36,8 +36,26 @@ private constructor(
 
     private var hashCode: Int = 0
 
+    /** Date and time when the transaction first occurred. UTC time zone. */
+    fun created(): OffsetDateTime = created.getRequired("created")
+
     /** Three-digit alphabetic ISO 4217 code. */
     fun currency(): String = currency.getRequired("currency")
+
+    fun details(): List<SettlementSummaryDetails> = details.getRequired("details")
+
+    /** The total gross amount of disputes settlements. */
+    fun disputesGrossAmount(): Long = disputesGrossAmount.getRequired("disputes_gross_amount")
+
+    /** The total amount of interchange. */
+    fun interchangeGrossAmount(): Long =
+        interchangeGrossAmount.getRequired("interchange_gross_amount")
+
+    /** Total amount of gross other fees outside of interchange. */
+    fun otherFeesGrossAmount(): Long = otherFeesGrossAmount.getRequired("other_fees_gross_amount")
+
+    /** Date of when the report was first generated. */
+    fun reportDate(): String = reportDate.getRequired("report_date")
 
     /**
      * The total net amount of cash moved. (net value of settled_gross_amount, interchange, fees).
@@ -51,29 +69,34 @@ private constructor(
     fun transactionsGrossAmount(): Long =
         transactionsGrossAmount.getRequired("transactions_gross_amount")
 
-    /** The total amount of interchange. */
-    fun interchangeGrossAmount(): Long =
-        interchangeGrossAmount.getRequired("interchange_gross_amount")
-
-    /** The total gross amount of disputes settlements. */
-    fun disputesGrossAmount(): Long = disputesGrossAmount.getRequired("disputes_gross_amount")
-
-    /** Total amount of gross other fees outside of interchange. */
-    fun otherFeesGrossAmount(): Long = otherFeesGrossAmount.getRequired("other_fees_gross_amount")
-
-    fun details(): List<SettlementSummaryDetails> = details.getRequired("details")
-
-    /** Date and time when the transaction first occurred. UTC time zone. */
-    fun created(): OffsetDateTime = created.getRequired("created")
-
     /** Date and time when the transaction first occurred. UTC time zone. */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
-    /** Date of when the report was first generated. */
-    fun reportDate(): String = reportDate.getRequired("report_date")
+    /** Date and time when the transaction first occurred. UTC time zone. */
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     /** Three-digit alphabetic ISO 4217 code. */
     @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+
+    @JsonProperty("details") @ExcludeMissing fun _details() = details
+
+    /** The total gross amount of disputes settlements. */
+    @JsonProperty("disputes_gross_amount")
+    @ExcludeMissing
+    fun _disputesGrossAmount() = disputesGrossAmount
+
+    /** The total amount of interchange. */
+    @JsonProperty("interchange_gross_amount")
+    @ExcludeMissing
+    fun _interchangeGrossAmount() = interchangeGrossAmount
+
+    /** Total amount of gross other fees outside of interchange. */
+    @JsonProperty("other_fees_gross_amount")
+    @ExcludeMissing
+    fun _otherFeesGrossAmount() = otherFeesGrossAmount
+
+    /** Date of when the report was first generated. */
+    @JsonProperty("report_date") @ExcludeMissing fun _reportDate() = reportDate
 
     /**
      * The total net amount of cash moved. (net value of settled_gross_amount, interchange, fees).
@@ -88,31 +111,8 @@ private constructor(
     @ExcludeMissing
     fun _transactionsGrossAmount() = transactionsGrossAmount
 
-    /** The total amount of interchange. */
-    @JsonProperty("interchange_gross_amount")
-    @ExcludeMissing
-    fun _interchangeGrossAmount() = interchangeGrossAmount
-
-    /** The total gross amount of disputes settlements. */
-    @JsonProperty("disputes_gross_amount")
-    @ExcludeMissing
-    fun _disputesGrossAmount() = disputesGrossAmount
-
-    /** Total amount of gross other fees outside of interchange. */
-    @JsonProperty("other_fees_gross_amount")
-    @ExcludeMissing
-    fun _otherFeesGrossAmount() = otherFeesGrossAmount
-
-    @JsonProperty("details") @ExcludeMissing fun _details() = details
-
-    /** Date and time when the transaction first occurred. UTC time zone. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
-
     /** Date and time when the transaction first occurred. UTC time zone. */
     @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
-
-    /** Date of when the report was first generated. */
-    @JsonProperty("report_date") @ExcludeMissing fun _reportDate() = reportDate
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -120,16 +120,16 @@ private constructor(
 
     fun validate(): SettlementReport = apply {
         if (!validated) {
+            created()
             currency()
+            details().forEach { it.validate() }
+            disputesGrossAmount()
+            interchangeGrossAmount()
+            otherFeesGrossAmount()
+            reportDate()
             settledNetAmount()
             transactionsGrossAmount()
-            interchangeGrossAmount()
-            disputesGrossAmount()
-            otherFeesGrossAmount()
-            details().forEach { it.validate() }
-            created()
             updated()
-            reportDate()
             validated = true
         }
     }
@@ -142,16 +142,16 @@ private constructor(
         }
 
         return other is SettlementReport &&
+            this.created == other.created &&
             this.currency == other.currency &&
+            this.details == other.details &&
+            this.disputesGrossAmount == other.disputesGrossAmount &&
+            this.interchangeGrossAmount == other.interchangeGrossAmount &&
+            this.otherFeesGrossAmount == other.otherFeesGrossAmount &&
+            this.reportDate == other.reportDate &&
             this.settledNetAmount == other.settledNetAmount &&
             this.transactionsGrossAmount == other.transactionsGrossAmount &&
-            this.interchangeGrossAmount == other.interchangeGrossAmount &&
-            this.disputesGrossAmount == other.disputesGrossAmount &&
-            this.otherFeesGrossAmount == other.otherFeesGrossAmount &&
-            this.details == other.details &&
-            this.created == other.created &&
             this.updated == other.updated &&
-            this.reportDate == other.reportDate &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -159,16 +159,16 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
+                    created,
                     currency,
+                    details,
+                    disputesGrossAmount,
+                    interchangeGrossAmount,
+                    otherFeesGrossAmount,
+                    reportDate,
                     settledNetAmount,
                     transactionsGrossAmount,
-                    interchangeGrossAmount,
-                    disputesGrossAmount,
-                    otherFeesGrossAmount,
-                    details,
-                    created,
                     updated,
-                    reportDate,
                     additionalProperties,
                 )
         }
@@ -176,7 +176,7 @@ private constructor(
     }
 
     override fun toString() =
-        "SettlementReport{currency=$currency, settledNetAmount=$settledNetAmount, transactionsGrossAmount=$transactionsGrossAmount, interchangeGrossAmount=$interchangeGrossAmount, disputesGrossAmount=$disputesGrossAmount, otherFeesGrossAmount=$otherFeesGrossAmount, details=$details, created=$created, updated=$updated, reportDate=$reportDate, additionalProperties=$additionalProperties}"
+        "SettlementReport{created=$created, currency=$currency, details=$details, disputesGrossAmount=$disputesGrossAmount, interchangeGrossAmount=$interchangeGrossAmount, otherFeesGrossAmount=$otherFeesGrossAmount, reportDate=$reportDate, settledNetAmount=$settledNetAmount, transactionsGrossAmount=$transactionsGrossAmount, updated=$updated, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -185,32 +185,40 @@ private constructor(
 
     class Builder {
 
+        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var currency: JsonField<String> = JsonMissing.of()
+        private var details: JsonField<List<SettlementSummaryDetails>> = JsonMissing.of()
+        private var disputesGrossAmount: JsonField<Long> = JsonMissing.of()
+        private var interchangeGrossAmount: JsonField<Long> = JsonMissing.of()
+        private var otherFeesGrossAmount: JsonField<Long> = JsonMissing.of()
+        private var reportDate: JsonField<String> = JsonMissing.of()
         private var settledNetAmount: JsonField<Long> = JsonMissing.of()
         private var transactionsGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var interchangeGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var disputesGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var otherFeesGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var details: JsonField<List<SettlementSummaryDetails>> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var reportDate: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(settlementReport: SettlementReport) = apply {
+            this.created = settlementReport.created
             this.currency = settlementReport.currency
+            this.details = settlementReport.details
+            this.disputesGrossAmount = settlementReport.disputesGrossAmount
+            this.interchangeGrossAmount = settlementReport.interchangeGrossAmount
+            this.otherFeesGrossAmount = settlementReport.otherFeesGrossAmount
+            this.reportDate = settlementReport.reportDate
             this.settledNetAmount = settlementReport.settledNetAmount
             this.transactionsGrossAmount = settlementReport.transactionsGrossAmount
-            this.interchangeGrossAmount = settlementReport.interchangeGrossAmount
-            this.disputesGrossAmount = settlementReport.disputesGrossAmount
-            this.otherFeesGrossAmount = settlementReport.otherFeesGrossAmount
-            this.details = settlementReport.details
-            this.created = settlementReport.created
             this.updated = settlementReport.updated
-            this.reportDate = settlementReport.reportDate
             additionalProperties(settlementReport.additionalProperties)
         }
+
+        /** Date and time when the transaction first occurred. UTC time zone. */
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+        /** Date and time when the transaction first occurred. UTC time zone. */
+        @JsonProperty("created")
+        @ExcludeMissing
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Three-digit alphabetic ISO 4217 code. */
         fun currency(currency: String) = currency(JsonField.of(currency))
@@ -219,6 +227,55 @@ private constructor(
         @JsonProperty("currency")
         @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
+
+        fun details(details: List<SettlementSummaryDetails>) = details(JsonField.of(details))
+
+        @JsonProperty("details")
+        @ExcludeMissing
+        fun details(details: JsonField<List<SettlementSummaryDetails>>) = apply {
+            this.details = details
+        }
+
+        /** The total gross amount of disputes settlements. */
+        fun disputesGrossAmount(disputesGrossAmount: Long) =
+            disputesGrossAmount(JsonField.of(disputesGrossAmount))
+
+        /** The total gross amount of disputes settlements. */
+        @JsonProperty("disputes_gross_amount")
+        @ExcludeMissing
+        fun disputesGrossAmount(disputesGrossAmount: JsonField<Long>) = apply {
+            this.disputesGrossAmount = disputesGrossAmount
+        }
+
+        /** The total amount of interchange. */
+        fun interchangeGrossAmount(interchangeGrossAmount: Long) =
+            interchangeGrossAmount(JsonField.of(interchangeGrossAmount))
+
+        /** The total amount of interchange. */
+        @JsonProperty("interchange_gross_amount")
+        @ExcludeMissing
+        fun interchangeGrossAmount(interchangeGrossAmount: JsonField<Long>) = apply {
+            this.interchangeGrossAmount = interchangeGrossAmount
+        }
+
+        /** Total amount of gross other fees outside of interchange. */
+        fun otherFeesGrossAmount(otherFeesGrossAmount: Long) =
+            otherFeesGrossAmount(JsonField.of(otherFeesGrossAmount))
+
+        /** Total amount of gross other fees outside of interchange. */
+        @JsonProperty("other_fees_gross_amount")
+        @ExcludeMissing
+        fun otherFeesGrossAmount(otherFeesGrossAmount: JsonField<Long>) = apply {
+            this.otherFeesGrossAmount = otherFeesGrossAmount
+        }
+
+        /** Date of when the report was first generated. */
+        fun reportDate(reportDate: String) = reportDate(JsonField.of(reportDate))
+
+        /** Date of when the report was first generated. */
+        @JsonProperty("report_date")
+        @ExcludeMissing
+        fun reportDate(reportDate: JsonField<String>) = apply { this.reportDate = reportDate }
 
         /**
          * The total net amount of cash moved. (net value of settled_gross_amount, interchange,
@@ -254,55 +311,6 @@ private constructor(
             this.transactionsGrossAmount = transactionsGrossAmount
         }
 
-        /** The total amount of interchange. */
-        fun interchangeGrossAmount(interchangeGrossAmount: Long) =
-            interchangeGrossAmount(JsonField.of(interchangeGrossAmount))
-
-        /** The total amount of interchange. */
-        @JsonProperty("interchange_gross_amount")
-        @ExcludeMissing
-        fun interchangeGrossAmount(interchangeGrossAmount: JsonField<Long>) = apply {
-            this.interchangeGrossAmount = interchangeGrossAmount
-        }
-
-        /** The total gross amount of disputes settlements. */
-        fun disputesGrossAmount(disputesGrossAmount: Long) =
-            disputesGrossAmount(JsonField.of(disputesGrossAmount))
-
-        /** The total gross amount of disputes settlements. */
-        @JsonProperty("disputes_gross_amount")
-        @ExcludeMissing
-        fun disputesGrossAmount(disputesGrossAmount: JsonField<Long>) = apply {
-            this.disputesGrossAmount = disputesGrossAmount
-        }
-
-        /** Total amount of gross other fees outside of interchange. */
-        fun otherFeesGrossAmount(otherFeesGrossAmount: Long) =
-            otherFeesGrossAmount(JsonField.of(otherFeesGrossAmount))
-
-        /** Total amount of gross other fees outside of interchange. */
-        @JsonProperty("other_fees_gross_amount")
-        @ExcludeMissing
-        fun otherFeesGrossAmount(otherFeesGrossAmount: JsonField<Long>) = apply {
-            this.otherFeesGrossAmount = otherFeesGrossAmount
-        }
-
-        fun details(details: List<SettlementSummaryDetails>) = details(JsonField.of(details))
-
-        @JsonProperty("details")
-        @ExcludeMissing
-        fun details(details: JsonField<List<SettlementSummaryDetails>>) = apply {
-            this.details = details
-        }
-
-        /** Date and time when the transaction first occurred. UTC time zone. */
-        fun created(created: OffsetDateTime) = created(JsonField.of(created))
-
-        /** Date and time when the transaction first occurred. UTC time zone. */
-        @JsonProperty("created")
-        @ExcludeMissing
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
-
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
@@ -310,14 +318,6 @@ private constructor(
         @JsonProperty("updated")
         @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
-
-        /** Date of when the report was first generated. */
-        fun reportDate(reportDate: String) = reportDate(JsonField.of(reportDate))
-
-        /** Date of when the report was first generated. */
-        @JsonProperty("report_date")
-        @ExcludeMissing
-        fun reportDate(reportDate: JsonField<String>) = apply { this.reportDate = reportDate }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -335,16 +335,16 @@ private constructor(
 
         fun build(): SettlementReport =
             SettlementReport(
+                created,
                 currency,
+                details.map { it.toUnmodifiable() },
+                disputesGrossAmount,
+                interchangeGrossAmount,
+                otherFeesGrossAmount,
+                reportDate,
                 settledNetAmount,
                 transactionsGrossAmount,
-                interchangeGrossAmount,
-                disputesGrossAmount,
-                otherFeesGrossAmount,
-                details.map { it.toUnmodifiable() },
-                created,
                 updated,
-                reportDate,
                 additionalProperties.toUnmodifiable(),
             )
     }

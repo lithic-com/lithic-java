@@ -18,6 +18,7 @@ import com.lithic.api.models.CardListParams
 import com.lithic.api.models.CardProvisionParams
 import com.lithic.api.models.CardProvisionResponse
 import com.lithic.api.models.CardReissueParams
+import com.lithic.api.models.CardRenewParams
 import com.lithic.api.models.CardRetrieveParams
 import com.lithic.api.models.CardRetrieveSpendLimitsParams
 import com.lithic.api.models.CardSpendLimits
@@ -266,6 +267,35 @@ constructor(
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { reissueHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val renewHandler: Handler<Card> =
+        jsonHandler<Card>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+    /**
+     * Initiate print and shipment of a renewed physical card.
+     *
+     * Only applies to cards of type `PHYSICAL`.
+     */
+    override fun renew(params: CardRenewParams, requestOptions: RequestOptions): Card {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("cards", params.getPathParam(0), "renew")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { renewHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()

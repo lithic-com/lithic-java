@@ -24,7 +24,7 @@ class CardServiceTest {
         val card =
             cardService.create(
                 CardCreateParams.builder()
-                    .type(CardCreateParams.Type.VIRTUAL)
+                    .type(CardCreateParams.Type.MERCHANT_LOCKED)
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .cardProgramToken("00000000-0000-0000-1000-000000000000")
                     .carrier(Carrier.builder().qrCodeUrl("string").build())
@@ -34,6 +34,7 @@ class CardServiceTest {
                     .memo("New Card")
                     .pin("string")
                     .productId("1")
+                    .replacementFor("00000000-0000-0000-1000-000000000000")
                     .shippingAddress(
                         ShippingAddress.builder()
                             .address1("5 Broad Street")
@@ -49,7 +50,7 @@ class CardServiceTest {
                             .phoneNumber("+12124007676")
                             .build()
                     )
-                    .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                    .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                     .spendLimit(123L)
                     .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                     .state(CardCreateParams.State.OPEN)
@@ -182,7 +183,45 @@ class CardServiceTest {
                             .phoneNumber("+12124007676")
                             .build()
                     )
-                    .shippingMethod(CardReissueParams.ShippingMethod.STANDARD)
+                    .shippingMethod(CardReissueParams.ShippingMethod._2_DAY)
+                    .build()
+            )
+        println(card)
+        card.validate()
+    }
+
+    @Test
+    fun callRenew() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val cardService = client.cards()
+        val card =
+            cardService.renew(
+                CardRenewParams.builder()
+                    .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .shippingAddress(
+                        ShippingAddress.builder()
+                            .address1("5 Broad Street")
+                            .city("NEW YORK")
+                            .country("USA")
+                            .firstName("Michael")
+                            .lastName("Bluth")
+                            .postalCode("10001-1809")
+                            .state("NY")
+                            .address2("Unit 25A")
+                            .email("johnny@appleseed.com")
+                            .line2Text("The Bluth Company")
+                            .phoneNumber("+12124007676")
+                            .build()
+                    )
+                    .carrier(Carrier.builder().qrCodeUrl("string").build())
+                    .expMonth("06")
+                    .expYear("2027")
+                    .productId("string")
+                    .shippingMethod(CardRenewParams.ShippingMethod._2_DAY)
                     .build()
             )
         println(card)

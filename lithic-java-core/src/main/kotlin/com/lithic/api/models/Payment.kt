@@ -33,11 +33,11 @@ private constructor(
     private val status: JsonField<FinancialTransaction.Status>,
     private val token: JsonField<String>,
     private val updated: JsonField<OffsetDateTime>,
-    private val methodAttributes: JsonField<PaymentMethodAttributes>,
-    private val externalBankAccountToken: JsonField<String>,
     private val direction: JsonField<Direction>,
-    private val source: JsonField<Source>,
+    private val externalBankAccountToken: JsonField<String>,
     private val method: JsonField<Method>,
+    private val methodAttributes: JsonField<PaymentMethodAttributes>,
+    private val source: JsonField<Source>,
     private val userDefinedId: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
@@ -107,17 +107,17 @@ private constructor(
     /** Date and time when the financial transaction was last updated. UTC time zone. */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
-    fun methodAttributes(): PaymentMethodAttributes =
-        methodAttributes.getRequired("method_attributes")
+    fun direction(): Direction = direction.getRequired("direction")
 
     fun externalBankAccountToken(): Optional<String> =
         Optional.ofNullable(externalBankAccountToken.getNullable("external_bank_account_token"))
 
-    fun direction(): Direction = direction.getRequired("direction")
+    fun method(): Method = method.getRequired("method")
+
+    fun methodAttributes(): PaymentMethodAttributes =
+        methodAttributes.getRequired("method_attributes")
 
     fun source(): Source = source.getRequired("source")
-
-    fun method(): Method = method.getRequired("method")
 
     fun userDefinedId(): Optional<String> =
         Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
@@ -198,17 +198,17 @@ private constructor(
     /** Date and time when the financial transaction was last updated. UTC time zone. */
     @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
 
-    @JsonProperty("method_attributes") @ExcludeMissing fun _methodAttributes() = methodAttributes
+    @JsonProperty("direction") @ExcludeMissing fun _direction() = direction
 
     @JsonProperty("external_bank_account_token")
     @ExcludeMissing
     fun _externalBankAccountToken() = externalBankAccountToken
 
-    @JsonProperty("direction") @ExcludeMissing fun _direction() = direction
+    @JsonProperty("method") @ExcludeMissing fun _method() = method
+
+    @JsonProperty("method_attributes") @ExcludeMissing fun _methodAttributes() = methodAttributes
 
     @JsonProperty("source") @ExcludeMissing fun _source() = source
-
-    @JsonProperty("method") @ExcludeMissing fun _method() = method
 
     @JsonProperty("user_defined_id") @ExcludeMissing fun _userDefinedId() = userDefinedId
 
@@ -229,11 +229,11 @@ private constructor(
             status()
             token()
             updated()
-            methodAttributes().validate()
-            externalBankAccountToken()
             direction()
-            source()
+            externalBankAccountToken()
             method()
+            methodAttributes().validate()
+            source()
             userDefinedId()
             validated = true
         }
@@ -258,11 +258,11 @@ private constructor(
             this.status == other.status &&
             this.token == other.token &&
             this.updated == other.updated &&
-            this.methodAttributes == other.methodAttributes &&
-            this.externalBankAccountToken == other.externalBankAccountToken &&
             this.direction == other.direction &&
-            this.source == other.source &&
+            this.externalBankAccountToken == other.externalBankAccountToken &&
             this.method == other.method &&
+            this.methodAttributes == other.methodAttributes &&
+            this.source == other.source &&
             this.userDefinedId == other.userDefinedId &&
             this.additionalProperties == other.additionalProperties
     }
@@ -282,11 +282,11 @@ private constructor(
                     status,
                     token,
                     updated,
-                    methodAttributes,
-                    externalBankAccountToken,
                     direction,
-                    source,
+                    externalBankAccountToken,
                     method,
+                    methodAttributes,
+                    source,
                     userDefinedId,
                     additionalProperties,
                 )
@@ -295,7 +295,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Payment{category=$category, created=$created, currency=$currency, descriptor=$descriptor, events=$events, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, token=$token, updated=$updated, methodAttributes=$methodAttributes, externalBankAccountToken=$externalBankAccountToken, direction=$direction, source=$source, method=$method, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+        "Payment{category=$category, created=$created, currency=$currency, descriptor=$descriptor, events=$events, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, token=$token, updated=$updated, direction=$direction, externalBankAccountToken=$externalBankAccountToken, method=$method, methodAttributes=$methodAttributes, source=$source, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -315,11 +315,11 @@ private constructor(
         private var status: JsonField<FinancialTransaction.Status> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var methodAttributes: JsonField<PaymentMethodAttributes> = JsonMissing.of()
-        private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
         private var direction: JsonField<Direction> = JsonMissing.of()
-        private var source: JsonField<Source> = JsonMissing.of()
+        private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
         private var method: JsonField<Method> = JsonMissing.of()
+        private var methodAttributes: JsonField<PaymentMethodAttributes> = JsonMissing.of()
+        private var source: JsonField<Source> = JsonMissing.of()
         private var userDefinedId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -336,11 +336,11 @@ private constructor(
             this.status = payment.status
             this.token = payment.token
             this.updated = payment.updated
-            this.methodAttributes = payment.methodAttributes
-            this.externalBankAccountToken = payment.externalBankAccountToken
             this.direction = payment.direction
-            this.source = payment.source
+            this.externalBankAccountToken = payment.externalBankAccountToken
             this.method = payment.method
+            this.methodAttributes = payment.methodAttributes
+            this.source = payment.source
             this.userDefinedId = payment.userDefinedId
             additionalProperties(payment.additionalProperties)
         }
@@ -499,14 +499,11 @@ private constructor(
         @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
-        fun methodAttributes(methodAttributes: PaymentMethodAttributes) =
-            methodAttributes(JsonField.of(methodAttributes))
+        fun direction(direction: Direction) = direction(JsonField.of(direction))
 
-        @JsonProperty("method_attributes")
+        @JsonProperty("direction")
         @ExcludeMissing
-        fun methodAttributes(methodAttributes: JsonField<PaymentMethodAttributes>) = apply {
-            this.methodAttributes = methodAttributes
-        }
+        fun direction(direction: JsonField<Direction>) = apply { this.direction = direction }
 
         fun externalBankAccountToken(externalBankAccountToken: String) =
             externalBankAccountToken(JsonField.of(externalBankAccountToken))
@@ -517,23 +514,26 @@ private constructor(
             this.externalBankAccountToken = externalBankAccountToken
         }
 
-        fun direction(direction: Direction) = direction(JsonField.of(direction))
+        fun method(method: Method) = method(JsonField.of(method))
 
-        @JsonProperty("direction")
+        @JsonProperty("method")
         @ExcludeMissing
-        fun direction(direction: JsonField<Direction>) = apply { this.direction = direction }
+        fun method(method: JsonField<Method>) = apply { this.method = method }
+
+        fun methodAttributes(methodAttributes: PaymentMethodAttributes) =
+            methodAttributes(JsonField.of(methodAttributes))
+
+        @JsonProperty("method_attributes")
+        @ExcludeMissing
+        fun methodAttributes(methodAttributes: JsonField<PaymentMethodAttributes>) = apply {
+            this.methodAttributes = methodAttributes
+        }
 
         fun source(source: Source) = source(JsonField.of(source))
 
         @JsonProperty("source")
         @ExcludeMissing
         fun source(source: JsonField<Source>) = apply { this.source = source }
-
-        fun method(method: Method) = method(JsonField.of(method))
-
-        @JsonProperty("method")
-        @ExcludeMissing
-        fun method(method: JsonField<Method>) = apply { this.method = method }
 
         fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
@@ -570,11 +570,11 @@ private constructor(
                 status,
                 token,
                 updated,
-                methodAttributes,
-                externalBankAccountToken,
                 direction,
-                source,
+                externalBankAccountToken,
                 method,
+                methodAttributes,
+                source,
                 userDefinedId,
                 additionalProperties.toUnmodifiable(),
             )
@@ -698,17 +698,22 @@ private constructor(
     @NoAutoDetect
     class PaymentMethodAttributes
     private constructor(
+        private val companyId: JsonField<String>,
+        private val receiptRoutingNumber: JsonField<String>,
         private val retries: JsonField<Long>,
         private val returnReasonCode: JsonField<String>,
         private val secCode: JsonField<SecCode>,
-        private val companyId: JsonField<String>,
-        private val receiptRoutingNumber: JsonField<String>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
 
         private var hashCode: Int = 0
+
+        fun companyId(): Optional<String> = Optional.ofNullable(companyId.getNullable("company_id"))
+
+        fun receiptRoutingNumber(): Optional<String> =
+            Optional.ofNullable(receiptRoutingNumber.getNullable("receipt_routing_number"))
 
         fun retries(): Optional<Long> = Optional.ofNullable(retries.getNullable("retries"))
 
@@ -717,10 +722,11 @@ private constructor(
 
         fun secCode(): SecCode = secCode.getRequired("sec_code")
 
-        fun companyId(): Optional<String> = Optional.ofNullable(companyId.getNullable("company_id"))
+        @JsonProperty("company_id") @ExcludeMissing fun _companyId() = companyId
 
-        fun receiptRoutingNumber(): Optional<String> =
-            Optional.ofNullable(receiptRoutingNumber.getNullable("receipt_routing_number"))
+        @JsonProperty("receipt_routing_number")
+        @ExcludeMissing
+        fun _receiptRoutingNumber() = receiptRoutingNumber
 
         @JsonProperty("retries") @ExcludeMissing fun _retries() = retries
 
@@ -730,23 +736,17 @@ private constructor(
 
         @JsonProperty("sec_code") @ExcludeMissing fun _secCode() = secCode
 
-        @JsonProperty("company_id") @ExcludeMissing fun _companyId() = companyId
-
-        @JsonProperty("receipt_routing_number")
-        @ExcludeMissing
-        fun _receiptRoutingNumber() = receiptRoutingNumber
-
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun validate(): PaymentMethodAttributes = apply {
             if (!validated) {
+                companyId()
+                receiptRoutingNumber()
                 retries()
                 returnReasonCode()
                 secCode()
-                companyId()
-                receiptRoutingNumber()
                 validated = true
             }
         }
@@ -759,11 +759,11 @@ private constructor(
             }
 
             return other is PaymentMethodAttributes &&
+                this.companyId == other.companyId &&
+                this.receiptRoutingNumber == other.receiptRoutingNumber &&
                 this.retries == other.retries &&
                 this.returnReasonCode == other.returnReasonCode &&
                 this.secCode == other.secCode &&
-                this.companyId == other.companyId &&
-                this.receiptRoutingNumber == other.receiptRoutingNumber &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -771,11 +771,11 @@ private constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
+                        companyId,
+                        receiptRoutingNumber,
                         retries,
                         returnReasonCode,
                         secCode,
-                        companyId,
-                        receiptRoutingNumber,
                         additionalProperties,
                     )
             }
@@ -783,7 +783,7 @@ private constructor(
         }
 
         override fun toString() =
-            "PaymentMethodAttributes{retries=$retries, returnReasonCode=$returnReasonCode, secCode=$secCode, companyId=$companyId, receiptRoutingNumber=$receiptRoutingNumber, additionalProperties=$additionalProperties}"
+            "PaymentMethodAttributes{companyId=$companyId, receiptRoutingNumber=$receiptRoutingNumber, retries=$retries, returnReasonCode=$returnReasonCode, secCode=$secCode, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -792,21 +792,36 @@ private constructor(
 
         class Builder {
 
+            private var companyId: JsonField<String> = JsonMissing.of()
+            private var receiptRoutingNumber: JsonField<String> = JsonMissing.of()
             private var retries: JsonField<Long> = JsonMissing.of()
             private var returnReasonCode: JsonField<String> = JsonMissing.of()
             private var secCode: JsonField<SecCode> = JsonMissing.of()
-            private var companyId: JsonField<String> = JsonMissing.of()
-            private var receiptRoutingNumber: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(paymentMethodAttributes: PaymentMethodAttributes) = apply {
+                this.companyId = paymentMethodAttributes.companyId
+                this.receiptRoutingNumber = paymentMethodAttributes.receiptRoutingNumber
                 this.retries = paymentMethodAttributes.retries
                 this.returnReasonCode = paymentMethodAttributes.returnReasonCode
                 this.secCode = paymentMethodAttributes.secCode
-                this.companyId = paymentMethodAttributes.companyId
-                this.receiptRoutingNumber = paymentMethodAttributes.receiptRoutingNumber
                 additionalProperties(paymentMethodAttributes.additionalProperties)
+            }
+
+            fun companyId(companyId: String) = companyId(JsonField.of(companyId))
+
+            @JsonProperty("company_id")
+            @ExcludeMissing
+            fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
+
+            fun receiptRoutingNumber(receiptRoutingNumber: String) =
+                receiptRoutingNumber(JsonField.of(receiptRoutingNumber))
+
+            @JsonProperty("receipt_routing_number")
+            @ExcludeMissing
+            fun receiptRoutingNumber(receiptRoutingNumber: JsonField<String>) = apply {
+                this.receiptRoutingNumber = receiptRoutingNumber
             }
 
             fun retries(retries: Long) = retries(JsonField.of(retries))
@@ -830,21 +845,6 @@ private constructor(
             @ExcludeMissing
             fun secCode(secCode: JsonField<SecCode>) = apply { this.secCode = secCode }
 
-            fun companyId(companyId: String) = companyId(JsonField.of(companyId))
-
-            @JsonProperty("company_id")
-            @ExcludeMissing
-            fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
-
-            fun receiptRoutingNumber(receiptRoutingNumber: String) =
-                receiptRoutingNumber(JsonField.of(receiptRoutingNumber))
-
-            @JsonProperty("receipt_routing_number")
-            @ExcludeMissing
-            fun receiptRoutingNumber(receiptRoutingNumber: JsonField<String>) = apply {
-                this.receiptRoutingNumber = receiptRoutingNumber
-            }
-
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 this.additionalProperties.putAll(additionalProperties)
@@ -861,11 +861,11 @@ private constructor(
 
             fun build(): PaymentMethodAttributes =
                 PaymentMethodAttributes(
+                    companyId,
+                    receiptRoutingNumber,
                     retries,
                     returnReasonCode,
                     secCode,
-                    companyId,
-                    receiptRoutingNumber,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -892,9 +892,9 @@ private constructor(
 
             companion object {
 
-                @JvmField val PPD = SecCode(JsonField.of("PPD"))
-
                 @JvmField val CCD = SecCode(JsonField.of("CCD"))
+
+                @JvmField val PPD = SecCode(JsonField.of("PPD"))
 
                 @JvmField val WEB = SecCode(JsonField.of("WEB"))
 
@@ -902,30 +902,30 @@ private constructor(
             }
 
             enum class Known {
-                PPD,
                 CCD,
+                PPD,
                 WEB,
             }
 
             enum class Value {
-                PPD,
                 CCD,
+                PPD,
                 WEB,
                 _UNKNOWN,
             }
 
             fun value(): Value =
                 when (this) {
-                    PPD -> Value.PPD
                     CCD -> Value.CCD
+                    PPD -> Value.PPD
                     WEB -> Value.WEB
                     else -> Value._UNKNOWN
                 }
 
             fun known(): Known =
                 when (this) {
-                    PPD -> Known.PPD
                     CCD -> Known.CCD
+                    PPD -> Known.PPD
                     WEB -> Known.WEB
                     else -> throw LithicInvalidDataException("Unknown SecCode: $value")
                 }
@@ -956,35 +956,35 @@ private constructor(
 
         companion object {
 
-            @JvmField val LITHIC = Source(JsonField.of("LITHIC"))
-
             @JvmField val CUSTOMER = Source(JsonField.of("CUSTOMER"))
+
+            @JvmField val LITHIC = Source(JsonField.of("LITHIC"))
 
             @JvmStatic fun of(value: String) = Source(JsonField.of(value))
         }
 
         enum class Known {
-            LITHIC,
             CUSTOMER,
+            LITHIC,
         }
 
         enum class Value {
-            LITHIC,
             CUSTOMER,
+            LITHIC,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                LITHIC -> Value.LITHIC
                 CUSTOMER -> Value.CUSTOMER
+                LITHIC -> Value.LITHIC
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                LITHIC -> Known.LITHIC
                 CUSTOMER -> Known.CUSTOMER
+                LITHIC -> Known.LITHIC
                 else -> throw LithicInvalidDataException("Unknown Source: $value")
             }
 

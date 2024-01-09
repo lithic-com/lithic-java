@@ -11,7 +11,7 @@ import com.lithic.api.errors.LithicError
 import com.lithic.api.models.ReportSettlementListDetailsPage
 import com.lithic.api.models.ReportSettlementListDetailsParams
 import com.lithic.api.models.ReportSettlementSummaryParams
-import com.lithic.api.models.SettlementSummaryResponse
+import com.lithic.api.models.SettlementReport
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
@@ -52,15 +52,14 @@ constructor(
         }
     }
 
-    private val summaryHandler: Handler<SettlementSummaryResponse> =
-        jsonHandler<SettlementSummaryResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    private val summaryHandler: Handler<SettlementReport> =
+        jsonHandler<SettlementReport>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Get the settlement report for a specified report date. */
     override fun summary(
         params: ReportSettlementSummaryParams,
         requestOptions: RequestOptions
-    ): SettlementSummaryResponse {
+    ): SettlementReport {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)

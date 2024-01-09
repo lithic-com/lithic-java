@@ -636,41 +636,41 @@ private constructor(
 
         companion object {
 
-            @JvmField val NOT_APPLICABLE = AccountType(JsonField.of("NOT_APPLICABLE"))
-
             @JvmField val CREDIT = AccountType(JsonField.of("CREDIT"))
 
             @JvmField val DEBIT = AccountType(JsonField.of("DEBIT"))
+
+            @JvmField val NOT_APPLICABLE = AccountType(JsonField.of("NOT_APPLICABLE"))
 
             @JvmStatic fun of(value: String) = AccountType(JsonField.of(value))
         }
 
         enum class Known {
-            NOT_APPLICABLE,
             CREDIT,
             DEBIT,
+            NOT_APPLICABLE,
         }
 
         enum class Value {
-            NOT_APPLICABLE,
             CREDIT,
             DEBIT,
+            NOT_APPLICABLE,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                NOT_APPLICABLE -> Value.NOT_APPLICABLE
                 CREDIT -> Value.CREDIT
                 DEBIT -> Value.DEBIT
+                NOT_APPLICABLE -> Value.NOT_APPLICABLE
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                NOT_APPLICABLE -> Known.NOT_APPLICABLE
                 CREDIT -> Known.CREDIT
                 DEBIT -> Known.DEBIT
+                NOT_APPLICABLE -> Known.NOT_APPLICABLE
                 else -> throw LithicInvalidDataException("Unknown AccountType: $value")
             }
 
@@ -699,35 +699,35 @@ private constructor(
 
         companion object {
 
-            @JvmField val SUCCESS = AuthenticationResult(JsonField.of("SUCCESS"))
-
             @JvmField val DECLINE = AuthenticationResult(JsonField.of("DECLINE"))
+
+            @JvmField val SUCCESS = AuthenticationResult(JsonField.of("SUCCESS"))
 
             @JvmStatic fun of(value: String) = AuthenticationResult(JsonField.of(value))
         }
 
         enum class Known {
-            SUCCESS,
             DECLINE,
+            SUCCESS,
         }
 
         enum class Value {
-            SUCCESS,
             DECLINE,
+            SUCCESS,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                SUCCESS -> Value.SUCCESS
                 DECLINE -> Value.DECLINE
+                SUCCESS -> Value.SUCCESS
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                SUCCESS -> Known.SUCCESS
                 DECLINE -> Known.DECLINE
+                SUCCESS -> Known.SUCCESS
                 else -> throw LithicInvalidDataException("Unknown AuthenticationResult: $value")
             }
 
@@ -1448,13 +1448,13 @@ private constructor(
 
         companion object {
 
-            @JvmField val NETWORK = DecisionMadeBy(JsonField.of("NETWORK"))
+            @JvmField val CUSTOMER_ENDPOINT = DecisionMadeBy(JsonField.of("CUSTOMER_ENDPOINT"))
 
             @JvmField val LITHIC_DEFAULT = DecisionMadeBy(JsonField.of("LITHIC_DEFAULT"))
 
             @JvmField val LITHIC_RULES = DecisionMadeBy(JsonField.of("LITHIC_RULES"))
 
-            @JvmField val CUSTOMER_ENDPOINT = DecisionMadeBy(JsonField.of("CUSTOMER_ENDPOINT"))
+            @JvmField val NETWORK = DecisionMadeBy(JsonField.of("NETWORK"))
 
             @JvmField val UNKNOWN = DecisionMadeBy(JsonField.of("UNKNOWN"))
 
@@ -1462,38 +1462,38 @@ private constructor(
         }
 
         enum class Known {
-            NETWORK,
+            CUSTOMER_ENDPOINT,
             LITHIC_DEFAULT,
             LITHIC_RULES,
-            CUSTOMER_ENDPOINT,
+            NETWORK,
             UNKNOWN,
         }
 
         enum class Value {
-            NETWORK,
+            CUSTOMER_ENDPOINT,
             LITHIC_DEFAULT,
             LITHIC_RULES,
-            CUSTOMER_ENDPOINT,
+            NETWORK,
             UNKNOWN,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                NETWORK -> Value.NETWORK
+                CUSTOMER_ENDPOINT -> Value.CUSTOMER_ENDPOINT
                 LITHIC_DEFAULT -> Value.LITHIC_DEFAULT
                 LITHIC_RULES -> Value.LITHIC_RULES
-                CUSTOMER_ENDPOINT -> Value.CUSTOMER_ENDPOINT
+                NETWORK -> Value.NETWORK
                 UNKNOWN -> Value.UNKNOWN
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                NETWORK -> Known.NETWORK
+                CUSTOMER_ENDPOINT -> Known.CUSTOMER_ENDPOINT
                 LITHIC_DEFAULT -> Known.LITHIC_DEFAULT
                 LITHIC_RULES -> Known.LITHIC_RULES
-                CUSTOMER_ENDPOINT -> Known.CUSTOMER_ENDPOINT
+                NETWORK -> Known.NETWORK
                 UNKNOWN -> Known.UNKNOWN
                 else -> throw LithicInvalidDataException("Unknown DecisionMadeBy: $value")
             }
@@ -2199,10 +2199,10 @@ private constructor(
                     val ELECTRONIC_DELIVERY = DeliveryTimeFrame(JsonField.of("ELECTRONIC_DELIVERY"))
 
                     @JvmField
-                    val SAME_DAY_SHIPPING = DeliveryTimeFrame(JsonField.of("SAME_DAY_SHIPPING"))
+                    val OVERNIGHT_SHIPPING = DeliveryTimeFrame(JsonField.of("OVERNIGHT_SHIPPING"))
 
                     @JvmField
-                    val OVERNIGHT_SHIPPING = DeliveryTimeFrame(JsonField.of("OVERNIGHT_SHIPPING"))
+                    val SAME_DAY_SHIPPING = DeliveryTimeFrame(JsonField.of("SAME_DAY_SHIPPING"))
 
                     @JvmField
                     val TWO_DAY_OR_MORE_SHIPPING =
@@ -2213,15 +2213,15 @@ private constructor(
 
                 enum class Known {
                     ELECTRONIC_DELIVERY,
-                    SAME_DAY_SHIPPING,
                     OVERNIGHT_SHIPPING,
+                    SAME_DAY_SHIPPING,
                     TWO_DAY_OR_MORE_SHIPPING,
                 }
 
                 enum class Value {
                     ELECTRONIC_DELIVERY,
-                    SAME_DAY_SHIPPING,
                     OVERNIGHT_SHIPPING,
+                    SAME_DAY_SHIPPING,
                     TWO_DAY_OR_MORE_SHIPPING,
                     _UNKNOWN,
                 }
@@ -2229,8 +2229,8 @@ private constructor(
                 fun value(): Value =
                     when (this) {
                         ELECTRONIC_DELIVERY -> Value.ELECTRONIC_DELIVERY
-                        SAME_DAY_SHIPPING -> Value.SAME_DAY_SHIPPING
                         OVERNIGHT_SHIPPING -> Value.OVERNIGHT_SHIPPING
+                        SAME_DAY_SHIPPING -> Value.SAME_DAY_SHIPPING
                         TWO_DAY_OR_MORE_SHIPPING -> Value.TWO_DAY_OR_MORE_SHIPPING
                         else -> Value._UNKNOWN
                     }
@@ -2238,8 +2238,8 @@ private constructor(
                 fun known(): Known =
                     when (this) {
                         ELECTRONIC_DELIVERY -> Known.ELECTRONIC_DELIVERY
-                        SAME_DAY_SHIPPING -> Known.SAME_DAY_SHIPPING
                         OVERNIGHT_SHIPPING -> Known.OVERNIGHT_SHIPPING
+                        SAME_DAY_SHIPPING -> Known.SAME_DAY_SHIPPING
                         TWO_DAY_OR_MORE_SHIPPING -> Known.TWO_DAY_OR_MORE_SHIPPING
                         else ->
                             throw LithicInvalidDataException("Unknown DeliveryTimeFrame: $value")
@@ -2271,37 +2271,37 @@ private constructor(
                 companion object {
 
                     @JvmField
-                    val MERCHANDISE_AVAILABLE =
-                        OrderAvailability(JsonField.of("MERCHANDISE_AVAILABLE"))
+                    val FUTURE_AVAILABILITY = OrderAvailability(JsonField.of("FUTURE_AVAILABILITY"))
 
                     @JvmField
-                    val FUTURE_AVAILABILITY = OrderAvailability(JsonField.of("FUTURE_AVAILABILITY"))
+                    val MERCHANDISE_AVAILABLE =
+                        OrderAvailability(JsonField.of("MERCHANDISE_AVAILABLE"))
 
                     @JvmStatic fun of(value: String) = OrderAvailability(JsonField.of(value))
                 }
 
                 enum class Known {
-                    MERCHANDISE_AVAILABLE,
                     FUTURE_AVAILABILITY,
+                    MERCHANDISE_AVAILABLE,
                 }
 
                 enum class Value {
-                    MERCHANDISE_AVAILABLE,
                     FUTURE_AVAILABILITY,
+                    MERCHANDISE_AVAILABLE,
                     _UNKNOWN,
                 }
 
                 fun value(): Value =
                     when (this) {
-                        MERCHANDISE_AVAILABLE -> Value.MERCHANDISE_AVAILABLE
                         FUTURE_AVAILABILITY -> Value.FUTURE_AVAILABILITY
+                        MERCHANDISE_AVAILABLE -> Value.MERCHANDISE_AVAILABLE
                         else -> Value._UNKNOWN
                     }
 
                 fun known(): Known =
                     when (this) {
-                        MERCHANDISE_AVAILABLE -> Known.MERCHANDISE_AVAILABLE
                         FUTURE_AVAILABILITY -> Known.FUTURE_AVAILABILITY
+                        MERCHANDISE_AVAILABLE -> Known.MERCHANDISE_AVAILABLE
                         else ->
                             throw LithicInvalidDataException("Unknown OrderAvailability: $value")
                     }
@@ -2389,25 +2389,9 @@ private constructor(
 
                 companion object {
 
-                    @JvmField
-                    val SHIP_TO_BILLING_ADDRESS =
-                        ShippingMethod(JsonField.of("SHIP_TO_BILLING_ADDRESS"))
-
-                    @JvmField
-                    val SHIP_TO_OTHER_VERIFIED_ADDRESS =
-                        ShippingMethod(JsonField.of("SHIP_TO_OTHER_VERIFIED_ADDRESS"))
-
-                    @JvmField
-                    val SHIP_TO_NON_BILLING_ADDRESS =
-                        ShippingMethod(JsonField.of("SHIP_TO_NON_BILLING_ADDRESS"))
-
-                    @JvmField val SHIP_TO_STORE = ShippingMethod(JsonField.of("SHIP_TO_STORE"))
-
                     @JvmField val DIGITAL_GOODS = ShippingMethod(JsonField.of("DIGITAL_GOODS"))
 
-                    @JvmField
-                    val TRAVEL_AND_EVENT_TICKETS =
-                        ShippingMethod(JsonField.of("TRAVEL_AND_EVENT_TICKETS"))
+                    @JvmField val LOCKER_DELIVERY = ShippingMethod(JsonField.of("LOCKER_DELIVERY"))
 
                     @JvmField val OTHER = ShippingMethod(JsonField.of("OTHER"))
 
@@ -2415,61 +2399,77 @@ private constructor(
                     val PICK_UP_AND_GO_DELIVERY =
                         ShippingMethod(JsonField.of("PICK_UP_AND_GO_DELIVERY"))
 
-                    @JvmField val LOCKER_DELIVERY = ShippingMethod(JsonField.of("LOCKER_DELIVERY"))
+                    @JvmField
+                    val SHIP_TO_BILLING_ADDRESS =
+                        ShippingMethod(JsonField.of("SHIP_TO_BILLING_ADDRESS"))
+
+                    @JvmField
+                    val SHIP_TO_NON_BILLING_ADDRESS =
+                        ShippingMethod(JsonField.of("SHIP_TO_NON_BILLING_ADDRESS"))
+
+                    @JvmField
+                    val SHIP_TO_OTHER_VERIFIED_ADDRESS =
+                        ShippingMethod(JsonField.of("SHIP_TO_OTHER_VERIFIED_ADDRESS"))
+
+                    @JvmField val SHIP_TO_STORE = ShippingMethod(JsonField.of("SHIP_TO_STORE"))
+
+                    @JvmField
+                    val TRAVEL_AND_EVENT_TICKETS =
+                        ShippingMethod(JsonField.of("TRAVEL_AND_EVENT_TICKETS"))
 
                     @JvmStatic fun of(value: String) = ShippingMethod(JsonField.of(value))
                 }
 
                 enum class Known {
-                    SHIP_TO_BILLING_ADDRESS,
-                    SHIP_TO_OTHER_VERIFIED_ADDRESS,
-                    SHIP_TO_NON_BILLING_ADDRESS,
-                    SHIP_TO_STORE,
                     DIGITAL_GOODS,
-                    TRAVEL_AND_EVENT_TICKETS,
+                    LOCKER_DELIVERY,
                     OTHER,
                     PICK_UP_AND_GO_DELIVERY,
-                    LOCKER_DELIVERY,
+                    SHIP_TO_BILLING_ADDRESS,
+                    SHIP_TO_NON_BILLING_ADDRESS,
+                    SHIP_TO_OTHER_VERIFIED_ADDRESS,
+                    SHIP_TO_STORE,
+                    TRAVEL_AND_EVENT_TICKETS,
                 }
 
                 enum class Value {
-                    SHIP_TO_BILLING_ADDRESS,
-                    SHIP_TO_OTHER_VERIFIED_ADDRESS,
-                    SHIP_TO_NON_BILLING_ADDRESS,
-                    SHIP_TO_STORE,
                     DIGITAL_GOODS,
-                    TRAVEL_AND_EVENT_TICKETS,
+                    LOCKER_DELIVERY,
                     OTHER,
                     PICK_UP_AND_GO_DELIVERY,
-                    LOCKER_DELIVERY,
+                    SHIP_TO_BILLING_ADDRESS,
+                    SHIP_TO_NON_BILLING_ADDRESS,
+                    SHIP_TO_OTHER_VERIFIED_ADDRESS,
+                    SHIP_TO_STORE,
+                    TRAVEL_AND_EVENT_TICKETS,
                     _UNKNOWN,
                 }
 
                 fun value(): Value =
                     when (this) {
-                        SHIP_TO_BILLING_ADDRESS -> Value.SHIP_TO_BILLING_ADDRESS
-                        SHIP_TO_OTHER_VERIFIED_ADDRESS -> Value.SHIP_TO_OTHER_VERIFIED_ADDRESS
-                        SHIP_TO_NON_BILLING_ADDRESS -> Value.SHIP_TO_NON_BILLING_ADDRESS
-                        SHIP_TO_STORE -> Value.SHIP_TO_STORE
                         DIGITAL_GOODS -> Value.DIGITAL_GOODS
-                        TRAVEL_AND_EVENT_TICKETS -> Value.TRAVEL_AND_EVENT_TICKETS
+                        LOCKER_DELIVERY -> Value.LOCKER_DELIVERY
                         OTHER -> Value.OTHER
                         PICK_UP_AND_GO_DELIVERY -> Value.PICK_UP_AND_GO_DELIVERY
-                        LOCKER_DELIVERY -> Value.LOCKER_DELIVERY
+                        SHIP_TO_BILLING_ADDRESS -> Value.SHIP_TO_BILLING_ADDRESS
+                        SHIP_TO_NON_BILLING_ADDRESS -> Value.SHIP_TO_NON_BILLING_ADDRESS
+                        SHIP_TO_OTHER_VERIFIED_ADDRESS -> Value.SHIP_TO_OTHER_VERIFIED_ADDRESS
+                        SHIP_TO_STORE -> Value.SHIP_TO_STORE
+                        TRAVEL_AND_EVENT_TICKETS -> Value.TRAVEL_AND_EVENT_TICKETS
                         else -> Value._UNKNOWN
                     }
 
                 fun known(): Known =
                     when (this) {
-                        SHIP_TO_BILLING_ADDRESS -> Known.SHIP_TO_BILLING_ADDRESS
-                        SHIP_TO_OTHER_VERIFIED_ADDRESS -> Known.SHIP_TO_OTHER_VERIFIED_ADDRESS
-                        SHIP_TO_NON_BILLING_ADDRESS -> Known.SHIP_TO_NON_BILLING_ADDRESS
-                        SHIP_TO_STORE -> Known.SHIP_TO_STORE
                         DIGITAL_GOODS -> Known.DIGITAL_GOODS
-                        TRAVEL_AND_EVENT_TICKETS -> Known.TRAVEL_AND_EVENT_TICKETS
+                        LOCKER_DELIVERY -> Known.LOCKER_DELIVERY
                         OTHER -> Known.OTHER
                         PICK_UP_AND_GO_DELIVERY -> Known.PICK_UP_AND_GO_DELIVERY
-                        LOCKER_DELIVERY -> Known.LOCKER_DELIVERY
+                        SHIP_TO_BILLING_ADDRESS -> Known.SHIP_TO_BILLING_ADDRESS
+                        SHIP_TO_NON_BILLING_ADDRESS -> Known.SHIP_TO_NON_BILLING_ADDRESS
+                        SHIP_TO_OTHER_VERIFIED_ADDRESS -> Known.SHIP_TO_OTHER_VERIFIED_ADDRESS
+                        SHIP_TO_STORE -> Known.SHIP_TO_STORE
+                        TRAVEL_AND_EVENT_TICKETS -> Known.TRAVEL_AND_EVENT_TICKETS
                         else -> throw LithicInvalidDataException("Unknown ShippingMethod: $value")
                     }
 
@@ -2501,37 +2501,37 @@ private constructor(
         companion object {
 
             @JvmField
-            val PAYMENT_AUTHENTICATION = MessageCategory(JsonField.of("PAYMENT_AUTHENTICATION"))
-
-            @JvmField
             val NON_PAYMENT_AUTHENTICATION =
                 MessageCategory(JsonField.of("NON_PAYMENT_AUTHENTICATION"))
+
+            @JvmField
+            val PAYMENT_AUTHENTICATION = MessageCategory(JsonField.of("PAYMENT_AUTHENTICATION"))
 
             @JvmStatic fun of(value: String) = MessageCategory(JsonField.of(value))
         }
 
         enum class Known {
-            PAYMENT_AUTHENTICATION,
             NON_PAYMENT_AUTHENTICATION,
+            PAYMENT_AUTHENTICATION,
         }
 
         enum class Value {
-            PAYMENT_AUTHENTICATION,
             NON_PAYMENT_AUTHENTICATION,
+            PAYMENT_AUTHENTICATION,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                PAYMENT_AUTHENTICATION -> Value.PAYMENT_AUTHENTICATION
                 NON_PAYMENT_AUTHENTICATION -> Value.NON_PAYMENT_AUTHENTICATION
+                PAYMENT_AUTHENTICATION -> Value.PAYMENT_AUTHENTICATION
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                PAYMENT_AUTHENTICATION -> Known.PAYMENT_AUTHENTICATION
                 NON_PAYMENT_AUTHENTICATION -> Known.NON_PAYMENT_AUTHENTICATION
+                PAYMENT_AUTHENTICATION -> Known.PAYMENT_AUTHENTICATION
                 else -> throw LithicInvalidDataException("Unknown MessageCategory: $value")
             }
 
@@ -2929,6 +2929,24 @@ private constructor(
 
         companion object {
 
+            @JvmField val ADD_CARD = AuthenticationRequestType(JsonField.of("ADD_CARD"))
+
+            @JvmField
+            val BILLING_AGREEMENT = AuthenticationRequestType(JsonField.of("BILLING_AGREEMENT"))
+
+            @JvmField
+            val DELAYED_SHIPMENT = AuthenticationRequestType(JsonField.of("DELAYED_SHIPMENT"))
+
+            @JvmField
+            val EMV_TOKEN_CARDHOLDER_VERIFICATION =
+                AuthenticationRequestType(JsonField.of("EMV_TOKEN_CARDHOLDER_VERIFICATION"))
+
+            @JvmField
+            val INSTALLMENT_TRANSACTION =
+                AuthenticationRequestType(JsonField.of("INSTALLMENT_TRANSACTION"))
+
+            @JvmField val MAINTAIN_CARD = AuthenticationRequestType(JsonField.of("MAINTAIN_CARD"))
+
             @JvmField
             val PAYMENT_TRANSACTION = AuthenticationRequestType(JsonField.of("PAYMENT_TRANSACTION"))
 
@@ -2936,85 +2954,67 @@ private constructor(
             val RECURRING_TRANSACTION =
                 AuthenticationRequestType(JsonField.of("RECURRING_TRANSACTION"))
 
-            @JvmField
-            val INSTALLMENT_TRANSACTION =
-                AuthenticationRequestType(JsonField.of("INSTALLMENT_TRANSACTION"))
-
-            @JvmField val ADD_CARD = AuthenticationRequestType(JsonField.of("ADD_CARD"))
-
-            @JvmField val MAINTAIN_CARD = AuthenticationRequestType(JsonField.of("MAINTAIN_CARD"))
-
-            @JvmField
-            val EMV_TOKEN_CARDHOLDER_VERIFICATION =
-                AuthenticationRequestType(JsonField.of("EMV_TOKEN_CARDHOLDER_VERIFICATION"))
-
-            @JvmField
-            val BILLING_AGREEMENT = AuthenticationRequestType(JsonField.of("BILLING_AGREEMENT"))
+            @JvmField val SPLIT_PAYMENT = AuthenticationRequestType(JsonField.of("SPLIT_PAYMENT"))
 
             @JvmField val SPLIT_SHIPMENT = AuthenticationRequestType(JsonField.of("SPLIT_SHIPMENT"))
-
-            @JvmField
-            val DELAYED_SHIPMENT = AuthenticationRequestType(JsonField.of("DELAYED_SHIPMENT"))
-
-            @JvmField val SPLIT_PAYMENT = AuthenticationRequestType(JsonField.of("SPLIT_PAYMENT"))
 
             @JvmStatic fun of(value: String) = AuthenticationRequestType(JsonField.of(value))
         }
 
         enum class Known {
+            ADD_CARD,
+            BILLING_AGREEMENT,
+            DELAYED_SHIPMENT,
+            EMV_TOKEN_CARDHOLDER_VERIFICATION,
+            INSTALLMENT_TRANSACTION,
+            MAINTAIN_CARD,
             PAYMENT_TRANSACTION,
             RECURRING_TRANSACTION,
-            INSTALLMENT_TRANSACTION,
-            ADD_CARD,
-            MAINTAIN_CARD,
-            EMV_TOKEN_CARDHOLDER_VERIFICATION,
-            BILLING_AGREEMENT,
-            SPLIT_SHIPMENT,
-            DELAYED_SHIPMENT,
             SPLIT_PAYMENT,
+            SPLIT_SHIPMENT,
         }
 
         enum class Value {
+            ADD_CARD,
+            BILLING_AGREEMENT,
+            DELAYED_SHIPMENT,
+            EMV_TOKEN_CARDHOLDER_VERIFICATION,
+            INSTALLMENT_TRANSACTION,
+            MAINTAIN_CARD,
             PAYMENT_TRANSACTION,
             RECURRING_TRANSACTION,
-            INSTALLMENT_TRANSACTION,
-            ADD_CARD,
-            MAINTAIN_CARD,
-            EMV_TOKEN_CARDHOLDER_VERIFICATION,
-            BILLING_AGREEMENT,
-            SPLIT_SHIPMENT,
-            DELAYED_SHIPMENT,
             SPLIT_PAYMENT,
+            SPLIT_SHIPMENT,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
+                ADD_CARD -> Value.ADD_CARD
+                BILLING_AGREEMENT -> Value.BILLING_AGREEMENT
+                DELAYED_SHIPMENT -> Value.DELAYED_SHIPMENT
+                EMV_TOKEN_CARDHOLDER_VERIFICATION -> Value.EMV_TOKEN_CARDHOLDER_VERIFICATION
+                INSTALLMENT_TRANSACTION -> Value.INSTALLMENT_TRANSACTION
+                MAINTAIN_CARD -> Value.MAINTAIN_CARD
                 PAYMENT_TRANSACTION -> Value.PAYMENT_TRANSACTION
                 RECURRING_TRANSACTION -> Value.RECURRING_TRANSACTION
-                INSTALLMENT_TRANSACTION -> Value.INSTALLMENT_TRANSACTION
-                ADD_CARD -> Value.ADD_CARD
-                MAINTAIN_CARD -> Value.MAINTAIN_CARD
-                EMV_TOKEN_CARDHOLDER_VERIFICATION -> Value.EMV_TOKEN_CARDHOLDER_VERIFICATION
-                BILLING_AGREEMENT -> Value.BILLING_AGREEMENT
-                SPLIT_SHIPMENT -> Value.SPLIT_SHIPMENT
-                DELAYED_SHIPMENT -> Value.DELAYED_SHIPMENT
                 SPLIT_PAYMENT -> Value.SPLIT_PAYMENT
+                SPLIT_SHIPMENT -> Value.SPLIT_SHIPMENT
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
+                ADD_CARD -> Known.ADD_CARD
+                BILLING_AGREEMENT -> Known.BILLING_AGREEMENT
+                DELAYED_SHIPMENT -> Known.DELAYED_SHIPMENT
+                EMV_TOKEN_CARDHOLDER_VERIFICATION -> Known.EMV_TOKEN_CARDHOLDER_VERIFICATION
+                INSTALLMENT_TRANSACTION -> Known.INSTALLMENT_TRANSACTION
+                MAINTAIN_CARD -> Known.MAINTAIN_CARD
                 PAYMENT_TRANSACTION -> Known.PAYMENT_TRANSACTION
                 RECURRING_TRANSACTION -> Known.RECURRING_TRANSACTION
-                INSTALLMENT_TRANSACTION -> Known.INSTALLMENT_TRANSACTION
-                ADD_CARD -> Known.ADD_CARD
-                MAINTAIN_CARD -> Known.MAINTAIN_CARD
-                EMV_TOKEN_CARDHOLDER_VERIFICATION -> Known.EMV_TOKEN_CARDHOLDER_VERIFICATION
-                BILLING_AGREEMENT -> Known.BILLING_AGREEMENT
-                SPLIT_SHIPMENT -> Known.SPLIT_SHIPMENT
-                DELAYED_SHIPMENT -> Known.DELAYED_SHIPMENT
                 SPLIT_PAYMENT -> Known.SPLIT_PAYMENT
+                SPLIT_SHIPMENT -> Known.SPLIT_SHIPMENT
                 else ->
                     throw LithicInvalidDataException("Unknown AuthenticationRequestType: $value")
             }
@@ -3328,39 +3328,11 @@ private constructor(
         companion object {
 
             @JvmField
-            val RECURRING_TRANSACTION = ThreeRiRequestType(JsonField.of("RECURRING_TRANSACTION"))
-
-            @JvmField
-            val INSTALLMENT_TRANSACTION =
-                ThreeRiRequestType(JsonField.of("INSTALLMENT_TRANSACTION"))
+            val ACCOUNT_VERIFICATION = ThreeRiRequestType(JsonField.of("ACCOUNT_VERIFICATION"))
 
             @JvmField val ADD_CARD = ThreeRiRequestType(JsonField.of("ADD_CARD"))
 
-            @JvmField
-            val MAINTAIN_CARD_INFO = ThreeRiRequestType(JsonField.of("MAINTAIN_CARD_INFO"))
-
-            @JvmField
-            val ACCOUNT_VERIFICATION = ThreeRiRequestType(JsonField.of("ACCOUNT_VERIFICATION"))
-
-            @JvmField val SPLIT_SHIPMENT = ThreeRiRequestType(JsonField.of("SPLIT_SHIPMENT"))
-
-            @JvmField val TOP_UP = ThreeRiRequestType(JsonField.of("TOP_UP"))
-
-            @JvmField val MAIL_ORDER = ThreeRiRequestType(JsonField.of("MAIL_ORDER"))
-
-            @JvmField val TELEPHONE_ORDER = ThreeRiRequestType(JsonField.of("TELEPHONE_ORDER"))
-
-            @JvmField
-            val TRUST_LIST_STATUS_CHECK =
-                ThreeRiRequestType(JsonField.of("TRUST_LIST_STATUS_CHECK"))
-
-            @JvmField val OTHER_PAYMENT = ThreeRiRequestType(JsonField.of("OTHER_PAYMENT"))
-
             @JvmField val BILLING_AGREEMENT = ThreeRiRequestType(JsonField.of("BILLING_AGREEMENT"))
-
-            @JvmField
-            val DEVICE_BINDING_STATUS_CHECK =
-                ThreeRiRequestType(JsonField.of("DEVICE_BINDING_STATUS_CHECK"))
 
             @JvmField
             val CARD_SECURITY_CODE_STATUS_CHECK =
@@ -3368,89 +3340,117 @@ private constructor(
 
             @JvmField val DELAYED_SHIPMENT = ThreeRiRequestType(JsonField.of("DELAYED_SHIPMENT"))
 
+            @JvmField
+            val DEVICE_BINDING_STATUS_CHECK =
+                ThreeRiRequestType(JsonField.of("DEVICE_BINDING_STATUS_CHECK"))
+
+            @JvmField
+            val INSTALLMENT_TRANSACTION =
+                ThreeRiRequestType(JsonField.of("INSTALLMENT_TRANSACTION"))
+
+            @JvmField val MAIL_ORDER = ThreeRiRequestType(JsonField.of("MAIL_ORDER"))
+
+            @JvmField
+            val MAINTAIN_CARD_INFO = ThreeRiRequestType(JsonField.of("MAINTAIN_CARD_INFO"))
+
+            @JvmField val OTHER_PAYMENT = ThreeRiRequestType(JsonField.of("OTHER_PAYMENT"))
+
+            @JvmField
+            val RECURRING_TRANSACTION = ThreeRiRequestType(JsonField.of("RECURRING_TRANSACTION"))
+
             @JvmField val SPLIT_PAYMENT = ThreeRiRequestType(JsonField.of("SPLIT_PAYMENT"))
+
+            @JvmField val SPLIT_SHIPMENT = ThreeRiRequestType(JsonField.of("SPLIT_SHIPMENT"))
+
+            @JvmField val TELEPHONE_ORDER = ThreeRiRequestType(JsonField.of("TELEPHONE_ORDER"))
+
+            @JvmField val TOP_UP = ThreeRiRequestType(JsonField.of("TOP_UP"))
+
+            @JvmField
+            val TRUST_LIST_STATUS_CHECK =
+                ThreeRiRequestType(JsonField.of("TRUST_LIST_STATUS_CHECK"))
 
             @JvmStatic fun of(value: String) = ThreeRiRequestType(JsonField.of(value))
         }
 
         enum class Known {
-            RECURRING_TRANSACTION,
-            INSTALLMENT_TRANSACTION,
-            ADD_CARD,
-            MAINTAIN_CARD_INFO,
             ACCOUNT_VERIFICATION,
-            SPLIT_SHIPMENT,
-            TOP_UP,
-            MAIL_ORDER,
-            TELEPHONE_ORDER,
-            TRUST_LIST_STATUS_CHECK,
-            OTHER_PAYMENT,
+            ADD_CARD,
             BILLING_AGREEMENT,
-            DEVICE_BINDING_STATUS_CHECK,
             CARD_SECURITY_CODE_STATUS_CHECK,
             DELAYED_SHIPMENT,
+            DEVICE_BINDING_STATUS_CHECK,
+            INSTALLMENT_TRANSACTION,
+            MAIL_ORDER,
+            MAINTAIN_CARD_INFO,
+            OTHER_PAYMENT,
+            RECURRING_TRANSACTION,
             SPLIT_PAYMENT,
+            SPLIT_SHIPMENT,
+            TELEPHONE_ORDER,
+            TOP_UP,
+            TRUST_LIST_STATUS_CHECK,
         }
 
         enum class Value {
-            RECURRING_TRANSACTION,
-            INSTALLMENT_TRANSACTION,
-            ADD_CARD,
-            MAINTAIN_CARD_INFO,
             ACCOUNT_VERIFICATION,
-            SPLIT_SHIPMENT,
-            TOP_UP,
-            MAIL_ORDER,
-            TELEPHONE_ORDER,
-            TRUST_LIST_STATUS_CHECK,
-            OTHER_PAYMENT,
+            ADD_CARD,
             BILLING_AGREEMENT,
-            DEVICE_BINDING_STATUS_CHECK,
             CARD_SECURITY_CODE_STATUS_CHECK,
             DELAYED_SHIPMENT,
+            DEVICE_BINDING_STATUS_CHECK,
+            INSTALLMENT_TRANSACTION,
+            MAIL_ORDER,
+            MAINTAIN_CARD_INFO,
+            OTHER_PAYMENT,
+            RECURRING_TRANSACTION,
             SPLIT_PAYMENT,
+            SPLIT_SHIPMENT,
+            TELEPHONE_ORDER,
+            TOP_UP,
+            TRUST_LIST_STATUS_CHECK,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                RECURRING_TRANSACTION -> Value.RECURRING_TRANSACTION
-                INSTALLMENT_TRANSACTION -> Value.INSTALLMENT_TRANSACTION
-                ADD_CARD -> Value.ADD_CARD
-                MAINTAIN_CARD_INFO -> Value.MAINTAIN_CARD_INFO
                 ACCOUNT_VERIFICATION -> Value.ACCOUNT_VERIFICATION
-                SPLIT_SHIPMENT -> Value.SPLIT_SHIPMENT
-                TOP_UP -> Value.TOP_UP
-                MAIL_ORDER -> Value.MAIL_ORDER
-                TELEPHONE_ORDER -> Value.TELEPHONE_ORDER
-                TRUST_LIST_STATUS_CHECK -> Value.TRUST_LIST_STATUS_CHECK
-                OTHER_PAYMENT -> Value.OTHER_PAYMENT
+                ADD_CARD -> Value.ADD_CARD
                 BILLING_AGREEMENT -> Value.BILLING_AGREEMENT
-                DEVICE_BINDING_STATUS_CHECK -> Value.DEVICE_BINDING_STATUS_CHECK
                 CARD_SECURITY_CODE_STATUS_CHECK -> Value.CARD_SECURITY_CODE_STATUS_CHECK
                 DELAYED_SHIPMENT -> Value.DELAYED_SHIPMENT
+                DEVICE_BINDING_STATUS_CHECK -> Value.DEVICE_BINDING_STATUS_CHECK
+                INSTALLMENT_TRANSACTION -> Value.INSTALLMENT_TRANSACTION
+                MAIL_ORDER -> Value.MAIL_ORDER
+                MAINTAIN_CARD_INFO -> Value.MAINTAIN_CARD_INFO
+                OTHER_PAYMENT -> Value.OTHER_PAYMENT
+                RECURRING_TRANSACTION -> Value.RECURRING_TRANSACTION
                 SPLIT_PAYMENT -> Value.SPLIT_PAYMENT
+                SPLIT_SHIPMENT -> Value.SPLIT_SHIPMENT
+                TELEPHONE_ORDER -> Value.TELEPHONE_ORDER
+                TOP_UP -> Value.TOP_UP
+                TRUST_LIST_STATUS_CHECK -> Value.TRUST_LIST_STATUS_CHECK
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                RECURRING_TRANSACTION -> Known.RECURRING_TRANSACTION
-                INSTALLMENT_TRANSACTION -> Known.INSTALLMENT_TRANSACTION
-                ADD_CARD -> Known.ADD_CARD
-                MAINTAIN_CARD_INFO -> Known.MAINTAIN_CARD_INFO
                 ACCOUNT_VERIFICATION -> Known.ACCOUNT_VERIFICATION
-                SPLIT_SHIPMENT -> Known.SPLIT_SHIPMENT
-                TOP_UP -> Known.TOP_UP
-                MAIL_ORDER -> Known.MAIL_ORDER
-                TELEPHONE_ORDER -> Known.TELEPHONE_ORDER
-                TRUST_LIST_STATUS_CHECK -> Known.TRUST_LIST_STATUS_CHECK
-                OTHER_PAYMENT -> Known.OTHER_PAYMENT
+                ADD_CARD -> Known.ADD_CARD
                 BILLING_AGREEMENT -> Known.BILLING_AGREEMENT
-                DEVICE_BINDING_STATUS_CHECK -> Known.DEVICE_BINDING_STATUS_CHECK
                 CARD_SECURITY_CODE_STATUS_CHECK -> Known.CARD_SECURITY_CODE_STATUS_CHECK
                 DELAYED_SHIPMENT -> Known.DELAYED_SHIPMENT
+                DEVICE_BINDING_STATUS_CHECK -> Known.DEVICE_BINDING_STATUS_CHECK
+                INSTALLMENT_TRANSACTION -> Known.INSTALLMENT_TRANSACTION
+                MAIL_ORDER -> Known.MAIL_ORDER
+                MAINTAIN_CARD_INFO -> Known.MAINTAIN_CARD_INFO
+                OTHER_PAYMENT -> Known.OTHER_PAYMENT
+                RECURRING_TRANSACTION -> Known.RECURRING_TRANSACTION
                 SPLIT_PAYMENT -> Known.SPLIT_PAYMENT
+                SPLIT_SHIPMENT -> Known.SPLIT_SHIPMENT
+                TELEPHONE_ORDER -> Known.TELEPHONE_ORDER
+                TOP_UP -> Known.TOP_UP
+                TRUST_LIST_STATUS_CHECK -> Known.TRUST_LIST_STATUS_CHECK
                 else -> throw LithicInvalidDataException("Unknown ThreeRiRequestType: $value")
             }
 
@@ -3720,54 +3720,54 @@ private constructor(
 
             companion object {
 
-                @JvmField val GOODS_SERVICE_PURCHASE = Type(JsonField.of("GOODS_SERVICE_PURCHASE"))
+                @JvmField val ACCOUNT_FUNDING = Type(JsonField.of("ACCOUNT_FUNDING"))
 
                 @JvmField val CHECK_ACCEPTANCE = Type(JsonField.of("CHECK_ACCEPTANCE"))
 
-                @JvmField val ACCOUNT_FUNDING = Type(JsonField.of("ACCOUNT_FUNDING"))
-
-                @JvmField val QUASI_CASH_TRANSACTION = Type(JsonField.of("QUASI_CASH_TRANSACTION"))
+                @JvmField val GOODS_SERVICE_PURCHASE = Type(JsonField.of("GOODS_SERVICE_PURCHASE"))
 
                 @JvmField
                 val PREPAID_ACTIVATION_AND_LOAD = Type(JsonField.of("PREPAID_ACTIVATION_AND_LOAD"))
+
+                @JvmField val QUASI_CASH_TRANSACTION = Type(JsonField.of("QUASI_CASH_TRANSACTION"))
 
                 @JvmStatic fun of(value: String) = Type(JsonField.of(value))
             }
 
             enum class Known {
-                GOODS_SERVICE_PURCHASE,
-                CHECK_ACCEPTANCE,
                 ACCOUNT_FUNDING,
-                QUASI_CASH_TRANSACTION,
+                CHECK_ACCEPTANCE,
+                GOODS_SERVICE_PURCHASE,
                 PREPAID_ACTIVATION_AND_LOAD,
+                QUASI_CASH_TRANSACTION,
             }
 
             enum class Value {
-                GOODS_SERVICE_PURCHASE,
-                CHECK_ACCEPTANCE,
                 ACCOUNT_FUNDING,
-                QUASI_CASH_TRANSACTION,
+                CHECK_ACCEPTANCE,
+                GOODS_SERVICE_PURCHASE,
                 PREPAID_ACTIVATION_AND_LOAD,
+                QUASI_CASH_TRANSACTION,
                 _UNKNOWN,
             }
 
             fun value(): Value =
                 when (this) {
-                    GOODS_SERVICE_PURCHASE -> Value.GOODS_SERVICE_PURCHASE
-                    CHECK_ACCEPTANCE -> Value.CHECK_ACCEPTANCE
                     ACCOUNT_FUNDING -> Value.ACCOUNT_FUNDING
-                    QUASI_CASH_TRANSACTION -> Value.QUASI_CASH_TRANSACTION
+                    CHECK_ACCEPTANCE -> Value.CHECK_ACCEPTANCE
+                    GOODS_SERVICE_PURCHASE -> Value.GOODS_SERVICE_PURCHASE
                     PREPAID_ACTIVATION_AND_LOAD -> Value.PREPAID_ACTIVATION_AND_LOAD
+                    QUASI_CASH_TRANSACTION -> Value.QUASI_CASH_TRANSACTION
                     else -> Value._UNKNOWN
                 }
 
             fun known(): Known =
                 when (this) {
-                    GOODS_SERVICE_PURCHASE -> Known.GOODS_SERVICE_PURCHASE
-                    CHECK_ACCEPTANCE -> Known.CHECK_ACCEPTANCE
                     ACCOUNT_FUNDING -> Known.ACCOUNT_FUNDING
-                    QUASI_CASH_TRANSACTION -> Known.QUASI_CASH_TRANSACTION
+                    CHECK_ACCEPTANCE -> Known.CHECK_ACCEPTANCE
+                    GOODS_SERVICE_PURCHASE -> Known.GOODS_SERVICE_PURCHASE
                     PREPAID_ACTIVATION_AND_LOAD -> Known.PREPAID_ACTIVATION_AND_LOAD
+                    QUASI_CASH_TRANSACTION -> Known.QUASI_CASH_TRANSACTION
                     else -> throw LithicInvalidDataException("Unknown Type: $value")
                 }
 

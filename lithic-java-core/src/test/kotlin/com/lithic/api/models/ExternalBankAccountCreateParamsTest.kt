@@ -11,17 +11,37 @@ class ExternalBankAccountCreateParamsTest {
     @Test
     fun createExternalBankAccountCreateParams() {
         ExternalBankAccountCreateParams.builder()
-            .forPlaidCreateBankAccountApiRequest(
-                ExternalBankAccountCreateParams.PlaidCreateBankAccountApiRequest.builder()
+            .forBankVerifiedCreateBankAccountApiRequest(
+                ExternalBankAccountCreateParams.BankVerifiedCreateBankAccountApiRequest.builder()
+                    .accountNumber("string")
+                    .country("USD")
+                    .currency("USD")
                     .owner("x")
-                    .ownerType(OwnerType.INDIVIDUAL)
-                    .processorToken("x")
+                    .ownerType(OwnerType.BUSINESS)
+                    .routingNumber("123456789")
+                    .type(
+                        ExternalBankAccountCreateParams.BankVerifiedCreateBankAccountApiRequest
+                            .AccountType
+                            .CHECKING
+                    )
                     .verificationMethod(VerificationMethod.MANUAL)
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .address(
+                        ExternalBankAccountAddress.builder()
+                            .address1("x")
+                            .city("x")
+                            .country("USD")
+                            .postalCode("11201")
+                            .state("xx")
+                            .address2("x")
+                            .build()
+                    )
                     .companyId("x")
                     .dob(LocalDate.parse("2019-12-27"))
                     .doingBusinessAs("string")
+                    .name("x")
                     .userDefinedId("string")
+                    .verificationEnforcement(true)
                     .build()
             )
             .build()

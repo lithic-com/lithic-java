@@ -13,8 +13,8 @@ class AuthenticationRetrieveResponseTest {
         val authenticationRetrieveResponse =
             AuthenticationRetrieveResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .accountType(AuthenticationRetrieveResponse.AccountType.NOT_APPLICABLE)
-                .authenticationResult(AuthenticationRetrieveResponse.AuthenticationResult.SUCCESS)
+                .accountType(AuthenticationRetrieveResponse.AccountType.CREDIT)
+                .authenticationResult(AuthenticationRetrieveResponse.AuthenticationResult.DECLINE)
                 .cardExpiryCheck(AuthenticationRetrieveResponse.CardExpiryCheck.MATCH)
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardholder(
@@ -49,7 +49,7 @@ class AuthenticationRetrieveResponseTest {
                 )
                 .channel(AuthenticationRetrieveResponse.Channel.APP_BASED)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.NETWORK)
+                .decisionMadeBy(AuthenticationRetrieveResponse.DecisionMadeBy.CUSTOMER_ENDPOINT)
                 .merchant(
                     AuthenticationRetrieveResponse.Merchant.builder()
                         .id("string")
@@ -70,7 +70,7 @@ class AuthenticationRetrieveResponseTest {
                                 .orderAvailability(
                                     AuthenticationRetrieveResponse.Merchant.RiskIndicator
                                         .OrderAvailability
-                                        .MERCHANDISE_AVAILABLE
+                                        .FUTURE_AVAILABILITY
                                 )
                                 .preOrderAvailableDate(
                                     OffsetDateTime.parse("2019-12-27T18:11:19.117Z")
@@ -83,14 +83,14 @@ class AuthenticationRetrieveResponseTest {
                                 .shippingMethod(
                                     AuthenticationRetrieveResponse.Merchant.RiskIndicator
                                         .ShippingMethod
-                                        .SHIP_TO_BILLING_ADDRESS
+                                        .DIGITAL_GOODS
                                 )
                                 .build()
                         )
                         .build()
                 )
                 .messageCategory(
-                    AuthenticationRetrieveResponse.MessageCategory.PAYMENT_AUTHENTICATION
+                    AuthenticationRetrieveResponse.MessageCategory.NON_PAYMENT_AUTHENTICATION
                 )
                 .additionalData(
                     AuthenticationRetrieveResponse.AdditionalData.builder()
@@ -107,7 +107,7 @@ class AuthenticationRetrieveResponseTest {
                         .build()
                 )
                 .authenticationRequestType(
-                    AuthenticationRetrieveResponse.AuthenticationRequestType.PAYMENT_TRANSACTION
+                    AuthenticationRetrieveResponse.AuthenticationRequestType.ADD_CARD
                 )
                 .browser(
                     AuthenticationRetrieveResponse.Browser.builder()
@@ -120,7 +120,7 @@ class AuthenticationRetrieveResponseTest {
                         .build()
                 )
                 .threeRiRequestType(
-                    AuthenticationRetrieveResponse.ThreeRiRequestType.RECURRING_TRANSACTION
+                    AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION
                 )
                 .transaction(
                     AuthenticationRetrieveResponse.Transaction.builder()
@@ -128,9 +128,7 @@ class AuthenticationRetrieveResponseTest {
                         .currency("xxx")
                         .currencyExponent(42.23)
                         .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .type(
-                            AuthenticationRetrieveResponse.Transaction.Type.GOODS_SERVICE_PURCHASE
-                        )
+                        .type(AuthenticationRetrieveResponse.Transaction.Type.ACCOUNT_FUNDING)
                         .build()
                 )
                 .build()
@@ -138,9 +136,9 @@ class AuthenticationRetrieveResponseTest {
         assertThat(authenticationRetrieveResponse.token())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(authenticationRetrieveResponse.accountType())
-            .contains(AuthenticationRetrieveResponse.AccountType.NOT_APPLICABLE)
+            .contains(AuthenticationRetrieveResponse.AccountType.CREDIT)
         assertThat(authenticationRetrieveResponse.authenticationResult())
-            .contains(AuthenticationRetrieveResponse.AuthenticationResult.SUCCESS)
+            .contains(AuthenticationRetrieveResponse.AuthenticationResult.DECLINE)
         assertThat(authenticationRetrieveResponse.cardExpiryCheck())
             .isEqualTo(AuthenticationRetrieveResponse.CardExpiryCheck.MATCH)
         assertThat(authenticationRetrieveResponse.cardToken())
@@ -181,7 +179,7 @@ class AuthenticationRetrieveResponseTest {
         assertThat(authenticationRetrieveResponse.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(authenticationRetrieveResponse.decisionMadeBy())
-            .contains(AuthenticationRetrieveResponse.DecisionMadeBy.NETWORK)
+            .contains(AuthenticationRetrieveResponse.DecisionMadeBy.CUSTOMER_ENDPOINT)
         assertThat(authenticationRetrieveResponse.merchant())
             .isEqualTo(
                 AuthenticationRetrieveResponse.Merchant.builder()
@@ -203,7 +201,7 @@ class AuthenticationRetrieveResponseTest {
                             .orderAvailability(
                                 AuthenticationRetrieveResponse.Merchant.RiskIndicator
                                     .OrderAvailability
-                                    .MERCHANDISE_AVAILABLE
+                                    .FUTURE_AVAILABILITY
                             )
                             .preOrderAvailableDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .reorderItems(
@@ -212,14 +210,14 @@ class AuthenticationRetrieveResponseTest {
                             )
                             .shippingMethod(
                                 AuthenticationRetrieveResponse.Merchant.RiskIndicator.ShippingMethod
-                                    .SHIP_TO_BILLING_ADDRESS
+                                    .DIGITAL_GOODS
                             )
                             .build()
                     )
                     .build()
             )
         assertThat(authenticationRetrieveResponse.messageCategory())
-            .isEqualTo(AuthenticationRetrieveResponse.MessageCategory.PAYMENT_AUTHENTICATION)
+            .isEqualTo(AuthenticationRetrieveResponse.MessageCategory.NON_PAYMENT_AUTHENTICATION)
         assertThat(authenticationRetrieveResponse.additionalData())
             .contains(
                 AuthenticationRetrieveResponse.AdditionalData.builder()
@@ -237,7 +235,7 @@ class AuthenticationRetrieveResponseTest {
                     .build()
             )
         assertThat(authenticationRetrieveResponse.authenticationRequestType())
-            .contains(AuthenticationRetrieveResponse.AuthenticationRequestType.PAYMENT_TRANSACTION)
+            .contains(AuthenticationRetrieveResponse.AuthenticationRequestType.ADD_CARD)
         assertThat(authenticationRetrieveResponse.browser())
             .contains(
                 AuthenticationRetrieveResponse.Browser.builder()
@@ -250,7 +248,7 @@ class AuthenticationRetrieveResponseTest {
                     .build()
             )
         assertThat(authenticationRetrieveResponse.threeRiRequestType())
-            .contains(AuthenticationRetrieveResponse.ThreeRiRequestType.RECURRING_TRANSACTION)
+            .contains(AuthenticationRetrieveResponse.ThreeRiRequestType.ACCOUNT_VERIFICATION)
         assertThat(authenticationRetrieveResponse.transaction())
             .contains(
                 AuthenticationRetrieveResponse.Transaction.builder()
@@ -258,7 +256,7 @@ class AuthenticationRetrieveResponseTest {
                     .currency("xxx")
                     .currencyExponent(42.23)
                     .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .type(AuthenticationRetrieveResponse.Transaction.Type.GOODS_SERVICE_PURCHASE)
+                    .type(AuthenticationRetrieveResponse.Transaction.Type.ACCOUNT_FUNDING)
                     .build()
             )
     }

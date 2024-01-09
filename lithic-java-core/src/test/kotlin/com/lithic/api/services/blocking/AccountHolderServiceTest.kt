@@ -47,7 +47,7 @@ class AccountHolderServiceTest {
                             )
                             .beneficialOwnerIndividuals(
                                 listOf(
-                                    Kyb.Individual.builder()
+                                    Kyb.KybIndividual.builder()
                                         .address(
                                             Address.builder()
                                                 .address1("123 Old Forest Way")
@@ -87,7 +87,7 @@ class AccountHolderServiceTest {
                                     .build()
                             )
                             .controlPerson(
-                                Kyb.Individual.builder()
+                                Kyb.KybIndividual.builder()
                                     .address(
                                         Address.builder()
                                             .address1("123 Old Forest Way")

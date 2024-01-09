@@ -104,6 +104,10 @@ constructor(
 
         @JsonProperty("type") fun type(): Type? = type
 
+        /**
+         * Customer-provided token that will serve as an idempotency token. This token will become
+         * the transaction token.
+         */
         @JsonProperty("token") fun token(): String? = token
 
         @JsonProperty("memo") fun memo(): String? = memo
@@ -209,6 +213,10 @@ constructor(
 
             @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
 
+            /**
+             * Customer-provided token that will serve as an idempotency token. This token will
+             * become the transaction token.
+             */
             @JsonProperty("token") fun token(token: String) = apply { this.token = token }
 
             @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
@@ -355,6 +363,10 @@ constructor(
 
         fun type(type: Type) = apply { this.type = type }
 
+        /**
+         * Customer-provided token that will serve as an idempotency token. This token will become
+         * the transaction token.
+         */
         fun token(token: String) = apply { this.token = token }
 
         fun memo(memo: String) = apply { this.memo = memo }
@@ -497,26 +509,26 @@ constructor(
     @NoAutoDetect
     class PaymentMethodAttributes
     private constructor(
+        private val companyId: String?,
+        private val receiptRoutingNumber: String?,
         private val retries: Long?,
         private val returnReasonCode: String?,
         private val secCode: SecCode?,
-        private val companyId: String?,
-        private val receiptRoutingNumber: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
+
+        @JsonProperty("company_id") fun companyId(): String? = companyId
+
+        @JsonProperty("receipt_routing_number")
+        fun receiptRoutingNumber(): String? = receiptRoutingNumber
 
         @JsonProperty("retries") fun retries(): Long? = retries
 
         @JsonProperty("return_reason_code") fun returnReasonCode(): String? = returnReasonCode
 
         @JsonProperty("sec_code") fun secCode(): SecCode? = secCode
-
-        @JsonProperty("company_id") fun companyId(): String? = companyId
-
-        @JsonProperty("receipt_routing_number")
-        fun receiptRoutingNumber(): String? = receiptRoutingNumber
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -530,11 +542,11 @@ constructor(
             }
 
             return other is PaymentMethodAttributes &&
+                this.companyId == other.companyId &&
+                this.receiptRoutingNumber == other.receiptRoutingNumber &&
                 this.retries == other.retries &&
                 this.returnReasonCode == other.returnReasonCode &&
                 this.secCode == other.secCode &&
-                this.companyId == other.companyId &&
-                this.receiptRoutingNumber == other.receiptRoutingNumber &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -542,11 +554,11 @@ constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
+                        companyId,
+                        receiptRoutingNumber,
                         retries,
                         returnReasonCode,
                         secCode,
-                        companyId,
-                        receiptRoutingNumber,
                         additionalProperties,
                     )
             }
@@ -554,7 +566,7 @@ constructor(
         }
 
         override fun toString() =
-            "PaymentMethodAttributes{retries=$retries, returnReasonCode=$returnReasonCode, secCode=$secCode, companyId=$companyId, receiptRoutingNumber=$receiptRoutingNumber, additionalProperties=$additionalProperties}"
+            "PaymentMethodAttributes{companyId=$companyId, receiptRoutingNumber=$receiptRoutingNumber, retries=$retries, returnReasonCode=$returnReasonCode, secCode=$secCode, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -563,21 +575,29 @@ constructor(
 
         class Builder {
 
+            private var companyId: String? = null
+            private var receiptRoutingNumber: String? = null
             private var retries: Long? = null
             private var returnReasonCode: String? = null
             private var secCode: SecCode? = null
-            private var companyId: String? = null
-            private var receiptRoutingNumber: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(paymentMethodAttributes: PaymentMethodAttributes) = apply {
+                this.companyId = paymentMethodAttributes.companyId
+                this.receiptRoutingNumber = paymentMethodAttributes.receiptRoutingNumber
                 this.retries = paymentMethodAttributes.retries
                 this.returnReasonCode = paymentMethodAttributes.returnReasonCode
                 this.secCode = paymentMethodAttributes.secCode
-                this.companyId = paymentMethodAttributes.companyId
-                this.receiptRoutingNumber = paymentMethodAttributes.receiptRoutingNumber
                 additionalProperties(paymentMethodAttributes.additionalProperties)
+            }
+
+            @JsonProperty("company_id")
+            fun companyId(companyId: String) = apply { this.companyId = companyId }
+
+            @JsonProperty("receipt_routing_number")
+            fun receiptRoutingNumber(receiptRoutingNumber: String) = apply {
+                this.receiptRoutingNumber = receiptRoutingNumber
             }
 
             @JsonProperty("retries") fun retries(retries: Long) = apply { this.retries = retries }
@@ -589,14 +609,6 @@ constructor(
 
             @JsonProperty("sec_code")
             fun secCode(secCode: SecCode) = apply { this.secCode = secCode }
-
-            @JsonProperty("company_id")
-            fun companyId(companyId: String) = apply { this.companyId = companyId }
-
-            @JsonProperty("receipt_routing_number")
-            fun receiptRoutingNumber(receiptRoutingNumber: String) = apply {
-                this.receiptRoutingNumber = receiptRoutingNumber
-            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -614,11 +626,11 @@ constructor(
 
             fun build(): PaymentMethodAttributes =
                 PaymentMethodAttributes(
+                    companyId,
+                    receiptRoutingNumber,
                     retries,
                     returnReasonCode,
                     checkNotNull(secCode) { "`secCode` is required but was not set" },
-                    companyId,
-                    receiptRoutingNumber,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -645,9 +657,9 @@ constructor(
 
             companion object {
 
-                @JvmField val PPD = SecCode(JsonField.of("PPD"))
-
                 @JvmField val CCD = SecCode(JsonField.of("CCD"))
+
+                @JvmField val PPD = SecCode(JsonField.of("PPD"))
 
                 @JvmField val WEB = SecCode(JsonField.of("WEB"))
 
@@ -655,30 +667,30 @@ constructor(
             }
 
             enum class Known {
-                PPD,
                 CCD,
+                PPD,
                 WEB,
             }
 
             enum class Value {
-                PPD,
                 CCD,
+                PPD,
                 WEB,
                 _UNKNOWN,
             }
 
             fun value(): Value =
                 when (this) {
-                    PPD -> Value.PPD
                     CCD -> Value.CCD
+                    PPD -> Value.PPD
                     WEB -> Value.WEB
                     else -> Value._UNKNOWN
                 }
 
             fun known(): Known =
                 when (this) {
-                    PPD -> Known.PPD
                     CCD -> Known.CCD
+                    PPD -> Known.PPD
                     WEB -> Known.WEB
                     else -> throw LithicInvalidDataException("Unknown SecCode: $value")
                 }
@@ -709,35 +721,35 @@ constructor(
 
         companion object {
 
-            @JvmField val PAYMENT = Type(JsonField.of("PAYMENT"))
-
             @JvmField val COLLECTION = Type(JsonField.of("COLLECTION"))
+
+            @JvmField val PAYMENT = Type(JsonField.of("PAYMENT"))
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
         enum class Known {
-            PAYMENT,
             COLLECTION,
+            PAYMENT,
         }
 
         enum class Value {
-            PAYMENT,
             COLLECTION,
+            PAYMENT,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                PAYMENT -> Value.PAYMENT
                 COLLECTION -> Value.COLLECTION
+                PAYMENT -> Value.PAYMENT
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                PAYMENT -> Known.PAYMENT
                 COLLECTION -> Known.COLLECTION
+                PAYMENT -> Known.PAYMENT
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 

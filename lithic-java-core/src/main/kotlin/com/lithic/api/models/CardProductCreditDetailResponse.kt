@@ -18,8 +18,8 @@ import java.util.Objects
 @NoAutoDetect
 class CardProductCreditDetailResponse
 private constructor(
-    private val creditLimit: JsonField<Long>,
     private val creditExtended: JsonField<Long>,
+    private val creditLimit: JsonField<Long>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -27,17 +27,17 @@ private constructor(
 
     private var hashCode: Int = 0
 
-    /** The total credit limit of the program */
-    fun creditLimit(): Long = creditLimit.getRequired("credit_limit")
-
     /** The amount of credit extended within the program */
     fun creditExtended(): Long = creditExtended.getRequired("credit_extended")
 
     /** The total credit limit of the program */
-    @JsonProperty("credit_limit") @ExcludeMissing fun _creditLimit() = creditLimit
+    fun creditLimit(): Long = creditLimit.getRequired("credit_limit")
 
     /** The amount of credit extended within the program */
     @JsonProperty("credit_extended") @ExcludeMissing fun _creditExtended() = creditExtended
+
+    /** The total credit limit of the program */
+    @JsonProperty("credit_limit") @ExcludeMissing fun _creditLimit() = creditLimit
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -45,8 +45,8 @@ private constructor(
 
     fun validate(): CardProductCreditDetailResponse = apply {
         if (!validated) {
-            creditLimit()
             creditExtended()
+            creditLimit()
             validated = true
         }
     }
@@ -59,8 +59,8 @@ private constructor(
         }
 
         return other is CardProductCreditDetailResponse &&
-            this.creditLimit == other.creditLimit &&
             this.creditExtended == other.creditExtended &&
+            this.creditLimit == other.creditLimit &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -68,8 +68,8 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
-                    creditLimit,
                     creditExtended,
+                    creditLimit,
                     additionalProperties,
                 )
         }
@@ -77,7 +77,7 @@ private constructor(
     }
 
     override fun toString() =
-        "CardProductCreditDetailResponse{creditLimit=$creditLimit, creditExtended=$creditExtended, additionalProperties=$additionalProperties}"
+        "CardProductCreditDetailResponse{creditExtended=$creditExtended, creditLimit=$creditLimit, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -86,25 +86,17 @@ private constructor(
 
     class Builder {
 
-        private var creditLimit: JsonField<Long> = JsonMissing.of()
         private var creditExtended: JsonField<Long> = JsonMissing.of()
+        private var creditLimit: JsonField<Long> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(cardProductCreditDetailResponse: CardProductCreditDetailResponse) =
             apply {
-                this.creditLimit = cardProductCreditDetailResponse.creditLimit
                 this.creditExtended = cardProductCreditDetailResponse.creditExtended
+                this.creditLimit = cardProductCreditDetailResponse.creditLimit
                 additionalProperties(cardProductCreditDetailResponse.additionalProperties)
             }
-
-        /** The total credit limit of the program */
-        fun creditLimit(creditLimit: Long) = creditLimit(JsonField.of(creditLimit))
-
-        /** The total credit limit of the program */
-        @JsonProperty("credit_limit")
-        @ExcludeMissing
-        fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
 
         /** The amount of credit extended within the program */
         fun creditExtended(creditExtended: Long) = creditExtended(JsonField.of(creditExtended))
@@ -115,6 +107,14 @@ private constructor(
         fun creditExtended(creditExtended: JsonField<Long>) = apply {
             this.creditExtended = creditExtended
         }
+
+        /** The total credit limit of the program */
+        fun creditLimit(creditLimit: Long) = creditLimit(JsonField.of(creditLimit))
+
+        /** The total credit limit of the program */
+        @JsonProperty("credit_limit")
+        @ExcludeMissing
+        fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -132,8 +132,8 @@ private constructor(
 
         fun build(): CardProductCreditDetailResponse =
             CardProductCreditDetailResponse(
-                creditLimit,
                 creditExtended,
+                creditLimit,
                 additionalProperties.toUnmodifiable(),
             )
     }

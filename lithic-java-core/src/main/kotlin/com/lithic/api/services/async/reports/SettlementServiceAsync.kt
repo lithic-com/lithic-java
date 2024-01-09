@@ -8,7 +8,7 @@ import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.ReportSettlementListDetailsPageAsync
 import com.lithic.api.models.ReportSettlementListDetailsParams
 import com.lithic.api.models.ReportSettlementSummaryParams
-import com.lithic.api.models.SettlementSummaryResponse
+import com.lithic.api.models.SettlementReport
 import java.util.concurrent.CompletableFuture
 
 interface SettlementServiceAsync {
@@ -25,5 +25,5 @@ interface SettlementServiceAsync {
     fun summary(
         params: ReportSettlementSummaryParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<SettlementSummaryResponse>
+    ): CompletableFuture<SettlementReport>
 }
