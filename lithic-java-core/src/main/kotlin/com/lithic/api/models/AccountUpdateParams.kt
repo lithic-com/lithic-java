@@ -493,9 +493,9 @@ constructor(
         private val address1: String?,
         private val address2: String?,
         private val city: String?,
-        private val state: String?,
-        private val postalCode: String?,
         private val country: String?,
+        private val postalCode: String?,
+        private val state: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -507,11 +507,11 @@ constructor(
 
         @JsonProperty("city") fun city(): String? = city
 
-        @JsonProperty("state") fun state(): String? = state
+        @JsonProperty("country") fun country(): String? = country
 
         @JsonProperty("postal_code") fun postalCode(): String? = postalCode
 
-        @JsonProperty("country") fun country(): String? = country
+        @JsonProperty("state") fun state(): String? = state
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -528,9 +528,9 @@ constructor(
                 this.address1 == other.address1 &&
                 this.address2 == other.address2 &&
                 this.city == other.city &&
-                this.state == other.state &&
-                this.postalCode == other.postalCode &&
                 this.country == other.country &&
+                this.postalCode == other.postalCode &&
+                this.state == other.state &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -541,9 +541,9 @@ constructor(
                         address1,
                         address2,
                         city,
-                        state,
-                        postalCode,
                         country,
+                        postalCode,
+                        state,
                         additionalProperties,
                     )
             }
@@ -551,7 +551,7 @@ constructor(
         }
 
         override fun toString() =
-            "VerificationAddress{address1=$address1, address2=$address2, city=$city, state=$state, postalCode=$postalCode, country=$country, additionalProperties=$additionalProperties}"
+            "VerificationAddress{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -563,9 +563,9 @@ constructor(
             private var address1: String? = null
             private var address2: String? = null
             private var city: String? = null
-            private var state: String? = null
-            private var postalCode: String? = null
             private var country: String? = null
+            private var postalCode: String? = null
+            private var state: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -573,9 +573,9 @@ constructor(
                 this.address1 = verificationAddress.address1
                 this.address2 = verificationAddress.address2
                 this.city = verificationAddress.city
-                this.state = verificationAddress.state
-                this.postalCode = verificationAddress.postalCode
                 this.country = verificationAddress.country
+                this.postalCode = verificationAddress.postalCode
+                this.state = verificationAddress.state
                 additionalProperties(verificationAddress.additionalProperties)
             }
 
@@ -587,12 +587,12 @@ constructor(
 
             @JsonProperty("city") fun city(city: String) = apply { this.city = city }
 
-            @JsonProperty("state") fun state(state: String) = apply { this.state = state }
+            @JsonProperty("country") fun country(country: String) = apply { this.country = country }
 
             @JsonProperty("postal_code")
             fun postalCode(postalCode: String) = apply { this.postalCode = postalCode }
 
-            @JsonProperty("country") fun country(country: String) = apply { this.country = country }
+            @JsonProperty("state") fun state(state: String) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -613,9 +613,9 @@ constructor(
                     address1,
                     address2,
                     city,
-                    state,
-                    postalCode,
                     country,
+                    postalCode,
+                    state,
                     additionalProperties.toUnmodifiable(),
                 )
         }

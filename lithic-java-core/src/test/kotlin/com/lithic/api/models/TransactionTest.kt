@@ -26,6 +26,12 @@ class TransactionTest {
                             .token("0c2adae9-f535-4505-8c35-421dad9bd0b6")
                             .amount(123L)
                             .created(OffsetDateTime.parse("2018-05-29T21:16:05Z"))
+                            .detailedResults(
+                                listOf(
+                                    Transaction.TransactionEvent.DetailedResult
+                                        .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                                )
+                            )
                             .result(Transaction.TransactionEvent.Result.ACCOUNT_STATE_TRANSACTION)
                             .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                             .build()
@@ -56,9 +62,11 @@ class TransactionTest {
                                 .AUTHENTICATION_OUTAGE_EXCEPTION
                         )
                         .authenticationResult(
-                            Transaction.CardholderAuthentication.AuthenticationResult.SUCCESS
+                            Transaction.CardholderAuthentication.AuthenticationResult.ATTEMPTS
                         )
-                        .decisionMadeBy(Transaction.CardholderAuthentication.DecisionMadeBy.NETWORK)
+                        .decisionMadeBy(
+                            Transaction.CardholderAuthentication.DecisionMadeBy.CUSTOMER_ENDPOINT
+                        )
                         .liabilityShift(
                             Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
                         )
@@ -88,6 +96,12 @@ class TransactionTest {
                     .token("0c2adae9-f535-4505-8c35-421dad9bd0b6")
                     .amount(123L)
                     .created(OffsetDateTime.parse("2018-05-29T21:16:05Z"))
+                    .detailedResults(
+                        listOf(
+                            Transaction.TransactionEvent.DetailedResult
+                                .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                        )
+                    )
                     .result(Transaction.TransactionEvent.Result.ACCOUNT_STATE_TRANSACTION)
                     .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                     .build()
@@ -119,9 +133,11 @@ class TransactionTest {
                             .AUTHENTICATION_OUTAGE_EXCEPTION
                     )
                     .authenticationResult(
-                        Transaction.CardholderAuthentication.AuthenticationResult.SUCCESS
+                        Transaction.CardholderAuthentication.AuthenticationResult.ATTEMPTS
                     )
-                    .decisionMadeBy(Transaction.CardholderAuthentication.DecisionMadeBy.NETWORK)
+                    .decisionMadeBy(
+                        Transaction.CardholderAuthentication.DecisionMadeBy.CUSTOMER_ENDPOINT
+                    )
                     .liabilityShift(
                         Transaction.CardholderAuthentication.LiabilityShift._3DS_AUTHENTICATED
                     )

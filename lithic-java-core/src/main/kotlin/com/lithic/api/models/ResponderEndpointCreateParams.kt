@@ -290,39 +290,39 @@ constructor(
 
             @JvmField val AUTH_STREAM_ACCESS = Type(JsonField.of("AUTH_STREAM_ACCESS"))
 
-            @JvmField val TOKENIZATION_DECISIONING = Type(JsonField.of("TOKENIZATION_DECISIONING"))
-
             @JvmField val THREE_DS_DECISIONING = Type(JsonField.of("THREE_DS_DECISIONING"))
+
+            @JvmField val TOKENIZATION_DECISIONING = Type(JsonField.of("TOKENIZATION_DECISIONING"))
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
         enum class Known {
             AUTH_STREAM_ACCESS,
-            TOKENIZATION_DECISIONING,
             THREE_DS_DECISIONING,
+            TOKENIZATION_DECISIONING,
         }
 
         enum class Value {
             AUTH_STREAM_ACCESS,
-            TOKENIZATION_DECISIONING,
             THREE_DS_DECISIONING,
+            TOKENIZATION_DECISIONING,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
                 AUTH_STREAM_ACCESS -> Value.AUTH_STREAM_ACCESS
-                TOKENIZATION_DECISIONING -> Value.TOKENIZATION_DECISIONING
                 THREE_DS_DECISIONING -> Value.THREE_DS_DECISIONING
+                TOKENIZATION_DECISIONING -> Value.TOKENIZATION_DECISIONING
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
                 AUTH_STREAM_ACCESS -> Known.AUTH_STREAM_ACCESS
-                TOKENIZATION_DECISIONING -> Known.TOKENIZATION_DECISIONING
                 THREE_DS_DECISIONING -> Known.THREE_DS_DECISIONING
+                TOKENIZATION_DECISIONING -> Known.TOKENIZATION_DECISIONING
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 

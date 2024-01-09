@@ -22,10 +22,10 @@ import java.util.Objects
 @NoAutoDetect
 class Event
 private constructor(
-    private val token: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
     private val eventType: JsonField<EventType>,
     private val payload: JsonField<Payload>,
-    private val created: JsonField<OffsetDateTime>,
+    private val token: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -33,8 +33,12 @@ private constructor(
 
     private var hashCode: Int = 0
 
-    /** Globally unique identifier. */
-    fun token(): String = token.getRequired("token")
+    /**
+     * An RFC 3339 timestamp for when the event was created. UTC time zone.
+     *
+     * If no timezone is specified, UTC will be used.
+     */
+    fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
      * Event types:
@@ -45,6 +49,7 @@ private constructor(
      * - `account_holder.verification` - Notification than an account holder's identity verification
      * is complete.
      * - `card.created` - Notification that a card has been created.
+     * - `card.renewed` - Notification that a card has been renewed.
      * - `card.shipped` - Physical card shipment notification. See
      * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
      * - `card_transaction.updated` - Transaction Lifecycle webhook. See
@@ -62,15 +67,15 @@ private constructor(
 
     fun payload(): Payload = payload.getRequired("payload")
 
+    /** Globally unique identifier. */
+    fun token(): String = token.getRequired("token")
+
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
      *
      * If no timezone is specified, UTC will be used.
      */
-    fun created(): OffsetDateTime = created.getRequired("created")
-
-    /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     /**
      * Event types:
@@ -81,6 +86,7 @@ private constructor(
      * - `account_holder.verification` - Notification than an account holder's identity verification
      * is complete.
      * - `card.created` - Notification that a card has been created.
+     * - `card.renewed` - Notification that a card has been renewed.
      * - `card.shipped` - Physical card shipment notification. See
      * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
      * - `card_transaction.updated` - Transaction Lifecycle webhook. See
@@ -98,12 +104,8 @@ private constructor(
 
     @JsonProperty("payload") @ExcludeMissing fun _payload() = payload
 
-    /**
-     * An RFC 3339 timestamp for when the event was created. UTC time zone.
-     *
-     * If no timezone is specified, UTC will be used.
-     */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    /** Globally unique identifier. */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -111,10 +113,10 @@ private constructor(
 
     fun validate(): Event = apply {
         if (!validated) {
-            token()
+            created()
             eventType()
             payload().validate()
-            created()
+            token()
             validated = true
         }
     }
@@ -127,10 +129,10 @@ private constructor(
         }
 
         return other is Event &&
-            this.token == other.token &&
+            this.created == other.created &&
             this.eventType == other.eventType &&
             this.payload == other.payload &&
-            this.created == other.created &&
+            this.token == other.token &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -138,10 +140,10 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
-                    token,
+                    created,
                     eventType,
                     payload,
-                    created,
+                    token,
                     additionalProperties,
                 )
         }
@@ -149,7 +151,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Event{token=$token, eventType=$eventType, payload=$payload, created=$created, additionalProperties=$additionalProperties}"
+        "Event{created=$created, eventType=$eventType, payload=$payload, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -158,28 +160,36 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
+        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var eventType: JsonField<EventType> = JsonMissing.of()
         private var payload: JsonField<Payload> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var token: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(event: Event) = apply {
-            this.token = event.token
+            this.created = event.created
             this.eventType = event.eventType
             this.payload = event.payload
-            this.created = event.created
+            this.token = event.token
             additionalProperties(event.additionalProperties)
         }
 
-        /** Globally unique identifier. */
-        fun token(token: String) = token(JsonField.of(token))
+        /**
+         * An RFC 3339 timestamp for when the event was created. UTC time zone.
+         *
+         * If no timezone is specified, UTC will be used.
+         */
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Globally unique identifier. */
-        @JsonProperty("token")
+        /**
+         * An RFC 3339 timestamp for when the event was created. UTC time zone.
+         *
+         * If no timezone is specified, UTC will be used.
+         */
+        @JsonProperty("created")
         @ExcludeMissing
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
          * Event types:
@@ -190,6 +200,7 @@ private constructor(
          * - `account_holder.verification` - Notification than an account holder's identity
          * verification is complete.
          * - `card.created` - Notification that a card has been created.
+         * - `card.renewed` - Notification that a card has been renewed.
          * - `card.shipped` - Physical card shipment notification. See
          * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
          * - `card_transaction.updated` - Transaction Lifecycle webhook. See
@@ -214,6 +225,7 @@ private constructor(
          * - `account_holder.verification` - Notification than an account holder's identity
          * verification is complete.
          * - `card.created` - Notification that a card has been created.
+         * - `card.renewed` - Notification that a card has been renewed.
          * - `card.shipped` - Physical card shipment notification. See
          * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
          * - `card_transaction.updated` - Transaction Lifecycle webhook. See
@@ -237,21 +249,13 @@ private constructor(
         @ExcludeMissing
         fun payload(payload: JsonField<Payload>) = apply { this.payload = payload }
 
-        /**
-         * An RFC 3339 timestamp for when the event was created. UTC time zone.
-         *
-         * If no timezone is specified, UTC will be used.
-         */
-        fun created(created: OffsetDateTime) = created(JsonField.of(created))
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
 
-        /**
-         * An RFC 3339 timestamp for when the event was created. UTC time zone.
-         *
-         * If no timezone is specified, UTC will be used.
-         */
-        @JsonProperty("created")
+        /** Globally unique identifier. */
+        @JsonProperty("token")
         @ExcludeMissing
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -269,10 +273,10 @@ private constructor(
 
         fun build(): Event =
             Event(
-                token,
+                created,
                 eventType,
                 payload,
-                created,
+                token,
                 additionalProperties.toUnmodifiable(),
             )
     }
@@ -306,7 +310,11 @@ private constructor(
             @JvmField
             val ACCOUNT_HOLDER_VERIFICATION = EventType(JsonField.of("account_holder.verification"))
 
+            @JvmField val BALANCE_UPDATED = EventType(JsonField.of("balance.updated"))
+
             @JvmField val CARD_CREATED = EventType(JsonField.of("card.created"))
+
+            @JvmField val CARD_RENEWED = EventType(JsonField.of("card.renewed"))
 
             @JvmField val CARD_SHIPPED = EventType(JsonField.of("card.shipped"))
 
@@ -334,14 +342,14 @@ private constructor(
                 EventType(JsonField.of("dispute_evidence.upload_failed"))
 
             @JvmField
-            val THREE_DS_AUTHENTICATION_CREATED =
-                EventType(JsonField.of("three_ds_authentication.created"))
-
-            @JvmField
             val PAYMENT_TRANSACTION_CREATED = EventType(JsonField.of("payment_transaction.created"))
 
             @JvmField
             val PAYMENT_TRANSACTION_UPDATED = EventType(JsonField.of("payment_transaction.updated"))
+
+            @JvmField
+            val THREE_DS_AUTHENTICATION_CREATED =
+                EventType(JsonField.of("three_ds_authentication.created"))
 
             @JvmField
             val TRANSFER_TRANSACTION_CREATED =
@@ -354,7 +362,9 @@ private constructor(
             ACCOUNT_HOLDER_CREATED,
             ACCOUNT_HOLDER_UPDATED,
             ACCOUNT_HOLDER_VERIFICATION,
+            BALANCE_UPDATED,
             CARD_CREATED,
+            CARD_RENEWED,
             CARD_SHIPPED,
             CARD_TRANSACTION_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
@@ -362,9 +372,9 @@ private constructor(
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
             DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
-            THREE_DS_AUTHENTICATION_CREATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
+            THREE_DS_AUTHENTICATION_CREATED,
             TRANSFER_TRANSACTION_CREATED,
         }
 
@@ -372,7 +382,9 @@ private constructor(
             ACCOUNT_HOLDER_CREATED,
             ACCOUNT_HOLDER_UPDATED,
             ACCOUNT_HOLDER_VERIFICATION,
+            BALANCE_UPDATED,
             CARD_CREATED,
+            CARD_RENEWED,
             CARD_SHIPPED,
             CARD_TRANSACTION_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
@@ -380,9 +392,9 @@ private constructor(
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
             DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
-            THREE_DS_AUTHENTICATION_CREATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
+            THREE_DS_AUTHENTICATION_CREATED,
             TRANSFER_TRANSACTION_CREATED,
             _UNKNOWN,
         }
@@ -392,7 +404,9 @@ private constructor(
                 ACCOUNT_HOLDER_CREATED -> Value.ACCOUNT_HOLDER_CREATED
                 ACCOUNT_HOLDER_UPDATED -> Value.ACCOUNT_HOLDER_UPDATED
                 ACCOUNT_HOLDER_VERIFICATION -> Value.ACCOUNT_HOLDER_VERIFICATION
+                BALANCE_UPDATED -> Value.BALANCE_UPDATED
                 CARD_CREATED -> Value.CARD_CREATED
+                CARD_RENEWED -> Value.CARD_RENEWED
                 CARD_SHIPPED -> Value.CARD_SHIPPED
                 CARD_TRANSACTION_UPDATED -> Value.CARD_TRANSACTION_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
@@ -402,9 +416,9 @@ private constructor(
                     Value.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
                 DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Value.DISPUTE_EVIDENCE_UPLOAD_FAILED
-                THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
                 PAYMENT_TRANSACTION_CREATED -> Value.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Value.PAYMENT_TRANSACTION_UPDATED
+                THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
                 TRANSFER_TRANSACTION_CREATED -> Value.TRANSFER_TRANSACTION_CREATED
                 else -> Value._UNKNOWN
             }
@@ -414,7 +428,9 @@ private constructor(
                 ACCOUNT_HOLDER_CREATED -> Known.ACCOUNT_HOLDER_CREATED
                 ACCOUNT_HOLDER_UPDATED -> Known.ACCOUNT_HOLDER_UPDATED
                 ACCOUNT_HOLDER_VERIFICATION -> Known.ACCOUNT_HOLDER_VERIFICATION
+                BALANCE_UPDATED -> Known.BALANCE_UPDATED
                 CARD_CREATED -> Known.CARD_CREATED
+                CARD_RENEWED -> Known.CARD_RENEWED
                 CARD_SHIPPED -> Known.CARD_SHIPPED
                 CARD_TRANSACTION_UPDATED -> Known.CARD_TRANSACTION_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
@@ -424,9 +440,9 @@ private constructor(
                     Known.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
                 DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Known.DISPUTE_EVIDENCE_UPLOAD_FAILED
-                THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED
                 PAYMENT_TRANSACTION_CREATED -> Known.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Known.PAYMENT_TRANSACTION_UPDATED
+                THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED
                 TRANSFER_TRANSACTION_CREATED -> Known.TRANSFER_TRANSACTION_CREATED
                 else -> throw LithicInvalidDataException("Unknown EventType: $value")
             }

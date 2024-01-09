@@ -22,16 +22,16 @@ import java.util.Objects
 @NoAutoDetect
 class AggregateBalance
 private constructor(
-    private val financialAccountType: JsonField<FinancialAccountType>,
-    private val currency: JsonField<String>,
     private val availableAmount: JsonField<Long>,
+    private val created: JsonField<OffsetDateTime>,
+    private val currency: JsonField<String>,
+    private val financialAccountType: JsonField<FinancialAccountType>,
+    private val lastFinancialAccountToken: JsonField<String>,
+    private val lastTransactionEventToken: JsonField<String>,
+    private val lastTransactionToken: JsonField<String>,
     private val pendingAmount: JsonField<Long>,
     private val totalAmount: JsonField<Long>,
-    private val created: JsonField<OffsetDateTime>,
     private val updated: JsonField<OffsetDateTime>,
-    private val lastTransactionToken: JsonField<String>,
-    private val lastTransactionEventToken: JsonField<String>,
-    private val lastFinancialAccountToken: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -39,15 +39,32 @@ private constructor(
 
     private var hashCode: Int = 0
 
-    /** Type of financial account */
-    fun financialAccountType(): FinancialAccountType =
-        financialAccountType.getRequired("financial_account_type")
+    /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
+    fun availableAmount(): Long = availableAmount.getRequired("available_amount")
+
+    /** Date and time for when the balance was first created. */
+    fun created(): OffsetDateTime = created.getRequired("created")
 
     /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
     fun currency(): String = currency.getRequired("currency")
 
-    /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
-    fun availableAmount(): Long = availableAmount.getRequired("available_amount")
+    /** Type of financial account */
+    fun financialAccountType(): FinancialAccountType =
+        financialAccountType.getRequired("financial_account_type")
+
+    /**
+     * Globally unique identifier for the financial account that had its balance updated most
+     * recently
+     */
+    fun lastFinancialAccountToken(): String =
+        lastFinancialAccountToken.getRequired("last_financial_account_token")
+
+    /** Globally unique identifier for the last transaction event that impacted this balance */
+    fun lastTransactionEventToken(): String =
+        lastTransactionEventToken.getRequired("last_transaction_event_token")
+
+    /** Globally unique identifier for the last transaction that impacted this balance */
+    fun lastTransactionToken(): String = lastTransactionToken.getRequired("last_transaction_token")
 
     /**
      * Funds not available for spend due to card authorizations or pending ACH release. Shown in the
@@ -61,36 +78,40 @@ private constructor(
      */
     fun totalAmount(): Long = totalAmount.getRequired("total_amount")
 
-    /** Date and time for when the balance was first created. */
-    fun created(): OffsetDateTime = created.getRequired("created")
-
     /** Date and time for when the balance was last updated. */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
-    /** Globally unique identifier for the last transaction that impacted this balance */
-    fun lastTransactionToken(): String = lastTransactionToken.getRequired("last_transaction_token")
+    /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
+    @JsonProperty("available_amount") @ExcludeMissing fun _availableAmount() = availableAmount
 
-    /** Globally unique identifier for the last transaction event that impacted this balance */
-    fun lastTransactionEventToken(): String =
-        lastTransactionEventToken.getRequired("last_transaction_event_token")
+    /** Date and time for when the balance was first created. */
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
 
-    /**
-     * Globally unique identifier for the financial account that had its balance updated most
-     * recently
-     */
-    fun lastFinancialAccountToken(): String =
-        lastFinancialAccountToken.getRequired("last_financial_account_token")
+    /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
+    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
     /** Type of financial account */
     @JsonProperty("financial_account_type")
     @ExcludeMissing
     fun _financialAccountType() = financialAccountType
 
-    /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
-    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+    /**
+     * Globally unique identifier for the financial account that had its balance updated most
+     * recently
+     */
+    @JsonProperty("last_financial_account_token")
+    @ExcludeMissing
+    fun _lastFinancialAccountToken() = lastFinancialAccountToken
 
-    /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
-    @JsonProperty("available_amount") @ExcludeMissing fun _availableAmount() = availableAmount
+    /** Globally unique identifier for the last transaction event that impacted this balance */
+    @JsonProperty("last_transaction_event_token")
+    @ExcludeMissing
+    fun _lastTransactionEventToken() = lastTransactionEventToken
+
+    /** Globally unique identifier for the last transaction that impacted this balance */
+    @JsonProperty("last_transaction_token")
+    @ExcludeMissing
+    fun _lastTransactionToken() = lastTransactionToken
 
     /**
      * Funds not available for spend due to card authorizations or pending ACH release. Shown in the
@@ -104,29 +125,8 @@ private constructor(
      */
     @JsonProperty("total_amount") @ExcludeMissing fun _totalAmount() = totalAmount
 
-    /** Date and time for when the balance was first created. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
-
     /** Date and time for when the balance was last updated. */
     @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
-
-    /** Globally unique identifier for the last transaction that impacted this balance */
-    @JsonProperty("last_transaction_token")
-    @ExcludeMissing
-    fun _lastTransactionToken() = lastTransactionToken
-
-    /** Globally unique identifier for the last transaction event that impacted this balance */
-    @JsonProperty("last_transaction_event_token")
-    @ExcludeMissing
-    fun _lastTransactionEventToken() = lastTransactionEventToken
-
-    /**
-     * Globally unique identifier for the financial account that had its balance updated most
-     * recently
-     */
-    @JsonProperty("last_financial_account_token")
-    @ExcludeMissing
-    fun _lastFinancialAccountToken() = lastFinancialAccountToken
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -134,16 +134,16 @@ private constructor(
 
     fun validate(): AggregateBalance = apply {
         if (!validated) {
-            financialAccountType()
-            currency()
             availableAmount()
+            created()
+            currency()
+            financialAccountType()
+            lastFinancialAccountToken()
+            lastTransactionEventToken()
+            lastTransactionToken()
             pendingAmount()
             totalAmount()
-            created()
             updated()
-            lastTransactionToken()
-            lastTransactionEventToken()
-            lastFinancialAccountToken()
             validated = true
         }
     }
@@ -156,16 +156,16 @@ private constructor(
         }
 
         return other is AggregateBalance &&
-            this.financialAccountType == other.financialAccountType &&
-            this.currency == other.currency &&
             this.availableAmount == other.availableAmount &&
+            this.created == other.created &&
+            this.currency == other.currency &&
+            this.financialAccountType == other.financialAccountType &&
+            this.lastFinancialAccountToken == other.lastFinancialAccountToken &&
+            this.lastTransactionEventToken == other.lastTransactionEventToken &&
+            this.lastTransactionToken == other.lastTransactionToken &&
             this.pendingAmount == other.pendingAmount &&
             this.totalAmount == other.totalAmount &&
-            this.created == other.created &&
             this.updated == other.updated &&
-            this.lastTransactionToken == other.lastTransactionToken &&
-            this.lastTransactionEventToken == other.lastTransactionEventToken &&
-            this.lastFinancialAccountToken == other.lastFinancialAccountToken &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -173,16 +173,16 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
-                    financialAccountType,
-                    currency,
                     availableAmount,
+                    created,
+                    currency,
+                    financialAccountType,
+                    lastFinancialAccountToken,
+                    lastTransactionEventToken,
+                    lastTransactionToken,
                     pendingAmount,
                     totalAmount,
-                    created,
                     updated,
-                    lastTransactionToken,
-                    lastTransactionEventToken,
-                    lastFinancialAccountToken,
                     additionalProperties,
                 )
         }
@@ -190,7 +190,7 @@ private constructor(
     }
 
     override fun toString() =
-        "AggregateBalance{financialAccountType=$financialAccountType, currency=$currency, availableAmount=$availableAmount, pendingAmount=$pendingAmount, totalAmount=$totalAmount, created=$created, updated=$updated, lastTransactionToken=$lastTransactionToken, lastTransactionEventToken=$lastTransactionEventToken, lastFinancialAccountToken=$lastFinancialAccountToken, additionalProperties=$additionalProperties}"
+        "AggregateBalance{availableAmount=$availableAmount, created=$created, currency=$currency, financialAccountType=$financialAccountType, lastFinancialAccountToken=$lastFinancialAccountToken, lastTransactionEventToken=$lastTransactionEventToken, lastTransactionToken=$lastTransactionToken, pendingAmount=$pendingAmount, totalAmount=$totalAmount, updated=$updated, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -199,32 +199,58 @@ private constructor(
 
     class Builder {
 
-        private var financialAccountType: JsonField<FinancialAccountType> = JsonMissing.of()
-        private var currency: JsonField<String> = JsonMissing.of()
         private var availableAmount: JsonField<Long> = JsonMissing.of()
+        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var currency: JsonField<String> = JsonMissing.of()
+        private var financialAccountType: JsonField<FinancialAccountType> = JsonMissing.of()
+        private var lastFinancialAccountToken: JsonField<String> = JsonMissing.of()
+        private var lastTransactionEventToken: JsonField<String> = JsonMissing.of()
+        private var lastTransactionToken: JsonField<String> = JsonMissing.of()
         private var pendingAmount: JsonField<Long> = JsonMissing.of()
         private var totalAmount: JsonField<Long> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var lastTransactionToken: JsonField<String> = JsonMissing.of()
-        private var lastTransactionEventToken: JsonField<String> = JsonMissing.of()
-        private var lastFinancialAccountToken: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(aggregateBalance: AggregateBalance) = apply {
-            this.financialAccountType = aggregateBalance.financialAccountType
-            this.currency = aggregateBalance.currency
             this.availableAmount = aggregateBalance.availableAmount
+            this.created = aggregateBalance.created
+            this.currency = aggregateBalance.currency
+            this.financialAccountType = aggregateBalance.financialAccountType
+            this.lastFinancialAccountToken = aggregateBalance.lastFinancialAccountToken
+            this.lastTransactionEventToken = aggregateBalance.lastTransactionEventToken
+            this.lastTransactionToken = aggregateBalance.lastTransactionToken
             this.pendingAmount = aggregateBalance.pendingAmount
             this.totalAmount = aggregateBalance.totalAmount
-            this.created = aggregateBalance.created
             this.updated = aggregateBalance.updated
-            this.lastTransactionToken = aggregateBalance.lastTransactionToken
-            this.lastTransactionEventToken = aggregateBalance.lastTransactionEventToken
-            this.lastFinancialAccountToken = aggregateBalance.lastFinancialAccountToken
             additionalProperties(aggregateBalance.additionalProperties)
         }
+
+        /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
+        fun availableAmount(availableAmount: Long) = availableAmount(JsonField.of(availableAmount))
+
+        /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
+        @JsonProperty("available_amount")
+        @ExcludeMissing
+        fun availableAmount(availableAmount: JsonField<Long>) = apply {
+            this.availableAmount = availableAmount
+        }
+
+        /** Date and time for when the balance was first created. */
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+        /** Date and time for when the balance was first created. */
+        @JsonProperty("created")
+        @ExcludeMissing
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+        /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
+        fun currency(currency: String) = currency(JsonField.of(currency))
+
+        /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
+        @JsonProperty("currency")
+        @ExcludeMissing
+        fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** Type of financial account */
         fun financialAccountType(financialAccountType: FinancialAccountType) =
@@ -237,22 +263,43 @@ private constructor(
             this.financialAccountType = financialAccountType
         }
 
-        /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
-        fun currency(currency: String) = currency(JsonField.of(currency))
+        /**
+         * Globally unique identifier for the financial account that had its balance updated most
+         * recently
+         */
+        fun lastFinancialAccountToken(lastFinancialAccountToken: String) =
+            lastFinancialAccountToken(JsonField.of(lastFinancialAccountToken))
 
-        /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
-        @JsonProperty("currency")
+        /**
+         * Globally unique identifier for the financial account that had its balance updated most
+         * recently
+         */
+        @JsonProperty("last_financial_account_token")
         @ExcludeMissing
-        fun currency(currency: JsonField<String>) = apply { this.currency = currency }
+        fun lastFinancialAccountToken(lastFinancialAccountToken: JsonField<String>) = apply {
+            this.lastFinancialAccountToken = lastFinancialAccountToken
+        }
 
-        /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
-        fun availableAmount(availableAmount: Long) = availableAmount(JsonField.of(availableAmount))
+        /** Globally unique identifier for the last transaction event that impacted this balance */
+        fun lastTransactionEventToken(lastTransactionEventToken: String) =
+            lastTransactionEventToken(JsonField.of(lastTransactionEventToken))
 
-        /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
-        @JsonProperty("available_amount")
+        /** Globally unique identifier for the last transaction event that impacted this balance */
+        @JsonProperty("last_transaction_event_token")
         @ExcludeMissing
-        fun availableAmount(availableAmount: JsonField<Long>) = apply {
-            this.availableAmount = availableAmount
+        fun lastTransactionEventToken(lastTransactionEventToken: JsonField<String>) = apply {
+            this.lastTransactionEventToken = lastTransactionEventToken
+        }
+
+        /** Globally unique identifier for the last transaction that impacted this balance */
+        fun lastTransactionToken(lastTransactionToken: String) =
+            lastTransactionToken(JsonField.of(lastTransactionToken))
+
+        /** Globally unique identifier for the last transaction that impacted this balance */
+        @JsonProperty("last_transaction_token")
+        @ExcludeMissing
+        fun lastTransactionToken(lastTransactionToken: JsonField<String>) = apply {
+            this.lastTransactionToken = lastTransactionToken
         }
 
         /**
@@ -285,14 +332,6 @@ private constructor(
         @ExcludeMissing
         fun totalAmount(totalAmount: JsonField<Long>) = apply { this.totalAmount = totalAmount }
 
-        /** Date and time for when the balance was first created. */
-        fun created(created: OffsetDateTime) = created(JsonField.of(created))
-
-        /** Date and time for when the balance was first created. */
-        @JsonProperty("created")
-        @ExcludeMissing
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
-
         /** Date and time for when the balance was last updated. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
@@ -300,45 +339,6 @@ private constructor(
         @JsonProperty("updated")
         @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
-
-        /** Globally unique identifier for the last transaction that impacted this balance */
-        fun lastTransactionToken(lastTransactionToken: String) =
-            lastTransactionToken(JsonField.of(lastTransactionToken))
-
-        /** Globally unique identifier for the last transaction that impacted this balance */
-        @JsonProperty("last_transaction_token")
-        @ExcludeMissing
-        fun lastTransactionToken(lastTransactionToken: JsonField<String>) = apply {
-            this.lastTransactionToken = lastTransactionToken
-        }
-
-        /** Globally unique identifier for the last transaction event that impacted this balance */
-        fun lastTransactionEventToken(lastTransactionEventToken: String) =
-            lastTransactionEventToken(JsonField.of(lastTransactionEventToken))
-
-        /** Globally unique identifier for the last transaction event that impacted this balance */
-        @JsonProperty("last_transaction_event_token")
-        @ExcludeMissing
-        fun lastTransactionEventToken(lastTransactionEventToken: JsonField<String>) = apply {
-            this.lastTransactionEventToken = lastTransactionEventToken
-        }
-
-        /**
-         * Globally unique identifier for the financial account that had its balance updated most
-         * recently
-         */
-        fun lastFinancialAccountToken(lastFinancialAccountToken: String) =
-            lastFinancialAccountToken(JsonField.of(lastFinancialAccountToken))
-
-        /**
-         * Globally unique identifier for the financial account that had its balance updated most
-         * recently
-         */
-        @JsonProperty("last_financial_account_token")
-        @ExcludeMissing
-        fun lastFinancialAccountToken(lastFinancialAccountToken: JsonField<String>) = apply {
-            this.lastFinancialAccountToken = lastFinancialAccountToken
-        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -356,16 +356,16 @@ private constructor(
 
         fun build(): AggregateBalance =
             AggregateBalance(
-                financialAccountType,
-                currency,
                 availableAmount,
+                created,
+                currency,
+                financialAccountType,
+                lastFinancialAccountToken,
+                lastTransactionEventToken,
+                lastTransactionToken,
                 pendingAmount,
                 totalAmount,
-                created,
                 updated,
-                lastTransactionToken,
-                lastTransactionEventToken,
-                lastFinancialAccountToken,
                 additionalProperties.toUnmodifiable(),
             )
     }

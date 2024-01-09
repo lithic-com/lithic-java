@@ -291,8 +291,8 @@ constructor(
     class Merchant
     private constructor(
         private val country: String?,
-        private val mcc: String?,
         private val id: String?,
+        private val mcc: String?,
         private val name: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
@@ -305,17 +305,17 @@ constructor(
         @JsonProperty("country") fun country(): String? = country
 
         /**
+         * Unique identifier to identify the payment card acceptor. Corresponds to
+         * `merchant_acceptor_id` in authorization.
+         */
+        @JsonProperty("id") fun id(): String? = id
+
+        /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
          * ISO 18245. Supported merchant category codes can be found
          * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
          */
         @JsonProperty("mcc") fun mcc(): String? = mcc
-
-        /**
-         * Unique identifier to identify the payment card acceptor. Corresponds to
-         * `merchant_acceptor_id` in authorization.
-         */
-        @JsonProperty("id") fun id(): String? = id
 
         /** Merchant descriptor, corresponds to `descriptor` in authorization. */
         @JsonProperty("name") fun name(): String? = name
@@ -333,8 +333,8 @@ constructor(
 
             return other is Merchant &&
                 this.country == other.country &&
-                this.mcc == other.mcc &&
                 this.id == other.id &&
+                this.mcc == other.mcc &&
                 this.name == other.name &&
                 this.additionalProperties == other.additionalProperties
         }
@@ -344,8 +344,8 @@ constructor(
                 hashCode =
                     Objects.hash(
                         country,
-                        mcc,
                         id,
+                        mcc,
                         name,
                         additionalProperties,
                     )
@@ -354,7 +354,7 @@ constructor(
         }
 
         override fun toString() =
-            "Merchant{country=$country, mcc=$mcc, id=$id, name=$name, additionalProperties=$additionalProperties}"
+            "Merchant{country=$country, id=$id, mcc=$mcc, name=$name, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -364,16 +364,16 @@ constructor(
         class Builder {
 
             private var country: String? = null
-            private var mcc: String? = null
             private var id: String? = null
+            private var mcc: String? = null
             private var name: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(merchant: Merchant) = apply {
                 this.country = merchant.country
-                this.mcc = merchant.mcc
                 this.id = merchant.id
+                this.mcc = merchant.mcc
                 this.name = merchant.name
                 additionalProperties(merchant.additionalProperties)
             }
@@ -385,17 +385,17 @@ constructor(
             @JsonProperty("country") fun country(country: String) = apply { this.country = country }
 
             /**
+             * Unique identifier to identify the payment card acceptor. Corresponds to
+             * `merchant_acceptor_id` in authorization.
+             */
+            @JsonProperty("id") fun id(id: String) = apply { this.id = id }
+
+            /**
              * Merchant category code for the transaction to be simulated. A four-digit number
              * listed in ISO 18245. Supported merchant category codes can be found
              * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
              */
             @JsonProperty("mcc") fun mcc(mcc: String) = apply { this.mcc = mcc }
-
-            /**
-             * Unique identifier to identify the payment card acceptor. Corresponds to
-             * `merchant_acceptor_id` in authorization.
-             */
-            @JsonProperty("id") fun id(id: String) = apply { this.id = id }
 
             /** Merchant descriptor, corresponds to `descriptor` in authorization. */
             @JsonProperty("name") fun name(name: String) = apply { this.name = name }
@@ -417,8 +417,8 @@ constructor(
             fun build(): Merchant =
                 Merchant(
                     checkNotNull(country) { "`country` is required but was not set" },
-                    checkNotNull(mcc) { "`mcc` is required but was not set" },
                     checkNotNull(id) { "`id` is required but was not set" },
+                    checkNotNull(mcc) { "`mcc` is required but was not set" },
                     checkNotNull(name) { "`name` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )

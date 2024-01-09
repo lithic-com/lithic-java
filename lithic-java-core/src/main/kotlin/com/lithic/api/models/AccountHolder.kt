@@ -22,25 +22,25 @@ import java.util.Optional
 @NoAutoDetect
 class AccountHolder
 private constructor(
-    private val token: JsonField<String>,
     private val accountToken: JsonField<String>,
-    private val businessAccountToken: JsonField<String>,
-    private val created: JsonField<OffsetDateTime>,
-    private val externalId: JsonField<String>,
-    private val exemptionType: JsonField<ExemptionType>,
-    private val userType: JsonField<UserType>,
-    private val verificationApplication: JsonField<AccountHolderVerificationApplication>,
-    private val individual: JsonField<AccountHolderIndividualResponse>,
-    private val businessEntity: JsonField<BusinessEntity>,
     private val beneficialOwnerEntities: JsonField<List<BusinessEntity>>,
     private val beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>>,
+    private val businessAccountToken: JsonField<String>,
+    private val businessEntity: JsonField<BusinessEntity>,
     private val controlPerson: JsonField<AccountHolderIndividualResponse>,
-    private val natureOfBusiness: JsonField<String>,
-    private val websiteUrl: JsonField<String>,
+    private val created: JsonField<OffsetDateTime>,
     private val email: JsonField<String>,
+    private val exemptionType: JsonField<ExemptionType>,
+    private val externalId: JsonField<String>,
+    private val individual: JsonField<AccountHolderIndividualResponse>,
+    private val natureOfBusiness: JsonField<String>,
     private val phoneNumber: JsonField<String>,
     private val status: JsonField<Status>,
     private val statusReasons: JsonField<List<StatusReason>>,
+    private val token: JsonField<String>,
+    private val userType: JsonField<UserType>,
+    private val verificationApplication: JsonField<AccountHolderVerificationApplication>,
+    private val websiteUrl: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -48,59 +48,9 @@ private constructor(
 
     private var hashCode: Int = 0
 
-    /** Globally unique identifier for the account holder. */
-    fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
-
     /** Globally unique identifier for the account. */
     fun accountToken(): Optional<String> =
         Optional.ofNullable(accountToken.getNullable("account_token"))
-
-    /**
-     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-     * businesses. Pass the account_token of the enrolled business associated with the
-     * AUTHORIZED_USER in this field.
-     */
-    fun businessAccountToken(): Optional<String> =
-        Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
-
-    /** Timestamp of when the account holder was created. */
-    fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
-
-    /**
-     * Customer-provided token that indicates a relationship with an object outside of the Lithic
-     * ecosystem.
-     */
-    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
-
-    /** The type of KYC exemption for a KYC-Exempt Account Holder. */
-    fun exemptionType(): Optional<ExemptionType> =
-        Optional.ofNullable(exemptionType.getNullable("exemption_type"))
-
-    /**
-     * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will be
-     * present. If the type is "BUSINESS" then the "business_entity", "control_person",
-     * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
-     * "website_url" attributes will be present.
-     */
-    fun userType(): Optional<UserType> = Optional.ofNullable(userType.getNullable("user_type"))
-
-    /** Information about the most recent identity verification attempt */
-    fun verificationApplication(): Optional<AccountHolderVerificationApplication> =
-        Optional.ofNullable(verificationApplication.getNullable("verification_application"))
-
-    /**
-     * Only present when user_type == "INDIVIDUAL". Information about the individual for which the
-     * account is being opened and KYC is being run.
-     */
-    fun individual(): Optional<AccountHolderIndividualResponse> =
-        Optional.ofNullable(individual.getNullable("individual"))
-
-    /**
-     * Only present when user_type == "BUSINESS". Information about the business for which the
-     * account is being opened and KYB is being run.
-     */
-    fun businessEntity(): Optional<BusinessEntity> =
-        Optional.ofNullable(businessEntity.getNullable("business_entity"))
 
     /**
      * Only present when user_type == "BUSINESS". List of all entities with >25% ownership in the
@@ -117,6 +67,21 @@ private constructor(
         Optional.ofNullable(beneficialOwnerIndividuals.getNullable("beneficial_owner_individuals"))
 
     /**
+     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+     * businesses. Pass the account_token of the enrolled business associated with the
+     * AUTHORIZED_USER in this field.
+     */
+    fun businessAccountToken(): Optional<String> =
+        Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
+
+    /**
+     * Only present when user_type == "BUSINESS". Information about the business for which the
+     * account is being opened and KYB is being run.
+     */
+    fun businessEntity(): Optional<BusinessEntity> =
+        Optional.ofNullable(businessEntity.getNullable("business_entity"))
+
+    /**
      * Only present when user_type == "BUSINESS". An individual with significant responsibility for
      * managing the legal entity (e.g., a Chief Executive Officer, Chief Financial Officer, Chief
      * Operating Officer, Managing Member, General Partner, President, Vice President, or
@@ -127,12 +92,8 @@ private constructor(
     fun controlPerson(): Optional<AccountHolderIndividualResponse> =
         Optional.ofNullable(controlPerson.getNullable("control_person"))
 
-    /** Only present when user_type == "BUSINESS". User-submitted description of the business. */
-    fun natureOfBusiness(): Optional<String> =
-        Optional.ofNullable(natureOfBusiness.getNullable("nature_of_business"))
-
-    /** Only present when user_type == "BUSINESS". Business's primary website. */
-    fun websiteUrl(): Optional<String> = Optional.ofNullable(websiteUrl.getNullable("website_url"))
+    /** Timestamp of when the account holder was created. */
+    fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
 
     /**
      * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
@@ -141,6 +102,27 @@ private constructor(
      * > Primary email of Account Holder.
      */
     fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
+
+    /** The type of KYC exemption for a KYC-Exempt Account Holder. */
+    fun exemptionType(): Optional<ExemptionType> =
+        Optional.ofNullable(exemptionType.getNullable("exemption_type"))
+
+    /**
+     * Customer-provided token that indicates a relationship with an object outside of the Lithic
+     * ecosystem.
+     */
+    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
+
+    /**
+     * Only present when user_type == "INDIVIDUAL". Information about the individual for which the
+     * account is being opened and KYC is being run.
+     */
+    fun individual(): Optional<AccountHolderIndividualResponse> =
+        Optional.ofNullable(individual.getNullable("individual"))
+
+    /** Only present when user_type == "BUSINESS". User-submitted description of the business. */
+    fun natureOfBusiness(): Optional<String> =
+        Optional.ofNullable(natureOfBusiness.getNullable("nature_of_business"))
 
     /**
      * < Deprecated. Use control_person.phone_number when user_type == "BUSINESS". Use
@@ -165,31 +147,7 @@ private constructor(
         Optional.ofNullable(statusReasons.getNullable("status_reasons"))
 
     /** Globally unique identifier for the account holder. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
-    /** Globally unique identifier for the account. */
-    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
-
-    /**
-     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-     * businesses. Pass the account_token of the enrolled business associated with the
-     * AUTHORIZED_USER in this field.
-     */
-    @JsonProperty("business_account_token")
-    @ExcludeMissing
-    fun _businessAccountToken() = businessAccountToken
-
-    /** Timestamp of when the account holder was created. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
-
-    /**
-     * Customer-provided token that indicates a relationship with an object outside of the Lithic
-     * ecosystem.
-     */
-    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
-
-    /** The type of KYC exemption for a KYC-Exempt Account Holder. */
-    @JsonProperty("exemption_type") @ExcludeMissing fun _exemptionType() = exemptionType
+    fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
 
     /**
      * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will be
@@ -197,24 +155,17 @@ private constructor(
      * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
      * "website_url" attributes will be present.
      */
-    @JsonProperty("user_type") @ExcludeMissing fun _userType() = userType
+    fun userType(): Optional<UserType> = Optional.ofNullable(userType.getNullable("user_type"))
 
     /** Information about the most recent identity verification attempt */
-    @JsonProperty("verification_application")
-    @ExcludeMissing
-    fun _verificationApplication() = verificationApplication
+    fun verificationApplication(): Optional<AccountHolderVerificationApplication> =
+        Optional.ofNullable(verificationApplication.getNullable("verification_application"))
 
-    /**
-     * Only present when user_type == "INDIVIDUAL". Information about the individual for which the
-     * account is being opened and KYC is being run.
-     */
-    @JsonProperty("individual") @ExcludeMissing fun _individual() = individual
+    /** Only present when user_type == "BUSINESS". Business's primary website. */
+    fun websiteUrl(): Optional<String> = Optional.ofNullable(websiteUrl.getNullable("website_url"))
 
-    /**
-     * Only present when user_type == "BUSINESS". Information about the business for which the
-     * account is being opened and KYB is being run.
-     */
-    @JsonProperty("business_entity") @ExcludeMissing fun _businessEntity() = businessEntity
+    /** Globally unique identifier for the account. */
+    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
 
     /**
      * Only present when user_type == "BUSINESS". List of all entities with >25% ownership in the
@@ -233,6 +184,21 @@ private constructor(
     fun _beneficialOwnerIndividuals() = beneficialOwnerIndividuals
 
     /**
+     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+     * businesses. Pass the account_token of the enrolled business associated with the
+     * AUTHORIZED_USER in this field.
+     */
+    @JsonProperty("business_account_token")
+    @ExcludeMissing
+    fun _businessAccountToken() = businessAccountToken
+
+    /**
+     * Only present when user_type == "BUSINESS". Information about the business for which the
+     * account is being opened and KYB is being run.
+     */
+    @JsonProperty("business_entity") @ExcludeMissing fun _businessEntity() = businessEntity
+
+    /**
      * Only present when user_type == "BUSINESS". An individual with significant responsibility for
      * managing the legal entity (e.g., a Chief Executive Officer, Chief Financial Officer, Chief
      * Operating Officer, Managing Member, General Partner, President, Vice President, or
@@ -242,11 +208,8 @@ private constructor(
      */
     @JsonProperty("control_person") @ExcludeMissing fun _controlPerson() = controlPerson
 
-    /** Only present when user_type == "BUSINESS". User-submitted description of the business. */
-    @JsonProperty("nature_of_business") @ExcludeMissing fun _natureOfBusiness() = natureOfBusiness
-
-    /** Only present when user_type == "BUSINESS". Business's primary website. */
-    @JsonProperty("website_url") @ExcludeMissing fun _websiteUrl() = websiteUrl
+    /** Timestamp of when the account holder was created. */
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     /**
      * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
@@ -255,6 +218,24 @@ private constructor(
      * > Primary email of Account Holder.
      */
     @JsonProperty("email") @ExcludeMissing fun _email() = email
+
+    /** The type of KYC exemption for a KYC-Exempt Account Holder. */
+    @JsonProperty("exemption_type") @ExcludeMissing fun _exemptionType() = exemptionType
+
+    /**
+     * Customer-provided token that indicates a relationship with an object outside of the Lithic
+     * ecosystem.
+     */
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
+
+    /**
+     * Only present when user_type == "INDIVIDUAL". Information about the individual for which the
+     * account is being opened and KYC is being run.
+     */
+    @JsonProperty("individual") @ExcludeMissing fun _individual() = individual
+
+    /** Only present when user_type == "BUSINESS". User-submitted description of the business. */
+    @JsonProperty("nature_of_business") @ExcludeMissing fun _natureOfBusiness() = natureOfBusiness
 
     /**
      * < Deprecated. Use control_person.phone_number when user_type == "BUSINESS". Use
@@ -276,31 +257,50 @@ private constructor(
      */
     @JsonProperty("status_reasons") @ExcludeMissing fun _statusReasons() = statusReasons
 
+    /** Globally unique identifier for the account holder. */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
+
+    /**
+     * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will be
+     * present. If the type is "BUSINESS" then the "business_entity", "control_person",
+     * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
+     * "website_url" attributes will be present.
+     */
+    @JsonProperty("user_type") @ExcludeMissing fun _userType() = userType
+
+    /** Information about the most recent identity verification attempt */
+    @JsonProperty("verification_application")
+    @ExcludeMissing
+    fun _verificationApplication() = verificationApplication
+
+    /** Only present when user_type == "BUSINESS". Business's primary website. */
+    @JsonProperty("website_url") @ExcludeMissing fun _websiteUrl() = websiteUrl
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
     fun validate(): AccountHolder = apply {
         if (!validated) {
-            token()
             accountToken()
-            businessAccountToken()
-            created()
-            externalId()
-            exemptionType()
-            userType()
-            verificationApplication().map { it.validate() }
-            individual().map { it.validate() }
-            businessEntity().map { it.validate() }
             beneficialOwnerEntities().map { it.forEach { it.validate() } }
             beneficialOwnerIndividuals().map { it.forEach { it.validate() } }
+            businessAccountToken()
+            businessEntity().map { it.validate() }
             controlPerson().map { it.validate() }
-            natureOfBusiness()
-            websiteUrl()
+            created()
             email()
+            exemptionType()
+            externalId()
+            individual().map { it.validate() }
+            natureOfBusiness()
             phoneNumber()
             status()
             statusReasons()
+            token()
+            userType()
+            verificationApplication().map { it.validate() }
+            websiteUrl()
             validated = true
         }
     }
@@ -313,25 +313,25 @@ private constructor(
         }
 
         return other is AccountHolder &&
-            this.token == other.token &&
             this.accountToken == other.accountToken &&
-            this.businessAccountToken == other.businessAccountToken &&
-            this.created == other.created &&
-            this.externalId == other.externalId &&
-            this.exemptionType == other.exemptionType &&
-            this.userType == other.userType &&
-            this.verificationApplication == other.verificationApplication &&
-            this.individual == other.individual &&
-            this.businessEntity == other.businessEntity &&
             this.beneficialOwnerEntities == other.beneficialOwnerEntities &&
             this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
+            this.businessAccountToken == other.businessAccountToken &&
+            this.businessEntity == other.businessEntity &&
             this.controlPerson == other.controlPerson &&
-            this.natureOfBusiness == other.natureOfBusiness &&
-            this.websiteUrl == other.websiteUrl &&
+            this.created == other.created &&
             this.email == other.email &&
+            this.exemptionType == other.exemptionType &&
+            this.externalId == other.externalId &&
+            this.individual == other.individual &&
+            this.natureOfBusiness == other.natureOfBusiness &&
             this.phoneNumber == other.phoneNumber &&
             this.status == other.status &&
             this.statusReasons == other.statusReasons &&
+            this.token == other.token &&
+            this.userType == other.userType &&
+            this.verificationApplication == other.verificationApplication &&
+            this.websiteUrl == other.websiteUrl &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -339,25 +339,25 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
-                    token,
                     accountToken,
-                    businessAccountToken,
-                    created,
-                    externalId,
-                    exemptionType,
-                    userType,
-                    verificationApplication,
-                    individual,
-                    businessEntity,
                     beneficialOwnerEntities,
                     beneficialOwnerIndividuals,
+                    businessAccountToken,
+                    businessEntity,
                     controlPerson,
-                    natureOfBusiness,
-                    websiteUrl,
+                    created,
                     email,
+                    exemptionType,
+                    externalId,
+                    individual,
+                    natureOfBusiness,
                     phoneNumber,
                     status,
                     statusReasons,
+                    token,
+                    userType,
+                    verificationApplication,
+                    websiteUrl,
                     additionalProperties,
                 )
         }
@@ -365,7 +365,7 @@ private constructor(
     }
 
     override fun toString() =
-        "AccountHolder{token=$token, accountToken=$accountToken, businessAccountToken=$businessAccountToken, created=$created, externalId=$externalId, exemptionType=$exemptionType, userType=$userType, verificationApplication=$verificationApplication, individual=$individual, businessEntity=$businessEntity, beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, controlPerson=$controlPerson, natureOfBusiness=$natureOfBusiness, websiteUrl=$websiteUrl, email=$email, phoneNumber=$phoneNumber, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
+        "AccountHolder{accountToken=$accountToken, beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessAccountToken=$businessAccountToken, businessEntity=$businessEntity, controlPerson=$controlPerson, created=$created, email=$email, exemptionType=$exemptionType, externalId=$externalId, individual=$individual, natureOfBusiness=$natureOfBusiness, phoneNumber=$phoneNumber, status=$status, statusReasons=$statusReasons, token=$token, userType=$userType, verificationApplication=$verificationApplication, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -374,60 +374,52 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
         private var accountToken: JsonField<String> = JsonMissing.of()
-        private var businessAccountToken: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var externalId: JsonField<String> = JsonMissing.of()
-        private var exemptionType: JsonField<ExemptionType> = JsonMissing.of()
-        private var userType: JsonField<UserType> = JsonMissing.of()
-        private var verificationApplication: JsonField<AccountHolderVerificationApplication> =
-            JsonMissing.of()
-        private var individual: JsonField<AccountHolderIndividualResponse> = JsonMissing.of()
-        private var businessEntity: JsonField<BusinessEntity> = JsonMissing.of()
         private var beneficialOwnerEntities: JsonField<List<BusinessEntity>> = JsonMissing.of()
         private var beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>> =
             JsonMissing.of()
+        private var businessAccountToken: JsonField<String> = JsonMissing.of()
+        private var businessEntity: JsonField<BusinessEntity> = JsonMissing.of()
         private var controlPerson: JsonField<AccountHolderIndividualResponse> = JsonMissing.of()
-        private var natureOfBusiness: JsonField<String> = JsonMissing.of()
-        private var websiteUrl: JsonField<String> = JsonMissing.of()
+        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var email: JsonField<String> = JsonMissing.of()
+        private var exemptionType: JsonField<ExemptionType> = JsonMissing.of()
+        private var externalId: JsonField<String> = JsonMissing.of()
+        private var individual: JsonField<AccountHolderIndividualResponse> = JsonMissing.of()
+        private var natureOfBusiness: JsonField<String> = JsonMissing.of()
         private var phoneNumber: JsonField<String> = JsonMissing.of()
         private var status: JsonField<Status> = JsonMissing.of()
         private var statusReasons: JsonField<List<StatusReason>> = JsonMissing.of()
+        private var token: JsonField<String> = JsonMissing.of()
+        private var userType: JsonField<UserType> = JsonMissing.of()
+        private var verificationApplication: JsonField<AccountHolderVerificationApplication> =
+            JsonMissing.of()
+        private var websiteUrl: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(accountHolder: AccountHolder) = apply {
-            this.token = accountHolder.token
             this.accountToken = accountHolder.accountToken
-            this.businessAccountToken = accountHolder.businessAccountToken
-            this.created = accountHolder.created
-            this.externalId = accountHolder.externalId
-            this.exemptionType = accountHolder.exemptionType
-            this.userType = accountHolder.userType
-            this.verificationApplication = accountHolder.verificationApplication
-            this.individual = accountHolder.individual
-            this.businessEntity = accountHolder.businessEntity
             this.beneficialOwnerEntities = accountHolder.beneficialOwnerEntities
             this.beneficialOwnerIndividuals = accountHolder.beneficialOwnerIndividuals
+            this.businessAccountToken = accountHolder.businessAccountToken
+            this.businessEntity = accountHolder.businessEntity
             this.controlPerson = accountHolder.controlPerson
-            this.natureOfBusiness = accountHolder.natureOfBusiness
-            this.websiteUrl = accountHolder.websiteUrl
+            this.created = accountHolder.created
             this.email = accountHolder.email
+            this.exemptionType = accountHolder.exemptionType
+            this.externalId = accountHolder.externalId
+            this.individual = accountHolder.individual
+            this.natureOfBusiness = accountHolder.natureOfBusiness
             this.phoneNumber = accountHolder.phoneNumber
             this.status = accountHolder.status
             this.statusReasons = accountHolder.statusReasons
+            this.token = accountHolder.token
+            this.userType = accountHolder.userType
+            this.verificationApplication = accountHolder.verificationApplication
+            this.websiteUrl = accountHolder.websiteUrl
             additionalProperties(accountHolder.additionalProperties)
         }
-
-        /** Globally unique identifier for the account holder. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** Globally unique identifier for the account holder. */
-        @JsonProperty("token")
-        @ExcludeMissing
-        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier for the account. */
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
@@ -437,120 +429,6 @@ private constructor(
         @ExcludeMissing
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
-        }
-
-        /**
-         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-         * businesses. Pass the account_token of the enrolled business associated with the
-         * AUTHORIZED_USER in this field.
-         */
-        fun businessAccountToken(businessAccountToken: String) =
-            businessAccountToken(JsonField.of(businessAccountToken))
-
-        /**
-         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-         * businesses. Pass the account_token of the enrolled business associated with the
-         * AUTHORIZED_USER in this field.
-         */
-        @JsonProperty("business_account_token")
-        @ExcludeMissing
-        fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
-            this.businessAccountToken = businessAccountToken
-        }
-
-        /** Timestamp of when the account holder was created. */
-        fun created(created: OffsetDateTime) = created(JsonField.of(created))
-
-        /** Timestamp of when the account holder was created. */
-        @JsonProperty("created")
-        @ExcludeMissing
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
-
-        /**
-         * Customer-provided token that indicates a relationship with an object outside of the
-         * Lithic ecosystem.
-         */
-        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
-
-        /**
-         * Customer-provided token that indicates a relationship with an object outside of the
-         * Lithic ecosystem.
-         */
-        @JsonProperty("external_id")
-        @ExcludeMissing
-        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
-
-        /** The type of KYC exemption for a KYC-Exempt Account Holder. */
-        fun exemptionType(exemptionType: ExemptionType) = exemptionType(JsonField.of(exemptionType))
-
-        /** The type of KYC exemption for a KYC-Exempt Account Holder. */
-        @JsonProperty("exemption_type")
-        @ExcludeMissing
-        fun exemptionType(exemptionType: JsonField<ExemptionType>) = apply {
-            this.exemptionType = exemptionType
-        }
-
-        /**
-         * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will
-         * be present. If the type is "BUSINESS" then the "business_entity", "control_person",
-         * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
-         * "website_url" attributes will be present.
-         */
-        fun userType(userType: UserType) = userType(JsonField.of(userType))
-
-        /**
-         * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will
-         * be present. If the type is "BUSINESS" then the "business_entity", "control_person",
-         * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
-         * "website_url" attributes will be present.
-         */
-        @JsonProperty("user_type")
-        @ExcludeMissing
-        fun userType(userType: JsonField<UserType>) = apply { this.userType = userType }
-
-        /** Information about the most recent identity verification attempt */
-        fun verificationApplication(verificationApplication: AccountHolderVerificationApplication) =
-            verificationApplication(JsonField.of(verificationApplication))
-
-        /** Information about the most recent identity verification attempt */
-        @JsonProperty("verification_application")
-        @ExcludeMissing
-        fun verificationApplication(
-            verificationApplication: JsonField<AccountHolderVerificationApplication>
-        ) = apply { this.verificationApplication = verificationApplication }
-
-        /**
-         * Only present when user_type == "INDIVIDUAL". Information about the individual for which
-         * the account is being opened and KYC is being run.
-         */
-        fun individual(individual: AccountHolderIndividualResponse) =
-            individual(JsonField.of(individual))
-
-        /**
-         * Only present when user_type == "INDIVIDUAL". Information about the individual for which
-         * the account is being opened and KYC is being run.
-         */
-        @JsonProperty("individual")
-        @ExcludeMissing
-        fun individual(individual: JsonField<AccountHolderIndividualResponse>) = apply {
-            this.individual = individual
-        }
-
-        /**
-         * Only present when user_type == "BUSINESS". Information about the business for which the
-         * account is being opened and KYB is being run.
-         */
-        fun businessEntity(businessEntity: BusinessEntity) =
-            businessEntity(JsonField.of(businessEntity))
-
-        /**
-         * Only present when user_type == "BUSINESS". Information about the business for which the
-         * account is being opened and KYB is being run.
-         */
-        @JsonProperty("business_entity")
-        @ExcludeMissing
-        fun businessEntity(businessEntity: JsonField<BusinessEntity>) = apply {
-            this.businessEntity = businessEntity
         }
 
         /**
@@ -590,6 +468,42 @@ private constructor(
         ) = apply { this.beneficialOwnerIndividuals = beneficialOwnerIndividuals }
 
         /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        fun businessAccountToken(businessAccountToken: String) =
+            businessAccountToken(JsonField.of(businessAccountToken))
+
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        @JsonProperty("business_account_token")
+        @ExcludeMissing
+        fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
+            this.businessAccountToken = businessAccountToken
+        }
+
+        /**
+         * Only present when user_type == "BUSINESS". Information about the business for which the
+         * account is being opened and KYB is being run.
+         */
+        fun businessEntity(businessEntity: BusinessEntity) =
+            businessEntity(JsonField.of(businessEntity))
+
+        /**
+         * Only present when user_type == "BUSINESS". Information about the business for which the
+         * account is being opened and KYB is being run.
+         */
+        @JsonProperty("business_entity")
+        @ExcludeMissing
+        fun businessEntity(businessEntity: JsonField<BusinessEntity>) = apply {
+            this.businessEntity = businessEntity
+        }
+
+        /**
          * Only present when user_type == "BUSINESS". An individual with significant responsibility
          * for managing the legal entity (e.g., a Chief Executive Officer, Chief Financial Officer,
          * Chief Operating Officer, Managing Member, General Partner, President, Vice President, or
@@ -614,28 +528,13 @@ private constructor(
             this.controlPerson = controlPerson
         }
 
-        /**
-         * Only present when user_type == "BUSINESS". User-submitted description of the business.
-         */
-        fun natureOfBusiness(natureOfBusiness: String) =
-            natureOfBusiness(JsonField.of(natureOfBusiness))
+        /** Timestamp of when the account holder was created. */
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /**
-         * Only present when user_type == "BUSINESS". User-submitted description of the business.
-         */
-        @JsonProperty("nature_of_business")
+        /** Timestamp of when the account holder was created. */
+        @JsonProperty("created")
         @ExcludeMissing
-        fun natureOfBusiness(natureOfBusiness: JsonField<String>) = apply {
-            this.natureOfBusiness = natureOfBusiness
-        }
-
-        /** Only present when user_type == "BUSINESS". Business's primary website. */
-        fun websiteUrl(websiteUrl: String) = websiteUrl(JsonField.of(websiteUrl))
-
-        /** Only present when user_type == "BUSINESS". Business's primary website. */
-        @JsonProperty("website_url")
-        @ExcludeMissing
-        fun websiteUrl(websiteUrl: JsonField<String>) = apply { this.websiteUrl = websiteUrl }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
          * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
@@ -654,6 +553,62 @@ private constructor(
         @JsonProperty("email")
         @ExcludeMissing
         fun email(email: JsonField<String>) = apply { this.email = email }
+
+        /** The type of KYC exemption for a KYC-Exempt Account Holder. */
+        fun exemptionType(exemptionType: ExemptionType) = exemptionType(JsonField.of(exemptionType))
+
+        /** The type of KYC exemption for a KYC-Exempt Account Holder. */
+        @JsonProperty("exemption_type")
+        @ExcludeMissing
+        fun exemptionType(exemptionType: JsonField<ExemptionType>) = apply {
+            this.exemptionType = exemptionType
+        }
+
+        /**
+         * Customer-provided token that indicates a relationship with an object outside of the
+         * Lithic ecosystem.
+         */
+        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
+
+        /**
+         * Customer-provided token that indicates a relationship with an object outside of the
+         * Lithic ecosystem.
+         */
+        @JsonProperty("external_id")
+        @ExcludeMissing
+        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+
+        /**
+         * Only present when user_type == "INDIVIDUAL". Information about the individual for which
+         * the account is being opened and KYC is being run.
+         */
+        fun individual(individual: AccountHolderIndividualResponse) =
+            individual(JsonField.of(individual))
+
+        /**
+         * Only present when user_type == "INDIVIDUAL". Information about the individual for which
+         * the account is being opened and KYC is being run.
+         */
+        @JsonProperty("individual")
+        @ExcludeMissing
+        fun individual(individual: JsonField<AccountHolderIndividualResponse>) = apply {
+            this.individual = individual
+        }
+
+        /**
+         * Only present when user_type == "BUSINESS". User-submitted description of the business.
+         */
+        fun natureOfBusiness(natureOfBusiness: String) =
+            natureOfBusiness(JsonField.of(natureOfBusiness))
+
+        /**
+         * Only present when user_type == "BUSINESS". User-submitted description of the business.
+         */
+        @JsonProperty("nature_of_business")
+        @ExcludeMissing
+        fun natureOfBusiness(natureOfBusiness: JsonField<String>) = apply {
+            this.natureOfBusiness = natureOfBusiness
+        }
 
         /**
          * < Deprecated. Use control_person.phone_number when user_type == "BUSINESS". Use
@@ -706,6 +661,51 @@ private constructor(
             this.statusReasons = statusReasons
         }
 
+        /** Globally unique identifier for the account holder. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier for the account holder. */
+        @JsonProperty("token")
+        @ExcludeMissing
+        fun token(token: JsonField<String>) = apply { this.token = token }
+
+        /**
+         * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will
+         * be present. If the type is "BUSINESS" then the "business_entity", "control_person",
+         * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
+         * "website_url" attributes will be present.
+         */
+        fun userType(userType: UserType) = userType(JsonField.of(userType))
+
+        /**
+         * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will
+         * be present. If the type is "BUSINESS" then the "business_entity", "control_person",
+         * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
+         * "website_url" attributes will be present.
+         */
+        @JsonProperty("user_type")
+        @ExcludeMissing
+        fun userType(userType: JsonField<UserType>) = apply { this.userType = userType }
+
+        /** Information about the most recent identity verification attempt */
+        fun verificationApplication(verificationApplication: AccountHolderVerificationApplication) =
+            verificationApplication(JsonField.of(verificationApplication))
+
+        /** Information about the most recent identity verification attempt */
+        @JsonProperty("verification_application")
+        @ExcludeMissing
+        fun verificationApplication(
+            verificationApplication: JsonField<AccountHolderVerificationApplication>
+        ) = apply { this.verificationApplication = verificationApplication }
+
+        /** Only present when user_type == "BUSINESS". Business's primary website. */
+        fun websiteUrl(websiteUrl: String) = websiteUrl(JsonField.of(websiteUrl))
+
+        /** Only present when user_type == "BUSINESS". Business's primary website. */
+        @JsonProperty("website_url")
+        @ExcludeMissing
+        fun websiteUrl(websiteUrl: JsonField<String>) = apply { this.websiteUrl = websiteUrl }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -722,25 +722,25 @@ private constructor(
 
         fun build(): AccountHolder =
             AccountHolder(
-                token,
                 accountToken,
-                businessAccountToken,
-                created,
-                externalId,
-                exemptionType,
-                userType,
-                verificationApplication,
-                individual,
-                businessEntity,
                 beneficialOwnerEntities.map { it.toUnmodifiable() },
                 beneficialOwnerIndividuals.map { it.toUnmodifiable() },
+                businessAccountToken,
+                businessEntity,
                 controlPerson,
-                natureOfBusiness,
-                websiteUrl,
+                created,
                 email,
+                exemptionType,
+                externalId,
+                individual,
+                natureOfBusiness,
                 phoneNumber,
                 status,
                 statusReasons.map { it.toUnmodifiable() },
+                token,
+                userType,
+                verificationApplication,
+                websiteUrl,
                 additionalProperties.toUnmodifiable(),
             )
     }
@@ -1298,45 +1298,45 @@ private constructor(
 
             @JvmField val ACCEPTED = Status(JsonField.of("ACCEPTED"))
 
-            @JvmField val REJECTED = Status(JsonField.of("REJECTED"))
+            @JvmField val PENDING_DOCUMENT = Status(JsonField.of("PENDING_DOCUMENT"))
 
             @JvmField val PENDING_RESUBMIT = Status(JsonField.of("PENDING_RESUBMIT"))
 
-            @JvmField val PENDING_DOCUMENT = Status(JsonField.of("PENDING_DOCUMENT"))
+            @JvmField val REJECTED = Status(JsonField.of("REJECTED"))
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
 
         enum class Known {
             ACCEPTED,
-            REJECTED,
-            PENDING_RESUBMIT,
             PENDING_DOCUMENT,
+            PENDING_RESUBMIT,
+            REJECTED,
         }
 
         enum class Value {
             ACCEPTED,
-            REJECTED,
-            PENDING_RESUBMIT,
             PENDING_DOCUMENT,
+            PENDING_RESUBMIT,
+            REJECTED,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
                 ACCEPTED -> Value.ACCEPTED
-                REJECTED -> Value.REJECTED
-                PENDING_RESUBMIT -> Value.PENDING_RESUBMIT
                 PENDING_DOCUMENT -> Value.PENDING_DOCUMENT
+                PENDING_RESUBMIT -> Value.PENDING_RESUBMIT
+                REJECTED -> Value.REJECTED
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
                 ACCEPTED -> Known.ACCEPTED
-                REJECTED -> Known.REJECTED
-                PENDING_RESUBMIT -> Known.PENDING_RESUBMIT
                 PENDING_DOCUMENT -> Known.PENDING_DOCUMENT
+                PENDING_RESUBMIT -> Known.PENDING_RESUBMIT
+                REJECTED -> Known.REJECTED
                 else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
 
@@ -1531,9 +1531,9 @@ private constructor(
     class AccountHolderVerificationApplication
     private constructor(
         private val created: JsonField<OffsetDateTime>,
-        private val updated: JsonField<OffsetDateTime>,
         private val status: JsonField<Status>,
         private val statusReasons: JsonField<List<StatusReason>>,
+        private val updated: JsonField<OffsetDateTime>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -1545,10 +1545,6 @@ private constructor(
         fun created(): Optional<OffsetDateTime> =
             Optional.ofNullable(created.getNullable("created"))
 
-        /** Timestamp of when the application was last updated. */
-        fun updated(): Optional<OffsetDateTime> =
-            Optional.ofNullable(updated.getNullable("updated"))
-
         /**
          * KYC and KYB evaluation states. Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only
          * applicable for the `ADVANCED` workflow.
@@ -1559,11 +1555,12 @@ private constructor(
         fun statusReasons(): Optional<List<StatusReason>> =
             Optional.ofNullable(statusReasons.getNullable("status_reasons"))
 
+        /** Timestamp of when the application was last updated. */
+        fun updated(): Optional<OffsetDateTime> =
+            Optional.ofNullable(updated.getNullable("updated"))
+
         /** Timestamp of when the application was created. */
         @JsonProperty("created") @ExcludeMissing fun _created() = created
-
-        /** Timestamp of when the application was last updated. */
-        @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
 
         /**
          * KYC and KYB evaluation states. Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only
@@ -1574,6 +1571,9 @@ private constructor(
         /** Reason for the evaluation status. */
         @JsonProperty("status_reasons") @ExcludeMissing fun _statusReasons() = statusReasons
 
+        /** Timestamp of when the application was last updated. */
+        @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -1581,9 +1581,9 @@ private constructor(
         fun validate(): AccountHolderVerificationApplication = apply {
             if (!validated) {
                 created()
-                updated()
                 status()
                 statusReasons()
+                updated()
                 validated = true
             }
         }
@@ -1597,9 +1597,9 @@ private constructor(
 
             return other is AccountHolderVerificationApplication &&
                 this.created == other.created &&
-                this.updated == other.updated &&
                 this.status == other.status &&
                 this.statusReasons == other.statusReasons &&
+                this.updated == other.updated &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -1608,9 +1608,9 @@ private constructor(
                 hashCode =
                     Objects.hash(
                         created,
-                        updated,
                         status,
                         statusReasons,
+                        updated,
                         additionalProperties,
                     )
             }
@@ -1618,7 +1618,7 @@ private constructor(
         }
 
         override fun toString() =
-            "AccountHolderVerificationApplication{created=$created, updated=$updated, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
+            "AccountHolderVerificationApplication{created=$created, status=$status, statusReasons=$statusReasons, updated=$updated, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1628,9 +1628,9 @@ private constructor(
         class Builder {
 
             private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
             private var status: JsonField<Status> = JsonMissing.of()
             private var statusReasons: JsonField<List<StatusReason>> = JsonMissing.of()
+            private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -1638,9 +1638,9 @@ private constructor(
                 accountHolderVerificationApplication: AccountHolderVerificationApplication
             ) = apply {
                 this.created = accountHolderVerificationApplication.created
-                this.updated = accountHolderVerificationApplication.updated
                 this.status = accountHolderVerificationApplication.status
                 this.statusReasons = accountHolderVerificationApplication.statusReasons
+                this.updated = accountHolderVerificationApplication.updated
                 additionalProperties(accountHolderVerificationApplication.additionalProperties)
             }
 
@@ -1651,14 +1651,6 @@ private constructor(
             @JsonProperty("created")
             @ExcludeMissing
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
-
-            /** Timestamp of when the application was last updated. */
-            fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
-
-            /** Timestamp of when the application was last updated. */
-            @JsonProperty("updated")
-            @ExcludeMissing
-            fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
             /**
              * KYC and KYB evaluation states. Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are
@@ -1685,6 +1677,14 @@ private constructor(
                 this.statusReasons = statusReasons
             }
 
+            /** Timestamp of when the application was last updated. */
+            fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
+
+            /** Timestamp of when the application was last updated. */
+            @JsonProperty("updated")
+            @ExcludeMissing
+            fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 this.additionalProperties.putAll(additionalProperties)
@@ -1702,9 +1702,9 @@ private constructor(
             fun build(): AccountHolderVerificationApplication =
                 AccountHolderVerificationApplication(
                     created,
-                    updated,
                     status,
                     statusReasons.map { it.toUnmodifiable() },
+                    updated,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -1733,45 +1733,45 @@ private constructor(
 
                 @JvmField val ACCEPTED = Status(JsonField.of("ACCEPTED"))
 
-                @JvmField val REJECTED = Status(JsonField.of("REJECTED"))
+                @JvmField val PENDING_DOCUMENT = Status(JsonField.of("PENDING_DOCUMENT"))
 
                 @JvmField val PENDING_RESUBMIT = Status(JsonField.of("PENDING_RESUBMIT"))
 
-                @JvmField val PENDING_DOCUMENT = Status(JsonField.of("PENDING_DOCUMENT"))
+                @JvmField val REJECTED = Status(JsonField.of("REJECTED"))
 
                 @JvmStatic fun of(value: String) = Status(JsonField.of(value))
             }
 
             enum class Known {
                 ACCEPTED,
-                REJECTED,
-                PENDING_RESUBMIT,
                 PENDING_DOCUMENT,
+                PENDING_RESUBMIT,
+                REJECTED,
             }
 
             enum class Value {
                 ACCEPTED,
-                REJECTED,
-                PENDING_RESUBMIT,
                 PENDING_DOCUMENT,
+                PENDING_RESUBMIT,
+                REJECTED,
                 _UNKNOWN,
             }
 
             fun value(): Value =
                 when (this) {
                     ACCEPTED -> Value.ACCEPTED
-                    REJECTED -> Value.REJECTED
-                    PENDING_RESUBMIT -> Value.PENDING_RESUBMIT
                     PENDING_DOCUMENT -> Value.PENDING_DOCUMENT
+                    PENDING_RESUBMIT -> Value.PENDING_RESUBMIT
+                    REJECTED -> Value.REJECTED
                     else -> Value._UNKNOWN
                 }
 
             fun known(): Known =
                 when (this) {
                     ACCEPTED -> Known.ACCEPTED
-                    REJECTED -> Known.REJECTED
-                    PENDING_RESUBMIT -> Known.PENDING_RESUBMIT
                     PENDING_DOCUMENT -> Known.PENDING_DOCUMENT
+                    PENDING_RESUBMIT -> Known.PENDING_RESUBMIT
+                    REJECTED -> Known.REJECTED
                     else -> throw LithicInvalidDataException("Unknown Status: $value")
                 }
 

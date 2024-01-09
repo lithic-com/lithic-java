@@ -28,7 +28,7 @@ class ExternalBankAccountUpdateParamsTest {
             .doingBusinessAs("string")
             .name("x")
             .owner("x")
-            .ownerType(OwnerType.INDIVIDUAL)
+            .ownerType(OwnerType.BUSINESS)
             .userDefinedId("string")
             .build()
     }
@@ -53,7 +53,7 @@ class ExternalBankAccountUpdateParamsTest {
                 .doingBusinessAs("string")
                 .name("x")
                 .owner("x")
-                .ownerType(OwnerType.INDIVIDUAL)
+                .ownerType(OwnerType.BUSINESS)
                 .userDefinedId("string")
                 .build()
         val body = params.getBody()
@@ -74,7 +74,7 @@ class ExternalBankAccountUpdateParamsTest {
         assertThat(body.doingBusinessAs()).isEqualTo("string")
         assertThat(body.name()).isEqualTo("x")
         assertThat(body.owner()).isEqualTo("x")
-        assertThat(body.ownerType()).isEqualTo(OwnerType.INDIVIDUAL)
+        assertThat(body.ownerType()).isEqualTo(OwnerType.BUSINESS)
         assertThat(body.userDefinedId()).isEqualTo("string")
     }
 

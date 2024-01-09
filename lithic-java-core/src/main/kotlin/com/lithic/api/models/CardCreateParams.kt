@@ -29,6 +29,7 @@ constructor(
     private val memo: String?,
     private val pin: String?,
     private val productId: String?,
+    private val replacementFor: String?,
     private val shippingAddress: ShippingAddress?,
     private val shippingMethod: ShippingMethod?,
     private val spendLimit: Long?,
@@ -59,6 +60,8 @@ constructor(
 
     fun productId(): Optional<String> = Optional.ofNullable(productId)
 
+    fun replacementFor(): Optional<String> = Optional.ofNullable(replacementFor)
+
     fun shippingAddress(): Optional<ShippingAddress> = Optional.ofNullable(shippingAddress)
 
     fun shippingMethod(): Optional<ShippingMethod> = Optional.ofNullable(shippingMethod)
@@ -82,6 +85,7 @@ constructor(
             memo,
             pin,
             productId,
+            replacementFor,
             shippingAddress,
             shippingMethod,
             spendLimit,
@@ -109,6 +113,7 @@ constructor(
         private val memo: String?,
         private val pin: String?,
         private val productId: String?,
+        private val replacementFor: String?,
         private val shippingAddress: ShippingAddress?,
         private val shippingMethod: ShippingMethod?,
         private val spendLimit: Long?,
@@ -194,6 +199,12 @@ constructor(
          */
         @JsonProperty("product_id") fun productId(): String? = productId
 
+        /**
+         * Only applicable to cards of type `PHYSICAL`. Globally unique identifier for the card that
+         * this physical card will replace.
+         */
+        @JsonProperty("replacement_for") fun replacementFor(): String? = replacementFor
+
         @JsonProperty("shipping_address") fun shippingAddress(): ShippingAddress? = shippingAddress
 
         /**
@@ -262,6 +273,7 @@ constructor(
                 this.memo == other.memo &&
                 this.pin == other.pin &&
                 this.productId == other.productId &&
+                this.replacementFor == other.replacementFor &&
                 this.shippingAddress == other.shippingAddress &&
                 this.shippingMethod == other.shippingMethod &&
                 this.spendLimit == other.spendLimit &&
@@ -284,6 +296,7 @@ constructor(
                         memo,
                         pin,
                         productId,
+                        replacementFor,
                         shippingAddress,
                         shippingMethod,
                         spendLimit,
@@ -296,7 +309,7 @@ constructor(
         }
 
         override fun toString() =
-            "CardCreateBody{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
+            "CardCreateBody{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -315,6 +328,7 @@ constructor(
             private var memo: String? = null
             private var pin: String? = null
             private var productId: String? = null
+            private var replacementFor: String? = null
             private var shippingAddress: ShippingAddress? = null
             private var shippingMethod: ShippingMethod? = null
             private var spendLimit: Long? = null
@@ -334,6 +348,7 @@ constructor(
                 this.memo = cardCreateBody.memo
                 this.pin = cardCreateBody.pin
                 this.productId = cardCreateBody.productId
+                this.replacementFor = cardCreateBody.replacementFor
                 this.shippingAddress = cardCreateBody.shippingAddress
                 this.shippingMethod = cardCreateBody.shippingMethod
                 this.spendLimit = cardCreateBody.spendLimit
@@ -428,6 +443,15 @@ constructor(
             @JsonProperty("product_id")
             fun productId(productId: String) = apply { this.productId = productId }
 
+            /**
+             * Only applicable to cards of type `PHYSICAL`. Globally unique identifier for the card
+             * that this physical card will replace.
+             */
+            @JsonProperty("replacement_for")
+            fun replacementFor(replacementFor: String) = apply {
+                this.replacementFor = replacementFor
+            }
+
             @JsonProperty("shipping_address")
             fun shippingAddress(shippingAddress: ShippingAddress) = apply {
                 this.shippingAddress = shippingAddress
@@ -511,6 +535,7 @@ constructor(
                     memo,
                     pin,
                     productId,
+                    replacementFor,
                     shippingAddress,
                     shippingMethod,
                     spendLimit,
@@ -543,6 +568,7 @@ constructor(
             this.memo == other.memo &&
             this.pin == other.pin &&
             this.productId == other.productId &&
+            this.replacementFor == other.replacementFor &&
             this.shippingAddress == other.shippingAddress &&
             this.shippingMethod == other.shippingMethod &&
             this.spendLimit == other.spendLimit &&
@@ -565,6 +591,7 @@ constructor(
             memo,
             pin,
             productId,
+            replacementFor,
             shippingAddress,
             shippingMethod,
             spendLimit,
@@ -577,7 +604,7 @@ constructor(
     }
 
     override fun toString() =
-        "CardCreateParams{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "CardCreateParams{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -599,6 +626,7 @@ constructor(
         private var memo: String? = null
         private var pin: String? = null
         private var productId: String? = null
+        private var replacementFor: String? = null
         private var shippingAddress: ShippingAddress? = null
         private var shippingMethod: ShippingMethod? = null
         private var spendLimit: Long? = null
@@ -620,6 +648,7 @@ constructor(
             this.memo = cardCreateParams.memo
             this.pin = cardCreateParams.pin
             this.productId = cardCreateParams.productId
+            this.replacementFor = cardCreateParams.replacementFor
             this.shippingAddress = cardCreateParams.shippingAddress
             this.shippingMethod = cardCreateParams.shippingMethod
             this.spendLimit = cardCreateParams.spendLimit
@@ -707,6 +736,12 @@ constructor(
          * manufactured with.
          */
         fun productId(productId: String) = apply { this.productId = productId }
+
+        /**
+         * Only applicable to cards of type `PHYSICAL`. Globally unique identifier for the card that
+         * this physical card will replace.
+         */
+        fun replacementFor(replacementFor: String) = apply { this.replacementFor = replacementFor }
 
         fun shippingAddress(shippingAddress: ShippingAddress) = apply {
             this.shippingAddress = shippingAddress
@@ -825,6 +860,7 @@ constructor(
                 memo,
                 pin,
                 productId,
+                replacementFor,
                 shippingAddress,
                 shippingMethod,
                 spendLimit,
@@ -858,47 +894,47 @@ constructor(
 
         companion object {
 
-            @JvmField val VIRTUAL = Type(JsonField.of("VIRTUAL"))
+            @JvmField val MERCHANT_LOCKED = Type(JsonField.of("MERCHANT_LOCKED"))
 
             @JvmField val PHYSICAL = Type(JsonField.of("PHYSICAL"))
 
-            @JvmField val MERCHANT_LOCKED = Type(JsonField.of("MERCHANT_LOCKED"))
-
             @JvmField val SINGLE_USE = Type(JsonField.of("SINGLE_USE"))
+
+            @JvmField val VIRTUAL = Type(JsonField.of("VIRTUAL"))
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
         enum class Known {
-            VIRTUAL,
-            PHYSICAL,
             MERCHANT_LOCKED,
+            PHYSICAL,
             SINGLE_USE,
+            VIRTUAL,
         }
 
         enum class Value {
-            VIRTUAL,
-            PHYSICAL,
             MERCHANT_LOCKED,
+            PHYSICAL,
             SINGLE_USE,
+            VIRTUAL,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                VIRTUAL -> Value.VIRTUAL
-                PHYSICAL -> Value.PHYSICAL
                 MERCHANT_LOCKED -> Value.MERCHANT_LOCKED
+                PHYSICAL -> Value.PHYSICAL
                 SINGLE_USE -> Value.SINGLE_USE
+                VIRTUAL -> Value.VIRTUAL
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                VIRTUAL -> Known.VIRTUAL
-                PHYSICAL -> Known.PHYSICAL
                 MERCHANT_LOCKED -> Known.MERCHANT_LOCKED
+                PHYSICAL -> Known.PHYSICAL
                 SINGLE_USE -> Known.SINGLE_USE
+                VIRTUAL -> Known.VIRTUAL
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 
@@ -927,60 +963,60 @@ constructor(
 
         companion object {
 
+            @JvmField val _2_DAY = ShippingMethod(JsonField.of("2_DAY"))
+
+            @JvmField val EXPEDITED = ShippingMethod(JsonField.of("EXPEDITED"))
+
+            @JvmField val EXPRESS = ShippingMethod(JsonField.of("EXPRESS"))
+
+            @JvmField val PRIORITY = ShippingMethod(JsonField.of("PRIORITY"))
+
             @JvmField val STANDARD = ShippingMethod(JsonField.of("STANDARD"))
 
             @JvmField
             val STANDARD_WITH_TRACKING = ShippingMethod(JsonField.of("STANDARD_WITH_TRACKING"))
 
-            @JvmField val PRIORITY = ShippingMethod(JsonField.of("PRIORITY"))
-
-            @JvmField val EXPRESS = ShippingMethod(JsonField.of("EXPRESS"))
-
-            @JvmField val _2_DAY = ShippingMethod(JsonField.of("2_DAY"))
-
-            @JvmField val EXPEDITED = ShippingMethod(JsonField.of("EXPEDITED"))
-
             @JvmStatic fun of(value: String) = ShippingMethod(JsonField.of(value))
         }
 
         enum class Known {
-            STANDARD,
-            STANDARD_WITH_TRACKING,
-            PRIORITY,
-            EXPRESS,
             _2_DAY,
             EXPEDITED,
+            EXPRESS,
+            PRIORITY,
+            STANDARD,
+            STANDARD_WITH_TRACKING,
         }
 
         enum class Value {
-            STANDARD,
-            STANDARD_WITH_TRACKING,
-            PRIORITY,
-            EXPRESS,
             _2_DAY,
             EXPEDITED,
+            EXPRESS,
+            PRIORITY,
+            STANDARD,
+            STANDARD_WITH_TRACKING,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                STANDARD -> Value.STANDARD
-                STANDARD_WITH_TRACKING -> Value.STANDARD_WITH_TRACKING
-                PRIORITY -> Value.PRIORITY
-                EXPRESS -> Value.EXPRESS
                 _2_DAY -> Value._2_DAY
                 EXPEDITED -> Value.EXPEDITED
+                EXPRESS -> Value.EXPRESS
+                PRIORITY -> Value.PRIORITY
+                STANDARD -> Value.STANDARD
+                STANDARD_WITH_TRACKING -> Value.STANDARD_WITH_TRACKING
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                STANDARD -> Known.STANDARD
-                STANDARD_WITH_TRACKING -> Known.STANDARD_WITH_TRACKING
-                PRIORITY -> Known.PRIORITY
-                EXPRESS -> Known.EXPRESS
                 _2_DAY -> Known._2_DAY
                 EXPEDITED -> Known.EXPEDITED
+                EXPRESS -> Known.EXPRESS
+                PRIORITY -> Known.PRIORITY
+                STANDARD -> Known.STANDARD
+                STANDARD_WITH_TRACKING -> Known.STANDARD_WITH_TRACKING
                 else -> throw LithicInvalidDataException("Unknown ShippingMethod: $value")
             }
 

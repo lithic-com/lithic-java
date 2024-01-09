@@ -11,7 +11,7 @@ class CardCreateParamsTest {
     @Test
     fun createCardCreateParams() {
         CardCreateParams.builder()
-            .type(CardCreateParams.Type.VIRTUAL)
+            .type(CardCreateParams.Type.MERCHANT_LOCKED)
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .cardProgramToken("00000000-0000-0000-1000-000000000000")
             .carrier(Carrier.builder().qrCodeUrl("string").build())
@@ -21,6 +21,7 @@ class CardCreateParamsTest {
             .memo("New Card")
             .pin("string")
             .productId("1")
+            .replacementFor("00000000-0000-0000-1000-000000000000")
             .shippingAddress(
                 ShippingAddress.builder()
                     .address1("5 Broad Street")
@@ -36,7 +37,7 @@ class CardCreateParamsTest {
                     .phoneNumber("+12124007676")
                     .build()
             )
-            .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+            .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
             .spendLimit(123L)
             .spendLimitDuration(SpendLimitDuration.ANNUALLY)
             .state(CardCreateParams.State.OPEN)
@@ -47,7 +48,7 @@ class CardCreateParamsTest {
     fun getBody() {
         val params =
             CardCreateParams.builder()
-                .type(CardCreateParams.Type.VIRTUAL)
+                .type(CardCreateParams.Type.MERCHANT_LOCKED)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .cardProgramToken("00000000-0000-0000-1000-000000000000")
                 .carrier(Carrier.builder().qrCodeUrl("string").build())
@@ -57,6 +58,7 @@ class CardCreateParamsTest {
                 .memo("New Card")
                 .pin("string")
                 .productId("1")
+                .replacementFor("00000000-0000-0000-1000-000000000000")
                 .shippingAddress(
                     ShippingAddress.builder()
                         .address1("5 Broad Street")
@@ -72,14 +74,14 @@ class CardCreateParamsTest {
                         .phoneNumber("+12124007676")
                         .build()
                 )
-                .shippingMethod(CardCreateParams.ShippingMethod.STANDARD)
+                .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
                 .spendLimit(123L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(CardCreateParams.State.OPEN)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.type()).isEqualTo(CardCreateParams.Type.VIRTUAL)
+        assertThat(body.type()).isEqualTo(CardCreateParams.Type.MERCHANT_LOCKED)
         assertThat(body.accountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.cardProgramToken()).isEqualTo("00000000-0000-0000-1000-000000000000")
         assertThat(body.carrier()).isEqualTo(Carrier.builder().qrCodeUrl("string").build())
@@ -89,6 +91,7 @@ class CardCreateParamsTest {
         assertThat(body.memo()).isEqualTo("New Card")
         assertThat(body.pin()).isEqualTo("string")
         assertThat(body.productId()).isEqualTo("1")
+        assertThat(body.replacementFor()).isEqualTo("00000000-0000-0000-1000-000000000000")
         assertThat(body.shippingAddress())
             .isEqualTo(
                 ShippingAddress.builder()
@@ -105,7 +108,7 @@ class CardCreateParamsTest {
                     .phoneNumber("+12124007676")
                     .build()
             )
-        assertThat(body.shippingMethod()).isEqualTo(CardCreateParams.ShippingMethod.STANDARD)
+        assertThat(body.shippingMethod()).isEqualTo(CardCreateParams.ShippingMethod._2_DAY)
         assertThat(body.spendLimit()).isEqualTo(123L)
         assertThat(body.spendLimitDuration()).isEqualTo(SpendLimitDuration.ANNUALLY)
         assertThat(body.state()).isEqualTo(CardCreateParams.State.OPEN)
@@ -113,9 +116,9 @@ class CardCreateParamsTest {
 
     @Test
     fun getBodyWithoutOptionalFields() {
-        val params = CardCreateParams.builder().type(CardCreateParams.Type.VIRTUAL).build()
+        val params = CardCreateParams.builder().type(CardCreateParams.Type.MERCHANT_LOCKED).build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.type()).isEqualTo(CardCreateParams.Type.VIRTUAL)
+        assertThat(body.type()).isEqualTo(CardCreateParams.Type.MERCHANT_LOCKED)
     }
 }

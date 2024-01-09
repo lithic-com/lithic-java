@@ -138,7 +138,7 @@ constructor(
     private val apiStatusHandler: Handler<ApiStatus> =
         jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
-    /** API status check */
+    /** Status of api */
     override fun apiStatus(
         params: ClientApiStatusParams,
         requestOptions: RequestOptions

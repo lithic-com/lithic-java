@@ -20,10 +20,10 @@ import java.util.Objects
 class CardProgram
 private constructor(
     private val created: JsonField<OffsetDateTime>,
-    private val token: JsonField<String>,
-    private val panRangeStart: JsonField<String>,
-    private val panRangeEnd: JsonField<String>,
     private val name: JsonField<String>,
+    private val panRangeEnd: JsonField<String>,
+    private val panRangeStart: JsonField<String>,
+    private val token: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -34,32 +34,32 @@ private constructor(
     /** Timestamp of when the card program was created. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** Globally unique identifier. */
-    fun token(): String = token.getRequired("token")
-
-    /** The first digits of the card number that this card program starts with. */
-    fun panRangeStart(): String = panRangeStart.getRequired("pan_range_start")
+    /** The name of the card program. */
+    fun name(): String = name.getRequired("name")
 
     /** The first digits of the card number that this card program ends with. */
     fun panRangeEnd(): String = panRangeEnd.getRequired("pan_range_end")
 
-    /** The name of the card program. */
-    fun name(): String = name.getRequired("name")
+    /** The first digits of the card number that this card program starts with. */
+    fun panRangeStart(): String = panRangeStart.getRequired("pan_range_start")
+
+    /** Globally unique identifier. */
+    fun token(): String = token.getRequired("token")
 
     /** Timestamp of when the card program was created. */
     @JsonProperty("created") @ExcludeMissing fun _created() = created
 
-    /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
-    /** The first digits of the card number that this card program starts with. */
-    @JsonProperty("pan_range_start") @ExcludeMissing fun _panRangeStart() = panRangeStart
+    /** The name of the card program. */
+    @JsonProperty("name") @ExcludeMissing fun _name() = name
 
     /** The first digits of the card number that this card program ends with. */
     @JsonProperty("pan_range_end") @ExcludeMissing fun _panRangeEnd() = panRangeEnd
 
-    /** The name of the card program. */
-    @JsonProperty("name") @ExcludeMissing fun _name() = name
+    /** The first digits of the card number that this card program starts with. */
+    @JsonProperty("pan_range_start") @ExcludeMissing fun _panRangeStart() = panRangeStart
+
+    /** Globally unique identifier. */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -68,10 +68,10 @@ private constructor(
     fun validate(): CardProgram = apply {
         if (!validated) {
             created()
-            token()
-            panRangeStart()
-            panRangeEnd()
             name()
+            panRangeEnd()
+            panRangeStart()
+            token()
             validated = true
         }
     }
@@ -85,10 +85,10 @@ private constructor(
 
         return other is CardProgram &&
             this.created == other.created &&
-            this.token == other.token &&
-            this.panRangeStart == other.panRangeStart &&
-            this.panRangeEnd == other.panRangeEnd &&
             this.name == other.name &&
+            this.panRangeEnd == other.panRangeEnd &&
+            this.panRangeStart == other.panRangeStart &&
+            this.token == other.token &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -97,10 +97,10 @@ private constructor(
             hashCode =
                 Objects.hash(
                     created,
-                    token,
-                    panRangeStart,
-                    panRangeEnd,
                     name,
+                    panRangeEnd,
+                    panRangeStart,
+                    token,
                     additionalProperties,
                 )
         }
@@ -108,7 +108,7 @@ private constructor(
     }
 
     override fun toString() =
-        "CardProgram{created=$created, token=$token, panRangeStart=$panRangeStart, panRangeEnd=$panRangeEnd, name=$name, additionalProperties=$additionalProperties}"
+        "CardProgram{created=$created, name=$name, panRangeEnd=$panRangeEnd, panRangeStart=$panRangeStart, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -118,19 +118,19 @@ private constructor(
     class Builder {
 
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
-        private var panRangeStart: JsonField<String> = JsonMissing.of()
-        private var panRangeEnd: JsonField<String> = JsonMissing.of()
         private var name: JsonField<String> = JsonMissing.of()
+        private var panRangeEnd: JsonField<String> = JsonMissing.of()
+        private var panRangeStart: JsonField<String> = JsonMissing.of()
+        private var token: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(cardProgram: CardProgram) = apply {
             this.created = cardProgram.created
-            this.token = cardProgram.token
-            this.panRangeStart = cardProgram.panRangeStart
-            this.panRangeEnd = cardProgram.panRangeEnd
             this.name = cardProgram.name
+            this.panRangeEnd = cardProgram.panRangeEnd
+            this.panRangeStart = cardProgram.panRangeStart
+            this.token = cardProgram.token
             additionalProperties(cardProgram.additionalProperties)
         }
 
@@ -142,13 +142,21 @@ private constructor(
         @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-        /** Globally unique identifier. */
-        fun token(token: String) = token(JsonField.of(token))
+        /** The name of the card program. */
+        fun name(name: String) = name(JsonField.of(name))
 
-        /** Globally unique identifier. */
-        @JsonProperty("token")
+        /** The name of the card program. */
+        @JsonProperty("name")
         @ExcludeMissing
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun name(name: JsonField<String>) = apply { this.name = name }
+
+        /** The first digits of the card number that this card program ends with. */
+        fun panRangeEnd(panRangeEnd: String) = panRangeEnd(JsonField.of(panRangeEnd))
+
+        /** The first digits of the card number that this card program ends with. */
+        @JsonProperty("pan_range_end")
+        @ExcludeMissing
+        fun panRangeEnd(panRangeEnd: JsonField<String>) = apply { this.panRangeEnd = panRangeEnd }
 
         /** The first digits of the card number that this card program starts with. */
         fun panRangeStart(panRangeStart: String) = panRangeStart(JsonField.of(panRangeStart))
@@ -160,21 +168,13 @@ private constructor(
             this.panRangeStart = panRangeStart
         }
 
-        /** The first digits of the card number that this card program ends with. */
-        fun panRangeEnd(panRangeEnd: String) = panRangeEnd(JsonField.of(panRangeEnd))
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
 
-        /** The first digits of the card number that this card program ends with. */
-        @JsonProperty("pan_range_end")
+        /** Globally unique identifier. */
+        @JsonProperty("token")
         @ExcludeMissing
-        fun panRangeEnd(panRangeEnd: JsonField<String>) = apply { this.panRangeEnd = panRangeEnd }
-
-        /** The name of the card program. */
-        fun name(name: String) = name(JsonField.of(name))
-
-        /** The name of the card program. */
-        @JsonProperty("name")
-        @ExcludeMissing
-        fun name(name: JsonField<String>) = apply { this.name = name }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -193,10 +193,10 @@ private constructor(
         fun build(): CardProgram =
             CardProgram(
                 created,
-                token,
-                panRangeStart,
-                panRangeEnd,
                 name,
+                panRangeEnd,
+                panRangeStart,
+                token,
                 additionalProperties.toUnmodifiable(),
             )
     }
