@@ -83,4 +83,29 @@ internal class RetryingHttpClientTest {
         assertThat(response.statusCode()).isEqualTo(200)
         verify(3, postRequestedFor(urlPathEqualTo("/something")))
     }
+
+    @Test
+    fun retryAfterMsHeader() {
+        val request =
+            HttpRequest.builder().method(HttpMethod.POST).addPathSegment("something").build()
+        stubFor(
+            post(urlPathEqualTo("/something"))
+                .inScenario("foo")
+                .whenScenarioStateIs(Scenario.STARTED)
+                .willReturn(serviceUnavailable().withHeader("Retry-After-Ms", "10"))
+                .willSetStateTo("RETRY_AFTER_DELAY")
+        )
+        stubFor(
+            post(urlPathEqualTo("/something"))
+                .inScenario("foo") // then we return a success
+                .whenScenarioStateIs("RETRY_AFTER_DELAY")
+                .willReturn(ok())
+                .willSetStateTo("COMPLETED")
+        )
+        val retryingClient =
+            RetryingHttpClient.builder().httpClient(httpClient).maxRetries(1).build()
+        val response = retryingClient.execute(request)
+        assertThat(response.statusCode()).isEqualTo(200)
+        verify(2, postRequestedFor(urlPathEqualTo("/something")))
+    }
 }
