@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.24.1 (2024-01-17)
+
+Full Changelog: [v0.24.0...v0.24.1](https://github.com/lithic-com/lithic-java/compare/v0.24.0...v0.24.1)
+
+### Features
+
+* **api:** updates ([#141](https://github.com/lithic-com/lithic-java/issues/141)) ([c6d8a54](https://github.com/lithic-com/lithic-java/commit/c6d8a543eb9babd51900bf715193d9ec7c653d5d))
+
+
+### Documentation
+
+* **readme:** improve api reference ([#139](https://github.com/lithic-com/lithic-java/issues/139)) ([f315af6](https://github.com/lithic-com/lithic-java/commit/f315af620f526375d48ced3891157b41a78dc359))
+
 ## 0.24.0 (2024-01-09)
 
 Full Changelog: [v0.23.0...v0.24.0](https://github.com/lithic-com/lithic-java/compare/v0.23.0...v0.24.0)
