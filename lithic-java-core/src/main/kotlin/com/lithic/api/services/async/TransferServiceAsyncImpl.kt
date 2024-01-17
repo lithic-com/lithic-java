@@ -26,7 +26,7 @@ constructor(
     private val createHandler: Handler<TransferCreateResponse> =
         jsonHandler<TransferCreateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
-    /** ransfer funds between two financial accounts or between a financial account and card */
+    /** Transfer funds between two financial accounts or between a financial account and card */
     override fun create(
         params: TransferCreateParams,
         requestOptions: RequestOptions

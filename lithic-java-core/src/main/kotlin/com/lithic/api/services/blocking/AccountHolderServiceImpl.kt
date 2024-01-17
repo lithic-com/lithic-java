@@ -13,6 +13,8 @@ import com.lithic.api.models.AccountHolderCreateParams
 import com.lithic.api.models.AccountHolderDocument
 import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListDocumentsResponse
+import com.lithic.api.models.AccountHolderListPage
+import com.lithic.api.models.AccountHolderListParams
 import com.lithic.api.models.AccountHolderResubmitParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
 import com.lithic.api.models.AccountHolderRetrieveParams
@@ -127,6 +129,37 @@ constructor(
                         validate()
                     }
                 }
+        }
+    }
+
+    private val listHandler: Handler<AccountHolderListPage.Response> =
+        jsonHandler<AccountHolderListPage.Response>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /**
+     * Get a list of individual or business account holders and their KYC or KYB evaluation status.
+     */
+    override fun list(
+        params: AccountHolderListParams,
+        requestOptions: RequestOptions
+    ): AccountHolderListPage {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.GET)
+                .addPathSegments("account_holders")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { listHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+                .let { AccountHolderListPage.of(this, params, it) }
         }
     }
 

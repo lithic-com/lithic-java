@@ -5,6 +5,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.*
+import com.lithic.api.models.AccountHolderListParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
@@ -158,6 +159,19 @@ class AccountHolderServiceTest {
             )
         println(accountHolderUpdateResponse)
         accountHolderUpdateResponse.validate()
+    }
+
+    @Test
+    fun callList() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val accountHolderService = client.accountHolders()
+        val response = accountHolderService.list(AccountHolderListParams.builder().build())
+        println(response)
+        response.data().forEach { it.validate() }
     }
 
     @Test

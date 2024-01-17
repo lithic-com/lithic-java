@@ -10,6 +10,8 @@ import com.lithic.api.models.AccountHolderCreateParams
 import com.lithic.api.models.AccountHolderDocument
 import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListDocumentsResponse
+import com.lithic.api.models.AccountHolderListPageAsync
+import com.lithic.api.models.AccountHolderListParams
 import com.lithic.api.models.AccountHolderResubmitParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
 import com.lithic.api.models.AccountHolderRetrieveParams
@@ -47,6 +49,15 @@ interface AccountHolderServiceAsync {
         params: AccountHolderUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<AccountHolderUpdateResponse>
+
+    /**
+     * Get a list of individual or business account holders and their KYC or KYB evaluation status.
+     */
+    @JvmOverloads
+    fun list(
+        params: AccountHolderListParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<AccountHolderListPageAsync>
 
     /**
      * Retrieve the status of account holder document uploads, or retrieve the upload URLs to
