@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture
 
 interface TransferServiceAsync {
 
-    /** ransfer funds between two financial accounts or between a financial account and card */
+    /** Transfer funds between two financial accounts or between a financial account and card */
     @JvmOverloads
     fun create(
         params: TransferCreateParams,
