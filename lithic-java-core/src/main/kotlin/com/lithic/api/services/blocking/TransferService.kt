@@ -10,7 +10,7 @@ import com.lithic.api.models.TransferCreateResponse
 
 interface TransferService {
 
-    /** ransfer funds between two financial accounts or between a financial account and card */
+    /** Transfer funds between two financial accounts or between a financial account and card */
     @JvmOverloads
     fun create(
         params: TransferCreateParams,

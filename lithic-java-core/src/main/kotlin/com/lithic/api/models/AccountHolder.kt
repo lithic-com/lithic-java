@@ -147,7 +147,7 @@ private constructor(
         Optional.ofNullable(statusReasons.getNullable("status_reasons"))
 
     /** Globally unique identifier for the account holder. */
-    fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+    fun token(): String = token.getRequired("token")
 
     /**
      * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will be
