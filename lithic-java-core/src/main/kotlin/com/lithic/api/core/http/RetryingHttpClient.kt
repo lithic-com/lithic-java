@@ -7,6 +7,7 @@ import com.lithic.api.core.RequestOptions
 import com.lithic.api.errors.LithicIoException
 import java.io.IOException
 import java.time.Clock
+import java.time.Duration
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -59,7 +60,7 @@ private constructor(
                 }
 
             val backoffMillis = getRetryBackoffMillis(retries, response)
-            Thread.sleep(backoffMillis)
+            Thread.sleep(backoffMillis.toMillis())
         }
     }
 
@@ -95,7 +96,7 @@ private constructor(
                         }
 
                         val backoffMillis = getRetryBackoffMillis(retries, response)
-                        return sleepAsync(backoffMillis).thenCompose {
+                        return sleepAsync(backoffMillis.toMillis()).thenCompose {
                             wrap(httpClient.executeAsync(request, requestOptions))
                         }
                     },
@@ -113,8 +114,7 @@ private constructor(
 
     private fun isRetryable(request: HttpRequest): Boolean {
         // Some requests, such as when a request body is being streamed, cannot be retried because
-        // the body data aren't
-        // available on subsequent attempts.
+        // the body data aren't available on subsequent attempts.
         return request.body?.repeatable() ?: true
     }
 
@@ -151,31 +151,45 @@ private constructor(
 
     private fun shouldRetry(throwable: Throwable): Boolean {
         // Only retry IOException and LithicIoException, other exceptions are not intended to be
-        // retried
+        // retried.
         return throwable is IOException || throwable is LithicIoException
     }
 
-    private fun getRetryBackoffMillis(retries: Int, response: HttpResponse?): Long {
+    private fun getRetryBackoffMillis(retries: Int, response: HttpResponse?): Duration {
         // About the Retry-After header:
         // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
-        val retryAfter =
-            response?.headers()?.get("Retry-After")?.getOrNull(0)?.let { retryAfter ->
-                retryAfter.toLongOrNull()
-                    ?: try {
-                        ChronoUnit.SECONDS.between(
-                            OffsetDateTime.now(clock),
-                            OffsetDateTime.parse(retryAfter, DateTimeFormatter.RFC_1123_DATE_TIME)
-                        )
-                    } catch (e: DateTimeParseException) {
-                        null
+        response
+            ?.headers()
+            ?.let { headers ->
+                headers
+                    .get("Retry-After-Ms")
+                    .getOrNull(0)
+                    ?.toFloatOrNull()
+                    ?.times(TimeUnit.MILLISECONDS.toNanos(1))
+                    ?: headers.get("Retry-After").getOrNull(0)?.let { retryAfter ->
+                        retryAfter.toFloatOrNull()?.times(TimeUnit.SECONDS.toNanos(1))
+                            ?: try {
+                                ChronoUnit.MILLIS.between(
+                                    OffsetDateTime.now(clock),
+                                    OffsetDateTime.parse(
+                                        retryAfter,
+                                        DateTimeFormatter.RFC_1123_DATE_TIME
+                                    )
+                                )
+                            } catch (e: DateTimeParseException) {
+                                null
+                            }
                     }
             }
-
-        // If the API asks us to wait a certain amount of time (and it's a reasonable amount), just
-        // do what it says.
-        if (retryAfter != null && retryAfter in 1..60) {
-            return TimeUnit.SECONDS.toMillis(retryAfter)
-        }
+            ?.let { retryAfterNanos ->
+                // If the API asks us to wait a certain amount of time (and it's a reasonable
+                // amount), just
+                // do what it says.
+                val retryAfter = Duration.ofNanos(retryAfterNanos.toLong())
+                if (retryAfter in Duration.ofNanos(0)..Duration.ofMinutes(1)) {
+                    return retryAfter
+                }
+            }
 
         // Apply exponential backoff, but not more than the max.
         val backoffSeconds = min(0.5 * 2.0.pow(retries - 1), 8.0)
@@ -183,7 +197,7 @@ private constructor(
         // Apply some jitter
         val jitter = 1.0 - 0.25 * ThreadLocalRandom.current().nextDouble()
 
-        return (TimeUnit.SECONDS.toMillis(1) * backoffSeconds * jitter).toLong()
+        return Duration.ofNanos((TimeUnit.SECONDS.toNanos(1) * backoffSeconds * jitter).toLong())
     }
 
     private fun sleepAsync(millis: Long): CompletableFuture<Void> {
