@@ -99,6 +99,7 @@ class AccountHolderCreateParamsTest {
                     )
                     .tosTimestamp("2018-05-29T21:16:05Z")
                     .workflow(Kyb.Workflow.KYB_BASIC)
+                    .externalId("string")
                     .kybPassedTimestamp("2018-05-29T21:16:05Z")
                     .websiteUrl("www.mybusiness.com")
                     .build()
