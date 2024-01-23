@@ -25,6 +25,7 @@ private constructor(
     private val kycPassedTimestamp: JsonField<String>,
     private val tosTimestamp: JsonField<String>,
     private val workflow: JsonField<Workflow>,
+    private val externalId: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -54,6 +55,9 @@ private constructor(
     /** Specifies the type of KYC workflow to run. */
     fun workflow(): Workflow = workflow.getRequired("workflow")
 
+    /** A user provided id that can be used to link an account holder with an external system */
+    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
+
     /** Information on individual for whom the account is being opened and KYC is being run. */
     @JsonProperty("individual") @ExcludeMissing fun _individual() = individual
 
@@ -77,6 +81,9 @@ private constructor(
     /** Specifies the type of KYC workflow to run. */
     @JsonProperty("workflow") @ExcludeMissing fun _workflow() = workflow
 
+    /** A user provided id that can be used to link an account holder with an external system */
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -87,6 +94,7 @@ private constructor(
             kycPassedTimestamp()
             tosTimestamp()
             workflow()
+            externalId()
             validated = true
         }
     }
@@ -103,6 +111,7 @@ private constructor(
             this.kycPassedTimestamp == other.kycPassedTimestamp &&
             this.tosTimestamp == other.tosTimestamp &&
             this.workflow == other.workflow &&
+            this.externalId == other.externalId &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -114,6 +123,7 @@ private constructor(
                     kycPassedTimestamp,
                     tosTimestamp,
                     workflow,
+                    externalId,
                     additionalProperties,
                 )
         }
@@ -121,7 +131,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Kyc{individual=$individual, kycPassedTimestamp=$kycPassedTimestamp, tosTimestamp=$tosTimestamp, workflow=$workflow, additionalProperties=$additionalProperties}"
+        "Kyc{individual=$individual, kycPassedTimestamp=$kycPassedTimestamp, tosTimestamp=$tosTimestamp, workflow=$workflow, externalId=$externalId, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -134,6 +144,7 @@ private constructor(
         private var kycPassedTimestamp: JsonField<String> = JsonMissing.of()
         private var tosTimestamp: JsonField<String> = JsonMissing.of()
         private var workflow: JsonField<Workflow> = JsonMissing.of()
+        private var externalId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -142,6 +153,7 @@ private constructor(
             this.kycPassedTimestamp = kyc.kycPassedTimestamp
             this.tosTimestamp = kyc.tosTimestamp
             this.workflow = kyc.workflow
+            this.externalId = kyc.externalId
             additionalProperties(kyc.additionalProperties)
         }
 
@@ -200,6 +212,14 @@ private constructor(
         @ExcludeMissing
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
+        /** A user provided id that can be used to link an account holder with an external system */
+        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
+
+        /** A user provided id that can be used to link an account holder with an external system */
+        @JsonProperty("external_id")
+        @ExcludeMissing
+        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -220,6 +240,7 @@ private constructor(
                 kycPassedTimestamp,
                 tosTimestamp,
                 workflow,
+                externalId,
                 additionalProperties.toUnmodifiable(),
             )
     }

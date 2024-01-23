@@ -21,6 +21,7 @@ class SettlementDetailTest {
                 .disputesGrossAmount(123L)
                 .eventTokens(listOf("string"))
                 .institution("00001")
+                .interchangeFeeExtendedPrecision(123L)
                 .interchangeGrossAmount(123L)
                 .network(SettlementDetail.Network.INTERLINK)
                 .otherFeesDetails(SettlementDetail.OtherFeesDetails.builder().isa(123L).build())
@@ -29,6 +30,7 @@ class SettlementDetailTest {
                 .settlementDate("2023-06-01")
                 .transactionToken("e34a817f-119d-4976-9fb3-8b020b8bbec3")
                 .transactionsGrossAmount(123L)
+                .type(SettlementDetail.Type.CLEARING)
                 .updated(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
                 .build()
         assertThat(settlementDetail).isNotNull
@@ -44,6 +46,7 @@ class SettlementDetailTest {
         assertThat(settlementDetail.disputesGrossAmount()).isEqualTo(123L)
         assertThat(settlementDetail.eventTokens()).containsExactly("string")
         assertThat(settlementDetail.institution()).isEqualTo("00001")
+        assertThat(settlementDetail.interchangeFeeExtendedPrecision()).isEqualTo(123L)
         assertThat(settlementDetail.interchangeGrossAmount()).isEqualTo(123L)
         assertThat(settlementDetail.network()).isEqualTo(SettlementDetail.Network.INTERLINK)
         assertThat(settlementDetail.otherFeesDetails())
@@ -54,6 +57,7 @@ class SettlementDetailTest {
         assertThat(settlementDetail.transactionToken())
             .isEqualTo("e34a817f-119d-4976-9fb3-8b020b8bbec3")
         assertThat(settlementDetail.transactionsGrossAmount()).isEqualTo(123L)
+        assertThat(settlementDetail.type()).isEqualTo(SettlementDetail.Type.CLEARING)
         assertThat(settlementDetail.updated())
             .isEqualTo(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
     }

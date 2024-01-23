@@ -20,7 +20,7 @@ class AccountHolderServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolder =
+        val accountHolderCreateResponse =
             accountHolderService.create(
                 AccountHolderCreateParams.builder()
                     .forKyb(
@@ -112,14 +112,15 @@ class AccountHolderServiceTest {
                             )
                             .tosTimestamp("2018-05-29T21:16:05Z")
                             .workflow(Kyb.Workflow.KYB_BASIC)
+                            .externalId("string")
                             .kybPassedTimestamp("2018-05-29T21:16:05Z")
                             .websiteUrl("www.mybusiness.com")
                             .build()
                     )
                     .build()
             )
-        println(accountHolder)
-        accountHolder.validate()
+        println(accountHolderCreateResponse)
+        accountHolderCreateResponse.validate()
     }
 
     @Test

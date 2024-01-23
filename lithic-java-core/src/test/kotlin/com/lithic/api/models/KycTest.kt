@@ -33,6 +33,7 @@ class KycTest {
                 )
                 .tosTimestamp("string")
                 .workflow(Kyc.Workflow.KYC_ADVANCED)
+                .externalId("string")
                 .kycPassedTimestamp("string")
                 .build()
         assertThat(kyc).isNotNull
@@ -59,6 +60,7 @@ class KycTest {
             )
         assertThat(kyc.tosTimestamp()).isEqualTo("string")
         assertThat(kyc.workflow()).isEqualTo(Kyc.Workflow.KYC_ADVANCED)
+        assertThat(kyc.externalId()).contains("string")
         assertThat(kyc.kycPassedTimestamp()).contains("string")
     }
 }

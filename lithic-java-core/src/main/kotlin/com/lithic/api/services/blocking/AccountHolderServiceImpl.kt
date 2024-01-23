@@ -10,6 +10,7 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.AccountHolder
 import com.lithic.api.models.AccountHolderCreateParams
+import com.lithic.api.models.AccountHolderCreateResponse
 import com.lithic.api.models.AccountHolderDocument
 import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListDocumentsResponse
@@ -34,8 +35,9 @@ constructor(
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
-    private val createHandler: Handler<AccountHolder> =
-        jsonHandler<AccountHolder>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    private val createHandler: Handler<AccountHolderCreateResponse> =
+        jsonHandler<AccountHolderCreateResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
 
     /**
      * Run an individual or business's information through the Customer Identification Program (CIP)
@@ -43,12 +45,12 @@ constructor(
      * required). All calls to this endpoint will return an immediate response - though in some
      * cases, the response may indicate the workflow is under review or further action will be
      * needed to complete the account creation process. This endpoint can only be used on accounts
-     * that are part of the program the calling API key manages.
+     * that are part of the program that the calling API key manages.
      */
     override fun create(
         params: AccountHolderCreateParams,
         requestOptions: RequestOptions
-    ): AccountHolder {
+    ): AccountHolderCreateResponse {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
