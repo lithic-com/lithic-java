@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.25.0 (2024-01-23)
+
+Full Changelog: [v0.24.1...v0.25.0](https://github.com/lithic-com/lithic-java/compare/v0.24.1...v0.25.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** change account holder creation response, new settlement detail type ([#145](https://github.com/lithic-com/lithic-java/issues/145))
+
+### Features
+
+* **api:** change account holder creation response, new settlement detail type ([#145](https://github.com/lithic-com/lithic-java/issues/145)) ([863fc82](https://github.com/lithic-com/lithic-java/commit/863fc82a19a5f07409742c309de57bbeb736d4a4))
+
+
+### Chores
+
+* **ci:** rely on Stainless GitHub App for releases ([#144](https://github.com/lithic-com/lithic-java/issues/144)) ([0018339](https://github.com/lithic-com/lithic-java/commit/001833965e7b95070ee06c40db82f73fadcd5aaa))
+* **internal:** speculative retry-after-ms support ([#143](https://github.com/lithic-com/lithic-java/issues/143)) ([6998390](https://github.com/lithic-com/lithic-java/commit/69983900f22fa9c02d4e43690dd7590879f27bbb))
+
 ## 0.24.1 (2024-01-17)
 
 Full Changelog: [v0.24.0...v0.24.1](https://github.com/lithic-com/lithic-java/compare/v0.24.0...v0.24.1)
