@@ -4,7 +4,7 @@ plugins {
 
 allprojects {
     group = "com.lithic.api"
-    version = "0.24.1" // x-release-please-version
+    version = "0.25.0" // x-release-please-version
 }
 
 nexusPublishing {
