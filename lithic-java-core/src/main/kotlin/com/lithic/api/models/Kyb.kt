@@ -30,6 +30,7 @@ private constructor(
     private val tosTimestamp: JsonField<String>,
     private val websiteUrl: JsonField<String>,
     private val workflow: JsonField<Workflow>,
+    private val externalId: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -100,6 +101,9 @@ private constructor(
     /** Specifies the type of KYB workflow to run. */
     fun workflow(): Workflow = workflow.getRequired("workflow")
 
+    /** A user provided id that can be used to link an account holder with an external system */
+    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
+
     /**
      * List of all entities with >25% ownership in the company. If no entity or individual owns >25%
      * of the company, and the largest shareholder is an entity, please identify them in this field.
@@ -166,6 +170,9 @@ private constructor(
     /** Specifies the type of KYB workflow to run. */
     @JsonProperty("workflow") @ExcludeMissing fun _workflow() = workflow
 
+    /** A user provided id that can be used to link an account holder with an external system */
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -181,6 +188,7 @@ private constructor(
             tosTimestamp()
             websiteUrl()
             workflow()
+            externalId()
             validated = true
         }
     }
@@ -202,6 +210,7 @@ private constructor(
             this.tosTimestamp == other.tosTimestamp &&
             this.websiteUrl == other.websiteUrl &&
             this.workflow == other.workflow &&
+            this.externalId == other.externalId &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -218,6 +227,7 @@ private constructor(
                     tosTimestamp,
                     websiteUrl,
                     workflow,
+                    externalId,
                     additionalProperties,
                 )
         }
@@ -225,7 +235,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Kyb{beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, kybPassedTimestamp=$kybPassedTimestamp, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, additionalProperties=$additionalProperties}"
+        "Kyb{beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, kybPassedTimestamp=$kybPassedTimestamp, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, externalId=$externalId, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -243,6 +253,7 @@ private constructor(
         private var tosTimestamp: JsonField<String> = JsonMissing.of()
         private var websiteUrl: JsonField<String> = JsonMissing.of()
         private var workflow: JsonField<Workflow> = JsonMissing.of()
+        private var externalId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -256,6 +267,7 @@ private constructor(
             this.tosTimestamp = kyb.tosTimestamp
             this.websiteUrl = kyb.websiteUrl
             this.workflow = kyb.workflow
+            this.externalId = kyb.externalId
             additionalProperties(kyb.additionalProperties)
         }
 
@@ -424,6 +436,14 @@ private constructor(
         @ExcludeMissing
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
+        /** A user provided id that can be used to link an account holder with an external system */
+        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
+
+        /** A user provided id that can be used to link an account holder with an external system */
+        @JsonProperty("external_id")
+        @ExcludeMissing
+        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -449,6 +469,7 @@ private constructor(
                 tosTimestamp,
                 websiteUrl,
                 workflow,
+                externalId,
                 additionalProperties.toUnmodifiable(),
             )
     }

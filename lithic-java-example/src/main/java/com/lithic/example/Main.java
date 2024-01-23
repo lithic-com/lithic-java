@@ -77,12 +77,9 @@ public class Main {
                 .workflow(Kyc.Workflow.KYC_BASIC)
                 .build();
 
-        AccountHolder accountHolder = client.accountHolders()
+        AccountHolderCreateResponse accountHolder = client.accountHolders()
                 .create(AccountHolderCreateParams.builder().forKyc(kyc).build());
-        if (!accountHolder.accountToken().isPresent()) {
-            throw new Error("account holder without account");
-        }
-        String accountToken = accountHolder.accountToken().get();
+        String accountToken = accountHolder.accountToken();
         return client.accounts()
                 .retrieve(AccountRetrieveParams.builder()
                         .accountToken(accountToken)

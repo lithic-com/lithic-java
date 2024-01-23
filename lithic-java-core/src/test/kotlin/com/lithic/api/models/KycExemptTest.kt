@@ -28,6 +28,7 @@ class KycExemptTest {
                         .build()
                 )
                 .businessAccountToken("string")
+                .externalId("string")
                 .build()
         assertThat(kycExempt).isNotNull
         assertThat(kycExempt.email()).isEqualTo("string")
@@ -49,5 +50,6 @@ class KycExemptTest {
                     .build()
             )
         assertThat(kycExempt.businessAccountToken()).contains("string")
+        assertThat(kycExempt.externalId()).contains("string")
     }
 }

@@ -7,6 +7,7 @@ package com.lithic.api.services.blocking
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.AccountHolder
 import com.lithic.api.models.AccountHolderCreateParams
+import com.lithic.api.models.AccountHolderCreateResponse
 import com.lithic.api.models.AccountHolderDocument
 import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListDocumentsResponse
@@ -27,13 +28,13 @@ interface AccountHolderService {
      * required). All calls to this endpoint will return an immediate response - though in some
      * cases, the response may indicate the workflow is under review or further action will be
      * needed to complete the account creation process. This endpoint can only be used on accounts
-     * that are part of the program the calling API key manages.
+     * that are part of the program that the calling API key manages.
      */
     @JvmOverloads
     fun create(
         params: AccountHolderCreateParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): AccountHolder
+    ): AccountHolderCreateResponse
 
     /** Get an Individual or Business Account Holder and/or their KYC or KYB evaluation status. */
     @JvmOverloads
