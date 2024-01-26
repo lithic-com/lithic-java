@@ -247,6 +247,20 @@ class CardServiceTest {
     }
 
     @Test
+    fun callSearchByPan() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val cardService = client.cards()
+        val card =
+            cardService.searchByPan(CardSearchByPanParams.builder().pan("4111111289144142").build())
+        println(card)
+        card.validate()
+    }
+
+    @Test
     fun callGetEmbedHtml() {
         val client =
             LithicOkHttpClient.builder()
