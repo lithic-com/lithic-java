@@ -18,6 +18,7 @@ import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRenewParams
 import com.lithic.api.models.CardRetrieveParams
 import com.lithic.api.models.CardRetrieveSpendLimitsParams
+import com.lithic.api.models.CardSearchByPanParams
 import com.lithic.api.models.CardSpendLimits
 import com.lithic.api.models.CardUpdateParams
 import com.lithic.api.services.async.cards.AggregateBalanceServiceAsync
@@ -147,6 +148,18 @@ interface CardServiceAsync {
         params: CardRetrieveSpendLimitsParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<CardSpendLimits>
+
+    /**
+     * Get card configuration such as spend limit and state. Customers must be PCI compliant to use
+     * this endpoint. Please contact [support@lithic.com](mailto:support@lithic.com) for questions.
+     * _Note: this is a `POST` endpoint because it is more secure to send sensitive data in a
+     * request body than in a URL._
+     */
+    @JvmOverloads
+    fun searchByPan(
+        params: CardSearchByPanParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<Card>
 
     fun getEmbedHtml(
         params: CardGetEmbedHtmlParams,

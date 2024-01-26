@@ -21,6 +21,7 @@ import com.lithic.api.models.CardReissueParams
 import com.lithic.api.models.CardRenewParams
 import com.lithic.api.models.CardRetrieveParams
 import com.lithic.api.models.CardRetrieveSpendLimitsParams
+import com.lithic.api.models.CardSearchByPanParams
 import com.lithic.api.models.CardSpendLimits
 import com.lithic.api.models.CardUpdateParams
 import com.lithic.api.services.blocking.cards.AggregateBalanceService
@@ -328,6 +329,36 @@ constructor(
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { retrieveSpendLimitsHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val searchByPanHandler: Handler<Card> =
+        jsonHandler<Card>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+    /**
+     * Get card configuration such as spend limit and state. Customers must be PCI compliant to use
+     * this endpoint. Please contact [support@lithic.com](mailto:support@lithic.com) for questions.
+     * _Note: this is a `POST` endpoint because it is more secure to send sensitive data in a
+     * request body than in a URL._
+     */
+    override fun searchByPan(params: CardSearchByPanParams, requestOptions: RequestOptions): Card {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("cards", "search_by_pan")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { searchByPanHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
