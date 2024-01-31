@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.26.0 (2024-01-31)
+
+Full Changelog: [v0.25.0...v0.26.0](https://github.com/lithic-com/lithic-java/compare/v0.25.0...v0.26.0)
+
+### Features
+
+* **api:** add search_by_pan endpoint ([#146](https://github.com/lithic-com/lithic-java/issues/146)) ([42445a9](https://github.com/lithic-com/lithic-java/commit/42445a92a268c016a3336fbe41d8e124e0c85ff0))
+* remove idempotency headers ([#149](https://github.com/lithic-com/lithic-java/issues/149)) ([2441452](https://github.com/lithic-com/lithic-java/commit/244145266fb9a7efb226ed1451feb6a24c215771))
+
+
+### Chores
+
+* **internal:** support pre-release versioning ([#148](https://github.com/lithic-com/lithic-java/issues/148)) ([6d2e3e9](https://github.com/lithic-com/lithic-java/commit/6d2e3e99a4580fde8a8e59508628e1d1bac57bf3))
+
 ## 0.25.0 (2024-01-23)
 
 Full Changelog: [v0.24.1...v0.25.0](https://github.com/lithic-com/lithic-java/compare/v0.24.1...v0.25.0)
