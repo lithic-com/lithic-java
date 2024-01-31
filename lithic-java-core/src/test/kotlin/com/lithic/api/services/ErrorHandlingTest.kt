@@ -95,6 +95,8 @@ class ErrorHandlingTest {
         val expected =
             Card.builder()
                 .token("7ef7d65c-9023-4da3-b113-3b8583fd7951")
+                .accountToken("f3f4918c-dee9-464d-a819-4aa42901d624")
+                .cardProgramToken("5e9483eb-8103-4e16-9794-2106111b2eca")
                 .created(OffsetDateTime.parse("2021-06-28T22:53:15Z"))
                 .funding(
                     Card.FundingAccount.builder()
