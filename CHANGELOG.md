@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.27.0 (2024-02-01)
+
+Full Changelog: [v0.26.0...v0.27.0](https://github.com/lithic-com/lithic-java/compare/v0.26.0...v0.27.0)
+
+### Features
+
+* **api:** add `account_token` and `card_program_token` to `Card` ([#150](https://github.com/lithic-com/lithic-java/issues/150)) ([0d6a220](https://github.com/lithic-com/lithic-java/commit/0d6a22082601a74effca7bebbad3dd6c55ee0d80))
+
+
+### Bug Fixes
+
+* **pagination:** correct hasNextPage check ([#152](https://github.com/lithic-com/lithic-java/issues/152)) ([1bb997a](https://github.com/lithic-com/lithic-java/commit/1bb997a51cd629caadb5f12c23d40bd5c40e1d3e))
+
 ## 0.26.0 (2024-01-31)
 
 Full Changelog: [v0.25.0...v0.26.0](https://github.com/lithic-com/lithic-java/compare/v0.25.0...v0.26.0)
