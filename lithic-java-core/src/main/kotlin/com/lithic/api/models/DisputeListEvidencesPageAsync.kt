@@ -55,7 +55,7 @@ private constructor(
         "DisputeListEvidencesPageAsync{disputesService=$disputesService, params=$params, response=$response}"
 
     fun hasNextPage(): Boolean {
-        return data().isEmpty()
+        return !data().isEmpty()
     }
 
     fun getNextPageParams(): Optional<DisputeListEvidencesParams> {
