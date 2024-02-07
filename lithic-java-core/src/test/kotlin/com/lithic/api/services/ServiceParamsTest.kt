@@ -122,6 +122,7 @@ class ServiceParamsTest {
                 .hostname("string")
                 .memo("New Card")
                 .pan("4111111289144142")
+                .productId("1")
                 .build()
 
         stubFor(

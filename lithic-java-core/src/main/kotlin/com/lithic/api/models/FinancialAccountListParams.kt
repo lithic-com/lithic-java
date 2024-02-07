@@ -15,6 +15,7 @@ import java.util.Optional
 class FinancialAccountListParams
 constructor(
     private val accountToken: String?,
+    private val businessAccountToken: String?,
     private val type: Type?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
@@ -22,12 +23,17 @@ constructor(
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
+    fun businessAccountToken(): Optional<String> = Optional.ofNullable(businessAccountToken)
+
     fun type(): Optional<Type> = Optional.ofNullable(type)
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
         this.accountToken?.let { params.put("account_token", listOf(it.toString())) }
+        this.businessAccountToken?.let {
+            params.put("business_account_token", listOf(it.toString()))
+        }
         this.type?.let { params.put("type", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
@@ -46,6 +52,7 @@ constructor(
 
         return other is FinancialAccountListParams &&
             this.accountToken == other.accountToken &&
+            this.businessAccountToken == other.businessAccountToken &&
             this.type == other.type &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
@@ -54,6 +61,7 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             accountToken,
+            businessAccountToken,
             type,
             additionalQueryParams,
             additionalHeaders,
@@ -61,7 +69,7 @@ constructor(
     }
 
     override fun toString() =
-        "FinancialAccountListParams{accountToken=$accountToken, type=$type, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "FinancialAccountListParams{accountToken=$accountToken, businessAccountToken=$businessAccountToken, type=$type, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -74,6 +82,7 @@ constructor(
     class Builder {
 
         private var accountToken: String? = null
+        private var businessAccountToken: String? = null
         private var type: Type? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -81,13 +90,19 @@ constructor(
         @JvmSynthetic
         internal fun from(financialAccountListParams: FinancialAccountListParams) = apply {
             this.accountToken = financialAccountListParams.accountToken
+            this.businessAccountToken = financialAccountListParams.businessAccountToken
             this.type = financialAccountListParams.type
             additionalQueryParams(financialAccountListParams.additionalQueryParams)
             additionalHeaders(financialAccountListParams.additionalHeaders)
         }
 
-        /** List financial accounts for a given account_token */
+        /** List financial accounts for a given account_token or business_account_token */
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+
+        /** List financial accounts for a given business_account_token */
+        fun businessAccountToken(businessAccountToken: String) = apply {
+            this.businessAccountToken = businessAccountToken
+        }
 
         /** List financial accounts of a given type */
         fun type(type: Type) = apply { this.type = type }
@@ -135,6 +150,7 @@ constructor(
         fun build(): FinancialAccountListParams =
             FinancialAccountListParams(
                 accountToken,
+                businessAccountToken,
                 type,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
@@ -167,17 +183,21 @@ constructor(
 
             @JvmField val RESERVE = Type(JsonField.of("RESERVE"))
 
+            @JvmField val OPERATING = Type(JsonField.of("OPERATING"))
+
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
         enum class Known {
             ISSUING,
             RESERVE,
+            OPERATING,
         }
 
         enum class Value {
             ISSUING,
             RESERVE,
+            OPERATING,
             _UNKNOWN,
         }
 
@@ -185,6 +205,7 @@ constructor(
             when (this) {
                 ISSUING -> Value.ISSUING
                 RESERVE -> Value.RESERVE
+                OPERATING -> Value.OPERATING
                 else -> Value._UNKNOWN
             }
 
@@ -192,6 +213,7 @@ constructor(
             when (this) {
                 ISSUING -> Known.ISSUING
                 RESERVE -> Known.RESERVE
+                OPERATING -> Known.OPERATING
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 
