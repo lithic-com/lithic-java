@@ -5,8 +5,11 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.models.FinancialAccount
 import com.lithic.api.models.FinancialAccountListPage
 import com.lithic.api.models.FinancialAccountListParams
+import com.lithic.api.models.FinancialAccountRetrieveParams
+import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.services.blocking.financialAccounts.BalanceService
 import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
 import com.lithic.api.services.blocking.financialAccounts.StatementService
@@ -18,6 +21,20 @@ interface FinancialAccountService {
     fun financialTransactions(): FinancialTransactionService
 
     fun statements(): StatementService
+
+    /** Get a financial account */
+    @JvmOverloads
+    fun retrieve(
+        params: FinancialAccountRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): FinancialAccount
+
+    /** Update a financial account */
+    @JvmOverloads
+    fun update(
+        params: FinancialAccountUpdateParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): FinancialAccount
 
     /** Retrieve information on your financial accounts including routing and account number. */
     @JvmOverloads

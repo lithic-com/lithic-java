@@ -8,8 +8,11 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
+import com.lithic.api.models.FinancialAccount
 import com.lithic.api.models.FinancialAccountListPageAsync
 import com.lithic.api.models.FinancialAccountListParams
+import com.lithic.api.models.FinancialAccountRetrieveParams
+import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.services.async.financialAccounts.BalanceServiceAsync
 import com.lithic.api.services.async.financialAccounts.BalanceServiceAsyncImpl
 import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsync
@@ -17,6 +20,7 @@ import com.lithic.api.services.async.financialAccounts.FinancialTransactionServi
 import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
 import com.lithic.api.services.async.financialAccounts.StatementServiceAsyncImpl
 import com.lithic.api.services.errorHandler
+import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
 import java.util.concurrent.CompletableFuture
@@ -43,6 +47,63 @@ constructor(
     override fun financialTransactions(): FinancialTransactionServiceAsync = financialTransactions
 
     override fun statements(): StatementServiceAsync = statements
+
+    private val retrieveHandler: Handler<FinancialAccount> =
+        jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+    /** Get a financial account */
+    override fun retrieve(
+        params: FinancialAccountRetrieveParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<FinancialAccount> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.GET)
+                .addPathSegments("financial_accounts", params.getPathParam(0))
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { retrieveHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val updateHandler: Handler<FinancialAccount> =
+        jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+    /** Update a financial account */
+    override fun update(
+        params: FinancialAccountUpdateParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<FinancialAccount> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.PATCH)
+                .addPathSegments("financial_accounts", params.getPathParam(0))
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { updateHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
 
     private val listHandler: Handler<FinancialAccountListPageAsync.Response> =
         jsonHandler<FinancialAccountListPageAsync.Response>(clientOptions.jsonMapper)

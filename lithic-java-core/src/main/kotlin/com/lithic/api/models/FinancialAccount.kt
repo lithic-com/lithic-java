@@ -29,6 +29,7 @@ private constructor(
     private val token: JsonField<String>,
     private val type: JsonField<Type>,
     private val updated: JsonField<OffsetDateTime>,
+    private val nickname: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -56,6 +57,9 @@ private constructor(
     /** Date and time for when the financial account was last updated. */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
+    /** User-defined nickname for the financial account. */
+    fun nickname(): Optional<String> = Optional.ofNullable(nickname.getNullable("nickname"))
+
     /** Account number for your Lithic-assigned bank account number, if applicable. */
     @JsonProperty("account_number") @ExcludeMissing fun _accountNumber() = accountNumber
 
@@ -74,6 +78,9 @@ private constructor(
     /** Date and time for when the financial account was last updated. */
     @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
 
+    /** User-defined nickname for the financial account. */
+    @JsonProperty("nickname") @ExcludeMissing fun _nickname() = nickname
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -86,6 +93,7 @@ private constructor(
             token()
             type()
             updated()
+            nickname()
             validated = true
         }
     }
@@ -104,6 +112,7 @@ private constructor(
             this.token == other.token &&
             this.type == other.type &&
             this.updated == other.updated &&
+            this.nickname == other.nickname &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -117,6 +126,7 @@ private constructor(
                     token,
                     type,
                     updated,
+                    nickname,
                     additionalProperties,
                 )
         }
@@ -124,7 +134,7 @@ private constructor(
     }
 
     override fun toString() =
-        "FinancialAccount{accountNumber=$accountNumber, created=$created, routingNumber=$routingNumber, token=$token, type=$type, updated=$updated, additionalProperties=$additionalProperties}"
+        "FinancialAccount{accountNumber=$accountNumber, created=$created, routingNumber=$routingNumber, token=$token, type=$type, updated=$updated, nickname=$nickname, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -139,6 +149,7 @@ private constructor(
         private var token: JsonField<String> = JsonMissing.of()
         private var type: JsonField<Type> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var nickname: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -149,6 +160,7 @@ private constructor(
             this.token = financialAccount.token
             this.type = financialAccount.type
             this.updated = financialAccount.updated
+            this.nickname = financialAccount.nickname
             additionalProperties(financialAccount.additionalProperties)
         }
 
@@ -204,6 +216,14 @@ private constructor(
         @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
+        /** User-defined nickname for the financial account. */
+        fun nickname(nickname: String) = nickname(JsonField.of(nickname))
+
+        /** User-defined nickname for the financial account. */
+        @JsonProperty("nickname")
+        @ExcludeMissing
+        fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -226,6 +246,7 @@ private constructor(
                 token,
                 type,
                 updated,
+                nickname,
                 additionalProperties.toUnmodifiable(),
             )
     }
@@ -256,17 +277,21 @@ private constructor(
 
             @JvmField val RESERVE = Type(JsonField.of("RESERVE"))
 
+            @JvmField val OPERATING = Type(JsonField.of("OPERATING"))
+
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
         enum class Known {
             ISSUING,
             RESERVE,
+            OPERATING,
         }
 
         enum class Value {
             ISSUING,
             RESERVE,
+            OPERATING,
             _UNKNOWN,
         }
 
@@ -274,6 +299,7 @@ private constructor(
             when (this) {
                 ISSUING -> Value.ISSUING
                 RESERVE -> Value.RESERVE
+                OPERATING -> Value.OPERATING
                 else -> Value._UNKNOWN
             }
 
@@ -281,6 +307,7 @@ private constructor(
             when (this) {
                 ISSUING -> Known.ISSUING
                 RESERVE -> Known.RESERVE
+                OPERATING -> Known.OPERATING
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 
