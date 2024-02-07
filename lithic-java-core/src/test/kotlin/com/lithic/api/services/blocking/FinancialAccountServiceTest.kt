@@ -13,6 +13,43 @@ import org.junit.jupiter.api.extension.ExtendWith
 class FinancialAccountServiceTest {
 
     @Test
+    fun callRetrieve() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val financialAccountService = client.financialAccounts()
+        val financialAccount =
+            financialAccountService.retrieve(
+                FinancialAccountRetrieveParams.builder()
+                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+        println(financialAccount)
+        financialAccount.validate()
+    }
+
+    @Test
+    fun callUpdate() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val financialAccountService = client.financialAccounts()
+        val financialAccount =
+            financialAccountService.update(
+                FinancialAccountUpdateParams.builder()
+                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .nickname("string")
+                    .build()
+            )
+        println(financialAccount)
+        financialAccount.validate()
+    }
+
+    @Test
     fun callList() {
         val client =
             LithicOkHttpClient.builder()

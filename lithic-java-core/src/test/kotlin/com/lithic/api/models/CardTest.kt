@@ -40,6 +40,7 @@ class CardTest {
                 .hostname("string")
                 .memo("New Card")
                 .pan("4111111289144142")
+                .productId("1")
                 .build()
         assertThat(card).isNotNull
         assertThat(card.token()).isEqualTo("7ef7d65c-9023-4da3-b113-3b8583fd7951")
@@ -71,5 +72,6 @@ class CardTest {
         assertThat(card.hostname()).contains("string")
         assertThat(card.memo()).contains("New Card")
         assertThat(card.pan()).contains("4111111289144142")
+        assertThat(card.productId()).contains("1")
     }
 }

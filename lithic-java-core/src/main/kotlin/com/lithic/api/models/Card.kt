@@ -35,6 +35,7 @@ private constructor(
     private val lastFour: JsonField<String>,
     private val memo: JsonField<String>,
     private val pan: JsonField<String>,
+    private val productId: JsonField<String>,
     private val spendLimit: JsonField<Long>,
     private val spendLimitDuration: JsonField<SpendLimitDuration>,
     private val state: JsonField<State>,
@@ -99,6 +100,13 @@ private constructor(
      * [support@lithic.com](mailto:support@lithic.com) for questions.
      */
     fun pan(): Optional<String> = Optional.ofNullable(pan.getNullable("pan"))
+
+    /**
+     * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before use.
+     * Specifies the configuration (i.e., physical card art) that the card should be manufactured
+     * with.
+     */
+    fun productId(): Optional<String> = Optional.ofNullable(productId.getNullable("product_id"))
 
     /**
      * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -210,6 +218,13 @@ private constructor(
     @JsonProperty("pan") @ExcludeMissing fun _pan() = pan
 
     /**
+     * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before use.
+     * Specifies the configuration (i.e., physical card art) that the card should be manufactured
+     * with.
+     */
+    @JsonProperty("product_id") @ExcludeMissing fun _productId() = productId
+
+    /**
      * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
      * limit will be declined.
      */
@@ -285,6 +300,7 @@ private constructor(
             lastFour()
             memo()
             pan()
+            productId()
             spendLimit()
             spendLimitDuration()
             state()
@@ -315,6 +331,7 @@ private constructor(
             this.lastFour == other.lastFour &&
             this.memo == other.memo &&
             this.pan == other.pan &&
+            this.productId == other.productId &&
             this.spendLimit == other.spendLimit &&
             this.spendLimitDuration == other.spendLimitDuration &&
             this.state == other.state &&
@@ -340,6 +357,7 @@ private constructor(
                     lastFour,
                     memo,
                     pan,
+                    productId,
                     spendLimit,
                     spendLimitDuration,
                     state,
@@ -352,7 +370,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Card{accountToken=$accountToken, authRuleTokens=$authRuleTokens, cardProgramToken=$cardProgramToken, created=$created, cvv=$cvv, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, funding=$funding, hostname=$hostname, lastFour=$lastFour, memo=$memo, pan=$pan, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
+        "Card{accountToken=$accountToken, authRuleTokens=$authRuleTokens, cardProgramToken=$cardProgramToken, created=$created, cvv=$cvv, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, funding=$funding, hostname=$hostname, lastFour=$lastFour, memo=$memo, pan=$pan, productId=$productId, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -374,6 +392,7 @@ private constructor(
         private var lastFour: JsonField<String> = JsonMissing.of()
         private var memo: JsonField<String> = JsonMissing.of()
         private var pan: JsonField<String> = JsonMissing.of()
+        private var productId: JsonField<String> = JsonMissing.of()
         private var spendLimit: JsonField<Long> = JsonMissing.of()
         private var spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of()
         private var state: JsonField<State> = JsonMissing.of()
@@ -396,6 +415,7 @@ private constructor(
             this.lastFour = card.lastFour
             this.memo = card.memo
             this.pan = card.pan
+            this.productId = card.productId
             this.spendLimit = card.spendLimit
             this.spendLimitDuration = card.spendLimitDuration
             this.state = card.state
@@ -542,6 +562,22 @@ private constructor(
         @JsonProperty("pan")
         @ExcludeMissing
         fun pan(pan: JsonField<String>) = apply { this.pan = pan }
+
+        /**
+         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
+         * use. Specifies the configuration (i.e., physical card art) that the card should be
+         * manufactured with.
+         */
+        fun productId(productId: String) = productId(JsonField.of(productId))
+
+        /**
+         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
+         * use. Specifies the configuration (i.e., physical card art) that the card should be
+         * manufactured with.
+         */
+        @JsonProperty("product_id")
+        @ExcludeMissing
+        fun productId(productId: JsonField<String>) = apply { this.productId = productId }
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -699,6 +735,7 @@ private constructor(
                 lastFour,
                 memo,
                 pan,
+                productId,
                 spendLimit,
                 spendLimitDuration,
                 state,
