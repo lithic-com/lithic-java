@@ -5,6 +5,9 @@ import com.lithic.api.client.okhttp.LithicOkHttpClient;
 import com.lithic.api.models.*;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class Main {
@@ -14,6 +17,14 @@ public class Main {
             LithicOkHttpClient.builder().sandbox().apiKey(SANDBOX_API_KEY).build();
 
     public static void main(String[] args) {
+        if (System.getenv("INTEGRATION_TEST").equals("true")) {
+            Main.paginationIntegration();
+        } else {
+            Main.example();
+        }
+    }
+
+    public static void example() {
         System.out.println("Creating card");
         ShippingAddress address = ShippingAddress.builder()
                 .firstName("Jane")
@@ -84,5 +95,41 @@ public class Main {
                 .retrieve(AccountRetrieveParams.builder()
                         .accountToken(accountToken)
                         .build());
+    }
+
+    public static void paginationIntegration() {
+        TransactionListPage page =
+                client.transactions().list(TransactionListParams.builder().build());
+
+        if (!page.hasNextPage()) {
+            throw new AssertionError("Expected multiple pages to be present");
+        }
+
+        Iterator<Transaction> iterator = page.autoPager().iterator();
+        Map<String, Integer> tokens = new HashMap<>();
+
+        while (iterator.hasNext()) {
+            Transaction transaction = iterator.next();
+
+            tokens.put(transaction.token(), tokens.getOrDefault(transaction.token(), 0) + 1);
+        }
+
+        Map<String, Integer> duplicates = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : tokens.entrySet()) {
+            if (entry.getValue() > 1) {
+                duplicates.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        if (!duplicates.isEmpty()) {
+            System.out.println(duplicates);
+            throw new RuntimeException("Found " + duplicates.size() + " duplicate entries!");
+        }
+
+        if (tokens.size() < 100) {
+            throw new AssertionError("Expected at least 100 entries to be present but got " + tokens.size());
+        }
+
+        System.out.println("Success!");
     }
 }
