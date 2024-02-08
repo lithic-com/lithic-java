@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.28.0 (2024-02-08)
+
+Full Changelog: [v0.27.0...v0.28.0](https://github.com/lithic-com/lithic-java/compare/v0.27.0...v0.28.0)
+
+### Features
+
+* **api:** updates ([#155](https://github.com/lithic-com/lithic-java/issues/155)) ([95ae441](https://github.com/lithic-com/lithic-java/commit/95ae4418c860ea64d4cd05e76ff1cc0235619c8e))
+
+
+### Chores
+
+* **interal:** make link to api.md relative ([#153](https://github.com/lithic-com/lithic-java/issues/153)) ([c01249c](https://github.com/lithic-com/lithic-java/commit/c01249caf0c9bf2eb2c6caae15157ecb551d6724))
+* **tests:** add integration test for pagination ([#156](https://github.com/lithic-com/lithic-java/issues/156)) ([6dc59fe](https://github.com/lithic-com/lithic-java/commit/6dc59fecd94472872cbe1901257566da256fbad1))
+
 ## 0.27.0 (2024-02-01)
 
 Full Changelog: [v0.26.0...v0.27.0](https://github.com/lithic-com/lithic-java/compare/v0.26.0...v0.27.0)
