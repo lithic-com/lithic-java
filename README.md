@@ -45,7 +45,7 @@ implementation("com.lithic.api:lithic-java:0.28.0")
 Use `LithicOkHttpClient.builder()` to configure the client. At a minimum you need to set `.apiKey()`:
 
 ```java
-import com.lithic.api.client.LithicOkHttpClient;
+import com.lithic.api.client.LithicClient;
 import com.lithic.api.client.okhttp.LithicOkHttpClient;
 
 LithicClient client = LithicOkHttpClient.builder()
