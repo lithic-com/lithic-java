@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.28.1 (2024-02-12)
+
+Full Changelog: [v0.28.0...v0.28.1](https://github.com/lithic-com/lithic-java/compare/v0.28.0...v0.28.1)
+
+### Bug Fixes
+
+* **docs:** wrong client import in readme usage example ([#157](https://github.com/lithic-com/lithic-java/issues/157)) ([c872712](https://github.com/lithic-com/lithic-java/commit/c872712acdf033db633b958467be891fc1746110))
+
 ## 0.28.0 (2024-02-08)
 
 Full Changelog: [v0.27.0...v0.28.0](https://github.com/lithic-com/lithic-java/compare/v0.27.0...v0.28.0)
