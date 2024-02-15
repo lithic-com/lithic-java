@@ -18,9 +18,9 @@ if [ -z "${GPG_SIGNING_PASSWORD}" ]; then
   errors+=("The LITHIC_SONATYPE_GPG_SIGNING_PASSWORD secret has not been set. Please set it in either this repository's secrets or your organization secrets")
 fi
 
-len=${#errors[@]}
+lenErrors=${#errors[@]}
 
-if [[ len -gt 0 ]]; then
+if [[ lenErrors -gt 0 ]]; then
   echo -e "Found the following errors in the release environment:\n"
 
   for error in "${errors[@]}"; do
