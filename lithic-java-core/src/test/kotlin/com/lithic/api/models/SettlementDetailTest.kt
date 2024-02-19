@@ -30,7 +30,7 @@ class SettlementDetailTest {
                 .settlementDate("2023-06-01")
                 .transactionToken("e34a817f-119d-4976-9fb3-8b020b8bbec3")
                 .transactionsGrossAmount(123L)
-                .type(SettlementDetail.Type.CLEARING)
+                .type(SettlementDetail.Type.ADJUSTMENT)
                 .updated(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
                 .build()
         assertThat(settlementDetail).isNotNull
@@ -57,7 +57,7 @@ class SettlementDetailTest {
         assertThat(settlementDetail.transactionToken())
             .isEqualTo("e34a817f-119d-4976-9fb3-8b020b8bbec3")
         assertThat(settlementDetail.transactionsGrossAmount()).isEqualTo(123L)
-        assertThat(settlementDetail.type()).isEqualTo(SettlementDetail.Type.CLEARING)
+        assertThat(settlementDetail.type()).isEqualTo(SettlementDetail.Type.ADJUSTMENT)
         assertThat(settlementDetail.updated())
             .isEqualTo(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
     }
