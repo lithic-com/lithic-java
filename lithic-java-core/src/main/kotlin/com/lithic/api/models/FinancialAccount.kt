@@ -25,11 +25,11 @@ class FinancialAccount
 private constructor(
     private val accountNumber: JsonField<String>,
     private val created: JsonField<OffsetDateTime>,
+    private val nickname: JsonField<String>,
     private val routingNumber: JsonField<String>,
     private val token: JsonField<String>,
     private val type: JsonField<Type>,
     private val updated: JsonField<OffsetDateTime>,
-    private val nickname: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -44,6 +44,9 @@ private constructor(
     /** Date and time for when the financial account was first created. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
+    /** User-defined nickname for the financial account. */
+    fun nickname(): Optional<String> = Optional.ofNullable(nickname.getNullable("nickname"))
+
     /** Routing number for your Lithic-assigned bank account number, if applicable. */
     fun routingNumber(): Optional<String> =
         Optional.ofNullable(routingNumber.getNullable("routing_number"))
@@ -57,14 +60,14 @@ private constructor(
     /** Date and time for when the financial account was last updated. */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
-    /** User-defined nickname for the financial account. */
-    fun nickname(): Optional<String> = Optional.ofNullable(nickname.getNullable("nickname"))
-
     /** Account number for your Lithic-assigned bank account number, if applicable. */
     @JsonProperty("account_number") @ExcludeMissing fun _accountNumber() = accountNumber
 
     /** Date and time for when the financial account was first created. */
     @JsonProperty("created") @ExcludeMissing fun _created() = created
+
+    /** User-defined nickname for the financial account. */
+    @JsonProperty("nickname") @ExcludeMissing fun _nickname() = nickname
 
     /** Routing number for your Lithic-assigned bank account number, if applicable. */
     @JsonProperty("routing_number") @ExcludeMissing fun _routingNumber() = routingNumber
@@ -78,9 +81,6 @@ private constructor(
     /** Date and time for when the financial account was last updated. */
     @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
 
-    /** User-defined nickname for the financial account. */
-    @JsonProperty("nickname") @ExcludeMissing fun _nickname() = nickname
-
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -89,11 +89,11 @@ private constructor(
         if (!validated) {
             accountNumber()
             created()
+            nickname()
             routingNumber()
             token()
             type()
             updated()
-            nickname()
             validated = true
         }
     }
@@ -108,11 +108,11 @@ private constructor(
         return other is FinancialAccount &&
             this.accountNumber == other.accountNumber &&
             this.created == other.created &&
+            this.nickname == other.nickname &&
             this.routingNumber == other.routingNumber &&
             this.token == other.token &&
             this.type == other.type &&
             this.updated == other.updated &&
-            this.nickname == other.nickname &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -122,11 +122,11 @@ private constructor(
                 Objects.hash(
                     accountNumber,
                     created,
+                    nickname,
                     routingNumber,
                     token,
                     type,
                     updated,
-                    nickname,
                     additionalProperties,
                 )
         }
@@ -134,7 +134,7 @@ private constructor(
     }
 
     override fun toString() =
-        "FinancialAccount{accountNumber=$accountNumber, created=$created, routingNumber=$routingNumber, token=$token, type=$type, updated=$updated, nickname=$nickname, additionalProperties=$additionalProperties}"
+        "FinancialAccount{accountNumber=$accountNumber, created=$created, nickname=$nickname, routingNumber=$routingNumber, token=$token, type=$type, updated=$updated, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -145,22 +145,22 @@ private constructor(
 
         private var accountNumber: JsonField<String> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var nickname: JsonField<String> = JsonMissing.of()
         private var routingNumber: JsonField<String> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
         private var type: JsonField<Type> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var nickname: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(financialAccount: FinancialAccount) = apply {
             this.accountNumber = financialAccount.accountNumber
             this.created = financialAccount.created
+            this.nickname = financialAccount.nickname
             this.routingNumber = financialAccount.routingNumber
             this.token = financialAccount.token
             this.type = financialAccount.type
             this.updated = financialAccount.updated
-            this.nickname = financialAccount.nickname
             additionalProperties(financialAccount.additionalProperties)
         }
 
@@ -181,6 +181,14 @@ private constructor(
         @JsonProperty("created")
         @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+        /** User-defined nickname for the financial account. */
+        fun nickname(nickname: String) = nickname(JsonField.of(nickname))
+
+        /** User-defined nickname for the financial account. */
+        @JsonProperty("nickname")
+        @ExcludeMissing
+        fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
 
         /** Routing number for your Lithic-assigned bank account number, if applicable. */
         fun routingNumber(routingNumber: String) = routingNumber(JsonField.of(routingNumber))
@@ -216,14 +224,6 @@ private constructor(
         @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
-        /** User-defined nickname for the financial account. */
-        fun nickname(nickname: String) = nickname(JsonField.of(nickname))
-
-        /** User-defined nickname for the financial account. */
-        @JsonProperty("nickname")
-        @ExcludeMissing
-        fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
-
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -242,11 +242,11 @@ private constructor(
             FinancialAccount(
                 accountNumber,
                 created,
+                nickname,
                 routingNumber,
                 token,
                 type,
                 updated,
-                nickname,
                 additionalProperties.toUnmodifiable(),
             )
     }
@@ -275,39 +275,39 @@ private constructor(
 
             @JvmField val ISSUING = Type(JsonField.of("ISSUING"))
 
-            @JvmField val RESERVE = Type(JsonField.of("RESERVE"))
-
             @JvmField val OPERATING = Type(JsonField.of("OPERATING"))
+
+            @JvmField val RESERVE = Type(JsonField.of("RESERVE"))
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
         enum class Known {
             ISSUING,
-            RESERVE,
             OPERATING,
+            RESERVE,
         }
 
         enum class Value {
             ISSUING,
-            RESERVE,
             OPERATING,
+            RESERVE,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
                 ISSUING -> Value.ISSUING
-                RESERVE -> Value.RESERVE
                 OPERATING -> Value.OPERATING
+                RESERVE -> Value.RESERVE
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
                 ISSUING -> Known.ISSUING
-                RESERVE -> Known.RESERVE
                 OPERATING -> Known.OPERATING
+                RESERVE -> Known.RESERVE
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 
