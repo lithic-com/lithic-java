@@ -25,12 +25,12 @@ private constructor(
     private val beneficialOwnerIndividuals: JsonField<List<KybIndividual>>,
     private val businessEntity: JsonField<BusinessEntity>,
     private val controlPerson: JsonField<KybIndividual>,
+    private val externalId: JsonField<String>,
     private val kybPassedTimestamp: JsonField<String>,
     private val natureOfBusiness: JsonField<String>,
     private val tosTimestamp: JsonField<String>,
     private val websiteUrl: JsonField<String>,
     private val workflow: JsonField<Workflow>,
-    private val externalId: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -76,6 +76,9 @@ private constructor(
      */
     fun controlPerson(): KybIndividual = controlPerson.getRequired("control_person")
 
+    /** A user provided id that can be used to link an account holder with an external system */
+    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
+
     /**
      * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with a
      * pass result.
@@ -100,9 +103,6 @@ private constructor(
 
     /** Specifies the type of KYB workflow to run. */
     fun workflow(): Workflow = workflow.getRequired("workflow")
-
-    /** A user provided id that can be used to link an account holder with an external system */
-    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
 
     /**
      * List of all entities with >25% ownership in the company. If no entity or individual owns >25%
@@ -144,6 +144,9 @@ private constructor(
      */
     @JsonProperty("control_person") @ExcludeMissing fun _controlPerson() = controlPerson
 
+    /** A user provided id that can be used to link an account holder with an external system */
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
+
     /**
      * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with a
      * pass result.
@@ -170,9 +173,6 @@ private constructor(
     /** Specifies the type of KYB workflow to run. */
     @JsonProperty("workflow") @ExcludeMissing fun _workflow() = workflow
 
-    /** A user provided id that can be used to link an account holder with an external system */
-    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
-
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -183,12 +183,12 @@ private constructor(
             beneficialOwnerIndividuals().forEach { it.validate() }
             businessEntity().validate()
             controlPerson().validate()
+            externalId()
             kybPassedTimestamp()
             natureOfBusiness()
             tosTimestamp()
             websiteUrl()
             workflow()
-            externalId()
             validated = true
         }
     }
@@ -205,12 +205,12 @@ private constructor(
             this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
             this.businessEntity == other.businessEntity &&
             this.controlPerson == other.controlPerson &&
+            this.externalId == other.externalId &&
             this.kybPassedTimestamp == other.kybPassedTimestamp &&
             this.natureOfBusiness == other.natureOfBusiness &&
             this.tosTimestamp == other.tosTimestamp &&
             this.websiteUrl == other.websiteUrl &&
             this.workflow == other.workflow &&
-            this.externalId == other.externalId &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -222,12 +222,12 @@ private constructor(
                     beneficialOwnerIndividuals,
                     businessEntity,
                     controlPerson,
+                    externalId,
                     kybPassedTimestamp,
                     natureOfBusiness,
                     tosTimestamp,
                     websiteUrl,
                     workflow,
-                    externalId,
                     additionalProperties,
                 )
         }
@@ -235,7 +235,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Kyb{beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, kybPassedTimestamp=$kybPassedTimestamp, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, externalId=$externalId, additionalProperties=$additionalProperties}"
+        "Kyb{beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, externalId=$externalId, kybPassedTimestamp=$kybPassedTimestamp, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -248,12 +248,12 @@ private constructor(
         private var beneficialOwnerIndividuals: JsonField<List<KybIndividual>> = JsonMissing.of()
         private var businessEntity: JsonField<BusinessEntity> = JsonMissing.of()
         private var controlPerson: JsonField<KybIndividual> = JsonMissing.of()
+        private var externalId: JsonField<String> = JsonMissing.of()
         private var kybPassedTimestamp: JsonField<String> = JsonMissing.of()
         private var natureOfBusiness: JsonField<String> = JsonMissing.of()
         private var tosTimestamp: JsonField<String> = JsonMissing.of()
         private var websiteUrl: JsonField<String> = JsonMissing.of()
         private var workflow: JsonField<Workflow> = JsonMissing.of()
-        private var externalId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -262,12 +262,12 @@ private constructor(
             this.beneficialOwnerIndividuals = kyb.beneficialOwnerIndividuals
             this.businessEntity = kyb.businessEntity
             this.controlPerson = kyb.controlPerson
+            this.externalId = kyb.externalId
             this.kybPassedTimestamp = kyb.kybPassedTimestamp
             this.natureOfBusiness = kyb.natureOfBusiness
             this.tosTimestamp = kyb.tosTimestamp
             this.websiteUrl = kyb.websiteUrl
             this.workflow = kyb.workflow
-            this.externalId = kyb.externalId
             additionalProperties(kyb.additionalProperties)
         }
 
@@ -366,6 +366,14 @@ private constructor(
             this.controlPerson = controlPerson
         }
 
+        /** A user provided id that can be used to link an account holder with an external system */
+        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
+
+        /** A user provided id that can be used to link an account holder with an external system */
+        @JsonProperty("external_id")
+        @ExcludeMissing
+        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+
         /**
          * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with
          * a pass result.
@@ -436,14 +444,6 @@ private constructor(
         @ExcludeMissing
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
-        /** A user provided id that can be used to link an account holder with an external system */
-        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
-
-        /** A user provided id that can be used to link an account holder with an external system */
-        @JsonProperty("external_id")
-        @ExcludeMissing
-        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
-
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -464,12 +464,12 @@ private constructor(
                 beneficialOwnerIndividuals.map { it.toUnmodifiable() },
                 businessEntity,
                 controlPerson,
+                externalId,
                 kybPassedTimestamp,
                 natureOfBusiness,
                 tosTimestamp,
                 websiteUrl,
                 workflow,
-                externalId,
                 additionalProperties.toUnmodifiable(),
             )
     }
