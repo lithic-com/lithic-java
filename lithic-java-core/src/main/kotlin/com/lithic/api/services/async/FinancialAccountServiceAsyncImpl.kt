@@ -9,6 +9,7 @@ import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.FinancialAccount
+import com.lithic.api.models.FinancialAccountCreateParams
 import com.lithic.api.models.FinancialAccountListPageAsync
 import com.lithic.api.models.FinancialAccountListParams
 import com.lithic.api.models.FinancialAccountRetrieveParams
@@ -47,6 +48,35 @@ constructor(
     override fun financialTransactions(): FinancialTransactionServiceAsync = financialTransactions
 
     override fun statements(): StatementServiceAsync = statements
+
+    private val createHandler: Handler<FinancialAccount> =
+        jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+    /** Create a new financial account */
+    override fun create(
+        params: FinancialAccountCreateParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<FinancialAccount> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("financial_accounts")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { createHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
 
     private val retrieveHandler: Handler<FinancialAccount> =
         jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
