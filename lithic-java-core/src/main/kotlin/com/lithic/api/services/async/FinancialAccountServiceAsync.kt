@@ -6,6 +6,7 @@ package com.lithic.api.services.async
 
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.FinancialAccount
+import com.lithic.api.models.FinancialAccountCreateParams
 import com.lithic.api.models.FinancialAccountListPageAsync
 import com.lithic.api.models.FinancialAccountListParams
 import com.lithic.api.models.FinancialAccountRetrieveParams
@@ -22,6 +23,13 @@ interface FinancialAccountServiceAsync {
     fun financialTransactions(): FinancialTransactionServiceAsync
 
     fun statements(): StatementServiceAsync
+
+    /** Create a new financial account */
+    @JvmOverloads
+    fun create(
+        params: FinancialAccountCreateParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<FinancialAccount>
 
     /** Get a financial account */
     @JvmOverloads

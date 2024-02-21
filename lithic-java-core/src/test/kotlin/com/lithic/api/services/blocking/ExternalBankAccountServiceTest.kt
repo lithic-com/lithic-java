@@ -131,4 +131,22 @@ class ExternalBankAccountServiceTest {
         println(bankAccountsApiResponse)
         bankAccountsApiResponse.data().forEach { it.validate() }
     }
+
+    @Test
+    fun callRetryMicroDeposits() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val externalBankAccountService = client.externalBankAccounts()
+        val externalBankAccountRetryMicroDepositsResponse =
+            externalBankAccountService.retryMicroDeposits(
+                ExternalBankAccountRetryMicroDepositsParams.builder()
+                    .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+        println(externalBankAccountRetryMicroDepositsResponse)
+        externalBankAccountRetryMicroDepositsResponse.validate()
+    }
 }

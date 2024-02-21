@@ -14,6 +14,8 @@ import com.lithic.api.models.ExternalBankAccountListPageAsync
 import com.lithic.api.models.ExternalBankAccountListParams
 import com.lithic.api.models.ExternalBankAccountRetrieveParams
 import com.lithic.api.models.ExternalBankAccountRetrieveResponse
+import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
+import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsResponse
 import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.ExternalBankAccountUpdateResponse
 import com.lithic.api.services.async.externalBankAccounts.MicroDepositServiceAsync
@@ -153,6 +155,40 @@ constructor(
                     }
                 }
                 .let { ExternalBankAccountListPageAsync.of(this, params, it) }
+        }
+    }
+
+    private val retryMicroDepositsHandler: Handler<ExternalBankAccountRetryMicroDepositsResponse> =
+        jsonHandler<ExternalBankAccountRetryMicroDepositsResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** Retry external bank account micro deposit verification. */
+    override fun retryMicroDeposits(
+        params: ExternalBankAccountRetryMicroDepositsParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<ExternalBankAccountRetryMicroDepositsResponse> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments(
+                    "external_bank_accounts",
+                    params.getPathParam(0),
+                    "retry_micro_deposits"
+                )
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { retryMicroDepositsHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
         }
     }
 }
