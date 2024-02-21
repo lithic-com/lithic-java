@@ -19,9 +19,9 @@ import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = ExternalBankAccountUpdateResponse.Builder::class)
+@JsonDeserialize(builder = ExternalBankAccountRetryMicroDepositsResponse.Builder::class)
 @NoAutoDetect
-class ExternalBankAccountUpdateResponse
+class ExternalBankAccountRetryMicroDepositsResponse
 private constructor(
     private val accountToken: JsonField<String>,
     private val address: JsonField<ExternalBankAccountAddress>,
@@ -217,7 +217,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate(): ExternalBankAccountUpdateResponse = apply {
+    fun validate(): ExternalBankAccountRetryMicroDepositsResponse = apply {
         if (!validated) {
             accountToken()
             address().map { it.validate() }
@@ -251,7 +251,7 @@ private constructor(
             return true
         }
 
-        return other is ExternalBankAccountUpdateResponse &&
+        return other is ExternalBankAccountRetryMicroDepositsResponse &&
             this.accountToken == other.accountToken &&
             this.address == other.address &&
             this.companyId == other.companyId &&
@@ -308,7 +308,7 @@ private constructor(
     }
 
     override fun toString() =
-        "ExternalBankAccountUpdateResponse{accountToken=$accountToken, address=$address, companyId=$companyId, country=$country, created=$created, currency=$currency, dob=$dob, doingBusinessAs=$doingBusinessAs, lastFour=$lastFour, name=$name, owner=$owner, ownerType=$ownerType, routingNumber=$routingNumber, state=$state, token=$token, type=$type, userDefinedId=$userDefinedId, verificationAttempts=$verificationAttempts, verificationFailedReason=$verificationFailedReason, verificationMethod=$verificationMethod, verificationState=$verificationState, additionalProperties=$additionalProperties}"
+        "ExternalBankAccountRetryMicroDepositsResponse{accountToken=$accountToken, address=$address, companyId=$companyId, country=$country, created=$created, currency=$currency, dob=$dob, doingBusinessAs=$doingBusinessAs, lastFour=$lastFour, name=$name, owner=$owner, ownerType=$ownerType, routingNumber=$routingNumber, state=$state, token=$token, type=$type, userDefinedId=$userDefinedId, verificationAttempts=$verificationAttempts, verificationFailedReason=$verificationFailedReason, verificationMethod=$verificationMethod, verificationState=$verificationState, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -341,32 +341,36 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(externalBankAccountUpdateResponse: ExternalBankAccountUpdateResponse) =
-            apply {
-                this.accountToken = externalBankAccountUpdateResponse.accountToken
-                this.address = externalBankAccountUpdateResponse.address
-                this.companyId = externalBankAccountUpdateResponse.companyId
-                this.country = externalBankAccountUpdateResponse.country
-                this.created = externalBankAccountUpdateResponse.created
-                this.currency = externalBankAccountUpdateResponse.currency
-                this.dob = externalBankAccountUpdateResponse.dob
-                this.doingBusinessAs = externalBankAccountUpdateResponse.doingBusinessAs
-                this.lastFour = externalBankAccountUpdateResponse.lastFour
-                this.name = externalBankAccountUpdateResponse.name
-                this.owner = externalBankAccountUpdateResponse.owner
-                this.ownerType = externalBankAccountUpdateResponse.ownerType
-                this.routingNumber = externalBankAccountUpdateResponse.routingNumber
-                this.state = externalBankAccountUpdateResponse.state
-                this.token = externalBankAccountUpdateResponse.token
-                this.type = externalBankAccountUpdateResponse.type
-                this.userDefinedId = externalBankAccountUpdateResponse.userDefinedId
-                this.verificationAttempts = externalBankAccountUpdateResponse.verificationAttempts
-                this.verificationFailedReason =
-                    externalBankAccountUpdateResponse.verificationFailedReason
-                this.verificationMethod = externalBankAccountUpdateResponse.verificationMethod
-                this.verificationState = externalBankAccountUpdateResponse.verificationState
-                additionalProperties(externalBankAccountUpdateResponse.additionalProperties)
-            }
+        internal fun from(
+            externalBankAccountRetryMicroDepositsResponse:
+                ExternalBankAccountRetryMicroDepositsResponse
+        ) = apply {
+            this.accountToken = externalBankAccountRetryMicroDepositsResponse.accountToken
+            this.address = externalBankAccountRetryMicroDepositsResponse.address
+            this.companyId = externalBankAccountRetryMicroDepositsResponse.companyId
+            this.country = externalBankAccountRetryMicroDepositsResponse.country
+            this.created = externalBankAccountRetryMicroDepositsResponse.created
+            this.currency = externalBankAccountRetryMicroDepositsResponse.currency
+            this.dob = externalBankAccountRetryMicroDepositsResponse.dob
+            this.doingBusinessAs = externalBankAccountRetryMicroDepositsResponse.doingBusinessAs
+            this.lastFour = externalBankAccountRetryMicroDepositsResponse.lastFour
+            this.name = externalBankAccountRetryMicroDepositsResponse.name
+            this.owner = externalBankAccountRetryMicroDepositsResponse.owner
+            this.ownerType = externalBankAccountRetryMicroDepositsResponse.ownerType
+            this.routingNumber = externalBankAccountRetryMicroDepositsResponse.routingNumber
+            this.state = externalBankAccountRetryMicroDepositsResponse.state
+            this.token = externalBankAccountRetryMicroDepositsResponse.token
+            this.type = externalBankAccountRetryMicroDepositsResponse.type
+            this.userDefinedId = externalBankAccountRetryMicroDepositsResponse.userDefinedId
+            this.verificationAttempts =
+                externalBankAccountRetryMicroDepositsResponse.verificationAttempts
+            this.verificationFailedReason =
+                externalBankAccountRetryMicroDepositsResponse.verificationFailedReason
+            this.verificationMethod =
+                externalBankAccountRetryMicroDepositsResponse.verificationMethod
+            this.verificationState = externalBankAccountRetryMicroDepositsResponse.verificationState
+            additionalProperties(externalBankAccountRetryMicroDepositsResponse.additionalProperties)
+        }
 
         /**
          * Indicates which Lithic account the external account is associated with. For external
@@ -605,8 +609,8 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): ExternalBankAccountUpdateResponse =
-            ExternalBankAccountUpdateResponse(
+        fun build(): ExternalBankAccountRetryMicroDepositsResponse =
+            ExternalBankAccountRetryMicroDepositsResponse(
                 accountToken,
                 address,
                 companyId,

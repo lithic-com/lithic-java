@@ -11,6 +11,8 @@ import com.lithic.api.models.ExternalBankAccountListPage
 import com.lithic.api.models.ExternalBankAccountListParams
 import com.lithic.api.models.ExternalBankAccountRetrieveParams
 import com.lithic.api.models.ExternalBankAccountRetrieveResponse
+import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
+import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsResponse
 import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.ExternalBankAccountUpdateResponse
 import com.lithic.api.services.blocking.externalBankAccounts.MicroDepositService
@@ -46,4 +48,11 @@ interface ExternalBankAccountService {
         params: ExternalBankAccountListParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): ExternalBankAccountListPage
+
+    /** Retry external bank account micro deposit verification. */
+    @JvmOverloads
+    fun retryMicroDeposits(
+        params: ExternalBankAccountRetryMicroDepositsParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): ExternalBankAccountRetryMicroDepositsResponse
 }
