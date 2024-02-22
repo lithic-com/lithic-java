@@ -18,7 +18,7 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(project(":lithic-java-client-okhttp"))
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.33.2")
-    testImplementation("org.assertj:assertj-core:3.23.1")
+    testImplementation("org.assertj:assertj-core:3.25.3")
     testImplementation("org.assertj:assertj-guava:3.5.0")
     testImplementation("org.slf4j:slf4j-simple:1.7.36")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.1")
