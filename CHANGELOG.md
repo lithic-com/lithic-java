@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.29.0 (2024-02-22)
+
+Full Changelog: [v0.28.1...v0.29.0](https://github.com/lithic-com/lithic-java/compare/v0.28.1...v0.29.0)
+
+### Features
+
+* **api:** create financial account and retry microdeposits endpoints ([#163](https://github.com/lithic-com/lithic-java/issues/163)) ([d9cafd6](https://github.com/lithic-com/lithic-java/commit/d9cafd6f1944e9aec54d8a6603c3ca77f342345e))
+* **api:** update financial_account_type and documentation ([#162](https://github.com/lithic-com/lithic-java/issues/162)) ([b30ed81](https://github.com/lithic-com/lithic-java/commit/b30ed8192e18a8aaac8e74da9521203e7fa01e75))
+
+
+### Chores
+
+* **internal:** refactor release environment script ([#159](https://github.com/lithic-com/lithic-java/issues/159)) ([f57f00d](https://github.com/lithic-com/lithic-java/commit/f57f00dcc0528ea707f3f2c48864e19f78e1080f))
+* update dependency org.apache.httpcomponents.core5:httpcore5 to v5.2.4 ([#164](https://github.com/lithic-com/lithic-java/issues/164)) ([a98d5ba](https://github.com/lithic-com/lithic-java/commit/a98d5ba599f43e436391dfd97b1b528022b690c3))
+
 ## 0.28.1 (2024-02-12)
 
 Full Changelog: [v0.28.0...v0.28.1](https://github.com/lithic-com/lithic-java/compare/v0.28.0...v0.28.1)
