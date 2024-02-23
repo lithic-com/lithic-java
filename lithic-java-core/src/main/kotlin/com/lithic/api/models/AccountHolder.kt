@@ -98,7 +98,6 @@ private constructor(
     /**
      * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
      * individual.phone_number when user_type == "INDIVIDUAL".
-     *
      * > Primary email of Account Holder.
      */
     fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
@@ -127,7 +126,6 @@ private constructor(
     /**
      * < Deprecated. Use control_person.phone_number when user_type == "BUSINESS". Use
      * individual.phone_number when user_type == "INDIVIDUAL".
-     *
      * > Primary phone of Account Holder, entered in E.164 format.
      */
     fun phoneNumber(): Optional<String> =
@@ -214,7 +212,6 @@ private constructor(
     /**
      * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
      * individual.phone_number when user_type == "INDIVIDUAL".
-     *
      * > Primary email of Account Holder.
      */
     @JsonProperty("email") @ExcludeMissing fun _email() = email
@@ -240,7 +237,6 @@ private constructor(
     /**
      * < Deprecated. Use control_person.phone_number when user_type == "BUSINESS". Use
      * individual.phone_number when user_type == "INDIVIDUAL".
-     *
      * > Primary phone of Account Holder, entered in E.164 format.
      */
     @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
@@ -539,7 +535,6 @@ private constructor(
         /**
          * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
          * individual.phone_number when user_type == "INDIVIDUAL".
-         *
          * > Primary email of Account Holder.
          */
         fun email(email: String) = email(JsonField.of(email))
@@ -547,7 +542,6 @@ private constructor(
         /**
          * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
          * individual.phone_number when user_type == "INDIVIDUAL".
-         *
          * > Primary email of Account Holder.
          */
         @JsonProperty("email")
@@ -613,7 +607,6 @@ private constructor(
         /**
          * < Deprecated. Use control_person.phone_number when user_type == "BUSINESS". Use
          * individual.phone_number when user_type == "INDIVIDUAL".
-         *
          * > Primary phone of Account Holder, entered in E.164 format.
          */
         fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
@@ -621,7 +614,6 @@ private constructor(
         /**
          * < Deprecated. Use control_person.phone_number when user_type == "BUSINESS". Use
          * individual.phone_number when user_type == "INDIVIDUAL".
-         *
          * > Primary phone of Account Holder, entered in E.164 format.
          */
         @JsonProperty("phone_number")

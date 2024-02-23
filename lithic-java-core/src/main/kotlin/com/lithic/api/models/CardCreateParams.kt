@@ -126,15 +126,14 @@ constructor(
 
         /**
          * Card types:
-         *
          * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
-         * like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
+         *   like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
          * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
-         * credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
-         * [lithic.com/contact](https://lithic.com/contact) for more information.
+         *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
+         *   [lithic.com/contact](https://lithic.com/contact) for more information.
          * - `SINGLE_USE` - Card is closed upon first successful authorization.
          * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
-         * successfully authorizes the card.
+         *   successfully authorizes the card.
          */
         @JsonProperty("type") fun type(): Type? = type
 
@@ -161,8 +160,7 @@ constructor(
          * Specifies the digital card art to be displayed in the user’s digital wallet after
          * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
          * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-         * .
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
         @JsonProperty("digital_card_art_token")
         fun digitalCardArtToken(): String? = digitalCardArtToken
@@ -210,10 +208,9 @@ constructor(
         /**
          * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
          * besides `STANDARD` require additional permissions.
-         *
          * - `STANDARD` - USPS regular mail or similar international option, with no tracking
          * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
-         * tracking
+         *   tracking
          * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
          * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
          * - `2_DAY` - FedEx 2-day shipping, with tracking
@@ -231,23 +228,21 @@ constructor(
 
         /**
          * Spend limit duration values:
-         *
          * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
          * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
-         * card.
+         *   card.
          * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-         * To support recurring monthly payments, which can occur on different day every month, the
-         * time window we consider for monthly velocity starts 6 days after the current calendar
-         * date one month prior.
+         *   To support recurring monthly payments, which can occur on different day every month,
+         *   the time window we consider for monthly velocity starts 6 days after the current
+         *   calendar date one month prior.
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         * transaction is under the spend limit.
+         *   transaction is under the spend limit.
          */
         @JsonProperty("spend_limit_duration")
         fun spendLimitDuration(): SpendLimitDuration? = spendLimitDuration
 
         /**
          * Card state values:
-         *
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
@@ -361,15 +356,15 @@ constructor(
 
             /**
              * Card types:
-             *
              * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
-             * wallet like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
+             *   wallet like Apple Pay or Google Pay (if the card program is digital
+             *   wallet-enabled).
              * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
-             * branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach
-             * out at [lithic.com/contact](https://lithic.com/contact) for more information.
+             *   branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach
+             *   out at [lithic.com/contact](https://lithic.com/contact) for more information.
              * - `SINGLE_USE` - Card is closed upon first successful authorization.
              * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
-             * successfully authorizes the card.
+             *   successfully authorizes the card.
              */
             @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
 
@@ -401,8 +396,7 @@ constructor(
              * Specifies the digital card art to be displayed in the user’s digital wallet after
              * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
              * use. See
-             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-             * .
+             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
             @JsonProperty("digital_card_art_token")
             fun digitalCardArtToken(digitalCardArtToken: String) = apply {
@@ -432,8 +426,7 @@ constructor(
             /**
              * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
              * `VIRTUAL`. See
-             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise)
-             * .
+             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
              */
             @JsonProperty("pin") fun pin(pin: String) = apply { this.pin = pin }
 
@@ -462,15 +455,14 @@ constructor(
             /**
              * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
              * besides `STANDARD` require additional permissions.
-             *
              * - `STANDARD` - USPS regular mail or similar international option, with no tracking
              * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
-             * tracking
+             *   tracking
              * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
              * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
              * - `2_DAY` - FedEx 2-day shipping, with tracking
              * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
-             * tracking
+             *   tracking
              */
             @JsonProperty("shipping_method")
             fun shippingMethod(shippingMethod: ShippingMethod) = apply {
@@ -488,17 +480,16 @@ constructor(
 
             /**
              * Spend limit duration values:
-             *
              * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
-             * year.
+             *   year.
              * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
-             * the card.
+             *   the card.
              * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
-             * month. To support recurring monthly payments, which can occur on different day every
-             * month, the time window we consider for monthly velocity starts 6 days after the
-             * current calendar date one month prior.
+             *   month. To support recurring monthly payments, which can occur on different day
+             *   every month, the time window we consider for monthly velocity starts 6 days after
+             *   the current calendar date one month prior.
              * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-             * transaction is under the spend limit.
+             *   transaction is under the spend limit.
              */
             @JsonProperty("spend_limit_duration")
             fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
@@ -507,9 +498,8 @@ constructor(
 
             /**
              * Card state values:
-             *
              * - `OPEN` - Card will approve authorizations (if they match card and account
-             * parameters).
+             *   parameters).
              * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
             @JsonProperty("state") fun state(state: State) = apply { this.state = state }
@@ -666,15 +656,14 @@ constructor(
 
         /**
          * Card types:
-         *
          * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
-         * like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
+         *   like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
          * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
-         * credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
-         * [lithic.com/contact](https://lithic.com/contact) for more information.
+         *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
+         *   [lithic.com/contact](https://lithic.com/contact) for more information.
          * - `SINGLE_USE` - Card is closed upon first successful authorization.
          * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
-         * successfully authorizes the card.
+         *   successfully authorizes the card.
          */
         fun type(type: Type) = apply { this.type = type }
 
@@ -703,8 +692,7 @@ constructor(
          * Specifies the digital card art to be displayed in the user’s digital wallet after
          * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
          * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-         * .
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
         fun digitalCardArtToken(digitalCardArtToken: String) = apply {
             this.digitalCardArtToken = digitalCardArtToken
@@ -755,10 +743,9 @@ constructor(
         /**
          * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
          * besides `STANDARD` require additional permissions.
-         *
          * - `STANDARD` - USPS regular mail or similar international option, with no tracking
          * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
-         * tracking
+         *   tracking
          * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
          * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
          * - `2_DAY` - FedEx 2-day shipping, with tracking
@@ -778,16 +765,15 @@ constructor(
 
         /**
          * Spend limit duration values:
-         *
          * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
          * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
-         * card.
+         *   card.
          * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-         * To support recurring monthly payments, which can occur on different day every month, the
-         * time window we consider for monthly velocity starts 6 days after the current calendar
-         * date one month prior.
+         *   To support recurring monthly payments, which can occur on different day every month,
+         *   the time window we consider for monthly velocity starts 6 days after the current
+         *   calendar date one month prior.
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         * transaction is under the spend limit.
+         *   transaction is under the spend limit.
          */
         fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
             this.spendLimitDuration = spendLimitDuration
@@ -795,7 +781,6 @@ constructor(
 
         /**
          * Card state values:
-         *
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */

@@ -8,5 +8,6 @@ constructor(
     private val error: LithicError,
 ) : LithicServiceException(headers, "${error}") {
     override fun statusCode(): Int = 400
+
     fun error(): LithicError = error
 }

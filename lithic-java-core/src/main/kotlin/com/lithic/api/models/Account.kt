@@ -51,10 +51,9 @@ private constructor(
 
     /**
      * Account state:
-     *
      * - `ACTIVE` - Account is able to transact and create new cards.
      * - `PAUSED` - Account will not be able to transact or create new cards. It can be set back to
-     * `ACTIVE`.
+     *   `ACTIVE`.
      */
     fun state(): State = state.getRequired("state")
 
@@ -82,10 +81,9 @@ private constructor(
 
     /**
      * Account state:
-     *
      * - `ACTIVE` - Account is able to transact and create new cards.
      * - `PAUSED` - Account will not be able to transact or create new cards. It can be set back to
-     * `ACTIVE`.
+     *   `ACTIVE`.
      */
     @JsonProperty("state") @ExcludeMissing fun _state() = state
 
@@ -216,19 +214,17 @@ private constructor(
 
         /**
          * Account state:
-         *
          * - `ACTIVE` - Account is able to transact and create new cards.
          * - `PAUSED` - Account will not be able to transact or create new cards. It can be set back
-         * to `ACTIVE`.
+         *   to `ACTIVE`.
          */
         fun state(state: State) = state(JsonField.of(state))
 
         /**
          * Account state:
-         *
          * - `ACTIVE` - Account is able to transact and create new cards.
          * - `PAUSED` - Account will not be able to transact or create new cards. It can be set back
-         * to `ACTIVE`.
+         *   to `ACTIVE`.
          */
         @JsonProperty("state")
         @ExcludeMissing

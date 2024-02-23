@@ -182,12 +182,19 @@ sealed class JsonValue : JsonField<Nothing>() {
 
     interface Visitor<out R> {
         fun visitNull(): R = visitDefault()
+
         fun visitMissing(): R = visitDefault()
+
         fun visitBoolean(value: Boolean): R = visitDefault()
+
         fun visitNumber(value: Number): R = visitDefault()
+
         fun visitString(value: String): R = visitDefault()
+
         fun visitArray(values: List<JsonValue>): R = visitDefault()
+
         fun visitObject(values: Map<String, JsonValue>): R = visitDefault()
+
         fun visitDefault(): R {
             throw RuntimeException("Unexpected value")
         }
