@@ -13,7 +13,7 @@ dependencies {
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
     implementation("org.apache.httpcomponents.core5:httpcore5:5.2.4")
-    implementation("org.apache.httpcomponents.client5:httpclient5:5.2.1")
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.3.1")
 
     testImplementation(kotlin("test"))
     testImplementation(project(":lithic-java-client-okhttp"))
