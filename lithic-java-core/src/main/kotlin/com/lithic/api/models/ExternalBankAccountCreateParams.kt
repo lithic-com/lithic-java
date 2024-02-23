@@ -68,17 +68,20 @@ constructor(
         fun bankVerifiedCreateBankAccountApiRequest():
             Optional<BankVerifiedCreateBankAccountApiRequest> =
             Optional.ofNullable(bankVerifiedCreateBankAccountApiRequest)
+
         fun plaidCreateBankAccountApiRequest(): Optional<PlaidCreateBankAccountApiRequest> =
             Optional.ofNullable(plaidCreateBankAccountApiRequest)
 
         fun isBankVerifiedCreateBankAccountApiRequest(): Boolean =
             bankVerifiedCreateBankAccountApiRequest != null
+
         fun isPlaidCreateBankAccountApiRequest(): Boolean = plaidCreateBankAccountApiRequest != null
 
         fun asBankVerifiedCreateBankAccountApiRequest(): BankVerifiedCreateBankAccountApiRequest =
             bankVerifiedCreateBankAccountApiRequest.getOrThrow(
                 "bankVerifiedCreateBankAccountApiRequest"
             )
+
         fun asPlaidCreateBankAccountApiRequest(): PlaidCreateBankAccountApiRequest =
             plaidCreateBankAccountApiRequest.getOrThrow("plaidCreateBankAccountApiRequest")
 
@@ -266,6 +269,7 @@ constructor(
             this.bankVerifiedCreateBankAccountApiRequest = bankVerifiedCreateBankAccountApiRequest
             this.plaidCreateBankAccountApiRequest = null
         }
+
         fun forPlaidCreateBankAccountApiRequest(
             plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest
         ) = apply {
