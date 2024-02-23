@@ -6,7 +6,7 @@ plugins {
 dependencies {
     api("com.fasterxml.jackson.core:jackson-core:2.14.1")
     api("com.fasterxml.jackson.core:jackson-databind:2.14.1")
-    api("com.google.guava:guava:31.1-jre")
+    api("com.google.guava:guava:33.0.0-jre")
 
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.14.1")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.14.1")
