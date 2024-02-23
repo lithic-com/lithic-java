@@ -8,6 +8,10 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
+import com.lithic.api.models.TokenizationListPageAsync
+import com.lithic.api.models.TokenizationListParams
+import com.lithic.api.models.TokenizationRetrieveParams
+import com.lithic.api.models.TokenizationRetrieveResponse
 import com.lithic.api.models.TokenizationSimulateParams
 import com.lithic.api.models.TokenizationSimulateResponse
 import com.lithic.api.services.errorHandler
@@ -22,6 +26,65 @@ constructor(
 ) : TokenizationServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+    private val retrieveHandler: Handler<TokenizationRetrieveResponse> =
+        jsonHandler<TokenizationRetrieveResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** Get tokenization */
+    override fun retrieve(
+        params: TokenizationRetrieveParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<TokenizationRetrieveResponse> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.GET)
+                .addPathSegments("tokenizations", params.getPathParam(0))
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { retrieveHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val listHandler: Handler<TokenizationListPageAsync.Response> =
+        jsonHandler<TokenizationListPageAsync.Response>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** List card tokenizations */
+    override fun list(
+        params: TokenizationListParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<TokenizationListPageAsync> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.GET)
+                .addPathSegments("tokenizations")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { listHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+                .let { TokenizationListPageAsync.of(this, params, it) }
+        }
+    }
 
     private val simulateHandler: Handler<TokenizationSimulateResponse> =
         jsonHandler<TokenizationSimulateResponse>(clientOptions.jsonMapper)
