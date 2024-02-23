@@ -99,8 +99,7 @@ constructor(
          * Specifies the digital card art to be displayed in the user’s digital wallet after
          * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
          * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-         * .
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
         @JsonProperty("digital_card_art_token")
         fun digitalCardArtToken(): String? = digitalCardArtToken
@@ -128,23 +127,21 @@ constructor(
 
         /**
          * Spend limit duration values:
-         *
          * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
          * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
-         * card.
+         *   card.
          * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-         * To support recurring monthly payments, which can occur on different day every month, the
-         * time window we consider for monthly velocity starts 6 days after the current calendar
-         * date one month prior.
+         *   To support recurring monthly payments, which can occur on different day every month,
+         *   the time window we consider for monthly velocity starts 6 days after the current
+         *   calendar date one month prior.
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         * transaction is under the spend limit.
+         *   transaction is under the spend limit.
          */
         @JsonProperty("spend_limit_duration")
         fun spendLimitDuration(): SpendLimitDuration? = spendLimitDuration
 
         /**
          * Card state values:
-         *
          * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
@@ -232,8 +229,7 @@ constructor(
              * Specifies the digital card art to be displayed in the user’s digital wallet after
              * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
              * use. See
-             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-             * .
+             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
             @JsonProperty("digital_card_art_token")
             fun digitalCardArtToken(digitalCardArtToken: String) = apply {
@@ -249,8 +245,7 @@ constructor(
             /**
              * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
              * `VIRTUAL`. See
-             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise)
-             * .
+             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
              */
             @JsonProperty("pin") fun pin(pin: String) = apply { this.pin = pin }
 
@@ -265,17 +260,16 @@ constructor(
 
             /**
              * Spend limit duration values:
-             *
              * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
-             * year.
+             *   year.
              * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
-             * the card.
+             *   the card.
              * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
-             * month. To support recurring monthly payments, which can occur on different day every
-             * month, the time window we consider for monthly velocity starts 6 days after the
-             * current calendar date one month prior.
+             *   month. To support recurring monthly payments, which can occur on different day
+             *   every month, the time window we consider for monthly velocity starts 6 days after
+             *   the current calendar date one month prior.
              * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-             * transaction is under the spend limit.
+             *   transaction is under the spend limit.
              */
             @JsonProperty("spend_limit_duration")
             fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
@@ -284,11 +278,10 @@ constructor(
 
             /**
              * Card state values:
-             *
              * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be
-             * undone.
+             *   undone.
              * - `OPEN` - Card will approve authorizations (if they match card and account
-             * parameters).
+             *   parameters).
              * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
             @JsonProperty("state") fun state(state: State) = apply { this.state = state }
@@ -414,8 +407,7 @@ constructor(
          * Specifies the digital card art to be displayed in the user’s digital wallet after
          * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
          * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art)
-         * .
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
         fun digitalCardArtToken(digitalCardArtToken: String) = apply {
             this.digitalCardArtToken = digitalCardArtToken
@@ -444,16 +436,15 @@ constructor(
 
         /**
          * Spend limit duration values:
-         *
          * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
          * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
-         * card.
+         *   card.
          * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
-         * To support recurring monthly payments, which can occur on different day every month, the
-         * time window we consider for monthly velocity starts 6 days after the current calendar
-         * date one month prior.
+         *   To support recurring monthly payments, which can occur on different day every month,
+         *   the time window we consider for monthly velocity starts 6 days after the current
+         *   calendar date one month prior.
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-         * transaction is under the spend limit.
+         *   transaction is under the spend limit.
          */
         fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
             this.spendLimitDuration = spendLimitDuration
@@ -461,7 +452,6 @@ constructor(
 
         /**
          * Card state values:
-         *
          * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.

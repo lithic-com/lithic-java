@@ -51,9 +51,9 @@ private constructor(
         beneficialOwnerEntities.getRequired("beneficial_owner_entities")
 
     /**
-     * List of all individuals with >25% ownership in the company. If no entity or individual owns
-     * >25% of the company, and the largest shareholder is an individual, please identify them in
-     * this field. See
+     * List of all individuals with >25% ownership in the company. If no entity or individual
+     * owns >25% of the company, and the largest shareholder is an individual, please identify them
+     * in this field. See
      * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
      * (Section I) for more background on individuals that should be included. If no individual is
      * an entity, pass in an empty list. However, either this parameter or
@@ -118,9 +118,9 @@ private constructor(
     fun _beneficialOwnerEntities() = beneficialOwnerEntities
 
     /**
-     * List of all individuals with >25% ownership in the company. If no entity or individual owns
-     * >25% of the company, and the largest shareholder is an individual, please identify them in
-     * this field. See
+     * List of all individuals with >25% ownership in the company. If no entity or individual
+     * owns >25% of the company, and the largest shareholder is an individual, please identify them
+     * in this field. See
      * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
      * (Section I) for more background on individuals that should be included. If no individual is
      * an entity, pass in an empty list. However, either this parameter or
@@ -272,9 +272,9 @@ private constructor(
         }
 
         /**
-         * List of all entities with >25% ownership in the company. If no entity or individual owns
-         * >25% of the company, and the largest shareholder is an entity, please identify them in
-         * this field. See
+         * List of all entities with >25% ownership in the company. If no entity or individual
+         * owns >25% of the company, and the largest shareholder is an entity, please identify them
+         * in this field. See
          * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
          * (Section I) for more background. If no business owner is an entity, pass in an empty
          * list. However, either this parameter or `beneficial_owner_individuals` must be populated.
@@ -284,9 +284,9 @@ private constructor(
             beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
 
         /**
-         * List of all entities with >25% ownership in the company. If no entity or individual owns
-         * >25% of the company, and the largest shareholder is an entity, please identify them in
-         * this field. See
+         * List of all entities with >25% ownership in the company. If no entity or individual
+         * owns >25% of the company, and the largest shareholder is an entity, please identify them
+         * in this field. See
          * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
          * (Section I) for more background. If no business owner is an entity, pass in an empty
          * list. However, either this parameter or `beneficial_owner_individuals` must be populated.

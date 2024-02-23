@@ -57,7 +57,6 @@ private constructor(
 
     /**
      * Upload status types:
-     *
      * - `DELETED` - Evidence was deleted.
      * - `ERROR` - Evidence upload failed.
      * - `PENDING` - Evidence is pending upload.
@@ -88,7 +87,6 @@ private constructor(
 
     /**
      * Upload status types:
-     *
      * - `DELETED` - Evidence was deleted.
      * - `ERROR` - Evidence upload failed.
      * - `PENDING` - Evidence is pending upload.
@@ -233,7 +231,6 @@ private constructor(
 
         /**
          * Upload status types:
-         *
          * - `DELETED` - Evidence was deleted.
          * - `ERROR` - Evidence upload failed.
          * - `PENDING` - Evidence is pending upload.
@@ -244,7 +241,6 @@ private constructor(
 
         /**
          * Upload status types:
-         *
          * - `DELETED` - Evidence was deleted.
          * - `ERROR` - Evidence upload failed.
          * - `PENDING` - Evidence is pending upload.

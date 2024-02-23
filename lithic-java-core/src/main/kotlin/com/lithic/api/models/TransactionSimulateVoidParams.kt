@@ -70,7 +70,6 @@ constructor(
 
         /**
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
-         *
          * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
          */
@@ -141,9 +140,8 @@ constructor(
 
             /**
              * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
-             *
              * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by
-             * Lithic.
+             *   Lithic.
              * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
              */
             @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
@@ -244,7 +242,6 @@ constructor(
 
         /**
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
-         *
          * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
          */

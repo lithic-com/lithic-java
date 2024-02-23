@@ -127,7 +127,6 @@ private constructor(
 
     /**
      * Status types:
-     *
      * - `DECLINED` - The transaction was declined.
      * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant.
@@ -224,7 +223,6 @@ private constructor(
 
     /**
      * Status types:
-     *
      * - `DECLINED` - The transaction was declined.
      * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant.
@@ -582,7 +580,6 @@ private constructor(
 
         /**
          * Status types:
-         *
          * - `DECLINED` - The transaction was declined.
          * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
          * - `PENDING` - Authorization is pending completion from the merchant.
@@ -593,7 +590,6 @@ private constructor(
 
         /**
          * Status types:
-         *
          * - `DECLINED` - The transaction was declined.
          * - `EXPIRED` - Lithic reversed the authorization as it has passed its expiration time.
          * - `PENDING` - Authorization is pending completion from the merchant.
@@ -684,9 +680,8 @@ private constructor(
          * `APPROVED` or decline reason.
          *
          * Result types:
-         *
          * - `ACCOUNT_STATE_TRANSACTION_FAIL` - Contact
-         * [support@lithic.com](mailto:support@lithic.com).
+         *   [support@lithic.com](mailto:support@lithic.com).
          * - `APPROVED` - Transaction is approved.
          * - `BANK_CONNECTION_ERROR` - Please reconnect a funding source.
          * - `BANK_NOT_VERIFIED` - Please confirm the funding source.
@@ -694,13 +689,13 @@ private constructor(
          * - `CARD_PAUSED` - Card state was paused at the time of authorization.
          * - `FRAUD_ADVICE` - Transaction declined due to risk.
          * - `GLOBAL_TRANSACTION_LIMIT` - Platform spend limit exceeded, contact
-         * [support@lithic.com](mailto:support@lithic.com).
+         *   [support@lithic.com](mailto:support@lithic.com).
          * - `GLOBAL_WEEKLY_LIMIT` - Platform spend limit exceeded, contact
-         * [support@lithic.com](mailto:support@lithic.com).
+         *   [support@lithic.com](mailto:support@lithic.com).
          * - `GLOBAL_MONTHLY_LIMIT` - Platform spend limit exceeded, contact
-         * [support@lithic.com](mailto:support@lithic.com).
+         *   [support@lithic.com](mailto:support@lithic.com).
          * - `INACTIVE_ACCOUNT` - Account is inactive. Contact
-         * [support@lithic.com](mailto:support@lithic.com).
+         *   [support@lithic.com](mailto:support@lithic.com).
          * - `INCORRECT_PIN` - PIN verification failed.
          * - `INVALID_CARD_DETAILS` - Incorrect CVV or expiry date.
          * - `INSUFFICIENT_FUNDS` - Please ensure the funding source is connected and up to date.
@@ -718,26 +713,25 @@ private constructor(
 
         /**
          * Event types:
-         *
          * - `AUTHORIZATION` - Authorize a transaction.
          * - `AUTHORIZATION_ADVICE` - Advice on a transaction.
          * - `AUTHORIZATION_EXPIRY` - Authorization has expired and reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` - Authorization was reversed by the merchant.
          * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has occurred on a
-         * card.
+         *   card.
          * - `CLEARING` - Transaction is settled.
          * - `CORRECTION_DEBIT` - Manual transaction correction (Debit).
          * - `CORRECTION_CREDIT` - Manual transaction correction (Credit).
          * - `CREDIT_AUTHORIZATION` - A refund or credit authorization from a merchant.
          * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your behalf by
-         * the network.
+         *   the network.
          * - `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit funds without additional
-         * clearing.
+         *   clearing.
          * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit funds
-         * without additional clearing.
+         *   without additional clearing.
          * - `RETURN` - A refund has been processed on the transaction.
          * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
-         * incorrect refund).
+         *   incorrect refund).
          */
         fun type(): Type = type.getRequired("type")
 
@@ -753,9 +747,8 @@ private constructor(
          * `APPROVED` or decline reason.
          *
          * Result types:
-         *
          * - `ACCOUNT_STATE_TRANSACTION_FAIL` - Contact
-         * [support@lithic.com](mailto:support@lithic.com).
+         *   [support@lithic.com](mailto:support@lithic.com).
          * - `APPROVED` - Transaction is approved.
          * - `BANK_CONNECTION_ERROR` - Please reconnect a funding source.
          * - `BANK_NOT_VERIFIED` - Please confirm the funding source.
@@ -763,13 +756,13 @@ private constructor(
          * - `CARD_PAUSED` - Card state was paused at the time of authorization.
          * - `FRAUD_ADVICE` - Transaction declined due to risk.
          * - `GLOBAL_TRANSACTION_LIMIT` - Platform spend limit exceeded, contact
-         * [support@lithic.com](mailto:support@lithic.com).
+         *   [support@lithic.com](mailto:support@lithic.com).
          * - `GLOBAL_WEEKLY_LIMIT` - Platform spend limit exceeded, contact
-         * [support@lithic.com](mailto:support@lithic.com).
+         *   [support@lithic.com](mailto:support@lithic.com).
          * - `GLOBAL_MONTHLY_LIMIT` - Platform spend limit exceeded, contact
-         * [support@lithic.com](mailto:support@lithic.com).
+         *   [support@lithic.com](mailto:support@lithic.com).
          * - `INACTIVE_ACCOUNT` - Account is inactive. Contact
-         * [support@lithic.com](mailto:support@lithic.com).
+         *   [support@lithic.com](mailto:support@lithic.com).
          * - `INCORRECT_PIN` - PIN verification failed.
          * - `INVALID_CARD_DETAILS` - Incorrect CVV or expiry date.
          * - `INSUFFICIENT_FUNDS` - Please ensure the funding source is connected and up to date.
@@ -787,26 +780,25 @@ private constructor(
 
         /**
          * Event types:
-         *
          * - `AUTHORIZATION` - Authorize a transaction.
          * - `AUTHORIZATION_ADVICE` - Advice on a transaction.
          * - `AUTHORIZATION_EXPIRY` - Authorization has expired and reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` - Authorization was reversed by the merchant.
          * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has occurred on a
-         * card.
+         *   card.
          * - `CLEARING` - Transaction is settled.
          * - `CORRECTION_DEBIT` - Manual transaction correction (Debit).
          * - `CORRECTION_CREDIT` - Manual transaction correction (Credit).
          * - `CREDIT_AUTHORIZATION` - A refund or credit authorization from a merchant.
          * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your behalf by
-         * the network.
+         *   the network.
          * - `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit funds without additional
-         * clearing.
+         *   clearing.
          * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit funds
-         * without additional clearing.
+         *   without additional clearing.
          * - `RETURN` - A refund has been processed on the transaction.
          * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
-         * incorrect refund).
+         *   incorrect refund).
          */
         @JsonProperty("type") @ExcludeMissing fun _type() = type
 
@@ -917,9 +909,8 @@ private constructor(
              * `APPROVED` or decline reason.
              *
              * Result types:
-             *
              * - `ACCOUNT_STATE_TRANSACTION_FAIL` - Contact
-             * [support@lithic.com](mailto:support@lithic.com).
+             *   [support@lithic.com](mailto:support@lithic.com).
              * - `APPROVED` - Transaction is approved.
              * - `BANK_CONNECTION_ERROR` - Please reconnect a funding source.
              * - `BANK_NOT_VERIFIED` - Please confirm the funding source.
@@ -927,17 +918,17 @@ private constructor(
              * - `CARD_PAUSED` - Card state was paused at the time of authorization.
              * - `FRAUD_ADVICE` - Transaction declined due to risk.
              * - `GLOBAL_TRANSACTION_LIMIT` - Platform spend limit exceeded, contact
-             * [support@lithic.com](mailto:support@lithic.com).
+             *   [support@lithic.com](mailto:support@lithic.com).
              * - `GLOBAL_WEEKLY_LIMIT` - Platform spend limit exceeded, contact
-             * [support@lithic.com](mailto:support@lithic.com).
+             *   [support@lithic.com](mailto:support@lithic.com).
              * - `GLOBAL_MONTHLY_LIMIT` - Platform spend limit exceeded, contact
-             * [support@lithic.com](mailto:support@lithic.com).
+             *   [support@lithic.com](mailto:support@lithic.com).
              * - `INACTIVE_ACCOUNT` - Account is inactive. Contact
-             * [support@lithic.com](mailto:support@lithic.com).
+             *   [support@lithic.com](mailto:support@lithic.com).
              * - `INCORRECT_PIN` - PIN verification failed.
              * - `INVALID_CARD_DETAILS` - Incorrect CVV or expiry date.
              * - `INSUFFICIENT_FUNDS` - Please ensure the funding source is connected and up to
-             * date.
+             *   date.
              * - `MERCHANT_BLACKLIST` - This merchant is disallowed on the platform.
              * - `SINGLE_USE_RECHARGED` - Single use card attempted multiple times.
              * - `SWITCH_INOPERATIVE_ADVICE` - Network error, re-attempt the transaction.
@@ -951,9 +942,8 @@ private constructor(
              * `APPROVED` or decline reason.
              *
              * Result types:
-             *
              * - `ACCOUNT_STATE_TRANSACTION_FAIL` - Contact
-             * [support@lithic.com](mailto:support@lithic.com).
+             *   [support@lithic.com](mailto:support@lithic.com).
              * - `APPROVED` - Transaction is approved.
              * - `BANK_CONNECTION_ERROR` - Please reconnect a funding source.
              * - `BANK_NOT_VERIFIED` - Please confirm the funding source.
@@ -961,17 +951,17 @@ private constructor(
              * - `CARD_PAUSED` - Card state was paused at the time of authorization.
              * - `FRAUD_ADVICE` - Transaction declined due to risk.
              * - `GLOBAL_TRANSACTION_LIMIT` - Platform spend limit exceeded, contact
-             * [support@lithic.com](mailto:support@lithic.com).
+             *   [support@lithic.com](mailto:support@lithic.com).
              * - `GLOBAL_WEEKLY_LIMIT` - Platform spend limit exceeded, contact
-             * [support@lithic.com](mailto:support@lithic.com).
+             *   [support@lithic.com](mailto:support@lithic.com).
              * - `GLOBAL_MONTHLY_LIMIT` - Platform spend limit exceeded, contact
-             * [support@lithic.com](mailto:support@lithic.com).
+             *   [support@lithic.com](mailto:support@lithic.com).
              * - `INACTIVE_ACCOUNT` - Account is inactive. Contact
-             * [support@lithic.com](mailto:support@lithic.com).
+             *   [support@lithic.com](mailto:support@lithic.com).
              * - `INCORRECT_PIN` - PIN verification failed.
              * - `INVALID_CARD_DETAILS` - Incorrect CVV or expiry date.
              * - `INSUFFICIENT_FUNDS` - Please ensure the funding source is connected and up to
-             * date.
+             *   date.
              * - `MERCHANT_BLACKLIST` - This merchant is disallowed on the platform.
              * - `SINGLE_USE_RECHARGED` - Single use card attempted multiple times.
              * - `SWITCH_INOPERATIVE_ADVICE` - Network error, re-attempt the transaction.
@@ -993,51 +983,49 @@ private constructor(
 
             /**
              * Event types:
-             *
              * - `AUTHORIZATION` - Authorize a transaction.
              * - `AUTHORIZATION_ADVICE` - Advice on a transaction.
              * - `AUTHORIZATION_EXPIRY` - Authorization has expired and reversed by Lithic.
              * - `AUTHORIZATION_REVERSAL` - Authorization was reversed by the merchant.
              * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has occurred
-             * on a card.
+             *   on a card.
              * - `CLEARING` - Transaction is settled.
              * - `CORRECTION_DEBIT` - Manual transaction correction (Debit).
              * - `CORRECTION_CREDIT` - Manual transaction correction (Credit).
              * - `CREDIT_AUTHORIZATION` - A refund or credit authorization from a merchant.
              * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your behalf
-             * by the network.
+             *   by the network.
              * - `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit funds without
-             * additional clearing.
+             *   additional clearing.
              * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit
-             * funds without additional clearing.
+             *   funds without additional clearing.
              * - `RETURN` - A refund has been processed on the transaction.
              * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
-             * incorrect refund).
+             *   incorrect refund).
              */
             fun type(type: Type) = type(JsonField.of(type))
 
             /**
              * Event types:
-             *
              * - `AUTHORIZATION` - Authorize a transaction.
              * - `AUTHORIZATION_ADVICE` - Advice on a transaction.
              * - `AUTHORIZATION_EXPIRY` - Authorization has expired and reversed by Lithic.
              * - `AUTHORIZATION_REVERSAL` - Authorization was reversed by the merchant.
              * - `BALANCE_INQUIRY` - A balance inquiry (typically a $0 authorization) has occurred
-             * on a card.
+             *   on a card.
              * - `CLEARING` - Transaction is settled.
              * - `CORRECTION_DEBIT` - Manual transaction correction (Debit).
              * - `CORRECTION_CREDIT` - Manual transaction correction (Credit).
              * - `CREDIT_AUTHORIZATION` - A refund or credit authorization from a merchant.
              * - `CREDIT_AUTHORIZATION_ADVICE` - A credit authorization was approved on your behalf
-             * by the network.
+             *   by the network.
              * - `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit funds without
-             * additional clearing.
+             *   additional clearing.
              * - `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit
-             * funds without additional clearing.
+             *   funds without additional clearing.
              * - `RETURN` - A refund has been processed on the transaction.
              * - `RETURN_REVERSAL` - A refund has been reversed (e.g., when a merchant reverses an
-             * incorrect refund).
+             *   incorrect refund).
              */
             @JsonProperty("type")
             @ExcludeMissing
@@ -2336,7 +2324,6 @@ private constructor(
 
         /**
          * 3-D Secure Protocol version. Possible enum values:
-         *
          * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
          * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
          * - `null`: 3-D Secure was not used for the transaction
@@ -2347,7 +2334,6 @@ private constructor(
         /**
          * Exemption applied by the ACS to authenticate the transaction without requesting a
          * challenge. Possible enum values:
-         *
          * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
          * - `LOW_VALUE`: Low Value Payment exemption.
          * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
@@ -2355,9 +2341,9 @@ private constructor(
          * - `RECURRING_PAYMENT`: Recurring Payment exemption.
          * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
          * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication Delegation
-         * exemption.
+         *   exemption.
          * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-         * exemption.
+         *   exemption.
          *
          * Maps to the 3-D Secure `transChallengeExemption` field.
          */
@@ -2366,15 +2352,14 @@ private constructor(
 
         /**
          * Outcome of the 3DS authentication process. Possible enum values:
-         *
          * - `SUCCESS`: 3DS authentication was successful and the transaction is considered
-         * authenticated.
+         *   authenticated.
          * - `DECLINE`: 3DS authentication was attempted but was unsuccessful — i.e., the issuer
-         * declined to authenticate the cardholder; note that Lithic populates this value on a
-         * best-effort basis based on common data across the 3DS authentication and ASA data
-         * elements.
+         *   declined to authenticate the cardholder; note that Lithic populates this value on a
+         *   best-effort basis based on common data across the 3DS authentication and ASA data
+         *   elements.
          * - `ATTEMPTS`: 3DS authentication was attempted but full authentication did not occur. A
-         * proof of attempted authenticated is provided by the merchant.
+         *   proof of attempted authenticated is provided by the merchant.
          * - `NONE`: 3DS authentication was not performed on the transaction.
          */
         fun authenticationResult(): AuthenticationResult =
@@ -2382,16 +2367,15 @@ private constructor(
 
         /**
          * Indicator for which party made the 3DS authentication decision. Possible enum values:
-         *
          * - `NETWORK`: A networks tand-in service decided on the outcome; for token authentications
-         * (as indicated in the `liability_shift` attribute), this is the default value
+         *   (as indicated in the `liability_shift` attribute), this is the default value
          * - `LITHIC_DEFAULT`: A default decision was made by Lithic, without running a rules-based
-         * authentication; this value will be set on card programs that do not participate in one of
-         * our two 3DS product tiers
+         *   authentication; this value will be set on card programs that do not participate in one
+         *   of our two 3DS product tiers
          * - `LITHIC_RULES`: A rules-based authentication was conducted by Lithic and Lithic decided
-         * on the outcome
+         *   on the outcome
          * - `CUSTOMER_ENDPOINT`: Lithic customer decided on the outcome based on a real-time
-         * request sent to a configured endpoint
+         *   request sent to a configured endpoint
          * - `UNKNOWN`: Data on which party decided is unavailable
          */
         fun decisionMadeBy(): DecisionMadeBy = decisionMadeBy.getRequired("decision_made_by")
@@ -2399,16 +2383,15 @@ private constructor(
         /**
          * Indicates whether chargeback liability shift applies to the transaction. Possible enum
          * values:
-         *
          * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
-         * chargeback liability shift applies.
+         *   chargeback liability shift applies.
          * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
-         * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
-         * acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
+         *   Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
+         *   acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
          * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is
-         * liable.
+         *   liable.
          * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-         * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
+         *   cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
          */
         fun liabilityShift(): LiabilityShift = liabilityShift.getRequired("liability_shift")
 
@@ -2422,13 +2405,12 @@ private constructor(
 
         /**
          * Verification attempted values:
-         *
          * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
          * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
          * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
-         * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+         *   frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
          * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
-         * Identity Check Express, recurring transactions, etc.)
+         *   Identity Check Express, recurring transactions, etc.)
          * - `OTP`: One-time password verification was attempted by the ACS.
          */
         fun verificationAttempted(): VerificationAttempted =
@@ -2440,25 +2422,23 @@ private constructor(
          * Mastercard SPA2 AAV leading indicators.
          *
          * Verification result values:
-         *
          * - `CANCELLED`: Authentication/Account verification could not be performed, `transStatus =
-         * U`.
+         *   U`.
          * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the utilization
-         * of exemptions could also result in `transStatus = N`, inspect the `acquirer_exemption`
-         * field for more information.
+         *   of exemptions could also result in `transStatus = N`, inspect the `acquirer_exemption`
+         *   field for more information.
          * - `FRICTIONLESS`: Attempts processing performed, the transaction was not authenticated,
-         * but a proof of attempted authentication/verification is provided. `transStatus = A` and
-         * the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+         *   but a proof of attempted authentication/verification is provided. `transStatus = A` and
+         *   the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
          * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
-         * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+         *   indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
          * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer is
-         * rejecting authentication/verification and requests that authorization not be attempted.
+         *   rejecting authentication/verification and requests that authorization not be attempted.
          * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading AAV
-         * indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`, `kR`,
-         * `kS`}.
+         *   indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`, `kR`,
+         *   `kS`}.
          *
          * Note that the following `transStatus` values are not represented by this field:
-         *
          * - `C`: Challenge Required
          * - `D`: Challenge Required; decoupled authentication confirmed
          * - `I`: Informational only
@@ -2469,7 +2449,6 @@ private constructor(
 
         /**
          * 3-D Secure Protocol version. Possible enum values:
-         *
          * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
          * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
          * - `null`: 3-D Secure was not used for the transaction
@@ -2479,7 +2458,6 @@ private constructor(
         /**
          * Exemption applied by the ACS to authenticate the transaction without requesting a
          * challenge. Possible enum values:
-         *
          * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
          * - `LOW_VALUE`: Low Value Payment exemption.
          * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
@@ -2487,9 +2465,9 @@ private constructor(
          * - `RECURRING_PAYMENT`: Recurring Payment exemption.
          * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
          * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication Delegation
-         * exemption.
+         *   exemption.
          * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-         * exemption.
+         *   exemption.
          *
          * Maps to the 3-D Secure `transChallengeExemption` field.
          */
@@ -2499,15 +2477,14 @@ private constructor(
 
         /**
          * Outcome of the 3DS authentication process. Possible enum values:
-         *
          * - `SUCCESS`: 3DS authentication was successful and the transaction is considered
-         * authenticated.
+         *   authenticated.
          * - `DECLINE`: 3DS authentication was attempted but was unsuccessful — i.e., the issuer
-         * declined to authenticate the cardholder; note that Lithic populates this value on a
-         * best-effort basis based on common data across the 3DS authentication and ASA data
-         * elements.
+         *   declined to authenticate the cardholder; note that Lithic populates this value on a
+         *   best-effort basis based on common data across the 3DS authentication and ASA data
+         *   elements.
          * - `ATTEMPTS`: 3DS authentication was attempted but full authentication did not occur. A
-         * proof of attempted authenticated is provided by the merchant.
+         *   proof of attempted authenticated is provided by the merchant.
          * - `NONE`: 3DS authentication was not performed on the transaction.
          */
         @JsonProperty("authentication_result")
@@ -2516,16 +2493,15 @@ private constructor(
 
         /**
          * Indicator for which party made the 3DS authentication decision. Possible enum values:
-         *
          * - `NETWORK`: A networks tand-in service decided on the outcome; for token authentications
-         * (as indicated in the `liability_shift` attribute), this is the default value
+         *   (as indicated in the `liability_shift` attribute), this is the default value
          * - `LITHIC_DEFAULT`: A default decision was made by Lithic, without running a rules-based
-         * authentication; this value will be set on card programs that do not participate in one of
-         * our two 3DS product tiers
+         *   authentication; this value will be set on card programs that do not participate in one
+         *   of our two 3DS product tiers
          * - `LITHIC_RULES`: A rules-based authentication was conducted by Lithic and Lithic decided
-         * on the outcome
+         *   on the outcome
          * - `CUSTOMER_ENDPOINT`: Lithic customer decided on the outcome based on a real-time
-         * request sent to a configured endpoint
+         *   request sent to a configured endpoint
          * - `UNKNOWN`: Data on which party decided is unavailable
          */
         @JsonProperty("decision_made_by") @ExcludeMissing fun _decisionMadeBy() = decisionMadeBy
@@ -2533,16 +2509,15 @@ private constructor(
         /**
          * Indicates whether chargeback liability shift applies to the transaction. Possible enum
          * values:
-         *
          * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure flow,
-         * chargeback liability shift applies.
+         *   chargeback liability shift applies.
          * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
-         * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
-         * acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
+         *   Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
+         *   acquirer and in this case the `acquirer_exemption` field is expected to be not `NONE`.
          * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant is
-         * liable.
+         *   liable.
          * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-         * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
+         *   cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
          */
         @JsonProperty("liability_shift") @ExcludeMissing fun _liabilityShift() = liabilityShift
 
@@ -2557,13 +2532,12 @@ private constructor(
 
         /**
          * Verification attempted values:
-         *
          * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
          * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
          * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
-         * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+         *   frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
          * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
-         * Identity Check Express, recurring transactions, etc.)
+         *   Identity Check Express, recurring transactions, etc.)
          * - `OTP`: One-time password verification was attempted by the ACS.
          */
         @JsonProperty("verification_attempted")
@@ -2576,25 +2550,23 @@ private constructor(
          * Mastercard SPA2 AAV leading indicators.
          *
          * Verification result values:
-         *
          * - `CANCELLED`: Authentication/Account verification could not be performed, `transStatus =
-         * U`.
+         *   U`.
          * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the utilization
-         * of exemptions could also result in `transStatus = N`, inspect the `acquirer_exemption`
-         * field for more information.
+         *   of exemptions could also result in `transStatus = N`, inspect the `acquirer_exemption`
+         *   field for more information.
          * - `FRICTIONLESS`: Attempts processing performed, the transaction was not authenticated,
-         * but a proof of attempted authentication/verification is provided. `transStatus = A` and
-         * the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+         *   but a proof of attempted authentication/verification is provided. `transStatus = A` and
+         *   the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
          * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
-         * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+         *   indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
          * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer is
-         * rejecting authentication/verification and requests that authorization not be attempted.
+         *   rejecting authentication/verification and requests that authorization not be attempted.
          * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading AAV
-         * indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`, `kR`,
-         * `kS`}.
+         *   indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`, `kR`,
+         *   `kS`}.
          *
          * Note that the following `transStatus` values are not represented by this field:
-         *
          * - `C`: Challenge Required
          * - `D`: Challenge Required; decoupled authentication confirmed
          * - `I`: Informational only
@@ -2695,7 +2667,6 @@ private constructor(
 
             /**
              * 3-D Secure Protocol version. Possible enum values:
-             *
              * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
              * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
              * - `null`: 3-D Secure was not used for the transaction
@@ -2704,7 +2675,6 @@ private constructor(
 
             /**
              * 3-D Secure Protocol version. Possible enum values:
-             *
              * - `1`: 3-D Secure Protocol version 1.x applied to the transaction.
              * - `2`: 3-D Secure Protocol version 2.x applied to the transaction.
              * - `null`: 3-D Secure was not used for the transaction
@@ -2718,7 +2688,6 @@ private constructor(
             /**
              * Exemption applied by the ACS to authenticate the transaction without requesting a
              * challenge. Possible enum values:
-             *
              * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
              * - `LOW_VALUE`: Low Value Payment exemption.
              * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
@@ -2726,9 +2695,9 @@ private constructor(
              * - `RECURRING_PAYMENT`: Recurring Payment exemption.
              * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
              * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication
-             * Delegation exemption.
+             *   Delegation exemption.
              * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-             * exemption.
+             *   exemption.
              *
              * Maps to the 3-D Secure `transChallengeExemption` field.
              */
@@ -2738,7 +2707,6 @@ private constructor(
             /**
              * Exemption applied by the ACS to authenticate the transaction without requesting a
              * challenge. Possible enum values:
-             *
              * - `AUTHENTICATION_OUTAGE_EXCEPTION`: Authentication Outage Exception exemption.
              * - `LOW_VALUE`: Low Value Payment exemption.
              * - `MERCHANT_INITIATED_TRANSACTION`: Merchant Initiated Transaction (3RI).
@@ -2746,9 +2714,9 @@ private constructor(
              * - `RECURRING_PAYMENT`: Recurring Payment exemption.
              * - `SECURE_CORPORATE_PAYMENT`: Secure Corporate Payment exemption.
              * - `STRONG_CUSTOMER_AUTHENTICATION_DELEGATION`: Strong Customer Authentication
-             * Delegation exemption.
+             *   Delegation exemption.
              * - `TRANSACTION_RISK_ANALYSIS`: Acquirer Low-Fraud and Transaction Risk Analysis
-             * exemption.
+             *   exemption.
              *
              * Maps to the 3-D Secure `transChallengeExemption` field.
              */
@@ -2760,15 +2728,14 @@ private constructor(
 
             /**
              * Outcome of the 3DS authentication process. Possible enum values:
-             *
              * - `SUCCESS`: 3DS authentication was successful and the transaction is considered
-             * authenticated.
+             *   authenticated.
              * - `DECLINE`: 3DS authentication was attempted but was unsuccessful — i.e., the issuer
-             * declined to authenticate the cardholder; note that Lithic populates this value on a
-             * best-effort basis based on common data across the 3DS authentication and ASA data
-             * elements.
+             *   declined to authenticate the cardholder; note that Lithic populates this value on a
+             *   best-effort basis based on common data across the 3DS authentication and ASA data
+             *   elements.
              * - `ATTEMPTS`: 3DS authentication was attempted but full authentication did not occur.
-             * A proof of attempted authenticated is provided by the merchant.
+             *   A proof of attempted authenticated is provided by the merchant.
              * - `NONE`: 3DS authentication was not performed on the transaction.
              */
             fun authenticationResult(authenticationResult: AuthenticationResult) =
@@ -2776,15 +2743,14 @@ private constructor(
 
             /**
              * Outcome of the 3DS authentication process. Possible enum values:
-             *
              * - `SUCCESS`: 3DS authentication was successful and the transaction is considered
-             * authenticated.
+             *   authenticated.
              * - `DECLINE`: 3DS authentication was attempted but was unsuccessful — i.e., the issuer
-             * declined to authenticate the cardholder; note that Lithic populates this value on a
-             * best-effort basis based on common data across the 3DS authentication and ASA data
-             * elements.
+             *   declined to authenticate the cardholder; note that Lithic populates this value on a
+             *   best-effort basis based on common data across the 3DS authentication and ASA data
+             *   elements.
              * - `ATTEMPTS`: 3DS authentication was attempted but full authentication did not occur.
-             * A proof of attempted authenticated is provided by the merchant.
+             *   A proof of attempted authenticated is provided by the merchant.
              * - `NONE`: 3DS authentication was not performed on the transaction.
              */
             @JsonProperty("authentication_result")
@@ -2796,17 +2762,16 @@ private constructor(
 
             /**
              * Indicator for which party made the 3DS authentication decision. Possible enum values:
-             *
              * - `NETWORK`: A networks tand-in service decided on the outcome; for token
-             * authentications (as indicated in the `liability_shift` attribute), this is the
-             * default value
+             *   authentications (as indicated in the `liability_shift` attribute), this is the
+             *   default value
              * - `LITHIC_DEFAULT`: A default decision was made by Lithic, without running a
-             * rules-based authentication; this value will be set on card programs that do not
-             * participate in one of our two 3DS product tiers
+             *   rules-based authentication; this value will be set on card programs that do not
+             *   participate in one of our two 3DS product tiers
              * - `LITHIC_RULES`: A rules-based authentication was conducted by Lithic and Lithic
-             * decided on the outcome
+             *   decided on the outcome
              * - `CUSTOMER_ENDPOINT`: Lithic customer decided on the outcome based on a real-time
-             * request sent to a configured endpoint
+             *   request sent to a configured endpoint
              * - `UNKNOWN`: Data on which party decided is unavailable
              */
             fun decisionMadeBy(decisionMadeBy: DecisionMadeBy) =
@@ -2814,17 +2779,16 @@ private constructor(
 
             /**
              * Indicator for which party made the 3DS authentication decision. Possible enum values:
-             *
              * - `NETWORK`: A networks tand-in service decided on the outcome; for token
-             * authentications (as indicated in the `liability_shift` attribute), this is the
-             * default value
+             *   authentications (as indicated in the `liability_shift` attribute), this is the
+             *   default value
              * - `LITHIC_DEFAULT`: A default decision was made by Lithic, without running a
-             * rules-based authentication; this value will be set on card programs that do not
-             * participate in one of our two 3DS product tiers
+             *   rules-based authentication; this value will be set on card programs that do not
+             *   participate in one of our two 3DS product tiers
              * - `LITHIC_RULES`: A rules-based authentication was conducted by Lithic and Lithic
-             * decided on the outcome
+             *   decided on the outcome
              * - `CUSTOMER_ENDPOINT`: Lithic customer decided on the outcome based on a real-time
-             * request sent to a configured endpoint
+             *   request sent to a configured endpoint
              * - `UNKNOWN`: Data on which party decided is unavailable
              */
             @JsonProperty("decision_made_by")
@@ -2836,17 +2800,16 @@ private constructor(
             /**
              * Indicates whether chargeback liability shift applies to the transaction. Possible
              * enum values:
-             *
              * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure
-             * flow, chargeback liability shift applies.
+             *   flow, chargeback liability shift applies.
              * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
-             * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
-             * acquirer and in this case the `acquirer_exemption` field is expected to be not
-             * `NONE`.
+             *   Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with
+             *   the acquirer and in this case the `acquirer_exemption` field is expected to be not
+             *   `NONE`.
              * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant
-             * is liable.
+             *   is liable.
              * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-             * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
+             *   cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
              */
             fun liabilityShift(liabilityShift: LiabilityShift) =
                 liabilityShift(JsonField.of(liabilityShift))
@@ -2854,17 +2817,16 @@ private constructor(
             /**
              * Indicates whether chargeback liability shift applies to the transaction. Possible
              * enum values:
-             *
              * - `3DS_AUTHENTICATED`: The transaction was fully authenticated through a 3-D Secure
-             * flow, chargeback liability shift applies.
+             *   flow, chargeback liability shift applies.
              * - `ACQUIRER_EXEMPTION`: The acquirer utilised an exemption to bypass Strong Customer
-             * Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with the
-             * acquirer and in this case the `acquirer_exemption` field is expected to be not
-             * `NONE`.
+             *   Authentication (`transStatus = N`, or `transStatus = I`). Liability remains with
+             *   the acquirer and in this case the `acquirer_exemption` field is expected to be not
+             *   `NONE`.
              * - `NONE`: Chargeback liability shift has not shifted to the issuer, i.e. the merchant
-             * is liable.
+             *   is liable.
              * - `TOKEN_AUTHENTICATED`: The transaction was a tokenized payment with validated
-             * cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
+             *   cryptography, possibly recurring. Chargeback liability shift to the issuer applies.
              */
             @JsonProperty("liability_shift")
             @ExcludeMissing
@@ -2893,13 +2855,12 @@ private constructor(
 
             /**
              * Verification attempted values:
-             *
              * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
              * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
              * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
-             * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+             *   frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
              * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
-             * Identity Check Express, recurring transactions, etc.)
+             *   Identity Check Express, recurring transactions, etc.)
              * - `OTP`: One-time password verification was attempted by the ACS.
              */
             fun verificationAttempted(verificationAttempted: VerificationAttempted) =
@@ -2907,13 +2868,12 @@ private constructor(
 
             /**
              * Verification attempted values:
-             *
              * - `APP_LOGIN`: Out-of-band login verification was attempted by the ACS.
              * - `BIOMETRIC`: Out-of-band biometric verification was attempted by the ACS.
              * - `NONE`: No cardholder verification was attempted by the Access Control Server (e.g.
-             * frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
+             *   frictionless 3-D Secure flow, no 3-D Secure, or stand-in Risk Based Analysis).
              * - `OTHER`: Other method was used by the ACS to verify the cardholder (e.g. Mastercard
-             * Identity Check Express, recurring transactions, etc.)
+             *   Identity Check Express, recurring transactions, etc.)
              * - `OTP`: One-time password verification was attempted by the ACS.
              */
             @JsonProperty("verification_attempted")
@@ -2929,26 +2889,24 @@ private constructor(
              * and Mastercard SPA2 AAV leading indicators.
              *
              * Verification result values:
-             *
              * - `CANCELLED`: Authentication/Account verification could not be performed,
-             * `transStatus = U`.
+             *   `transStatus = U`.
              * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the
-             * utilization of exemptions could also result in `transStatus = N`, inspect the
-             * `acquirer_exemption` field for more information.
+             *   utilization of exemptions could also result in `transStatus = N`, inspect the
+             *   `acquirer_exemption` field for more information.
              * - `FRICTIONLESS`: Attempts processing performed, the transaction was not
-             * authenticated, but a proof of attempted authentication/verification is provided.
-             * `transStatus = A` and the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+             *   authenticated, but a proof of attempted authentication/verification is provided.
+             *   `transStatus = A` and the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
              * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
-             * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+             *   indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
              * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer
-             * is rejecting authentication/verification and requests that authorization not be
-             * attempted.
+             *   is rejecting authentication/verification and requests that authorization not be
+             *   attempted.
              * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading
-             * AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`,
-             * `kR`, `kS`}.
+             *   AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`,
+             *   `kR`, `kS`}.
              *
              * Note that the following `transStatus` values are not represented by this field:
-             *
              * - `C`: Challenge Required
              * - `D`: Challenge Required; decoupled authentication confirmed
              * - `I`: Informational only
@@ -2963,26 +2921,24 @@ private constructor(
              * and Mastercard SPA2 AAV leading indicators.
              *
              * Verification result values:
-             *
              * - `CANCELLED`: Authentication/Account verification could not be performed,
-             * `transStatus = U`.
+             *   `transStatus = U`.
              * - `FAILED`: Transaction was not authenticated. `transStatus = N`, note: the
-             * utilization of exemptions could also result in `transStatus = N`, inspect the
-             * `acquirer_exemption` field for more information.
+             *   utilization of exemptions could also result in `transStatus = N`, inspect the
+             *   `acquirer_exemption` field for more information.
              * - `FRICTIONLESS`: Attempts processing performed, the transaction was not
-             * authenticated, but a proof of attempted authentication/verification is provided.
-             * `transStatus = A` and the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
+             *   authenticated, but a proof of attempted authentication/verification is provided.
+             *   `transStatus = A` and the leading AAV indicator was one of {`kE`, `kF`, `kQ`}.
              * - `NOT_ATTEMPTED`: A 3-D Secure flow was not applied to this transaction. Leading AAV
-             * indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
+             *   indicator was one of {`kN`, `kX`} or no AAV was provided for the transaction.
              * - `REJECTED`: Authentication/Account Verification rejected; `transStatus = R`. Issuer
-             * is rejecting authentication/verification and requests that authorization not be
-             * attempted.
+             *   is rejecting authentication/verification and requests that authorization not be
+             *   attempted.
              * - `SUCCESS`: Authentication verification successful. `transStatus = Y` and leading
-             * AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`,
-             * `kR`, `kS`}.
+             *   AAV indicator for the transaction was one of {`kA`, `kB`, `kC`, `kD`, `kO`, `kP`,
+             *   `kR`, `kS`}.
              *
              * Note that the following `transStatus` values are not represented by this field:
-             *
              * - `C`: Challenge Required
              * - `D`: Challenge Required; decoupled authentication confirmed
              * - `I`: Informational only

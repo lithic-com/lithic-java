@@ -42,26 +42,25 @@ private constructor(
 
     /**
      * Event types:
-     *
      * - `account_holder.created` - Notification that a new account holder has been created and was
-     * not rejected.
+     *   not rejected.
      * - `account_holder.updated` - Notification that an account holder was updated.
      * - `account_holder.verification` - Notification than an account holder's identity verification
-     * is complete.
+     *   is complete.
      * - `card.created` - Notification that a card has been created.
      * - `card.renewed` - Notification that a card has been renewed.
      * - `card.shipped` - Physical card shipment notification. See
-     * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
+     *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
      * - `card_transaction.updated` - Transaction Lifecycle webhook. See
-     * https://docs.lithic.com/docs/transaction-webhooks.
+     *   https://docs.lithic.com/docs/transaction-webhooks.
      * - `dispute.updated` - A dispute has been updated.
      * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-     * activate a digital wallet token.
+     *   activate a digital wallet token.
      * - `digital_wallet.tokenization_result` - Notification of the end result of a tokenization,
-     * whether successful or failed.
+     *   whether successful or failed.
      * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
-     * end user to complete digital wallet authentication. See
-     * https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
+     *   end user to complete digital wallet authentication. See
+     *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
      */
     fun eventType(): EventType = eventType.getRequired("event_type")
 
@@ -79,26 +78,25 @@ private constructor(
 
     /**
      * Event types:
-     *
      * - `account_holder.created` - Notification that a new account holder has been created and was
-     * not rejected.
+     *   not rejected.
      * - `account_holder.updated` - Notification that an account holder was updated.
      * - `account_holder.verification` - Notification than an account holder's identity verification
-     * is complete.
+     *   is complete.
      * - `card.created` - Notification that a card has been created.
      * - `card.renewed` - Notification that a card has been renewed.
      * - `card.shipped` - Physical card shipment notification. See
-     * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
+     *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
      * - `card_transaction.updated` - Transaction Lifecycle webhook. See
-     * https://docs.lithic.com/docs/transaction-webhooks.
+     *   https://docs.lithic.com/docs/transaction-webhooks.
      * - `dispute.updated` - A dispute has been updated.
      * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-     * activate a digital wallet token.
+     *   activate a digital wallet token.
      * - `digital_wallet.tokenization_result` - Notification of the end result of a tokenization,
-     * whether successful or failed.
+     *   whether successful or failed.
      * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
-     * end user to complete digital wallet authentication. See
-     * https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
+     *   end user to complete digital wallet authentication. See
+     *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
      */
     @JsonProperty("event_type") @ExcludeMissing fun _eventType() = eventType
 
@@ -193,51 +191,49 @@ private constructor(
 
         /**
          * Event types:
-         *
          * - `account_holder.created` - Notification that a new account holder has been created and
-         * was not rejected.
+         *   was not rejected.
          * - `account_holder.updated` - Notification that an account holder was updated.
          * - `account_holder.verification` - Notification than an account holder's identity
-         * verification is complete.
+         *   verification is complete.
          * - `card.created` - Notification that a card has been created.
          * - `card.renewed` - Notification that a card has been renewed.
          * - `card.shipped` - Physical card shipment notification. See
-         * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
+         *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
          * - `card_transaction.updated` - Transaction Lifecycle webhook. See
-         * https://docs.lithic.com/docs/transaction-webhooks.
+         *   https://docs.lithic.com/docs/transaction-webhooks.
          * - `dispute.updated` - A dispute has been updated.
          * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-         * activate a digital wallet token.
+         *   activate a digital wallet token.
          * - `digital_wallet.tokenization_result` - Notification of the end result of a
-         * tokenization, whether successful or failed.
+         *   tokenization, whether successful or failed.
          * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to
-         * an end user to complete digital wallet authentication. See
-         * https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
+         *   an end user to complete digital wallet authentication. See
+         *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
          */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
 
         /**
          * Event types:
-         *
          * - `account_holder.created` - Notification that a new account holder has been created and
-         * was not rejected.
+         *   was not rejected.
          * - `account_holder.updated` - Notification that an account holder was updated.
          * - `account_holder.verification` - Notification than an account holder's identity
-         * verification is complete.
+         *   verification is complete.
          * - `card.created` - Notification that a card has been created.
          * - `card.renewed` - Notification that a card has been renewed.
          * - `card.shipped` - Physical card shipment notification. See
-         * https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
+         *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
          * - `card_transaction.updated` - Transaction Lifecycle webhook. See
-         * https://docs.lithic.com/docs/transaction-webhooks.
+         *   https://docs.lithic.com/docs/transaction-webhooks.
          * - `dispute.updated` - A dispute has been updated.
          * - `digital_wallet.tokenization_approval_request` - Card network's request to Lithic to
-         * activate a digital wallet token.
+         *   activate a digital wallet token.
          * - `digital_wallet.tokenization_result` - Notification of the end result of a
-         * tokenization, whether successful or failed.
+         *   tokenization, whether successful or failed.
          * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to
-         * an end user to complete digital wallet authentication. See
-         * https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
+         *   an end user to complete digital wallet authentication. See
+         *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
          */
         @JsonProperty("event_type")
         @ExcludeMissing

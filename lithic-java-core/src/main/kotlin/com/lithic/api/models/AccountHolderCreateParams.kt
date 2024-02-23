@@ -59,15 +59,21 @@ constructor(
     ) {
 
         fun kyb(): Optional<Kyb> = Optional.ofNullable(kyb)
+
         fun kyc(): Optional<Kyc> = Optional.ofNullable(kyc)
+
         fun kycExempt(): Optional<KycExempt> = Optional.ofNullable(kycExempt)
 
         fun isKyb(): Boolean = kyb != null
+
         fun isKyc(): Boolean = kyc != null
+
         fun isKycExempt(): Boolean = kycExempt != null
 
         fun asKyb(): Kyb = kyb.getOrThrow("kyb")
+
         fun asKyc(): Kyc = kyc.getOrThrow("kyc")
+
         fun asKycExempt(): KycExempt = kycExempt.getOrThrow("kycExempt")
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
@@ -230,11 +236,13 @@ constructor(
             this.kyc = null
             this.kycExempt = null
         }
+
         fun forKyc(kyc: Kyc) = apply {
             this.kyb = null
             this.kyc = kyc
             this.kycExempt = null
         }
+
         fun forKycExempt(kycExempt: KycExempt) = apply {
             this.kyb = null
             this.kyc = null
