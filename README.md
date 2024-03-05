@@ -12,7 +12,7 @@ The Lithic Java SDK is similar to the Lithic Kotlin SDK but with minor differenc
 
 ## Documentation
 
-The REST API documentation can be found [on docs.lithic.com](https://docs.lithic.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found [on docs.lithic.com](https://docs.lithic.com).
 
 ---
 
