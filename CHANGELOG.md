@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.30.0 (2024-03-05)
+
+Full Changelog: [v0.29.0...v0.30.0](https://github.com/lithic-com/lithic-java/compare/v0.29.0...v0.30.0)
+
+### Features
+
+* **api:** tokenizations ([#177](https://github.com/lithic-com/lithic-java/issues/177)) ([12c5264](https://github.com/lithic-com/lithic-java/commit/12c52647d35ce9408805f71f31a3abf99f5be39a))
+* **api:** updates ([#178](https://github.com/lithic-com/lithic-java/issues/178)) ([aee41c6](https://github.com/lithic-com/lithic-java/commit/aee41c639d51c73a9a5504e3b381011696f4664d))
+
+
+### Chores
+
+* add api.md ([#179](https://github.com/lithic-com/lithic-java/issues/179)) ([0c35055](https://github.com/lithic-com/lithic-java/commit/0c350554fcbb9421b9421cc5fa92361e68e2ac87))
+* **ci:** update actions/setup-java action to v4 ([#171](https://github.com/lithic-com/lithic-java/issues/171)) ([83830bc](https://github.com/lithic-com/lithic-java/commit/83830bc19d675ca9e2deb5d319e200a09add39d7))
+* **internal:** update deps ([#169](https://github.com/lithic-com/lithic-java/issues/169)) ([3ba398a](https://github.com/lithic-com/lithic-java/commit/3ba398a28cf0624da72d712dcb2507e6875d50c9))
+* update dependency com.diffplug.spotless:spotless-plugin-gradle to v6.25.0 ([#173](https://github.com/lithic-com/lithic-java/issues/173)) ([2708ed7](https://github.com/lithic-com/lithic-java/commit/2708ed774b4b3041ee9031fd949bb426247d7f8e))
+* update dependency com.github.tomakehurst:wiremock-jre8 to v2.35.2 ([#176](https://github.com/lithic-com/lithic-java/issues/176)) ([f4a9875](https://github.com/lithic-com/lithic-java/commit/f4a987543eec6ba921a6d1fa5669f383a53282fa))
+* update dependency com.google.guava:guava to v33 ([#174](https://github.com/lithic-com/lithic-java/issues/174)) ([e6edce2](https://github.com/lithic-com/lithic-java/commit/e6edce2050523c8686011a214d9f49be77c86993))
+* update dependency com.squareup.okhttp3:okhttp to v4.12.0 ([#172](https://github.com/lithic-com/lithic-java/issues/172)) ([2be1424](https://github.com/lithic-com/lithic-java/commit/2be14243904bb06757643cbfec9461443bf6c7b9))
+* update dependency org.apache.httpcomponents.client5:httpclient5 to v5.3.1 ([#170](https://github.com/lithic-com/lithic-java/issues/170)) ([af9f5a3](https://github.com/lithic-com/lithic-java/commit/af9f5a35327c5d0185d5a41caf6e16be6c37f672))
+* update dependency org.assertj:assertj-core to v3.25.3 ([#167](https://github.com/lithic-com/lithic-java/issues/167)) ([e5cebab](https://github.com/lithic-com/lithic-java/commit/e5cebabdf71f873d6712baa0b07959d420eb5384))
+* update dependency org.assertj:assertj-guava to v3.25.3 ([#168](https://github.com/lithic-com/lithic-java/issues/168)) ([b7398b7](https://github.com/lithic-com/lithic-java/commit/b7398b79f7d442ae5d2ba7e193bc892540339912))
+* update dependency org.slf4j:slf4j-simple to v1.7.36 ([#165](https://github.com/lithic-com/lithic-java/issues/165)) ([9a118d3](https://github.com/lithic-com/lithic-java/commit/9a118d3e5da59d2ae1d870daa7c2238f82900e19))
+* update dependency org.slf4j:slf4j-simple to v2 ([#175](https://github.com/lithic-com/lithic-java/issues/175)) ([cb4c68e](https://github.com/lithic-com/lithic-java/commit/cb4c68e77d4eced0753f89905b46640c35fa7b60))
+
 ## 0.29.0 (2024-02-22)
 
 Full Changelog: [v0.28.1...v0.29.0](https://github.com/lithic-com/lithic-java/compare/v0.28.1...v0.29.0)
