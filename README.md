@@ -108,6 +108,43 @@ See [Pagination](#pagination) below for more information on transparently workin
 
 ---
 
+## Enums
+
+The Lithic SDK generates wrapper classes for all enum properties in the API. You can read and write these
+values directly using the static instances of the class:
+
+```java
+// Read an enum property
+if (card.state().equals(Card.State.CLOSED)) {
+  // ...
+}
+
+// Write an enum property
+card.builder().state(Card.State.CLOSED).build();
+```
+
+Over time, the Lithic API may add new values to the property that are not yet represented by the enum type in
+this SDK. If an unrecognized value is found, the enum is set to a special sentinel value `_UNKNOWN` and you can use `asString` to read the string that was received:
+
+```java
+switch (card.state().value()) {
+    case Card.State.Value.CLOSED:
+        // ... handle recognized enum values
+        break;
+    ...
+    case Card.State.Value._UNKNOWN:
+        String cardState = card.state().asString();
+        // ... handle unrecognized enum value as string
+        break;
+}
+```
+
+To write an unrecognized enum value, pass a string to the wrapper class's `of` constructor method:
+
+```java
+Card.builder().state(State.of("NEW_STATE")).build()
+```
+
 ## Requests
 
 ### Parameters and bodies
@@ -135,6 +172,15 @@ When receiving a response, the Lithic Java SDK will deserialize it into instance
 
 ```java
 Card card = client.cards().create().validate();
+```
+
+### Nullable Properties
+
+Model properties that are optional or allow a null value are represented as `Optional`. The empty case can represent either that the field was provided as null, or that it was simply not present.
+
+```java
+// Card.cvv() returns Optional<String>
+card.cvv().isPresent(); // false;
 ```
 
 ### Response properties as JSON
@@ -219,6 +265,20 @@ while (page != null) {
     page = page.getNextPage().orElse(null);
 }
 ```
+
+---
+
+---
+
+## Webhook Verification
+
+We provide helper methods for verifying that a webhook request came from Lithic, and not a malicious third party.
+
+You can use `lithic.webhooks().verifySignature(body, headers, secret?)` or `lithic.webhooks().unwrap(body, headers, secret?)`,
+both of which will raise an error if the signature is invalid.
+
+Note that the "body" parameter must be the raw JSON string sent from the server (do not parse it first).
+The `.unwrap()` method can parse this JSON for you.
 
 ---
 
