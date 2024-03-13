@@ -5,6 +5,7 @@ package com.lithic.api.services
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.lithic.api.core.http.HttpRequestBody
 import com.lithic.api.errors.LithicException
+import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder
 
@@ -14,15 +15,30 @@ internal inline fun <reified T> json(
     value: T,
 ): HttpRequestBody {
     return object : HttpRequestBody {
-        override fun writeTo(outputStream: OutputStream) {
+        private var cachedBytes: ByteArray? = null
+
+        private fun serialize(): ByteArray {
+            if (cachedBytes != null) return cachedBytes!!
+
+            val buffer = ByteArrayOutputStream()
             try {
-                return jsonMapper.writeValue(outputStream, value)
+                jsonMapper.writeValue(buffer, value)
+                cachedBytes = buffer.toByteArray()
+                return cachedBytes!!
             } catch (e: Exception) {
                 throw LithicException("Error writing request", e)
             }
         }
 
+        override fun writeTo(outputStream: OutputStream) {
+            outputStream.write(serialize())
+        }
+
         override fun contentType(): String = "application/json"
+
+        override fun contentLength(): Long {
+            return serialize().size.toLong()
+        }
 
         override fun repeatable(): Boolean = true
 
@@ -48,6 +64,8 @@ internal fun multipartFormData(
         }
 
         override fun contentType(): String = entity.contentType
+
+        override fun contentLength(): Long = -1
 
         override fun repeatable(): Boolean = entity.isRepeatable
 
