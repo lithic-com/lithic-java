@@ -8,8 +8,6 @@ import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.Card
 import com.lithic.api.models.CardCreateParams
 import com.lithic.api.models.CardEmbedParams
-import com.lithic.api.models.CardGetEmbedHtmlParams
-import com.lithic.api.models.CardGetEmbedUrlParams
 import com.lithic.api.models.CardListPage
 import com.lithic.api.models.CardListParams
 import com.lithic.api.models.CardProvisionParams
@@ -156,14 +154,4 @@ interface CardService {
         params: CardSearchByPanParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): Card
-
-    fun getEmbedHtml(
-        params: CardGetEmbedHtmlParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): String
-
-    fun getEmbedUrl(
-        params: CardGetEmbedUrlParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): String
 }
