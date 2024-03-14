@@ -3,6 +3,7 @@
 package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
@@ -16,7 +17,9 @@ import com.lithic.api.models.EventListParams
 import com.lithic.api.models.EventRetrieveParams
 import com.lithic.api.services.async.events.SubscriptionServiceAsync
 import com.lithic.api.services.async.events.SubscriptionServiceAsyncImpl
+import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
+import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
 import com.lithic.api.services.withErrorHandler
 import java.util.concurrent.CompletableFuture
@@ -119,6 +122,28 @@ constructor(
                     }
                 }
                 .let { EventListAttemptsPageAsync.of(this, params, it) }
+        }
+    }
+
+    override fun resend(
+        eventToken: String,
+        eventSubscriptionToken: String,
+        body: JsonValue
+    ): CompletableFuture<Void> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments(
+                    "events",
+                    eventToken,
+                    "event_subscriptions",
+                    eventSubscriptionToken,
+                    "resend"
+                )
+                .body(json(clientOptions.jsonMapper, body))
+                .build()
+        return clientOptions.httpClient.executeAsync(request).thenApply { response ->
+            response.let { emptyHandler().handle(it) }
         }
     }
 }
