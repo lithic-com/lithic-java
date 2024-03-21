@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.31.0 (2024-03-21)
+
+Full Changelog: [v0.30.0...v0.31.0](https://github.com/lithic-com/lithic-java/compare/v0.30.0...v0.31.0)
+
+### Features
+
+* add HttpRequestBody.contentLength() ([#180](https://github.com/lithic-com/lithic-java/issues/180)) ([698e235](https://github.com/lithic-com/lithic-java/commit/698e23567ffc8ff173894e5626ab84b9580bcdf1))
+* **api:** adds closed state ([#187](https://github.com/lithic-com/lithic-java/issues/187)) ([232277a](https://github.com/lithic-com/lithic-java/commit/232277af6ef161f108daa48589823c34efbda6f9))
+* **api:** updates ([#186](https://github.com/lithic-com/lithic-java/issues/186)) ([2749351](https://github.com/lithic-com/lithic-java/commit/274935112e836c984352b470627c2359f43caccc))
+
+
+### Chores
+
+* add back removed code ([9965596](https://github.com/lithic-com/lithic-java/commit/99655967238020ff205d2812c48c93253b7f30f5))
+* **docs:** add back custom readme code ([9361669](https://github.com/lithic-com/lithic-java/commit/9361669cb3f182827eb14336698ceaa5e4a4a3be))
+* **docs:** temporarily remove custom readme code ([#183](https://github.com/lithic-com/lithic-java/issues/183)) ([ccda207](https://github.com/lithic-com/lithic-java/commit/ccda207ebcffb9344e427ae0e417b84c4489c4a3))
+* temporarily remove various code as part of refactor ([#184](https://github.com/lithic-com/lithic-java/issues/184)) ([2023541](https://github.com/lithic-com/lithic-java/commit/202354150ffb3786029e17d92069de9e2018be62))
+
+
+### Documentation
+
+* **readme:** consistent use of sentence case in headings ([#185](https://github.com/lithic-com/lithic-java/issues/185)) ([15801dc](https://github.com/lithic-com/lithic-java/commit/15801dcd42824d272576e3db006748091937e05f))
+
 ## 0.30.0 (2024-03-05)
 
 Full Changelog: [v0.29.0...v0.30.0](https://github.com/lithic-com/lithic-java/compare/v0.29.0...v0.30.0)
