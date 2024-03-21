@@ -5,8 +5,8 @@
 package com.lithic.api.services.async
 
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.models.Transfer
 import com.lithic.api.models.TransferCreateParams
-import com.lithic.api.models.TransferCreateResponse
 import java.util.concurrent.CompletableFuture
 
 interface TransferServiceAsync {
@@ -16,5 +16,5 @@ interface TransferServiceAsync {
     fun create(
         params: TransferCreateParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<TransferCreateResponse>
+    ): CompletableFuture<Transfer>
 }

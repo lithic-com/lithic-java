@@ -24,6 +24,7 @@ import java.util.Optional
 class FinancialAccount
 private constructor(
     private val accountNumber: JsonField<String>,
+    private val accountToken: JsonField<String>,
     private val created: JsonField<OffsetDateTime>,
     private val nickname: JsonField<String>,
     private val routingNumber: JsonField<String>,
@@ -40,6 +41,10 @@ private constructor(
     /** Account number for your Lithic-assigned bank account number, if applicable. */
     fun accountNumber(): Optional<String> =
         Optional.ofNullable(accountNumber.getNullable("account_number"))
+
+    /** Account token of the financial account if applicable. */
+    fun accountToken(): Optional<String> =
+        Optional.ofNullable(accountToken.getNullable("account_token"))
 
     /** Date and time for when the financial account was first created. */
     fun created(): OffsetDateTime = created.getRequired("created")
@@ -62,6 +67,9 @@ private constructor(
 
     /** Account number for your Lithic-assigned bank account number, if applicable. */
     @JsonProperty("account_number") @ExcludeMissing fun _accountNumber() = accountNumber
+
+    /** Account token of the financial account if applicable. */
+    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
 
     /** Date and time for when the financial account was first created. */
     @JsonProperty("created") @ExcludeMissing fun _created() = created
@@ -88,6 +96,7 @@ private constructor(
     fun validate(): FinancialAccount = apply {
         if (!validated) {
             accountNumber()
+            accountToken()
             created()
             nickname()
             routingNumber()
@@ -107,6 +116,7 @@ private constructor(
 
         return other is FinancialAccount &&
             this.accountNumber == other.accountNumber &&
+            this.accountToken == other.accountToken &&
             this.created == other.created &&
             this.nickname == other.nickname &&
             this.routingNumber == other.routingNumber &&
@@ -121,6 +131,7 @@ private constructor(
             hashCode =
                 Objects.hash(
                     accountNumber,
+                    accountToken,
                     created,
                     nickname,
                     routingNumber,
@@ -134,7 +145,7 @@ private constructor(
     }
 
     override fun toString() =
-        "FinancialAccount{accountNumber=$accountNumber, created=$created, nickname=$nickname, routingNumber=$routingNumber, token=$token, type=$type, updated=$updated, additionalProperties=$additionalProperties}"
+        "FinancialAccount{accountNumber=$accountNumber, accountToken=$accountToken, created=$created, nickname=$nickname, routingNumber=$routingNumber, token=$token, type=$type, updated=$updated, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -144,6 +155,7 @@ private constructor(
     class Builder {
 
         private var accountNumber: JsonField<String> = JsonMissing.of()
+        private var accountToken: JsonField<String> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var nickname: JsonField<String> = JsonMissing.of()
         private var routingNumber: JsonField<String> = JsonMissing.of()
@@ -155,6 +167,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(financialAccount: FinancialAccount) = apply {
             this.accountNumber = financialAccount.accountNumber
+            this.accountToken = financialAccount.accountToken
             this.created = financialAccount.created
             this.nickname = financialAccount.nickname
             this.routingNumber = financialAccount.routingNumber
@@ -172,6 +185,16 @@ private constructor(
         @ExcludeMissing
         fun accountNumber(accountNumber: JsonField<String>) = apply {
             this.accountNumber = accountNumber
+        }
+
+        /** Account token of the financial account if applicable. */
+        fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
+
+        /** Account token of the financial account if applicable. */
+        @JsonProperty("account_token")
+        @ExcludeMissing
+        fun accountToken(accountToken: JsonField<String>) = apply {
+            this.accountToken = accountToken
         }
 
         /** Date and time for when the financial account was first created. */
@@ -241,6 +264,7 @@ private constructor(
         fun build(): FinancialAccount =
             FinancialAccount(
                 accountNumber,
+                accountToken,
                 created,
                 nickname,
                 routingNumber,
