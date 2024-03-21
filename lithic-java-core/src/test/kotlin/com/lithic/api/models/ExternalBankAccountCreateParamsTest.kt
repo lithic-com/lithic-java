@@ -13,7 +13,7 @@ class ExternalBankAccountCreateParamsTest {
         ExternalBankAccountCreateParams.builder()
             .forBankVerifiedCreateBankAccountApiRequest(
                 ExternalBankAccountCreateParams.BankVerifiedCreateBankAccountApiRequest.builder()
-                    .accountNumber("string")
+                    .accountNumber("12345678901234567")
                     .country("USD")
                     .currency("USD")
                     .owner("x")
@@ -39,6 +39,7 @@ class ExternalBankAccountCreateParamsTest {
                     .companyId("x")
                     .dob(LocalDate.parse("2019-12-27"))
                     .doingBusinessAs("string")
+                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .name("x")
                     .userDefinedId("string")
                     .verificationEnforcement(true)

@@ -8,8 +8,8 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
+import com.lithic.api.models.Transfer
 import com.lithic.api.models.TransferCreateParams
-import com.lithic.api.models.TransferCreateResponse
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -22,14 +22,11 @@ constructor(
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
-    private val createHandler: Handler<TransferCreateResponse> =
-        jsonHandler<TransferCreateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    private val createHandler: Handler<Transfer> =
+        jsonHandler<Transfer>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Transfer funds between two financial accounts or between a financial account and card */
-    override fun create(
-        params: TransferCreateParams,
-        requestOptions: RequestOptions
-    ): TransferCreateResponse {
+    override fun create(params: TransferCreateParams, requestOptions: RequestOptions): Transfer {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)

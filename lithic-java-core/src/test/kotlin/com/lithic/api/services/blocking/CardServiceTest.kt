@@ -145,6 +145,8 @@ class CardServiceTest {
                 CardProvisionParams.builder()
                     .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .certificate("U3RhaW5sZXNzIHJvY2tz")
+                    .clientDeviceId("string")
+                    .clientWalletAccountId("string")
                     .digitalWallet(CardProvisionParams.DigitalWallet.APPLE_PAY)
                     .nonce("U3RhaW5sZXNzIHJvY2tz")
                     .nonceSignature("U3RhaW5sZXNzIHJvY2tz")

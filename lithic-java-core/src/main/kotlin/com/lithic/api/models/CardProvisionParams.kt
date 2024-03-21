@@ -21,6 +21,8 @@ class CardProvisionParams
 constructor(
     private val cardToken: String,
     private val certificate: String?,
+    private val clientDeviceId: String?,
+    private val clientWalletAccountId: String?,
     private val digitalWallet: DigitalWallet?,
     private val nonce: String?,
     private val nonceSignature: String?,
@@ -33,6 +35,10 @@ constructor(
 
     fun certificate(): Optional<String> = Optional.ofNullable(certificate)
 
+    fun clientDeviceId(): Optional<String> = Optional.ofNullable(clientDeviceId)
+
+    fun clientWalletAccountId(): Optional<String> = Optional.ofNullable(clientWalletAccountId)
+
     fun digitalWallet(): Optional<DigitalWallet> = Optional.ofNullable(digitalWallet)
 
     fun nonce(): Optional<String> = Optional.ofNullable(nonce)
@@ -43,6 +49,8 @@ constructor(
     internal fun getBody(): CardProvisionBody {
         return CardProvisionBody(
             certificate,
+            clientDeviceId,
+            clientWalletAccountId,
             digitalWallet,
             nonce,
             nonceSignature,
@@ -66,6 +74,8 @@ constructor(
     class CardProvisionBody
     internal constructor(
         private val certificate: String?,
+        private val clientDeviceId: String?,
+        private val clientWalletAccountId: String?,
         private val digitalWallet: DigitalWallet?,
         private val nonce: String?,
         private val nonceSignature: String?,
@@ -81,6 +91,19 @@ constructor(
          * wallet.
          */
         @JsonProperty("certificate") fun certificate(): String? = certificate
+
+        /**
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
+         * the Visa network. Stable device identification set by the wallet provider.
+         */
+        @JsonProperty("client_device_id") fun clientDeviceId(): String? = clientDeviceId
+
+        /**
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
+         * the Visa network. Consumer ID that identifies the wallet account holder entity.
+         */
+        @JsonProperty("client_wallet_account_id")
+        fun clientWalletAccountId(): String? = clientWalletAccountId
 
         /** Name of digital wallet provider. */
         @JsonProperty("digital_wallet") fun digitalWallet(): DigitalWallet? = digitalWallet
@@ -110,6 +133,8 @@ constructor(
 
             return other is CardProvisionBody &&
                 this.certificate == other.certificate &&
+                this.clientDeviceId == other.clientDeviceId &&
+                this.clientWalletAccountId == other.clientWalletAccountId &&
                 this.digitalWallet == other.digitalWallet &&
                 this.nonce == other.nonce &&
                 this.nonceSignature == other.nonceSignature &&
@@ -121,6 +146,8 @@ constructor(
                 hashCode =
                     Objects.hash(
                         certificate,
+                        clientDeviceId,
+                        clientWalletAccountId,
                         digitalWallet,
                         nonce,
                         nonceSignature,
@@ -131,7 +158,7 @@ constructor(
         }
 
         override fun toString() =
-            "CardProvisionBody{certificate=$certificate, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalProperties=$additionalProperties}"
+            "CardProvisionBody{certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -141,6 +168,8 @@ constructor(
         class Builder {
 
             private var certificate: String? = null
+            private var clientDeviceId: String? = null
+            private var clientWalletAccountId: String? = null
             private var digitalWallet: DigitalWallet? = null
             private var nonce: String? = null
             private var nonceSignature: String? = null
@@ -149,6 +178,8 @@ constructor(
             @JvmSynthetic
             internal fun from(cardProvisionBody: CardProvisionBody) = apply {
                 this.certificate = cardProvisionBody.certificate
+                this.clientDeviceId = cardProvisionBody.clientDeviceId
+                this.clientWalletAccountId = cardProvisionBody.clientWalletAccountId
                 this.digitalWallet = cardProvisionBody.digitalWallet
                 this.nonce = cardProvisionBody.nonce
                 this.nonceSignature = cardProvisionBody.nonceSignature
@@ -163,6 +194,24 @@ constructor(
              */
             @JsonProperty("certificate")
             fun certificate(certificate: String) = apply { this.certificate = certificate }
+
+            /**
+             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
+             * on the Visa network. Stable device identification set by the wallet provider.
+             */
+            @JsonProperty("client_device_id")
+            fun clientDeviceId(clientDeviceId: String) = apply {
+                this.clientDeviceId = clientDeviceId
+            }
+
+            /**
+             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
+             * on the Visa network. Consumer ID that identifies the wallet account holder entity.
+             */
+            @JsonProperty("client_wallet_account_id")
+            fun clientWalletAccountId(clientWalletAccountId: String) = apply {
+                this.clientWalletAccountId = clientWalletAccountId
+            }
 
             /** Name of digital wallet provider. */
             @JsonProperty("digital_wallet")
@@ -204,6 +253,8 @@ constructor(
             fun build(): CardProvisionBody =
                 CardProvisionBody(
                     certificate,
+                    clientDeviceId,
+                    clientWalletAccountId,
                     digitalWallet,
                     nonce,
                     nonceSignature,
@@ -226,6 +277,8 @@ constructor(
         return other is CardProvisionParams &&
             this.cardToken == other.cardToken &&
             this.certificate == other.certificate &&
+            this.clientDeviceId == other.clientDeviceId &&
+            this.clientWalletAccountId == other.clientWalletAccountId &&
             this.digitalWallet == other.digitalWallet &&
             this.nonce == other.nonce &&
             this.nonceSignature == other.nonceSignature &&
@@ -238,6 +291,8 @@ constructor(
         return Objects.hash(
             cardToken,
             certificate,
+            clientDeviceId,
+            clientWalletAccountId,
             digitalWallet,
             nonce,
             nonceSignature,
@@ -248,7 +303,7 @@ constructor(
     }
 
     override fun toString() =
-        "CardProvisionParams{cardToken=$cardToken, certificate=$certificate, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "CardProvisionParams{cardToken=$cardToken, certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -262,6 +317,8 @@ constructor(
 
         private var cardToken: String? = null
         private var certificate: String? = null
+        private var clientDeviceId: String? = null
+        private var clientWalletAccountId: String? = null
         private var digitalWallet: DigitalWallet? = null
         private var nonce: String? = null
         private var nonceSignature: String? = null
@@ -273,6 +330,8 @@ constructor(
         internal fun from(cardProvisionParams: CardProvisionParams) = apply {
             this.cardToken = cardProvisionParams.cardToken
             this.certificate = cardProvisionParams.certificate
+            this.clientDeviceId = cardProvisionParams.clientDeviceId
+            this.clientWalletAccountId = cardProvisionParams.clientWalletAccountId
             this.digitalWallet = cardProvisionParams.digitalWallet
             this.nonce = cardProvisionParams.nonce
             this.nonceSignature = cardProvisionParams.nonceSignature
@@ -290,6 +349,20 @@ constructor(
          * wallet.
          */
         fun certificate(certificate: String) = apply { this.certificate = certificate }
+
+        /**
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
+         * the Visa network. Stable device identification set by the wallet provider.
+         */
+        fun clientDeviceId(clientDeviceId: String) = apply { this.clientDeviceId = clientDeviceId }
+
+        /**
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
+         * the Visa network. Consumer ID that identifies the wallet account holder entity.
+         */
+        fun clientWalletAccountId(clientWalletAccountId: String) = apply {
+            this.clientWalletAccountId = clientWalletAccountId
+        }
 
         /** Name of digital wallet provider. */
         fun digitalWallet(digitalWallet: DigitalWallet) = apply {
@@ -366,6 +439,8 @@ constructor(
             CardProvisionParams(
                 checkNotNull(cardToken) { "`cardToken` is required but was not set" },
                 certificate,
+                clientDeviceId,
+                clientWalletAccountId,
                 digitalWallet,
                 nonce,
                 nonceSignature,
