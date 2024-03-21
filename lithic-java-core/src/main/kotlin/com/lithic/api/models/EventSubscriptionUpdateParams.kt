@@ -417,10 +417,23 @@ constructor(
                 EventType(JsonField.of("dispute_evidence.upload_failed"))
 
             @JvmField
+            val EXTERNAL_BANK_ACCOUNT_CREATED =
+                EventType(JsonField.of("external_bank_account.created"))
+
+            @JvmField
+            val EXTERNAL_BANK_ACCOUNT_UPDATED =
+                EventType(JsonField.of("external_bank_account.updated"))
+
+            @JvmField
+            val FINANCIAL_ACCOUNT_CREATED = EventType(JsonField.of("financial_account.created"))
+
+            @JvmField
             val PAYMENT_TRANSACTION_CREATED = EventType(JsonField.of("payment_transaction.created"))
 
             @JvmField
             val PAYMENT_TRANSACTION_UPDATED = EventType(JsonField.of("payment_transaction.updated"))
+
+            @JvmField val STATEMENTS_CREATED = EventType(JsonField.of("statements.created"))
 
             @JvmField
             val THREE_DS_AUTHENTICATION_CREATED =
@@ -447,8 +460,12 @@ constructor(
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
             DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
+            EXTERNAL_BANK_ACCOUNT_CREATED,
+            EXTERNAL_BANK_ACCOUNT_UPDATED,
+            FINANCIAL_ACCOUNT_CREATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
+            STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
             TRANSFER_TRANSACTION_CREATED,
         }
@@ -467,8 +484,12 @@ constructor(
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
             DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
+            EXTERNAL_BANK_ACCOUNT_CREATED,
+            EXTERNAL_BANK_ACCOUNT_UPDATED,
+            FINANCIAL_ACCOUNT_CREATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
+            STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
             TRANSFER_TRANSACTION_CREATED,
             _UNKNOWN,
@@ -491,8 +512,12 @@ constructor(
                     Value.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
                 DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Value.DISPUTE_EVIDENCE_UPLOAD_FAILED
+                EXTERNAL_BANK_ACCOUNT_CREATED -> Value.EXTERNAL_BANK_ACCOUNT_CREATED
+                EXTERNAL_BANK_ACCOUNT_UPDATED -> Value.EXTERNAL_BANK_ACCOUNT_UPDATED
+                FINANCIAL_ACCOUNT_CREATED -> Value.FINANCIAL_ACCOUNT_CREATED
                 PAYMENT_TRANSACTION_CREATED -> Value.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Value.PAYMENT_TRANSACTION_UPDATED
+                STATEMENTS_CREATED -> Value.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
                 TRANSFER_TRANSACTION_CREATED -> Value.TRANSFER_TRANSACTION_CREATED
                 else -> Value._UNKNOWN
@@ -515,8 +540,12 @@ constructor(
                     Known.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
                 DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Known.DISPUTE_EVIDENCE_UPLOAD_FAILED
+                EXTERNAL_BANK_ACCOUNT_CREATED -> Known.EXTERNAL_BANK_ACCOUNT_CREATED
+                EXTERNAL_BANK_ACCOUNT_UPDATED -> Known.EXTERNAL_BANK_ACCOUNT_UPDATED
+                FINANCIAL_ACCOUNT_CREATED -> Known.FINANCIAL_ACCOUNT_CREATED
                 PAYMENT_TRANSACTION_CREATED -> Known.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Known.PAYMENT_TRANSACTION_UPDATED
+                STATEMENTS_CREATED -> Known.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED
                 TRANSFER_TRANSACTION_CREATED -> Known.TRANSFER_TRANSACTION_CREATED
                 else -> throw LithicInvalidDataException("Unknown EventType: $value")

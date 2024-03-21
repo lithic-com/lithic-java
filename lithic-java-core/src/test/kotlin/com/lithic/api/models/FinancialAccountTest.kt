@@ -17,6 +17,7 @@ class FinancialAccountTest {
                 .type(FinancialAccount.Type.ISSUING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .accountNumber("string")
+                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .nickname("string")
                 .routingNumber("string")
                 .build()
@@ -28,6 +29,7 @@ class FinancialAccountTest {
         assertThat(financialAccount.updated())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(financialAccount.accountNumber()).contains("string")
+        assertThat(financialAccount.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(financialAccount.nickname()).contains("string")
         assertThat(financialAccount.routingNumber()).contains("string")
     }

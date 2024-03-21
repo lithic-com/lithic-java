@@ -19,7 +19,7 @@ class TransferServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val transferService = client.transfers()
-        val transferCreateResponse =
+        val transfer =
             transferService.create(
                 TransferCreateParams.builder()
                     .amount(123L)
@@ -29,7 +29,7 @@ class TransferServiceTest {
                     .memo("string")
                     .build()
             )
-        println(transferCreateResponse)
-        transferCreateResponse.validate()
+        println(transfer)
+        transfer.validate()
     }
 }

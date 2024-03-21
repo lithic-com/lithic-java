@@ -26,7 +26,7 @@ class FinancialTransactionTest {
                             .result(FinancialTransaction.FinancialEvent.Result.APPROVED)
                             .type(
                                 FinancialTransaction.FinancialEvent.FinancialEventType
-                                    .ACH_INSUFFICIENT_FUNDS
+                                    .ACH_EXCEEDED_THRESHOLD
                             )
                             .build()
                     )
@@ -53,7 +53,7 @@ class FinancialTransactionTest {
                     .result(FinancialTransaction.FinancialEvent.Result.APPROVED)
                     .type(
                         FinancialTransaction.FinancialEvent.FinancialEventType
-                            .ACH_INSUFFICIENT_FUNDS
+                            .ACH_EXCEEDED_THRESHOLD
                     )
                     .build()
             )
