@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.32.0 (2024-03-27)
+
+Full Changelog: [v0.31.0...v0.32.0](https://github.com/lithic-com/lithic-java/compare/v0.31.0...v0.32.0)
+
+### Features
+
+* **api:** add settlement_report.updated enum ([#188](https://github.com/lithic-com/lithic-java/issues/188)) ([72ee6c5](https://github.com/lithic-com/lithic-java/commit/72ee6c5353bac3114466aeff9a187f98b0756ccb))
+* **api:** updates ([#190](https://github.com/lithic-com/lithic-java/issues/190)) ([b29a277](https://github.com/lithic-com/lithic-java/commit/b29a277d02248ecc517772c2c42a4b48a9c1014a))
+
 ## 0.31.0 (2024-03-21)
 
 Full Changelog: [v0.30.0...v0.31.0](https://github.com/lithic-com/lithic-java/compare/v0.30.0...v0.31.0)
