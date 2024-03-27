@@ -13,7 +13,7 @@ class SettlementReportTest {
         val settlementReport =
             SettlementReport.builder()
                 .created(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
-                .currency("840")
+                .currency("USD")
                 .details(
                     listOf(
                         SettlementSummaryDetails.builder()
@@ -38,7 +38,7 @@ class SettlementReportTest {
         assertThat(settlementReport).isNotNull
         assertThat(settlementReport.created())
             .isEqualTo(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
-        assertThat(settlementReport.currency()).isEqualTo("840")
+        assertThat(settlementReport.currency()).isEqualTo("USD")
         assertThat(settlementReport.details())
             .containsExactly(
                 SettlementSummaryDetails.builder()
