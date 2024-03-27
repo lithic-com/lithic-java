@@ -21,7 +21,7 @@ class SettlementReport
 private constructor(
     private val created: JsonField<OffsetDateTime>,
     private val currency: JsonField<String>,
-    private val details: JsonField<List<SettlementSummaryDetails?>>,
+    private val details: JsonField<List<SettlementSummaryDetails>>,
     private val disputesGrossAmount: JsonField<Long>,
     private val interchangeGrossAmount: JsonField<Long>,
     private val otherFeesGrossAmount: JsonField<Long>,
@@ -42,7 +42,7 @@ private constructor(
     /** Three-digit alphabetic ISO 4217 code. */
     fun currency(): String = currency.getRequired("currency")
 
-    fun details(): List<SettlementSummaryDetails?> = details.getRequired("details")
+    fun details(): List<SettlementSummaryDetails> = details.getRequired("details")
 
     /** The total gross amount of disputes settlements. */
     fun disputesGrossAmount(): Long = disputesGrossAmount.getRequired("disputes_gross_amount")
@@ -122,7 +122,7 @@ private constructor(
         if (!validated) {
             created()
             currency()
-            details().forEach { it?.validate() }
+            details().forEach { it.validate() }
             disputesGrossAmount()
             interchangeGrossAmount()
             otherFeesGrossAmount()
@@ -187,7 +187,7 @@ private constructor(
 
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var currency: JsonField<String> = JsonMissing.of()
-        private var details: JsonField<List<SettlementSummaryDetails?>> = JsonMissing.of()
+        private var details: JsonField<List<SettlementSummaryDetails>> = JsonMissing.of()
         private var disputesGrossAmount: JsonField<Long> = JsonMissing.of()
         private var interchangeGrossAmount: JsonField<Long> = JsonMissing.of()
         private var otherFeesGrossAmount: JsonField<Long> = JsonMissing.of()
@@ -228,11 +228,11 @@ private constructor(
         @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
-        fun details(details: List<SettlementSummaryDetails?>) = details(JsonField.of(details))
+        fun details(details: List<SettlementSummaryDetails>) = details(JsonField.of(details))
 
         @JsonProperty("details")
         @ExcludeMissing
-        fun details(details: JsonField<List<SettlementSummaryDetails?>>) = apply {
+        fun details(details: JsonField<List<SettlementSummaryDetails>>) = apply {
             this.details = details
         }
 
