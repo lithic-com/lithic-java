@@ -93,6 +93,7 @@ private constructor(
      * - `EXPIRED` - Lithic reversed the card authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant or pending release from
      *   ACH hold period
+     * - `RETURNED` - The financial transaction has been returned.
      * - `SETTLED` - The financial transaction is completed.
      * - `VOIDED` - The merchant has voided the previously pending card authorization.
      */
@@ -191,6 +192,7 @@ private constructor(
      * - `EXPIRED` - Lithic reversed the card authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant or pending release from
      *   ACH hold period
+     * - `RETURNED` - The financial transaction has been returned.
      * - `SETTLED` - The financial transaction is completed.
      * - `VOIDED` - The merchant has voided the previously pending card authorization.
      */
@@ -472,6 +474,7 @@ private constructor(
          *   time.
          * - `PENDING` - Authorization is pending completion from the merchant or pending release
          *   from ACH hold period
+         * - `RETURNED` - The financial transaction has been returned.
          * - `SETTLED` - The financial transaction is completed.
          * - `VOIDED` - The merchant has voided the previously pending card authorization.
          */
@@ -484,6 +487,7 @@ private constructor(
          *   time.
          * - `PENDING` - Authorization is pending completion from the merchant or pending release
          *   from ACH hold period
+         * - `RETURNED` - The financial transaction has been returned.
          * - `SETTLED` - The financial transaction is completed.
          * - `VOIDED` - The merchant has voided the previously pending card authorization.
          */

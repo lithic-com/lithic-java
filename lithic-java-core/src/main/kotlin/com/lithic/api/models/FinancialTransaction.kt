@@ -88,6 +88,7 @@ private constructor(
      * - `EXPIRED` - Lithic reversed the card authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant or pending release from
      *   ACH hold period
+     * - `RETURNED` - The financial transaction has been returned.
      * - `SETTLED` - The financial transaction is completed.
      * - `VOIDED` - The merchant has voided the previously pending card authorization.
      */
@@ -147,6 +148,7 @@ private constructor(
      * - `EXPIRED` - Lithic reversed the card authorization as it has passed its expiration time.
      * - `PENDING` - Authorization is pending completion from the merchant or pending release from
      *   ACH hold period
+     * - `RETURNED` - The financial transaction has been returned.
      * - `SETTLED` - The financial transaction is completed.
      * - `VOIDED` - The merchant has voided the previously pending card authorization.
      */
@@ -372,6 +374,7 @@ private constructor(
          *   time.
          * - `PENDING` - Authorization is pending completion from the merchant or pending release
          *   from ACH hold period
+         * - `RETURNED` - The financial transaction has been returned.
          * - `SETTLED` - The financial transaction is completed.
          * - `VOIDED` - The merchant has voided the previously pending card authorization.
          */
@@ -384,6 +387,7 @@ private constructor(
          *   time.
          * - `PENDING` - Authorization is pending completion from the merchant or pending release
          *   from ACH hold period
+         * - `RETURNED` - The financial transaction has been returned.
          * - `SETTLED` - The financial transaction is completed.
          * - `VOIDED` - The merchant has voided the previously pending card authorization.
          */
@@ -1215,6 +1219,8 @@ private constructor(
 
             @JvmField val PENDING = Status(JsonField.of("PENDING"))
 
+            @JvmField val RETURNED = Status(JsonField.of("RETURNED"))
+
             @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
 
             @JvmField val VOIDED = Status(JsonField.of("VOIDED"))
@@ -1226,6 +1232,7 @@ private constructor(
             DECLINED,
             EXPIRED,
             PENDING,
+            RETURNED,
             SETTLED,
             VOIDED,
         }
@@ -1234,6 +1241,7 @@ private constructor(
             DECLINED,
             EXPIRED,
             PENDING,
+            RETURNED,
             SETTLED,
             VOIDED,
             _UNKNOWN,
@@ -1244,6 +1252,7 @@ private constructor(
                 DECLINED -> Value.DECLINED
                 EXPIRED -> Value.EXPIRED
                 PENDING -> Value.PENDING
+                RETURNED -> Value.RETURNED
                 SETTLED -> Value.SETTLED
                 VOIDED -> Value.VOIDED
                 else -> Value._UNKNOWN
@@ -1254,6 +1263,7 @@ private constructor(
                 DECLINED -> Known.DECLINED
                 EXPIRED -> Known.EXPIRED
                 PENDING -> Known.PENDING
+                RETURNED -> Known.RETURNED
                 SETTLED -> Known.SETTLED
                 VOIDED -> Known.VOIDED
                 else -> throw LithicInvalidDataException("Unknown Status: $value")
