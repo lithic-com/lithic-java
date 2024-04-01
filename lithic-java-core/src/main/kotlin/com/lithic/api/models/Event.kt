@@ -61,6 +61,8 @@ private constructor(
      * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
      *   end user to complete digital wallet authentication. See
      *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
+     * - `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a two
+     *   factor authentication code for activating a digital wallet has been sent to the end user.
      */
     fun eventType(): EventType = eventType.getRequired("event_type")
 
@@ -97,6 +99,8 @@ private constructor(
      * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to an
      *   end user to complete digital wallet authentication. See
      *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
+     * - `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a two
+     *   factor authentication code for activating a digital wallet has been sent to the end user.
      */
     @JsonProperty("event_type") @ExcludeMissing fun _eventType() = eventType
 
@@ -210,6 +214,9 @@ private constructor(
          * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to
          *   an end user to complete digital wallet authentication. See
          *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
+         * - `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a
+         *   two factor authentication code for activating a digital wallet has been sent to the end
+         *   user.
          */
         fun eventType(eventType: EventType) = eventType(JsonField.of(eventType))
 
@@ -234,6 +241,9 @@ private constructor(
          * - `digital_wallet.tokenization_two_factor_authentication_code` - A code to be passed to
          *   an end user to complete digital wallet authentication. See
          *   https://docs.lithic.com/docs/tokenization-control#digital-wallet-tokenization-auth-code.
+         * - `digital_wallet.tokenization_two_factor_authentication_code_sent` - Notification that a
+         *   two factor authentication code for activating a digital wallet has been sent to the end
+         *   user.
          */
         @JsonProperty("event_type")
         @ExcludeMissing
@@ -331,6 +341,12 @@ private constructor(
                     JsonField.of("digital_wallet.tokenization_two_factor_authentication_code")
                 )
 
+            @JvmField
+            val DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT =
+                EventType(
+                    JsonField.of("digital_wallet.tokenization_two_factor_authentication_code_sent")
+                )
+
             @JvmField val DISPUTE_UPDATED = EventType(JsonField.of("dispute.updated"))
 
             @JvmField
@@ -382,6 +398,7 @@ private constructor(
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
             DIGITAL_WALLET_TOKENIZATION_RESULT,
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
+            DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT,
             DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
             EXTERNAL_BANK_ACCOUNT_CREATED,
@@ -407,6 +424,7 @@ private constructor(
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
             DIGITAL_WALLET_TOKENIZATION_RESULT,
             DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
+            DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT,
             DISPUTE_UPDATED,
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
             EXTERNAL_BANK_ACCOUNT_CREATED,
@@ -436,6 +454,8 @@ private constructor(
                 DIGITAL_WALLET_TOKENIZATION_RESULT -> Value.DIGITAL_WALLET_TOKENIZATION_RESULT
                 DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
                     Value.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
+                DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT ->
+                    Value.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT
                 DISPUTE_UPDATED -> Value.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Value.DISPUTE_EVIDENCE_UPLOAD_FAILED
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Value.EXTERNAL_BANK_ACCOUNT_CREATED
@@ -465,6 +485,8 @@ private constructor(
                 DIGITAL_WALLET_TOKENIZATION_RESULT -> Known.DIGITAL_WALLET_TOKENIZATION_RESULT
                 DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
                     Known.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE
+                DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT ->
+                    Known.DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT
                 DISPUTE_UPDATED -> Known.DISPUTE_UPDATED
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Known.DISPUTE_EVIDENCE_UPLOAD_FAILED
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Known.EXTERNAL_BANK_ACCOUNT_CREATED
