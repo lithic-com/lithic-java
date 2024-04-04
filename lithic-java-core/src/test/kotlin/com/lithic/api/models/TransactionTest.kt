@@ -52,7 +52,7 @@ class TransactionTest {
                 .merchantAuthorizationAmount(123L)
                 .merchantCurrency("USD")
                 .network(Transaction.Network.INTERLINK)
-                .networkRiskScore(42.23)
+                .networkRiskScore(123L)
                 .pos(
                     Transaction.Pos.builder()
                         .entryMode(
@@ -111,13 +111,13 @@ class TransactionTest {
                 .build()
         assertThat(transaction).isNotNull
         assertThat(transaction.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(transaction.acquirerFee()).isEqualTo(123L)
+        assertThat(transaction.acquirerFee()).contains(123L)
         assertThat(transaction.acquirerReferenceNumber()).contains("12345678987654321234567")
         assertThat(transaction.amount()).isEqualTo(123L)
-        assertThat(transaction.authorizationAmount()).isEqualTo(123L)
-        assertThat(transaction.authorizationCode()).isEqualTo("123456")
+        assertThat(transaction.authorizationAmount()).contains(123L)
+        assertThat(transaction.authorizationCode()).contains("123456")
         assertThat(transaction.avs())
-            .isEqualTo(Transaction.Avs.builder().address("string").zipcode("string").build())
+            .contains(Transaction.Avs.builder().address("string").zipcode("string").build())
         assertThat(transaction.cardToken()).isEqualTo("19c22c47-7a75-43ee-9891-595419830f7e")
         assertThat(transaction.created())
             .isEqualTo(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
@@ -148,13 +148,13 @@ class TransactionTest {
                     .state("NY")
                     .build()
             )
-        assertThat(transaction.merchantAmount()).isEqualTo(123L)
-        assertThat(transaction.merchantAuthorizationAmount()).isEqualTo(123L)
+        assertThat(transaction.merchantAmount()).contains(123L)
+        assertThat(transaction.merchantAuthorizationAmount()).contains(123L)
         assertThat(transaction.merchantCurrency()).isEqualTo("USD")
         assertThat(transaction.network()).contains(Transaction.Network.INTERLINK)
-        assertThat(transaction.networkRiskScore()).isEqualTo(42.23)
+        assertThat(transaction.networkRiskScore()).contains(123L)
         assertThat(transaction.pos())
-            .isEqualTo(
+            .contains(
                 Transaction.Pos.builder()
                     .entryMode(
                         Transaction.Pos.EntryMode.builder()
@@ -180,7 +180,7 @@ class TransactionTest {
         assertThat(transaction.settledAmount()).isEqualTo(123L)
         assertThat(transaction.status()).isEqualTo(Transaction.Status.DECLINED)
         assertThat(transaction.tokenInfo())
-            .isEqualTo(
+            .contains(
                 Transaction.TokenInfo.builder()
                     .walletType(Transaction.TokenInfo.WalletType.APPLE_PAY)
                     .build()
