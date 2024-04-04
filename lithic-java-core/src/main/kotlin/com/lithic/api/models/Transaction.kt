@@ -1335,6 +1335,9 @@ private constructor(
 
                 @JvmField val CARD_INVALID = DetailedResult(JsonField.of("CARD_INVALID"))
 
+                @JvmField
+                val CARD_NOT_ACTIVATED = DetailedResult(JsonField.of("CARD_NOT_ACTIVATED"))
+
                 @JvmField val CARD_PAUSED = DetailedResult(JsonField.of("CARD_PAUSED"))
 
                 @JvmField
@@ -1456,6 +1459,7 @@ private constructor(
                 CARD_EXPIRED,
                 CARD_EXPIRY_DATE_INCORRECT,
                 CARD_INVALID,
+                CARD_NOT_ACTIVATED,
                 CARD_PAUSED,
                 CARD_PIN_INCORRECT,
                 CARD_RESTRICTED,
@@ -1506,6 +1510,7 @@ private constructor(
                 CARD_EXPIRED,
                 CARD_EXPIRY_DATE_INCORRECT,
                 CARD_INVALID,
+                CARD_NOT_ACTIVATED,
                 CARD_PAUSED,
                 CARD_PIN_INCORRECT,
                 CARD_RESTRICTED,
@@ -1560,6 +1565,7 @@ private constructor(
                     CARD_EXPIRED -> Value.CARD_EXPIRED
                     CARD_EXPIRY_DATE_INCORRECT -> Value.CARD_EXPIRY_DATE_INCORRECT
                     CARD_INVALID -> Value.CARD_INVALID
+                    CARD_NOT_ACTIVATED -> Value.CARD_NOT_ACTIVATED
                     CARD_PAUSED -> Value.CARD_PAUSED
                     CARD_PIN_INCORRECT -> Value.CARD_PIN_INCORRECT
                     CARD_RESTRICTED -> Value.CARD_RESTRICTED
@@ -1617,6 +1623,7 @@ private constructor(
                     CARD_EXPIRED -> Known.CARD_EXPIRED
                     CARD_EXPIRY_DATE_INCORRECT -> Known.CARD_EXPIRY_DATE_INCORRECT
                     CARD_INVALID -> Known.CARD_INVALID
+                    CARD_NOT_ACTIVATED -> Known.CARD_NOT_ACTIVATED
                     CARD_PAUSED -> Known.CARD_PAUSED
                     CARD_PIN_INCORRECT -> Known.CARD_PIN_INCORRECT
                     CARD_RESTRICTED -> Known.CARD_RESTRICTED
