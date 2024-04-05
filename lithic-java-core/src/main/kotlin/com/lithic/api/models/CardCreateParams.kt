@@ -185,8 +185,7 @@ constructor(
 
         /**
          * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
-         * See
-         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
+         * See [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
         @JsonProperty("pin") fun pin(): String? = pin
 
@@ -426,7 +425,7 @@ constructor(
             /**
              * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
              * `VIRTUAL`. See
-             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
+             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
              */
             @JsonProperty("pin") fun pin(pin: String) = apply { this.pin = pin }
 
@@ -718,8 +717,7 @@ constructor(
 
         /**
          * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
-         * See
-         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block-enterprise).
+         * See [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
         fun pin(pin: String) = apply { this.pin = pin }
 
