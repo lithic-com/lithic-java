@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.32.0 (2024-04-05)
+
+Full Changelog: [v0.31.0...v0.32.0](https://github.com/lithic-com/lithic-java/compare/v0.31.0...v0.32.0)
+
+### Features
+
+* **api:** add detailed result CARD_NOT_ACTIVATED ([#198](https://github.com/lithic-com/lithic-java/issues/198)) ([35b805c](https://github.com/lithic-com/lithic-java/commit/35b805cf99f56ed225b8562a5f36f30b6086ad2d))
+* **api:** add event type digital_wallet.tokenization_two_factor_authentication_code_sent ([#193](https://github.com/lithic-com/lithic-java/issues/193)) ([fa8644c](https://github.com/lithic-com/lithic-java/commit/fa8644c507647d445da2c88afbf68c7d9534db05))
+* **api:** add params spend_limit and spend_velocity ([#197](https://github.com/lithic-com/lithic-java/issues/197)) ([f168da0](https://github.com/lithic-com/lithic-java/commit/f168da090ebb110cb7cd424d2c3c7fd6f6c983dd))
+* **api:** add settlement_report.updated enum ([#188](https://github.com/lithic-com/lithic-java/issues/188)) ([72ee6c5](https://github.com/lithic-com/lithic-java/commit/72ee6c5353bac3114466aeff9a187f98b0756ccb))
+* **api:** update financial transaction status enum ([#191](https://github.com/lithic-com/lithic-java/issues/191)) ([986ecb4](https://github.com/lithic-com/lithic-java/commit/986ecb4fee9af7746875c0f9df6ad957b93989c7))
+* **api:** update link to encrypted PIN block docs ([#199](https://github.com/lithic-com/lithic-java/issues/199)) ([a815440](https://github.com/lithic-com/lithic-java/commit/a815440ee748a9dfaf165622d60ca5ccf9ae7bfa))
+* **api:** updates ([#190](https://github.com/lithic-com/lithic-java/issues/190)) ([b29a277](https://github.com/lithic-com/lithic-java/commit/b29a277d02248ecc517772c2c42a4b48a9c1014a))
+
+
+### Chores
+
+* **deps:** update jackson to v2.14.3 ([#194](https://github.com/lithic-com/lithic-java/issues/194)) ([9482f43](https://github.com/lithic-com/lithic-java/commit/9482f435e2af0db1af3788bbaa07c1f4159654bb))
+* **deps:** update junit5 to v5.9.3 ([#196](https://github.com/lithic-com/lithic-java/issues/196)) ([c80ac48](https://github.com/lithic-com/lithic-java/commit/c80ac48b88574cbecc2458099dcc6efb7d662916))
+* **deps:** update kotlin-gradle-plugin to v1.9.23 ([#195](https://github.com/lithic-com/lithic-java/issues/195)) ([18c1542](https://github.com/lithic-com/lithic-java/commit/18c1542780cec2c3a2b055ab7fbbefd4cc52d5ab))
+
 ## 0.31.0 (2024-03-21)
 
 Full Changelog: [v0.30.0...v0.31.0](https://github.com/lithic-com/lithic-java/compare/v0.30.0...v0.31.0)
