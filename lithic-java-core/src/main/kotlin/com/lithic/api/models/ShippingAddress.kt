@@ -55,11 +55,15 @@ private constructor(
      */
     fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
 
-    /** Customer's first name. This will be the first name printed on the physical card. */
+    /**
+     * Customer's first name. This will be the first name printed on the physical card. The combined
+     * length of `first_name` and `last_name` may not exceed 25 characters.
+     */
     fun firstName(): String = firstName.getRequired("first_name")
 
     /**
      * Customer's surname (family name). This will be the last name printed on the physical card.
+     * The combined length of `first_name` and `last_name` may not exceed 25 characters.
      */
     fun lastName(): String = lastName.getRequired("last_name")
 
@@ -106,11 +110,15 @@ private constructor(
      */
     @JsonProperty("email") @ExcludeMissing fun _email() = email
 
-    /** Customer's first name. This will be the first name printed on the physical card. */
+    /**
+     * Customer's first name. This will be the first name printed on the physical card. The combined
+     * length of `first_name` and `last_name` may not exceed 25 characters.
+     */
     @JsonProperty("first_name") @ExcludeMissing fun _firstName() = firstName
 
     /**
      * Customer's surname (family name). This will be the last name printed on the physical card.
+     * The combined length of `first_name` and `last_name` may not exceed 25 characters.
      */
     @JsonProperty("last_name") @ExcludeMissing fun _lastName() = lastName
 
@@ -287,23 +295,29 @@ private constructor(
         @ExcludeMissing
         fun email(email: JsonField<String>) = apply { this.email = email }
 
-        /** Customer's first name. This will be the first name printed on the physical card. */
+        /**
+         * Customer's first name. This will be the first name printed on the physical card. The
+         * combined length of `first_name` and `last_name` may not exceed 25 characters.
+         */
         fun firstName(firstName: String) = firstName(JsonField.of(firstName))
 
-        /** Customer's first name. This will be the first name printed on the physical card. */
+        /**
+         * Customer's first name. This will be the first name printed on the physical card. The
+         * combined length of `first_name` and `last_name` may not exceed 25 characters.
+         */
         @JsonProperty("first_name")
         @ExcludeMissing
         fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
         /**
          * Customer's surname (family name). This will be the last name printed on the physical
-         * card.
+         * card. The combined length of `first_name` and `last_name` may not exceed 25 characters.
          */
         fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
         /**
          * Customer's surname (family name). This will be the last name printed on the physical
-         * card.
+         * card. The combined length of `first_name` and `last_name` may not exceed 25 characters.
          */
         @JsonProperty("last_name")
         @ExcludeMissing
