@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.errors.LithicInvalidDataException
@@ -11,7 +12,7 @@ class VerificationMethod
 @JsonCreator
 private constructor(
     private val value: JsonField<String>,
-) {
+) : Enum {
 
     @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 

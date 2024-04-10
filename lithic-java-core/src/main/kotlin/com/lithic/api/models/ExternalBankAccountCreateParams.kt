@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import com.lithic.api.core.BaseDeserializer
 import com.lithic.api.core.BaseSerializer
+import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
@@ -624,7 +625,7 @@ constructor(
         @JsonCreator
         private constructor(
             private val value: JsonField<String>,
-        ) {
+        ) : Enum {
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 

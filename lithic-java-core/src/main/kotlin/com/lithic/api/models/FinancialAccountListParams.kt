@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
@@ -19,6 +20,7 @@ constructor(
     private val type: Type?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
+    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
@@ -45,6 +47,8 @@ constructor(
 
     fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -55,7 +59,8 @@ constructor(
             this.businessAccountToken == other.businessAccountToken &&
             this.type == other.type &&
             this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+            this.additionalHeaders == other.additionalHeaders &&
+            this.additionalBodyProperties == other.additionalBodyProperties
     }
 
     override fun hashCode(): Int {
@@ -65,11 +70,12 @@ constructor(
             type,
             additionalQueryParams,
             additionalHeaders,
+            additionalBodyProperties,
         )
     }
 
     override fun toString() =
-        "FinancialAccountListParams{accountToken=$accountToken, businessAccountToken=$businessAccountToken, type=$type, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "FinancialAccountListParams{accountToken=$accountToken, businessAccountToken=$businessAccountToken, type=$type, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -86,6 +92,7 @@ constructor(
         private var type: Type? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
+        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(financialAccountListParams: FinancialAccountListParams) = apply {
@@ -94,6 +101,7 @@ constructor(
             this.type = financialAccountListParams.type
             additionalQueryParams(financialAccountListParams.additionalQueryParams)
             additionalHeaders(financialAccountListParams.additionalHeaders)
+            additionalBodyProperties(financialAccountListParams.additionalBodyProperties)
         }
 
         /** List financial accounts for a given account_token or business_account_token */
@@ -147,6 +155,20 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            this.additionalBodyProperties.clear()
+            this.additionalBodyProperties.putAll(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            this.additionalBodyProperties.put(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                this.additionalBodyProperties.putAll(additionalBodyProperties)
+            }
+
         fun build(): FinancialAccountListParams =
             FinancialAccountListParams(
                 accountToken,
@@ -154,6 +176,7 @@ constructor(
                 type,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalBodyProperties.toUnmodifiable(),
             )
     }
 
@@ -161,7 +184,7 @@ constructor(
     @JsonCreator
     private constructor(
         private val value: JsonField<String>,
-    ) {
+    ) : Enum {
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
