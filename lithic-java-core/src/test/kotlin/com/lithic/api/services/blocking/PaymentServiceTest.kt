@@ -29,11 +29,11 @@ class PaymentServiceTest {
                     .method(PaymentCreateParams.Method.ACH_NEXT_DAY)
                     .methodAttributes(
                         PaymentCreateParams.PaymentMethodAttributes.builder()
-                            .secCode(PaymentCreateParams.PaymentMethodAttributes.SecCode.CCD)
                             .companyId("string")
                             .receiptRoutingNumber("string")
                             .retries(123L)
                             .returnReasonCode("string")
+                            .secCode(PaymentCreateParams.PaymentMethodAttributes.SecCode.CCD)
                             .build()
                     )
                     .type(PaymentCreateParams.Type.COLLECTION)

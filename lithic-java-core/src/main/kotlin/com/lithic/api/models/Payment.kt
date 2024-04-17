@@ -35,6 +35,7 @@ private constructor(
     private val token: JsonField<String>,
     private val updated: JsonField<OffsetDateTime>,
     private val direction: JsonField<Direction>,
+    private val financialAccountToken: JsonField<String>,
     private val externalBankAccountToken: JsonField<String>,
     private val method: JsonField<Method>,
     private val methodAttributes: JsonField<PaymentMethodAttributes>,
@@ -108,6 +109,9 @@ private constructor(
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
     fun direction(): Direction = direction.getRequired("direction")
+
+    fun financialAccountToken(): String =
+        financialAccountToken.getRequired("financial_account_token")
 
     fun externalBankAccountToken(): Optional<String> =
         Optional.ofNullable(externalBankAccountToken.getNullable("external_bank_account_token"))
@@ -199,6 +203,10 @@ private constructor(
 
     @JsonProperty("direction") @ExcludeMissing fun _direction() = direction
 
+    @JsonProperty("financial_account_token")
+    @ExcludeMissing
+    fun _financialAccountToken() = financialAccountToken
+
     @JsonProperty("external_bank_account_token")
     @ExcludeMissing
     fun _externalBankAccountToken() = externalBankAccountToken
@@ -229,6 +237,7 @@ private constructor(
             token()
             updated()
             direction()
+            financialAccountToken()
             externalBankAccountToken()
             method()
             methodAttributes().validate()
@@ -258,6 +267,7 @@ private constructor(
             this.token == other.token &&
             this.updated == other.updated &&
             this.direction == other.direction &&
+            this.financialAccountToken == other.financialAccountToken &&
             this.externalBankAccountToken == other.externalBankAccountToken &&
             this.method == other.method &&
             this.methodAttributes == other.methodAttributes &&
@@ -282,6 +292,7 @@ private constructor(
                     token,
                     updated,
                     direction,
+                    financialAccountToken,
                     externalBankAccountToken,
                     method,
                     methodAttributes,
@@ -294,7 +305,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Payment{category=$category, created=$created, currency=$currency, descriptor=$descriptor, events=$events, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, token=$token, updated=$updated, direction=$direction, externalBankAccountToken=$externalBankAccountToken, method=$method, methodAttributes=$methodAttributes, source=$source, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+        "Payment{category=$category, created=$created, currency=$currency, descriptor=$descriptor, events=$events, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, token=$token, updated=$updated, direction=$direction, financialAccountToken=$financialAccountToken, externalBankAccountToken=$externalBankAccountToken, method=$method, methodAttributes=$methodAttributes, source=$source, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -315,6 +326,7 @@ private constructor(
         private var token: JsonField<String> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
         private var direction: JsonField<Direction> = JsonMissing.of()
+        private var financialAccountToken: JsonField<String> = JsonMissing.of()
         private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
         private var method: JsonField<Method> = JsonMissing.of()
         private var methodAttributes: JsonField<PaymentMethodAttributes> = JsonMissing.of()
@@ -336,6 +348,7 @@ private constructor(
             this.token = payment.token
             this.updated = payment.updated
             this.direction = payment.direction
+            this.financialAccountToken = payment.financialAccountToken
             this.externalBankAccountToken = payment.externalBankAccountToken
             this.method = payment.method
             this.methodAttributes = payment.methodAttributes
@@ -502,6 +515,15 @@ private constructor(
         @ExcludeMissing
         fun direction(direction: JsonField<Direction>) = apply { this.direction = direction }
 
+        fun financialAccountToken(financialAccountToken: String) =
+            financialAccountToken(JsonField.of(financialAccountToken))
+
+        @JsonProperty("financial_account_token")
+        @ExcludeMissing
+        fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
+            this.financialAccountToken = financialAccountToken
+        }
+
         fun externalBankAccountToken(externalBankAccountToken: String) =
             externalBankAccountToken(JsonField.of(externalBankAccountToken))
 
@@ -568,6 +590,7 @@ private constructor(
                 token,
                 updated,
                 direction,
+                financialAccountToken,
                 externalBankAccountToken,
                 method,
                 methodAttributes,
