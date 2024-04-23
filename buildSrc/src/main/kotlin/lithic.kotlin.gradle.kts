@@ -18,7 +18,7 @@ configure<SpotlessExtension> {
     }
 }
 
-tasks.withType<KotlinCompile> {
+tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions {
         allWarningsAsErrors = true
         freeCompilerArgs = listOf("-Xjvm-default=all", "-Xjdk-release=1.8")
