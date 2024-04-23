@@ -1,7 +1,7 @@
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.get
 
 plugins {
@@ -11,7 +11,7 @@ plugins {
 
 configure<PublishingExtension> {
     publications {
-        create<MavenPublication>("maven") {
+        register<MavenPublication>("maven") {
             from(components["java"])
 
             pom {
@@ -62,6 +62,6 @@ signing {
     }
 }
 
-tasks.publish {
+tasks.named("publish") {
     dependsOn(":closeAndReleaseSonatypeStagingRepository")
 }
