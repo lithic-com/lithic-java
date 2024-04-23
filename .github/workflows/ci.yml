@@ -33,6 +33,7 @@ jobs:
 
       - name: Gradle build
         run: |
-          ./gradlew build testClasses -x test
+          ./gradlew --build-cache --parallel --no-daemon \
+            build testClasses -x test
 
   

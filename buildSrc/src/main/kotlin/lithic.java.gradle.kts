@@ -30,7 +30,7 @@ java {
     }
 }
 
-tasks.withType<JavaCompile> {
+tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs.add("-Werror")
     options.release.set(8)
 }
@@ -39,7 +39,7 @@ tasks.named<Jar>("javadocJar") {
     setZip64(true)
 }
 
-tasks.jar {
+tasks.named<Jar>("jar") {
     manifest {
         attributes(mapOf(
             "Implementation-Title" to project.name,
@@ -48,7 +48,7 @@ tasks.jar {
     }
 }
 
-tasks.test {
+tasks.named<Test>("test") {
     useJUnitPlatform()
 
     testLogging {
