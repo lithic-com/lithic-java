@@ -28,7 +28,7 @@ private constructor(
 
     fun response(): Response = response
 
-    fun data(): List<Balance> = response().data()
+    fun data(): List<BalanceListResponse> = response().data()
 
     fun hasMore(): Boolean = response().hasMore()
 
@@ -89,19 +89,19 @@ private constructor(
     @NoAutoDetect
     class Response
     constructor(
-        private val data: JsonField<List<Balance>>,
+        private val data: JsonField<List<BalanceListResponse>>,
         private val hasMore: JsonField<Boolean>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
 
-        fun data(): List<Balance> = data.getNullable("data") ?: listOf()
+        fun data(): List<BalanceListResponse> = data.getNullable("data") ?: listOf()
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
         @JsonProperty("data")
-        fun _data(): Optional<JsonField<List<Balance>>> = Optional.ofNullable(data)
+        fun _data(): Optional<JsonField<List<BalanceListResponse>>> = Optional.ofNullable(data)
 
         @JsonProperty("has_more")
         fun _hasMore(): Optional<JsonField<Boolean>> = Optional.ofNullable(hasMore)
@@ -149,7 +149,7 @@ private constructor(
 
         class Builder {
 
-            private var data: JsonField<List<Balance>> = JsonMissing.of()
+            private var data: JsonField<List<BalanceListResponse>> = JsonMissing.of()
             private var hasMore: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -160,10 +160,10 @@ private constructor(
                 this.additionalProperties.putAll(page.additionalProperties)
             }
 
-            fun data(data: List<Balance>) = data(JsonField.of(data))
+            fun data(data: List<BalanceListResponse>) = data(JsonField.of(data))
 
             @JsonProperty("data")
-            fun data(data: JsonField<List<Balance>>) = apply { this.data = data }
+            fun data(data: JsonField<List<BalanceListResponse>>) = apply { this.data = data }
 
             fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
@@ -189,9 +189,12 @@ private constructor(
         private val firstPage: FinancialAccountBalanceListPageAsync,
     ) {
 
-        fun forEach(action: Predicate<Balance>, executor: Executor): CompletableFuture<Void> {
+        fun forEach(
+            action: Predicate<BalanceListResponse>,
+            executor: Executor
+        ): CompletableFuture<Void> {
             fun CompletableFuture<Optional<FinancialAccountBalanceListPageAsync>>.forEach(
-                action: (Balance) -> Boolean,
+                action: (BalanceListResponse) -> Boolean,
                 executor: Executor
             ): CompletableFuture<Void> =
                 thenComposeAsync(
@@ -207,8 +210,8 @@ private constructor(
                 .forEach(action::test, executor)
         }
 
-        fun toList(executor: Executor): CompletableFuture<List<Balance>> {
-            val values = mutableListOf<Balance>()
+        fun toList(executor: Executor): CompletableFuture<List<BalanceListResponse>> {
+            val values = mutableListOf<BalanceListResponse>()
             return forEach(values::add, executor).thenApply { values }
         }
     }

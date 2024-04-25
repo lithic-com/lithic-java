@@ -20,6 +20,7 @@ class TokenizationTest {
                 .tokenRequestorName(Tokenization.TokenRequestorName.AMAZON_ONE)
                 .tokenUniqueReference("string")
                 .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .events(
                     listOf(
                         Tokenization.TokenizationEvent.builder()
@@ -43,6 +44,8 @@ class TokenizationTest {
         assertThat(tokenization.tokenUniqueReference()).isEqualTo("string")
         assertThat(tokenization.updatedAt())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(tokenization.digitalCardArtToken())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(tokenization.events().get())
             .containsExactly(
                 Tokenization.TokenizationEvent.builder()
