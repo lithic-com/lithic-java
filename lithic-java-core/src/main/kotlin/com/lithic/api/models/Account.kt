@@ -54,8 +54,11 @@ private constructor(
      * Account state:
      * - `ACTIVE` - Account is able to transact and create new cards.
      * - `PAUSED` - Account will not be able to transact or create new cards. It can be set back to
-     *   `ACTIVE`. `CLOSED` - Account will not be able to transact or create new cards. `CLOSED`
-     *   cards are also unable to be transitioned to `ACTIVE` or `PAUSED` states.
+     *   `ACTIVE`.
+     * - `CLOSED` - Account will not be able to transact or create new cards. `CLOSED` accounts are
+     *   also unable to be transitioned to `ACTIVE` or `PAUSED` states. `CLOSED` accounts result
+     *   from failing to pass KYB/KYC or Lithic closing for risk/compliance reasons. Please contact
+     *   [support@lithic.com](mailto:support@lithic.com) if you believe this was in error.
      */
     fun state(): State = state.getRequired("state")
 
@@ -85,8 +88,11 @@ private constructor(
      * Account state:
      * - `ACTIVE` - Account is able to transact and create new cards.
      * - `PAUSED` - Account will not be able to transact or create new cards. It can be set back to
-     *   `ACTIVE`. `CLOSED` - Account will not be able to transact or create new cards. `CLOSED`
-     *   cards are also unable to be transitioned to `ACTIVE` or `PAUSED` states.
+     *   `ACTIVE`.
+     * - `CLOSED` - Account will not be able to transact or create new cards. `CLOSED` accounts are
+     *   also unable to be transitioned to `ACTIVE` or `PAUSED` states. `CLOSED` accounts result
+     *   from failing to pass KYB/KYC or Lithic closing for risk/compliance reasons. Please contact
+     *   [support@lithic.com](mailto:support@lithic.com) if you believe this was in error.
      */
     @JsonProperty("state") @ExcludeMissing fun _state() = state
 
@@ -219,8 +225,12 @@ private constructor(
          * Account state:
          * - `ACTIVE` - Account is able to transact and create new cards.
          * - `PAUSED` - Account will not be able to transact or create new cards. It can be set back
-         *   to `ACTIVE`. `CLOSED` - Account will not be able to transact or create new cards.
-         *   `CLOSED` cards are also unable to be transitioned to `ACTIVE` or `PAUSED` states.
+         *   to `ACTIVE`.
+         * - `CLOSED` - Account will not be able to transact or create new cards. `CLOSED` accounts
+         *   are also unable to be transitioned to `ACTIVE` or `PAUSED` states. `CLOSED` accounts
+         *   result from failing to pass KYB/KYC or Lithic closing for risk/compliance reasons.
+         *   Please contact [support@lithic.com](mailto:support@lithic.com) if you believe this was
+         *   in error.
          */
         fun state(state: State) = state(JsonField.of(state))
 
@@ -228,8 +238,12 @@ private constructor(
          * Account state:
          * - `ACTIVE` - Account is able to transact and create new cards.
          * - `PAUSED` - Account will not be able to transact or create new cards. It can be set back
-         *   to `ACTIVE`. `CLOSED` - Account will not be able to transact or create new cards.
-         *   `CLOSED` cards are also unable to be transitioned to `ACTIVE` or `PAUSED` states.
+         *   to `ACTIVE`.
+         * - `CLOSED` - Account will not be able to transact or create new cards. `CLOSED` accounts
+         *   are also unable to be transitioned to `ACTIVE` or `PAUSED` states. `CLOSED` accounts
+         *   result from failing to pass KYB/KYC or Lithic closing for risk/compliance reasons.
+         *   Please contact [support@lithic.com](mailto:support@lithic.com) if you believe this was
+         *   in error.
          */
         @JsonProperty("state")
         @ExcludeMissing

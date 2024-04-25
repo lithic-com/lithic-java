@@ -80,6 +80,7 @@ private constructor(
     /** Four digit (yyyy) expiry year. */
     fun expYear(): Optional<String> = Optional.ofNullable(expYear.getNullable("exp_year"))
 
+    /** Deprecated: Funding account for the card. */
     fun funding(): FundingAccount = funding.getRequired("funding")
 
     /** Hostname of card’s locked merchant (will be empty if not applicable). */
@@ -194,6 +195,7 @@ private constructor(
     /** Four digit (yyyy) expiry year. */
     @JsonProperty("exp_year") @ExcludeMissing fun _expYear() = expYear
 
+    /** Deprecated: Funding account for the card. */
     @JsonProperty("funding") @ExcludeMissing fun _funding() = funding
 
     /** Hostname of card’s locked merchant (will be empty if not applicable). */
@@ -506,8 +508,10 @@ private constructor(
         @ExcludeMissing
         fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
 
+        /** Deprecated: Funding account for the card. */
         fun funding(funding: FundingAccount) = funding(JsonField.of(funding))
 
+        /** Deprecated: Funding account for the card. */
         @JsonProperty("funding")
         @ExcludeMissing
         fun funding(funding: JsonField<FundingAccount>) = apply { this.funding = funding }
@@ -738,6 +742,7 @@ private constructor(
             )
     }
 
+    /** Deprecated: Funding account for the card. */
     @JsonDeserialize(builder = FundingAccount.Builder::class)
     @NoAutoDetect
     class FundingAccount

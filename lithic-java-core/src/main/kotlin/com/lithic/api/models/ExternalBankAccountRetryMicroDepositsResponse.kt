@@ -94,7 +94,10 @@ private constructor(
     /** The nickname given to this record of External Bank Account */
     fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
-    /** The financial account token of the operating account used to verify the account */
+    /**
+     * The financial account token of the operating account, which will provide the funds for micro
+     * deposits used to verify the account
+     */
     fun financialAccountToken(): Optional<String> =
         Optional.ofNullable(financialAccountToken.getNullable("financial_account_token"))
 
@@ -176,7 +179,10 @@ private constructor(
     /** The nickname given to this record of External Bank Account */
     @JsonProperty("name") @ExcludeMissing fun _name() = name
 
-    /** The financial account token of the operating account used to verify the account */
+    /**
+     * The financial account token of the operating account, which will provide the funds for micro
+     * deposits used to verify the account
+     */
     @JsonProperty("financial_account_token")
     @ExcludeMissing
     fun _financialAccountToken() = financialAccountToken
@@ -500,11 +506,17 @@ private constructor(
         @ExcludeMissing
         fun name(name: JsonField<String>) = apply { this.name = name }
 
-        /** The financial account token of the operating account used to verify the account */
+        /**
+         * The financial account token of the operating account, which will provide the funds for
+         * micro deposits used to verify the account
+         */
         fun financialAccountToken(financialAccountToken: String) =
             financialAccountToken(JsonField.of(financialAccountToken))
 
-        /** The financial account token of the operating account used to verify the account */
+        /**
+         * The financial account token of the operating account, which will provide the funds for
+         * micro deposits used to verify the account
+         */
         @JsonProperty("financial_account_token")
         @ExcludeMissing
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {

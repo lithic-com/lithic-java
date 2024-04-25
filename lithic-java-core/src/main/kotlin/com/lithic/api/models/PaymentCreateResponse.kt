@@ -124,7 +124,7 @@ private constructor(
     fun userDefinedId(): Optional<String> =
         Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
 
-    /** Balance of a Financial Account */
+    /** Balance */
     fun balance(): Optional<Balance> = Optional.ofNullable(balance.getNullable("balance"))
 
     fun toPayment(): Payment =
@@ -227,7 +227,7 @@ private constructor(
 
     @JsonProperty("user_defined_id") @ExcludeMissing fun _userDefinedId() = userDefinedId
 
-    /** Balance of a Financial Account */
+    /** Balance */
     @JsonProperty("balance") @ExcludeMissing fun _balance() = balance
 
     @JsonAnyGetter
@@ -580,10 +580,10 @@ private constructor(
             this.userDefinedId = userDefinedId
         }
 
-        /** Balance of a Financial Account */
+        /** Balance */
         fun balance(balance: Balance) = balance(JsonField.of(balance))
 
-        /** Balance of a Financial Account */
+        /** Balance */
         @JsonProperty("balance")
         @ExcludeMissing
         fun balance(balance: JsonField<Balance>) = apply { this.balance = balance }
