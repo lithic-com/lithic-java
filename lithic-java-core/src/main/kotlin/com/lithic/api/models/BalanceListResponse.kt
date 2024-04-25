@@ -18,16 +18,16 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 
-/** Balance */
-@JsonDeserialize(builder = Balance.Builder::class)
+/** Balance of a Financial Account */
+@JsonDeserialize(builder = BalanceListResponse.Builder::class)
 @NoAutoDetect
-class Balance
+class BalanceListResponse
 private constructor(
     private val availableAmount: JsonField<Long>,
     private val created: JsonField<OffsetDateTime>,
     private val currency: JsonField<String>,
-    private val financialAccountToken: JsonField<String>,
-    private val financialAccountType: JsonField<FinancialAccountType>,
+    private val token: JsonField<String>,
+    private val type: JsonField<Type>,
     private val lastTransactionEventToken: JsonField<String>,
     private val lastTransactionToken: JsonField<String>,
     private val pendingAmount: JsonField<Long>,
@@ -50,12 +50,10 @@ private constructor(
     fun currency(): String = currency.getRequired("currency")
 
     /** Globally unique identifier for the financial account that holds this balance. */
-    fun financialAccountToken(): String =
-        financialAccountToken.getRequired("financial_account_token")
+    fun token(): String = token.getRequired("token")
 
     /** Type of financial account. */
-    fun financialAccountType(): FinancialAccountType =
-        financialAccountType.getRequired("financial_account_type")
+    fun type(): Type = type.getRequired("type")
 
     /**
      * Globally unique identifier for the last financial transaction event that impacted this
@@ -92,14 +90,10 @@ private constructor(
     @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
     /** Globally unique identifier for the financial account that holds this balance. */
-    @JsonProperty("financial_account_token")
-    @ExcludeMissing
-    fun _financialAccountToken() = financialAccountToken
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /** Type of financial account. */
-    @JsonProperty("financial_account_type")
-    @ExcludeMissing
-    fun _financialAccountType() = financialAccountType
+    @JsonProperty("type") @ExcludeMissing fun _type() = type
 
     /**
      * Globally unique identifier for the last financial transaction event that impacted this
@@ -133,13 +127,13 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate(): Balance = apply {
+    fun validate(): BalanceListResponse = apply {
         if (!validated) {
             availableAmount()
             created()
             currency()
-            financialAccountToken()
-            financialAccountType()
+            token()
+            type()
             lastTransactionEventToken()
             lastTransactionToken()
             pendingAmount()
@@ -156,12 +150,12 @@ private constructor(
             return true
         }
 
-        return other is Balance &&
+        return other is BalanceListResponse &&
             this.availableAmount == other.availableAmount &&
             this.created == other.created &&
             this.currency == other.currency &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.financialAccountType == other.financialAccountType &&
+            this.token == other.token &&
+            this.type == other.type &&
             this.lastTransactionEventToken == other.lastTransactionEventToken &&
             this.lastTransactionToken == other.lastTransactionToken &&
             this.pendingAmount == other.pendingAmount &&
@@ -177,8 +171,8 @@ private constructor(
                     availableAmount,
                     created,
                     currency,
-                    financialAccountToken,
-                    financialAccountType,
+                    token,
+                    type,
                     lastTransactionEventToken,
                     lastTransactionToken,
                     pendingAmount,
@@ -191,7 +185,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Balance{availableAmount=$availableAmount, created=$created, currency=$currency, financialAccountToken=$financialAccountToken, financialAccountType=$financialAccountType, lastTransactionEventToken=$lastTransactionEventToken, lastTransactionToken=$lastTransactionToken, pendingAmount=$pendingAmount, totalAmount=$totalAmount, updated=$updated, additionalProperties=$additionalProperties}"
+        "BalanceListResponse{availableAmount=$availableAmount, created=$created, currency=$currency, token=$token, type=$type, lastTransactionEventToken=$lastTransactionEventToken, lastTransactionToken=$lastTransactionToken, pendingAmount=$pendingAmount, totalAmount=$totalAmount, updated=$updated, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -203,8 +197,8 @@ private constructor(
         private var availableAmount: JsonField<Long> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var currency: JsonField<String> = JsonMissing.of()
-        private var financialAccountToken: JsonField<String> = JsonMissing.of()
-        private var financialAccountType: JsonField<FinancialAccountType> = JsonMissing.of()
+        private var token: JsonField<String> = JsonMissing.of()
+        private var type: JsonField<Type> = JsonMissing.of()
         private var lastTransactionEventToken: JsonField<String> = JsonMissing.of()
         private var lastTransactionToken: JsonField<String> = JsonMissing.of()
         private var pendingAmount: JsonField<Long> = JsonMissing.of()
@@ -213,18 +207,18 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(balance: Balance) = apply {
-            this.availableAmount = balance.availableAmount
-            this.created = balance.created
-            this.currency = balance.currency
-            this.financialAccountToken = balance.financialAccountToken
-            this.financialAccountType = balance.financialAccountType
-            this.lastTransactionEventToken = balance.lastTransactionEventToken
-            this.lastTransactionToken = balance.lastTransactionToken
-            this.pendingAmount = balance.pendingAmount
-            this.totalAmount = balance.totalAmount
-            this.updated = balance.updated
-            additionalProperties(balance.additionalProperties)
+        internal fun from(balanceListResponse: BalanceListResponse) = apply {
+            this.availableAmount = balanceListResponse.availableAmount
+            this.created = balanceListResponse.created
+            this.currency = balanceListResponse.currency
+            this.token = balanceListResponse.token
+            this.type = balanceListResponse.type
+            this.lastTransactionEventToken = balanceListResponse.lastTransactionEventToken
+            this.lastTransactionToken = balanceListResponse.lastTransactionToken
+            this.pendingAmount = balanceListResponse.pendingAmount
+            this.totalAmount = balanceListResponse.totalAmount
+            this.updated = balanceListResponse.updated
+            additionalProperties(balanceListResponse.additionalProperties)
         }
 
         /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
@@ -254,26 +248,20 @@ private constructor(
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** Globally unique identifier for the financial account that holds this balance. */
-        fun financialAccountToken(financialAccountToken: String) =
-            financialAccountToken(JsonField.of(financialAccountToken))
+        fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier for the financial account that holds this balance. */
-        @JsonProperty("financial_account_token")
+        @JsonProperty("token")
         @ExcludeMissing
-        fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
-            this.financialAccountToken = financialAccountToken
-        }
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Type of financial account. */
-        fun financialAccountType(financialAccountType: FinancialAccountType) =
-            financialAccountType(JsonField.of(financialAccountType))
+        fun type(type: Type) = type(JsonField.of(type))
 
         /** Type of financial account. */
-        @JsonProperty("financial_account_type")
+        @JsonProperty("type")
         @ExcludeMissing
-        fun financialAccountType(financialAccountType: JsonField<FinancialAccountType>) = apply {
-            this.financialAccountType = financialAccountType
-        }
+        fun type(type: JsonField<Type>) = apply { this.type = type }
 
         /**
          * Globally unique identifier for the last financial transaction event that impacted this
@@ -359,13 +347,13 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): Balance =
-            Balance(
+        fun build(): BalanceListResponse =
+            BalanceListResponse(
                 availableAmount,
                 created,
                 currency,
-                financialAccountToken,
-                financialAccountType,
+                token,
+                type,
                 lastTransactionEventToken,
                 lastTransactionToken,
                 pendingAmount,
@@ -375,7 +363,7 @@ private constructor(
             )
     }
 
-    class FinancialAccountType
+    class Type
     @JsonCreator
     private constructor(
         private val value: JsonField<String>,
@@ -388,7 +376,7 @@ private constructor(
                 return true
             }
 
-            return other is FinancialAccountType && this.value == other.value
+            return other is Type && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -397,13 +385,13 @@ private constructor(
 
         companion object {
 
-            @JvmField val ISSUING = FinancialAccountType(JsonField.of("ISSUING"))
+            @JvmField val ISSUING = Type(JsonField.of("ISSUING"))
 
-            @JvmField val OPERATING = FinancialAccountType(JsonField.of("OPERATING"))
+            @JvmField val OPERATING = Type(JsonField.of("OPERATING"))
 
-            @JvmField val RESERVE = FinancialAccountType(JsonField.of("RESERVE"))
+            @JvmField val RESERVE = Type(JsonField.of("RESERVE"))
 
-            @JvmStatic fun of(value: String) = FinancialAccountType(JsonField.of(value))
+            @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
         enum class Known {
@@ -432,7 +420,7 @@ private constructor(
                 ISSUING -> Known.ISSUING
                 OPERATING -> Known.OPERATING
                 RESERVE -> Known.RESERVE
-                else -> throw LithicInvalidDataException("Unknown FinancialAccountType: $value")
+                else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

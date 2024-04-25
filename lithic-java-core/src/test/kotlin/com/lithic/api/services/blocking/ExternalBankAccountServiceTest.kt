@@ -30,6 +30,7 @@ class ExternalBankAccountServiceTest {
                             .accountNumber("12345678901234567")
                             .country("USD")
                             .currency("USD")
+                            .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .owner("x")
                             .ownerType(OwnerType.BUSINESS)
                             .routingNumber("123456789")
@@ -54,7 +55,6 @@ class ExternalBankAccountServiceTest {
                             .companyId("x")
                             .dob(LocalDate.parse("2019-12-27"))
                             .doingBusinessAs("string")
-                            .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .name("x")
                             .userDefinedId("string")
                             .verificationEnforcement(true)
@@ -145,6 +145,7 @@ class ExternalBankAccountServiceTest {
             externalBankAccountService.retryMicroDeposits(
                 ExternalBankAccountRetryMicroDepositsParams.builder()
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
         println(externalBankAccountRetryMicroDepositsResponse)

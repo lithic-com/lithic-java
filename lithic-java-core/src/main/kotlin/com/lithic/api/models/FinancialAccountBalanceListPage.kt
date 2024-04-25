@@ -27,7 +27,7 @@ private constructor(
 
     fun response(): Response = response
 
-    fun data(): List<Balance> = response().data()
+    fun data(): List<BalanceListResponse> = response().data()
 
     fun hasMore(): Boolean = response().hasMore()
 
@@ -86,19 +86,19 @@ private constructor(
     @NoAutoDetect
     class Response
     constructor(
-        private val data: JsonField<List<Balance>>,
+        private val data: JsonField<List<BalanceListResponse>>,
         private val hasMore: JsonField<Boolean>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
 
-        fun data(): List<Balance> = data.getNullable("data") ?: listOf()
+        fun data(): List<BalanceListResponse> = data.getNullable("data") ?: listOf()
 
         fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
         @JsonProperty("data")
-        fun _data(): Optional<JsonField<List<Balance>>> = Optional.ofNullable(data)
+        fun _data(): Optional<JsonField<List<BalanceListResponse>>> = Optional.ofNullable(data)
 
         @JsonProperty("has_more")
         fun _hasMore(): Optional<JsonField<Boolean>> = Optional.ofNullable(hasMore)
@@ -146,7 +146,7 @@ private constructor(
 
         class Builder {
 
-            private var data: JsonField<List<Balance>> = JsonMissing.of()
+            private var data: JsonField<List<BalanceListResponse>> = JsonMissing.of()
             private var hasMore: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -157,10 +157,10 @@ private constructor(
                 this.additionalProperties.putAll(page.additionalProperties)
             }
 
-            fun data(data: List<Balance>) = data(JsonField.of(data))
+            fun data(data: List<BalanceListResponse>) = data(JsonField.of(data))
 
             @JsonProperty("data")
-            fun data(data: JsonField<List<Balance>>) = apply { this.data = data }
+            fun data(data: JsonField<List<BalanceListResponse>>) = apply { this.data = data }
 
             fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
@@ -184,9 +184,9 @@ private constructor(
     class AutoPager
     constructor(
         private val firstPage: FinancialAccountBalanceListPage,
-    ) : Iterable<Balance> {
+    ) : Iterable<BalanceListResponse> {
 
-        override fun iterator(): Iterator<Balance> = iterator {
+        override fun iterator(): Iterator<BalanceListResponse> = iterator {
             var page = firstPage
             var index = 0
             while (true) {
@@ -198,7 +198,7 @@ private constructor(
             }
         }
 
-        fun stream(): Stream<Balance> {
+        fun stream(): Stream<BalanceListResponse> {
             return StreamSupport.stream(spliterator(), false)
         }
     }
