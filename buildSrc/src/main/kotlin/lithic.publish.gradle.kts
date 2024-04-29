@@ -16,7 +16,7 @@ configure<PublishingExtension> {
 
             pom {
                 name.set("Lithic Developer API")
-                description.set("The Lithic Developer API is designed to provide a predictable programmatic\ninterface for accessing your Lithic account through an API and transaction\nwebhooks. Note that your API key is a secret and should be treated as such.\nDon't share it with anyone, including us. We will never ask you for it.")
+                description.set("The Lithic Developer API is designed to provide a predictable programmatic\ninterface for accessing your Lithic account through an API and transaction\nwebhooks. Note that your API key is a secret and should be treated as such.\nDon\'t share it with anyone, including us. We will never ask you for it.")
                 url.set("https://docs.lithic.com")
 
                 licenses {
