@@ -7,6 +7,7 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
 import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
@@ -30,7 +31,9 @@ constructor(
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
-        this.balanceDate?.let { params.put("balance_date", listOf(it.toString())) }
+        this.balanceDate?.let {
+            params.put("balance_date", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
+        }
         this.lastTransactionEventToken?.let {
             params.put("last_transaction_event_token", listOf(it.toString()))
         }
