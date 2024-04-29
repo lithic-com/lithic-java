@@ -7,6 +7,7 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
 import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
@@ -34,8 +35,12 @@ constructor(
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
-        this.begin?.let { params.put("begin", listOf(it.toString())) }
-        this.end?.let { params.put("end", listOf(it.toString())) }
+        this.begin?.let {
+            params.put("begin", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
+        }
+        this.end?.let {
+            params.put("end", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
+        }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
