@@ -36,4 +36,3 @@ jobs:
           ./gradlew --build-cache --parallel --no-daemon \
             build testClasses -x test
 
-  
