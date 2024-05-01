@@ -42,7 +42,7 @@ private constructor(
      * KYC Exempt user's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
      * APO/FPO are acceptable. Only USA addresses are currently supported.
      */
-    fun address(): Optional<Address> = Optional.ofNullable(address.getNullable("address"))
+    fun address(): Address = address.getRequired("address")
 
     /**
      * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
@@ -115,7 +115,7 @@ private constructor(
 
     fun validate(): KycExempt = apply {
         if (!validated) {
-            address().map { it.validate() }
+            address().validate()
             businessAccountToken()
             email()
             externalId()
