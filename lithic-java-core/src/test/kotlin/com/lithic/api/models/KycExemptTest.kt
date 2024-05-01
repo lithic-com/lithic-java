@@ -11,12 +11,6 @@ class KycExemptTest {
     fun createKycExempt() {
         val kycExempt =
             KycExempt.builder()
-                .email("string")
-                .firstName("string")
-                .kycExemptionType(KycExempt.KycExemptionType.AUTHORIZED_USER)
-                .lastName("string")
-                .phoneNumber("string")
-                .workflow(KycExempt.Workflow.KYC_EXEMPT)
                 .address(
                     Address.builder()
                         .address1("123 Old Forest Way")
@@ -27,19 +21,18 @@ class KycExemptTest {
                         .address2("string")
                         .build()
                 )
+                .email("string")
+                .firstName("string")
+                .kycExemptionType(KycExempt.KycExemptionType.AUTHORIZED_USER)
+                .lastName("string")
+                .phoneNumber("string")
+                .workflow(KycExempt.Workflow.KYC_EXEMPT)
                 .businessAccountToken("string")
                 .externalId("string")
                 .build()
         assertThat(kycExempt).isNotNull
-        assertThat(kycExempt.email()).isEqualTo("string")
-        assertThat(kycExempt.firstName()).isEqualTo("string")
-        assertThat(kycExempt.kycExemptionType())
-            .isEqualTo(KycExempt.KycExemptionType.AUTHORIZED_USER)
-        assertThat(kycExempt.lastName()).isEqualTo("string")
-        assertThat(kycExempt.phoneNumber()).isEqualTo("string")
-        assertThat(kycExempt.workflow()).isEqualTo(KycExempt.Workflow.KYC_EXEMPT)
         assertThat(kycExempt.address())
-            .contains(
+            .isEqualTo(
                 Address.builder()
                     .address1("123 Old Forest Way")
                     .city("Omaha")
@@ -49,6 +42,13 @@ class KycExemptTest {
                     .address2("string")
                     .build()
             )
+        assertThat(kycExempt.email()).isEqualTo("string")
+        assertThat(kycExempt.firstName()).isEqualTo("string")
+        assertThat(kycExempt.kycExemptionType())
+            .isEqualTo(KycExempt.KycExemptionType.AUTHORIZED_USER)
+        assertThat(kycExempt.lastName()).isEqualTo("string")
+        assertThat(kycExempt.phoneNumber()).isEqualTo("string")
+        assertThat(kycExempt.workflow()).isEqualTo(KycExempt.Workflow.KYC_EXEMPT)
         assertThat(kycExempt.businessAccountToken()).contains("string")
         assertThat(kycExempt.externalId()).contains("string")
     }
