@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.33.0 (2024-05-01)
+
+Full Changelog: [v0.32.0...v0.33.0](https://github.com/lithic-com/lithic-java/compare/v0.32.0...v0.33.0)
+
+### Features
+
+* **api:** changes to balance-related return types and other API changes ([#210](https://github.com/lithic-com/lithic-java/issues/210)) ([765abc9](https://github.com/lithic-com/lithic-java/commit/765abc93751ccb837747909aed278e152a823553))
+* **api:** updates ([#202](https://github.com/lithic-com/lithic-java/issues/202)) ([ecf291d](https://github.com/lithic-com/lithic-java/commit/ecf291d592616ae6098f8d8c92a5a7e07a9b3c06))
+* **api:** updates ([#206](https://github.com/lithic-com/lithic-java/issues/206)) ([be204fd](https://github.com/lithic-com/lithic-java/commit/be204fd4a9f9e6998f6a7683b46424c63fb21cb0))
+* **api:** updates ([#215](https://github.com/lithic-com/lithic-java/issues/215)) ([0548781](https://github.com/lithic-com/lithic-java/commit/05487815894082fcc2688f857c35598ac206e72b))
+* **client:** implement support for multipart/form-data body requests ([#203](https://github.com/lithic-com/lithic-java/issues/203)) ([ce96c10](https://github.com/lithic-com/lithic-java/commit/ce96c108141f3047dd9b643a667a64edcefac908))
+
+
+### Bug Fixes
+
+* **client:** do not strip date-time 00 seconds when getQueryParams() is called ([#211](https://github.com/lithic-com/lithic-java/issues/211)) ([2a4cee0](https://github.com/lithic-com/lithic-java/commit/2a4cee0f66615eda7c21dbf5e2ebe254bd6b2866))
+* **internal:** escape characters for POM description in gradle publish ([#212](https://github.com/lithic-com/lithic-java/issues/212)) ([8868340](https://github.com/lithic-com/lithic-java/commit/8868340af355b5f6f309d5e0e5c8fa22f66b139b))
+
+
+### Chores
+
+* add back uploadEvidence override ([272bb7f](https://github.com/lithic-com/lithic-java/commit/272bb7f1298bb1c10d8af3be21b517bd53320dc1))
+* **ci:** validate Gradle wrapper ([#207](https://github.com/lithic-com/lithic-java/issues/207)) ([330e912](https://github.com/lithic-com/lithic-java/commit/330e9124c108fb6ec11cbc9a5db4bee5799a9c68))
+* **internal:** add scripts/mock ([#213](https://github.com/lithic-com/lithic-java/issues/213)) ([477574c](https://github.com/lithic-com/lithic-java/commit/477574cd0bd596cc0207b51c6949c5753b36ab89))
+* **internal:** bump mock server version to ~5.8.0 ([#214](https://github.com/lithic-com/lithic-java/issues/214)) ([961f319](https://github.com/lithic-com/lithic-java/commit/961f319f0e343ac9b4ba440097e9a1ef39bfe87f))
+* **internal:** formatting ([#204](https://github.com/lithic-com/lithic-java/issues/204)) ([ebf705c](https://github.com/lithic-com/lithic-java/commit/ebf705cae57cfd8625fe677099c189c3964dbc17))
+* **internal:** gradlew v8.7, use gradle task config avoidance APIs ([#208](https://github.com/lithic-com/lithic-java/issues/208)) ([9060f8f](https://github.com/lithic-com/lithic-java/commit/9060f8f5a150c81b38d40afab25a01e47d8a75b4))
+* **internal:** use actions/checkout@v4 for codeflow ([#209](https://github.com/lithic-com/lithic-java/issues/209)) ([c00bd1d](https://github.com/lithic-com/lithic-java/commit/c00bd1d1b7cbef9a9d1ebaaa920a601252d7944a))
+* temporarily remove custom code ([e98573c](https://github.com/lithic-com/lithic-java/commit/e98573cf90199028a5280e982c16ff19f5bfe86b))
+* **tests:** import wiremock.client.WireMock.put ([#200](https://github.com/lithic-com/lithic-java/issues/200)) ([ffdcfaf](https://github.com/lithic-com/lithic-java/commit/ffdcfaf2e2d960f255a888e9cdb932fd7896c966))
+
+
+### Build System
+
+* configure UTF-8 locale in devcontainer ([#205](https://github.com/lithic-com/lithic-java/issues/205)) ([cbef1d4](https://github.com/lithic-com/lithic-java/commit/cbef1d4802bf40321ca9ca979cd175ca78b60184))
+
 ## 0.32.0 (2024-04-05)
 
 Full Changelog: [v0.31.0...v0.32.0](https://github.com/lithic-com/lithic-java/compare/v0.31.0...v0.32.0)
