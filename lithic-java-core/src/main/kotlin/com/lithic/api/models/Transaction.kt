@@ -1375,6 +1375,10 @@ private constructor(
                 @JvmField
                 val INSUFFICIENT_FUNDS = DetailedResult(JsonField.of("INSUFFICIENT_FUNDS"))
 
+                @JvmField val INVALID_DRIVER = DetailedResult(JsonField.of("INVALID_DRIVER"))
+
+                @JvmField val INVALID_VEHICLE = DetailedResult(JsonField.of("INVALID_VEHICLE"))
+
                 @JvmField
                 val LITHIC_SYSTEM_ERROR = DetailedResult(JsonField.of("LITHIC_SYSTEM_ERROR"))
 
@@ -1474,6 +1478,8 @@ private constructor(
                 FORMAT_ERROR,
                 INSUFFICIENT_FUNDING_SOURCE_BALANCE,
                 INSUFFICIENT_FUNDS,
+                INVALID_DRIVER,
+                INVALID_VEHICLE,
                 LITHIC_SYSTEM_ERROR,
                 LITHIC_SYSTEM_RATE_LIMIT,
                 MALFORMED_ASA_RESPONSE,
@@ -1525,6 +1531,8 @@ private constructor(
                 FORMAT_ERROR,
                 INSUFFICIENT_FUNDING_SOURCE_BALANCE,
                 INSUFFICIENT_FUNDS,
+                INVALID_DRIVER,
+                INVALID_VEHICLE,
                 LITHIC_SYSTEM_ERROR,
                 LITHIC_SYSTEM_RATE_LIMIT,
                 MALFORMED_ASA_RESPONSE,
@@ -1580,6 +1588,8 @@ private constructor(
                     FORMAT_ERROR -> Value.FORMAT_ERROR
                     INSUFFICIENT_FUNDING_SOURCE_BALANCE -> Value.INSUFFICIENT_FUNDING_SOURCE_BALANCE
                     INSUFFICIENT_FUNDS -> Value.INSUFFICIENT_FUNDS
+                    INVALID_DRIVER -> Value.INVALID_DRIVER
+                    INVALID_VEHICLE -> Value.INVALID_VEHICLE
                     LITHIC_SYSTEM_ERROR -> Value.LITHIC_SYSTEM_ERROR
                     LITHIC_SYSTEM_RATE_LIMIT -> Value.LITHIC_SYSTEM_RATE_LIMIT
                     MALFORMED_ASA_RESPONSE -> Value.MALFORMED_ASA_RESPONSE
@@ -1638,6 +1648,8 @@ private constructor(
                     FORMAT_ERROR -> Known.FORMAT_ERROR
                     INSUFFICIENT_FUNDING_SOURCE_BALANCE -> Known.INSUFFICIENT_FUNDING_SOURCE_BALANCE
                     INSUFFICIENT_FUNDS -> Known.INSUFFICIENT_FUNDS
+                    INVALID_DRIVER -> Known.INVALID_DRIVER
+                    INVALID_VEHICLE -> Known.INVALID_VEHICLE
                     LITHIC_SYSTEM_ERROR -> Known.LITHIC_SYSTEM_ERROR
                     LITHIC_SYSTEM_RATE_LIMIT -> Known.LITHIC_SYSTEM_RATE_LIMIT
                     MALFORMED_ASA_RESPONSE -> Known.MALFORMED_ASA_RESPONSE
