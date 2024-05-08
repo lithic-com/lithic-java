@@ -4,6 +4,7 @@
 
 package com.lithic.api.services.async
 
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.Event
 import com.lithic.api.models.EventListAttemptsPageAsync
@@ -38,4 +39,10 @@ interface EventServiceAsync {
         params: EventListAttemptsParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<EventListAttemptsPageAsync>
+
+    fun resend(
+        eventToken: String,
+        eventSubscriptionToken: String,
+        body: JsonValue
+    ): CompletableFuture<Void>
 }

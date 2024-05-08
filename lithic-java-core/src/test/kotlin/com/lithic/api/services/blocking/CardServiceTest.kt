@@ -261,4 +261,34 @@ class CardServiceTest {
         println(card)
         card.validate()
     }
+
+    @Test
+    fun callGetEmbedHtml() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("test-api-key")
+                .webhookSecret("string")
+                .build()
+        val cardService = client.cards()
+        val cardEmbedResponse =
+            cardService.getEmbedHtml(CardGetEmbedHtmlParams.builder().token("foo").build())
+        println(cardEmbedResponse)
+        assertThat(cardEmbedResponse).contains("<html>")
+    }
+
+    @Test
+    fun callGetEmbedUrl() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("test-api-key")
+                .webhookSecret("string")
+                .build()
+        val cardService = client.cards()
+        val cardEmbedUrl =
+            cardService.getEmbedUrl(CardGetEmbedUrlParams.builder().token("foo").build())
+        println(cardEmbedUrl)
+        assertThat(cardEmbedUrl).contains("hmac")
+    }
 }

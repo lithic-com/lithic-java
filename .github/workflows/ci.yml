@@ -11,7 +11,7 @@ jobs:
   lint:
     name: lint
     runs-on: ubuntu-latest
-    if: github.repository == 'lithic-com/lithic-java'
+    
 
     steps:
       - uses: actions/checkout@v4
@@ -35,4 +35,23 @@ jobs:
         run: |
           ./gradlew --build-cache --parallel --no-daemon \
             build testClasses -x test
+  examples:
+    name: examples
+    runs-on: ubuntu-latest
 
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: |
+            8
+            17
+          cache: gradle
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - run: |
+            ./gradlew :lithic-java-example:run

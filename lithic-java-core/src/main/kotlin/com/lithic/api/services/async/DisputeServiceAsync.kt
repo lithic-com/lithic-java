@@ -93,4 +93,6 @@ interface DisputeServiceAsync {
         params: DisputeRetrieveEvidenceParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<DisputeEvidence>
+
+    fun uploadEvidence(disputeToken: String, file: ByteArray): CompletableFuture<Void>
 }

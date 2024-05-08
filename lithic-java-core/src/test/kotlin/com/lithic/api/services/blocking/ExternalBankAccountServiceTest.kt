@@ -27,7 +27,7 @@ class ExternalBankAccountServiceTest {
                     .forBankVerifiedCreateBankAccountApiRequest(
                         ExternalBankAccountCreateParams.BankVerifiedCreateBankAccountApiRequest
                             .builder()
-                            .accountNumber("12345678901234567")
+                            .accountNumber("x")
                             .country("USD")
                             .currency("USD")
                             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
