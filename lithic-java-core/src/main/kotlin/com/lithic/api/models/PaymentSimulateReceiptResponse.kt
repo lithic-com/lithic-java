@@ -17,9 +17,9 @@ import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
-@JsonDeserialize(builder = PaymentSimulateReleaseResponse.Builder::class)
+@JsonDeserialize(builder = PaymentSimulateReceiptResponse.Builder::class)
 @NoAutoDetect
-class PaymentSimulateReleaseResponse
+class PaymentSimulateReceiptResponse
 private constructor(
     private val result: JsonField<Result>,
     private val transactionEventToken: JsonField<String>,
@@ -58,7 +58,7 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-    fun validate(): PaymentSimulateReleaseResponse = apply {
+    fun validate(): PaymentSimulateReceiptResponse = apply {
         if (!validated) {
             result()
             transactionEventToken()
@@ -74,7 +74,7 @@ private constructor(
             return true
         }
 
-        return other is PaymentSimulateReleaseResponse &&
+        return other is PaymentSimulateReceiptResponse &&
             this.result == other.result &&
             this.transactionEventToken == other.transactionEventToken &&
             this.debuggingRequestId == other.debuggingRequestId &&
@@ -95,7 +95,7 @@ private constructor(
     }
 
     override fun toString() =
-        "PaymentSimulateReleaseResponse{result=$result, transactionEventToken=$transactionEventToken, debuggingRequestId=$debuggingRequestId, additionalProperties=$additionalProperties}"
+        "PaymentSimulateReceiptResponse{result=$result, transactionEventToken=$transactionEventToken, debuggingRequestId=$debuggingRequestId, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -110,11 +110,11 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(paymentSimulateReleaseResponse: PaymentSimulateReleaseResponse) = apply {
-            this.result = paymentSimulateReleaseResponse.result
-            this.transactionEventToken = paymentSimulateReleaseResponse.transactionEventToken
-            this.debuggingRequestId = paymentSimulateReleaseResponse.debuggingRequestId
-            additionalProperties(paymentSimulateReleaseResponse.additionalProperties)
+        internal fun from(paymentSimulateReceiptResponse: PaymentSimulateReceiptResponse) = apply {
+            this.result = paymentSimulateReceiptResponse.result
+            this.transactionEventToken = paymentSimulateReceiptResponse.transactionEventToken
+            this.debuggingRequestId = paymentSimulateReceiptResponse.debuggingRequestId
+            additionalProperties(paymentSimulateReceiptResponse.additionalProperties)
         }
 
         /** Request Result */
@@ -161,8 +161,8 @@ private constructor(
             this.additionalProperties.putAll(additionalProperties)
         }
 
-        fun build(): PaymentSimulateReleaseResponse =
-            PaymentSimulateReleaseResponse(
+        fun build(): PaymentSimulateReceiptResponse =
+            PaymentSimulateReceiptResponse(
                 result,
                 transactionEventToken,
                 debuggingRequestId,

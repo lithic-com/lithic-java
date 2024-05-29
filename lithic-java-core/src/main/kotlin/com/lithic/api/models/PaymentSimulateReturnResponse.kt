@@ -16,15 +16,14 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
-import java.util.Optional
 
 @JsonDeserialize(builder = PaymentSimulateReturnResponse.Builder::class)
 @NoAutoDetect
 class PaymentSimulateReturnResponse
 private constructor(
-    private val debuggingRequestId: JsonField<String>,
     private val result: JsonField<Result>,
     private val transactionEventToken: JsonField<String>,
+    private val debuggingRequestId: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -32,23 +31,28 @@ private constructor(
 
     private var hashCode: Int = 0
 
-    fun debuggingRequestId(): Optional<String> =
-        Optional.ofNullable(debuggingRequestId.getNullable("debugging_request_id"))
+    /** Request Result */
+    fun result(): Result = result.getRequired("result")
 
-    fun result(): Optional<Result> = Optional.ofNullable(result.getNullable("result"))
+    /** Transaction Event Token */
+    fun transactionEventToken(): String =
+        transactionEventToken.getRequired("transaction_event_token")
 
-    fun transactionEventToken(): Optional<String> =
-        Optional.ofNullable(transactionEventToken.getNullable("transaction_event_token"))
+    /** Debugging Request Id */
+    fun debuggingRequestId(): String = debuggingRequestId.getRequired("debugging_request_id")
 
-    @JsonProperty("debugging_request_id")
-    @ExcludeMissing
-    fun _debuggingRequestId() = debuggingRequestId
-
+    /** Request Result */
     @JsonProperty("result") @ExcludeMissing fun _result() = result
 
+    /** Transaction Event Token */
     @JsonProperty("transaction_event_token")
     @ExcludeMissing
     fun _transactionEventToken() = transactionEventToken
+
+    /** Debugging Request Id */
+    @JsonProperty("debugging_request_id")
+    @ExcludeMissing
+    fun _debuggingRequestId() = debuggingRequestId
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -56,9 +60,9 @@ private constructor(
 
     fun validate(): PaymentSimulateReturnResponse = apply {
         if (!validated) {
-            debuggingRequestId()
             result()
             transactionEventToken()
+            debuggingRequestId()
             validated = true
         }
     }
@@ -71,9 +75,9 @@ private constructor(
         }
 
         return other is PaymentSimulateReturnResponse &&
-            this.debuggingRequestId == other.debuggingRequestId &&
             this.result == other.result &&
             this.transactionEventToken == other.transactionEventToken &&
+            this.debuggingRequestId == other.debuggingRequestId &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -81,9 +85,9 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
-                    debuggingRequestId,
                     result,
                     transactionEventToken,
+                    debuggingRequestId,
                     additionalProperties,
                 )
         }
@@ -91,7 +95,7 @@ private constructor(
     }
 
     override fun toString() =
-        "PaymentSimulateReturnResponse{debuggingRequestId=$debuggingRequestId, result=$result, transactionEventToken=$transactionEventToken, additionalProperties=$additionalProperties}"
+        "PaymentSimulateReturnResponse{result=$result, transactionEventToken=$transactionEventToken, debuggingRequestId=$debuggingRequestId, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -100,41 +104,47 @@ private constructor(
 
     class Builder {
 
-        private var debuggingRequestId: JsonField<String> = JsonMissing.of()
         private var result: JsonField<Result> = JsonMissing.of()
         private var transactionEventToken: JsonField<String> = JsonMissing.of()
+        private var debuggingRequestId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(paymentSimulateReturnResponse: PaymentSimulateReturnResponse) = apply {
-            this.debuggingRequestId = paymentSimulateReturnResponse.debuggingRequestId
             this.result = paymentSimulateReturnResponse.result
             this.transactionEventToken = paymentSimulateReturnResponse.transactionEventToken
+            this.debuggingRequestId = paymentSimulateReturnResponse.debuggingRequestId
             additionalProperties(paymentSimulateReturnResponse.additionalProperties)
         }
 
-        fun debuggingRequestId(debuggingRequestId: String) =
-            debuggingRequestId(JsonField.of(debuggingRequestId))
-
-        @JsonProperty("debugging_request_id")
-        @ExcludeMissing
-        fun debuggingRequestId(debuggingRequestId: JsonField<String>) = apply {
-            this.debuggingRequestId = debuggingRequestId
-        }
-
+        /** Request Result */
         fun result(result: Result) = result(JsonField.of(result))
 
+        /** Request Result */
         @JsonProperty("result")
         @ExcludeMissing
         fun result(result: JsonField<Result>) = apply { this.result = result }
 
+        /** Transaction Event Token */
         fun transactionEventToken(transactionEventToken: String) =
             transactionEventToken(JsonField.of(transactionEventToken))
 
+        /** Transaction Event Token */
         @JsonProperty("transaction_event_token")
         @ExcludeMissing
         fun transactionEventToken(transactionEventToken: JsonField<String>) = apply {
             this.transactionEventToken = transactionEventToken
+        }
+
+        /** Debugging Request Id */
+        fun debuggingRequestId(debuggingRequestId: String) =
+            debuggingRequestId(JsonField.of(debuggingRequestId))
+
+        /** Debugging Request Id */
+        @JsonProperty("debugging_request_id")
+        @ExcludeMissing
+        fun debuggingRequestId(debuggingRequestId: JsonField<String>) = apply {
+            this.debuggingRequestId = debuggingRequestId
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -153,9 +163,9 @@ private constructor(
 
         fun build(): PaymentSimulateReturnResponse =
             PaymentSimulateReturnResponse(
-                debuggingRequestId,
                 result,
                 transactionEventToken,
+                debuggingRequestId,
                 additionalProperties.toUnmodifiable(),
             )
     }

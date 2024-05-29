@@ -42,6 +42,7 @@ constructor(
 
         private var hashCode: Int = 0
 
+        /** Payment Token */
         @JsonProperty("payment_token") fun paymentToken(): String? = paymentToken
 
         @JsonAnyGetter
@@ -86,6 +87,7 @@ constructor(
                 additionalProperties(paymentSimulateReleaseBody.additionalProperties)
             }
 
+            /** Payment Token */
             @JsonProperty("payment_token")
             fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
 
@@ -164,6 +166,7 @@ constructor(
             additionalBodyProperties(paymentSimulateReleaseParams.additionalBodyProperties)
         }
 
+        /** Payment Token */
         fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
