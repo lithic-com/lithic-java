@@ -16,6 +16,10 @@ import com.lithic.api.models.PaymentListParams
 import com.lithic.api.models.PaymentRetrieveParams
 import com.lithic.api.models.PaymentRetryParams
 import com.lithic.api.models.PaymentRetryResponse
+import com.lithic.api.models.PaymentSimulateActionParams
+import com.lithic.api.models.PaymentSimulateActionResponse
+import com.lithic.api.models.PaymentSimulateReceiptParams
+import com.lithic.api.models.PaymentSimulateReceiptResponse
 import com.lithic.api.models.PaymentSimulateReleaseParams
 import com.lithic.api.models.PaymentSimulateReleaseResponse
 import com.lithic.api.models.PaymentSimulateReturnParams
@@ -130,6 +134,64 @@ constructor(
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { retryHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val simulateActionHandler: Handler<PaymentSimulateActionResponse> =
+        jsonHandler<PaymentSimulateActionResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** Simulate payment lifecycle event */
+    override fun simulateAction(
+        params: PaymentSimulateActionParams,
+        requestOptions: RequestOptions
+    ): PaymentSimulateActionResponse {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("simulate", "payments", params.getPathParam(0), "action")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { simulateActionHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val simulateReceiptHandler: Handler<PaymentSimulateReceiptResponse> =
+        jsonHandler<PaymentSimulateReceiptResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** Simulates a receipt of a Payment. */
+    override fun simulateReceipt(
+        params: PaymentSimulateReceiptParams,
+        requestOptions: RequestOptions
+    ): PaymentSimulateReceiptResponse {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("simulate", "payments", "receipt")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { simulateReceiptHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
