@@ -56,10 +56,6 @@ constructor(
 
         private var hashCode: Int = 0
 
-        /**
-         * The financial account token of the operating account, which will provide the funds for
-         * micro deposits used to verify the account
-         */
         @JsonProperty("financial_account_token")
         fun financialAccountToken(): String? = financialAccountToken
 
@@ -108,10 +104,6 @@ constructor(
                 additionalProperties(externalBankAccountRetryMicroDepositsBody.additionalProperties)
             }
 
-            /**
-             * The financial account token of the operating account, which will provide the funds
-             * for micro deposits used to verify the account
-             */
             @JsonProperty("financial_account_token")
             fun financialAccountToken(financialAccountToken: String) = apply {
                 this.financialAccountToken = financialAccountToken
@@ -206,10 +198,6 @@ constructor(
             this.externalBankAccountToken = externalBankAccountToken
         }
 
-        /**
-         * The financial account token of the operating account, which will provide the funds for
-         * micro deposits used to verify the account
-         */
         fun financialAccountToken(financialAccountToken: String) = apply {
             this.financialAccountToken = financialAccountToken
         }
