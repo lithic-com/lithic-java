@@ -84,7 +84,7 @@ import com.lithic.api.models.Card;
 import com.lithic.api.models.CardCreateParams;
 
 CardCreateParams params = CardCreateParams.builder()
-    .type("SINGLE_USE")
+    .type(CardCreateParams.Type.SINGLE_USE)
     .build();
 Card card = client.cards().create(params);
 ```
