@@ -51,8 +51,10 @@ constructor(
 
         private var hashCode: Int = 0
 
+        /** Payment Token */
         @JsonProperty("payment_token") fun paymentToken(): String? = paymentToken
 
+        /** Return Reason Code */
         @JsonProperty("return_reason_code") fun returnReasonCode(): String? = returnReasonCode
 
         @JsonAnyGetter
@@ -105,9 +107,11 @@ constructor(
                 additionalProperties(paymentSimulateReturnBody.additionalProperties)
             }
 
+            /** Payment Token */
             @JsonProperty("payment_token")
             fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
 
+            /** Return Reason Code */
             @JsonProperty("return_reason_code")
             fun returnReasonCode(returnReasonCode: String) = apply {
                 this.returnReasonCode = returnReasonCode
@@ -193,8 +197,10 @@ constructor(
             additionalBodyProperties(paymentSimulateReturnParams.additionalBodyProperties)
         }
 
+        /** Payment Token */
         fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
 
+        /** Return Reason Code */
         fun returnReasonCode(returnReasonCode: String) = apply {
             this.returnReasonCode = returnReasonCode
         }

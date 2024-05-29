@@ -23,10 +23,13 @@ class FinancialTransactionTest {
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .amount(123L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                            .detailedResults(
+                                listOf(FinancialTransaction.FinancialEvent.DetailedResult.APPROVED)
+                            )
                             .result(FinancialTransaction.FinancialEvent.Result.APPROVED)
                             .type(
                                 FinancialTransaction.FinancialEvent.FinancialEventType
-                                    .ACH_EXCEEDED_THRESHOLD
+                                    .ACH_ORIGINATION_CANCELLED
                             )
                             .build()
                     )
@@ -50,10 +53,13 @@ class FinancialTransactionTest {
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .amount(123L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .detailedResults(
+                        listOf(FinancialTransaction.FinancialEvent.DetailedResult.APPROVED)
+                    )
                     .result(FinancialTransaction.FinancialEvent.Result.APPROVED)
                     .type(
                         FinancialTransaction.FinancialEvent.FinancialEventType
-                            .ACH_EXCEEDED_THRESHOLD
+                            .ACH_ORIGINATION_CANCELLED
                     )
                     .build()
             )
