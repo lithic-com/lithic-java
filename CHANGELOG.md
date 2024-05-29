@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.35.0 (2024-05-29)
+
+Full Changelog: [v0.34.0...v0.35.0](https://github.com/lithic-com/lithic-java/compare/v0.34.0...v0.35.0)
+
+### Features
+
+* **api:** add simulate_receipt and simulate_action endpoints ([45e9e91](https://github.com/lithic-com/lithic-java/commit/45e9e91b51c81df391826be12c56ddb68375b760))
+
 ## 0.34.0 (2024-05-29)
 
 Full Changelog: [v0.33.0...v0.34.0](https://github.com/lithic-com/lithic-java/compare/v0.33.0...v0.34.0)
