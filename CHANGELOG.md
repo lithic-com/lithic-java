@@ -1,21 +1,5 @@
 # Changelog
 
-## 0.34.0 (2024-05-29)
-
-Full Changelog: [v0.33.0...v0.34.0](https://github.com/lithic-com/lithic-java/compare/v0.33.0...v0.34.0)
-
-### Features
-
-* **api:** updates ([#224](https://github.com/lithic-com/lithic-java/issues/224)) ([83f78d6](https://github.com/lithic-com/lithic-java/commit/83f78d62873dd6d18ce046e3a3328155c4f8355e))
-* propagate resource description field from stainless config to SDK docs ([#219](https://github.com/lithic-com/lithic-java/issues/219)) ([3f13f6d](https://github.com/lithic-com/lithic-java/commit/3f13f6d70c5c028ac55c1fde6fb2e1f9c298e1b4))
-
-
-### Chores
-
-* **docs:** add SECURITY.md ([#221](https://github.com/lithic-com/lithic-java/issues/221)) ([9170209](https://github.com/lithic-com/lithic-java/commit/9170209d294e3ce99a4c5be9b1da1640b83425cb))
-* **internal:** add scripts-to-rule-them-all ([#222](https://github.com/lithic-com/lithic-java/issues/222)) ([2c38662](https://github.com/lithic-com/lithic-java/commit/2c38662da811be14216190eb4c171df301117f37))
-* **tests:** update some example values ([#223](https://github.com/lithic-com/lithic-java/issues/223)) ([453d332](https://github.com/lithic-com/lithic-java/commit/453d3323664641f889ba535bb7cfde6f12b936b2))
-
 ## 0.33.0 (2024-05-01)
 
 Full Changelog: [v0.32.0...v0.33.0](https://github.com/lithic-com/lithic-java/compare/v0.32.0...v0.33.0)

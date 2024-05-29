@@ -92,31 +92,25 @@ constructor(
 
         private var hashCode: Int = 0
 
-        /** Address */
+        /**
+         * Address used during Address Verification Service (AVS) checks during transactions if
+         * enabled via Auth Rules.
+         */
         @JsonProperty("address") fun address(): ExternalBankAccountAddress? = address
 
-        /** Optional field that helps identify bank accounts in receipts */
         @JsonProperty("company_id") fun companyId(): String? = companyId
 
         /** Date of Birth of the Individual that owns the external bank account */
         @JsonProperty("dob") fun dob(): LocalDate? = dob
 
-        /** Doing Business As */
         @JsonProperty("doing_business_as") fun doingBusinessAs(): String? = doingBusinessAs
 
-        /** The nickname given to this record of External Bank Account */
         @JsonProperty("name") fun name(): String? = name
 
-        /**
-         * Legal Name of the business or individual who owns the external account. This will appear
-         * in statements
-         */
         @JsonProperty("owner") fun owner(): String? = owner
 
-        /** Owner Type */
         @JsonProperty("owner_type") fun ownerType(): OwnerType? = ownerType
 
-        /** User Defined ID */
         @JsonProperty("user_defined_id") fun userDefinedId(): String? = userDefinedId
 
         @JsonAnyGetter
@@ -194,37 +188,31 @@ constructor(
                     additionalProperties(externalBankAccountUpdateBody.additionalProperties)
                 }
 
-            /** Address */
+            /**
+             * Address used during Address Verification Service (AVS) checks during transactions if
+             * enabled via Auth Rules.
+             */
             @JsonProperty("address")
             fun address(address: ExternalBankAccountAddress) = apply { this.address = address }
 
-            /** Optional field that helps identify bank accounts in receipts */
             @JsonProperty("company_id")
             fun companyId(companyId: String) = apply { this.companyId = companyId }
 
             /** Date of Birth of the Individual that owns the external bank account */
             @JsonProperty("dob") fun dob(dob: LocalDate) = apply { this.dob = dob }
 
-            /** Doing Business As */
             @JsonProperty("doing_business_as")
             fun doingBusinessAs(doingBusinessAs: String) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
-            /** The nickname given to this record of External Bank Account */
             @JsonProperty("name") fun name(name: String) = apply { this.name = name }
 
-            /**
-             * Legal Name of the business or individual who owns the external account. This will
-             * appear in statements
-             */
             @JsonProperty("owner") fun owner(owner: String) = apply { this.owner = owner }
 
-            /** Owner Type */
             @JsonProperty("owner_type")
             fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
 
-            /** User Defined ID */
             @JsonProperty("user_defined_id")
             fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
 
@@ -348,33 +336,27 @@ constructor(
             this.externalBankAccountToken = externalBankAccountToken
         }
 
-        /** Address */
+        /**
+         * Address used during Address Verification Service (AVS) checks during transactions if
+         * enabled via Auth Rules.
+         */
         fun address(address: ExternalBankAccountAddress) = apply { this.address = address }
 
-        /** Optional field that helps identify bank accounts in receipts */
         fun companyId(companyId: String) = apply { this.companyId = companyId }
 
         /** Date of Birth of the Individual that owns the external bank account */
         fun dob(dob: LocalDate) = apply { this.dob = dob }
 
-        /** Doing Business As */
         fun doingBusinessAs(doingBusinessAs: String) = apply {
             this.doingBusinessAs = doingBusinessAs
         }
 
-        /** The nickname given to this record of External Bank Account */
         fun name(name: String) = apply { this.name = name }
 
-        /**
-         * Legal Name of the business or individual who owns the external account. This will appear
-         * in statements
-         */
         fun owner(owner: String) = apply { this.owner = owner }
 
-        /** Owner Type */
         fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
 
-        /** User Defined ID */
         fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
