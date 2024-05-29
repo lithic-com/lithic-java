@@ -12,7 +12,7 @@ class PaymentSimulateReturnParamsTest {
     fun createPaymentSimulateReturnParams() {
         PaymentSimulateReturnParams.builder()
             .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .returnReasonCode("string")
+            .returnReasonCode("R12")
             .build()
     }
 
@@ -21,12 +21,12 @@ class PaymentSimulateReturnParamsTest {
         val params =
             PaymentSimulateReturnParams.builder()
                 .paymentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .returnReasonCode("string")
+                .returnReasonCode("R12")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.paymentToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.returnReasonCode()).isEqualTo("string")
+        assertThat(body.returnReasonCode()).isEqualTo("R12")
     }
 
     @Test

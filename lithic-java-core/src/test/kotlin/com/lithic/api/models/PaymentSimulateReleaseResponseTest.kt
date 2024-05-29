@@ -17,10 +17,10 @@ class PaymentSimulateReleaseResponseTest {
                 .build()
         assertThat(paymentSimulateReleaseResponse).isNotNull
         assertThat(paymentSimulateReleaseResponse.debuggingRequestId())
-            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(paymentSimulateReleaseResponse.result())
-            .contains(PaymentSimulateReleaseResponse.Result.APPROVED)
+            .isEqualTo(PaymentSimulateReleaseResponse.Result.APPROVED)
         assertThat(paymentSimulateReleaseResponse.transactionEventToken())
-            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }
