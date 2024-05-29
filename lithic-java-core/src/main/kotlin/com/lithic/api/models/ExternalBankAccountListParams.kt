@@ -359,9 +359,9 @@ constructor(
 
         companion object {
 
-            @JvmField val CLOSED = AccountState(JsonField.of("CLOSED"))
-
             @JvmField val ENABLED = AccountState(JsonField.of("ENABLED"))
+
+            @JvmField val CLOSED = AccountState(JsonField.of("CLOSED"))
 
             @JvmField val PAUSED = AccountState(JsonField.of("PAUSED"))
 
@@ -369,30 +369,30 @@ constructor(
         }
 
         enum class Known {
-            CLOSED,
             ENABLED,
+            CLOSED,
             PAUSED,
         }
 
         enum class Value {
-            CLOSED,
             ENABLED,
+            CLOSED,
             PAUSED,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                CLOSED -> Value.CLOSED
                 ENABLED -> Value.ENABLED
+                CLOSED -> Value.CLOSED
                 PAUSED -> Value.PAUSED
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                CLOSED -> Known.CLOSED
                 ENABLED -> Known.ENABLED
+                CLOSED -> Known.CLOSED
                 PAUSED -> Known.PAUSED
                 else -> throw LithicInvalidDataException("Unknown AccountState: $value")
             }
@@ -422,6 +422,8 @@ constructor(
 
         companion object {
 
+            @JvmField val PENDING = VerificationState(JsonField.of("PENDING"))
+
             @JvmField val ENABLED = VerificationState(JsonField.of("ENABLED"))
 
             @JvmField
@@ -429,41 +431,39 @@ constructor(
 
             @JvmField val INSUFFICIENT_FUNDS = VerificationState(JsonField.of("INSUFFICIENT_FUNDS"))
 
-            @JvmField val PENDING = VerificationState(JsonField.of("PENDING"))
-
             @JvmStatic fun of(value: String) = VerificationState(JsonField.of(value))
         }
 
         enum class Known {
+            PENDING,
             ENABLED,
             FAILED_VERIFICATION,
             INSUFFICIENT_FUNDS,
-            PENDING,
         }
 
         enum class Value {
+            PENDING,
             ENABLED,
             FAILED_VERIFICATION,
             INSUFFICIENT_FUNDS,
-            PENDING,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
+                PENDING -> Value.PENDING
                 ENABLED -> Value.ENABLED
                 FAILED_VERIFICATION -> Value.FAILED_VERIFICATION
                 INSUFFICIENT_FUNDS -> Value.INSUFFICIENT_FUNDS
-                PENDING -> Value.PENDING
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
+                PENDING -> Known.PENDING
                 ENABLED -> Known.ENABLED
                 FAILED_VERIFICATION -> Known.FAILED_VERIFICATION
                 INSUFFICIENT_FUNDS -> Known.INSUFFICIENT_FUNDS
-                PENDING -> Known.PENDING
                 else -> throw LithicInvalidDataException("Unknown VerificationState: $value")
             }
 
