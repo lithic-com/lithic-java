@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.36.0 (2024-05-30)
+
+Full Changelog: [v0.35.0...v0.36.0](https://github.com/lithic-com/lithic-java/compare/v0.35.0...v0.36.0)
+
+### Features
+
+* **api:** add simulate_receipt and simulate_action endpoints ([#227](https://github.com/lithic-com/lithic-java/issues/227)) ([6c125a4](https://github.com/lithic-com/lithic-java/commit/6c125a42096459659b6b5d734fc947090c657575))
+* **api:** update detailed_results enum values ([#229](https://github.com/lithic-com/lithic-java/issues/229)) ([764a1d8](https://github.com/lithic-com/lithic-java/commit/764a1d80360ef956050f3e394dfecf94d42bea43))
+
 ## 0.35.0 (2024-05-29)
 
 Full Changelog: [v0.34.0...v0.35.0](https://github.com/lithic-com/lithic-java/compare/v0.34.0...v0.35.0)
