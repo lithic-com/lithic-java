@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.36.1 (2024-05-30)
+
+Full Changelog: [v0.36.0...v0.36.1](https://github.com/lithic-com/lithic-java/compare/v0.36.0...v0.36.1)
+
+### Bug Fixes
+
+* **examples:** generate correctly typed example snippets for enums ([#225](https://github.com/lithic-com/lithic-java/issues/225)) ([21db817](https://github.com/lithic-com/lithic-java/commit/21db81768b2f683554051b04f548ddb5a3a6217e))
+
 ## 0.36.0 (2024-05-30)
 
 Full Changelog: [v0.35.0...v0.36.0](https://github.com/lithic-com/lithic-java/compare/v0.35.0...v0.36.0)
