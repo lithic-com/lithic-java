@@ -21,14 +21,14 @@ class ExternalBankAccountRetryMicroDepositsResponseTest {
                 .owner("string")
                 .ownerType(ExternalBankAccountRetryMicroDepositsResponse.OwnerType.BUSINESS)
                 .routingNumber("string")
-                .state(ExternalBankAccountRetryMicroDepositsResponse.State.CLOSED)
+                .state(ExternalBankAccountRetryMicroDepositsResponse.State.ENABLED)
                 .type(ExternalBankAccountRetryMicroDepositsResponse.Type.CHECKING)
                 .verificationAttempts(123L)
                 .verificationMethod(
                     ExternalBankAccountRetryMicroDepositsResponse.VerificationMethod.MANUAL
                 )
                 .verificationState(
-                    ExternalBankAccountRetryMicroDepositsResponse.VerificationState.ENABLED
+                    ExternalBankAccountRetryMicroDepositsResponse.VerificationState.PENDING
                 )
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .address(
@@ -63,7 +63,7 @@ class ExternalBankAccountRetryMicroDepositsResponseTest {
         assertThat(externalBankAccountRetryMicroDepositsResponse.routingNumber())
             .isEqualTo("string")
         assertThat(externalBankAccountRetryMicroDepositsResponse.state())
-            .isEqualTo(ExternalBankAccountRetryMicroDepositsResponse.State.CLOSED)
+            .isEqualTo(ExternalBankAccountRetryMicroDepositsResponse.State.ENABLED)
         assertThat(externalBankAccountRetryMicroDepositsResponse.type())
             .isEqualTo(ExternalBankAccountRetryMicroDepositsResponse.Type.CHECKING)
         assertThat(externalBankAccountRetryMicroDepositsResponse.verificationAttempts())
@@ -71,7 +71,7 @@ class ExternalBankAccountRetryMicroDepositsResponseTest {
         assertThat(externalBankAccountRetryMicroDepositsResponse.verificationMethod())
             .isEqualTo(ExternalBankAccountRetryMicroDepositsResponse.VerificationMethod.MANUAL)
         assertThat(externalBankAccountRetryMicroDepositsResponse.verificationState())
-            .isEqualTo(ExternalBankAccountRetryMicroDepositsResponse.VerificationState.ENABLED)
+            .isEqualTo(ExternalBankAccountRetryMicroDepositsResponse.VerificationState.PENDING)
         assertThat(externalBankAccountRetryMicroDepositsResponse.accountToken())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(externalBankAccountRetryMicroDepositsResponse.address())
