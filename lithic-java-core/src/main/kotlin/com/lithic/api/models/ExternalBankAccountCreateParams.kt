@@ -331,89 +331,79 @@ constructor(
     @NoAutoDetect
     class BankVerifiedCreateBankAccountApiRequest
     private constructor(
-        private val verificationMethod: VerificationMethod?,
-        private val ownerType: OwnerType?,
-        private val owner: String?,
-        private val accountToken: String?,
-        private val companyId: String?,
-        private val doingBusinessAs: String?,
-        private val dob: LocalDate?,
-        private val userDefinedId: String?,
-        private val type: AccountType?,
-        private val routingNumber: String?,
         private val accountNumber: String?,
-        private val name: String?,
+        private val accountToken: String?,
+        private val address: ExternalBankAccountAddress?,
+        private val companyId: String?,
         private val country: String?,
         private val currency: String?,
-        private val verificationEnforcement: Boolean?,
-        private val address: ExternalBankAccountAddress?,
+        private val dob: LocalDate?,
+        private val doingBusinessAs: String?,
         private val financialAccountToken: String?,
+        private val name: String?,
+        private val owner: String?,
+        private val ownerType: OwnerType?,
+        private val routingNumber: String?,
+        private val type: AccountType?,
+        private val userDefinedId: String?,
+        private val verificationEnforcement: Boolean?,
+        private val verificationMethod: VerificationMethod?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
 
-        /** Verification Method */
-        @JsonProperty("verification_method")
-        fun verificationMethod(): VerificationMethod? = verificationMethod
+        @JsonProperty("account_number") fun accountNumber(): String? = accountNumber
 
-        /** Owner Type */
-        @JsonProperty("owner_type") fun ownerType(): OwnerType? = ownerType
-
-        /**
-         * Legal Name of the business or individual who owns the external account. This will appear
-         * in statements
-         */
-        @JsonProperty("owner") fun owner(): String? = owner
-
-        /**
-         * Indicates which Lithic account the external account is associated with. For external
-         * accounts that are associated with the program, account_token field returned will be null
-         */
         @JsonProperty("account_token") fun accountToken(): String? = accountToken
 
-        /** Optional field that helps identify bank accounts in receipts */
+        /**
+         * Address used during Address Verification Service (AVS) checks during transactions if
+         * enabled via Auth Rules.
+         */
+        @JsonProperty("address") fun address(): ExternalBankAccountAddress? = address
+
         @JsonProperty("company_id") fun companyId(): String? = companyId
 
-        /** Doing Business As */
-        @JsonProperty("doing_business_as") fun doingBusinessAs(): String? = doingBusinessAs
+        @JsonProperty("country") fun country(): String? = country
+
+        @JsonProperty("currency") fun currency(): String? = currency
 
         /** Date of Birth of the Individual that owns the external bank account */
         @JsonProperty("dob") fun dob(): LocalDate? = dob
 
-        /** User Defined ID */
-        @JsonProperty("user_defined_id") fun userDefinedId(): String? = userDefinedId
-
-        /** Account Type */
-        @JsonProperty("type") fun type(): AccountType? = type
-
-        /** Routing Number */
-        @JsonProperty("routing_number") fun routingNumber(): String? = routingNumber
-
-        /** Routing Number */
-        @JsonProperty("account_number") fun accountNumber(): String? = accountNumber
-
-        /** The nickname given to this record of External Bank Account */
-        @JsonProperty("name") fun name(): String? = name
+        @JsonProperty("doing_business_as") fun doingBusinessAs(): String? = doingBusinessAs
 
         /**
-         * The country that the bank account is located in using ISO 3166-1. We will only accept USA
-         * bank accounts e.g., USA
+         * The financial account token of the operating account, which will provide the funds for
+         * micro deposits used to verify the account
          */
-        @JsonProperty("country") fun country(): String? = country
+        @JsonProperty("financial_account_token")
+        fun financialAccountToken(): String? = financialAccountToken
 
-        /** currency of the external account 3-digit alphabetic ISO 4217 code */
-        @JsonProperty("currency") fun currency(): String? = currency
+        @JsonProperty("name") fun name(): String? = name
 
+        @JsonProperty("owner") fun owner(): String? = owner
+
+        @JsonProperty("owner_type") fun ownerType(): OwnerType? = ownerType
+
+        @JsonProperty("routing_number") fun routingNumber(): String? = routingNumber
+
+        @JsonProperty("type") fun type(): AccountType? = type
+
+        @JsonProperty("user_defined_id") fun userDefinedId(): String? = userDefinedId
+
+        /**
+         * Indicates whether verification was enforced for a given association record. For
+         * MICRO_DEPOSIT, option to disable verification if the external bank account has already
+         * been verified before. By default, verification will be required unless users pass in a
+         * value of false
+         */
         @JsonProperty("verification_enforcement")
         fun verificationEnforcement(): Boolean? = verificationEnforcement
 
-        /** Address */
-        @JsonProperty("address") fun address(): ExternalBankAccountAddress? = address
-
-        /** The financial account token of the operating account to fund the micro deposits */
-        @JsonProperty("financial_account_token")
-        fun financialAccountToken(): String? = financialAccountToken
+        @JsonProperty("verification_method")
+        fun verificationMethod(): VerificationMethod? = verificationMethod
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -427,23 +417,23 @@ constructor(
             }
 
             return other is BankVerifiedCreateBankAccountApiRequest &&
-                this.verificationMethod == other.verificationMethod &&
-                this.ownerType == other.ownerType &&
-                this.owner == other.owner &&
-                this.accountToken == other.accountToken &&
-                this.companyId == other.companyId &&
-                this.doingBusinessAs == other.doingBusinessAs &&
-                this.dob == other.dob &&
-                this.userDefinedId == other.userDefinedId &&
-                this.type == other.type &&
-                this.routingNumber == other.routingNumber &&
                 this.accountNumber == other.accountNumber &&
-                this.name == other.name &&
+                this.accountToken == other.accountToken &&
+                this.address == other.address &&
+                this.companyId == other.companyId &&
                 this.country == other.country &&
                 this.currency == other.currency &&
-                this.verificationEnforcement == other.verificationEnforcement &&
-                this.address == other.address &&
+                this.dob == other.dob &&
+                this.doingBusinessAs == other.doingBusinessAs &&
                 this.financialAccountToken == other.financialAccountToken &&
+                this.name == other.name &&
+                this.owner == other.owner &&
+                this.ownerType == other.ownerType &&
+                this.routingNumber == other.routingNumber &&
+                this.type == other.type &&
+                this.userDefinedId == other.userDefinedId &&
+                this.verificationEnforcement == other.verificationEnforcement &&
+                this.verificationMethod == other.verificationMethod &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -451,23 +441,23 @@ constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
-                        verificationMethod,
-                        ownerType,
-                        owner,
-                        accountToken,
-                        companyId,
-                        doingBusinessAs,
-                        dob,
-                        userDefinedId,
-                        type,
-                        routingNumber,
                         accountNumber,
-                        name,
+                        accountToken,
+                        address,
+                        companyId,
                         country,
                         currency,
-                        verificationEnforcement,
-                        address,
+                        dob,
+                        doingBusinessAs,
                         financialAccountToken,
+                        name,
+                        owner,
+                        ownerType,
+                        routingNumber,
+                        type,
+                        userDefinedId,
+                        verificationEnforcement,
+                        verificationMethod,
                         additionalProperties,
                     )
             }
@@ -475,7 +465,7 @@ constructor(
         }
 
         override fun toString() =
-            "BankVerifiedCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, type=$type, routingNumber=$routingNumber, accountNumber=$accountNumber, name=$name, country=$country, currency=$currency, verificationEnforcement=$verificationEnforcement, address=$address, financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
+            "BankVerifiedCreateBankAccountApiRequest{accountNumber=$accountNumber, accountToken=$accountToken, address=$address, companyId=$companyId, country=$country, currency=$currency, dob=$dob, doingBusinessAs=$doingBusinessAs, financialAccountToken=$financialAccountToken, name=$name, owner=$owner, ownerType=$ownerType, routingNumber=$routingNumber, type=$type, userDefinedId=$userDefinedId, verificationEnforcement=$verificationEnforcement, verificationMethod=$verificationMethod, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -484,129 +474,118 @@ constructor(
 
         class Builder {
 
-            private var verificationMethod: VerificationMethod? = null
-            private var ownerType: OwnerType? = null
-            private var owner: String? = null
-            private var accountToken: String? = null
-            private var companyId: String? = null
-            private var doingBusinessAs: String? = null
-            private var dob: LocalDate? = null
-            private var userDefinedId: String? = null
-            private var type: AccountType? = null
-            private var routingNumber: String? = null
             private var accountNumber: String? = null
-            private var name: String? = null
+            private var accountToken: String? = null
+            private var address: ExternalBankAccountAddress? = null
+            private var companyId: String? = null
             private var country: String? = null
             private var currency: String? = null
-            private var verificationEnforcement: Boolean? = null
-            private var address: ExternalBankAccountAddress? = null
+            private var dob: LocalDate? = null
+            private var doingBusinessAs: String? = null
             private var financialAccountToken: String? = null
+            private var name: String? = null
+            private var owner: String? = null
+            private var ownerType: OwnerType? = null
+            private var routingNumber: String? = null
+            private var type: AccountType? = null
+            private var userDefinedId: String? = null
+            private var verificationEnforcement: Boolean? = null
+            private var verificationMethod: VerificationMethod? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(
                 bankVerifiedCreateBankAccountApiRequest: BankVerifiedCreateBankAccountApiRequest
             ) = apply {
-                this.verificationMethod = bankVerifiedCreateBankAccountApiRequest.verificationMethod
-                this.ownerType = bankVerifiedCreateBankAccountApiRequest.ownerType
-                this.owner = bankVerifiedCreateBankAccountApiRequest.owner
-                this.accountToken = bankVerifiedCreateBankAccountApiRequest.accountToken
-                this.companyId = bankVerifiedCreateBankAccountApiRequest.companyId
-                this.doingBusinessAs = bankVerifiedCreateBankAccountApiRequest.doingBusinessAs
-                this.dob = bankVerifiedCreateBankAccountApiRequest.dob
-                this.userDefinedId = bankVerifiedCreateBankAccountApiRequest.userDefinedId
-                this.type = bankVerifiedCreateBankAccountApiRequest.type
-                this.routingNumber = bankVerifiedCreateBankAccountApiRequest.routingNumber
                 this.accountNumber = bankVerifiedCreateBankAccountApiRequest.accountNumber
-                this.name = bankVerifiedCreateBankAccountApiRequest.name
+                this.accountToken = bankVerifiedCreateBankAccountApiRequest.accountToken
+                this.address = bankVerifiedCreateBankAccountApiRequest.address
+                this.companyId = bankVerifiedCreateBankAccountApiRequest.companyId
                 this.country = bankVerifiedCreateBankAccountApiRequest.country
                 this.currency = bankVerifiedCreateBankAccountApiRequest.currency
-                this.verificationEnforcement =
-                    bankVerifiedCreateBankAccountApiRequest.verificationEnforcement
-                this.address = bankVerifiedCreateBankAccountApiRequest.address
+                this.dob = bankVerifiedCreateBankAccountApiRequest.dob
+                this.doingBusinessAs = bankVerifiedCreateBankAccountApiRequest.doingBusinessAs
                 this.financialAccountToken =
                     bankVerifiedCreateBankAccountApiRequest.financialAccountToken
+                this.name = bankVerifiedCreateBankAccountApiRequest.name
+                this.owner = bankVerifiedCreateBankAccountApiRequest.owner
+                this.ownerType = bankVerifiedCreateBankAccountApiRequest.ownerType
+                this.routingNumber = bankVerifiedCreateBankAccountApiRequest.routingNumber
+                this.type = bankVerifiedCreateBankAccountApiRequest.type
+                this.userDefinedId = bankVerifiedCreateBankAccountApiRequest.userDefinedId
+                this.verificationEnforcement =
+                    bankVerifiedCreateBankAccountApiRequest.verificationEnforcement
+                this.verificationMethod = bankVerifiedCreateBankAccountApiRequest.verificationMethod
                 additionalProperties(bankVerifiedCreateBankAccountApiRequest.additionalProperties)
             }
 
-            /** Verification Method */
-            @JsonProperty("verification_method")
-            fun verificationMethod(verificationMethod: VerificationMethod) = apply {
-                this.verificationMethod = verificationMethod
-            }
+            @JsonProperty("account_number")
+            fun accountNumber(accountNumber: String) = apply { this.accountNumber = accountNumber }
 
-            /** Owner Type */
-            @JsonProperty("owner_type")
-            fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
-
-            /**
-             * Legal Name of the business or individual who owns the external account. This will
-             * appear in statements
-             */
-            @JsonProperty("owner") fun owner(owner: String) = apply { this.owner = owner }
-
-            /**
-             * Indicates which Lithic account the external account is associated with. For external
-             * accounts that are associated with the program, account_token field returned will be
-             * null
-             */
             @JsonProperty("account_token")
             fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
-            /** Optional field that helps identify bank accounts in receipts */
+            /**
+             * Address used during Address Verification Service (AVS) checks during transactions if
+             * enabled via Auth Rules.
+             */
+            @JsonProperty("address")
+            fun address(address: ExternalBankAccountAddress) = apply { this.address = address }
+
             @JsonProperty("company_id")
             fun companyId(companyId: String) = apply { this.companyId = companyId }
 
-            /** Doing Business As */
+            @JsonProperty("country") fun country(country: String) = apply { this.country = country }
+
+            @JsonProperty("currency")
+            fun currency(currency: String) = apply { this.currency = currency }
+
+            /** Date of Birth of the Individual that owns the external bank account */
+            @JsonProperty("dob") fun dob(dob: LocalDate) = apply { this.dob = dob }
+
             @JsonProperty("doing_business_as")
             fun doingBusinessAs(doingBusinessAs: String) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
-            /** Date of Birth of the Individual that owns the external bank account */
-            @JsonProperty("dob") fun dob(dob: LocalDate) = apply { this.dob = dob }
+            /**
+             * The financial account token of the operating account, which will provide the funds
+             * for micro deposits used to verify the account
+             */
+            @JsonProperty("financial_account_token")
+            fun financialAccountToken(financialAccountToken: String) = apply {
+                this.financialAccountToken = financialAccountToken
+            }
 
-            /** User Defined ID */
-            @JsonProperty("user_defined_id")
-            fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
+            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
 
-            /** Account Type */
-            @JsonProperty("type") fun type(type: AccountType) = apply { this.type = type }
+            @JsonProperty("owner") fun owner(owner: String) = apply { this.owner = owner }
 
-            /** Routing Number */
+            @JsonProperty("owner_type")
+            fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
+
             @JsonProperty("routing_number")
             fun routingNumber(routingNumber: String) = apply { this.routingNumber = routingNumber }
 
-            /** Routing Number */
-            @JsonProperty("account_number")
-            fun accountNumber(accountNumber: String) = apply { this.accountNumber = accountNumber }
+            @JsonProperty("type") fun type(type: AccountType) = apply { this.type = type }
 
-            /** The nickname given to this record of External Bank Account */
-            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
+            @JsonProperty("user_defined_id")
+            fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
 
             /**
-             * The country that the bank account is located in using ISO 3166-1. We will only accept
-             * USA bank accounts e.g., USA
+             * Indicates whether verification was enforced for a given association record. For
+             * MICRO_DEPOSIT, option to disable verification if the external bank account has
+             * already been verified before. By default, verification will be required unless users
+             * pass in a value of false
              */
-            @JsonProperty("country") fun country(country: String) = apply { this.country = country }
-
-            /** currency of the external account 3-digit alphabetic ISO 4217 code */
-            @JsonProperty("currency")
-            fun currency(currency: String) = apply { this.currency = currency }
-
             @JsonProperty("verification_enforcement")
             fun verificationEnforcement(verificationEnforcement: Boolean) = apply {
                 this.verificationEnforcement = verificationEnforcement
             }
 
-            /** Address */
-            @JsonProperty("address")
-            fun address(address: ExternalBankAccountAddress) = apply { this.address = address }
-
-            /** The financial account token of the operating account to fund the micro deposits */
-            @JsonProperty("financial_account_token")
-            fun financialAccountToken(financialAccountToken: String) = apply {
-                this.financialAccountToken = financialAccountToken
+            @JsonProperty("verification_method")
+            fun verificationMethod(verificationMethod: VerificationMethod) = apply {
+                this.verificationMethod = verificationMethod
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -625,25 +604,27 @@ constructor(
 
             fun build(): BankVerifiedCreateBankAccountApiRequest =
                 BankVerifiedCreateBankAccountApiRequest(
+                    checkNotNull(accountNumber) { "`accountNumber` is required but was not set" },
+                    accountToken,
+                    address,
+                    companyId,
+                    checkNotNull(country) { "`country` is required but was not set" },
+                    checkNotNull(currency) { "`currency` is required but was not set" },
+                    dob,
+                    doingBusinessAs,
+                    checkNotNull(financialAccountToken) {
+                        "`financialAccountToken` is required but was not set"
+                    },
+                    name,
+                    checkNotNull(owner) { "`owner` is required but was not set" },
+                    checkNotNull(ownerType) { "`ownerType` is required but was not set" },
+                    checkNotNull(routingNumber) { "`routingNumber` is required but was not set" },
+                    checkNotNull(type) { "`type` is required but was not set" },
+                    userDefinedId,
+                    verificationEnforcement,
                     checkNotNull(verificationMethod) {
                         "`verificationMethod` is required but was not set"
                     },
-                    checkNotNull(ownerType) { "`ownerType` is required but was not set" },
-                    checkNotNull(owner) { "`owner` is required but was not set" },
-                    accountToken,
-                    companyId,
-                    doingBusinessAs,
-                    dob,
-                    userDefinedId,
-                    checkNotNull(type) { "`type` is required but was not set" },
-                    checkNotNull(routingNumber) { "`routingNumber` is required but was not set" },
-                    checkNotNull(accountNumber) { "`accountNumber` is required but was not set" },
-                    name,
-                    checkNotNull(country) { "`country` is required but was not set" },
-                    checkNotNull(currency) { "`currency` is required but was not set" },
-                    verificationEnforcement,
-                    address,
-                    financialAccountToken,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -710,52 +691,39 @@ constructor(
     @NoAutoDetect
     class PlaidCreateBankAccountApiRequest
     private constructor(
-        private val verificationMethod: VerificationMethod?,
-        private val ownerType: OwnerType?,
-        private val owner: String?,
         private val accountToken: String?,
         private val companyId: String?,
-        private val doingBusinessAs: String?,
         private val dob: LocalDate?,
-        private val userDefinedId: String?,
+        private val doingBusinessAs: String?,
+        private val owner: String?,
+        private val ownerType: OwnerType?,
         private val processorToken: String?,
+        private val userDefinedId: String?,
+        private val verificationMethod: VerificationMethod?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
 
-        /** Verification Method */
-        @JsonProperty("verification_method")
-        fun verificationMethod(): VerificationMethod? = verificationMethod
-
-        /** Owner Type */
-        @JsonProperty("owner_type") fun ownerType(): OwnerType? = ownerType
-
-        /**
-         * Legal Name of the business or individual who owns the external account. This will appear
-         * in statements
-         */
-        @JsonProperty("owner") fun owner(): String? = owner
-
-        /**
-         * Indicates which Lithic account the external account is associated with. For external
-         * accounts that are associated with the program, account_token field returned will be null
-         */
         @JsonProperty("account_token") fun accountToken(): String? = accountToken
 
-        /** Optional field that helps identify bank accounts in receipts */
         @JsonProperty("company_id") fun companyId(): String? = companyId
-
-        /** Doing Business As */
-        @JsonProperty("doing_business_as") fun doingBusinessAs(): String? = doingBusinessAs
 
         /** Date of Birth of the Individual that owns the external bank account */
         @JsonProperty("dob") fun dob(): LocalDate? = dob
 
-        /** User Defined ID */
-        @JsonProperty("user_defined_id") fun userDefinedId(): String? = userDefinedId
+        @JsonProperty("doing_business_as") fun doingBusinessAs(): String? = doingBusinessAs
+
+        @JsonProperty("owner") fun owner(): String? = owner
+
+        @JsonProperty("owner_type") fun ownerType(): OwnerType? = ownerType
 
         @JsonProperty("processor_token") fun processorToken(): String? = processorToken
+
+        @JsonProperty("user_defined_id") fun userDefinedId(): String? = userDefinedId
+
+        @JsonProperty("verification_method")
+        fun verificationMethod(): VerificationMethod? = verificationMethod
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -769,15 +737,15 @@ constructor(
             }
 
             return other is PlaidCreateBankAccountApiRequest &&
-                this.verificationMethod == other.verificationMethod &&
-                this.ownerType == other.ownerType &&
-                this.owner == other.owner &&
                 this.accountToken == other.accountToken &&
                 this.companyId == other.companyId &&
-                this.doingBusinessAs == other.doingBusinessAs &&
                 this.dob == other.dob &&
-                this.userDefinedId == other.userDefinedId &&
+                this.doingBusinessAs == other.doingBusinessAs &&
+                this.owner == other.owner &&
+                this.ownerType == other.ownerType &&
                 this.processorToken == other.processorToken &&
+                this.userDefinedId == other.userDefinedId &&
+                this.verificationMethod == other.verificationMethod &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -785,15 +753,15 @@ constructor(
             if (hashCode == 0) {
                 hashCode =
                     Objects.hash(
-                        verificationMethod,
-                        ownerType,
-                        owner,
                         accountToken,
                         companyId,
-                        doingBusinessAs,
                         dob,
-                        userDefinedId,
+                        doingBusinessAs,
+                        owner,
+                        ownerType,
                         processorToken,
+                        userDefinedId,
+                        verificationMethod,
                         additionalProperties,
                     )
             }
@@ -801,7 +769,7 @@ constructor(
         }
 
         override fun toString() =
-            "PlaidCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, processorToken=$processorToken, additionalProperties=$additionalProperties}"
+            "PlaidCreateBankAccountApiRequest{accountToken=$accountToken, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, owner=$owner, ownerType=$ownerType, processorToken=$processorToken, userDefinedId=$userDefinedId, verificationMethod=$verificationMethod, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -810,76 +778,62 @@ constructor(
 
         class Builder {
 
-            private var verificationMethod: VerificationMethod? = null
-            private var ownerType: OwnerType? = null
-            private var owner: String? = null
             private var accountToken: String? = null
             private var companyId: String? = null
-            private var doingBusinessAs: String? = null
             private var dob: LocalDate? = null
-            private var userDefinedId: String? = null
+            private var doingBusinessAs: String? = null
+            private var owner: String? = null
+            private var ownerType: OwnerType? = null
             private var processorToken: String? = null
+            private var userDefinedId: String? = null
+            private var verificationMethod: VerificationMethod? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest) =
                 apply {
-                    this.verificationMethod = plaidCreateBankAccountApiRequest.verificationMethod
-                    this.ownerType = plaidCreateBankAccountApiRequest.ownerType
-                    this.owner = plaidCreateBankAccountApiRequest.owner
                     this.accountToken = plaidCreateBankAccountApiRequest.accountToken
                     this.companyId = plaidCreateBankAccountApiRequest.companyId
-                    this.doingBusinessAs = plaidCreateBankAccountApiRequest.doingBusinessAs
                     this.dob = plaidCreateBankAccountApiRequest.dob
-                    this.userDefinedId = plaidCreateBankAccountApiRequest.userDefinedId
+                    this.doingBusinessAs = plaidCreateBankAccountApiRequest.doingBusinessAs
+                    this.owner = plaidCreateBankAccountApiRequest.owner
+                    this.ownerType = plaidCreateBankAccountApiRequest.ownerType
                     this.processorToken = plaidCreateBankAccountApiRequest.processorToken
+                    this.userDefinedId = plaidCreateBankAccountApiRequest.userDefinedId
+                    this.verificationMethod = plaidCreateBankAccountApiRequest.verificationMethod
                     additionalProperties(plaidCreateBankAccountApiRequest.additionalProperties)
                 }
 
-            /** Verification Method */
-            @JsonProperty("verification_method")
-            fun verificationMethod(verificationMethod: VerificationMethod) = apply {
-                this.verificationMethod = verificationMethod
-            }
-
-            /** Owner Type */
-            @JsonProperty("owner_type")
-            fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
-
-            /**
-             * Legal Name of the business or individual who owns the external account. This will
-             * appear in statements
-             */
-            @JsonProperty("owner") fun owner(owner: String) = apply { this.owner = owner }
-
-            /**
-             * Indicates which Lithic account the external account is associated with. For external
-             * accounts that are associated with the program, account_token field returned will be
-             * null
-             */
             @JsonProperty("account_token")
             fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
-            /** Optional field that helps identify bank accounts in receipts */
             @JsonProperty("company_id")
             fun companyId(companyId: String) = apply { this.companyId = companyId }
 
-            /** Doing Business As */
+            /** Date of Birth of the Individual that owns the external bank account */
+            @JsonProperty("dob") fun dob(dob: LocalDate) = apply { this.dob = dob }
+
             @JsonProperty("doing_business_as")
             fun doingBusinessAs(doingBusinessAs: String) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
-            /** Date of Birth of the Individual that owns the external bank account */
-            @JsonProperty("dob") fun dob(dob: LocalDate) = apply { this.dob = dob }
+            @JsonProperty("owner") fun owner(owner: String) = apply { this.owner = owner }
 
-            /** User Defined ID */
-            @JsonProperty("user_defined_id")
-            fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
+            @JsonProperty("owner_type")
+            fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
 
             @JsonProperty("processor_token")
             fun processorToken(processorToken: String) = apply {
                 this.processorToken = processorToken
+            }
+
+            @JsonProperty("user_defined_id")
+            fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
+
+            @JsonProperty("verification_method")
+            fun verificationMethod(verificationMethod: VerificationMethod) = apply {
+                this.verificationMethod = verificationMethod
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -898,17 +852,17 @@ constructor(
 
             fun build(): PlaidCreateBankAccountApiRequest =
                 PlaidCreateBankAccountApiRequest(
+                    accountToken,
+                    companyId,
+                    dob,
+                    doingBusinessAs,
+                    checkNotNull(owner) { "`owner` is required but was not set" },
+                    checkNotNull(ownerType) { "`ownerType` is required but was not set" },
+                    checkNotNull(processorToken) { "`processorToken` is required but was not set" },
+                    userDefinedId,
                     checkNotNull(verificationMethod) {
                         "`verificationMethod` is required but was not set"
                     },
-                    checkNotNull(ownerType) { "`ownerType` is required but was not set" },
-                    checkNotNull(owner) { "`owner` is required but was not set" },
-                    accountToken,
-                    companyId,
-                    doingBusinessAs,
-                    dob,
-                    userDefinedId,
-                    checkNotNull(processorToken) { "`processorToken` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
         }
