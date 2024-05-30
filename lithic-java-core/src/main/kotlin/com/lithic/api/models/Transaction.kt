@@ -1366,9 +1366,6 @@ private constructor(
 
                 @JvmField val DO_NOT_HONOR = DetailedResult(JsonField.of("DO_NOT_HONOR"))
 
-                @JvmField
-                val DRIVER_NUMBER_INVALID = DetailedResult(JsonField.of("DRIVER_NUMBER_INVALID"))
-
                 @JvmField val FORMAT_ERROR = DetailedResult(JsonField.of("FORMAT_ERROR"))
 
                 @JvmField
@@ -1377,6 +1374,10 @@ private constructor(
 
                 @JvmField
                 val INSUFFICIENT_FUNDS = DetailedResult(JsonField.of("INSUFFICIENT_FUNDS"))
+
+                @JvmField val INVALID_DRIVER = DetailedResult(JsonField.of("INVALID_DRIVER"))
+
+                @JvmField val INVALID_VEHICLE = DetailedResult(JsonField.of("INVALID_VEHICLE"))
 
                 @JvmField
                 val LITHIC_SYSTEM_ERROR = DetailedResult(JsonField.of("LITHIC_SYSTEM_ERROR"))
@@ -1443,9 +1444,6 @@ private constructor(
                 @JvmField
                 val UNAUTHORIZED_MERCHANT = DetailedResult(JsonField.of("UNAUTHORIZED_MERCHANT"))
 
-                @JvmField
-                val VEHICLE_NUMBER_INVALID = DetailedResult(JsonField.of("VEHICLE_NUMBER_INVALID"))
-
                 @JvmStatic fun of(value: String) = DetailedResult(JsonField.of(value))
             }
 
@@ -1477,10 +1475,11 @@ private constructor(
                 CUSTOM_ASA_RESULT,
                 DECLINED,
                 DO_NOT_HONOR,
-                DRIVER_NUMBER_INVALID,
                 FORMAT_ERROR,
                 INSUFFICIENT_FUNDING_SOURCE_BALANCE,
                 INSUFFICIENT_FUNDS,
+                INVALID_DRIVER,
+                INVALID_VEHICLE,
                 LITHIC_SYSTEM_ERROR,
                 LITHIC_SYSTEM_RATE_LIMIT,
                 MALFORMED_ASA_RESPONSE,
@@ -1499,7 +1498,6 @@ private constructor(
                 TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER,
                 TRANSACTION_PREVIOUSLY_COMPLETED,
                 UNAUTHORIZED_MERCHANT,
-                VEHICLE_NUMBER_INVALID,
             }
 
             enum class Value {
@@ -1530,10 +1528,11 @@ private constructor(
                 CUSTOM_ASA_RESULT,
                 DECLINED,
                 DO_NOT_HONOR,
-                DRIVER_NUMBER_INVALID,
                 FORMAT_ERROR,
                 INSUFFICIENT_FUNDING_SOURCE_BALANCE,
                 INSUFFICIENT_FUNDS,
+                INVALID_DRIVER,
+                INVALID_VEHICLE,
                 LITHIC_SYSTEM_ERROR,
                 LITHIC_SYSTEM_RATE_LIMIT,
                 MALFORMED_ASA_RESPONSE,
@@ -1552,7 +1551,6 @@ private constructor(
                 TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER,
                 TRANSACTION_PREVIOUSLY_COMPLETED,
                 UNAUTHORIZED_MERCHANT,
-                VEHICLE_NUMBER_INVALID,
                 _UNKNOWN,
             }
 
@@ -1587,10 +1585,11 @@ private constructor(
                     CUSTOM_ASA_RESULT -> Value.CUSTOM_ASA_RESULT
                     DECLINED -> Value.DECLINED
                     DO_NOT_HONOR -> Value.DO_NOT_HONOR
-                    DRIVER_NUMBER_INVALID -> Value.DRIVER_NUMBER_INVALID
                     FORMAT_ERROR -> Value.FORMAT_ERROR
                     INSUFFICIENT_FUNDING_SOURCE_BALANCE -> Value.INSUFFICIENT_FUNDING_SOURCE_BALANCE
                     INSUFFICIENT_FUNDS -> Value.INSUFFICIENT_FUNDS
+                    INVALID_DRIVER -> Value.INVALID_DRIVER
+                    INVALID_VEHICLE -> Value.INVALID_VEHICLE
                     LITHIC_SYSTEM_ERROR -> Value.LITHIC_SYSTEM_ERROR
                     LITHIC_SYSTEM_RATE_LIMIT -> Value.LITHIC_SYSTEM_RATE_LIMIT
                     MALFORMED_ASA_RESPONSE -> Value.MALFORMED_ASA_RESPONSE
@@ -1612,7 +1611,6 @@ private constructor(
                         Value.TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER
                     TRANSACTION_PREVIOUSLY_COMPLETED -> Value.TRANSACTION_PREVIOUSLY_COMPLETED
                     UNAUTHORIZED_MERCHANT -> Value.UNAUTHORIZED_MERCHANT
-                    VEHICLE_NUMBER_INVALID -> Value.VEHICLE_NUMBER_INVALID
                     else -> Value._UNKNOWN
                 }
 
@@ -1647,10 +1645,11 @@ private constructor(
                     CUSTOM_ASA_RESULT -> Known.CUSTOM_ASA_RESULT
                     DECLINED -> Known.DECLINED
                     DO_NOT_HONOR -> Known.DO_NOT_HONOR
-                    DRIVER_NUMBER_INVALID -> Known.DRIVER_NUMBER_INVALID
                     FORMAT_ERROR -> Known.FORMAT_ERROR
                     INSUFFICIENT_FUNDING_SOURCE_BALANCE -> Known.INSUFFICIENT_FUNDING_SOURCE_BALANCE
                     INSUFFICIENT_FUNDS -> Known.INSUFFICIENT_FUNDS
+                    INVALID_DRIVER -> Known.INVALID_DRIVER
+                    INVALID_VEHICLE -> Known.INVALID_VEHICLE
                     LITHIC_SYSTEM_ERROR -> Known.LITHIC_SYSTEM_ERROR
                     LITHIC_SYSTEM_RATE_LIMIT -> Known.LITHIC_SYSTEM_RATE_LIMIT
                     MALFORMED_ASA_RESPONSE -> Known.MALFORMED_ASA_RESPONSE
@@ -1672,7 +1671,6 @@ private constructor(
                         Known.TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER
                     TRANSACTION_PREVIOUSLY_COMPLETED -> Known.TRANSACTION_PREVIOUSLY_COMPLETED
                     UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
-                    VEHICLE_NUMBER_INVALID -> Known.VEHICLE_NUMBER_INVALID
                     else -> throw LithicInvalidDataException("Unknown DetailedResult: $value")
                 }
 

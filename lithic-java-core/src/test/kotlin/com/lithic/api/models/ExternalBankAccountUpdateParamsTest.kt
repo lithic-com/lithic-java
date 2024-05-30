@@ -25,11 +25,11 @@ class ExternalBankAccountUpdateParamsTest {
             )
             .companyId("x")
             .dob(LocalDate.parse("2019-12-27"))
-            .doingBusinessAs("x")
+            .doingBusinessAs("string")
             .name("x")
             .owner("x")
-            .ownerType(OwnerType.INDIVIDUAL)
-            .userDefinedId("x")
+            .ownerType(OwnerType.BUSINESS)
+            .userDefinedId("string")
             .build()
     }
 
@@ -50,11 +50,11 @@ class ExternalBankAccountUpdateParamsTest {
                 )
                 .companyId("x")
                 .dob(LocalDate.parse("2019-12-27"))
-                .doingBusinessAs("x")
+                .doingBusinessAs("string")
                 .name("x")
                 .owner("x")
-                .ownerType(OwnerType.INDIVIDUAL)
-                .userDefinedId("x")
+                .ownerType(OwnerType.BUSINESS)
+                .userDefinedId("string")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -71,11 +71,11 @@ class ExternalBankAccountUpdateParamsTest {
             )
         assertThat(body.companyId()).isEqualTo("x")
         assertThat(body.dob()).isEqualTo(LocalDate.parse("2019-12-27"))
-        assertThat(body.doingBusinessAs()).isEqualTo("x")
+        assertThat(body.doingBusinessAs()).isEqualTo("string")
         assertThat(body.name()).isEqualTo("x")
         assertThat(body.owner()).isEqualTo("x")
-        assertThat(body.ownerType()).isEqualTo(OwnerType.INDIVIDUAL)
-        assertThat(body.userDefinedId()).isEqualTo("x")
+        assertThat(body.ownerType()).isEqualTo(OwnerType.BUSINESS)
+        assertThat(body.userDefinedId()).isEqualTo("string")
     }
 
     @Test
