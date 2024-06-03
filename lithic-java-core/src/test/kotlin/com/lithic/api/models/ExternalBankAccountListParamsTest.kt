@@ -16,7 +16,7 @@ class ExternalBankAccountListParamsTest {
             .countries(listOf("string"))
             .endingBefore("string")
             .ownerTypes(listOf(OwnerType.INDIVIDUAL))
-            .pageSize(123L)
+            .pageSize(100L)
             .startingAfter("string")
             .states(listOf(ExternalBankAccountListParams.AccountState.ENABLED))
             .verificationStates(listOf(ExternalBankAccountListParams.VerificationState.PENDING))
@@ -32,7 +32,7 @@ class ExternalBankAccountListParamsTest {
                 .countries(listOf("string"))
                 .endingBefore("string")
                 .ownerTypes(listOf(OwnerType.INDIVIDUAL))
-                .pageSize(123L)
+                .pageSize(100L)
                 .startingAfter("string")
                 .states(listOf(ExternalBankAccountListParams.AccountState.ENABLED))
                 .verificationStates(listOf(ExternalBankAccountListParams.VerificationState.PENDING))
@@ -46,7 +46,7 @@ class ExternalBankAccountListParamsTest {
         expected.put("countries", listOf("string"))
         expected.put("ending_before", listOf("string"))
         expected.put("owner_types", listOf(OwnerType.INDIVIDUAL.toString()))
-        expected.put("page_size", listOf("123"))
+        expected.put("page_size", listOf("100"))
         expected.put("starting_after", listOf("string"))
         expected.put(
             "states",
