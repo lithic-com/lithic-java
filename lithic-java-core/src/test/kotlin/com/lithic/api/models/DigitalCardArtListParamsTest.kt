@@ -12,7 +12,7 @@ class DigitalCardArtListParamsTest {
     fun createDigitalCardArtListParams() {
         DigitalCardArtListParams.builder()
             .endingBefore("string")
-            .pageSize(123L)
+            .pageSize(100L)
             .startingAfter("string")
             .build()
     }
@@ -22,12 +22,12 @@ class DigitalCardArtListParamsTest {
         val params =
             DigitalCardArtListParams.builder()
                 .endingBefore("string")
-                .pageSize(123L)
+                .pageSize(100L)
                 .startingAfter("string")
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put("ending_before", listOf("string"))
-        expected.put("page_size", listOf("123"))
+        expected.put("page_size", listOf("100"))
         expected.put("starting_after", listOf("string"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
