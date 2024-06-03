@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.36.2 (2024-06-03)
+
+Full Changelog: [v0.36.1...v0.36.2](https://github.com/lithic-com/lithic-java/compare/v0.36.1...v0.36.2)
+
+### Bug Fixes
+
+* **examples:** numerical examples now respect [min, max] range ([#233](https://github.com/lithic-com/lithic-java/issues/233)) ([05d3f61](https://github.com/lithic-com/lithic-java/commit/05d3f61aaaa46e52c3d12d5895933a5e20349076))
+
 ## 0.36.1 (2024-05-30)
 
 Full Changelog: [v0.36.0...v0.36.1](https://github.com/lithic-com/lithic-java/compare/v0.36.0...v0.36.1)
