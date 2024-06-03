@@ -14,7 +14,7 @@ class FinancialAccountStatementLineItemListParamsTest {
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .statementToken("string")
             .endingBefore("string")
-            .pageSize(123L)
+            .pageSize(100L)
             .startingAfter("string")
             .build()
     }
@@ -26,12 +26,12 @@ class FinancialAccountStatementLineItemListParamsTest {
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .statementToken("string")
                 .endingBefore("string")
-                .pageSize(123L)
+                .pageSize(100L)
                 .startingAfter("string")
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put("ending_before", listOf("string"))
-        expected.put("page_size", listOf("123"))
+        expected.put("page_size", listOf("100"))
         expected.put("starting_after", listOf("string"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
