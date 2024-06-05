@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.37.0 (2024-06-05)
+
+Full Changelog: [v0.36.2...v0.37.0](https://github.com/lithic-com/lithic-java/compare/v0.36.2...v0.37.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** remove some endpoints and other API updates ([#235](https://github.com/lithic-com/lithic-java/issues/235))
+
+### Features
+
+* **api:** remove some endpoints and other API updates ([#235](https://github.com/lithic-com/lithic-java/issues/235)) ([aaf3ba8](https://github.com/lithic-com/lithic-java/commit/aaf3ba824662ed19162df5afff4a46cef97d8fa0))
+
 ## 0.36.2 (2024-06-03)
 
 Full Changelog: [v0.36.1...v0.36.2](https://github.com/lithic-com/lithic-java/compare/v0.36.1...v0.36.2)
