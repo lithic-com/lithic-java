@@ -28,12 +28,8 @@ class PaymentServiceTest {
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .method(PaymentCreateParams.Method.ACH_NEXT_DAY)
                     .methodAttributes(
-                        PaymentCreateParams.PaymentMethodAttributes.builder()
-                            .companyId("string")
-                            .receiptRoutingNumber("string")
-                            .retries(123L)
-                            .returnReasonCode("string")
-                            .secCode(PaymentCreateParams.PaymentMethodAttributes.SecCode.CCD)
+                        PaymentCreateParams.PaymentMethodRequestAttributes.builder()
+                            .secCode(PaymentCreateParams.PaymentMethodRequestAttributes.SecCode.CCD)
                             .build()
                     )
                     .type(PaymentCreateParams.Type.COLLECTION)
@@ -60,6 +56,7 @@ class PaymentServiceTest {
                     .build()
             )
         println(payment)
+        payment.validate()
     }
 
     @Test
@@ -110,7 +107,7 @@ class PaymentServiceTest {
                     )
                     .declineReason(
                         PaymentSimulateActionParams.SupportedSimulationDeclineReasons
-                            .PROGRAM_TRANSACTION_LIMITS_EXCEEDED
+                            .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
                     )
                     .returnReasonCode("string")
                     .build()

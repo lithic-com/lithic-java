@@ -24,7 +24,7 @@ constructor(
     private val externalBankAccountToken: String,
     private val financialAccountToken: String,
     private val method: Method,
-    private val methodAttributes: PaymentMethodAttributes,
+    private val methodAttributes: PaymentMethodRequestAttributes,
     private val type: Type,
     private val token: String?,
     private val memo: String?,
@@ -42,7 +42,7 @@ constructor(
 
     fun method(): Method = method
 
-    fun methodAttributes(): PaymentMethodAttributes = methodAttributes
+    fun methodAttributes(): PaymentMethodRequestAttributes = methodAttributes
 
     fun type(): Type = type
 
@@ -80,7 +80,7 @@ constructor(
         private val externalBankAccountToken: String?,
         private val financialAccountToken: String?,
         private val method: Method?,
-        private val methodAttributes: PaymentMethodAttributes?,
+        private val methodAttributes: PaymentMethodRequestAttributes?,
         private val type: Type?,
         private val token: String?,
         private val memo: String?,
@@ -101,7 +101,7 @@ constructor(
         @JsonProperty("method") fun method(): Method? = method
 
         @JsonProperty("method_attributes")
-        fun methodAttributes(): PaymentMethodAttributes? = methodAttributes
+        fun methodAttributes(): PaymentMethodRequestAttributes? = methodAttributes
 
         @JsonProperty("type") fun type(): Type? = type
 
@@ -172,7 +172,7 @@ constructor(
             private var externalBankAccountToken: String? = null
             private var financialAccountToken: String? = null
             private var method: Method? = null
-            private var methodAttributes: PaymentMethodAttributes? = null
+            private var methodAttributes: PaymentMethodRequestAttributes? = null
             private var type: Type? = null
             private var token: String? = null
             private var memo: String? = null
@@ -208,7 +208,7 @@ constructor(
             @JsonProperty("method") fun method(method: Method) = apply { this.method = method }
 
             @JsonProperty("method_attributes")
-            fun methodAttributes(methodAttributes: PaymentMethodAttributes) = apply {
+            fun methodAttributes(methodAttributes: PaymentMethodRequestAttributes) = apply {
                 this.methodAttributes = methodAttributes
             }
 
@@ -321,7 +321,7 @@ constructor(
         private var externalBankAccountToken: String? = null
         private var financialAccountToken: String? = null
         private var method: Method? = null
-        private var methodAttributes: PaymentMethodAttributes? = null
+        private var methodAttributes: PaymentMethodRequestAttributes? = null
         private var type: Type? = null
         private var token: String? = null
         private var memo: String? = null
@@ -358,7 +358,7 @@ constructor(
 
         fun method(method: Method) = apply { this.method = method }
 
-        fun methodAttributes(methodAttributes: PaymentMethodAttributes) = apply {
+        fun methodAttributes(methodAttributes: PaymentMethodRequestAttributes) = apply {
             this.methodAttributes = methodAttributes
         }
 
@@ -506,28 +506,15 @@ constructor(
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    @JsonDeserialize(builder = PaymentMethodAttributes.Builder::class)
+    @JsonDeserialize(builder = PaymentMethodRequestAttributes.Builder::class)
     @NoAutoDetect
-    class PaymentMethodAttributes
+    class PaymentMethodRequestAttributes
     private constructor(
-        private val companyId: String?,
-        private val receiptRoutingNumber: String?,
-        private val retries: Long?,
-        private val returnReasonCode: String?,
         private val secCode: SecCode?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
-
-        @JsonProperty("company_id") fun companyId(): String? = companyId
-
-        @JsonProperty("receipt_routing_number")
-        fun receiptRoutingNumber(): String? = receiptRoutingNumber
-
-        @JsonProperty("retries") fun retries(): Long? = retries
-
-        @JsonProperty("return_reason_code") fun returnReasonCode(): String? = returnReasonCode
 
         @JsonProperty("sec_code") fun secCode(): SecCode? = secCode
 
@@ -542,32 +529,20 @@ constructor(
                 return true
             }
 
-            return other is PaymentMethodAttributes &&
-                this.companyId == other.companyId &&
-                this.receiptRoutingNumber == other.receiptRoutingNumber &&
-                this.retries == other.retries &&
-                this.returnReasonCode == other.returnReasonCode &&
+            return other is PaymentMethodRequestAttributes &&
                 this.secCode == other.secCode &&
                 this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        companyId,
-                        receiptRoutingNumber,
-                        retries,
-                        returnReasonCode,
-                        secCode,
-                        additionalProperties,
-                    )
+                hashCode = Objects.hash(secCode, additionalProperties)
             }
             return hashCode
         }
 
         override fun toString() =
-            "PaymentMethodAttributes{companyId=$companyId, receiptRoutingNumber=$receiptRoutingNumber, retries=$retries, returnReasonCode=$returnReasonCode, secCode=$secCode, additionalProperties=$additionalProperties}"
+            "PaymentMethodRequestAttributes{secCode=$secCode, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -576,37 +551,15 @@ constructor(
 
         class Builder {
 
-            private var companyId: String? = null
-            private var receiptRoutingNumber: String? = null
-            private var retries: Long? = null
-            private var returnReasonCode: String? = null
             private var secCode: SecCode? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(paymentMethodAttributes: PaymentMethodAttributes) = apply {
-                this.companyId = paymentMethodAttributes.companyId
-                this.receiptRoutingNumber = paymentMethodAttributes.receiptRoutingNumber
-                this.retries = paymentMethodAttributes.retries
-                this.returnReasonCode = paymentMethodAttributes.returnReasonCode
-                this.secCode = paymentMethodAttributes.secCode
-                additionalProperties(paymentMethodAttributes.additionalProperties)
-            }
-
-            @JsonProperty("company_id")
-            fun companyId(companyId: String) = apply { this.companyId = companyId }
-
-            @JsonProperty("receipt_routing_number")
-            fun receiptRoutingNumber(receiptRoutingNumber: String) = apply {
-                this.receiptRoutingNumber = receiptRoutingNumber
-            }
-
-            @JsonProperty("retries") fun retries(retries: Long) = apply { this.retries = retries }
-
-            @JsonProperty("return_reason_code")
-            fun returnReasonCode(returnReasonCode: String) = apply {
-                this.returnReasonCode = returnReasonCode
-            }
+            internal fun from(paymentMethodRequestAttributes: PaymentMethodRequestAttributes) =
+                apply {
+                    this.secCode = paymentMethodRequestAttributes.secCode
+                    additionalProperties(paymentMethodRequestAttributes.additionalProperties)
+                }
 
             @JsonProperty("sec_code")
             fun secCode(secCode: SecCode) = apply { this.secCode = secCode }
@@ -625,14 +578,10 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): PaymentMethodAttributes =
-                PaymentMethodAttributes(
-                    companyId,
-                    receiptRoutingNumber,
-                    retries,
-                    returnReasonCode,
+            fun build(): PaymentMethodRequestAttributes =
+                PaymentMethodRequestAttributes(
                     checkNotNull(secCode) { "`secCode` is required but was not set" },
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toUnmodifiable()
                 )
         }
 

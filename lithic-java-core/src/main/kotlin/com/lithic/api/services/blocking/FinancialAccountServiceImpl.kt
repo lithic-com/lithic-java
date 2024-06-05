@@ -18,8 +18,6 @@ import com.lithic.api.services.blocking.financialAccounts.BalanceService
 import com.lithic.api.services.blocking.financialAccounts.BalanceServiceImpl
 import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
 import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionServiceImpl
-import com.lithic.api.services.blocking.financialAccounts.StatementService
-import com.lithic.api.services.blocking.financialAccounts.StatementServiceImpl
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -38,13 +36,9 @@ constructor(
         FinancialTransactionServiceImpl(clientOptions)
     }
 
-    private val statements: StatementService by lazy { StatementServiceImpl(clientOptions) }
-
     override fun balances(): BalanceService = balances
 
     override fun financialTransactions(): FinancialTransactionService = financialTransactions
-
-    override fun statements(): StatementService = statements
 
     private val createHandler: Handler<FinancialAccount> =
         jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

@@ -13,15 +13,12 @@ import com.lithic.api.models.FinancialAccountRetrieveParams
 import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.services.blocking.financialAccounts.BalanceService
 import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
-import com.lithic.api.services.blocking.financialAccounts.StatementService
 
 interface FinancialAccountService {
 
     fun balances(): BalanceService
 
     fun financialTransactions(): FinancialTransactionService
-
-    fun statements(): StatementService
 
     /** Create a new financial account */
     @JvmOverloads

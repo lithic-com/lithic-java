@@ -15,8 +15,6 @@ import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
-import com.lithic.api.services.blocking.accounts.CreditConfigurationService
-import com.lithic.api.services.blocking.accounts.CreditConfigurationServiceImpl
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -28,12 +26,6 @@ constructor(
 ) : AccountService {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
-
-    private val creditConfigurations: CreditConfigurationService by lazy {
-        CreditConfigurationServiceImpl(clientOptions)
-    }
-
-    override fun creditConfigurations(): CreditConfigurationService = creditConfigurations
 
     private val retrieveHandler: Handler<Account> =
         jsonHandler<Account>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
