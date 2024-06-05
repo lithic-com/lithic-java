@@ -80,10 +80,6 @@ constructor(
 
     private val reports: ReportServiceAsync by lazy { ReportServiceAsyncImpl(clientOptions) }
 
-    private val cardProduct: CardProductServiceAsync by lazy {
-        CardProductServiceAsyncImpl(clientOptions)
-    }
-
     private val cardPrograms: CardProgramServiceAsync by lazy {
         CardProgramServiceAsyncImpl(clientOptions)
     }
@@ -132,8 +128,6 @@ constructor(
     override fun threeDS(): ThreeDSServiceAsync = threeDS
 
     override fun reports(): ReportServiceAsync = reports
-
-    override fun cardProduct(): CardProductServiceAsync = cardProduct
 
     override fun cardPrograms(): CardProgramServiceAsync = cardPrograms
 

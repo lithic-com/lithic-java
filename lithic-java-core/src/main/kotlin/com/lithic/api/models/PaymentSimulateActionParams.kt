@@ -446,49 +446,49 @@ constructor(
         companion object {
 
             @JvmField
-            val PROGRAM_TRANSACTION_LIMITS_EXCEEDED =
+            val PROGRAM_TRANSACTION_LIMIT_EXCEEDED =
                 SupportedSimulationDeclineReasons(
-                    JsonField.of("PROGRAM_TRANSACTION_LIMITS_EXCEEDED")
+                    JsonField.of("PROGRAM_TRANSACTION_LIMIT_EXCEEDED")
                 )
 
             @JvmField
-            val PROGRAM_DAILY_LIMITS_EXCEEDED =
-                SupportedSimulationDeclineReasons(JsonField.of("PROGRAM_DAILY_LIMITS_EXCEEDED"))
+            val PROGRAM_DAILY_LIMIT_EXCEEDED =
+                SupportedSimulationDeclineReasons(JsonField.of("PROGRAM_DAILY_LIMIT_EXCEEDED"))
 
             @JvmField
-            val PROGRAM_MONTHLY_LIMITS_EXCEEDED =
-                SupportedSimulationDeclineReasons(JsonField.of("PROGRAM_MONTHLY_LIMITS_EXCEEDED"))
+            val PROGRAM_MONTHLY_LIMIT_EXCEEDED =
+                SupportedSimulationDeclineReasons(JsonField.of("PROGRAM_MONTHLY_LIMIT_EXCEEDED"))
 
             @JvmStatic
             fun of(value: String) = SupportedSimulationDeclineReasons(JsonField.of(value))
         }
 
         enum class Known {
-            PROGRAM_TRANSACTION_LIMITS_EXCEEDED,
-            PROGRAM_DAILY_LIMITS_EXCEEDED,
-            PROGRAM_MONTHLY_LIMITS_EXCEEDED,
+            PROGRAM_TRANSACTION_LIMIT_EXCEEDED,
+            PROGRAM_DAILY_LIMIT_EXCEEDED,
+            PROGRAM_MONTHLY_LIMIT_EXCEEDED,
         }
 
         enum class Value {
-            PROGRAM_TRANSACTION_LIMITS_EXCEEDED,
-            PROGRAM_DAILY_LIMITS_EXCEEDED,
-            PROGRAM_MONTHLY_LIMITS_EXCEEDED,
+            PROGRAM_TRANSACTION_LIMIT_EXCEEDED,
+            PROGRAM_DAILY_LIMIT_EXCEEDED,
+            PROGRAM_MONTHLY_LIMIT_EXCEEDED,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                PROGRAM_TRANSACTION_LIMITS_EXCEEDED -> Value.PROGRAM_TRANSACTION_LIMITS_EXCEEDED
-                PROGRAM_DAILY_LIMITS_EXCEEDED -> Value.PROGRAM_DAILY_LIMITS_EXCEEDED
-                PROGRAM_MONTHLY_LIMITS_EXCEEDED -> Value.PROGRAM_MONTHLY_LIMITS_EXCEEDED
+                PROGRAM_TRANSACTION_LIMIT_EXCEEDED -> Value.PROGRAM_TRANSACTION_LIMIT_EXCEEDED
+                PROGRAM_DAILY_LIMIT_EXCEEDED -> Value.PROGRAM_DAILY_LIMIT_EXCEEDED
+                PROGRAM_MONTHLY_LIMIT_EXCEEDED -> Value.PROGRAM_MONTHLY_LIMIT_EXCEEDED
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                PROGRAM_TRANSACTION_LIMITS_EXCEEDED -> Known.PROGRAM_TRANSACTION_LIMITS_EXCEEDED
-                PROGRAM_DAILY_LIMITS_EXCEEDED -> Known.PROGRAM_DAILY_LIMITS_EXCEEDED
-                PROGRAM_MONTHLY_LIMITS_EXCEEDED -> Known.PROGRAM_MONTHLY_LIMITS_EXCEEDED
+                PROGRAM_TRANSACTION_LIMIT_EXCEEDED -> Known.PROGRAM_TRANSACTION_LIMIT_EXCEEDED
+                PROGRAM_DAILY_LIMIT_EXCEEDED -> Known.PROGRAM_DAILY_LIMIT_EXCEEDED
+                PROGRAM_MONTHLY_LIMIT_EXCEEDED -> Known.PROGRAM_MONTHLY_LIMIT_EXCEEDED
                 else ->
                     throw LithicInvalidDataException(
                         "Unknown SupportedSimulationDeclineReasons: $value"

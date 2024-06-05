@@ -50,8 +50,6 @@ interface LithicClient {
 
     fun reports(): ReportService
 
-    fun cardProduct(): CardProductService
-
     fun cardPrograms(): CardProgramService
 
     fun digitalCardArt(): DigitalCardArtService

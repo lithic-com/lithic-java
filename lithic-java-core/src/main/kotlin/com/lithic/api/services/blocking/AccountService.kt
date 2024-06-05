@@ -12,11 +12,8 @@ import com.lithic.api.models.AccountRetrieveParams
 import com.lithic.api.models.AccountRetrieveSpendLimitsParams
 import com.lithic.api.models.AccountSpendLimits
 import com.lithic.api.models.AccountUpdateParams
-import com.lithic.api.services.blocking.accounts.CreditConfigurationService
 
 interface AccountService {
-
-    fun creditConfigurations(): CreditConfigurationService
 
     /** Get account configuration such as spend limits. */
     @JvmOverloads
