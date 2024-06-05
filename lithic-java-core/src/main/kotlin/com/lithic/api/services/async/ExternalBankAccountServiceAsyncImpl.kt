@@ -16,6 +16,8 @@ import com.lithic.api.models.ExternalBankAccountRetrieveParams
 import com.lithic.api.models.ExternalBankAccountRetrieveResponse
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsResponse
+import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
+import com.lithic.api.models.ExternalBankAccountRetryPrenoteResponse
 import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.ExternalBankAccountUpdateResponse
 import com.lithic.api.services.async.externalBankAccounts.MicroDepositServiceAsync
@@ -184,6 +186,36 @@ constructor(
             ->
             response
                 .use { retryMicroDepositsHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val retryPrenoteHandler: Handler<ExternalBankAccountRetryPrenoteResponse> =
+        jsonHandler<ExternalBankAccountRetryPrenoteResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** Retry external bank account prenote verification. */
+    override fun retryPrenote(
+        params: ExternalBankAccountRetryPrenoteParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<ExternalBankAccountRetryPrenoteResponse> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("external_bank_accounts", params.getPathParam(0), "retry_prenote")
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { retryPrenoteHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()

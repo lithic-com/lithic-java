@@ -23,15 +23,15 @@ import java.util.Optional
 @NoAutoDetect
 class Payment
 private constructor(
-    private val category: JsonField<FinancialTransaction.Category>,
+    private val category: JsonField<Category>,
     private val created: JsonField<OffsetDateTime>,
     private val currency: JsonField<String>,
     private val descriptor: JsonField<String>,
-    private val events: JsonField<List<FinancialTransaction.FinancialEvent>>,
+    private val events: JsonField<List<PaymentEvent>>,
     private val pendingAmount: JsonField<Long>,
-    private val result: JsonField<FinancialTransaction.Result>,
+    private val result: JsonField<Result>,
     private val settledAmount: JsonField<Long>,
-    private val status: JsonField<FinancialTransaction.Status>,
+    private val status: JsonField<Status>,
     private val token: JsonField<String>,
     private val updated: JsonField<OffsetDateTime>,
     private val direction: JsonField<Direction>,
@@ -48,59 +48,47 @@ private constructor(
 
     private var hashCode: Int = 0
 
-    /**
-     * Status types:
-     * - `CARD` - Issuing card transaction.
-     * - `ACH` - Transaction over ACH.
-     * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
-     */
-    fun category(): FinancialTransaction.Category = category.getRequired("category")
+    /** Payment category */
+    fun category(): Category = category.getRequired("category")
 
-    /** Date and time when the financial transaction first occurred. UTC time zone. */
+    /** Date and time when the payment first occurred. UTC time zone. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction. */
+    /** 3-digit alphabetic ISO 4217 code for the settling currency of the payment. */
     fun currency(): String = currency.getRequired("currency")
 
-    /**
-     * A string that provides a description of the financial transaction; may be useful to display
-     * to users.
-     */
+    /** A string that provides a description of the payment; may be useful to display to users. */
     fun descriptor(): String = descriptor.getRequired("descriptor")
 
-    /** A list of all financial events that have modified this financial transaction. */
-    fun events(): List<FinancialTransaction.FinancialEvent> = events.getRequired("events")
+    /** A list of all payment events that have modified this payment. */
+    fun events(): List<PaymentEvent> = events.getRequired("events")
 
     /**
-     * Pending amount of the transaction in the currency's smallest unit (e.g., cents), including
-     * any acquirer fees. The value of this field will go to zero over time once the financial
-     * transaction is settled.
+     * Pending amount of the payment in the currency's smallest unit (e.g., cents). The value of
+     * this field will go to zero over time once the payment is settled.
      */
     fun pendingAmount(): Long = pendingAmount.getRequired("pending_amount")
 
     /**
-     * APPROVED transactions were successful while DECLINED transactions were declined by user,
-     * Lithic, or the network.
+     * APPROVED payments were successful while DECLINED payments were declined by Lithic or
+     * returned.
      */
-    fun result(): FinancialTransaction.Result = result.getRequired("result")
+    fun result(): Result = result.getRequired("result")
 
     /**
-     * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
-     * cents), including any acquirer fees. This may change over time.
+     * Amount of the payment that has been settled in the currency's smallest unit (e.g., cents).
      */
     fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
 
     /**
      * Status types:
-     * - `DECLINED` - The card transaction was declined.
-     * - `EXPIRED` - Lithic reversed the card authorization as it has passed its expiration time.
-     * - `PENDING` - Authorization is pending completion from the merchant or pending release from
-     *   ACH hold period
-     * - `RETURNED` - The financial transaction has been returned.
-     * - `SETTLED` - The financial transaction is completed.
-     * - `VOIDED` - The merchant has voided the previously pending card authorization.
+     * - `DECLINED` - The payment was declined.
+     * - `PENDING` - The payment is being processed and has yet to settle or release (origination
+     *   debit).
+     * - `RETURNED` - The payment has been returned.
+     * - `SETTLED` - The payment is completed.
      */
-    fun status(): FinancialTransaction.Status = status.getRequired("status")
+    fun status(): Status = status.getRequired("status")
 
     /** Globally unique identifier. */
     fun token(): String = token.getRequired("token")
@@ -126,72 +114,45 @@ private constructor(
     fun userDefinedId(): Optional<String> =
         Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
 
-    fun toFinancialTransaction(): FinancialTransaction =
-        FinancialTransaction.builder()
-            .category(category)
-            .created(created)
-            .currency(currency)
-            .descriptor(descriptor)
-            .events(events)
-            .pendingAmount(pendingAmount)
-            .result(result)
-            .settledAmount(settledAmount)
-            .status(status)
-            .token(token)
-            .updated(updated)
-            .build()
-
-    /**
-     * Status types:
-     * - `CARD` - Issuing card transaction.
-     * - `ACH` - Transaction over ACH.
-     * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
-     */
+    /** Payment category */
     @JsonProperty("category") @ExcludeMissing fun _category() = category
 
-    /** Date and time when the financial transaction first occurred. UTC time zone. */
+    /** Date and time when the payment first occurred. UTC time zone. */
     @JsonProperty("created") @ExcludeMissing fun _created() = created
 
-    /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction. */
+    /** 3-digit alphabetic ISO 4217 code for the settling currency of the payment. */
     @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
-    /**
-     * A string that provides a description of the financial transaction; may be useful to display
-     * to users.
-     */
+    /** A string that provides a description of the payment; may be useful to display to users. */
     @JsonProperty("descriptor") @ExcludeMissing fun _descriptor() = descriptor
 
-    /** A list of all financial events that have modified this financial transaction. */
+    /** A list of all payment events that have modified this payment. */
     @JsonProperty("events") @ExcludeMissing fun _events() = events
 
     /**
-     * Pending amount of the transaction in the currency's smallest unit (e.g., cents), including
-     * any acquirer fees. The value of this field will go to zero over time once the financial
-     * transaction is settled.
+     * Pending amount of the payment in the currency's smallest unit (e.g., cents). The value of
+     * this field will go to zero over time once the payment is settled.
      */
     @JsonProperty("pending_amount") @ExcludeMissing fun _pendingAmount() = pendingAmount
 
     /**
-     * APPROVED transactions were successful while DECLINED transactions were declined by user,
-     * Lithic, or the network.
+     * APPROVED payments were successful while DECLINED payments were declined by Lithic or
+     * returned.
      */
     @JsonProperty("result") @ExcludeMissing fun _result() = result
 
     /**
-     * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
-     * cents), including any acquirer fees. This may change over time.
+     * Amount of the payment that has been settled in the currency's smallest unit (e.g., cents).
      */
     @JsonProperty("settled_amount") @ExcludeMissing fun _settledAmount() = settledAmount
 
     /**
      * Status types:
-     * - `DECLINED` - The card transaction was declined.
-     * - `EXPIRED` - Lithic reversed the card authorization as it has passed its expiration time.
-     * - `PENDING` - Authorization is pending completion from the merchant or pending release from
-     *   ACH hold period
-     * - `RETURNED` - The financial transaction has been returned.
-     * - `SETTLED` - The financial transaction is completed.
-     * - `VOIDED` - The merchant has voided the previously pending card authorization.
+     * - `DECLINED` - The payment was declined.
+     * - `PENDING` - The payment is being processed and has yet to settle or release (origination
+     *   debit).
+     * - `RETURNED` - The payment has been returned.
+     * - `SETTLED` - The payment is completed.
      */
     @JsonProperty("status") @ExcludeMissing fun _status() = status
 
@@ -314,15 +275,15 @@ private constructor(
 
     class Builder {
 
-        private var category: JsonField<FinancialTransaction.Category> = JsonMissing.of()
+        private var category: JsonField<Category> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var currency: JsonField<String> = JsonMissing.of()
         private var descriptor: JsonField<String> = JsonMissing.of()
-        private var events: JsonField<List<FinancialTransaction.FinancialEvent>> = JsonMissing.of()
+        private var events: JsonField<List<PaymentEvent>> = JsonMissing.of()
         private var pendingAmount: JsonField<Long> = JsonMissing.of()
-        private var result: JsonField<FinancialTransaction.Result> = JsonMissing.of()
+        private var result: JsonField<Result> = JsonMissing.of()
         private var settledAmount: JsonField<Long> = JsonMissing.of()
-        private var status: JsonField<FinancialTransaction.Status> = JsonMissing.of()
+        private var status: JsonField<Status> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
         private var direction: JsonField<Direction> = JsonMissing.of()
@@ -357,77 +318,59 @@ private constructor(
             additionalProperties(payment.additionalProperties)
         }
 
-        /**
-         * Status types:
-         * - `CARD` - Issuing card transaction.
-         * - `ACH` - Transaction over ACH.
-         * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
-         */
-        fun category(category: FinancialTransaction.Category) = category(JsonField.of(category))
+        /** Payment category */
+        fun category(category: Category) = category(JsonField.of(category))
 
-        /**
-         * Status types:
-         * - `CARD` - Issuing card transaction.
-         * - `ACH` - Transaction over ACH.
-         * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
-         */
+        /** Payment category */
         @JsonProperty("category")
         @ExcludeMissing
-        fun category(category: JsonField<FinancialTransaction.Category>) = apply {
-            this.category = category
-        }
+        fun category(category: JsonField<Category>) = apply { this.category = category }
 
-        /** Date and time when the financial transaction first occurred. UTC time zone. */
+        /** Date and time when the payment first occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Date and time when the financial transaction first occurred. UTC time zone. */
+        /** Date and time when the payment first occurred. UTC time zone. */
         @JsonProperty("created")
         @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-        /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction. */
+        /** 3-digit alphabetic ISO 4217 code for the settling currency of the payment. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction. */
+        /** 3-digit alphabetic ISO 4217 code for the settling currency of the payment. */
         @JsonProperty("currency")
         @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /**
-         * A string that provides a description of the financial transaction; may be useful to
-         * display to users.
+         * A string that provides a description of the payment; may be useful to display to users.
          */
         fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
 
         /**
-         * A string that provides a description of the financial transaction; may be useful to
-         * display to users.
+         * A string that provides a description of the payment; may be useful to display to users.
          */
         @JsonProperty("descriptor")
         @ExcludeMissing
         fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
-        /** A list of all financial events that have modified this financial transaction. */
-        fun events(events: List<FinancialTransaction.FinancialEvent>) = events(JsonField.of(events))
+        /** A list of all payment events that have modified this payment. */
+        fun events(events: List<PaymentEvent>) = events(JsonField.of(events))
 
-        /** A list of all financial events that have modified this financial transaction. */
+        /** A list of all payment events that have modified this payment. */
         @JsonProperty("events")
         @ExcludeMissing
-        fun events(events: JsonField<List<FinancialTransaction.FinancialEvent>>) = apply {
-            this.events = events
-        }
+        fun events(events: JsonField<List<PaymentEvent>>) = apply { this.events = events }
 
         /**
-         * Pending amount of the transaction in the currency's smallest unit (e.g., cents),
-         * including any acquirer fees. The value of this field will go to zero over time once the
-         * financial transaction is settled.
+         * Pending amount of the payment in the currency's smallest unit (e.g., cents). The value of
+         * this field will go to zero over time once the payment is settled.
          */
         fun pendingAmount(pendingAmount: Long) = pendingAmount(JsonField.of(pendingAmount))
 
         /**
-         * Pending amount of the transaction in the currency's smallest unit (e.g., cents),
-         * including any acquirer fees. The value of this field will go to zero over time once the
-         * financial transaction is settled.
+         * Pending amount of the payment in the currency's smallest unit (e.g., cents). The value of
+         * this field will go to zero over time once the payment is settled.
          */
         @JsonProperty("pending_amount")
         @ExcludeMissing
@@ -436,28 +379,28 @@ private constructor(
         }
 
         /**
-         * APPROVED transactions were successful while DECLINED transactions were declined by user,
-         * Lithic, or the network.
+         * APPROVED payments were successful while DECLINED payments were declined by Lithic or
+         * returned.
          */
-        fun result(result: FinancialTransaction.Result) = result(JsonField.of(result))
+        fun result(result: Result) = result(JsonField.of(result))
 
         /**
-         * APPROVED transactions were successful while DECLINED transactions were declined by user,
-         * Lithic, or the network.
+         * APPROVED payments were successful while DECLINED payments were declined by Lithic or
+         * returned.
          */
         @JsonProperty("result")
         @ExcludeMissing
-        fun result(result: JsonField<FinancialTransaction.Result>) = apply { this.result = result }
+        fun result(result: JsonField<Result>) = apply { this.result = result }
 
         /**
-         * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
-         * cents), including any acquirer fees. This may change over time.
+         * Amount of the payment that has been settled in the currency's smallest unit (e.g.,
+         * cents).
          */
         fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
 
         /**
-         * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
-         * cents), including any acquirer fees. This may change over time.
+         * Amount of the payment that has been settled in the currency's smallest unit (e.g.,
+         * cents).
          */
         @JsonProperty("settled_amount")
         @ExcludeMissing
@@ -467,31 +410,25 @@ private constructor(
 
         /**
          * Status types:
-         * - `DECLINED` - The card transaction was declined.
-         * - `EXPIRED` - Lithic reversed the card authorization as it has passed its expiration
-         *   time.
-         * - `PENDING` - Authorization is pending completion from the merchant or pending release
-         *   from ACH hold period
-         * - `RETURNED` - The financial transaction has been returned.
-         * - `SETTLED` - The financial transaction is completed.
-         * - `VOIDED` - The merchant has voided the previously pending card authorization.
+         * - `DECLINED` - The payment was declined.
+         * - `PENDING` - The payment is being processed and has yet to settle or release
+         *   (origination debit).
+         * - `RETURNED` - The payment has been returned.
+         * - `SETTLED` - The payment is completed.
          */
-        fun status(status: FinancialTransaction.Status) = status(JsonField.of(status))
+        fun status(status: Status) = status(JsonField.of(status))
 
         /**
          * Status types:
-         * - `DECLINED` - The card transaction was declined.
-         * - `EXPIRED` - Lithic reversed the card authorization as it has passed its expiration
-         *   time.
-         * - `PENDING` - Authorization is pending completion from the merchant or pending release
-         *   from ACH hold period
-         * - `RETURNED` - The financial transaction has been returned.
-         * - `SETTLED` - The financial transaction is completed.
-         * - `VOIDED` - The merchant has voided the previously pending card authorization.
+         * - `DECLINED` - The payment was declined.
+         * - `PENDING` - The payment is being processed and has yet to settle or release
+         *   (origination debit).
+         * - `RETURNED` - The payment has been returned.
+         * - `SETTLED` - The payment is completed.
          */
         @JsonProperty("status")
         @ExcludeMissing
-        fun status(status: JsonField<FinancialTransaction.Status>) = apply { this.status = status }
+        fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
@@ -600,6 +537,57 @@ private constructor(
             )
     }
 
+    class Category
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) : Enum {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Category && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val ACH = Category(JsonField.of("ACH"))
+
+            @JvmStatic fun of(value: String) = Category(JsonField.of(value))
+        }
+
+        enum class Known {
+            ACH,
+        }
+
+        enum class Value {
+            ACH,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                ACH -> Value.ACH
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                ACH -> Known.ACH
+                else -> throw LithicInvalidDataException("Unknown Category: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+    }
+
     class Direction
     @JsonCreator
     private constructor(
@@ -655,6 +643,572 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+    }
+
+    @JsonDeserialize(builder = PaymentEvent.Builder::class)
+    @NoAutoDetect
+    class PaymentEvent
+    private constructor(
+        private val amount: JsonField<Long>,
+        private val created: JsonField<OffsetDateTime>,
+        private val detailedResults: JsonField<List<DetailedResult>>,
+        private val result: JsonField<Result>,
+        private val token: JsonField<String>,
+        private val type: JsonField<PaymentEventType>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
+
+        private var validated: Boolean = false
+
+        private var hashCode: Int = 0
+
+        /**
+         * Amount of the financial event that has been settled in the currency's smallest unit
+         * (e.g., cents).
+         */
+        fun amount(): Long = amount.getRequired("amount")
+
+        /** Date and time when the financial event occurred. UTC time zone. */
+        fun created(): OffsetDateTime = created.getRequired("created")
+
+        /** More detailed reasons for the event */
+        fun detailedResults(): Optional<List<DetailedResult>> =
+            Optional.ofNullable(detailedResults.getNullable("detailed_results"))
+
+        /**
+         * APPROVED financial events were successful while DECLINED financial events were declined
+         * by user, Lithic, or the network.
+         */
+        fun result(): Result = result.getRequired("result")
+
+        /** Globally unique identifier. */
+        fun token(): String = token.getRequired("token")
+
+        /**
+         * Event types:
+         * - `ACH_ORIGINATION_INITIATED` - ACH origination received and pending approval/release
+         *   from an ACH hold.
+         * - `ACH_ORIGINATION_REVIEWED` - ACH origination has completed the review process.
+         * - `ACH_ORIGINATION_CANCELLED` - ACH origination has been cancelled.
+         * - `ACH_ORIGINATION_PROCESSED` - ACH origination has been processed and sent to the fed.
+         * - `ACH_ORIGINATION_SETTLED` - ACH origination has settled.
+         * - `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available
+         *   balance.
+         * - `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository Financial
+         *   Institution.
+         * - `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
+         * - `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
+         * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
+         * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+         */
+        fun type(): PaymentEventType = type.getRequired("type")
+
+        /**
+         * Amount of the financial event that has been settled in the currency's smallest unit
+         * (e.g., cents).
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+        /** Date and time when the financial event occurred. UTC time zone. */
+        @JsonProperty("created") @ExcludeMissing fun _created() = created
+
+        /** More detailed reasons for the event */
+        @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
+
+        /**
+         * APPROVED financial events were successful while DECLINED financial events were declined
+         * by user, Lithic, or the network.
+         */
+        @JsonProperty("result") @ExcludeMissing fun _result() = result
+
+        /** Globally unique identifier. */
+        @JsonProperty("token") @ExcludeMissing fun _token() = token
+
+        /**
+         * Event types:
+         * - `ACH_ORIGINATION_INITIATED` - ACH origination received and pending approval/release
+         *   from an ACH hold.
+         * - `ACH_ORIGINATION_REVIEWED` - ACH origination has completed the review process.
+         * - `ACH_ORIGINATION_CANCELLED` - ACH origination has been cancelled.
+         * - `ACH_ORIGINATION_PROCESSED` - ACH origination has been processed and sent to the fed.
+         * - `ACH_ORIGINATION_SETTLED` - ACH origination has settled.
+         * - `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available
+         *   balance.
+         * - `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository Financial
+         *   Institution.
+         * - `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
+         * - `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
+         * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
+         * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+         */
+        @JsonProperty("type") @ExcludeMissing fun _type() = type
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun validate(): PaymentEvent = apply {
+            if (!validated) {
+                amount()
+                created()
+                detailedResults()
+                result()
+                token()
+                type()
+                validated = true
+            }
+        }
+
+        fun toBuilder() = Builder().from(this)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is PaymentEvent &&
+                this.amount == other.amount &&
+                this.created == other.created &&
+                this.detailedResults == other.detailedResults &&
+                this.result == other.result &&
+                this.token == other.token &&
+                this.type == other.type &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        created,
+                        detailedResults,
+                        result,
+                        token,
+                        type,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "PaymentEvent{amount=$amount, created=$created, detailedResults=$detailedResults, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
+
+        companion object {
+
+            @JvmStatic fun builder() = Builder()
+        }
+
+        class Builder {
+
+            private var amount: JsonField<Long> = JsonMissing.of()
+            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of()
+            private var result: JsonField<Result> = JsonMissing.of()
+            private var token: JsonField<String> = JsonMissing.of()
+            private var type: JsonField<PaymentEventType> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(paymentEvent: PaymentEvent) = apply {
+                this.amount = paymentEvent.amount
+                this.created = paymentEvent.created
+                this.detailedResults = paymentEvent.detailedResults
+                this.result = paymentEvent.result
+                this.token = paymentEvent.token
+                this.type = paymentEvent.type
+                additionalProperties(paymentEvent.additionalProperties)
+            }
+
+            /**
+             * Amount of the financial event that has been settled in the currency's smallest unit
+             * (e.g., cents).
+             */
+            fun amount(amount: Long) = amount(JsonField.of(amount))
+
+            /**
+             * Amount of the financial event that has been settled in the currency's smallest unit
+             * (e.g., cents).
+             */
+            @JsonProperty("amount")
+            @ExcludeMissing
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+            /** Date and time when the financial event occurred. UTC time zone. */
+            fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+            /** Date and time when the financial event occurred. UTC time zone. */
+            @JsonProperty("created")
+            @ExcludeMissing
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+            /** More detailed reasons for the event */
+            fun detailedResults(detailedResults: List<DetailedResult>) =
+                detailedResults(JsonField.of(detailedResults))
+
+            /** More detailed reasons for the event */
+            @JsonProperty("detailed_results")
+            @ExcludeMissing
+            fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
+                this.detailedResults = detailedResults
+            }
+
+            /**
+             * APPROVED financial events were successful while DECLINED financial events were
+             * declined by user, Lithic, or the network.
+             */
+            fun result(result: Result) = result(JsonField.of(result))
+
+            /**
+             * APPROVED financial events were successful while DECLINED financial events were
+             * declined by user, Lithic, or the network.
+             */
+            @JsonProperty("result")
+            @ExcludeMissing
+            fun result(result: JsonField<Result>) = apply { this.result = result }
+
+            /** Globally unique identifier. */
+            fun token(token: String) = token(JsonField.of(token))
+
+            /** Globally unique identifier. */
+            @JsonProperty("token")
+            @ExcludeMissing
+            fun token(token: JsonField<String>) = apply { this.token = token }
+
+            /**
+             * Event types:
+             * - `ACH_ORIGINATION_INITIATED` - ACH origination received and pending approval/release
+             *   from an ACH hold.
+             * - `ACH_ORIGINATION_REVIEWED` - ACH origination has completed the review process.
+             * - `ACH_ORIGINATION_CANCELLED` - ACH origination has been cancelled.
+             * - `ACH_ORIGINATION_PROCESSED` - ACH origination has been processed and sent to the
+             *   fed.
+             * - `ACH_ORIGINATION_SETTLED` - ACH origination has settled.
+             * - `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available
+             *   balance.
+             * - `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository
+             *   Financial Institution.
+             * - `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
+             * - `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
+             * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
+             * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+             */
+            fun type(type: PaymentEventType) = type(JsonField.of(type))
+
+            /**
+             * Event types:
+             * - `ACH_ORIGINATION_INITIATED` - ACH origination received and pending approval/release
+             *   from an ACH hold.
+             * - `ACH_ORIGINATION_REVIEWED` - ACH origination has completed the review process.
+             * - `ACH_ORIGINATION_CANCELLED` - ACH origination has been cancelled.
+             * - `ACH_ORIGINATION_PROCESSED` - ACH origination has been processed and sent to the
+             *   fed.
+             * - `ACH_ORIGINATION_SETTLED` - ACH origination has settled.
+             * - `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available
+             *   balance.
+             * - `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository
+             *   Financial Institution.
+             * - `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
+             * - `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt.
+             * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
+             * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
+             */
+            @JsonProperty("type")
+            @ExcludeMissing
+            fun type(type: JsonField<PaymentEventType>) = apply { this.type = type }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            @JsonAnySetter
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                this.additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun build(): PaymentEvent =
+                PaymentEvent(
+                    amount,
+                    created,
+                    detailedResults.map { it.toUnmodifiable() },
+                    result,
+                    token,
+                    type,
+                    additionalProperties.toUnmodifiable(),
+                )
+        }
+
+        class Result
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) : Enum {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Result && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+
+                @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+
+                @JvmStatic fun of(value: String) = Result(JsonField.of(value))
+            }
+
+            enum class Known {
+                APPROVED,
+                DECLINED,
+            }
+
+            enum class Value {
+                APPROVED,
+                DECLINED,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    APPROVED -> Value.APPROVED
+                    DECLINED -> Value.DECLINED
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    APPROVED -> Known.APPROVED
+                    DECLINED -> Known.DECLINED
+                    else -> throw LithicInvalidDataException("Unknown Result: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
+
+        class PaymentEventType
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) : Enum {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is PaymentEventType && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField
+                val ACH_ORIGINATION_CANCELLED =
+                    PaymentEventType(JsonField.of("ACH_ORIGINATION_CANCELLED"))
+
+                @JvmField
+                val ACH_ORIGINATION_INITIATED =
+                    PaymentEventType(JsonField.of("ACH_ORIGINATION_INITIATED"))
+
+                @JvmField
+                val ACH_ORIGINATION_PROCESSED =
+                    PaymentEventType(JsonField.of("ACH_ORIGINATION_PROCESSED"))
+
+                @JvmField
+                val ACH_ORIGINATION_SETTLED =
+                    PaymentEventType(JsonField.of("ACH_ORIGINATION_SETTLED"))
+
+                @JvmField
+                val ACH_ORIGINATION_RELEASED =
+                    PaymentEventType(JsonField.of("ACH_ORIGINATION_RELEASED"))
+
+                @JvmField
+                val ACH_ORIGINATION_REVIEWED =
+                    PaymentEventType(JsonField.of("ACH_ORIGINATION_REVIEWED"))
+
+                @JvmField
+                val ACH_RECEIPT_PROCESSED = PaymentEventType(JsonField.of("ACH_RECEIPT_PROCESSED"))
+
+                @JvmField
+                val ACH_RECEIPT_SETTLED = PaymentEventType(JsonField.of("ACH_RECEIPT_SETTLED"))
+
+                @JvmField
+                val ACH_RETURN_INITIATED = PaymentEventType(JsonField.of("ACH_RETURN_INITIATED"))
+
+                @JvmField
+                val ACH_RETURN_PROCESSED = PaymentEventType(JsonField.of("ACH_RETURN_PROCESSED"))
+
+                @JvmStatic fun of(value: String) = PaymentEventType(JsonField.of(value))
+            }
+
+            enum class Known {
+                ACH_ORIGINATION_CANCELLED,
+                ACH_ORIGINATION_INITIATED,
+                ACH_ORIGINATION_PROCESSED,
+                ACH_ORIGINATION_SETTLED,
+                ACH_ORIGINATION_RELEASED,
+                ACH_ORIGINATION_REVIEWED,
+                ACH_RECEIPT_PROCESSED,
+                ACH_RECEIPT_SETTLED,
+                ACH_RETURN_INITIATED,
+                ACH_RETURN_PROCESSED,
+            }
+
+            enum class Value {
+                ACH_ORIGINATION_CANCELLED,
+                ACH_ORIGINATION_INITIATED,
+                ACH_ORIGINATION_PROCESSED,
+                ACH_ORIGINATION_SETTLED,
+                ACH_ORIGINATION_RELEASED,
+                ACH_ORIGINATION_REVIEWED,
+                ACH_RECEIPT_PROCESSED,
+                ACH_RECEIPT_SETTLED,
+                ACH_RETURN_INITIATED,
+                ACH_RETURN_PROCESSED,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    ACH_ORIGINATION_CANCELLED -> Value.ACH_ORIGINATION_CANCELLED
+                    ACH_ORIGINATION_INITIATED -> Value.ACH_ORIGINATION_INITIATED
+                    ACH_ORIGINATION_PROCESSED -> Value.ACH_ORIGINATION_PROCESSED
+                    ACH_ORIGINATION_SETTLED -> Value.ACH_ORIGINATION_SETTLED
+                    ACH_ORIGINATION_RELEASED -> Value.ACH_ORIGINATION_RELEASED
+                    ACH_ORIGINATION_REVIEWED -> Value.ACH_ORIGINATION_REVIEWED
+                    ACH_RECEIPT_PROCESSED -> Value.ACH_RECEIPT_PROCESSED
+                    ACH_RECEIPT_SETTLED -> Value.ACH_RECEIPT_SETTLED
+                    ACH_RETURN_INITIATED -> Value.ACH_RETURN_INITIATED
+                    ACH_RETURN_PROCESSED -> Value.ACH_RETURN_PROCESSED
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    ACH_ORIGINATION_CANCELLED -> Known.ACH_ORIGINATION_CANCELLED
+                    ACH_ORIGINATION_INITIATED -> Known.ACH_ORIGINATION_INITIATED
+                    ACH_ORIGINATION_PROCESSED -> Known.ACH_ORIGINATION_PROCESSED
+                    ACH_ORIGINATION_SETTLED -> Known.ACH_ORIGINATION_SETTLED
+                    ACH_ORIGINATION_RELEASED -> Known.ACH_ORIGINATION_RELEASED
+                    ACH_ORIGINATION_REVIEWED -> Known.ACH_ORIGINATION_REVIEWED
+                    ACH_RECEIPT_PROCESSED -> Known.ACH_RECEIPT_PROCESSED
+                    ACH_RECEIPT_SETTLED -> Known.ACH_RECEIPT_SETTLED
+                    ACH_RETURN_INITIATED -> Known.ACH_RETURN_INITIATED
+                    ACH_RETURN_PROCESSED -> Known.ACH_RETURN_PROCESSED
+                    else -> throw LithicInvalidDataException("Unknown PaymentEventType: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
+
+        class DetailedResult
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) : Enum {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is DetailedResult && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val APPROVED = DetailedResult(JsonField.of("APPROVED"))
+
+                @JvmField
+                val FUNDS_INSUFFICIENT = DetailedResult(JsonField.of("FUNDS_INSUFFICIENT"))
+
+                @JvmField val ACCOUNT_INVALID = DetailedResult(JsonField.of("ACCOUNT_INVALID"))
+
+                @JvmField
+                val PROGRAM_TRANSACTION_LIMIT_EXCEEDED =
+                    DetailedResult(JsonField.of("PROGRAM_TRANSACTION_LIMIT_EXCEEDED"))
+
+                @JvmField
+                val PROGRAM_DAILY_LIMIT_EXCEEDED =
+                    DetailedResult(JsonField.of("PROGRAM_DAILY_LIMIT_EXCEEDED"))
+
+                @JvmField
+                val PROGRAM_MONTHLY_LIMIT_EXCEEDED =
+                    DetailedResult(JsonField.of("PROGRAM_MONTHLY_LIMIT_EXCEEDED"))
+
+                @JvmStatic fun of(value: String) = DetailedResult(JsonField.of(value))
+            }
+
+            enum class Known {
+                APPROVED,
+                FUNDS_INSUFFICIENT,
+                ACCOUNT_INVALID,
+                PROGRAM_TRANSACTION_LIMIT_EXCEEDED,
+                PROGRAM_DAILY_LIMIT_EXCEEDED,
+                PROGRAM_MONTHLY_LIMIT_EXCEEDED,
+            }
+
+            enum class Value {
+                APPROVED,
+                FUNDS_INSUFFICIENT,
+                ACCOUNT_INVALID,
+                PROGRAM_TRANSACTION_LIMIT_EXCEEDED,
+                PROGRAM_DAILY_LIMIT_EXCEEDED,
+                PROGRAM_MONTHLY_LIMIT_EXCEEDED,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    APPROVED -> Value.APPROVED
+                    FUNDS_INSUFFICIENT -> Value.FUNDS_INSUFFICIENT
+                    ACCOUNT_INVALID -> Value.ACCOUNT_INVALID
+                    PROGRAM_TRANSACTION_LIMIT_EXCEEDED -> Value.PROGRAM_TRANSACTION_LIMIT_EXCEEDED
+                    PROGRAM_DAILY_LIMIT_EXCEEDED -> Value.PROGRAM_DAILY_LIMIT_EXCEEDED
+                    PROGRAM_MONTHLY_LIMIT_EXCEEDED -> Value.PROGRAM_MONTHLY_LIMIT_EXCEEDED
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    APPROVED -> Known.APPROVED
+                    FUNDS_INSUFFICIENT -> Known.FUNDS_INSUFFICIENT
+                    ACCOUNT_INVALID -> Known.ACCOUNT_INVALID
+                    PROGRAM_TRANSACTION_LIMIT_EXCEEDED -> Known.PROGRAM_TRANSACTION_LIMIT_EXCEEDED
+                    PROGRAM_DAILY_LIMIT_EXCEEDED -> Known.PROGRAM_DAILY_LIMIT_EXCEEDED
+                    PROGRAM_MONTHLY_LIMIT_EXCEEDED -> Known.PROGRAM_MONTHLY_LIMIT_EXCEEDED
+                    else -> throw LithicInvalidDataException("Unknown DetailedResult: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
     }
 
     class Method
@@ -954,6 +1508,63 @@ private constructor(
         }
     }
 
+    class Result
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) : Enum {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Result && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+
+            @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+
+            @JvmStatic fun of(value: String) = Result(JsonField.of(value))
+        }
+
+        enum class Known {
+            APPROVED,
+            DECLINED,
+        }
+
+        enum class Value {
+            APPROVED,
+            DECLINED,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                APPROVED -> Value.APPROVED
+                DECLINED -> Value.DECLINED
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                APPROVED -> Known.APPROVED
+                DECLINED -> Known.DECLINED
+                else -> throw LithicInvalidDataException("Unknown Result: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+    }
+
     class Source
     @JsonCreator
     private constructor(
@@ -1006,6 +1617,75 @@ private constructor(
                 CUSTOMER -> Known.CUSTOMER
                 LITHIC -> Known.LITHIC
                 else -> throw LithicInvalidDataException("Unknown Source: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+    }
+
+    class Status
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) : Enum {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Status && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
+
+            @JvmField val PENDING = Status(JsonField.of("PENDING"))
+
+            @JvmField val RETURNED = Status(JsonField.of("RETURNED"))
+
+            @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
+
+            @JvmStatic fun of(value: String) = Status(JsonField.of(value))
+        }
+
+        enum class Known {
+            DECLINED,
+            PENDING,
+            RETURNED,
+            SETTLED,
+        }
+
+        enum class Value {
+            DECLINED,
+            PENDING,
+            RETURNED,
+            SETTLED,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                DECLINED -> Value.DECLINED
+                PENDING -> Value.PENDING
+                RETURNED -> Value.RETURNED
+                SETTLED -> Value.SETTLED
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                DECLINED -> Known.DECLINED
+                PENDING -> Known.PENDING
+                RETURNED -> Known.RETURNED
+                SETTLED -> Known.SETTLED
+                else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

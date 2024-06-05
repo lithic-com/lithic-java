@@ -23,9 +23,6 @@ class TransferTest {
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .amount(123L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .detailedResults(
-                                listOf(Transfer.FinancialEvent.DetailedResult.APPROVED)
-                            )
                             .result(Transfer.FinancialEvent.Result.APPROVED)
                             .type(
                                 Transfer.FinancialEvent.FinancialEventType.ACH_ORIGINATION_CANCELLED
@@ -83,7 +80,6 @@ class TransferTest {
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .amount(123L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .detailedResults(listOf(Transfer.FinancialEvent.DetailedResult.APPROVED))
                     .result(Transfer.FinancialEvent.Result.APPROVED)
                     .type(Transfer.FinancialEvent.FinancialEventType.ACH_ORIGINATION_CANCELLED)
                     .build()

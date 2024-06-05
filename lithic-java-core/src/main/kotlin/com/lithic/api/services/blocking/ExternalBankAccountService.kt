@@ -13,6 +13,8 @@ import com.lithic.api.models.ExternalBankAccountRetrieveParams
 import com.lithic.api.models.ExternalBankAccountRetrieveResponse
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsParams
 import com.lithic.api.models.ExternalBankAccountRetryMicroDepositsResponse
+import com.lithic.api.models.ExternalBankAccountRetryPrenoteParams
+import com.lithic.api.models.ExternalBankAccountRetryPrenoteResponse
 import com.lithic.api.models.ExternalBankAccountUpdateParams
 import com.lithic.api.models.ExternalBankAccountUpdateResponse
 import com.lithic.api.services.blocking.externalBankAccounts.MicroDepositService
@@ -55,4 +57,11 @@ interface ExternalBankAccountService {
         params: ExternalBankAccountRetryMicroDepositsParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): ExternalBankAccountRetryMicroDepositsResponse
+
+    /** Retry external bank account prenote verification. */
+    @JvmOverloads
+    fun retryPrenote(
+        params: ExternalBankAccountRetryPrenoteParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): ExternalBankAccountRetryPrenoteResponse
 }
