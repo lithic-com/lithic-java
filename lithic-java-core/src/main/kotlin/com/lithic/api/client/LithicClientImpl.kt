@@ -77,8 +77,6 @@ constructor(
 
     private val reports: ReportService by lazy { ReportServiceImpl(clientOptions) }
 
-    private val cardProduct: CardProductService by lazy { CardProductServiceImpl(clientOptions) }
-
     private val cardPrograms: CardProgramService by lazy { CardProgramServiceImpl(clientOptions) }
 
     private val digitalCardArt: DigitalCardArtService by lazy {
@@ -124,8 +122,6 @@ constructor(
     override fun threeDS(): ThreeDSService = threeDS
 
     override fun reports(): ReportService = reports
-
-    override fun cardProduct(): CardProductService = cardProduct
 
     override fun cardPrograms(): CardProgramService = cardPrograms
 

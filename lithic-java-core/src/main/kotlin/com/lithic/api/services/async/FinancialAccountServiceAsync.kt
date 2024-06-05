@@ -13,7 +13,6 @@ import com.lithic.api.models.FinancialAccountRetrieveParams
 import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.services.async.financialAccounts.BalanceServiceAsync
 import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsync
-import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface FinancialAccountServiceAsync {
@@ -21,8 +20,6 @@ interface FinancialAccountServiceAsync {
     fun balances(): BalanceServiceAsync
 
     fun financialTransactions(): FinancialTransactionServiceAsync
-
-    fun statements(): StatementServiceAsync
 
     /** Create a new financial account */
     @JvmOverloads

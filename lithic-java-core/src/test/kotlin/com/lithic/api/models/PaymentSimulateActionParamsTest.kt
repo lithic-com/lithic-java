@@ -17,7 +17,7 @@ class PaymentSimulateActionParamsTest {
             )
             .declineReason(
                 PaymentSimulateActionParams.SupportedSimulationDeclineReasons
-                    .PROGRAM_TRANSACTION_LIMITS_EXCEEDED
+                    .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
             )
             .returnReasonCode("string")
             .build()
@@ -33,7 +33,7 @@ class PaymentSimulateActionParamsTest {
                 )
                 .declineReason(
                     PaymentSimulateActionParams.SupportedSimulationDeclineReasons
-                        .PROGRAM_TRANSACTION_LIMITS_EXCEEDED
+                        .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
                 )
                 .returnReasonCode("string")
                 .build()
@@ -46,7 +46,7 @@ class PaymentSimulateActionParamsTest {
         assertThat(body.declineReason())
             .isEqualTo(
                 PaymentSimulateActionParams.SupportedSimulationDeclineReasons
-                    .PROGRAM_TRANSACTION_LIMITS_EXCEEDED
+                    .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
             )
         assertThat(body.returnReasonCode()).isEqualTo("string")
     }

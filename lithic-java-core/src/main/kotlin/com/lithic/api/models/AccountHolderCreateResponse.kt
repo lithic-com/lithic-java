@@ -49,8 +49,12 @@ private constructor(
     fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
 
     /**
-     * KYC and KYB evaluation states. Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only
-     * applicable for the `ADVANCED` workflow.
+     * KYC and KYB evaluation states.
+     *
+     * Note:
+     * - `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only applicable for the `KYC_ADVANCED`
+     *   workflow.
+     * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
      */
     fun status(): Status = status.getRequired("status")
 
@@ -73,8 +77,12 @@ private constructor(
     @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
 
     /**
-     * KYC and KYB evaluation states. Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only
-     * applicable for the `ADVANCED` workflow.
+     * KYC and KYB evaluation states.
+     *
+     * Note:
+     * - `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only applicable for the `KYC_ADVANCED`
+     *   workflow.
+     * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
      */
     @JsonProperty("status") @ExcludeMissing fun _status() = status
 
@@ -195,14 +203,22 @@ private constructor(
         fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         /**
-         * KYC and KYB evaluation states. Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only
-         * applicable for the `ADVANCED` workflow.
+         * KYC and KYB evaluation states.
+         *
+         * Note:
+         * - `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only applicable for the `KYC_ADVANCED`
+         *   workflow.
+         * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
          */
         fun status(status: Status) = status(JsonField.of(status))
 
         /**
-         * KYC and KYB evaluation states. Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only
-         * applicable for the `ADVANCED` workflow.
+         * KYC and KYB evaluation states.
+         *
+         * Note:
+         * - `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only applicable for the `KYC_ADVANCED`
+         *   workflow.
+         * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
          */
         @JsonProperty("status")
         @ExcludeMissing
@@ -277,6 +293,8 @@ private constructor(
 
             @JvmField val ACCEPTED = Status(JsonField.of("ACCEPTED"))
 
+            @JvmField val PENDING_REVIEW = Status(JsonField.of("PENDING_REVIEW"))
+
             @JvmField val PENDING_DOCUMENT = Status(JsonField.of("PENDING_DOCUMENT"))
 
             @JvmField val PENDING_RESUBMIT = Status(JsonField.of("PENDING_RESUBMIT"))
@@ -288,6 +306,7 @@ private constructor(
 
         enum class Known {
             ACCEPTED,
+            PENDING_REVIEW,
             PENDING_DOCUMENT,
             PENDING_RESUBMIT,
             REJECTED,
@@ -295,6 +314,7 @@ private constructor(
 
         enum class Value {
             ACCEPTED,
+            PENDING_REVIEW,
             PENDING_DOCUMENT,
             PENDING_RESUBMIT,
             REJECTED,
@@ -304,6 +324,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 ACCEPTED -> Value.ACCEPTED
+                PENDING_REVIEW -> Value.PENDING_REVIEW
                 PENDING_DOCUMENT -> Value.PENDING_DOCUMENT
                 PENDING_RESUBMIT -> Value.PENDING_RESUBMIT
                 REJECTED -> Value.REJECTED
@@ -313,6 +334,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 ACCEPTED -> Known.ACCEPTED
+                PENDING_REVIEW -> Known.PENDING_REVIEW
                 PENDING_DOCUMENT -> Known.PENDING_DOCUMENT
                 PENDING_RESUBMIT -> Known.PENDING_RESUBMIT
                 REJECTED -> Known.REJECTED

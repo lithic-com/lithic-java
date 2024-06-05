@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -12,6 +13,7 @@ class AccountTest {
         val account =
             Account.builder()
                 .token("b68b7424-aa69-4cbc-a946-30d90181b621")
+                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .spendLimit(
                     Account.SpendLimit.builder().daily(123L).lifetime(123L).monthly(123L).build()
                 )
@@ -38,6 +40,7 @@ class AccountTest {
                 .build()
         assertThat(account).isNotNull
         assertThat(account.token()).isEqualTo("b68b7424-aa69-4cbc-a946-30d90181b621")
+        assertThat(account.created()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(account.spendLimit())
             .isEqualTo(
                 Account.SpendLimit.builder().daily(123L).lifetime(123L).monthly(123L).build()
