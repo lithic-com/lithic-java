@@ -41,12 +41,11 @@ constructor(
             .withErrorHandler(errorHandler)
 
     /**
-     * Run an individual or business's information through the Customer Identification Program (CIP)
-     * and return an `account_token` if the status is accepted or pending (i.e., further action
-     * required). All calls to this endpoint will return an immediate response - though in some
-     * cases, the response may indicate the workflow is under review or further action will be
-     * needed to complete the account creation process. This endpoint can only be used on accounts
-     * that are part of the program that the calling API key manages.
+     * Run an individual or business's information through the Customer Identification Program
+     * (CIP). All calls to this endpoint will return an immediate response - though in some cases,
+     * the response may indicate the enrollment is under review or further action will be needed to
+     * complete the account enrollment process. This endpoint can only be used on accounts that are
+     * part of the program that the calling API key manages.
      */
     override fun create(
         params: AccountHolderCreateParams,

@@ -32,6 +32,8 @@ class ExternalBankAccountCreateParams
 constructor(
     private val bankVerifiedCreateBankAccountApiRequest: BankVerifiedCreateBankAccountApiRequest?,
     private val plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest?,
+    private val externallyVerifiedCreateBankAccountApiRequest:
+        ExternallyVerifiedCreateBankAccountApiRequest?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
@@ -43,11 +45,16 @@ constructor(
     fun plaidCreateBankAccountApiRequest(): Optional<PlaidCreateBankAccountApiRequest> =
         Optional.ofNullable(plaidCreateBankAccountApiRequest)
 
+    fun externallyVerifiedCreateBankAccountApiRequest():
+        Optional<ExternallyVerifiedCreateBankAccountApiRequest> =
+        Optional.ofNullable(externallyVerifiedCreateBankAccountApiRequest)
+
     @JvmSynthetic
     internal fun getBody(): ExternalBankAccountCreateBody {
         return ExternalBankAccountCreateBody(
             bankVerifiedCreateBankAccountApiRequest,
-            plaidCreateBankAccountApiRequest
+            plaidCreateBankAccountApiRequest,
+            externallyVerifiedCreateBankAccountApiRequest,
         )
     }
 
@@ -63,6 +70,9 @@ constructor(
             BankVerifiedCreateBankAccountApiRequest? =
             null,
         private val plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest? = null,
+        private val externallyVerifiedCreateBankAccountApiRequest:
+            ExternallyVerifiedCreateBankAccountApiRequest? =
+            null,
         private val _json: JsonValue? = null,
     ) {
 
@@ -73,10 +83,17 @@ constructor(
         fun plaidCreateBankAccountApiRequest(): Optional<PlaidCreateBankAccountApiRequest> =
             Optional.ofNullable(plaidCreateBankAccountApiRequest)
 
+        fun externallyVerifiedCreateBankAccountApiRequest():
+            Optional<ExternallyVerifiedCreateBankAccountApiRequest> =
+            Optional.ofNullable(externallyVerifiedCreateBankAccountApiRequest)
+
         fun isBankVerifiedCreateBankAccountApiRequest(): Boolean =
             bankVerifiedCreateBankAccountApiRequest != null
 
         fun isPlaidCreateBankAccountApiRequest(): Boolean = plaidCreateBankAccountApiRequest != null
+
+        fun isExternallyVerifiedCreateBankAccountApiRequest(): Boolean =
+            externallyVerifiedCreateBankAccountApiRequest != null
 
         fun asBankVerifiedCreateBankAccountApiRequest(): BankVerifiedCreateBankAccountApiRequest =
             bankVerifiedCreateBankAccountApiRequest.getOrThrow(
@@ -85,6 +102,12 @@ constructor(
 
         fun asPlaidCreateBankAccountApiRequest(): PlaidCreateBankAccountApiRequest =
             plaidCreateBankAccountApiRequest.getOrThrow("plaidCreateBankAccountApiRequest")
+
+        fun asExternallyVerifiedCreateBankAccountApiRequest():
+            ExternallyVerifiedCreateBankAccountApiRequest =
+            externallyVerifiedCreateBankAccountApiRequest.getOrThrow(
+                "externallyVerifiedCreateBankAccountApiRequest"
+            )
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
@@ -96,6 +119,10 @@ constructor(
                     )
                 plaidCreateBankAccountApiRequest != null ->
                     visitor.visitPlaidCreateBankAccountApiRequest(plaidCreateBankAccountApiRequest)
+                externallyVerifiedCreateBankAccountApiRequest != null ->
+                    visitor.visitExternallyVerifiedCreateBankAccountApiRequest(
+                        externallyVerifiedCreateBankAccountApiRequest
+                    )
                 else -> visitor.unknown(_json)
             }
         }
@@ -108,13 +135,16 @@ constructor(
             return other is ExternalBankAccountCreateBody &&
                 this.bankVerifiedCreateBankAccountApiRequest ==
                     other.bankVerifiedCreateBankAccountApiRequest &&
-                this.plaidCreateBankAccountApiRequest == other.plaidCreateBankAccountApiRequest
+                this.plaidCreateBankAccountApiRequest == other.plaidCreateBankAccountApiRequest &&
+                this.externallyVerifiedCreateBankAccountApiRequest ==
+                    other.externallyVerifiedCreateBankAccountApiRequest
         }
 
         override fun hashCode(): Int {
             return Objects.hash(
                 bankVerifiedCreateBankAccountApiRequest,
-                plaidCreateBankAccountApiRequest
+                plaidCreateBankAccountApiRequest,
+                externallyVerifiedCreateBankAccountApiRequest,
             )
         }
 
@@ -124,6 +154,8 @@ constructor(
                     "ExternalBankAccountCreateBody{bankVerifiedCreateBankAccountApiRequest=$bankVerifiedCreateBankAccountApiRequest}"
                 plaidCreateBankAccountApiRequest != null ->
                     "ExternalBankAccountCreateBody{plaidCreateBankAccountApiRequest=$plaidCreateBankAccountApiRequest}"
+                externallyVerifiedCreateBankAccountApiRequest != null ->
+                    "ExternalBankAccountCreateBody{externallyVerifiedCreateBankAccountApiRequest=$externallyVerifiedCreateBankAccountApiRequest}"
                 _json != null -> "ExternalBankAccountCreateBody{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid ExternalBankAccountCreateBody")
             }
@@ -147,6 +179,16 @@ constructor(
                 ExternalBankAccountCreateBody(
                     plaidCreateBankAccountApiRequest = plaidCreateBankAccountApiRequest
                 )
+
+            @JvmStatic
+            fun ofExternallyVerifiedCreateBankAccountApiRequest(
+                externallyVerifiedCreateBankAccountApiRequest:
+                    ExternallyVerifiedCreateBankAccountApiRequest
+            ) =
+                ExternalBankAccountCreateBody(
+                    externallyVerifiedCreateBankAccountApiRequest =
+                        externallyVerifiedCreateBankAccountApiRequest
+                )
         }
 
         interface Visitor<out T> {
@@ -157,6 +199,11 @@ constructor(
 
             fun visitPlaidCreateBankAccountApiRequest(
                 plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest
+            ): T
+
+            fun visitExternallyVerifiedCreateBankAccountApiRequest(
+                externallyVerifiedCreateBankAccountApiRequest:
+                    ExternallyVerifiedCreateBankAccountApiRequest
             ): T
 
             fun unknown(json: JsonValue?): T {
@@ -182,6 +229,16 @@ constructor(
                         _json = json
                     )
                 }
+                tryDeserialize(
+                        node,
+                        jacksonTypeRef<ExternallyVerifiedCreateBankAccountApiRequest>()
+                    )
+                    ?.let {
+                        return ExternalBankAccountCreateBody(
+                            externallyVerifiedCreateBankAccountApiRequest = it,
+                            _json = json
+                        )
+                    }
 
                 return ExternalBankAccountCreateBody(_json = json)
             }
@@ -200,6 +257,8 @@ constructor(
                         generator.writeObject(value.bankVerifiedCreateBankAccountApiRequest)
                     value.plaidCreateBankAccountApiRequest != null ->
                         generator.writeObject(value.plaidCreateBankAccountApiRequest)
+                    value.externallyVerifiedCreateBankAccountApiRequest != null ->
+                        generator.writeObject(value.externallyVerifiedCreateBankAccountApiRequest)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid ExternalBankAccountCreateBody")
                 }
@@ -220,6 +279,8 @@ constructor(
             this.bankVerifiedCreateBankAccountApiRequest ==
                 other.bankVerifiedCreateBankAccountApiRequest &&
             this.plaidCreateBankAccountApiRequest == other.plaidCreateBankAccountApiRequest &&
+            this.externallyVerifiedCreateBankAccountApiRequest ==
+                other.externallyVerifiedCreateBankAccountApiRequest &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders
     }
@@ -228,13 +289,14 @@ constructor(
         return Objects.hash(
             bankVerifiedCreateBankAccountApiRequest,
             plaidCreateBankAccountApiRequest,
+            externallyVerifiedCreateBankAccountApiRequest,
             additionalQueryParams,
             additionalHeaders,
         )
     }
 
     override fun toString() =
-        "ExternalBankAccountCreateParams{bankVerifiedCreateBankAccountApiRequest=$bankVerifiedCreateBankAccountApiRequest, plaidCreateBankAccountApiRequest=$plaidCreateBankAccountApiRequest, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "ExternalBankAccountCreateParams{bankVerifiedCreateBankAccountApiRequest=$bankVerifiedCreateBankAccountApiRequest, plaidCreateBankAccountApiRequest=$plaidCreateBankAccountApiRequest, externallyVerifiedCreateBankAccountApiRequest=$externallyVerifiedCreateBankAccountApiRequest, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -250,6 +312,9 @@ constructor(
             BankVerifiedCreateBankAccountApiRequest? =
             null
         private var plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest? = null
+        private var externallyVerifiedCreateBankAccountApiRequest:
+            ExternallyVerifiedCreateBankAccountApiRequest? =
+            null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
@@ -260,6 +325,8 @@ constructor(
                     externalBankAccountCreateParams.bankVerifiedCreateBankAccountApiRequest
                 this.plaidCreateBankAccountApiRequest =
                     externalBankAccountCreateParams.plaidCreateBankAccountApiRequest
+                this.externallyVerifiedCreateBankAccountApiRequest =
+                    externalBankAccountCreateParams.externallyVerifiedCreateBankAccountApiRequest
                 additionalQueryParams(externalBankAccountCreateParams.additionalQueryParams)
                 additionalHeaders(externalBankAccountCreateParams.additionalHeaders)
             }
@@ -269,6 +336,7 @@ constructor(
         ) = apply {
             this.bankVerifiedCreateBankAccountApiRequest = bankVerifiedCreateBankAccountApiRequest
             this.plaidCreateBankAccountApiRequest = null
+            this.externallyVerifiedCreateBankAccountApiRequest = null
         }
 
         fun forPlaidCreateBankAccountApiRequest(
@@ -276,6 +344,17 @@ constructor(
         ) = apply {
             this.bankVerifiedCreateBankAccountApiRequest = null
             this.plaidCreateBankAccountApiRequest = plaidCreateBankAccountApiRequest
+            this.externallyVerifiedCreateBankAccountApiRequest = null
+        }
+
+        fun forExternallyVerifiedCreateBankAccountApiRequest(
+            externallyVerifiedCreateBankAccountApiRequest:
+                ExternallyVerifiedCreateBankAccountApiRequest
+        ) = apply {
+            this.bankVerifiedCreateBankAccountApiRequest = null
+            this.plaidCreateBankAccountApiRequest = null
+            this.externallyVerifiedCreateBankAccountApiRequest =
+                externallyVerifiedCreateBankAccountApiRequest
         }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
@@ -322,6 +401,7 @@ constructor(
             ExternalBankAccountCreateParams(
                 bankVerifiedCreateBankAccountApiRequest,
                 plaidCreateBankAccountApiRequest,
+                externallyVerifiedCreateBankAccountApiRequest,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
             )
@@ -390,10 +470,10 @@ constructor(
         /** Routing Number */
         @JsonProperty("routing_number") fun routingNumber(): String? = routingNumber
 
-        /** Routing Number */
+        /** Account Number */
         @JsonProperty("account_number") fun accountNumber(): String? = accountNumber
 
-        /** The nickname given to this record of External Bank Account */
+        /** The nickname for this External Bank Account */
         @JsonProperty("name") fun name(): String? = name
 
         /**
@@ -577,11 +657,11 @@ constructor(
             @JsonProperty("routing_number")
             fun routingNumber(routingNumber: String) = apply { this.routingNumber = routingNumber }
 
-            /** Routing Number */
+            /** Account Number */
             @JsonProperty("account_number")
             fun accountNumber(accountNumber: String) = apply { this.accountNumber = accountNumber }
 
-            /** The nickname given to this record of External Bank Account */
+            /** The nickname for this External Bank Account */
             @JsonProperty("name") fun name(name: String) = apply { this.name = name }
 
             /**
@@ -911,6 +991,415 @@ constructor(
                     checkNotNull(processorToken) { "`processorToken` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
+        }
+    }
+
+    @JsonDeserialize(builder = ExternallyVerifiedCreateBankAccountApiRequest.Builder::class)
+    @NoAutoDetect
+    class ExternallyVerifiedCreateBankAccountApiRequest
+    private constructor(
+        private val verificationMethod: ExternallyVerifiedVerificationMethod?,
+        private val ownerType: OwnerType?,
+        private val owner: String?,
+        private val accountToken: String?,
+        private val companyId: String?,
+        private val doingBusinessAs: String?,
+        private val dob: LocalDate?,
+        private val userDefinedId: String?,
+        private val type: Type?,
+        private val routingNumber: String?,
+        private val accountNumber: String?,
+        private val name: String?,
+        private val country: String?,
+        private val currency: String?,
+        private val address: ExternalBankAccountAddress?,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
+
+        private var hashCode: Int = 0
+
+        /** Verification Method */
+        @JsonProperty("verification_method")
+        fun verificationMethod(): ExternallyVerifiedVerificationMethod? = verificationMethod
+
+        /** Owner Type */
+        @JsonProperty("owner_type") fun ownerType(): OwnerType? = ownerType
+
+        /**
+         * Legal Name of the business or individual who owns the external account. This will appear
+         * in statements
+         */
+        @JsonProperty("owner") fun owner(): String? = owner
+
+        /**
+         * Indicates which Lithic account the external account is associated with. For external
+         * accounts that are associated with the program, account_token field returned will be null
+         */
+        @JsonProperty("account_token") fun accountToken(): String? = accountToken
+
+        /** Optional field that helps identify bank accounts in receipts */
+        @JsonProperty("company_id") fun companyId(): String? = companyId
+
+        /** Doing Business As */
+        @JsonProperty("doing_business_as") fun doingBusinessAs(): String? = doingBusinessAs
+
+        /** Date of Birth of the Individual that owns the external bank account */
+        @JsonProperty("dob") fun dob(): LocalDate? = dob
+
+        /** User Defined ID */
+        @JsonProperty("user_defined_id") fun userDefinedId(): String? = userDefinedId
+
+        /** Account Type */
+        @JsonProperty("type") fun type(): Type? = type
+
+        /** Routing Number */
+        @JsonProperty("routing_number") fun routingNumber(): String? = routingNumber
+
+        /** Account Number */
+        @JsonProperty("account_number") fun accountNumber(): String? = accountNumber
+
+        /** The nickname for this External Bank Account */
+        @JsonProperty("name") fun name(): String? = name
+
+        /**
+         * The country that the bank account is located in using ISO 3166-1. We will only accept USA
+         * bank accounts e.g., USA
+         */
+        @JsonProperty("country") fun country(): String? = country
+
+        /** currency of the external account 3-digit alphabetic ISO 4217 code */
+        @JsonProperty("currency") fun currency(): String? = currency
+
+        /** Address */
+        @JsonProperty("address") fun address(): ExternalBankAccountAddress? = address
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun toBuilder() = Builder().from(this)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ExternallyVerifiedCreateBankAccountApiRequest &&
+                this.verificationMethod == other.verificationMethod &&
+                this.ownerType == other.ownerType &&
+                this.owner == other.owner &&
+                this.accountToken == other.accountToken &&
+                this.companyId == other.companyId &&
+                this.doingBusinessAs == other.doingBusinessAs &&
+                this.dob == other.dob &&
+                this.userDefinedId == other.userDefinedId &&
+                this.type == other.type &&
+                this.routingNumber == other.routingNumber &&
+                this.accountNumber == other.accountNumber &&
+                this.name == other.name &&
+                this.country == other.country &&
+                this.currency == other.currency &&
+                this.address == other.address &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        verificationMethod,
+                        ownerType,
+                        owner,
+                        accountToken,
+                        companyId,
+                        doingBusinessAs,
+                        dob,
+                        userDefinedId,
+                        type,
+                        routingNumber,
+                        accountNumber,
+                        name,
+                        country,
+                        currency,
+                        address,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "ExternallyVerifiedCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, type=$type, routingNumber=$routingNumber, accountNumber=$accountNumber, name=$name, country=$country, currency=$currency, address=$address, additionalProperties=$additionalProperties}"
+
+        companion object {
+
+            @JvmStatic fun builder() = Builder()
+        }
+
+        class Builder {
+
+            private var verificationMethod: ExternallyVerifiedVerificationMethod? = null
+            private var ownerType: OwnerType? = null
+            private var owner: String? = null
+            private var accountToken: String? = null
+            private var companyId: String? = null
+            private var doingBusinessAs: String? = null
+            private var dob: LocalDate? = null
+            private var userDefinedId: String? = null
+            private var type: Type? = null
+            private var routingNumber: String? = null
+            private var accountNumber: String? = null
+            private var name: String? = null
+            private var country: String? = null
+            private var currency: String? = null
+            private var address: ExternalBankAccountAddress? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(
+                externallyVerifiedCreateBankAccountApiRequest:
+                    ExternallyVerifiedCreateBankAccountApiRequest
+            ) = apply {
+                this.verificationMethod =
+                    externallyVerifiedCreateBankAccountApiRequest.verificationMethod
+                this.ownerType = externallyVerifiedCreateBankAccountApiRequest.ownerType
+                this.owner = externallyVerifiedCreateBankAccountApiRequest.owner
+                this.accountToken = externallyVerifiedCreateBankAccountApiRequest.accountToken
+                this.companyId = externallyVerifiedCreateBankAccountApiRequest.companyId
+                this.doingBusinessAs = externallyVerifiedCreateBankAccountApiRequest.doingBusinessAs
+                this.dob = externallyVerifiedCreateBankAccountApiRequest.dob
+                this.userDefinedId = externallyVerifiedCreateBankAccountApiRequest.userDefinedId
+                this.type = externallyVerifiedCreateBankAccountApiRequest.type
+                this.routingNumber = externallyVerifiedCreateBankAccountApiRequest.routingNumber
+                this.accountNumber = externallyVerifiedCreateBankAccountApiRequest.accountNumber
+                this.name = externallyVerifiedCreateBankAccountApiRequest.name
+                this.country = externallyVerifiedCreateBankAccountApiRequest.country
+                this.currency = externallyVerifiedCreateBankAccountApiRequest.currency
+                this.address = externallyVerifiedCreateBankAccountApiRequest.address
+                additionalProperties(
+                    externallyVerifiedCreateBankAccountApiRequest.additionalProperties
+                )
+            }
+
+            /** Verification Method */
+            @JsonProperty("verification_method")
+            fun verificationMethod(verificationMethod: ExternallyVerifiedVerificationMethod) =
+                apply {
+                    this.verificationMethod = verificationMethod
+                }
+
+            /** Owner Type */
+            @JsonProperty("owner_type")
+            fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
+
+            /**
+             * Legal Name of the business or individual who owns the external account. This will
+             * appear in statements
+             */
+            @JsonProperty("owner") fun owner(owner: String) = apply { this.owner = owner }
+
+            /**
+             * Indicates which Lithic account the external account is associated with. For external
+             * accounts that are associated with the program, account_token field returned will be
+             * null
+             */
+            @JsonProperty("account_token")
+            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+
+            /** Optional field that helps identify bank accounts in receipts */
+            @JsonProperty("company_id")
+            fun companyId(companyId: String) = apply { this.companyId = companyId }
+
+            /** Doing Business As */
+            @JsonProperty("doing_business_as")
+            fun doingBusinessAs(doingBusinessAs: String) = apply {
+                this.doingBusinessAs = doingBusinessAs
+            }
+
+            /** Date of Birth of the Individual that owns the external bank account */
+            @JsonProperty("dob") fun dob(dob: LocalDate) = apply { this.dob = dob }
+
+            /** User Defined ID */
+            @JsonProperty("user_defined_id")
+            fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
+
+            /** Account Type */
+            @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
+
+            /** Routing Number */
+            @JsonProperty("routing_number")
+            fun routingNumber(routingNumber: String) = apply { this.routingNumber = routingNumber }
+
+            /** Account Number */
+            @JsonProperty("account_number")
+            fun accountNumber(accountNumber: String) = apply { this.accountNumber = accountNumber }
+
+            /** The nickname for this External Bank Account */
+            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
+
+            /**
+             * The country that the bank account is located in using ISO 3166-1. We will only accept
+             * USA bank accounts e.g., USA
+             */
+            @JsonProperty("country") fun country(country: String) = apply { this.country = country }
+
+            /** currency of the external account 3-digit alphabetic ISO 4217 code */
+            @JsonProperty("currency")
+            fun currency(currency: String) = apply { this.currency = currency }
+
+            /** Address */
+            @JsonProperty("address")
+            fun address(address: ExternalBankAccountAddress) = apply { this.address = address }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            @JsonAnySetter
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                this.additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun build(): ExternallyVerifiedCreateBankAccountApiRequest =
+                ExternallyVerifiedCreateBankAccountApiRequest(
+                    checkNotNull(verificationMethod) {
+                        "`verificationMethod` is required but was not set"
+                    },
+                    checkNotNull(ownerType) { "`ownerType` is required but was not set" },
+                    checkNotNull(owner) { "`owner` is required but was not set" },
+                    accountToken,
+                    companyId,
+                    doingBusinessAs,
+                    dob,
+                    userDefinedId,
+                    checkNotNull(type) { "`type` is required but was not set" },
+                    checkNotNull(routingNumber) { "`routingNumber` is required but was not set" },
+                    checkNotNull(accountNumber) { "`accountNumber` is required but was not set" },
+                    name,
+                    checkNotNull(country) { "`country` is required but was not set" },
+                    checkNotNull(currency) { "`currency` is required but was not set" },
+                    address,
+                    additionalProperties.toUnmodifiable(),
+                )
+        }
+
+        class Type
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) : Enum {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Type && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val CHECKING = Type(JsonField.of("CHECKING"))
+
+                @JvmField val SAVINGS = Type(JsonField.of("SAVINGS"))
+
+                @JvmStatic fun of(value: String) = Type(JsonField.of(value))
+            }
+
+            enum class Known {
+                CHECKING,
+                SAVINGS,
+            }
+
+            enum class Value {
+                CHECKING,
+                SAVINGS,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    CHECKING -> Value.CHECKING
+                    SAVINGS -> Value.SAVINGS
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    CHECKING -> Known.CHECKING
+                    SAVINGS -> Known.SAVINGS
+                    else -> throw LithicInvalidDataException("Unknown Type: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
+
+        class ExternallyVerifiedVerificationMethod
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) : Enum {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is ExternallyVerifiedVerificationMethod && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField
+                val EXTERNALLY_VERIFIED =
+                    ExternallyVerifiedVerificationMethod(JsonField.of("EXTERNALLY_VERIFIED"))
+
+                @JvmStatic
+                fun of(value: String) = ExternallyVerifiedVerificationMethod(JsonField.of(value))
+            }
+
+            enum class Known {
+                EXTERNALLY_VERIFIED,
+            }
+
+            enum class Value {
+                EXTERNALLY_VERIFIED,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    EXTERNALLY_VERIFIED -> Value.EXTERNALLY_VERIFIED
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    EXTERNALLY_VERIFIED -> Known.EXTERNALLY_VERIFIED
+                    else ->
+                        throw LithicInvalidDataException(
+                            "Unknown ExternallyVerifiedVerificationMethod: $value"
+                        )
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
         }
     }
 }

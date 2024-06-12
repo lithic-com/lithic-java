@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
-class PaymentListParams
+class BookTransferListParams
 constructor(
     private val begin: OffsetDateTime?,
     private val category: Category?,
@@ -84,7 +84,7 @@ constructor(
             return true
         }
 
-        return other is PaymentListParams &&
+        return other is BookTransferListParams &&
             this.begin == other.begin &&
             this.category == other.category &&
             this.end == other.end &&
@@ -117,7 +117,7 @@ constructor(
     }
 
     override fun toString() =
-        "PaymentListParams{begin=$begin, category=$category, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "BookTransferListParams{begin=$begin, category=$category, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -143,19 +143,19 @@ constructor(
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(paymentListParams: PaymentListParams) = apply {
-            this.begin = paymentListParams.begin
-            this.category = paymentListParams.category
-            this.end = paymentListParams.end
-            this.endingBefore = paymentListParams.endingBefore
-            this.financialAccountToken = paymentListParams.financialAccountToken
-            this.pageSize = paymentListParams.pageSize
-            this.result = paymentListParams.result
-            this.startingAfter = paymentListParams.startingAfter
-            this.status = paymentListParams.status
-            additionalQueryParams(paymentListParams.additionalQueryParams)
-            additionalHeaders(paymentListParams.additionalHeaders)
-            additionalBodyProperties(paymentListParams.additionalBodyProperties)
+        internal fun from(bookTransferListParams: BookTransferListParams) = apply {
+            this.begin = bookTransferListParams.begin
+            this.category = bookTransferListParams.category
+            this.end = bookTransferListParams.end
+            this.endingBefore = bookTransferListParams.endingBefore
+            this.financialAccountToken = bookTransferListParams.financialAccountToken
+            this.pageSize = bookTransferListParams.pageSize
+            this.result = bookTransferListParams.result
+            this.startingAfter = bookTransferListParams.startingAfter
+            this.status = bookTransferListParams.status
+            additionalQueryParams(bookTransferListParams.additionalQueryParams)
+            additionalHeaders(bookTransferListParams.additionalHeaders)
+            additionalBodyProperties(bookTransferListParams.additionalBodyProperties)
         }
 
         /**
@@ -164,6 +164,7 @@ constructor(
          */
         fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
 
+        /** Book Transfer category to be returned. */
         fun category(category: Category) = apply { this.category = category }
 
         /**
@@ -178,6 +179,10 @@ constructor(
          */
         fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
+        /**
+         * Globally unique identifier for the financial account or card that will send the funds.
+         * Accepted type dependent on the program's use case.
+         */
         fun financialAccountToken(financialAccountToken: String) = apply {
             this.financialAccountToken = financialAccountToken
         }
@@ -185,6 +190,7 @@ constructor(
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
 
+        /** Book transfer result to be returned. */
         fun result(result: Result) = apply { this.result = result }
 
         /**
@@ -193,6 +199,7 @@ constructor(
          */
         fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
+        /** Book transfer status to be returned. */
         fun status(status: Status) = apply { this.status = status }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
@@ -249,8 +256,8 @@ constructor(
                 this.additionalBodyProperties.putAll(additionalBodyProperties)
             }
 
-        fun build(): PaymentListParams =
-            PaymentListParams(
+        fun build(): BookTransferListParams =
+            BookTransferListParams(
                 begin,
                 category,
                 end,
@@ -288,29 +295,65 @@ constructor(
 
         companion object {
 
-            @JvmField val ACH = Category(JsonField.of("ACH"))
+            @JvmField val BALANCE_OR_FUNDING = Category(JsonField.of("BALANCE_OR_FUNDING"))
+
+            @JvmField val FEE = Category(JsonField.of("FEE"))
+
+            @JvmField val REWARD = Category(JsonField.of("REWARD"))
+
+            @JvmField val ADJUSTMENT = Category(JsonField.of("ADJUSTMENT"))
+
+            @JvmField val DERECOGNITION = Category(JsonField.of("DERECOGNITION"))
+
+            @JvmField val DISPUTE = Category(JsonField.of("DISPUTE"))
+
+            @JvmField val INTERNAL = Category(JsonField.of("INTERNAL"))
 
             @JvmStatic fun of(value: String) = Category(JsonField.of(value))
         }
 
         enum class Known {
-            ACH,
+            BALANCE_OR_FUNDING,
+            FEE,
+            REWARD,
+            ADJUSTMENT,
+            DERECOGNITION,
+            DISPUTE,
+            INTERNAL,
         }
 
         enum class Value {
-            ACH,
+            BALANCE_OR_FUNDING,
+            FEE,
+            REWARD,
+            ADJUSTMENT,
+            DERECOGNITION,
+            DISPUTE,
+            INTERNAL,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                ACH -> Value.ACH
+                BALANCE_OR_FUNDING -> Value.BALANCE_OR_FUNDING
+                FEE -> Value.FEE
+                REWARD -> Value.REWARD
+                ADJUSTMENT -> Value.ADJUSTMENT
+                DERECOGNITION -> Value.DERECOGNITION
+                DISPUTE -> Value.DISPUTE
+                INTERNAL -> Value.INTERNAL
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                ACH -> Known.ACH
+                BALANCE_OR_FUNDING -> Known.BALANCE_OR_FUNDING
+                FEE -> Known.FEE
+                REWARD -> Known.REWARD
+                ADJUSTMENT -> Known.ADJUSTMENT
+                DERECOGNITION -> Known.DERECOGNITION
+                DISPUTE -> Known.DISPUTE
+                INTERNAL -> Known.INTERNAL
                 else -> throw LithicInvalidDataException("Unknown Category: $value")
             }
 
@@ -398,10 +441,6 @@ constructor(
 
             @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
 
-            @JvmField val PENDING = Status(JsonField.of("PENDING"))
-
-            @JvmField val RETURNED = Status(JsonField.of("RETURNED"))
-
             @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
@@ -409,15 +448,11 @@ constructor(
 
         enum class Known {
             DECLINED,
-            PENDING,
-            RETURNED,
             SETTLED,
         }
 
         enum class Value {
             DECLINED,
-            PENDING,
-            RETURNED,
             SETTLED,
             _UNKNOWN,
         }
@@ -425,8 +460,6 @@ constructor(
         fun value(): Value =
             when (this) {
                 DECLINED -> Value.DECLINED
-                PENDING -> Value.PENDING
-                RETURNED -> Value.RETURNED
                 SETTLED -> Value.SETTLED
                 else -> Value._UNKNOWN
             }
@@ -434,8 +467,6 @@ constructor(
         fun known(): Known =
             when (this) {
                 DECLINED -> Known.DECLINED
-                PENDING -> Known.PENDING
-                RETURNED -> Known.RETURNED
                 SETTLED -> Known.SETTLED
                 else -> throw LithicInvalidDataException("Unknown Status: $value")
             }
