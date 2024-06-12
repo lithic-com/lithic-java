@@ -104,7 +104,7 @@ constructor(
         /** Doing Business As */
         @JsonProperty("doing_business_as") fun doingBusinessAs(): String? = doingBusinessAs
 
-        /** The nickname given to this record of External Bank Account */
+        /** The nickname for this External Bank Account */
         @JsonProperty("name") fun name(): String? = name
 
         /**
@@ -211,7 +211,7 @@ constructor(
                 this.doingBusinessAs = doingBusinessAs
             }
 
-            /** The nickname given to this record of External Bank Account */
+            /** The nickname for this External Bank Account */
             @JsonProperty("name") fun name(name: String) = apply { this.name = name }
 
             /**
@@ -362,7 +362,7 @@ constructor(
             this.doingBusinessAs = doingBusinessAs
         }
 
-        /** The nickname given to this record of External Bank Account */
+        /** The nickname for this External Bank Account */
         fun name(name: String) = apply { this.name = name }
 
         /**

@@ -57,6 +57,8 @@ interface LithicClientAsync {
 
     fun digitalCardArt(): DigitalCardArtServiceAsync
 
+    fun bookTransfers(): BookTransferServiceAsync
+
     /** Status of api */
     @JvmOverloads
     fun apiStatus(

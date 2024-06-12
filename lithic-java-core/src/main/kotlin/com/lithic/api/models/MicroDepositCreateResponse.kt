@@ -72,7 +72,7 @@ private constructor(
     /** The last 4 digits of the bank account. Derived by Lithic from the account number passed */
     fun lastFour(): String = lastFour.getRequired("last_four")
 
-    /** The nickname given to this record of External Bank Account */
+    /** The nickname for this External Bank Account */
     fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
     /** currency of the external account 3-digit alphabetic ISO 4217 code */
@@ -162,7 +162,7 @@ private constructor(
     /** The last 4 digits of the bank account. Derived by Lithic from the account number passed */
     @JsonProperty("last_four") @ExcludeMissing fun _lastFour() = lastFour
 
-    /** The nickname given to this record of External Bank Account */
+    /** The nickname for this External Bank Account */
     @JsonProperty("name") @ExcludeMissing fun _name() = name
 
     /** currency of the external account 3-digit alphabetic ISO 4217 code */
@@ -444,10 +444,10 @@ private constructor(
         @ExcludeMissing
         fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
 
-        /** The nickname given to this record of External Bank Account */
+        /** The nickname for this External Bank Account */
         fun name(name: String) = name(JsonField.of(name))
 
-        /** The nickname given to this record of External Bank Account */
+        /** The nickname for this External Bank Account */
         @JsonProperty("name")
         @ExcludeMissing
         fun name(name: JsonField<String>) = apply { this.name = name }
