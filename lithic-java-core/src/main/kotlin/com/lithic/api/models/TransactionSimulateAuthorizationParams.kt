@@ -120,7 +120,10 @@ constructor(
          */
         @JsonProperty("merchant_amount") fun merchantAmount(): Long? = merchantAmount
 
-        /** 3-digit alphabetic ISO 4217 currency code. */
+        /**
+         * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
+         * defaults to GBP if another ISO 4217 code is provided
+         */
         @JsonProperty("merchant_currency") fun merchantCurrency(): String? = merchantCurrency
 
         /**
@@ -266,7 +269,10 @@ constructor(
                 this.merchantAmount = merchantAmount
             }
 
-            /** 3-digit alphabetic ISO 4217 currency code. */
+            /**
+             * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
+             * and defaults to GBP if another ISO 4217 code is provided
+             */
             @JsonProperty("merchant_currency")
             fun merchantCurrency(merchantCurrency: String) = apply {
                 this.merchantCurrency = merchantCurrency
@@ -453,7 +459,10 @@ constructor(
          */
         fun merchantAmount(merchantAmount: Long) = apply { this.merchantAmount = merchantAmount }
 
-        /** 3-digit alphabetic ISO 4217 currency code. */
+        /**
+         * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
+         * defaults to GBP if another ISO 4217 code is provided
+         */
         fun merchantCurrency(merchantCurrency: String) = apply {
             this.merchantCurrency = merchantCurrency
         }

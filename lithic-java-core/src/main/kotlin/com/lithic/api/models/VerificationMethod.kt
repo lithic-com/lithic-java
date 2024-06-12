@@ -38,6 +38,8 @@ private constructor(
 
         @JvmField val PRENOTE = VerificationMethod(JsonField.of("PRENOTE"))
 
+        @JvmField val EXTERNALLY_VERIFIED = VerificationMethod(JsonField.of("EXTERNALLY_VERIFIED"))
+
         @JvmStatic fun of(value: String) = VerificationMethod(JsonField.of(value))
     }
 
@@ -46,6 +48,7 @@ private constructor(
         MICRO_DEPOSIT,
         PLAID,
         PRENOTE,
+        EXTERNALLY_VERIFIED,
     }
 
     enum class Value {
@@ -53,6 +56,7 @@ private constructor(
         MICRO_DEPOSIT,
         PLAID,
         PRENOTE,
+        EXTERNALLY_VERIFIED,
         _UNKNOWN,
     }
 
@@ -62,6 +66,7 @@ private constructor(
             MICRO_DEPOSIT -> Value.MICRO_DEPOSIT
             PLAID -> Value.PLAID
             PRENOTE -> Value.PRENOTE
+            EXTERNALLY_VERIFIED -> Value.EXTERNALLY_VERIFIED
             else -> Value._UNKNOWN
         }
 
@@ -71,6 +76,7 @@ private constructor(
             MICRO_DEPOSIT -> Known.MICRO_DEPOSIT
             PLAID -> Known.PLAID
             PRENOTE -> Known.PRENOTE
+            EXTERNALLY_VERIFIED -> Known.EXTERNALLY_VERIFIED
             else -> throw LithicInvalidDataException("Unknown VerificationMethod: $value")
         }
 

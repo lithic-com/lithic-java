@@ -54,6 +54,8 @@ interface LithicClient {
 
     fun digitalCardArt(): DigitalCardArtService
 
+    fun bookTransfers(): BookTransferService
+
     /** Status of api */
     @JvmOverloads
     fun apiStatus(
