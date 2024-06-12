@@ -90,6 +90,10 @@ constructor(
         DigitalCardArtServiceAsyncImpl(clientOptions)
     }
 
+    private val bookTransfers: BookTransferServiceAsync by lazy {
+        BookTransferServiceAsyncImpl(clientOptions)
+    }
+
     override fun sync(): LithicClient = sync
 
     override fun accounts(): AccountServiceAsync = accounts
@@ -136,6 +140,8 @@ constructor(
     override fun cardPrograms(): CardProgramServiceAsync = cardPrograms
 
     override fun digitalCardArt(): DigitalCardArtServiceAsync = digitalCardArt
+
+    override fun bookTransfers(): BookTransferServiceAsync = bookTransfers
 
     private val apiStatusHandler: Handler<ApiStatus> =
         jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
