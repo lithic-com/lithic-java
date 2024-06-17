@@ -40,6 +40,7 @@ constructor(
                     "financial_transactions",
                     params.getPathParam(1)
                 )
+                .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
@@ -72,6 +73,7 @@ constructor(
                     params.getPathParam(0),
                     "financial_transactions"
                 )
+                .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
                 .putAllHeaders(params.getHeaders())
