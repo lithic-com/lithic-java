@@ -18,6 +18,7 @@ private constructor(
     @get:JvmName("apiKey") val apiKey: String,
     @get:JvmName("webhookSecret") val webhookSecret: String?,
     @get:JvmName("headers") val headers: ListMultimap<String, String>,
+    @get:JvmName("queryParams") val queryParams: ListMultimap<String, String>,
     @get:JvmName("responseValidation") val responseValidation: Boolean,
 ) {
 
@@ -39,6 +40,7 @@ private constructor(
         private var clock: Clock = Clock.systemUTC()
         private var baseUrl: String = PRODUCTION_URL
         private var headers: MutableMap<String, MutableList<String>> = mutableMapOf()
+        private var queryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var responseValidation: Boolean = false
         private var maxRetries: Int = 2
         private var apiKey: String? = null
@@ -71,6 +73,25 @@ private constructor(
 
         fun removeHeader(name: String) = apply { this.headers.put(name, mutableListOf()) }
 
+        fun queryParams(queryParams: Map<String, Iterable<String>>) = apply {
+            this.queryParams.clear()
+            putAllQueryParams(queryParams)
+        }
+
+        fun putQueryParam(name: String, value: String) = apply {
+            this.queryParams.getOrPut(name) { mutableListOf() }.add(value)
+        }
+
+        fun putQueryParams(name: String, values: Iterable<String>) = apply {
+            this.queryParams.getOrPut(name) { mutableListOf() }.addAll(values)
+        }
+
+        fun putAllQueryParams(queryParams: Map<String, Iterable<String>>) = apply {
+            queryParams.forEach(this::putQueryParams)
+        }
+
+        fun removeQueryParam(name: String) = apply { this.queryParams.put(name, mutableListOf()) }
+
         fun responseValidation(responseValidation: Boolean) = apply {
             this.responseValidation = responseValidation
         }
@@ -91,6 +112,7 @@ private constructor(
             checkNotNull(apiKey) { "`apiKey` is required but was not set" }
 
             val headers = ArrayListMultimap.create<String, String>()
+            val queryParams = ArrayListMultimap.create<String, String>()
             headers.put("X-Stainless-Lang", "java")
             headers.put("X-Stainless-Arch", getOsArch())
             headers.put("X-Stainless-OS", getOsName())
@@ -98,8 +120,11 @@ private constructor(
             headers.put("X-Stainless-Package-Version", getPackageVersion())
             headers.put("X-Stainless-Runtime-Version", getJavaVersion())
             headers.put("X-Lithic-Pagination", "cursor")
-            headers.put("Authorization", apiKey)
+            if (!apiKey.isNullOrEmpty()) {
+                headers.put("Authorization", apiKey)
+            }
             this.headers.forEach(headers::replaceValues)
+            this.queryParams.forEach(queryParams::replaceValues)
 
             return ClientOptions(
                 RetryingHttpClient.builder()
@@ -113,6 +138,7 @@ private constructor(
                 apiKey!!,
                 webhookSecret,
                 headers.toUnmodifiable(),
+                queryParams.toUnmodifiable(),
                 responseValidation,
             )
         }
