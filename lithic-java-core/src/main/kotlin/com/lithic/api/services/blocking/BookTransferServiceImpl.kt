@@ -13,6 +13,7 @@ import com.lithic.api.models.BookTransferListPage
 import com.lithic.api.models.BookTransferListParams
 import com.lithic.api.models.BookTransferResponse
 import com.lithic.api.models.BookTransferRetrieveParams
+import com.lithic.api.models.BookTransferReverseParams
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -111,6 +112,35 @@ constructor(
                     }
                 }
                 .let { BookTransferListPage.of(this, params, it) }
+        }
+    }
+
+    private val reverseHandler: Handler<BookTransferResponse> =
+        jsonHandler<BookTransferResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+    /** Reverse a book transfer */
+    override fun reverse(
+        params: BookTransferReverseParams,
+        requestOptions: RequestOptions
+    ): BookTransferResponse {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("book_transfers", params.getPathParam(0), "reverse")
+                .putAllQueryParams(clientOptions.queryParams)
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { reverseHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
         }
     }
 }

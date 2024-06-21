@@ -67,4 +67,23 @@ class BookTransferServiceTest {
         println(response)
         response.data().forEach { it.validate() }
     }
+
+    @Test
+    fun callReverse() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val bookTransferService = client.bookTransfers()
+        val bookTransferResponse =
+            bookTransferService.reverse(
+                BookTransferReverseParams.builder()
+                    .bookTransferToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .memo("string")
+                    .build()
+            )
+        println(bookTransferResponse)
+        bookTransferResponse.validate()
+    }
 }
