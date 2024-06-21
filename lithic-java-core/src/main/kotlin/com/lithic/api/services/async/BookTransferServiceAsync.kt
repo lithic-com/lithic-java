@@ -10,6 +10,7 @@ import com.lithic.api.models.BookTransferListPageAsync
 import com.lithic.api.models.BookTransferListParams
 import com.lithic.api.models.BookTransferResponse
 import com.lithic.api.models.BookTransferRetrieveParams
+import com.lithic.api.models.BookTransferReverseParams
 import java.util.concurrent.CompletableFuture
 
 interface BookTransferServiceAsync {
@@ -36,4 +37,11 @@ interface BookTransferServiceAsync {
         params: BookTransferListParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<BookTransferListPageAsync>
+
+    /** Reverse a book transfer */
+    @JvmOverloads
+    fun reverse(
+        params: BookTransferReverseParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): CompletableFuture<BookTransferResponse>
 }
