@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.39.0 (2024-06-21)
+
+Full Changelog: [v0.38.0...v0.39.0](https://github.com/lithic-com/lithic-java/compare/v0.38.0...v0.39.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** remove unused event type 'statement.created'
+* **api:** remove unused business account type
+* **api:** remove unused embed request params type
+* **api:** updates ([#241](https://github.com/lithic-com/lithic-java/issues/241))
+
+### Features
+
+* **api:** add 'reverse' method for book transfers ([fbc75e3](https://github.com/lithic-com/lithic-java/commit/fbc75e3123ca33b65e78d7f5aa777b2efc5d8916))
+* **api:** add field 'trace numbers' to payment method attribute model ([fbc75e3](https://github.com/lithic-com/lithic-java/commit/fbc75e3123ca33b65e78d7f5aa777b2efc5d8916))
+* **api:** remove unused business account type ([fbc75e3](https://github.com/lithic-com/lithic-java/commit/fbc75e3123ca33b65e78d7f5aa777b2efc5d8916))
+* **api:** remove unused embed request params type ([fbc75e3](https://github.com/lithic-com/lithic-java/commit/fbc75e3123ca33b65e78d7f5aa777b2efc5d8916))
+* **api:** remove unused event type 'statement.created' ([fbc75e3](https://github.com/lithic-com/lithic-java/commit/fbc75e3123ca33b65e78d7f5aa777b2efc5d8916))
+* **api:** updates ([#241](https://github.com/lithic-com/lithic-java/issues/241)) ([fbc75e3](https://github.com/lithic-com/lithic-java/commit/fbc75e3123ca33b65e78d7f5aa777b2efc5d8916))
+* **client:** add support for `putQueryParam` on `ClientOptions` ([#239](https://github.com/lithic-com/lithic-java/issues/239)) ([2ed6c39](https://github.com/lithic-com/lithic-java/commit/2ed6c39b61ab95a9adb70ce6337eb94426dc9ee0))
+
 ## 0.38.0 (2024-06-12)
 
 Full Changelog: [v0.37.0...v0.38.0](https://github.com/lithic-com/lithic-java/compare/v0.37.0...v0.38.0)
