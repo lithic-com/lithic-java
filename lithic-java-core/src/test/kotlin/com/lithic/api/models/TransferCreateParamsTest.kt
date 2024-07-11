@@ -15,7 +15,7 @@ class TransferCreateParamsTest {
             .from("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .to("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .memo("string")
+            .memo("memo")
             .build()
     }
 
@@ -27,7 +27,7 @@ class TransferCreateParamsTest {
                 .from("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .to("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .memo("string")
+                .memo("memo")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -35,7 +35,7 @@ class TransferCreateParamsTest {
         assertThat(body.from()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.to()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.memo()).isEqualTo("string")
+        assertThat(body.memo()).isEqualTo("memo")
     }
 
     @Test

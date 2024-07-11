@@ -11,8 +11,8 @@ class CardAggregateBalanceListParamsTest {
     @Test
     fun createCardAggregateBalanceListParams() {
         CardAggregateBalanceListParams.builder()
-            .accountToken("string")
-            .businessAccountToken("string")
+            .accountToken("account_token")
+            .businessAccountToken("business_account_token")
             .build()
     }
 
@@ -20,12 +20,12 @@ class CardAggregateBalanceListParamsTest {
     fun getQueryParams() {
         val params =
             CardAggregateBalanceListParams.builder()
-                .accountToken("string")
-                .businessAccountToken("string")
+                .accountToken("account_token")
+                .businessAccountToken("business_account_token")
                 .build()
         val expected = mutableMapOf<String, List<String>>()
-        expected.put("account_token", listOf("string"))
-        expected.put("business_account_token", listOf("string"))
+        expected.put("account_token", listOf("account_token"))
+        expected.put("business_account_token", listOf("business_account_token"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 

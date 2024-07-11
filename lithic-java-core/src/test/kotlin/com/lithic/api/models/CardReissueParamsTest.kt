@@ -12,8 +12,8 @@ class CardReissueParamsTest {
     fun createCardReissueParams() {
         CardReissueParams.builder()
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .carrier(Carrier.builder().qrCodeUrl("string").build())
-            .productId("string")
+            .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+            .productId("product_id")
             .shippingAddress(
                 ShippingAddress.builder()
                     .address1("5 Broad Street")
@@ -38,8 +38,8 @@ class CardReissueParamsTest {
         val params =
             CardReissueParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .carrier(Carrier.builder().qrCodeUrl("string").build())
-                .productId("string")
+                .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                .productId("product_id")
                 .shippingAddress(
                     ShippingAddress.builder()
                         .address1("5 Broad Street")
@@ -59,8 +59,8 @@ class CardReissueParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.carrier()).isEqualTo(Carrier.builder().qrCodeUrl("string").build())
-        assertThat(body.productId()).isEqualTo("string")
+        assertThat(body.carrier()).isEqualTo(Carrier.builder().qrCodeUrl("qr_code_url").build())
+        assertThat(body.productId()).isEqualTo("product_id")
         assertThat(body.shippingAddress())
             .isEqualTo(
                 ShippingAddress.builder()

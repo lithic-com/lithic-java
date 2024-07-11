@@ -16,9 +16,9 @@ class CardFinancialTransactionListParamsTest {
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .category(CardFinancialTransactionListParams.Category.CARD)
             .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-            .endingBefore("string")
+            .endingBefore("ending_before")
             .result(CardFinancialTransactionListParams.Result.APPROVED)
-            .startingAfter("string")
+            .startingAfter("starting_after")
             .status(CardFinancialTransactionListParams.Status.DECLINED)
             .build()
     }
@@ -31,9 +31,9 @@ class CardFinancialTransactionListParamsTest {
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .category(CardFinancialTransactionListParams.Category.CARD)
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .endingBefore("string")
+                .endingBefore("ending_before")
                 .result(CardFinancialTransactionListParams.Result.APPROVED)
-                .startingAfter("string")
+                .startingAfter("starting_after")
                 .status(CardFinancialTransactionListParams.Status.DECLINED)
                 .build()
         val expected = mutableMapOf<String, List<String>>()
@@ -43,12 +43,12 @@ class CardFinancialTransactionListParamsTest {
             listOf(CardFinancialTransactionListParams.Category.CARD.toString())
         )
         expected.put("end", listOf("2019-12-27T18:11:19.117Z"))
-        expected.put("ending_before", listOf("string"))
+        expected.put("ending_before", listOf("ending_before"))
         expected.put(
             "result",
             listOf(CardFinancialTransactionListParams.Result.APPROVED.toString())
         )
-        expected.put("starting_after", listOf("string"))
+        expected.put("starting_after", listOf("starting_after"))
         expected.put(
             "status",
             listOf(CardFinancialTransactionListParams.Status.DECLINED.toString())
