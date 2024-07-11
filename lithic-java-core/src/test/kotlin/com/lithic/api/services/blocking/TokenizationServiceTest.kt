@@ -44,6 +44,70 @@ class TokenizationServiceTest {
     }
 
     @Test
+    fun callActivate() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val tokenizationService = client.tokenizations()
+        tokenizationService.activate(
+            TokenizationActivateParams.builder()
+                .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+        )
+    }
+
+    @Test
+    fun callDeactivate() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val tokenizationService = client.tokenizations()
+        tokenizationService.deactivate(
+            TokenizationDeactivateParams.builder()
+                .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+        )
+    }
+
+    @Test
+    fun callPause() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val tokenizationService = client.tokenizations()
+        tokenizationService.pause(
+            TokenizationPauseParams.builder()
+                .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+        )
+    }
+
+    @Test
+    fun callResendActivationCode() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val tokenizationService = client.tokenizations()
+        tokenizationService.resendActivationCode(
+            TokenizationResendActivationCodeParams.builder()
+                .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .activationMethodType(
+                    TokenizationResendActivationCodeParams.ActivationMethodType
+                        .EMAIL_TO_CARDHOLDER_ADDRESS
+                )
+                .build()
+        )
+    }
+
+    @Test
     fun callSimulate() {
         val client =
             LithicOkHttpClient.builder()
@@ -67,5 +131,39 @@ class TokenizationServiceTest {
             )
         println(tokenizationSimulateResponse)
         tokenizationSimulateResponse.validate()
+    }
+
+    @Test
+    fun callUnpause() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val tokenizationService = client.tokenizations()
+        tokenizationService.unpause(
+            TokenizationUnpauseParams.builder()
+                .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+        )
+    }
+
+    @Test
+    fun callUpdateDigitalCardArt() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val tokenizationService = client.tokenizations()
+        val tokenizationUpdateDigitalCardArtResponse =
+            tokenizationService.updateDigitalCardArt(
+                TokenizationUpdateDigitalCardArtParams.builder()
+                    .tokenizationToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+        println(tokenizationUpdateDigitalCardArtResponse)
+        tokenizationUpdateDigitalCardArtResponse.validate()
     }
 }

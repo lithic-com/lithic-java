@@ -723,7 +723,9 @@ constructor(
                     checkNotNull(currency) { "`currency` is required but was not set" },
                     verificationEnforcement,
                     address,
-                    financialAccountToken,
+                    checkNotNull(financialAccountToken) {
+                        "`financialAccountToken` is required but was not set"
+                    },
                     additionalProperties.toUnmodifiable(),
                 )
         }
