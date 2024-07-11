@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.40.0 (2024-07-11)
+
+Full Changelog: [v0.39.1...v0.40.0](https://github.com/lithic-com/lithic-java/compare/v0.39.1...v0.40.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** param 'financial account token` when creating an external bank account is now required ([#247](https://github.com/lithic-com/lithic-java/issues/247))
+
+### Features
+
+* **api:** param 'financial account token` when creating an external bank account is now required ([#247](https://github.com/lithic-com/lithic-java/issues/247)) ([7b8108b](https://github.com/lithic-com/lithic-java/commit/7b8108be4b7e1374550b11940a3f81d9a7711e6b))
+
 ## 0.39.1 (2024-07-11)
 
 Full Changelog: [v0.39.0...v0.39.1](https://github.com/lithic-com/lithic-java/compare/v0.39.0...v0.39.1)
