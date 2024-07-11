@@ -16,7 +16,7 @@ class DisputeCreateParamsTest {
             .reason(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)
             .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-            .customerNote("string")
+            .customerNote("customer_note")
             .build()
     }
 
@@ -28,7 +28,7 @@ class DisputeCreateParamsTest {
                 .reason(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)
                 .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .customerNote("string")
+                .customerNote("customer_note")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -37,7 +37,7 @@ class DisputeCreateParamsTest {
         assertThat(body.transactionToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.customerFiledDate())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(body.customerNote()).isEqualTo("string")
+        assertThat(body.customerNote()).isEqualTo("customer_note")
     }
 
     @Test

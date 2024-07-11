@@ -19,7 +19,7 @@ class PaymentSimulateActionParamsTest {
                 PaymentSimulateActionParams.SupportedSimulationDeclineReasons
                     .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
             )
-            .returnReasonCode("string")
+            .returnReasonCode("return_reason_code")
             .build()
     }
 
@@ -35,7 +35,7 @@ class PaymentSimulateActionParamsTest {
                     PaymentSimulateActionParams.SupportedSimulationDeclineReasons
                         .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
                 )
-                .returnReasonCode("string")
+                .returnReasonCode("return_reason_code")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -48,7 +48,7 @@ class PaymentSimulateActionParamsTest {
                 PaymentSimulateActionParams.SupportedSimulationDeclineReasons
                     .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
             )
-        assertThat(body.returnReasonCode()).isEqualTo("string")
+        assertThat(body.returnReasonCode()).isEqualTo("return_reason_code")
     }
 
     @Test

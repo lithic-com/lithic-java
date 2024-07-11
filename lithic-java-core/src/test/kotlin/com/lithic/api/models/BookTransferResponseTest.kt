@@ -16,17 +16,17 @@ class BookTransferResponseTest {
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .category(BookTransferResponse.Category.ADJUSTMENT)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .currency("string")
+                .currency("currency")
                 .events(
                     listOf(
                         BookTransferResponse.BookTransferEvent.builder()
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .amount(123L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .memo("string")
+                            .memo("memo")
                             .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
-                            .subtype("string")
-                            .type("string")
+                            .subtype("subtype")
+                            .type("type")
                             .detailedResults(
                                 listOf(
                                     BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED
@@ -49,17 +49,17 @@ class BookTransferResponseTest {
             .isEqualTo(BookTransferResponse.Category.ADJUSTMENT)
         assertThat(bookTransferResponse.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(bookTransferResponse.currency()).isEqualTo("string")
+        assertThat(bookTransferResponse.currency()).isEqualTo("currency")
         assertThat(bookTransferResponse.events())
             .containsExactly(
                 BookTransferResponse.BookTransferEvent.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .amount(123L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .memo("string")
+                    .memo("memo")
                     .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
-                    .subtype("string")
-                    .type("string")
+                    .subtype("subtype")
+                    .type("type")
                     .detailedResults(
                         listOf(BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED)
                     )

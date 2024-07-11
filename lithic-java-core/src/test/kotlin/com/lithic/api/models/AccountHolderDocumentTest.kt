@@ -25,7 +25,7 @@ class AccountHolderDocumentTest {
                                         .BACK_IMAGE_BLURRY
                                 )
                             )
-                            .uploadUrl("string")
+                            .uploadUrl("upload_url")
                             .build()
                     )
                 )
@@ -47,7 +47,7 @@ class AccountHolderDocumentTest {
                                 .BACK_IMAGE_BLURRY
                         )
                     )
-                    .uploadUrl("string")
+                    .uploadUrl("upload_url")
                     .build()
             )
     }

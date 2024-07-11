@@ -12,7 +12,7 @@ class EventSubscriptionCreateParamsTest {
     fun createEventSubscriptionCreateParams() {
         EventSubscriptionCreateParams.builder()
             .url("https://example.com")
-            .description("string")
+            .description("description")
             .disabled(true)
             .eventTypes(listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED))
             .build()
@@ -23,14 +23,14 @@ class EventSubscriptionCreateParamsTest {
         val params =
             EventSubscriptionCreateParams.builder()
                 .url("https://example.com")
-                .description("string")
+                .description("description")
                 .disabled(true)
                 .eventTypes(listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED))
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.url()).isEqualTo("https://example.com")
-        assertThat(body.description()).isEqualTo("string")
+        assertThat(body.description()).isEqualTo("description")
         assertThat(body.disabled()).isEqualTo(true)
         assertThat(body.eventTypes())
             .isEqualTo(listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED))

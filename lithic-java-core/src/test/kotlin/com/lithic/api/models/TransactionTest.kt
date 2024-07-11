@@ -18,7 +18,7 @@ class TransactionTest {
                 .amount(123L)
                 .authorizationAmount(123L)
                 .authorizationCode("123456")
-                .avs(Transaction.Avs.builder().address("string").zipcode("string").build())
+                .avs(Transaction.Avs.builder().address("address").zipcode("zipcode").build())
                 .cardToken("19c22c47-7a75-43ee-9891-595419830f7e")
                 .created(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
                 .events(
@@ -117,7 +117,7 @@ class TransactionTest {
         assertThat(transaction.authorizationAmount()).contains(123L)
         assertThat(transaction.authorizationCode()).contains("123456")
         assertThat(transaction.avs())
-            .contains(Transaction.Avs.builder().address("string").zipcode("string").build())
+            .contains(Transaction.Avs.builder().address("address").zipcode("zipcode").build())
         assertThat(transaction.cardToken()).isEqualTo("19c22c47-7a75-43ee-9891-595419830f7e")
         assertThat(transaction.created())
             .isEqualTo(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))

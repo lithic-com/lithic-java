@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.39.1 (2024-07-11)
+
+Full Changelog: [v0.39.0...v0.39.1](https://github.com/lithic-com/lithic-java/compare/v0.39.0...v0.39.1)
+
+### Chores
+
+* **ci:** also run workflows for PRs targeting `next` ([#245](https://github.com/lithic-com/lithic-java/issues/245)) ([c54f42d](https://github.com/lithic-com/lithic-java/commit/c54f42dcfacd308ca991622ddc48cb336b3603d6))
+* **docs:** document minimum Java version (Java 8) in README ([#244](https://github.com/lithic-com/lithic-java/issues/244)) ([a2abfe0](https://github.com/lithic-com/lithic-java/commit/a2abfe022b630885c368234d402777e943738929))
+* gitignore test server logs ([#242](https://github.com/lithic-com/lithic-java/issues/242)) ([d162867](https://github.com/lithic-com/lithic-java/commit/d16286734a7dc979c021e1ca77554aba9277b3d3))
+
+
+### Documentation
+
+* **examples:** update example values ([#246](https://github.com/lithic-com/lithic-java/issues/246)) ([3a5e4b0](https://github.com/lithic-com/lithic-java/commit/3a5e4b081842ec1c391f114e28cac5223c957dc0))
+
 ## 0.39.0 (2024-06-21)
 
 Full Changelog: [v0.38.0...v0.39.0](https://github.com/lithic-com/lithic-java/compare/v0.38.0...v0.39.0)

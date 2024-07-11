@@ -15,8 +15,8 @@ class FinancialTransactionTest {
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .category(FinancialTransaction.Category.ACH)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .currency("string")
-                .descriptor("string")
+                .currency("currency")
+                .descriptor("descriptor")
                 .events(
                     listOf(
                         FinancialTransaction.FinancialEvent.builder()
@@ -42,8 +42,8 @@ class FinancialTransactionTest {
         assertThat(financialTransaction.category()).isEqualTo(FinancialTransaction.Category.ACH)
         assertThat(financialTransaction.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(financialTransaction.currency()).isEqualTo("string")
-        assertThat(financialTransaction.descriptor()).isEqualTo("string")
+        assertThat(financialTransaction.currency()).isEqualTo("currency")
+        assertThat(financialTransaction.descriptor()).isEqualTo("descriptor")
         assertThat(financialTransaction.events())
             .containsExactly(
                 FinancialTransaction.FinancialEvent.builder()

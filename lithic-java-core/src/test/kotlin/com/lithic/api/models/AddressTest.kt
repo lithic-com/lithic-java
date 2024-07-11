@@ -16,7 +16,7 @@ class AddressTest {
                 .country("USA")
                 .postalCode("68022")
                 .state("NE")
-                .address2("string")
+                .address2("address2")
                 .build()
         assertThat(address).isNotNull
         assertThat(address.address1()).isEqualTo("123 Old Forest Way")
@@ -24,6 +24,6 @@ class AddressTest {
         assertThat(address.country()).isEqualTo("USA")
         assertThat(address.postalCode()).isEqualTo("68022")
         assertThat(address.state()).isEqualTo("NE")
-        assertThat(address.address2()).contains("string")
+        assertThat(address.address2()).contains("address2")
     }
 }

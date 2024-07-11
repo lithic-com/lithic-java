@@ -12,7 +12,7 @@ class BookTransferReverseParamsTest {
     fun createBookTransferReverseParams() {
         BookTransferReverseParams.builder()
             .bookTransferToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .memo("string")
+            .memo("memo")
             .build()
     }
 
@@ -21,11 +21,11 @@ class BookTransferReverseParamsTest {
         val params =
             BookTransferReverseParams.builder()
                 .bookTransferToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .memo("string")
+                .memo("memo")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.memo()).isEqualTo("string")
+        assertThat(body.memo()).isEqualTo("memo")
     }
 
     @Test

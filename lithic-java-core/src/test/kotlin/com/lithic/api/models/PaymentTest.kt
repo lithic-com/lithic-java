@@ -15,8 +15,8 @@ class PaymentTest {
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .category(Payment.Category.ACH)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .currency("string")
-                .descriptor("string")
+                .currency("currency")
+                .descriptor("descriptor")
                 .direction(Payment.Direction.CREDIT)
                 .events(
                     listOf(
@@ -35,10 +35,10 @@ class PaymentTest {
                 .method(Payment.Method.ACH_NEXT_DAY)
                 .methodAttributes(
                     Payment.PaymentMethodAttributes.builder()
-                        .companyId("string")
-                        .receiptRoutingNumber("string")
+                        .companyId("company_id")
+                        .receiptRoutingNumber("receipt_routing_number")
                         .retries(123L)
-                        .returnReasonCode("string")
+                        .returnReasonCode("return_reason_code")
                         .secCode(Payment.PaymentMethodAttributes.SecCode.CCD)
                         .traceNumbers(listOf("string"))
                         .build()
@@ -49,14 +49,14 @@ class PaymentTest {
                 .source(Payment.Source.CUSTOMER)
                 .status(Payment.Status.DECLINED)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .userDefinedId("string")
+                .userDefinedId("user_defined_id")
                 .build()
         assertThat(payment).isNotNull
         assertThat(payment.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(payment.category()).isEqualTo(Payment.Category.ACH)
         assertThat(payment.created()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(payment.currency()).isEqualTo("string")
-        assertThat(payment.descriptor()).isEqualTo("string")
+        assertThat(payment.currency()).isEqualTo("currency")
+        assertThat(payment.descriptor()).isEqualTo("descriptor")
         assertThat(payment.direction()).isEqualTo(Payment.Direction.CREDIT)
         assertThat(payment.events())
             .containsExactly(
@@ -77,10 +77,10 @@ class PaymentTest {
         assertThat(payment.methodAttributes())
             .isEqualTo(
                 Payment.PaymentMethodAttributes.builder()
-                    .companyId("string")
-                    .receiptRoutingNumber("string")
+                    .companyId("company_id")
+                    .receiptRoutingNumber("receipt_routing_number")
                     .retries(123L)
-                    .returnReasonCode("string")
+                    .returnReasonCode("return_reason_code")
                     .secCode(Payment.PaymentMethodAttributes.SecCode.CCD)
                     .traceNumbers(listOf("string"))
                     .build()
@@ -91,6 +91,6 @@ class PaymentTest {
         assertThat(payment.source()).isEqualTo(Payment.Source.CUSTOMER)
         assertThat(payment.status()).isEqualTo(Payment.Status.DECLINED)
         assertThat(payment.updated()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(payment.userDefinedId()).contains("string")
+        assertThat(payment.userDefinedId()).contains("user_defined_id")
     }
 }

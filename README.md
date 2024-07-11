@@ -2,7 +2,7 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.39.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.lithic.api/lithic-java)](https://central.sonatype.com/artifact/com.lithic.api/lithic-java/0.39.1)
 
 <!-- x-release-please-end -->
 
@@ -25,7 +25,7 @@ The REST API documentation can be found [on docs.lithic.com](https://docs.lithi
 <!-- x-release-please-start-version -->
 
 ```kotlin
-implementation("com.lithic.api:lithic-java:0.39.0")
+implementation("com.lithic.api:lithic-java:0.39.1")
 ```
 
 #### Maven
@@ -34,7 +34,7 @@ implementation("com.lithic.api:lithic-java:0.39.0")
 <dependency>
     <groupId>com.lithic.api</groupId>
     <artifactId>lithic-java</artifactId>
-    <version>0.39.0</version>
+    <version>0.39.1</version>
 </dependency>
 ```
 
@@ -365,3 +365,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
 We are keen for your feedback; please open an [issue](https://www.github.com/lithic-com/lithic-java/issues) with questions, bugs, or suggestions.
+
+## Requirements
+
+This library requires Java 8 or later.

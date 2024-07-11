@@ -11,7 +11,7 @@ class FinancialAccountCreateParamsTest {
     @Test
     fun createFinancialAccountCreateParams() {
         FinancialAccountCreateParams.builder()
-            .nickname("string")
+            .nickname("nickname")
             .type(FinancialAccountCreateParams.Type.OPERATING)
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
@@ -21,13 +21,13 @@ class FinancialAccountCreateParamsTest {
     fun getBody() {
         val params =
             FinancialAccountCreateParams.builder()
-                .nickname("string")
+                .nickname("nickname")
                 .type(FinancialAccountCreateParams.Type.OPERATING)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.nickname()).isEqualTo("string")
+        assertThat(body.nickname()).isEqualTo("nickname")
         assertThat(body.type()).isEqualTo(FinancialAccountCreateParams.Type.OPERATING)
         assertThat(body.accountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
@@ -36,12 +36,12 @@ class FinancialAccountCreateParamsTest {
     fun getBodyWithoutOptionalFields() {
         val params =
             FinancialAccountCreateParams.builder()
-                .nickname("string")
+                .nickname("nickname")
                 .type(FinancialAccountCreateParams.Type.OPERATING)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.nickname()).isEqualTo("string")
+        assertThat(body.nickname()).isEqualTo("nickname")
         assertThat(body.type()).isEqualTo(FinancialAccountCreateParams.Type.OPERATING)
     }
 }

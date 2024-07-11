@@ -23,7 +23,7 @@ class EventServiceTest {
                 .build()
         val eventService = client.events()
         val event =
-            eventService.retrieve(EventRetrieveParams.builder().eventToken("string").build())
+            eventService.retrieve(EventRetrieveParams.builder().eventToken("event_token").build())
         println(event)
         event.validate()
     }
@@ -51,7 +51,7 @@ class EventServiceTest {
         val eventService = client.events()
         val response =
             eventService.listAttempts(
-                EventListAttemptsParams.builder().eventToken("string").build()
+                EventListAttemptsParams.builder().eventToken("event_token").build()
             )
         println(response)
         response.data().forEach { it.validate() }
