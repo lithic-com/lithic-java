@@ -11,9 +11,9 @@ class EventSubscriptionUpdateParamsTest {
     @Test
     fun createEventSubscriptionUpdateParams() {
         EventSubscriptionUpdateParams.builder()
-            .eventSubscriptionToken("string")
+            .eventSubscriptionToken("event_subscription_token")
             .url("https://example.com")
-            .description("string")
+            .description("description")
             .disabled(true)
             .eventTypes(listOf(EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED))
             .build()
@@ -23,16 +23,16 @@ class EventSubscriptionUpdateParamsTest {
     fun getBody() {
         val params =
             EventSubscriptionUpdateParams.builder()
-                .eventSubscriptionToken("string")
+                .eventSubscriptionToken("event_subscription_token")
                 .url("https://example.com")
-                .description("string")
+                .description("description")
                 .disabled(true)
                 .eventTypes(listOf(EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED))
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.url()).isEqualTo("https://example.com")
-        assertThat(body.description()).isEqualTo("string")
+        assertThat(body.description()).isEqualTo("description")
         assertThat(body.disabled()).isEqualTo(true)
         assertThat(body.eventTypes())
             .isEqualTo(listOf(EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED))
@@ -42,7 +42,7 @@ class EventSubscriptionUpdateParamsTest {
     fun getBodyWithoutOptionalFields() {
         val params =
             EventSubscriptionUpdateParams.builder()
-                .eventSubscriptionToken("string")
+                .eventSubscriptionToken("event_subscription_token")
                 .url("https://example.com")
                 .build()
         val body = params.getBody()
@@ -54,12 +54,12 @@ class EventSubscriptionUpdateParamsTest {
     fun getPathParam() {
         val params =
             EventSubscriptionUpdateParams.builder()
-                .eventSubscriptionToken("string")
+                .eventSubscriptionToken("event_subscription_token")
                 .url("https://example.com")
                 .build()
         assertThat(params).isNotNull
         // path param "eventSubscriptionToken"
-        assertThat(params.getPathParam(0)).isEqualTo("string")
+        assertThat(params.getPathParam(0)).isEqualTo("event_subscription_token")
         // out-of-bound path param
         assertThat(params.getPathParam(1)).isEqualTo("")
     }

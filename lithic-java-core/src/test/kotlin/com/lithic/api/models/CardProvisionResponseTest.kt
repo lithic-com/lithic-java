@@ -10,8 +10,8 @@ class CardProvisionResponseTest {
     @Test
     fun createCardProvisionResponse() {
         val cardProvisionResponse =
-            CardProvisionResponse.builder().provisioningPayload("string").build()
+            CardProvisionResponse.builder().provisioningPayload("provisioning_payload").build()
         assertThat(cardProvisionResponse).isNotNull
-        assertThat(cardProvisionResponse.provisioningPayload()).contains("string")
+        assertThat(cardProvisionResponse.provisioningPayload()).contains("provisioning_payload")
     }
 }

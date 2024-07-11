@@ -14,7 +14,7 @@ class BalanceTest {
             Balance.builder()
                 .availableAmount(123L)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .currency("string")
+                .currency("currency")
                 .financialAccountToken("3fa85f64-5717-4562-b3fc-2c963f66afa6")
                 .financialAccountType(Balance.FinancialAccountType.ISSUING)
                 .lastTransactionEventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -26,7 +26,7 @@ class BalanceTest {
         assertThat(balance).isNotNull
         assertThat(balance.availableAmount()).isEqualTo(123L)
         assertThat(balance.created()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(balance.currency()).isEqualTo("string")
+        assertThat(balance.currency()).isEqualTo("currency")
         assertThat(balance.financialAccountToken())
             .isEqualTo("3fa85f64-5717-4562-b3fc-2c963f66afa6")
         assertThat(balance.financialAccountType()).isEqualTo(Balance.FinancialAccountType.ISSUING)

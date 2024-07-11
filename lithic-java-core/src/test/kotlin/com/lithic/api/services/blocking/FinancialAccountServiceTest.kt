@@ -23,7 +23,7 @@ class FinancialAccountServiceTest {
         val financialAccount =
             financialAccountService.create(
                 FinancialAccountCreateParams.builder()
-                    .nickname("string")
+                    .nickname("nickname")
                     .type(FinancialAccountCreateParams.Type.OPERATING)
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
@@ -62,7 +62,7 @@ class FinancialAccountServiceTest {
             financialAccountService.update(
                 FinancialAccountUpdateParams.builder()
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .nickname("string")
+                    .nickname("nickname")
                     .build()
             )
         println(financialAccount)

@@ -11,7 +11,7 @@ class EventSubscriptionSendSimulatedExampleParamsTest {
     @Test
     fun createEventSubscriptionSendSimulatedExampleParams() {
         EventSubscriptionSendSimulatedExampleParams.builder()
-            .eventSubscriptionToken("string")
+            .eventSubscriptionToken("event_subscription_token")
             .eventType(EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED)
             .build()
     }
@@ -20,7 +20,7 @@ class EventSubscriptionSendSimulatedExampleParamsTest {
     fun getBody() {
         val params =
             EventSubscriptionSendSimulatedExampleParams.builder()
-                .eventSubscriptionToken("string")
+                .eventSubscriptionToken("event_subscription_token")
                 .eventType(
                     EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED
                 )
@@ -35,7 +35,7 @@ class EventSubscriptionSendSimulatedExampleParamsTest {
     fun getBodyWithoutOptionalFields() {
         val params =
             EventSubscriptionSendSimulatedExampleParams.builder()
-                .eventSubscriptionToken("string")
+                .eventSubscriptionToken("event_subscription_token")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -45,11 +45,11 @@ class EventSubscriptionSendSimulatedExampleParamsTest {
     fun getPathParam() {
         val params =
             EventSubscriptionSendSimulatedExampleParams.builder()
-                .eventSubscriptionToken("string")
+                .eventSubscriptionToken("event_subscription_token")
                 .build()
         assertThat(params).isNotNull
         // path param "eventSubscriptionToken"
-        assertThat(params.getPathParam(0)).isEqualTo("string")
+        assertThat(params.getPathParam(0)).isEqualTo("event_subscription_token")
         // out-of-bound path param
         assertThat(params.getPathParam(1)).isEqualTo("")
     }
