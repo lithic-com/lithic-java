@@ -15,7 +15,7 @@ class DisputeUpdateParamsTest {
             .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .amount(123L)
             .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-            .customerNote("string")
+            .customerNote("customer_note")
             .reason(DisputeUpdateParams.Reason.ATM_CASH_MISDISPENSE)
             .build()
     }
@@ -27,7 +27,7 @@ class DisputeUpdateParamsTest {
                 .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .amount(123L)
                 .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .customerNote("string")
+                .customerNote("customer_note")
                 .reason(DisputeUpdateParams.Reason.ATM_CASH_MISDISPENSE)
                 .build()
         val body = params.getBody()
@@ -35,7 +35,7 @@ class DisputeUpdateParamsTest {
         assertThat(body.amount()).isEqualTo(123L)
         assertThat(body.customerFiledDate())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(body.customerNote()).isEqualTo("string")
+        assertThat(body.customerNote()).isEqualTo("customer_note")
         assertThat(body.reason()).isEqualTo(DisputeUpdateParams.Reason.ATM_CASH_MISDISPENSE)
     }
 

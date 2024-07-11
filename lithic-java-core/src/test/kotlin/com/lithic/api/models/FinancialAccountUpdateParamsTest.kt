@@ -12,7 +12,7 @@ class FinancialAccountUpdateParamsTest {
     fun createFinancialAccountUpdateParams() {
         FinancialAccountUpdateParams.builder()
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .nickname("string")
+            .nickname("nickname")
             .build()
     }
 
@@ -21,11 +21,11 @@ class FinancialAccountUpdateParamsTest {
         val params =
             FinancialAccountUpdateParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .nickname("string")
+                .nickname("nickname")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.nickname()).isEqualTo("string")
+        assertThat(body.nickname()).isEqualTo("nickname")
     }
 
     @Test

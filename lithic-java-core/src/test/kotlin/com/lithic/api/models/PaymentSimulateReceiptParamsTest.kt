@@ -15,7 +15,7 @@ class PaymentSimulateReceiptParamsTest {
             .amount(123L)
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .receiptType(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
-            .memo("string")
+            .memo("memo")
             .build()
     }
 
@@ -27,7 +27,7 @@ class PaymentSimulateReceiptParamsTest {
                 .amount(123L)
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .receiptType(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
-                .memo("string")
+                .memo("memo")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -36,7 +36,7 @@ class PaymentSimulateReceiptParamsTest {
         assertThat(body.financialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.receiptType())
             .isEqualTo(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
-        assertThat(body.memo()).isEqualTo("string")
+        assertThat(body.memo()).isEqualTo("memo")
     }
 
     @Test

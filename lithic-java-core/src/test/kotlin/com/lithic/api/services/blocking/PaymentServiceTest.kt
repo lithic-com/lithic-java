@@ -34,8 +34,8 @@ class PaymentServiceTest {
                     )
                     .type(PaymentCreateParams.Type.COLLECTION)
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .memo("string")
-                    .userDefinedId("string")
+                    .memo("memo")
+                    .userDefinedId("user_defined_id")
                     .build()
             )
         println(paymentCreateResponse)
@@ -109,7 +109,7 @@ class PaymentServiceTest {
                         PaymentSimulateActionParams.SupportedSimulationDeclineReasons
                             .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
                     )
-                    .returnReasonCode("string")
+                    .returnReasonCode("return_reason_code")
                     .build()
             )
         println(paymentSimulateActionResponse)
@@ -131,7 +131,7 @@ class PaymentServiceTest {
                     .amount(123L)
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .receiptType(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
-                    .memo("string")
+                    .memo("memo")
                     .build()
             )
         println(paymentSimulateReceiptResponse)

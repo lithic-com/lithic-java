@@ -22,8 +22,8 @@ class PaymentCreateParamsTest {
             )
             .type(PaymentCreateParams.Type.COLLECTION)
             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .memo("string")
-            .userDefinedId("string")
+            .memo("memo")
+            .userDefinedId("user_defined_id")
             .build()
     }
 
@@ -42,8 +42,8 @@ class PaymentCreateParamsTest {
                 )
                 .type(PaymentCreateParams.Type.COLLECTION)
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .memo("string")
-                .userDefinedId("string")
+                .memo("memo")
+                .userDefinedId("user_defined_id")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -60,8 +60,8 @@ class PaymentCreateParamsTest {
             )
         assertThat(body.type()).isEqualTo(PaymentCreateParams.Type.COLLECTION)
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.memo()).isEqualTo("string")
-        assertThat(body.userDefinedId()).isEqualTo("string")
+        assertThat(body.memo()).isEqualTo("memo")
+        assertThat(body.userDefinedId()).isEqualTo("user_defined_id")
     }
 
     @Test

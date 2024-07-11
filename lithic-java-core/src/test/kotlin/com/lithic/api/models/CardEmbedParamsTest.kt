@@ -10,24 +10,24 @@ class CardEmbedParamsTest {
 
     @Test
     fun createCardEmbedParams() {
-        CardEmbedParams.builder().embedRequest("string").hmac("string").build()
+        CardEmbedParams.builder().embedRequest("embed_request").hmac("hmac").build()
     }
 
     @Test
     fun getQueryParams() {
-        val params = CardEmbedParams.builder().embedRequest("string").hmac("string").build()
+        val params = CardEmbedParams.builder().embedRequest("embed_request").hmac("hmac").build()
         val expected = mutableMapOf<String, List<String>>()
-        expected.put("embed_request", listOf("string"))
-        expected.put("hmac", listOf("string"))
+        expected.put("embed_request", listOf("embed_request"))
+        expected.put("hmac", listOf("hmac"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
-        val params = CardEmbedParams.builder().embedRequest("string").hmac("string").build()
+        val params = CardEmbedParams.builder().embedRequest("embed_request").hmac("hmac").build()
         val expected = mutableMapOf<String, List<String>>()
-        expected.put("embed_request", listOf("string"))
-        expected.put("hmac", listOf("string"))
+        expected.put("embed_request", listOf("embed_request"))
+        expected.put("hmac", listOf("hmac"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 }

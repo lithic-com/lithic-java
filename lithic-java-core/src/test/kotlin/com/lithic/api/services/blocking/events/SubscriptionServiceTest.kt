@@ -27,7 +27,7 @@ class SubscriptionServiceTest {
             subscriptionService.create(
                 EventSubscriptionCreateParams.builder()
                     .url("https://example.com")
-                    .description("string")
+                    .description("description")
                     .disabled(true)
                     .eventTypes(
                         listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED)
@@ -48,7 +48,9 @@ class SubscriptionServiceTest {
         val subscriptionService = client.events().subscriptions()
         val eventSubscription =
             subscriptionService.retrieve(
-                EventSubscriptionRetrieveParams.builder().eventSubscriptionToken("string").build()
+                EventSubscriptionRetrieveParams.builder()
+                    .eventSubscriptionToken("event_subscription_token")
+                    .build()
             )
         println(eventSubscription)
         eventSubscription.validate()
@@ -65,9 +67,9 @@ class SubscriptionServiceTest {
         val eventSubscription =
             subscriptionService.update(
                 EventSubscriptionUpdateParams.builder()
-                    .eventSubscriptionToken("string")
+                    .eventSubscriptionToken("event_subscription_token")
                     .url("https://example.com")
-                    .description("string")
+                    .description("description")
                     .disabled(true)
                     .eventTypes(
                         listOf(EventSubscriptionUpdateParams.EventType.ACCOUNT_HOLDER_CREATED)
@@ -101,7 +103,9 @@ class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.delete(
-            EventSubscriptionDeleteParams.builder().eventSubscriptionToken("string").build()
+            EventSubscriptionDeleteParams.builder()
+                .eventSubscriptionToken("event_subscription_token")
+                .build()
         )
     }
 
@@ -116,7 +120,7 @@ class SubscriptionServiceTest {
         val response =
             subscriptionService.listAttempts(
                 EventSubscriptionListAttemptsParams.builder()
-                    .eventSubscriptionToken("string")
+                    .eventSubscriptionToken("event_subscription_token")
                     .build()
             )
         println(response)
@@ -134,7 +138,7 @@ class SubscriptionServiceTest {
         val subscriptionService = client.events().subscriptions()
         subscriptionService.recover(
             EventSubscriptionRecoverParams.builder()
-                .eventSubscriptionToken("string")
+                .eventSubscriptionToken("event_subscription_token")
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
@@ -152,7 +156,7 @@ class SubscriptionServiceTest {
         val subscriptionService = client.events().subscriptions()
         subscriptionService.replayMissing(
             EventSubscriptionReplayMissingParams.builder()
-                .eventSubscriptionToken("string")
+                .eventSubscriptionToken("event_subscription_token")
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
@@ -170,7 +174,7 @@ class SubscriptionServiceTest {
         val subscriptionRetrieveSecretResponse =
             subscriptionService.retrieveSecret(
                 EventSubscriptionRetrieveSecretParams.builder()
-                    .eventSubscriptionToken("string")
+                    .eventSubscriptionToken("event_subscription_token")
                     .build()
             )
         println(subscriptionRetrieveSecretResponse)
@@ -187,7 +191,9 @@ class SubscriptionServiceTest {
                 .build()
         val subscriptionService = client.events().subscriptions()
         subscriptionService.rotateSecret(
-            EventSubscriptionRotateSecretParams.builder().eventSubscriptionToken("string").build()
+            EventSubscriptionRotateSecretParams.builder()
+                .eventSubscriptionToken("event_subscription_token")
+                .build()
         )
     }
 
@@ -201,7 +207,7 @@ class SubscriptionServiceTest {
         val subscriptionService = client.events().subscriptions()
         subscriptionService.sendSimulatedExample(
             EventSubscriptionSendSimulatedExampleParams.builder()
-                .eventSubscriptionToken("string")
+                .eventSubscriptionToken("event_subscription_token")
                 .eventType(
                     EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED
                 )

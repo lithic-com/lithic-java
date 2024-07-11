@@ -11,10 +11,10 @@ class AccountHolderListParamsTest {
     @Test
     fun createAccountHolderListParams() {
         AccountHolderListParams.builder()
-            .endingBefore("string")
+            .endingBefore("ending_before")
             .externalId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .limit(123L)
-            .startingAfter("string")
+            .startingAfter("starting_after")
             .build()
     }
 
@@ -22,16 +22,16 @@ class AccountHolderListParamsTest {
     fun getQueryParams() {
         val params =
             AccountHolderListParams.builder()
-                .endingBefore("string")
+                .endingBefore("ending_before")
                 .externalId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .limit(123L)
-                .startingAfter("string")
+                .startingAfter("starting_after")
                 .build()
         val expected = mutableMapOf<String, List<String>>()
-        expected.put("ending_before", listOf("string"))
+        expected.put("ending_before", listOf("ending_before"))
         expected.put("external_id", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
         expected.put("limit", listOf("123"))
-        expected.put("starting_after", listOf("string"))
+        expected.put("starting_after", listOf("starting_after"))
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 

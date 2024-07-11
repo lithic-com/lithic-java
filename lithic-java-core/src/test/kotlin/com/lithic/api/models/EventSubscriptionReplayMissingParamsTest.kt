@@ -12,7 +12,7 @@ class EventSubscriptionReplayMissingParamsTest {
     @Test
     fun createEventSubscriptionReplayMissingParams() {
         EventSubscriptionReplayMissingParams.builder()
-            .eventSubscriptionToken("string")
+            .eventSubscriptionToken("event_subscription_token")
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .build()
@@ -22,7 +22,7 @@ class EventSubscriptionReplayMissingParamsTest {
     fun getQueryParams() {
         val params =
             EventSubscriptionReplayMissingParams.builder()
-                .eventSubscriptionToken("string")
+                .eventSubscriptionToken("event_subscription_token")
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .build()
@@ -35,7 +35,9 @@ class EventSubscriptionReplayMissingParamsTest {
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params =
-            EventSubscriptionReplayMissingParams.builder().eventSubscriptionToken("string").build()
+            EventSubscriptionReplayMissingParams.builder()
+                .eventSubscriptionToken("event_subscription_token")
+                .build()
         val expected = mutableMapOf<String, List<String>>()
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
@@ -43,10 +45,12 @@ class EventSubscriptionReplayMissingParamsTest {
     @Test
     fun getPathParam() {
         val params =
-            EventSubscriptionReplayMissingParams.builder().eventSubscriptionToken("string").build()
+            EventSubscriptionReplayMissingParams.builder()
+                .eventSubscriptionToken("event_subscription_token")
+                .build()
         assertThat(params).isNotNull
         // path param "eventSubscriptionToken"
-        assertThat(params.getPathParam(0)).isEqualTo("string")
+        assertThat(params.getPathParam(0)).isEqualTo("event_subscription_token")
         // out-of-bound path param
         assertThat(params.getPathParam(1)).isEqualTo("")
     }
