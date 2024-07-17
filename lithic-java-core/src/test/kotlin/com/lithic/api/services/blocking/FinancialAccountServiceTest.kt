@@ -26,6 +26,7 @@ class FinancialAccountServiceTest {
                     .nickname("nickname")
                     .type(FinancialAccountCreateParams.Type.OPERATING)
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .isForBenefitOf(true)
                     .build()
             )
         println(financialAccount)

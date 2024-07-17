@@ -22,6 +22,7 @@ class TokenizationSimulateResponseTest {
                             .status(Tokenization.Status.ACTIVE)
                             .tokenRequestorName(Tokenization.TokenRequestorName.AMAZON_ONE)
                             .tokenUniqueReference("token_unique_reference")
+                            .tokenizationChannel(Tokenization.TokenizationChannel.DIGITAL_WALLET)
                             .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .events(
@@ -49,6 +50,7 @@ class TokenizationSimulateResponseTest {
                     .status(Tokenization.Status.ACTIVE)
                     .tokenRequestorName(Tokenization.TokenRequestorName.AMAZON_ONE)
                     .tokenUniqueReference("token_unique_reference")
+                    .tokenizationChannel(Tokenization.TokenizationChannel.DIGITAL_WALLET)
                     .updatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .events(
