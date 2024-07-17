@@ -23,6 +23,7 @@ constructor(
     private val nickname: String,
     private val type: Type,
     private val accountToken: String?,
+    private val isForBenefitOf: Boolean?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -34,12 +35,15 @@ constructor(
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
+    fun isForBenefitOf(): Optional<Boolean> = Optional.ofNullable(isForBenefitOf)
+
     @JvmSynthetic
     internal fun getBody(): FinancialAccountCreateBody {
         return FinancialAccountCreateBody(
             nickname,
             type,
             accountToken,
+            isForBenefitOf,
             additionalBodyProperties,
         )
     }
@@ -55,6 +59,7 @@ constructor(
         private val nickname: String?,
         private val type: Type?,
         private val accountToken: String?,
+        private val isForBenefitOf: Boolean?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -65,6 +70,8 @@ constructor(
         @JsonProperty("type") fun type(): Type? = type
 
         @JsonProperty("account_token") fun accountToken(): String? = accountToken
+
+        @JsonProperty("is_for_benefit_of") fun isForBenefitOf(): Boolean? = isForBenefitOf
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -81,6 +88,7 @@ constructor(
                 this.nickname == other.nickname &&
                 this.type == other.type &&
                 this.accountToken == other.accountToken &&
+                this.isForBenefitOf == other.isForBenefitOf &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -91,6 +99,7 @@ constructor(
                         nickname,
                         type,
                         accountToken,
+                        isForBenefitOf,
                         additionalProperties,
                     )
             }
@@ -98,7 +107,7 @@ constructor(
         }
 
         override fun toString() =
-            "FinancialAccountCreateBody{nickname=$nickname, type=$type, accountToken=$accountToken, additionalProperties=$additionalProperties}"
+            "FinancialAccountCreateBody{nickname=$nickname, type=$type, accountToken=$accountToken, isForBenefitOf=$isForBenefitOf, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -110,6 +119,7 @@ constructor(
             private var nickname: String? = null
             private var type: Type? = null
             private var accountToken: String? = null
+            private var isForBenefitOf: Boolean? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -117,6 +127,7 @@ constructor(
                 this.nickname = financialAccountCreateBody.nickname
                 this.type = financialAccountCreateBody.type
                 this.accountToken = financialAccountCreateBody.accountToken
+                this.isForBenefitOf = financialAccountCreateBody.isForBenefitOf
                 additionalProperties(financialAccountCreateBody.additionalProperties)
             }
 
@@ -127,6 +138,11 @@ constructor(
 
             @JsonProperty("account_token")
             fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+
+            @JsonProperty("is_for_benefit_of")
+            fun isForBenefitOf(isForBenefitOf: Boolean) = apply {
+                this.isForBenefitOf = isForBenefitOf
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -147,6 +163,7 @@ constructor(
                     checkNotNull(nickname) { "`nickname` is required but was not set" },
                     checkNotNull(type) { "`type` is required but was not set" },
                     accountToken,
+                    isForBenefitOf,
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -167,6 +184,7 @@ constructor(
             this.nickname == other.nickname &&
             this.type == other.type &&
             this.accountToken == other.accountToken &&
+            this.isForBenefitOf == other.isForBenefitOf &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -177,6 +195,7 @@ constructor(
             nickname,
             type,
             accountToken,
+            isForBenefitOf,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -184,7 +203,7 @@ constructor(
     }
 
     override fun toString() =
-        "FinancialAccountCreateParams{nickname=$nickname, type=$type, accountToken=$accountToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "FinancialAccountCreateParams{nickname=$nickname, type=$type, accountToken=$accountToken, isForBenefitOf=$isForBenefitOf, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -199,6 +218,7 @@ constructor(
         private var nickname: String? = null
         private var type: Type? = null
         private var accountToken: String? = null
+        private var isForBenefitOf: Boolean? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -208,6 +228,7 @@ constructor(
             this.nickname = financialAccountCreateParams.nickname
             this.type = financialAccountCreateParams.type
             this.accountToken = financialAccountCreateParams.accountToken
+            this.isForBenefitOf = financialAccountCreateParams.isForBenefitOf
             additionalQueryParams(financialAccountCreateParams.additionalQueryParams)
             additionalHeaders(financialAccountCreateParams.additionalHeaders)
             additionalBodyProperties(financialAccountCreateParams.additionalBodyProperties)
@@ -218,6 +239,8 @@ constructor(
         fun type(type: Type) = apply { this.type = type }
 
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+
+        fun isForBenefitOf(isForBenefitOf: Boolean) = apply { this.isForBenefitOf = isForBenefitOf }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -278,6 +301,7 @@ constructor(
                 checkNotNull(nickname) { "`nickname` is required but was not set" },
                 checkNotNull(type) { "`type` is required but was not set" },
                 accountToken,
+                isForBenefitOf,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),

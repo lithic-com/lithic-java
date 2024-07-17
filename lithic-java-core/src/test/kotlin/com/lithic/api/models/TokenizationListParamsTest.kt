@@ -19,6 +19,7 @@ class TokenizationListParamsTest {
             .endingBefore("ending_before")
             .pageSize(100L)
             .startingAfter("starting_after")
+            .tokenizationChannel(TokenizationListParams.TokenizationChannel.DIGITAL_WALLET)
             .build()
     }
 
@@ -33,6 +34,7 @@ class TokenizationListParamsTest {
                 .endingBefore("ending_before")
                 .pageSize(100L)
                 .startingAfter("starting_after")
+                .tokenizationChannel(TokenizationListParams.TokenizationChannel.DIGITAL_WALLET)
                 .build()
         val expected = mutableMapOf<String, List<String>>()
         expected.put("account_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
@@ -42,6 +44,10 @@ class TokenizationListParamsTest {
         expected.put("ending_before", listOf("ending_before"))
         expected.put("page_size", listOf("100"))
         expected.put("starting_after", listOf("starting_after"))
+        expected.put(
+            "tokenization_channel",
+            listOf(TokenizationListParams.TokenizationChannel.DIGITAL_WALLET.toString())
+        )
         assertThat(params.getQueryParams()).isEqualTo(expected)
     }
 

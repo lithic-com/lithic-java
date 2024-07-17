@@ -17,6 +17,7 @@ class TokenizationSimulateParamsTest {
             .tokenizationSource(TokenizationSimulateParams.TokenizationSource.APPLE_PAY)
             .accountScore(123L)
             .deviceScore(123L)
+            .entity("entity")
             .walletRecommendedDecision(
                 TokenizationSimulateParams.WalletRecommendedDecision.APPROVED
             )
@@ -33,6 +34,7 @@ class TokenizationSimulateParamsTest {
                 .tokenizationSource(TokenizationSimulateParams.TokenizationSource.APPLE_PAY)
                 .accountScore(123L)
                 .deviceScore(123L)
+                .entity("entity")
                 .walletRecommendedDecision(
                     TokenizationSimulateParams.WalletRecommendedDecision.APPROVED
                 )
@@ -46,6 +48,7 @@ class TokenizationSimulateParamsTest {
             .isEqualTo(TokenizationSimulateParams.TokenizationSource.APPLE_PAY)
         assertThat(body.accountScore()).isEqualTo(123L)
         assertThat(body.deviceScore()).isEqualTo(123L)
+        assertThat(body.entity()).isEqualTo("entity")
         assertThat(body.walletRecommendedDecision())
             .isEqualTo(TokenizationSimulateParams.WalletRecommendedDecision.APPROVED)
     }

@@ -26,6 +26,7 @@ constructor(
     private val tokenizationSource: TokenizationSource,
     private val accountScore: Long?,
     private val deviceScore: Long?,
+    private val entity: String?,
     private val walletRecommendedDecision: WalletRecommendedDecision?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
@@ -44,6 +45,8 @@ constructor(
 
     fun deviceScore(): Optional<Long> = Optional.ofNullable(deviceScore)
 
+    fun entity(): Optional<String> = Optional.ofNullable(entity)
+
     fun walletRecommendedDecision(): Optional<WalletRecommendedDecision> =
         Optional.ofNullable(walletRecommendedDecision)
 
@@ -56,6 +59,7 @@ constructor(
             tokenizationSource,
             accountScore,
             deviceScore,
+            entity,
             walletRecommendedDecision,
             additionalBodyProperties,
         )
@@ -75,6 +79,7 @@ constructor(
         private val tokenizationSource: TokenizationSource?,
         private val accountScore: Long?,
         private val deviceScore: Long?,
+        private val entity: String?,
         private val walletRecommendedDecision: WalletRecommendedDecision?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
@@ -106,6 +111,12 @@ constructor(
          */
         @JsonProperty("device_score") fun deviceScore(): Long? = deviceScore
 
+        /**
+         * Optional field to specify the token requestor name for a merchant token simulation.
+         * Ignored when tokenization_source is not MERCHANT.
+         */
+        @JsonProperty("entity") fun entity(): String? = entity
+
         /** The decision that the Digital Wallet's recommend */
         @JsonProperty("wallet_recommended_decision")
         fun walletRecommendedDecision(): WalletRecommendedDecision? = walletRecommendedDecision
@@ -128,6 +139,7 @@ constructor(
                 this.tokenizationSource == other.tokenizationSource &&
                 this.accountScore == other.accountScore &&
                 this.deviceScore == other.deviceScore &&
+                this.entity == other.entity &&
                 this.walletRecommendedDecision == other.walletRecommendedDecision &&
                 this.additionalProperties == other.additionalProperties
         }
@@ -142,6 +154,7 @@ constructor(
                         tokenizationSource,
                         accountScore,
                         deviceScore,
+                        entity,
                         walletRecommendedDecision,
                         additionalProperties,
                     )
@@ -150,7 +163,7 @@ constructor(
         }
 
         override fun toString() =
-            "TokenizationSimulateBody{cvv=$cvv, expirationDate=$expirationDate, pan=$pan, tokenizationSource=$tokenizationSource, accountScore=$accountScore, deviceScore=$deviceScore, walletRecommendedDecision=$walletRecommendedDecision, additionalProperties=$additionalProperties}"
+            "TokenizationSimulateBody{cvv=$cvv, expirationDate=$expirationDate, pan=$pan, tokenizationSource=$tokenizationSource, accountScore=$accountScore, deviceScore=$deviceScore, entity=$entity, walletRecommendedDecision=$walletRecommendedDecision, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -165,6 +178,7 @@ constructor(
             private var tokenizationSource: TokenizationSource? = null
             private var accountScore: Long? = null
             private var deviceScore: Long? = null
+            private var entity: String? = null
             private var walletRecommendedDecision: WalletRecommendedDecision? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -176,6 +190,7 @@ constructor(
                 this.tokenizationSource = tokenizationSimulateBody.tokenizationSource
                 this.accountScore = tokenizationSimulateBody.accountScore
                 this.deviceScore = tokenizationSimulateBody.deviceScore
+                this.entity = tokenizationSimulateBody.entity
                 this.walletRecommendedDecision = tokenizationSimulateBody.walletRecommendedDecision
                 additionalProperties(tokenizationSimulateBody.additionalProperties)
             }
@@ -212,6 +227,12 @@ constructor(
             @JsonProperty("device_score")
             fun deviceScore(deviceScore: Long) = apply { this.deviceScore = deviceScore }
 
+            /**
+             * Optional field to specify the token requestor name for a merchant token simulation.
+             * Ignored when tokenization_source is not MERCHANT.
+             */
+            @JsonProperty("entity") fun entity(entity: String) = apply { this.entity = entity }
+
             /** The decision that the Digital Wallet's recommend */
             @JsonProperty("wallet_recommended_decision")
             fun walletRecommendedDecision(walletRecommendedDecision: WalletRecommendedDecision) =
@@ -243,6 +264,7 @@ constructor(
                     },
                     accountScore,
                     deviceScore,
+                    entity,
                     walletRecommendedDecision,
                     additionalProperties.toUnmodifiable(),
                 )
@@ -267,6 +289,7 @@ constructor(
             this.tokenizationSource == other.tokenizationSource &&
             this.accountScore == other.accountScore &&
             this.deviceScore == other.deviceScore &&
+            this.entity == other.entity &&
             this.walletRecommendedDecision == other.walletRecommendedDecision &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
@@ -281,6 +304,7 @@ constructor(
             tokenizationSource,
             accountScore,
             deviceScore,
+            entity,
             walletRecommendedDecision,
             additionalQueryParams,
             additionalHeaders,
@@ -289,7 +313,7 @@ constructor(
     }
 
     override fun toString() =
-        "TokenizationSimulateParams{cvv=$cvv, expirationDate=$expirationDate, pan=$pan, tokenizationSource=$tokenizationSource, accountScore=$accountScore, deviceScore=$deviceScore, walletRecommendedDecision=$walletRecommendedDecision, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "TokenizationSimulateParams{cvv=$cvv, expirationDate=$expirationDate, pan=$pan, tokenizationSource=$tokenizationSource, accountScore=$accountScore, deviceScore=$deviceScore, entity=$entity, walletRecommendedDecision=$walletRecommendedDecision, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -307,6 +331,7 @@ constructor(
         private var tokenizationSource: TokenizationSource? = null
         private var accountScore: Long? = null
         private var deviceScore: Long? = null
+        private var entity: String? = null
         private var walletRecommendedDecision: WalletRecommendedDecision? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
@@ -320,6 +345,7 @@ constructor(
             this.tokenizationSource = tokenizationSimulateParams.tokenizationSource
             this.accountScore = tokenizationSimulateParams.accountScore
             this.deviceScore = tokenizationSimulateParams.deviceScore
+            this.entity = tokenizationSimulateParams.entity
             this.walletRecommendedDecision = tokenizationSimulateParams.walletRecommendedDecision
             additionalQueryParams(tokenizationSimulateParams.additionalQueryParams)
             additionalHeaders(tokenizationSimulateParams.additionalHeaders)
@@ -351,6 +377,12 @@ constructor(
          * end user's device is.
          */
         fun deviceScore(deviceScore: Long) = apply { this.deviceScore = deviceScore }
+
+        /**
+         * Optional field to specify the token requestor name for a merchant token simulation.
+         * Ignored when tokenization_source is not MERCHANT.
+         */
+        fun entity(entity: String) = apply { this.entity = entity }
 
         /** The decision that the Digital Wallet's recommend */
         fun walletRecommendedDecision(walletRecommendedDecision: WalletRecommendedDecision) =
@@ -422,6 +454,7 @@ constructor(
                 },
                 accountScore,
                 deviceScore,
+                entity,
                 walletRecommendedDecision,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
@@ -457,6 +490,8 @@ constructor(
 
             @JvmField val SAMSUNG_PAY = TokenizationSource(JsonField.of("SAMSUNG_PAY"))
 
+            @JvmField val MERCHANT = TokenizationSource(JsonField.of("MERCHANT"))
+
             @JvmStatic fun of(value: String) = TokenizationSource(JsonField.of(value))
         }
 
@@ -464,12 +499,14 @@ constructor(
             APPLE_PAY,
             GOOGLE,
             SAMSUNG_PAY,
+            MERCHANT,
         }
 
         enum class Value {
             APPLE_PAY,
             GOOGLE,
             SAMSUNG_PAY,
+            MERCHANT,
             _UNKNOWN,
         }
 
@@ -478,6 +515,7 @@ constructor(
                 APPLE_PAY -> Value.APPLE_PAY
                 GOOGLE -> Value.GOOGLE
                 SAMSUNG_PAY -> Value.SAMSUNG_PAY
+                MERCHANT -> Value.MERCHANT
                 else -> Value._UNKNOWN
             }
 
@@ -486,6 +524,7 @@ constructor(
                 APPLE_PAY -> Known.APPLE_PAY
                 GOOGLE -> Known.GOOGLE
                 SAMSUNG_PAY -> Known.SAMSUNG_PAY
+                MERCHANT -> Known.MERCHANT
                 else -> throw LithicInvalidDataException("Unknown TokenizationSource: $value")
             }
 
