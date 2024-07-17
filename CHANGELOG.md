@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.41.0 (2024-07-17)
+
+Full Changelog: [v0.40.0...v0.41.0](https://github.com/lithic-com/lithic-java/compare/v0.40.0...v0.41.0)
+
+### Features
+
+* **api:** updates ([#251](https://github.com/lithic-com/lithic-java/issues/251)) ([70faca6](https://github.com/lithic-com/lithic-java/commit/70faca65c6f2eea3dba615fd2bdafd35ca732c2e))
+
+
+### Chores
+
+* **docs:** minor update to formatting of API link in README ([#249](https://github.com/lithic-com/lithic-java/issues/249)) ([4bf0e0b](https://github.com/lithic-com/lithic-java/commit/4bf0e0b4f7fbd83a9c9bdf7c815ab5c085050550))
+
 ## 0.40.0 (2024-07-11)
 
 Full Changelog: [v0.39.1...v0.40.0](https://github.com/lithic-com/lithic-java/compare/v0.39.1...v0.40.0)
