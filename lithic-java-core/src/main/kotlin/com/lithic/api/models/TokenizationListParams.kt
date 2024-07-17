@@ -2,9 +2,13 @@
 
 package com.lithic.api.models
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.lithic.api.core.Enum
+import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.time.LocalDate
 import java.util.Objects
@@ -19,6 +23,7 @@ constructor(
     private val endingBefore: String?,
     private val pageSize: Long?,
     private val startingAfter: String?,
+    private val tokenizationChannel: TokenizationChannel?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -38,6 +43,9 @@ constructor(
 
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
+    fun tokenizationChannel(): Optional<TokenizationChannel> =
+        Optional.ofNullable(tokenizationChannel)
+
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
@@ -48,6 +56,7 @@ constructor(
         this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
         this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
         this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
+        this.tokenizationChannel?.let { params.put("tokenization_channel", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
         return params.toUnmodifiable()
     }
@@ -73,6 +82,7 @@ constructor(
             this.endingBefore == other.endingBefore &&
             this.pageSize == other.pageSize &&
             this.startingAfter == other.startingAfter &&
+            this.tokenizationChannel == other.tokenizationChannel &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -87,6 +97,7 @@ constructor(
             endingBefore,
             pageSize,
             startingAfter,
+            tokenizationChannel,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -94,7 +105,7 @@ constructor(
     }
 
     override fun toString() =
-        "TokenizationListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "TokenizationListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, tokenizationChannel=$tokenizationChannel, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -113,6 +124,7 @@ constructor(
         private var endingBefore: String? = null
         private var pageSize: Long? = null
         private var startingAfter: String? = null
+        private var tokenizationChannel: TokenizationChannel? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -126,6 +138,7 @@ constructor(
             this.endingBefore = tokenizationListParams.endingBefore
             this.pageSize = tokenizationListParams.pageSize
             this.startingAfter = tokenizationListParams.startingAfter
+            this.tokenizationChannel = tokenizationListParams.tokenizationChannel
             additionalQueryParams(tokenizationListParams.additionalQueryParams)
             additionalHeaders(tokenizationListParams.additionalHeaders)
             additionalBodyProperties(tokenizationListParams.additionalBodyProperties)
@@ -157,6 +170,14 @@ constructor(
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
+
+        /**
+         * Filter for tokenizations by tokenization channel. If this is not specified, only
+         * DIGITAL_WALLET tokenizations will be returned.
+         */
+        fun tokenizationChannel(tokenizationChannel: TokenizationChannel) = apply {
+            this.tokenizationChannel = tokenizationChannel
+        }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -221,9 +242,67 @@ constructor(
                 endingBefore,
                 pageSize,
                 startingAfter,
+                tokenizationChannel,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),
             )
+    }
+
+    class TokenizationChannel
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) : Enum {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TokenizationChannel && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val DIGITAL_WALLET = TokenizationChannel(JsonField.of("DIGITAL_WALLET"))
+
+            @JvmField val MERCHANT = TokenizationChannel(JsonField.of("MERCHANT"))
+
+            @JvmStatic fun of(value: String) = TokenizationChannel(JsonField.of(value))
+        }
+
+        enum class Known {
+            DIGITAL_WALLET,
+            MERCHANT,
+        }
+
+        enum class Value {
+            DIGITAL_WALLET,
+            MERCHANT,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                DIGITAL_WALLET -> Value.DIGITAL_WALLET
+                MERCHANT -> Value.MERCHANT
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                DIGITAL_WALLET -> Known.DIGITAL_WALLET
+                MERCHANT -> Known.MERCHANT
+                else -> throw LithicInvalidDataException("Unknown TokenizationChannel: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

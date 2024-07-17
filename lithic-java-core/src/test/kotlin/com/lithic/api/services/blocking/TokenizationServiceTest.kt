@@ -124,6 +124,7 @@ class TokenizationServiceTest {
                     .tokenizationSource(TokenizationSimulateParams.TokenizationSource.APPLE_PAY)
                     .accountScore(123L)
                     .deviceScore(123L)
+                    .entity("entity")
                     .walletRecommendedDecision(
                         TokenizationSimulateParams.WalletRecommendedDecision.APPROVED
                     )

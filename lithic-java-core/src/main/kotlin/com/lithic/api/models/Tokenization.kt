@@ -32,6 +32,7 @@ private constructor(
     private val token: JsonField<String>,
     private val tokenRequestorName: JsonField<TokenRequestorName>,
     private val tokenUniqueReference: JsonField<String>,
+    private val tokenizationChannel: JsonField<TokenizationChannel>,
     private val updatedAt: JsonField<OffsetDateTime>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
@@ -67,12 +68,16 @@ private constructor(
     /** Globally unique identifier for a Tokenization */
     fun token(): String = token.getRequired("token")
 
-    /** The entity that is requested the tokenization. Represents a Digital Wallet. */
+    /** The entity that requested the tokenization. Represents a Digital Wallet or merchant. */
     fun tokenRequestorName(): TokenRequestorName =
         tokenRequestorName.getRequired("token_requestor_name")
 
     /** The network's unique reference for the tokenization. */
     fun tokenUniqueReference(): String = tokenUniqueReference.getRequired("token_unique_reference")
+
+    /** The channel through which the tokenization was made. */
+    fun tokenizationChannel(): TokenizationChannel =
+        tokenizationChannel.getRequired("tokenization_channel")
 
     /** Latest date and time when the tokenization was updated. UTC time zone. */
     fun updatedAt(): OffsetDateTime = updatedAt.getRequired("updated_at")
@@ -104,7 +109,7 @@ private constructor(
     /** Globally unique identifier for a Tokenization */
     @JsonProperty("token") @ExcludeMissing fun _token() = token
 
-    /** The entity that is requested the tokenization. Represents a Digital Wallet. */
+    /** The entity that requested the tokenization. Represents a Digital Wallet or merchant. */
     @JsonProperty("token_requestor_name")
     @ExcludeMissing
     fun _tokenRequestorName() = tokenRequestorName
@@ -113,6 +118,11 @@ private constructor(
     @JsonProperty("token_unique_reference")
     @ExcludeMissing
     fun _tokenUniqueReference() = tokenUniqueReference
+
+    /** The channel through which the tokenization was made. */
+    @JsonProperty("tokenization_channel")
+    @ExcludeMissing
+    fun _tokenizationChannel() = tokenizationChannel
 
     /** Latest date and time when the tokenization was updated. UTC time zone. */
     @JsonProperty("updated_at") @ExcludeMissing fun _updatedAt() = updatedAt
@@ -132,6 +142,7 @@ private constructor(
             token()
             tokenRequestorName()
             tokenUniqueReference()
+            tokenizationChannel()
             updatedAt()
             validated = true
         }
@@ -154,6 +165,7 @@ private constructor(
             this.token == other.token &&
             this.tokenRequestorName == other.tokenRequestorName &&
             this.tokenUniqueReference == other.tokenUniqueReference &&
+            this.tokenizationChannel == other.tokenizationChannel &&
             this.updatedAt == other.updatedAt &&
             this.additionalProperties == other.additionalProperties
     }
@@ -171,6 +183,7 @@ private constructor(
                     token,
                     tokenRequestorName,
                     tokenUniqueReference,
+                    tokenizationChannel,
                     updatedAt,
                     additionalProperties,
                 )
@@ -179,7 +192,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Tokenization{accountToken=$accountToken, cardToken=$cardToken, createdAt=$createdAt, digitalCardArtToken=$digitalCardArtToken, events=$events, status=$status, token=$token, tokenRequestorName=$tokenRequestorName, tokenUniqueReference=$tokenUniqueReference, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
+        "Tokenization{accountToken=$accountToken, cardToken=$cardToken, createdAt=$createdAt, digitalCardArtToken=$digitalCardArtToken, events=$events, status=$status, token=$token, tokenRequestorName=$tokenRequestorName, tokenUniqueReference=$tokenUniqueReference, tokenizationChannel=$tokenizationChannel, updatedAt=$updatedAt, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -197,6 +210,7 @@ private constructor(
         private var token: JsonField<String> = JsonMissing.of()
         private var tokenRequestorName: JsonField<TokenRequestorName> = JsonMissing.of()
         private var tokenUniqueReference: JsonField<String> = JsonMissing.of()
+        private var tokenizationChannel: JsonField<TokenizationChannel> = JsonMissing.of()
         private var updatedAt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -211,6 +225,7 @@ private constructor(
             this.token = tokenization.token
             this.tokenRequestorName = tokenization.tokenRequestorName
             this.tokenUniqueReference = tokenization.tokenUniqueReference
+            this.tokenizationChannel = tokenization.tokenizationChannel
             this.updatedAt = tokenization.updatedAt
             additionalProperties(tokenization.additionalProperties)
         }
@@ -286,11 +301,11 @@ private constructor(
         @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
-        /** The entity that is requested the tokenization. Represents a Digital Wallet. */
+        /** The entity that requested the tokenization. Represents a Digital Wallet or merchant. */
         fun tokenRequestorName(tokenRequestorName: TokenRequestorName) =
             tokenRequestorName(JsonField.of(tokenRequestorName))
 
-        /** The entity that is requested the tokenization. Represents a Digital Wallet. */
+        /** The entity that requested the tokenization. Represents a Digital Wallet or merchant. */
         @JsonProperty("token_requestor_name")
         @ExcludeMissing
         fun tokenRequestorName(tokenRequestorName: JsonField<TokenRequestorName>) = apply {
@@ -306,6 +321,17 @@ private constructor(
         @ExcludeMissing
         fun tokenUniqueReference(tokenUniqueReference: JsonField<String>) = apply {
             this.tokenUniqueReference = tokenUniqueReference
+        }
+
+        /** The channel through which the tokenization was made. */
+        fun tokenizationChannel(tokenizationChannel: TokenizationChannel) =
+            tokenizationChannel(JsonField.of(tokenizationChannel))
+
+        /** The channel through which the tokenization was made. */
+        @JsonProperty("tokenization_channel")
+        @ExcludeMissing
+        fun tokenizationChannel(tokenizationChannel: JsonField<TokenizationChannel>) = apply {
+            this.tokenizationChannel = tokenizationChannel
         }
 
         /** Latest date and time when the tokenization was updated. UTC time zone. */
@@ -341,6 +367,7 @@ private constructor(
                 token,
                 tokenRequestorName,
                 tokenUniqueReference,
+                tokenizationChannel,
                 updatedAt,
                 additionalProperties.toUnmodifiable(),
             )
@@ -461,11 +488,15 @@ private constructor(
 
             @JvmField val APPLE_PAY = TokenRequestorName(JsonField.of("APPLE_PAY"))
 
+            @JvmField val FACEBOOK = TokenRequestorName(JsonField.of("FACEBOOK"))
+
             @JvmField val FITBIT_PAY = TokenRequestorName(JsonField.of("FITBIT_PAY"))
 
             @JvmField val GARMIN_PAY = TokenRequestorName(JsonField.of("GARMIN_PAY"))
 
             @JvmField val MICROSOFT_PAY = TokenRequestorName(JsonField.of("MICROSOFT_PAY"))
+
+            @JvmField val NETFLIX = TokenRequestorName(JsonField.of("NETFLIX"))
 
             @JvmField val SAMSUNG_PAY = TokenRequestorName(JsonField.of("SAMSUNG_PAY"))
 
@@ -480,9 +511,11 @@ private constructor(
             AMAZON_ONE,
             ANDROID_PAY,
             APPLE_PAY,
+            FACEBOOK,
             FITBIT_PAY,
             GARMIN_PAY,
             MICROSOFT_PAY,
+            NETFLIX,
             SAMSUNG_PAY,
             UNKNOWN,
             VISA_CHECKOUT,
@@ -492,9 +525,11 @@ private constructor(
             AMAZON_ONE,
             ANDROID_PAY,
             APPLE_PAY,
+            FACEBOOK,
             FITBIT_PAY,
             GARMIN_PAY,
             MICROSOFT_PAY,
+            NETFLIX,
             SAMSUNG_PAY,
             UNKNOWN,
             VISA_CHECKOUT,
@@ -506,9 +541,11 @@ private constructor(
                 AMAZON_ONE -> Value.AMAZON_ONE
                 ANDROID_PAY -> Value.ANDROID_PAY
                 APPLE_PAY -> Value.APPLE_PAY
+                FACEBOOK -> Value.FACEBOOK
                 FITBIT_PAY -> Value.FITBIT_PAY
                 GARMIN_PAY -> Value.GARMIN_PAY
                 MICROSOFT_PAY -> Value.MICROSOFT_PAY
+                NETFLIX -> Value.NETFLIX
                 SAMSUNG_PAY -> Value.SAMSUNG_PAY
                 UNKNOWN -> Value.UNKNOWN
                 VISA_CHECKOUT -> Value.VISA_CHECKOUT
@@ -520,13 +557,72 @@ private constructor(
                 AMAZON_ONE -> Known.AMAZON_ONE
                 ANDROID_PAY -> Known.ANDROID_PAY
                 APPLE_PAY -> Known.APPLE_PAY
+                FACEBOOK -> Known.FACEBOOK
                 FITBIT_PAY -> Known.FITBIT_PAY
                 GARMIN_PAY -> Known.GARMIN_PAY
                 MICROSOFT_PAY -> Known.MICROSOFT_PAY
+                NETFLIX -> Known.NETFLIX
                 SAMSUNG_PAY -> Known.SAMSUNG_PAY
                 UNKNOWN -> Known.UNKNOWN
                 VISA_CHECKOUT -> Known.VISA_CHECKOUT
                 else -> throw LithicInvalidDataException("Unknown TokenRequestorName: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+    }
+
+    class TokenizationChannel
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) : Enum {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TokenizationChannel && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val DIGITAL_WALLET = TokenizationChannel(JsonField.of("DIGITAL_WALLET"))
+
+            @JvmField val MERCHANT = TokenizationChannel(JsonField.of("MERCHANT"))
+
+            @JvmStatic fun of(value: String) = TokenizationChannel(JsonField.of(value))
+        }
+
+        enum class Known {
+            DIGITAL_WALLET,
+            MERCHANT,
+        }
+
+        enum class Value {
+            DIGITAL_WALLET,
+            MERCHANT,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                DIGITAL_WALLET -> Value.DIGITAL_WALLET
+                MERCHANT -> Value.MERCHANT
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                DIGITAL_WALLET -> Known.DIGITAL_WALLET
+                MERCHANT -> Known.MERCHANT
+                else -> throw LithicInvalidDataException("Unknown TokenizationChannel: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
