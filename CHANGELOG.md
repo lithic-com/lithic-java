@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.42.0 (2024-07-19)
+
+Full Changelog: [v0.41.0...v0.42.0](https://github.com/lithic-com/lithic-java/compare/v0.41.0...v0.42.0)
+
+### Features
+
+* **api:** add method to retrieve a transaction's enhanced commercial data ([#254](https://github.com/lithic-com/lithic-java/issues/254)) ([5e5d37d](https://github.com/lithic-com/lithic-java/commit/5e5d37d6e16328c2ec6d8452e68319cddfd78931))
+
+
+### Chores
+
+* **ci:** limit release doctor target branches ([#252](https://github.com/lithic-com/lithic-java/issues/252)) ([71508c8](https://github.com/lithic-com/lithic-java/commit/71508c82c7d49d2dbefe5f2306ff613a7b25bc6a))
+
 ## 0.41.0 (2024-07-17)
 
 Full Changelog: [v0.40.0...v0.41.0](https://github.com/lithic-com/lithic-java/compare/v0.40.0...v0.41.0)
