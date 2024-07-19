@@ -23,8 +23,14 @@ import com.lithic.api.models.TransactionSimulateReturnReversalParams
 import com.lithic.api.models.TransactionSimulateReturnReversalResponse
 import com.lithic.api.models.TransactionSimulateVoidParams
 import com.lithic.api.models.TransactionSimulateVoidResponse
+import com.lithic.api.services.blocking.transactions.EnhancedCommercialDataService
+import com.lithic.api.services.blocking.transactions.EventService
 
 interface TransactionService {
+
+    fun enhancedCommercialData(): EnhancedCommercialDataService
+
+    fun events(): EventService
 
     /** Get specific card transaction. */
     @JvmOverloads
