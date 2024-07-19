@@ -26,6 +26,10 @@ import com.lithic.api.models.TransactionSimulateReturnReversalParams
 import com.lithic.api.models.TransactionSimulateReturnReversalResponse
 import com.lithic.api.models.TransactionSimulateVoidParams
 import com.lithic.api.models.TransactionSimulateVoidResponse
+import com.lithic.api.services.async.transactions.EnhancedCommercialDataServiceAsync
+import com.lithic.api.services.async.transactions.EnhancedCommercialDataServiceAsyncImpl
+import com.lithic.api.services.async.transactions.EventServiceAsync
+import com.lithic.api.services.async.transactions.EventServiceAsyncImpl
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -38,6 +42,17 @@ constructor(
 ) : TransactionServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+    private val enhancedCommercialData: EnhancedCommercialDataServiceAsync by lazy {
+        EnhancedCommercialDataServiceAsyncImpl(clientOptions)
+    }
+
+    private val events: EventServiceAsync by lazy { EventServiceAsyncImpl(clientOptions) }
+
+    override fun enhancedCommercialData(): EnhancedCommercialDataServiceAsync =
+        enhancedCommercialData
+
+    override fun events(): EventServiceAsync = events
 
     private val retrieveHandler: Handler<Transaction> =
         jsonHandler<Transaction>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
