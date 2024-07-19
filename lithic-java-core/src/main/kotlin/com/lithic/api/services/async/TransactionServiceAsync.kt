@@ -23,9 +23,15 @@ import com.lithic.api.models.TransactionSimulateReturnReversalParams
 import com.lithic.api.models.TransactionSimulateReturnReversalResponse
 import com.lithic.api.models.TransactionSimulateVoidParams
 import com.lithic.api.models.TransactionSimulateVoidResponse
+import com.lithic.api.services.async.transactions.EnhancedCommercialDataServiceAsync
+import com.lithic.api.services.async.transactions.EventServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface TransactionServiceAsync {
+
+    fun enhancedCommercialData(): EnhancedCommercialDataServiceAsync
+
+    fun events(): EventServiceAsync
 
     /** Get specific card transaction. */
     @JvmOverloads
