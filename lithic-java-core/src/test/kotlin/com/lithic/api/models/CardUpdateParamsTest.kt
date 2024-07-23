@@ -12,7 +12,6 @@ class CardUpdateParamsTest {
     fun createCardUpdateParams() {
         CardUpdateParams.builder()
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .authRuleToken("auth_rule_token")
             .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .memo("New Card")
             .pin("pin")
@@ -27,7 +26,6 @@ class CardUpdateParamsTest {
         val params =
             CardUpdateParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .authRuleToken("auth_rule_token")
                 .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .memo("New Card")
                 .pin("pin")
@@ -37,7 +35,6 @@ class CardUpdateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.authRuleToken()).isEqualTo("auth_rule_token")
         assertThat(body.digitalCardArtToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.memo()).isEqualTo("New Card")
         assertThat(body.pin()).isEqualTo("pin")
