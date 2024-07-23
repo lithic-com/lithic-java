@@ -52,7 +52,12 @@ private constructor(
     /** Globally unique identifier for the account to which the card belongs. */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
-    /** List of identifiers for the Auth Rule(s) that are applied on the card. */
+    /**
+     * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
+     * deprecated and will no longer be populated in the `Card` object. The key will be removed from
+     * the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
+     * information instead.
+     */
     fun authRuleTokens(): Optional<List<String>> =
         Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
 
@@ -167,7 +172,12 @@ private constructor(
     /** Globally unique identifier for the account to which the card belongs. */
     @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
 
-    /** List of identifiers for the Auth Rule(s) that are applied on the card. */
+    /**
+     * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
+     * deprecated and will no longer be populated in the `Card` object. The key will be removed from
+     * the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
+     * information instead.
+     */
     @JsonProperty("auth_rule_tokens") @ExcludeMissing fun _authRuleTokens() = authRuleTokens
 
     /** Globally unique identifier for the card program on which the card exists. */
@@ -433,11 +443,21 @@ private constructor(
             this.accountToken = accountToken
         }
 
-        /** List of identifiers for the Auth Rule(s) that are applied on the card. */
+        /**
+         * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
+         * deprecated and will no longer be populated in the `Card` object. The key will be removed
+         * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
+         * information instead.
+         */
         fun authRuleTokens(authRuleTokens: List<String>) =
             authRuleTokens(JsonField.of(authRuleTokens))
 
-        /** List of identifiers for the Auth Rule(s) that are applied on the card. */
+        /**
+         * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
+         * deprecated and will no longer be populated in the `Card` object. The key will be removed
+         * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
+         * information instead.
+         */
         @JsonProperty("auth_rule_tokens")
         @ExcludeMissing
         fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {

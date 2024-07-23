@@ -40,7 +40,12 @@ private constructor(
     fun accountHolder(): Optional<AccountHolder> =
         Optional.ofNullable(accountHolder.getNullable("account_holder"))
 
-    /** List of identifiers for the Auth Rule(s) that are applied on the account. */
+    /**
+     * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
+     * deprecated and will no longer be populated in the `account_holder` object. The key will be
+     * removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth
+     * Rule information instead.
+     */
     fun authRuleTokens(): Optional<List<String>> =
         Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
 
@@ -81,7 +86,12 @@ private constructor(
 
     @JsonProperty("account_holder") @ExcludeMissing fun _accountHolder() = accountHolder
 
-    /** List of identifiers for the Auth Rule(s) that are applied on the account. */
+    /**
+     * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
+     * deprecated and will no longer be populated in the `account_holder` object. The key will be
+     * removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth
+     * Rule information instead.
+     */
     @JsonProperty("auth_rule_tokens") @ExcludeMissing fun _authRuleTokens() = authRuleTokens
 
     /**
@@ -211,11 +221,21 @@ private constructor(
             this.accountHolder = accountHolder
         }
 
-        /** List of identifiers for the Auth Rule(s) that are applied on the account. */
+        /**
+         * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
+         * deprecated and will no longer be populated in the `account_holder` object. The key will
+         * be removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch
+         * Auth Rule information instead.
+         */
         fun authRuleTokens(authRuleTokens: List<String>) =
             authRuleTokens(JsonField.of(authRuleTokens))
 
-        /** List of identifiers for the Auth Rule(s) that are applied on the account. */
+        /**
+         * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
+         * deprecated and will no longer be populated in the `account_holder` object. The key will
+         * be removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch
+         * Auth Rule information instead.
+         */
         @JsonProperty("auth_rule_tokens")
         @ExcludeMissing
         fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {
