@@ -16,8 +16,12 @@ import com.lithic.api.models.FinancialAccountRetrieveParams
 import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.services.async.financialAccounts.BalanceServiceAsync
 import com.lithic.api.services.async.financialAccounts.BalanceServiceAsyncImpl
+import com.lithic.api.services.async.financialAccounts.CreditConfigurationServiceAsync
+import com.lithic.api.services.async.financialAccounts.CreditConfigurationServiceAsyncImpl
 import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsync
 import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsyncImpl
+import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
+import com.lithic.api.services.async.financialAccounts.StatementServiceAsyncImpl
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -37,9 +41,21 @@ constructor(
         FinancialTransactionServiceAsyncImpl(clientOptions)
     }
 
+    private val creditConfiguration: CreditConfigurationServiceAsync by lazy {
+        CreditConfigurationServiceAsyncImpl(clientOptions)
+    }
+
+    private val statements: StatementServiceAsync by lazy {
+        StatementServiceAsyncImpl(clientOptions)
+    }
+
     override fun balances(): BalanceServiceAsync = balances
 
     override fun financialTransactions(): FinancialTransactionServiceAsync = financialTransactions
+
+    override fun creditConfiguration(): CreditConfigurationServiceAsync = creditConfiguration
+
+    override fun statements(): StatementServiceAsync = statements
 
     private val createHandler: Handler<FinancialAccount> =
         jsonHandler<FinancialAccount>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
