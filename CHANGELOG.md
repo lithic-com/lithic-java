@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.43.0 (2024-07-23)
+
+Full Changelog: [v0.42.0...v0.43.0](https://github.com/lithic-com/lithic-java/compare/v0.42.0...v0.43.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** deprecate 'auth rule token' in 'card' and 'account holder' models ([#257](https://github.com/lithic-com/lithic-java/issues/257))
+
+### Features
+
+* **api:** deprecate 'auth rule token' in 'card' and 'account holder' models ([#257](https://github.com/lithic-com/lithic-java/issues/257)) ([45a7586](https://github.com/lithic-com/lithic-java/commit/45a7586ffb775b3dd42118e8ed6745cb44a86f92))
+
+
+### Chores
+
+* **tests:** update prism version ([#255](https://github.com/lithic-com/lithic-java/issues/255)) ([383cc43](https://github.com/lithic-com/lithic-java/commit/383cc43c95cc3eb03bfa6a877606b5585eb49f28))
+
 ## 0.42.0 (2024-07-19)
 
 Full Changelog: [v0.41.0...v0.42.0](https://github.com/lithic-com/lithic-java/compare/v0.41.0...v0.42.0)
