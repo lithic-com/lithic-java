@@ -29,7 +29,6 @@ class StatementTest {
                 .daysInBillingCycle(123L)
                 .endingBalance(123L)
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .nextStatementDate(LocalDate.parse("2019-12-27"))
                 .paymentDueDate(LocalDate.parse("2019-12-27"))
                 .periodTotals(
                     Statement.StatementTotals.builder()
@@ -77,7 +76,6 @@ class StatementTest {
         assertThat(statement.endingBalance()).isEqualTo(123L)
         assertThat(statement.financialAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(statement.nextStatementDate()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(statement.paymentDueDate()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(statement.periodTotals())
             .isEqualTo(

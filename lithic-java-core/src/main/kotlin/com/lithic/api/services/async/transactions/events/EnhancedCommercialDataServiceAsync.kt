@@ -11,7 +11,10 @@ import java.util.concurrent.CompletableFuture
 
 interface EnhancedCommercialDataServiceAsync {
 
-    /** Get L2/L3 enhanced commercial data associated with a transaction event. */
+    /**
+     * Get L2/L3 enhanced commercial data associated with a transaction event. Not available in
+     * sandbox.
+     */
     @JvmOverloads
     fun retrieve(
         params: TransactionEventEnhancedCommercialDataRetrieveParams,
