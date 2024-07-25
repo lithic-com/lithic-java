@@ -26,7 +26,10 @@ constructor(
         jsonHandler<EnhancedCommercialDataRetrieveResponse>(clientOptions.jsonMapper)
             .withErrorHandler(errorHandler)
 
-    /** Get all L2/L3 enhanced commercial data associated with a transaction. */
+    /**
+     * Get all L2/L3 enhanced commercial data associated with a transaction. Not available in
+     * sandbox.
+     */
     override fun retrieve(
         params: TransactionEnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions
