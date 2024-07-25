@@ -39,7 +39,6 @@ private constructor(
     private val ytdTotals: JsonField<StatementTotals>,
     private val created: JsonField<OffsetDateTime>,
     private val updated: JsonField<OffsetDateTime>,
-    private val nextStatementDate: JsonField<LocalDate>,
     private val creditProductToken: JsonField<String>,
     private val accountStanding: JsonField<AccountStanding>,
     private val additionalProperties: Map<String, JsonValue>,
@@ -105,9 +104,6 @@ private constructor(
 
     /** Timestamp of when the statement was updated */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
-
-    /** Date of when the next statement will be created */
-    fun nextStatementDate(): LocalDate = nextStatementDate.getRequired("next_statement_date")
 
     /** Globally unique identifier for a credit product */
     fun creditProductToken(): String = creditProductToken.getRequired("credit_product_token")
@@ -176,11 +172,6 @@ private constructor(
     /** Timestamp of when the statement was updated */
     @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
 
-    /** Date of when the next statement will be created */
-    @JsonProperty("next_statement_date")
-    @ExcludeMissing
-    fun _nextStatementDate() = nextStatementDate
-
     /** Globally unique identifier for a credit product */
     @JsonProperty("credit_product_token")
     @ExcludeMissing
@@ -210,7 +201,6 @@ private constructor(
             ytdTotals().validate()
             created()
             updated()
-            nextStatementDate()
             creditProductToken()
             accountStanding().validate()
             validated = true
@@ -241,7 +231,6 @@ private constructor(
             this.ytdTotals == other.ytdTotals &&
             this.created == other.created &&
             this.updated == other.updated &&
-            this.nextStatementDate == other.nextStatementDate &&
             this.creditProductToken == other.creditProductToken &&
             this.accountStanding == other.accountStanding &&
             this.additionalProperties == other.additionalProperties
@@ -267,7 +256,6 @@ private constructor(
                     ytdTotals,
                     created,
                     updated,
-                    nextStatementDate,
                     creditProductToken,
                     accountStanding,
                     additionalProperties,
@@ -277,7 +265,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Statement{token=$token, financialAccountToken=$financialAccountToken, statementStartDate=$statementStartDate, statementEndDate=$statementEndDate, paymentDueDate=$paymentDueDate, daysInBillingCycle=$daysInBillingCycle, creditLimit=$creditLimit, availableCredit=$availableCredit, startingBalance=$startingBalance, endingBalance=$endingBalance, amountDue=$amountDue, amountPastDue=$amountPastDue, periodTotals=$periodTotals, ytdTotals=$ytdTotals, created=$created, updated=$updated, nextStatementDate=$nextStatementDate, creditProductToken=$creditProductToken, accountStanding=$accountStanding, additionalProperties=$additionalProperties}"
+        "Statement{token=$token, financialAccountToken=$financialAccountToken, statementStartDate=$statementStartDate, statementEndDate=$statementEndDate, paymentDueDate=$paymentDueDate, daysInBillingCycle=$daysInBillingCycle, creditLimit=$creditLimit, availableCredit=$availableCredit, startingBalance=$startingBalance, endingBalance=$endingBalance, amountDue=$amountDue, amountPastDue=$amountPastDue, periodTotals=$periodTotals, ytdTotals=$ytdTotals, created=$created, updated=$updated, creditProductToken=$creditProductToken, accountStanding=$accountStanding, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -302,7 +290,6 @@ private constructor(
         private var ytdTotals: JsonField<StatementTotals> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var nextStatementDate: JsonField<LocalDate> = JsonMissing.of()
         private var creditProductToken: JsonField<String> = JsonMissing.of()
         private var accountStanding: JsonField<AccountStanding> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -325,7 +312,6 @@ private constructor(
             this.ytdTotals = statement.ytdTotals
             this.created = statement.created
             this.updated = statement.updated
-            this.nextStatementDate = statement.nextStatementDate
             this.creditProductToken = statement.creditProductToken
             this.accountStanding = statement.accountStanding
             additionalProperties(statement.additionalProperties)
@@ -499,17 +485,6 @@ private constructor(
         @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
-        /** Date of when the next statement will be created */
-        fun nextStatementDate(nextStatementDate: LocalDate) =
-            nextStatementDate(JsonField.of(nextStatementDate))
-
-        /** Date of when the next statement will be created */
-        @JsonProperty("next_statement_date")
-        @ExcludeMissing
-        fun nextStatementDate(nextStatementDate: JsonField<LocalDate>) = apply {
-            this.nextStatementDate = nextStatementDate
-        }
-
         /** Globally unique identifier for a credit product */
         fun creditProductToken(creditProductToken: String) =
             creditProductToken(JsonField.of(creditProductToken))
@@ -562,7 +537,6 @@ private constructor(
                 ytdTotals,
                 created,
                 updated,
-                nextStatementDate,
                 creditProductToken,
                 accountStanding,
                 additionalProperties.toUnmodifiable(),

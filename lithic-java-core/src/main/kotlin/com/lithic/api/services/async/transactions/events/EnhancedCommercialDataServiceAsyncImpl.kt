@@ -25,7 +25,10 @@ constructor(
     private val retrieveHandler: Handler<EnhancedData> =
         jsonHandler<EnhancedData>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
-    /** Get L2/L3 enhanced commercial data associated with a transaction event. */
+    /**
+     * Get L2/L3 enhanced commercial data associated with a transaction event. Not available in
+     * sandbox.
+     */
     override fun retrieve(
         params: TransactionEventEnhancedCommercialDataRetrieveParams,
         requestOptions: RequestOptions
