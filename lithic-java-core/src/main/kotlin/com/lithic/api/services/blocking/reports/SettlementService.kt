@@ -19,7 +19,7 @@ interface SettlementService {
         requestOptions: RequestOptions = RequestOptions.none()
     ): ReportSettlementListDetailsPage
 
-    /** Get the settlement report for a specified report date. */
+    /** Get the settlement report for a specified report date. Not available in sandbox. */
     @JvmOverloads
     fun summary(
         params: ReportSettlementSummaryParams,

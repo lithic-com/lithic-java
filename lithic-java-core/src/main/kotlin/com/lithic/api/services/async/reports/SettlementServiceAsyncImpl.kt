@@ -58,7 +58,7 @@ constructor(
     private val summaryHandler: Handler<SettlementReport> =
         jsonHandler<SettlementReport>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
-    /** Get the settlement report for a specified report date. */
+    /** Get the settlement report for a specified report date. Not available in sandbox. */
     override fun summary(
         params: ReportSettlementSummaryParams,
         requestOptions: RequestOptions

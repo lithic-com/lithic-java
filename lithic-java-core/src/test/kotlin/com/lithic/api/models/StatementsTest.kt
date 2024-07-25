@@ -32,7 +32,6 @@ class StatementsTest {
                             .daysInBillingCycle(123L)
                             .endingBalance(123L)
                             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .nextStatementDate(LocalDate.parse("2019-12-27"))
                             .paymentDueDate(LocalDate.parse("2019-12-27"))
                             .periodTotals(
                                 Statement.StatementTotals.builder()
@@ -85,7 +84,6 @@ class StatementsTest {
                     .daysInBillingCycle(123L)
                     .endingBalance(123L)
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .nextStatementDate(LocalDate.parse("2019-12-27"))
                     .paymentDueDate(LocalDate.parse("2019-12-27"))
                     .periodTotals(
                         Statement.StatementTotals.builder()
