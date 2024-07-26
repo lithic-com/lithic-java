@@ -56,6 +56,8 @@ interface LithicClient {
 
     fun bookTransfers(): BookTransferService
 
+    fun creditProducts(): CreditProductService
+
     /** Status of api */
     @JvmOverloads
     fun apiStatus(
