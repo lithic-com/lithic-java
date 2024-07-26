@@ -87,6 +87,10 @@ constructor(
         BookTransferServiceImpl(clientOptions)
     }
 
+    private val creditProducts: CreditProductService by lazy {
+        CreditProductServiceImpl(clientOptions)
+    }
+
     override fun async(): LithicClientAsync = async
 
     override fun accounts(): AccountService = accounts
@@ -132,6 +136,8 @@ constructor(
     override fun digitalCardArt(): DigitalCardArtService = digitalCardArt
 
     override fun bookTransfers(): BookTransferService = bookTransfers
+
+    override fun creditProducts(): CreditProductService = creditProducts
 
     private val apiStatusHandler: Handler<ApiStatus> =
         jsonHandler<ApiStatus>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
