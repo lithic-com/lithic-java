@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.44.0 (2024-07-26)
+
+Full Changelog: [v0.43.0...v0.44.0](https://github.com/lithic-com/lithic-java/compare/v0.43.0...v0.44.0)
+
+### Features
+
+* **api:** add method to fetch the extended credit for a given credit product ([#260](https://github.com/lithic-com/lithic-java/issues/260)) ([92bbb89](https://github.com/lithic-com/lithic-java/commit/92bbb8902c7aba0e2d545f784fc7f31cf7928e9f))
+
+
+### Chores
+
+* **docs:** set of improvements ([#258](https://github.com/lithic-com/lithic-java/issues/258)) ([edd9482](https://github.com/lithic-com/lithic-java/commit/edd94824f3699b772793a2682db515ff9ac031e7))
+
 ## 0.43.0 (2024-07-23)
 
 Full Changelog: [v0.42.0...v0.43.0](https://github.com/lithic-com/lithic-java/compare/v0.42.0...v0.43.0)
