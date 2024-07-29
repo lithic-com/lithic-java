@@ -1,10 +1,10 @@
 package com.lithic.api.core.http
 
-import java.io.Closeable
 import java.io.IOException
 import java.io.OutputStream
+import java.lang.AutoCloseable
 
-interface HttpRequestBody : Closeable {
+interface HttpRequestBody : AutoCloseable {
 
     @Throws(IOException::class) fun writeTo(outputStream: OutputStream)
 
