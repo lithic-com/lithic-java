@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.45.0 (2024-07-30)
+
+Full Changelog: [v0.44.0...v0.45.0](https://github.com/lithic-com/lithic-java/compare/v0.44.0...v0.45.0)
+
+### Features
+
+* **client:** improve binary return values ([#263](https://github.com/lithic-com/lithic-java/issues/263)) ([c74f890](https://github.com/lithic-com/lithic-java/commit/c74f890a757517bd76a7927bf5153b77e14db149))
+
+
+### Chores
+
+* **ci:** run tests in CI ([#264](https://github.com/lithic-com/lithic-java/issues/264)) ([b9ed756](https://github.com/lithic-com/lithic-java/commit/b9ed756d87b057964754a50f1dd72fc01aef4b89))
+* **internal:** remove unused test file ([#261](https://github.com/lithic-com/lithic-java/issues/261)) ([d580e71](https://github.com/lithic-com/lithic-java/commit/d580e71186717291dbaa72df2de6926816dd8fe1))
+
 ## 0.44.0 (2024-07-26)
 
 Full Changelog: [v0.43.0...v0.44.0](https://github.com/lithic-com/lithic-java/compare/v0.43.0...v0.44.0)
