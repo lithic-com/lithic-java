@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.46.0 (2024-08-05)
+
+Full Changelog: [v0.45.0...v0.46.0](https://github.com/lithic-com/lithic-java/compare/v0.45.0...v0.46.0)
+
+### Features
+
+* **api:** add event type 'statements.created' ([#265](https://github.com/lithic-com/lithic-java/issues/265)) ([f3ab648](https://github.com/lithic-com/lithic-java/commit/f3ab6485558df6b1efa611ae478e6dd2eb2e6a18))
+
 ## 0.45.0 (2024-07-30)
 
 Full Changelog: [v0.44.0...v0.45.0](https://github.com/lithic-com/lithic-java/compare/v0.44.0...v0.45.0)
