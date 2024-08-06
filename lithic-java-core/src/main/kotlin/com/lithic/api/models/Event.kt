@@ -50,6 +50,7 @@ private constructor(
      *   is complete.
      * - `card.created` - Notification that a card has been created.
      * - `card.renewed` - Notification that a card has been renewed.
+     * - `card.reissued` - Notification that a card has been reissued.
      * - `card.shipped` - Physical card shipment notification. See
      *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
      * - `card_transaction.updated` - Transaction Lifecycle webhook. See
@@ -90,6 +91,7 @@ private constructor(
      *   is complete.
      * - `card.created` - Notification that a card has been created.
      * - `card.renewed` - Notification that a card has been renewed.
+     * - `card.reissued` - Notification that a card has been reissued.
      * - `card.shipped` - Physical card shipment notification. See
      *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
      * - `card_transaction.updated` - Transaction Lifecycle webhook. See
@@ -207,6 +209,7 @@ private constructor(
          *   verification is complete.
          * - `card.created` - Notification that a card has been created.
          * - `card.renewed` - Notification that a card has been renewed.
+         * - `card.reissued` - Notification that a card has been reissued.
          * - `card.shipped` - Physical card shipment notification. See
          *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
          * - `card_transaction.updated` - Transaction Lifecycle webhook. See
@@ -236,6 +239,7 @@ private constructor(
          *   verification is complete.
          * - `card.created` - Notification that a card has been created.
          * - `card.renewed` - Notification that a card has been renewed.
+         * - `card.reissued` - Notification that a card has been reissued.
          * - `card.shipped` - Physical card shipment notification. See
          *   https://docs.lithic.com/docs/cards#physical-card-shipped-webhook.
          * - `card_transaction.updated` - Transaction Lifecycle webhook. See
@@ -331,6 +335,8 @@ private constructor(
 
             @JvmField val CARD_RENEWED = EventType(JsonField.of("card.renewed"))
 
+            @JvmField val CARD_REISSUED = EventType(JsonField.of("card.reissued"))
+
             @JvmField val CARD_SHIPPED = EventType(JsonField.of("card.shipped"))
 
             @JvmField
@@ -422,6 +428,7 @@ private constructor(
             BALANCE_UPDATED,
             CARD_CREATED,
             CARD_RENEWED,
+            CARD_REISSUED,
             CARD_SHIPPED,
             CARD_TRANSACTION_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
@@ -454,6 +461,7 @@ private constructor(
             BALANCE_UPDATED,
             CARD_CREATED,
             CARD_RENEWED,
+            CARD_REISSUED,
             CARD_SHIPPED,
             CARD_TRANSACTION_UPDATED,
             DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST,
@@ -488,6 +496,7 @@ private constructor(
                 BALANCE_UPDATED -> Value.BALANCE_UPDATED
                 CARD_CREATED -> Value.CARD_CREATED
                 CARD_RENEWED -> Value.CARD_RENEWED
+                CARD_REISSUED -> Value.CARD_REISSUED
                 CARD_SHIPPED -> Value.CARD_SHIPPED
                 CARD_TRANSACTION_UPDATED -> Value.CARD_TRANSACTION_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
@@ -527,6 +536,7 @@ private constructor(
                 BALANCE_UPDATED -> Known.BALANCE_UPDATED
                 CARD_CREATED -> Known.CARD_CREATED
                 CARD_RENEWED -> Known.CARD_RENEWED
+                CARD_REISSUED -> Known.CARD_REISSUED
                 CARD_SHIPPED -> Known.CARD_SHIPPED
                 CARD_TRANSACTION_UPDATED -> Known.CARD_TRANSACTION_UPDATED
                 DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST ->
