@@ -6,19 +6,21 @@ import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class AccountHolderTest {
+class AccountHolderSimulateEnrollmentReviewResponseTest {
 
     @Test
-    fun createAccountHolder() {
-        val accountHolder =
-            AccountHolder.builder()
+    fun createAccountHolderSimulateEnrollmentReviewResponse() {
+        val accountHolderSimulateEnrollmentReviewResponse =
+            AccountHolderSimulateEnrollmentReviewResponse.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .beneficialOwnerEntities(
                     listOf(
-                        AccountHolder.BusinessEntity.builder()
+                        AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.builder()
                             .address(
-                                Address.builder()
+                                AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity
+                                    .Address2
+                                    .builder()
                                     .address1("123 Old Forest Way")
                                     .city("Omaha")
                                     .country("USA")
@@ -31,16 +33,16 @@ class AccountHolderTest {
                             .legalBusinessName("Acme, Inc.")
                             .phoneNumbers(listOf("+12124007676"))
                             .dbaBusinessName("dba_business_name")
-                            .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .parentCompany("parent_company")
                             .build()
                     )
                 )
                 .beneficialOwnerIndividuals(
                     listOf(
-                        AccountHolder.AccountHolderIndividualResponse.builder()
+                        AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
                             .address(
-                                Address.builder()
+                                AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2
+                                    .builder()
                                     .address1("123 Old Forest Way")
                                     .city("Omaha")
                                     .country("USA")
@@ -51,8 +53,8 @@ class AccountHolderTest {
                             )
                             .dob("1991-03-08 08:00:00")
                             .email("tom@middle-earth.com")
-                            .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .firstName("Tom")
+                            .governmentId("111-23-1412")
                             .lastName("Bombadil")
                             .phoneNumber("+12124007676")
                             .build()
@@ -60,9 +62,10 @@ class AccountHolderTest {
                 )
                 .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .businessEntity(
-                    AccountHolder.BusinessEntity.builder()
+                    AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.builder()
                         .address(
-                            Address.builder()
+                            AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.Address2
+                                .builder()
                                 .address1("123 Old Forest Way")
                                 .city("Omaha")
                                 .country("USA")
@@ -75,14 +78,14 @@ class AccountHolderTest {
                         .legalBusinessName("Acme, Inc.")
                         .phoneNumbers(listOf("+12124007676"))
                         .dbaBusinessName("dba_business_name")
-                        .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .parentCompany("parent_company")
                         .build()
                 )
                 .controlPerson(
-                    AccountHolder.AccountHolderIndividualResponse.builder()
+                    AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
                         .address(
-                            Address.builder()
+                            AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2
+                                .builder()
                                 .address1("123 Old Forest Way")
                                 .city("Omaha")
                                 .country("USA")
@@ -93,20 +96,23 @@ class AccountHolderTest {
                         )
                         .dob("1991-03-08 08:00:00")
                         .email("tom@middle-earth.com")
-                        .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .firstName("Tom")
+                        .governmentId("111-23-1412")
                         .lastName("Bombadil")
                         .phoneNumber("+12124007676")
                         .build()
                 )
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                .email("+12124007676")
-                .exemptionType(AccountHolder.ExemptionType.AUTHORIZED_USER)
+                .email("email")
+                .exemptionType(
+                    AccountHolderSimulateEnrollmentReviewResponse.ExemptionType.AUTHORIZED_USER
+                )
                 .externalId("external_id")
                 .individual(
-                    AccountHolder.AccountHolderIndividualResponse.builder()
+                    AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
                         .address(
-                            Address.builder()
+                            AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2
+                                .builder()
                                 .address1("123 Old Forest Way")
                                 .city("Omaha")
                                 .country("USA")
@@ -117,33 +123,44 @@ class AccountHolderTest {
                         )
                         .dob("1991-03-08 08:00:00")
                         .email("tom@middle-earth.com")
-                        .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .firstName("Tom")
+                        .governmentId("111-23-1412")
                         .lastName("Bombadil")
                         .phoneNumber("+12124007676")
                         .build()
                 )
                 .natureOfBusiness("nature_of_business")
-                .phoneNumber("+12124007676")
+                .phoneNumber("phone_number")
                 .requiredDocuments(
                     listOf(
-                        AccountHolder.RequiredDocument.builder()
+                        AccountHolderSimulateEnrollmentReviewResponse.RequiredDocument.builder()
                             .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .statusReasons(listOf("string"))
                             .validDocuments(listOf("string"))
                             .build()
                     )
                 )
-                .status(AccountHolder.Status.ACCEPTED)
-                .statusReasons(listOf(AccountHolder.StatusReason.ADDRESS_VERIFICATION_FAILURE))
-                .userType(AccountHolder.UserType.BUSINESS)
+                .status(AccountHolderSimulateEnrollmentReviewResponse.Status.ACCEPTED)
+                .statusReasons(
+                    listOf(
+                        AccountHolderSimulateEnrollmentReviewResponse.StatusReasons
+                            .ADDRESS_VERIFICATION_FAILURE
+                    )
+                )
+                .userType(AccountHolderSimulateEnrollmentReviewResponse.UserType.BUSINESS)
                 .verificationApplication(
-                    AccountHolder.AccountHolderVerificationApplication.builder()
+                    AccountHolderSimulateEnrollmentReviewResponse.VerificationApplication.builder()
                         .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .status(AccountHolder.AccountHolderVerificationApplication.Status.ACCEPTED)
+                        .status(
+                            AccountHolderSimulateEnrollmentReviewResponse.VerificationApplication
+                                .Status
+                                .ACCEPTED
+                        )
                         .statusReasons(
                             listOf(
-                                AccountHolder.AccountHolderVerificationApplication.StatusReason
+                                AccountHolderSimulateEnrollmentReviewResponse
+                                    .VerificationApplication
+                                    .StatusReasons
                                     .ADDRESS_VERIFICATION_FAILURE
                             )
                         )
@@ -152,58 +169,17 @@ class AccountHolderTest {
                 )
                 .websiteUrl("website_url")
                 .build()
-        assertThat(accountHolder).isNotNull
-        assertThat(accountHolder.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(accountHolder.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(accountHolder.beneficialOwnerEntities().get())
-            .containsExactly(
-                AccountHolder.BusinessEntity.builder()
-                    .address(
-                        Address.builder()
-                            .address1("123 Old Forest Way")
-                            .city("Omaha")
-                            .country("USA")
-                            .postalCode("68022")
-                            .state("NE")
-                            .address2("address2")
-                            .build()
-                    )
-                    .governmentId("114-123-1513")
-                    .legalBusinessName("Acme, Inc.")
-                    .phoneNumbers(listOf("+12124007676"))
-                    .dbaBusinessName("dba_business_name")
-                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .parentCompany("parent_company")
-                    .build()
-            )
-        assertThat(accountHolder.beneficialOwnerIndividuals().get())
-            .containsExactly(
-                AccountHolder.AccountHolderIndividualResponse.builder()
-                    .address(
-                        Address.builder()
-                            .address1("123 Old Forest Way")
-                            .city("Omaha")
-                            .country("USA")
-                            .postalCode("68022")
-                            .state("NE")
-                            .address2("address2")
-                            .build()
-                    )
-                    .dob("1991-03-08 08:00:00")
-                    .email("tom@middle-earth.com")
-                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .firstName("Tom")
-                    .lastName("Bombadil")
-                    .phoneNumber("+12124007676")
-                    .build()
-            )
-        assertThat(accountHolder.businessAccountToken())
+        assertThat(accountHolderSimulateEnrollmentReviewResponse).isNotNull
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.token())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(accountHolder.businessEntity())
-            .contains(
-                AccountHolder.BusinessEntity.builder()
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.accountToken())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.beneficialOwnerEntities().get())
+            .containsExactly(
+                AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.builder()
                     .address(
-                        Address.builder()
+                        AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.Address2
+                            .builder()
                             .address1("123 Old Forest Way")
                             .city("Omaha")
                             .country("USA")
@@ -216,86 +192,142 @@ class AccountHolderTest {
                     .legalBusinessName("Acme, Inc.")
                     .phoneNumbers(listOf("+12124007676"))
                     .dbaBusinessName("dba_business_name")
-                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .parentCompany("parent_company")
                     .build()
             )
-        assertThat(accountHolder.controlPerson())
-            .contains(
-                AccountHolder.AccountHolderIndividualResponse.builder()
-                    .address(
-                        Address.builder()
-                            .address1("123 Old Forest Way")
-                            .city("Omaha")
-                            .country("USA")
-                            .postalCode("68022")
-                            .state("NE")
-                            .address2("address2")
-                            .build()
-                    )
-                    .dob("1991-03-08 08:00:00")
-                    .email("tom@middle-earth.com")
-                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .firstName("Tom")
-                    .lastName("Bombadil")
-                    .phoneNumber("+12124007676")
-                    .build()
-            )
-        assertThat(accountHolder.created())
-            .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(accountHolder.email()).contains("+12124007676")
-        assertThat(accountHolder.exemptionType())
-            .contains(AccountHolder.ExemptionType.AUTHORIZED_USER)
-        assertThat(accountHolder.externalId()).contains("external_id")
-        assertThat(accountHolder.individual())
-            .contains(
-                AccountHolder.AccountHolderIndividualResponse.builder()
-                    .address(
-                        Address.builder()
-                            .address1("123 Old Forest Way")
-                            .city("Omaha")
-                            .country("USA")
-                            .postalCode("68022")
-                            .state("NE")
-                            .address2("address2")
-                            .build()
-                    )
-                    .dob("1991-03-08 08:00:00")
-                    .email("tom@middle-earth.com")
-                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .firstName("Tom")
-                    .lastName("Bombadil")
-                    .phoneNumber("+12124007676")
-                    .build()
-            )
-        assertThat(accountHolder.natureOfBusiness()).contains("nature_of_business")
-        assertThat(accountHolder.phoneNumber()).contains("+12124007676")
-        assertThat(accountHolder.requiredDocuments().get())
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.beneficialOwnerIndividuals().get())
             .containsExactly(
-                AccountHolder.RequiredDocument.builder()
+                AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
+                    .address(
+                        AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2.builder()
+                            .address1("123 Old Forest Way")
+                            .city("Omaha")
+                            .country("USA")
+                            .postalCode("68022")
+                            .state("NE")
+                            .address2("address2")
+                            .build()
+                    )
+                    .dob("1991-03-08 08:00:00")
+                    .email("tom@middle-earth.com")
+                    .firstName("Tom")
+                    .governmentId("111-23-1412")
+                    .lastName("Bombadil")
+                    .phoneNumber("+12124007676")
+                    .build()
+            )
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.businessAccountToken())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.businessEntity())
+            .contains(
+                AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.builder()
+                    .address(
+                        AccountHolderSimulateEnrollmentReviewResponse.KybBusinessEntity.Address2
+                            .builder()
+                            .address1("123 Old Forest Way")
+                            .city("Omaha")
+                            .country("USA")
+                            .postalCode("68022")
+                            .state("NE")
+                            .address2("address2")
+                            .build()
+                    )
+                    .governmentId("114-123-1513")
+                    .legalBusinessName("Acme, Inc.")
+                    .phoneNumbers(listOf("+12124007676"))
+                    .dbaBusinessName("dba_business_name")
+                    .parentCompany("parent_company")
+                    .build()
+            )
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.controlPerson())
+            .contains(
+                AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
+                    .address(
+                        AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2.builder()
+                            .address1("123 Old Forest Way")
+                            .city("Omaha")
+                            .country("USA")
+                            .postalCode("68022")
+                            .state("NE")
+                            .address2("address2")
+                            .build()
+                    )
+                    .dob("1991-03-08 08:00:00")
+                    .email("tom@middle-earth.com")
+                    .firstName("Tom")
+                    .governmentId("111-23-1412")
+                    .lastName("Bombadil")
+                    .phoneNumber("+12124007676")
+                    .build()
+            )
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.created())
+            .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.email()).contains("email")
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.exemptionType())
+            .contains(AccountHolderSimulateEnrollmentReviewResponse.ExemptionType.AUTHORIZED_USER)
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.externalId())
+            .contains("external_id")
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.individual())
+            .contains(
+                AccountHolderSimulateEnrollmentReviewResponse.Individual.builder()
+                    .address(
+                        AccountHolderSimulateEnrollmentReviewResponse.Individual.Address2.builder()
+                            .address1("123 Old Forest Way")
+                            .city("Omaha")
+                            .country("USA")
+                            .postalCode("68022")
+                            .state("NE")
+                            .address2("address2")
+                            .build()
+                    )
+                    .dob("1991-03-08 08:00:00")
+                    .email("tom@middle-earth.com")
+                    .firstName("Tom")
+                    .governmentId("111-23-1412")
+                    .lastName("Bombadil")
+                    .phoneNumber("+12124007676")
+                    .build()
+            )
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.natureOfBusiness())
+            .contains("nature_of_business")
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.phoneNumber())
+            .contains("phone_number")
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.requiredDocuments().get())
+            .containsExactly(
+                AccountHolderSimulateEnrollmentReviewResponse.RequiredDocument.builder()
                     .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .statusReasons(listOf("string"))
                     .validDocuments(listOf("string"))
                     .build()
             )
-        assertThat(accountHolder.status()).contains(AccountHolder.Status.ACCEPTED)
-        assertThat(accountHolder.statusReasons().get())
-            .containsExactly(AccountHolder.StatusReason.ADDRESS_VERIFICATION_FAILURE)
-        assertThat(accountHolder.userType()).contains(AccountHolder.UserType.BUSINESS)
-        assertThat(accountHolder.verificationApplication())
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.status())
+            .contains(AccountHolderSimulateEnrollmentReviewResponse.Status.ACCEPTED)
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.statusReasons().get())
+            .containsExactly(
+                AccountHolderSimulateEnrollmentReviewResponse.StatusReasons
+                    .ADDRESS_VERIFICATION_FAILURE
+            )
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.userType())
+            .contains(AccountHolderSimulateEnrollmentReviewResponse.UserType.BUSINESS)
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.verificationApplication())
             .contains(
-                AccountHolder.AccountHolderVerificationApplication.builder()
+                AccountHolderSimulateEnrollmentReviewResponse.VerificationApplication.builder()
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .status(AccountHolder.AccountHolderVerificationApplication.Status.ACCEPTED)
+                    .status(
+                        AccountHolderSimulateEnrollmentReviewResponse.VerificationApplication.Status
+                            .ACCEPTED
+                    )
                     .statusReasons(
                         listOf(
-                            AccountHolder.AccountHolderVerificationApplication.StatusReason
+                            AccountHolderSimulateEnrollmentReviewResponse.VerificationApplication
+                                .StatusReasons
                                 .ADDRESS_VERIFICATION_FAILURE
                         )
                     )
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
-        assertThat(accountHolder.websiteUrl()).contains("website_url")
+        assertThat(accountHolderSimulateEnrollmentReviewResponse.websiteUrl())
+            .contains("website_url")
     }
 }
