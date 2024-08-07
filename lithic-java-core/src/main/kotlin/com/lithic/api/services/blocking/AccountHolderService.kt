@@ -16,6 +16,10 @@ import com.lithic.api.models.AccountHolderListParams
 import com.lithic.api.models.AccountHolderResubmitParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
 import com.lithic.api.models.AccountHolderRetrieveParams
+import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
+import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewResponse
+import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewParams
+import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewResponse
 import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
@@ -114,6 +118,23 @@ interface AccountHolderService {
         params: AccountHolderRetrieveDocumentParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): AccountHolderDocument
+
+    /** Simulates a review for an account holder document upload. */
+    @JvmOverloads
+    fun simulateEnrollmentDocumentReview(
+        params: AccountHolderSimulateEnrollmentDocumentReviewParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): AccountHolderSimulateEnrollmentDocumentReviewResponse
+
+    /**
+     * Simulates an enrollment review for an account holder. This endpoint is only applicable for
+     * workflows that may required intervention such as `KYB_BASIC` or `KYC_ADVANCED`.
+     */
+    @JvmOverloads
+    fun simulateEnrollmentReview(
+        params: AccountHolderSimulateEnrollmentReviewParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): AccountHolderSimulateEnrollmentReviewResponse
 
     /**
      * Use this endpoint to identify which type of supported government-issued documentation you
