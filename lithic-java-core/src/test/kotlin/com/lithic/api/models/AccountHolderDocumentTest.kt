@@ -13,10 +13,12 @@ class AccountHolderDocumentTest {
             AccountHolderDocument.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .documentType(AccountHolderDocument.DocumentType.COMMERCIAL_LICENSE)
+                .documentType(AccountHolderDocument.DocumentType.EIN_LETTER)
+                .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .requiredDocumentUploads(
                     listOf(
                         AccountHolderDocument.RequiredDocumentUpload.builder()
+                            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .imageType(AccountHolderDocument.RequiredDocumentUpload.ImageType.BACK)
                             .status(AccountHolderDocument.RequiredDocumentUpload.Status.COMPLETED)
                             .statusReasons(
@@ -35,10 +37,13 @@ class AccountHolderDocumentTest {
         assertThat(accountHolderDocument.accountHolderToken())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(accountHolderDocument.documentType())
-            .contains(AccountHolderDocument.DocumentType.COMMERCIAL_LICENSE)
+            .contains(AccountHolderDocument.DocumentType.EIN_LETTER)
+        assertThat(accountHolderDocument.entityToken())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(accountHolderDocument.requiredDocumentUploads().get())
             .containsExactly(
                 AccountHolderDocument.RequiredDocumentUpload.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .imageType(AccountHolderDocument.RequiredDocumentUpload.ImageType.BACK)
                     .status(AccountHolderDocument.RequiredDocumentUpload.Status.COMPLETED)
                     .statusReasons(

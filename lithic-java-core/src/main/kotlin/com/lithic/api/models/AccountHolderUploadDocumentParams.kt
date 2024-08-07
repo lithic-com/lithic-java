@@ -16,11 +16,13 @@ import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
+import java.util.Optional
 
 class AccountHolderUploadDocumentParams
 constructor(
     private val accountHolderToken: String,
-    private val documentType: DocumentType,
+    private val documentType: DocumentType?,
+    private val entityToken: String?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -28,11 +30,17 @@ constructor(
 
     fun accountHolderToken(): String = accountHolderToken
 
-    fun documentType(): DocumentType = documentType
+    fun documentType(): Optional<DocumentType> = Optional.ofNullable(documentType)
+
+    fun entityToken(): Optional<String> = Optional.ofNullable(entityToken)
 
     @JvmSynthetic
     internal fun getBody(): AccountHolderUploadDocumentBody {
-        return AccountHolderUploadDocumentBody(documentType, additionalBodyProperties)
+        return AccountHolderUploadDocumentBody(
+            documentType,
+            entityToken,
+            additionalBodyProperties,
+        )
     }
 
     @JvmSynthetic internal fun getQueryParams(): Map<String, List<String>> = additionalQueryParams
@@ -51,13 +59,17 @@ constructor(
     class AccountHolderUploadDocumentBody
     internal constructor(
         private val documentType: DocumentType?,
+        private val entityToken: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var hashCode: Int = 0
 
-        /** Type of the document to upload. */
+        /** The type of document to upload */
         @JsonProperty("document_type") fun documentType(): DocumentType? = documentType
+
+        /** Globally unique identifier for the entity. */
+        @JsonProperty("entity_token") fun entityToken(): String? = entityToken
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -72,18 +84,24 @@ constructor(
 
             return other is AccountHolderUploadDocumentBody &&
                 this.documentType == other.documentType &&
+                this.entityToken == other.entityToken &&
                 this.additionalProperties == other.additionalProperties
         }
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(documentType, additionalProperties)
+                hashCode =
+                    Objects.hash(
+                        documentType,
+                        entityToken,
+                        additionalProperties,
+                    )
             }
             return hashCode
         }
 
         override fun toString() =
-            "AccountHolderUploadDocumentBody{documentType=$documentType, additionalProperties=$additionalProperties}"
+            "AccountHolderUploadDocumentBody{documentType=$documentType, entityToken=$entityToken, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -93,20 +111,26 @@ constructor(
         class Builder {
 
             private var documentType: DocumentType? = null
+            private var entityToken: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(accountHolderUploadDocumentBody: AccountHolderUploadDocumentBody) =
                 apply {
                     this.documentType = accountHolderUploadDocumentBody.documentType
+                    this.entityToken = accountHolderUploadDocumentBody.entityToken
                     additionalProperties(accountHolderUploadDocumentBody.additionalProperties)
                 }
 
-            /** Type of the document to upload. */
+            /** The type of document to upload */
             @JsonProperty("document_type")
             fun documentType(documentType: DocumentType) = apply {
                 this.documentType = documentType
             }
+
+            /** Globally unique identifier for the entity. */
+            @JsonProperty("entity_token")
+            fun entityToken(entityToken: String) = apply { this.entityToken = entityToken }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -124,8 +148,9 @@ constructor(
 
             fun build(): AccountHolderUploadDocumentBody =
                 AccountHolderUploadDocumentBody(
-                    checkNotNull(documentType) { "`documentType` is required but was not set" },
-                    additionalProperties.toUnmodifiable()
+                    documentType,
+                    entityToken,
+                    additionalProperties.toUnmodifiable(),
                 )
         }
     }
@@ -144,6 +169,7 @@ constructor(
         return other is AccountHolderUploadDocumentParams &&
             this.accountHolderToken == other.accountHolderToken &&
             this.documentType == other.documentType &&
+            this.entityToken == other.entityToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
             this.additionalHeaders == other.additionalHeaders &&
             this.additionalBodyProperties == other.additionalBodyProperties
@@ -153,6 +179,7 @@ constructor(
         return Objects.hash(
             accountHolderToken,
             documentType,
+            entityToken,
             additionalQueryParams,
             additionalHeaders,
             additionalBodyProperties,
@@ -160,7 +187,7 @@ constructor(
     }
 
     override fun toString() =
-        "AccountHolderUploadDocumentParams{accountHolderToken=$accountHolderToken, documentType=$documentType, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "AccountHolderUploadDocumentParams{accountHolderToken=$accountHolderToken, documentType=$documentType, entityToken=$entityToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -174,6 +201,7 @@ constructor(
 
         private var accountHolderToken: String? = null
         private var documentType: DocumentType? = null
+        private var entityToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -183,6 +211,7 @@ constructor(
             apply {
                 this.accountHolderToken = accountHolderUploadDocumentParams.accountHolderToken
                 this.documentType = accountHolderUploadDocumentParams.documentType
+                this.entityToken = accountHolderUploadDocumentParams.entityToken
                 additionalQueryParams(accountHolderUploadDocumentParams.additionalQueryParams)
                 additionalHeaders(accountHolderUploadDocumentParams.additionalHeaders)
                 additionalBodyProperties(accountHolderUploadDocumentParams.additionalBodyProperties)
@@ -192,8 +221,11 @@ constructor(
             this.accountHolderToken = accountHolderToken
         }
 
-        /** Type of the document to upload. */
+        /** The type of document to upload */
         fun documentType(documentType: DocumentType) = apply { this.documentType = documentType }
+
+        /** Globally unique identifier for the entity. */
+        fun entityToken(entityToken: String) = apply { this.entityToken = entityToken }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -254,7 +286,8 @@ constructor(
                 checkNotNull(accountHolderToken) {
                     "`accountHolderToken` is required but was not set"
                 },
-                checkNotNull(documentType) { "`documentType` is required but was not set" },
+                documentType,
+                entityToken,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),
@@ -283,53 +316,140 @@ constructor(
 
         companion object {
 
-            @JvmField val COMMERCIAL_LICENSE = DocumentType(JsonField.of("commercial_license"))
+            @JvmField val EIN_LETTER = DocumentType(JsonField.of("EIN_LETTER"))
 
-            @JvmField val DRIVERS_LICENSE = DocumentType(JsonField.of("drivers_license"))
+            @JvmField val TAX_RETURN = DocumentType(JsonField.of("TAX_RETURN"))
 
-            @JvmField val PASSPORT = DocumentType(JsonField.of("passport"))
+            @JvmField val OPERATING_AGREEMENT = DocumentType(JsonField.of("OPERATING_AGREEMENT"))
 
-            @JvmField val PASSPORT_CARD = DocumentType(JsonField.of("passport_card"))
+            @JvmField
+            val CERTIFICATE_OF_FORMATION = DocumentType(JsonField.of("CERTIFICATE_OF_FORMATION"))
 
-            @JvmField val VISA = DocumentType(JsonField.of("visa"))
+            @JvmField val DRIVERS_LICENSE = DocumentType(JsonField.of("DRIVERS_LICENSE"))
+
+            @JvmField val PASSPORT = DocumentType(JsonField.of("PASSPORT"))
+
+            @JvmField val PASSPORT_CARD = DocumentType(JsonField.of("PASSPORT_CARD"))
+
+            @JvmField
+            val CERTIFICATE_OF_GOOD_STANDING =
+                DocumentType(JsonField.of("CERTIFICATE_OF_GOOD_STANDING"))
+
+            @JvmField
+            val ARTICLES_OF_INCORPORATION = DocumentType(JsonField.of("ARTICLES_OF_INCORPORATION"))
+
+            @JvmField
+            val ARTICLES_OF_ORGANIZATION = DocumentType(JsonField.of("ARTICLES_OF_ORGANIZATION"))
+
+            @JvmField val BYLAWS = DocumentType(JsonField.of("BYLAWS"))
+
+            @JvmField
+            val GOVERNMENT_BUSINESS_LICENSE =
+                DocumentType(JsonField.of("GOVERNMENT_BUSINESS_LICENSE"))
+
+            @JvmField
+            val PARTNERSHIP_AGREEMENT = DocumentType(JsonField.of("PARTNERSHIP_AGREEMENT"))
+
+            @JvmField val SS4_FORM = DocumentType(JsonField.of("SS4_FORM"))
+
+            @JvmField val BANK_STATEMENT = DocumentType(JsonField.of("BANK_STATEMENT"))
+
+            @JvmField
+            val UTILITY_BILL_STATEMENT = DocumentType(JsonField.of("UTILITY_BILL_STATEMENT"))
+
+            @JvmField val SSN_CARD = DocumentType(JsonField.of("SSN_CARD"))
+
+            @JvmField val ITIN_LETTER = DocumentType(JsonField.of("ITIN_LETTER"))
 
             @JvmStatic fun of(value: String) = DocumentType(JsonField.of(value))
         }
 
         enum class Known {
-            COMMERCIAL_LICENSE,
+            EIN_LETTER,
+            TAX_RETURN,
+            OPERATING_AGREEMENT,
+            CERTIFICATE_OF_FORMATION,
             DRIVERS_LICENSE,
             PASSPORT,
             PASSPORT_CARD,
-            VISA,
+            CERTIFICATE_OF_GOOD_STANDING,
+            ARTICLES_OF_INCORPORATION,
+            ARTICLES_OF_ORGANIZATION,
+            BYLAWS,
+            GOVERNMENT_BUSINESS_LICENSE,
+            PARTNERSHIP_AGREEMENT,
+            SS4_FORM,
+            BANK_STATEMENT,
+            UTILITY_BILL_STATEMENT,
+            SSN_CARD,
+            ITIN_LETTER,
         }
 
         enum class Value {
-            COMMERCIAL_LICENSE,
+            EIN_LETTER,
+            TAX_RETURN,
+            OPERATING_AGREEMENT,
+            CERTIFICATE_OF_FORMATION,
             DRIVERS_LICENSE,
             PASSPORT,
             PASSPORT_CARD,
-            VISA,
+            CERTIFICATE_OF_GOOD_STANDING,
+            ARTICLES_OF_INCORPORATION,
+            ARTICLES_OF_ORGANIZATION,
+            BYLAWS,
+            GOVERNMENT_BUSINESS_LICENSE,
+            PARTNERSHIP_AGREEMENT,
+            SS4_FORM,
+            BANK_STATEMENT,
+            UTILITY_BILL_STATEMENT,
+            SSN_CARD,
+            ITIN_LETTER,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                COMMERCIAL_LICENSE -> Value.COMMERCIAL_LICENSE
+                EIN_LETTER -> Value.EIN_LETTER
+                TAX_RETURN -> Value.TAX_RETURN
+                OPERATING_AGREEMENT -> Value.OPERATING_AGREEMENT
+                CERTIFICATE_OF_FORMATION -> Value.CERTIFICATE_OF_FORMATION
                 DRIVERS_LICENSE -> Value.DRIVERS_LICENSE
                 PASSPORT -> Value.PASSPORT
                 PASSPORT_CARD -> Value.PASSPORT_CARD
-                VISA -> Value.VISA
+                CERTIFICATE_OF_GOOD_STANDING -> Value.CERTIFICATE_OF_GOOD_STANDING
+                ARTICLES_OF_INCORPORATION -> Value.ARTICLES_OF_INCORPORATION
+                ARTICLES_OF_ORGANIZATION -> Value.ARTICLES_OF_ORGANIZATION
+                BYLAWS -> Value.BYLAWS
+                GOVERNMENT_BUSINESS_LICENSE -> Value.GOVERNMENT_BUSINESS_LICENSE
+                PARTNERSHIP_AGREEMENT -> Value.PARTNERSHIP_AGREEMENT
+                SS4_FORM -> Value.SS4_FORM
+                BANK_STATEMENT -> Value.BANK_STATEMENT
+                UTILITY_BILL_STATEMENT -> Value.UTILITY_BILL_STATEMENT
+                SSN_CARD -> Value.SSN_CARD
+                ITIN_LETTER -> Value.ITIN_LETTER
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                COMMERCIAL_LICENSE -> Known.COMMERCIAL_LICENSE
+                EIN_LETTER -> Known.EIN_LETTER
+                TAX_RETURN -> Known.TAX_RETURN
+                OPERATING_AGREEMENT -> Known.OPERATING_AGREEMENT
+                CERTIFICATE_OF_FORMATION -> Known.CERTIFICATE_OF_FORMATION
                 DRIVERS_LICENSE -> Known.DRIVERS_LICENSE
                 PASSPORT -> Known.PASSPORT
                 PASSPORT_CARD -> Known.PASSPORT_CARD
-                VISA -> Known.VISA
+                CERTIFICATE_OF_GOOD_STANDING -> Known.CERTIFICATE_OF_GOOD_STANDING
+                ARTICLES_OF_INCORPORATION -> Known.ARTICLES_OF_INCORPORATION
+                ARTICLES_OF_ORGANIZATION -> Known.ARTICLES_OF_ORGANIZATION
+                BYLAWS -> Known.BYLAWS
+                GOVERNMENT_BUSINESS_LICENSE -> Known.GOVERNMENT_BUSINESS_LICENSE
+                PARTNERSHIP_AGREEMENT -> Known.PARTNERSHIP_AGREEMENT
+                SS4_FORM -> Known.SS4_FORM
+                BANK_STATEMENT -> Known.BANK_STATEMENT
+                UTILITY_BILL_STATEMENT -> Known.UTILITY_BILL_STATEMENT
+                SSN_CARD -> Known.SSN_CARD
+                ITIN_LETTER -> Known.ITIN_LETTER
                 else -> throw LithicInvalidDataException("Unknown DocumentType: $value")
             }
 

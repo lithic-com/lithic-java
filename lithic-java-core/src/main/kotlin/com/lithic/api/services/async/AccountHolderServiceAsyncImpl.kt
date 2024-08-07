@@ -19,6 +19,10 @@ import com.lithic.api.models.AccountHolderListParams
 import com.lithic.api.models.AccountHolderResubmitParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
 import com.lithic.api.models.AccountHolderRetrieveParams
+import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
+import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewResponse
+import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewParams
+import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewResponse
 import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
@@ -294,6 +298,73 @@ constructor(
             ->
             response
                 .use { retrieveDocumentHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val simulateEnrollmentDocumentReviewHandler:
+        Handler<AccountHolderSimulateEnrollmentDocumentReviewResponse> =
+        jsonHandler<AccountHolderSimulateEnrollmentDocumentReviewResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** Simulates a review for an account holder document upload. */
+    override fun simulateEnrollmentDocumentReview(
+        params: AccountHolderSimulateEnrollmentDocumentReviewParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<AccountHolderSimulateEnrollmentDocumentReviewResponse> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("simulate", "account_holders", "enrollment_document_review")
+                .putAllQueryParams(clientOptions.queryParams)
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { simulateEnrollmentDocumentReviewHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val simulateEnrollmentReviewHandler:
+        Handler<AccountHolderSimulateEnrollmentReviewResponse> =
+        jsonHandler<AccountHolderSimulateEnrollmentReviewResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /**
+     * Simulates an enrollment review for an account holder. This endpoint is only applicable for
+     * workflows that may required intervention such as `KYB_BASIC` or `KYC_ADVANCED`.
+     */
+    override fun simulateEnrollmentReview(
+        params: AccountHolderSimulateEnrollmentReviewParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<AccountHolderSimulateEnrollmentReviewResponse> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("simulate", "account_holders", "enrollment_review")
+                .putAllQueryParams(clientOptions.queryParams)
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { simulateEnrollmentReviewHandler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()

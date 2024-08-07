@@ -42,6 +42,7 @@ class AccountHolderServiceTest {
                                         .legalBusinessName("Acme, Inc.")
                                         .phoneNumbers(listOf("+12124007676"))
                                         .dbaBusinessName("dba_business_name")
+                                        .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .parentCompany("parent_company")
                                         .build()
                                 )
@@ -84,6 +85,7 @@ class AccountHolderServiceTest {
                                     .legalBusinessName("Acme, Inc.")
                                     .phoneNumbers(listOf("+12124007676"))
                                     .dbaBusinessName("dba_business_name")
+                                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                     .parentCompany("parent_company")
                                     .build()
                             )
@@ -253,6 +255,56 @@ class AccountHolderServiceTest {
     }
 
     @Test
+    fun callSimulateEnrollmentDocumentReview() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val accountHolderService = client.accountHolders()
+        val accountHolderSimulateEnrollmentDocumentReviewResponse =
+            accountHolderService.simulateEnrollmentDocumentReview(
+                AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
+                    .documentUploadToken("document_upload_token")
+                    .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
+                    .statusReasons(
+                        listOf(
+                            AccountHolderSimulateEnrollmentDocumentReviewParams.StatusReason
+                                .DOCUMENT_MISSING_REQUIRED_DATA
+                        )
+                    )
+                    .build()
+            )
+        println(accountHolderSimulateEnrollmentDocumentReviewResponse)
+        accountHolderSimulateEnrollmentDocumentReviewResponse.validate()
+    }
+
+    @Test
+    fun callSimulateEnrollmentReview() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val accountHolderService = client.accountHolders()
+        val accountHolderSimulateEnrollmentReviewResponse =
+            accountHolderService.simulateEnrollmentReview(
+                AccountHolderSimulateEnrollmentReviewParams.builder()
+                    .accountHolderToken("account_holder_token")
+                    .status(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
+                    .statusReasons(
+                        listOf(
+                            AccountHolderSimulateEnrollmentReviewParams.StatusReason
+                                .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
+                        )
+                    )
+                    .build()
+            )
+        println(accountHolderSimulateEnrollmentReviewResponse)
+        accountHolderSimulateEnrollmentReviewResponse.validate()
+    }
+
+    @Test
     fun callUploadDocument() {
         val client =
             LithicOkHttpClient.builder()
@@ -264,7 +316,8 @@ class AccountHolderServiceTest {
             accountHolderService.uploadDocument(
                 AccountHolderUploadDocumentParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .documentType(AccountHolderUploadDocumentParams.DocumentType.COMMERCIAL_LICENSE)
+                    .documentType(AccountHolderUploadDocumentParams.DocumentType.EIN_LETTER)
+                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
         println(accountHolderDocument)
