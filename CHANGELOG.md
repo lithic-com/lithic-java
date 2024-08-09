@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.47.0 (2024-08-09)
+
+Full Changelog: [v0.46.0...v0.47.0](https://github.com/lithic-com/lithic-java/compare/v0.46.0...v0.47.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** rename model property 'Statement.AccountStanding.state' to 'period_state' ([#270](https://github.com/lithic-com/lithic-java/issues/270))
+
+### Features
+
+* **api:** add event type 'card.reissued' ([#267](https://github.com/lithic-com/lithic-java/issues/267)) ([a9ba8d6](https://github.com/lithic-com/lithic-java/commit/a9ba8d694b9b2d46685670d6c6558819e435710e))
+* **api:** add methods to simulate enrollment review and enrollment document review ([#269](https://github.com/lithic-com/lithic-java/issues/269)) ([5396ca9](https://github.com/lithic-com/lithic-java/commit/5396ca9032305f7fa7cbbb0eb0988d7c9cc1e8cf))
+* **api:** rename model property 'Statement.AccountStanding.state' to 'period_state' ([#270](https://github.com/lithic-com/lithic-java/issues/270)) ([32b2597](https://github.com/lithic-com/lithic-java/commit/32b2597ccd6923c2d01c86a57d98add6fb55194d))
+
 ## 0.46.0 (2024-08-05)
 
 Full Changelog: [v0.45.0...v0.46.0](https://github.com/lithic-com/lithic-java/compare/v0.45.0...v0.46.0)
