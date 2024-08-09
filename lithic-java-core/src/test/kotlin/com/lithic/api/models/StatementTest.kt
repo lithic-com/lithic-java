@@ -17,7 +17,7 @@ class StatementTest {
                 .accountStanding(
                     Statement.AccountStanding.builder()
                         .periodNumber(123L)
-                        .state(Statement.AccountStanding.AccountState2.STANDARD)
+                        .periodState(Statement.AccountStanding.PeriodState.STANDARD)
                         .build()
                 )
                 .amountDue(123L)
@@ -63,7 +63,7 @@ class StatementTest {
             .isEqualTo(
                 Statement.AccountStanding.builder()
                     .periodNumber(123L)
-                    .state(Statement.AccountStanding.AccountState2.STANDARD)
+                    .periodState(Statement.AccountStanding.PeriodState.STANDARD)
                     .build()
             )
         assertThat(statement.amountDue()).isEqualTo(123L)
