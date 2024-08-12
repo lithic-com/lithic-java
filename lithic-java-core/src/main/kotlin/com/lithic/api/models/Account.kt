@@ -25,6 +25,7 @@ class Account
 private constructor(
     private val accountHolder: JsonField<AccountHolder>,
     private val authRuleTokens: JsonField<List<String>>,
+    private val cardholderCurrency: JsonField<String>,
     private val spendLimit: JsonField<SpendLimit>,
     private val state: JsonField<State>,
     private val token: JsonField<String>,
@@ -48,6 +49,10 @@ private constructor(
      */
     fun authRuleTokens(): Optional<List<String>> =
         Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
+
+    /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+    fun cardholderCurrency(): Optional<String> =
+        Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
 
     /**
      * Spend limit information for the user containing the daily, monthly, and lifetime spend limit
@@ -94,6 +99,11 @@ private constructor(
      */
     @JsonProperty("auth_rule_tokens") @ExcludeMissing fun _authRuleTokens() = authRuleTokens
 
+    /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+    @JsonProperty("cardholder_currency")
+    @ExcludeMissing
+    fun _cardholderCurrency() = cardholderCurrency
+
     /**
      * Spend limit information for the user containing the daily, monthly, and lifetime spend limit
      * of the account. Any charges to a card owned by this account will be declined once their
@@ -138,6 +148,7 @@ private constructor(
         if (!validated) {
             accountHolder().map { it.validate() }
             authRuleTokens()
+            cardholderCurrency()
             spendLimit().validate()
             state()
             token()
@@ -157,6 +168,7 @@ private constructor(
         return other is Account &&
             this.accountHolder == other.accountHolder &&
             this.authRuleTokens == other.authRuleTokens &&
+            this.cardholderCurrency == other.cardholderCurrency &&
             this.spendLimit == other.spendLimit &&
             this.state == other.state &&
             this.token == other.token &&
@@ -171,6 +183,7 @@ private constructor(
                 Objects.hash(
                     accountHolder,
                     authRuleTokens,
+                    cardholderCurrency,
                     spendLimit,
                     state,
                     token,
@@ -183,7 +196,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Account{accountHolder=$accountHolder, authRuleTokens=$authRuleTokens, spendLimit=$spendLimit, state=$state, token=$token, verificationAddress=$verificationAddress, created=$created, additionalProperties=$additionalProperties}"
+        "Account{accountHolder=$accountHolder, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, spendLimit=$spendLimit, state=$state, token=$token, verificationAddress=$verificationAddress, created=$created, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -194,6 +207,7 @@ private constructor(
 
         private var accountHolder: JsonField<AccountHolder> = JsonMissing.of()
         private var authRuleTokens: JsonField<List<String>> = JsonMissing.of()
+        private var cardholderCurrency: JsonField<String> = JsonMissing.of()
         private var spendLimit: JsonField<SpendLimit> = JsonMissing.of()
         private var state: JsonField<State> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
@@ -205,6 +219,7 @@ private constructor(
         internal fun from(account: Account) = apply {
             this.accountHolder = account.accountHolder
             this.authRuleTokens = account.authRuleTokens
+            this.cardholderCurrency = account.cardholderCurrency
             this.spendLimit = account.spendLimit
             this.state = account.state
             this.token = account.token
@@ -240,6 +255,17 @@ private constructor(
         @ExcludeMissing
         fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {
             this.authRuleTokens = authRuleTokens
+        }
+
+        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+        fun cardholderCurrency(cardholderCurrency: String) =
+            cardholderCurrency(JsonField.of(cardholderCurrency))
+
+        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+        @JsonProperty("cardholder_currency")
+        @ExcludeMissing
+        fun cardholderCurrency(cardholderCurrency: JsonField<String>) = apply {
+            this.cardholderCurrency = cardholderCurrency
         }
 
         /**
@@ -343,6 +369,7 @@ private constructor(
             Account(
                 accountHolder,
                 authRuleTokens.map { it.toUnmodifiable() },
+                cardholderCurrency,
                 spendLimit,
                 state,
                 token,
