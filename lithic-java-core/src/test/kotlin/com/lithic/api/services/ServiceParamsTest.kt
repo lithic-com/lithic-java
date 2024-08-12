@@ -116,6 +116,7 @@ class ServiceParamsTest {
                 .state(Card.State.CLOSED)
                 .type(Card.Type.MERCHANT_LOCKED)
                 .authRuleTokens(listOf("string"))
+                .cardholderCurrency("USD")
                 .cvv("776")
                 .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .expMonth("06")
