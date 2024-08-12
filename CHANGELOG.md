@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.48.0 (2024-08-12)
+
+Full Changelog: [v0.47.0...v0.48.0](https://github.com/lithic-com/lithic-java/compare/v0.47.0...v0.48.0)
+
+### Features
+
+* **api:** add property `Account.cardholderCurrency` ([#273](https://github.com/lithic-com/lithic-java/issues/273)) ([1fa76b6](https://github.com/lithic-com/lithic-java/commit/1fa76b6b13eb04f13715a1b9f2805e190af1a684))
+* **api:** add property `Card.cardholderCurrency` ([1fa76b6](https://github.com/lithic-com/lithic-java/commit/1fa76b6b13eb04f13715a1b9f2805e190af1a684))
+* **api:** add property `CardProgram.cardholderCurrencies` ([1fa76b6](https://github.com/lithic-com/lithic-java/commit/1fa76b6b13eb04f13715a1b9f2805e190af1a684))
+* **api:** add property `CardProgram.cardholderCurrency` ([1fa76b6](https://github.com/lithic-com/lithic-java/commit/1fa76b6b13eb04f13715a1b9f2805e190af1a684))
+
+
+### Chores
+
+* **ci:** bump prism mock server version ([#271](https://github.com/lithic-com/lithic-java/issues/271)) ([29876cc](https://github.com/lithic-com/lithic-java/commit/29876cc20a6dce0d08e7d90aa265862dee9fb7b1))
+
 ## 0.47.0 (2024-08-09)
 
 Full Changelog: [v0.46.0...v0.47.0](https://github.com/lithic-com/lithic-java/compare/v0.46.0...v0.47.0)
