@@ -34,6 +34,7 @@ class SettlementReportTest {
                 .settledNetAmount(123L)
                 .transactionsGrossAmount(123L)
                 .updated(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
+                .isComplete(true)
                 .build()
         assertThat(settlementReport).isNotNull
         assertThat(settlementReport.created())
@@ -59,5 +60,6 @@ class SettlementReportTest {
         assertThat(settlementReport.transactionsGrossAmount()).isEqualTo(123L)
         assertThat(settlementReport.updated())
             .isEqualTo(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
+        assertThat(settlementReport.isComplete()).contains(true)
     }
 }
