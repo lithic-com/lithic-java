@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.49.0 (2024-08-14)
+
+Full Changelog: [v0.48.0...v0.49.0](https://github.com/lithic-com/lithic-java/compare/v0.48.0...v0.49.0)
+
+### Features
+
+* **api:** add SettlementReport property `is_complete` ([#274](https://github.com/lithic-com/lithic-java/issues/274)) ([36ff643](https://github.com/lithic-com/lithic-java/commit/36ff6439de79e86e96ce0df17321ec0ccabcf1f4))
+
 ## 0.48.0 (2024-08-12)
 
 Full Changelog: [v0.47.0...v0.48.0](https://github.com/lithic-com/lithic-java/compare/v0.47.0...v0.48.0)
