@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.50.0 (2024-08-16)
+
+Full Changelog: [v0.49.0...v0.50.0](https://github.com/lithic-com/lithic-java/compare/v0.49.0...v0.50.0)
+
+### Features
+
+* **api:** add StatementListParams property include_initial_statements ([#276](https://github.com/lithic-com/lithic-java/issues/276)) ([ee65441](https://github.com/lithic-com/lithic-java/commit/ee65441c4cf3fe0019246107405dfa414bbd4175))
+
 ## 0.49.0 (2024-08-14)
 
 Full Changelog: [v0.48.0...v0.49.0](https://github.com/lithic-com/lithic-java/compare/v0.48.0...v0.49.0)
