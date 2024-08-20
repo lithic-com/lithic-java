@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.51.0 (2024-08-20)
+
+Full Changelog: [v0.50.0...v0.51.0](https://github.com/lithic-com/lithic-java/compare/v0.50.0...v0.51.0)
+
+### Features
+
+* **api:** add property `next_payment_end_date` and `next_payment_due_date` to Statement model ([#280](https://github.com/lithic-com/lithic-java/issues/280)) ([a26ea58](https://github.com/lithic-com/lithic-java/commit/a26ea581309383474a9b1f9668ec32e5400dc5e3))
+
+
+### Chores
+
+* **docs:** update state description on Card ([#278](https://github.com/lithic-com/lithic-java/issues/278)) ([c68f905](https://github.com/lithic-com/lithic-java/commit/c68f905414f9252c91fdee5c08a6a639d038f798))
+
 ## 0.50.0 (2024-08-16)
 
 Full Changelog: [v0.49.0...v0.50.0](https://github.com/lithic-com/lithic-java/compare/v0.49.0...v0.50.0)
