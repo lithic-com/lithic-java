@@ -56,6 +56,8 @@ class StatementTest {
                         .purchases(123L)
                         .build()
                 )
+                .nextPaymentDueDate(LocalDate.parse("2019-12-27"))
+                .nextStatementEndDate(LocalDate.parse("2019-12-27"))
                 .build()
         assertThat(statement).isNotNull
         assertThat(statement.token()).isEqualTo("token")
@@ -105,5 +107,7 @@ class StatementTest {
                     .purchases(123L)
                     .build()
             )
+        assertThat(statement.nextPaymentDueDate()).contains(LocalDate.parse("2019-12-27"))
+        assertThat(statement.nextStatementEndDate()).contains(LocalDate.parse("2019-12-27"))
     }
 }
