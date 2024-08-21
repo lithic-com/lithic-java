@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.51.1 (2024-08-21)
+
+Full Changelog: [v0.51.0...v0.51.1](https://github.com/lithic-com/lithic-java/compare/v0.51.0...v0.51.1)
+
+### Bug Fixes
+
+* **docs:** use correct putAdditionalProperty value ([#281](https://github.com/lithic-com/lithic-java/issues/281)) ([3b0e5f9](https://github.com/lithic-com/lithic-java/commit/3b0e5f9fb43ac70a572e03dfad33ca14de8574b6))
+
 ## 0.51.0 (2024-08-20)
 
 Full Changelog: [v0.50.0...v0.51.0](https://github.com/lithic-com/lithic-java/compare/v0.50.0...v0.51.0)
