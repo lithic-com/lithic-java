@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.51.2 (2024-08-22)
+
+Full Changelog: [v0.51.1...v0.51.2](https://github.com/lithic-com/lithic-java/compare/v0.51.1...v0.51.2)
+
+### Bug Fixes
+
+* remove additionalBodyProperties from methods that don't support request bodies ([#283](https://github.com/lithic-com/lithic-java/issues/283)) ([e49c446](https://github.com/lithic-com/lithic-java/commit/e49c4464409b65889419ab0598881ec8f0f934e2))
+
 ## 0.51.1 (2024-08-21)
 
 Full Changelog: [v0.51.0...v0.51.1](https://github.com/lithic-com/lithic-java/compare/v0.51.0...v0.51.1)
