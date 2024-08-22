@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.models.*
@@ -13,7 +12,6 @@ constructor(
     private val threeDSAuthenticationToken: String,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun threeDSAuthenticationToken(): String = threeDSAuthenticationToken
@@ -33,8 +31,6 @@ constructor(
 
     fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -43,8 +39,7 @@ constructor(
         return other is ThreeDSAuthenticationRetrieveParams &&
             this.threeDSAuthenticationToken == other.threeDSAuthenticationToken &&
             this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
@@ -52,12 +47,11 @@ constructor(
             threeDSAuthenticationToken,
             additionalQueryParams,
             additionalHeaders,
-            additionalBodyProperties,
         )
     }
 
     override fun toString() =
-        "ThreeDSAuthenticationRetrieveParams{threeDSAuthenticationToken=$threeDSAuthenticationToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "ThreeDSAuthenticationRetrieveParams{threeDSAuthenticationToken=$threeDSAuthenticationToken, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -72,7 +66,6 @@ constructor(
         private var threeDSAuthenticationToken: String? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(
@@ -82,7 +75,6 @@ constructor(
                 threeDSAuthenticationRetrieveParams.threeDSAuthenticationToken
             additionalQueryParams(threeDSAuthenticationRetrieveParams.additionalQueryParams)
             additionalHeaders(threeDSAuthenticationRetrieveParams.additionalHeaders)
-            additionalBodyProperties(threeDSAuthenticationRetrieveParams.additionalBodyProperties)
         }
 
         fun threeDSAuthenticationToken(threeDSAuthenticationToken: String) = apply {
@@ -129,20 +121,6 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            this.additionalBodyProperties.put(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
-
         fun build(): ThreeDSAuthenticationRetrieveParams =
             ThreeDSAuthenticationRetrieveParams(
                 checkNotNull(threeDSAuthenticationToken) {
@@ -150,7 +128,6 @@ constructor(
                 },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
             )
     }
 }
