@@ -26,7 +26,6 @@ constructor(
     private val tokenizationChannel: TokenizationChannel?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
@@ -67,8 +66,6 @@ constructor(
 
     fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -84,8 +81,7 @@ constructor(
             this.startingAfter == other.startingAfter &&
             this.tokenizationChannel == other.tokenizationChannel &&
             this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+            this.additionalHeaders == other.additionalHeaders
     }
 
     override fun hashCode(): Int {
@@ -100,12 +96,11 @@ constructor(
             tokenizationChannel,
             additionalQueryParams,
             additionalHeaders,
-            additionalBodyProperties,
         )
     }
 
     override fun toString() =
-        "TokenizationListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, tokenizationChannel=$tokenizationChannel, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders, additionalBodyProperties=$additionalBodyProperties}"
+        "TokenizationListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, tokenizationChannel=$tokenizationChannel, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -127,7 +122,6 @@ constructor(
         private var tokenizationChannel: TokenizationChannel? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(tokenizationListParams: TokenizationListParams) = apply {
@@ -141,7 +135,6 @@ constructor(
             this.tokenizationChannel = tokenizationListParams.tokenizationChannel
             additionalQueryParams(tokenizationListParams.additionalQueryParams)
             additionalHeaders(tokenizationListParams.additionalHeaders)
-            additionalBodyProperties(tokenizationListParams.additionalBodyProperties)
         }
 
         /** Filters for tokenizations associated with a specific account. */
@@ -219,20 +212,6 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            this.additionalBodyProperties.putAll(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            this.additionalBodyProperties.put(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
-
         fun build(): TokenizationListParams =
             TokenizationListParams(
                 accountToken,
@@ -245,7 +224,6 @@ constructor(
                 tokenizationChannel,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
             )
     }
 
