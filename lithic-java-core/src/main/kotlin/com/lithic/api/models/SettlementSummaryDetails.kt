@@ -22,6 +22,7 @@ import java.util.Optional
 @NoAutoDetect
 class SettlementSummaryDetails
 private constructor(
+    private val currency: JsonField<String>,
     private val disputesGrossAmount: JsonField<Long>,
     private val institution: JsonField<String>,
     private val interchangeGrossAmount: JsonField<Long>,
@@ -35,6 +36,9 @@ private constructor(
     private var validated: Boolean = false
 
     private var hashCode: Int = 0
+
+    /** ISO 4217 alpha 3 code. */
+    fun currency(): Optional<String> = Optional.ofNullable(currency.getNullable("currency"))
 
     /** The total gross amount of disputes settlements. */
     fun disputesGrossAmount(): Optional<Long> =
@@ -67,6 +71,9 @@ private constructor(
      */
     fun transactionsGrossAmount(): Optional<Long> =
         Optional.ofNullable(transactionsGrossAmount.getNullable("transactions_gross_amount"))
+
+    /** ISO 4217 alpha 3 code. */
+    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
     /** The total gross amount of disputes settlements. */
     @JsonProperty("disputes_gross_amount")
@@ -108,6 +115,7 @@ private constructor(
 
     fun validate(): SettlementSummaryDetails = apply {
         if (!validated) {
+            currency()
             disputesGrossAmount()
             institution()
             interchangeGrossAmount()
@@ -127,6 +135,7 @@ private constructor(
         }
 
         return other is SettlementSummaryDetails &&
+            this.currency == other.currency &&
             this.disputesGrossAmount == other.disputesGrossAmount &&
             this.institution == other.institution &&
             this.interchangeGrossAmount == other.interchangeGrossAmount &&
@@ -141,6 +150,7 @@ private constructor(
         if (hashCode == 0) {
             hashCode =
                 Objects.hash(
+                    currency,
                     disputesGrossAmount,
                     institution,
                     interchangeGrossAmount,
@@ -155,7 +165,7 @@ private constructor(
     }
 
     override fun toString() =
-        "SettlementSummaryDetails{disputesGrossAmount=$disputesGrossAmount, institution=$institution, interchangeGrossAmount=$interchangeGrossAmount, network=$network, otherFeesGrossAmount=$otherFeesGrossAmount, settledNetAmount=$settledNetAmount, transactionsGrossAmount=$transactionsGrossAmount, additionalProperties=$additionalProperties}"
+        "SettlementSummaryDetails{currency=$currency, disputesGrossAmount=$disputesGrossAmount, institution=$institution, interchangeGrossAmount=$interchangeGrossAmount, network=$network, otherFeesGrossAmount=$otherFeesGrossAmount, settledNetAmount=$settledNetAmount, transactionsGrossAmount=$transactionsGrossAmount, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -164,6 +174,7 @@ private constructor(
 
     class Builder {
 
+        private var currency: JsonField<String> = JsonMissing.of()
         private var disputesGrossAmount: JsonField<Long> = JsonMissing.of()
         private var institution: JsonField<String> = JsonMissing.of()
         private var interchangeGrossAmount: JsonField<Long> = JsonMissing.of()
@@ -175,6 +186,7 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(settlementSummaryDetails: SettlementSummaryDetails) = apply {
+            this.currency = settlementSummaryDetails.currency
             this.disputesGrossAmount = settlementSummaryDetails.disputesGrossAmount
             this.institution = settlementSummaryDetails.institution
             this.interchangeGrossAmount = settlementSummaryDetails.interchangeGrossAmount
@@ -184,6 +196,14 @@ private constructor(
             this.transactionsGrossAmount = settlementSummaryDetails.transactionsGrossAmount
             additionalProperties(settlementSummaryDetails.additionalProperties)
         }
+
+        /** ISO 4217 alpha 3 code. */
+        fun currency(currency: String) = currency(JsonField.of(currency))
+
+        /** ISO 4217 alpha 3 code. */
+        @JsonProperty("currency")
+        @ExcludeMissing
+        fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** The total gross amount of disputes settlements. */
         fun disputesGrossAmount(disputesGrossAmount: Long) =
@@ -288,6 +308,7 @@ private constructor(
 
         fun build(): SettlementSummaryDetails =
             SettlementSummaryDetails(
+                currency,
                 disputesGrossAmount,
                 institution,
                 interchangeGrossAmount,
