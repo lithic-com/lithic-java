@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.53.0 (2024-08-23)
+
+Full Changelog: [v0.52.0...v0.53.0](https://github.com/lithic-com/lithic-java/compare/v0.52.0...v0.53.0)
+
+### Features
+
+* **api:** add endpoints and webhooks for 3DS challenge decisions and challenges ([#287](https://github.com/lithic-com/lithic-java/issues/287)) ([a3df387](https://github.com/lithic-com/lithic-java/commit/a3df38765c7ec4487ae78a01d1f4b783fcd91309))
+
 ## 0.52.0 (2024-08-23)
 
 Full Changelog: [v0.51.2...v0.52.0](https://github.com/lithic-com/lithic-java/compare/v0.51.2...v0.52.0)
