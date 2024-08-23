@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.52.0 (2024-08-23)
+
+Full Changelog: [v0.51.2...v0.52.0](https://github.com/lithic-com/lithic-java/compare/v0.51.2...v0.52.0)
+
+### Features
+
+* **api:** new book_transfer_transaction events and Settlement Report field deprecations ([#285](https://github.com/lithic-com/lithic-java/issues/285)) ([de673fe](https://github.com/lithic-com/lithic-java/commit/de673fee0f2bda8f2f5e0147e7da457b0893b4b0))
+
 ## 0.51.2 (2024-08-22)
 
 Full Changelog: [v0.51.1...v0.51.2](https://github.com/lithic-com/lithic-java/compare/v0.51.1...v0.51.2)
