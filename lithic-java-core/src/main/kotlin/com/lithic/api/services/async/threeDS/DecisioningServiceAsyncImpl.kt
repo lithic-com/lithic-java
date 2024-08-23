@@ -9,6 +9,7 @@ import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.DecisioningRetrieveSecretResponse
+import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
 import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
 import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
 import com.lithic.api.services.emptyHandler
@@ -24,6 +25,30 @@ constructor(
 ) : DecisioningServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+    private val challengeResponseHandler: Handler<Void?> =
+        emptyHandler().withErrorHandler(errorHandler)
+
+    /** Card program's response to a 3DS Challenge Request (CReq) */
+    override fun challengeResponse(
+        params: ThreeDSDecisioningChallengeResponseParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<Void> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("three_ds_decisioning", "challenge_response")
+                .putAllQueryParams(clientOptions.queryParams)
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response.use { challengeResponseHandler.handle(it) }
+        }
+    }
 
     private val retrieveSecretHandler: Handler<DecisioningRetrieveSecretResponse> =
         jsonHandler<DecisioningRetrieveSecretResponse>(clientOptions.jsonMapper)
