@@ -14,7 +14,6 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
 import java.time.OffsetDateTime
 import java.util.Objects
-import java.util.Optional
 
 @JsonDeserialize(builder = SettlementReport.Builder::class)
 @NoAutoDetect
@@ -41,22 +40,37 @@ private constructor(
     /** Date and time when the transaction first occurred. UTC time zone. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** Three-digit alphabetic ISO 4217 code. */
+    /**
+     * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
+     * future version of the API.)
+     */
     fun currency(): String = currency.getRequired("currency")
 
     fun details(): List<SettlementSummaryDetails> = details.getRequired("details")
 
-    /** The total gross amount of disputes settlements. */
+    /**
+     * The total gross amount of disputes settlements. (This field is deprecated and will be removed
+     * in a future version of the API. To compute total amounts, Lithic recommends that customers
+     * sum the relevant settlement amounts found within `details`.)
+     */
     fun disputesGrossAmount(): Long = disputesGrossAmount.getRequired("disputes_gross_amount")
 
-    /** The total amount of interchange. */
+    /**
+     * The total amount of interchange. (This field is deprecated and will be removed in a future
+     * version of the API. To compute total amounts, Lithic recommends that customers sum the
+     * relevant settlement amounts found within `details`.)
+     */
     fun interchangeGrossAmount(): Long =
         interchangeGrossAmount.getRequired("interchange_gross_amount")
 
     /** Indicates that all data expected on the given report date is available. */
-    fun isComplete(): Optional<Boolean> = Optional.ofNullable(isComplete.getNullable("is_complete"))
+    fun isComplete(): Boolean = isComplete.getRequired("is_complete")
 
-    /** Total amount of gross other fees outside of interchange. */
+    /**
+     * Total amount of gross other fees outside of interchange. (This field is deprecated and will
+     * be removed in a future version of the API. To compute total amounts, Lithic recommends that
+     * customers sum the relevant settlement amounts found within `details`.)
+     */
     fun otherFeesGrossAmount(): Long = otherFeesGrossAmount.getRequired("other_fees_gross_amount")
 
     /** Date of when the report was first generated. */
@@ -64,12 +78,17 @@ private constructor(
 
     /**
      * The total net amount of cash moved. (net value of settled_gross_amount, interchange, fees).
+     * (This field is deprecated and will be removed in a future version of the API. To compute
+     * total amounts, Lithic recommends that customers sum the relevant settlement amounts found
+     * within `details`.)
      */
     fun settledNetAmount(): Long = settledNetAmount.getRequired("settled_net_amount")
 
     /**
      * The total amount of settlement impacting transactions (excluding interchange, fees, and
-     * disputes).
+     * disputes). (This field is deprecated and will be removed in a future version of the API. To
+     * compute total amounts, Lithic recommends that customers sum the relevant settlement amounts
+     * found within `details`.)
      */
     fun transactionsGrossAmount(): Long =
         transactionsGrossAmount.getRequired("transactions_gross_amount")
@@ -80,17 +99,28 @@ private constructor(
     /** Date and time when the transaction first occurred. UTC time zone. */
     @JsonProperty("created") @ExcludeMissing fun _created() = created
 
-    /** Three-digit alphabetic ISO 4217 code. */
+    /**
+     * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
+     * future version of the API.)
+     */
     @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
     @JsonProperty("details") @ExcludeMissing fun _details() = details
 
-    /** The total gross amount of disputes settlements. */
+    /**
+     * The total gross amount of disputes settlements. (This field is deprecated and will be removed
+     * in a future version of the API. To compute total amounts, Lithic recommends that customers
+     * sum the relevant settlement amounts found within `details`.)
+     */
     @JsonProperty("disputes_gross_amount")
     @ExcludeMissing
     fun _disputesGrossAmount() = disputesGrossAmount
 
-    /** The total amount of interchange. */
+    /**
+     * The total amount of interchange. (This field is deprecated and will be removed in a future
+     * version of the API. To compute total amounts, Lithic recommends that customers sum the
+     * relevant settlement amounts found within `details`.)
+     */
     @JsonProperty("interchange_gross_amount")
     @ExcludeMissing
     fun _interchangeGrossAmount() = interchangeGrossAmount
@@ -98,7 +128,11 @@ private constructor(
     /** Indicates that all data expected on the given report date is available. */
     @JsonProperty("is_complete") @ExcludeMissing fun _isComplete() = isComplete
 
-    /** Total amount of gross other fees outside of interchange. */
+    /**
+     * Total amount of gross other fees outside of interchange. (This field is deprecated and will
+     * be removed in a future version of the API. To compute total amounts, Lithic recommends that
+     * customers sum the relevant settlement amounts found within `details`.)
+     */
     @JsonProperty("other_fees_gross_amount")
     @ExcludeMissing
     fun _otherFeesGrossAmount() = otherFeesGrossAmount
@@ -108,12 +142,17 @@ private constructor(
 
     /**
      * The total net amount of cash moved. (net value of settled_gross_amount, interchange, fees).
+     * (This field is deprecated and will be removed in a future version of the API. To compute
+     * total amounts, Lithic recommends that customers sum the relevant settlement amounts found
+     * within `details`.)
      */
     @JsonProperty("settled_net_amount") @ExcludeMissing fun _settledNetAmount() = settledNetAmount
 
     /**
      * The total amount of settlement impacting transactions (excluding interchange, fees, and
-     * disputes).
+     * disputes). (This field is deprecated and will be removed in a future version of the API. To
+     * compute total amounts, Lithic recommends that customers sum the relevant settlement amounts
+     * found within `details`.)
      */
     @JsonProperty("transactions_gross_amount")
     @ExcludeMissing
@@ -233,10 +272,16 @@ private constructor(
         @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-        /** Three-digit alphabetic ISO 4217 code. */
+        /**
+         * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
+         * future version of the API.)
+         */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        /** Three-digit alphabetic ISO 4217 code. */
+        /**
+         * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
+         * future version of the API.)
+         */
         @JsonProperty("currency")
         @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
@@ -249,22 +294,38 @@ private constructor(
             this.details = details
         }
 
-        /** The total gross amount of disputes settlements. */
+        /**
+         * The total gross amount of disputes settlements. (This field is deprecated and will be
+         * removed in a future version of the API. To compute total amounts, Lithic recommends that
+         * customers sum the relevant settlement amounts found within `details`.)
+         */
         fun disputesGrossAmount(disputesGrossAmount: Long) =
             disputesGrossAmount(JsonField.of(disputesGrossAmount))
 
-        /** The total gross amount of disputes settlements. */
+        /**
+         * The total gross amount of disputes settlements. (This field is deprecated and will be
+         * removed in a future version of the API. To compute total amounts, Lithic recommends that
+         * customers sum the relevant settlement amounts found within `details`.)
+         */
         @JsonProperty("disputes_gross_amount")
         @ExcludeMissing
         fun disputesGrossAmount(disputesGrossAmount: JsonField<Long>) = apply {
             this.disputesGrossAmount = disputesGrossAmount
         }
 
-        /** The total amount of interchange. */
+        /**
+         * The total amount of interchange. (This field is deprecated and will be removed in a
+         * future version of the API. To compute total amounts, Lithic recommends that customers sum
+         * the relevant settlement amounts found within `details`.)
+         */
         fun interchangeGrossAmount(interchangeGrossAmount: Long) =
             interchangeGrossAmount(JsonField.of(interchangeGrossAmount))
 
-        /** The total amount of interchange. */
+        /**
+         * The total amount of interchange. (This field is deprecated and will be removed in a
+         * future version of the API. To compute total amounts, Lithic recommends that customers sum
+         * the relevant settlement amounts found within `details`.)
+         */
         @JsonProperty("interchange_gross_amount")
         @ExcludeMissing
         fun interchangeGrossAmount(interchangeGrossAmount: JsonField<Long>) = apply {
@@ -279,11 +340,19 @@ private constructor(
         @ExcludeMissing
         fun isComplete(isComplete: JsonField<Boolean>) = apply { this.isComplete = isComplete }
 
-        /** Total amount of gross other fees outside of interchange. */
+        /**
+         * Total amount of gross other fees outside of interchange. (This field is deprecated and
+         * will be removed in a future version of the API. To compute total amounts, Lithic
+         * recommends that customers sum the relevant settlement amounts found within `details`.)
+         */
         fun otherFeesGrossAmount(otherFeesGrossAmount: Long) =
             otherFeesGrossAmount(JsonField.of(otherFeesGrossAmount))
 
-        /** Total amount of gross other fees outside of interchange. */
+        /**
+         * Total amount of gross other fees outside of interchange. (This field is deprecated and
+         * will be removed in a future version of the API. To compute total amounts, Lithic
+         * recommends that customers sum the relevant settlement amounts found within `details`.)
+         */
         @JsonProperty("other_fees_gross_amount")
         @ExcludeMissing
         fun otherFeesGrossAmount(otherFeesGrossAmount: JsonField<Long>) = apply {
@@ -300,14 +369,18 @@ private constructor(
 
         /**
          * The total net amount of cash moved. (net value of settled_gross_amount, interchange,
-         * fees).
+         * fees). (This field is deprecated and will be removed in a future version of the API. To
+         * compute total amounts, Lithic recommends that customers sum the relevant settlement
+         * amounts found within `details`.)
          */
         fun settledNetAmount(settledNetAmount: Long) =
             settledNetAmount(JsonField.of(settledNetAmount))
 
         /**
          * The total net amount of cash moved. (net value of settled_gross_amount, interchange,
-         * fees).
+         * fees). (This field is deprecated and will be removed in a future version of the API. To
+         * compute total amounts, Lithic recommends that customers sum the relevant settlement
+         * amounts found within `details`.)
          */
         @JsonProperty("settled_net_amount")
         @ExcludeMissing
@@ -317,14 +390,18 @@ private constructor(
 
         /**
          * The total amount of settlement impacting transactions (excluding interchange, fees, and
-         * disputes).
+         * disputes). (This field is deprecated and will be removed in a future version of the API.
+         * To compute total amounts, Lithic recommends that customers sum the relevant settlement
+         * amounts found within `details`.)
          */
         fun transactionsGrossAmount(transactionsGrossAmount: Long) =
             transactionsGrossAmount(JsonField.of(transactionsGrossAmount))
 
         /**
          * The total amount of settlement impacting transactions (excluding interchange, fees, and
-         * disputes).
+         * disputes). (This field is deprecated and will be removed in a future version of the API.
+         * To compute total amounts, Lithic recommends that customers sum the relevant settlement
+         * amounts found within `details`.)
          */
         @JsonProperty("transactions_gross_amount")
         @ExcludeMissing
