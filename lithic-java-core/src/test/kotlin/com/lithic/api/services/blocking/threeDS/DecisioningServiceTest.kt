@@ -12,6 +12,24 @@ import org.junit.jupiter.api.extension.ExtendWith
 class DecisioningServiceTest {
 
     @Test
+    fun callChallengeResponse() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val decisioningService = client.threeDS().decisioning()
+        decisioningService.challengeResponse(
+            ThreeDSDecisioningChallengeResponseParams.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .challengeResponse(
+                    ThreeDSDecisioningChallengeResponseParams.ChallengeResponse.APPROVE
+                )
+                .build()
+        )
+    }
+
+    @Test
     fun callRetrieveSecret() {
         val client =
             LithicOkHttpClient.builder()
