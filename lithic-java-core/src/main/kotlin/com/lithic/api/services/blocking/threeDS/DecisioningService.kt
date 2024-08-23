@@ -6,10 +6,18 @@ package com.lithic.api.services.blocking.threeDS
 
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.DecisioningRetrieveSecretResponse
+import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
 import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
 import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
 
 interface DecisioningService {
+
+    /** Card program's response to a 3DS Challenge Request (CReq) */
+    @JvmOverloads
+    fun challengeResponse(
+        params: ThreeDSDecisioningChallengeResponseParams,
+        requestOptions: RequestOptions = RequestOptions.none()
+    )
 
     /**
      * Retrieve the 3DS Decisioning HMAC secret key. If one does not exist for your program yet,
