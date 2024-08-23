@@ -17,6 +17,7 @@ class SettlementReportTest {
                 .details(
                     listOf(
                         SettlementSummaryDetails.builder()
+                            .currency("USD")
                             .disputesGrossAmount(123L)
                             .institution("00001")
                             .interchangeGrossAmount(123L)
@@ -29,12 +30,12 @@ class SettlementReportTest {
                 )
                 .disputesGrossAmount(123L)
                 .interchangeGrossAmount(123L)
+                .isComplete(true)
                 .otherFeesGrossAmount(123L)
                 .reportDate("2023-06-01")
                 .settledNetAmount(123L)
                 .transactionsGrossAmount(123L)
                 .updated(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
-                .isComplete(true)
                 .build()
         assertThat(settlementReport).isNotNull
         assertThat(settlementReport.created())
@@ -43,6 +44,7 @@ class SettlementReportTest {
         assertThat(settlementReport.details())
             .containsExactly(
                 SettlementSummaryDetails.builder()
+                    .currency("USD")
                     .disputesGrossAmount(123L)
                     .institution("00001")
                     .interchangeGrossAmount(123L)
@@ -54,12 +56,12 @@ class SettlementReportTest {
             )
         assertThat(settlementReport.disputesGrossAmount()).isEqualTo(123L)
         assertThat(settlementReport.interchangeGrossAmount()).isEqualTo(123L)
+        assertThat(settlementReport.isComplete()).isEqualTo(true)
         assertThat(settlementReport.otherFeesGrossAmount()).isEqualTo(123L)
         assertThat(settlementReport.reportDate()).isEqualTo("2023-06-01")
         assertThat(settlementReport.settledNetAmount()).isEqualTo(123L)
         assertThat(settlementReport.transactionsGrossAmount()).isEqualTo(123L)
         assertThat(settlementReport.updated())
             .isEqualTo(OffsetDateTime.parse("2023-06-01T00:00:00Z"))
-        assertThat(settlementReport.isComplete()).contains(true)
     }
 }
