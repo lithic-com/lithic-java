@@ -257,6 +257,10 @@ constructor(
 
             @JvmField val BALANCE_UPDATED = EventType(JsonField.of("balance.updated"))
 
+            @JvmField
+            val BOOK_TRANSFER_TRANSACTION_CREATED =
+                EventType(JsonField.of("book_transfer_transaction.created"))
+
             @JvmField val CARD_CREATED = EventType(JsonField.of("card.created"))
 
             @JvmField val CARD_RENEWED = EventType(JsonField.of("card.renewed"))
@@ -352,6 +356,7 @@ constructor(
             ACCOUNT_HOLDER_UPDATED,
             ACCOUNT_HOLDER_VERIFICATION,
             BALANCE_UPDATED,
+            BOOK_TRANSFER_TRANSACTION_CREATED,
             CARD_CREATED,
             CARD_RENEWED,
             CARD_REISSUED,
@@ -385,6 +390,7 @@ constructor(
             ACCOUNT_HOLDER_UPDATED,
             ACCOUNT_HOLDER_VERIFICATION,
             BALANCE_UPDATED,
+            BOOK_TRANSFER_TRANSACTION_CREATED,
             CARD_CREATED,
             CARD_RENEWED,
             CARD_REISSUED,
@@ -420,6 +426,7 @@ constructor(
                 ACCOUNT_HOLDER_UPDATED -> Value.ACCOUNT_HOLDER_UPDATED
                 ACCOUNT_HOLDER_VERIFICATION -> Value.ACCOUNT_HOLDER_VERIFICATION
                 BALANCE_UPDATED -> Value.BALANCE_UPDATED
+                BOOK_TRANSFER_TRANSACTION_CREATED -> Value.BOOK_TRANSFER_TRANSACTION_CREATED
                 CARD_CREATED -> Value.CARD_CREATED
                 CARD_RENEWED -> Value.CARD_RENEWED
                 CARD_REISSUED -> Value.CARD_REISSUED
@@ -460,6 +467,7 @@ constructor(
                 ACCOUNT_HOLDER_UPDATED -> Known.ACCOUNT_HOLDER_UPDATED
                 ACCOUNT_HOLDER_VERIFICATION -> Known.ACCOUNT_HOLDER_VERIFICATION
                 BALANCE_UPDATED -> Known.BALANCE_UPDATED
+                BOOK_TRANSFER_TRANSACTION_CREATED -> Known.BOOK_TRANSFER_TRANSACTION_CREATED
                 CARD_CREATED -> Known.CARD_CREATED
                 CARD_RENEWED -> Known.CARD_RENEWED
                 CARD_REISSUED -> Known.CARD_REISSUED

@@ -23,15 +23,15 @@ class BookTransferResponseTest {
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .amount(123L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .memo("memo")
-                            .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
-                            .subtype("subtype")
-                            .type("type")
                             .detailedResults(
                                 listOf(
                                     BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED
                                 )
                             )
+                            .memo("memo")
+                            .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
+                            .subtype("subtype")
+                            .type("type")
                             .build()
                     )
                 )
@@ -56,13 +56,13 @@ class BookTransferResponseTest {
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .amount(123L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .detailedResults(
+                        listOf(BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED)
+                    )
                     .memo("memo")
                     .result(BookTransferResponse.BookTransferEvent.Result.APPROVED)
                     .subtype("subtype")
                     .type("type")
-                    .detailedResults(
-                        listOf(BookTransferResponse.BookTransferEvent.DetailedResult.APPROVED)
-                    )
                     .build()
             )
         assertThat(bookTransferResponse.fromFinancialAccountToken())
