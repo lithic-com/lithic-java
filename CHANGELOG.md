@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.53.1 (2024-08-26)
+
+Full Changelog: [v0.53.0...v0.53.1](https://github.com/lithic-com/lithic-java/compare/v0.53.0...v0.53.1)
+
+### Bug Fixes
+
+* do not pass through `\` when escaping string literals ([#291](https://github.com/lithic-com/lithic-java/issues/291)) ([042bf96](https://github.com/lithic-com/lithic-java/commit/042bf9674056ffca3c878bdc683d4ad4bdfaab86))
+
+
+### Chores
+
+* **docs:** minor edits ([#289](https://github.com/lithic-com/lithic-java/issues/289)) ([f8dec8b](https://github.com/lithic-com/lithic-java/commit/f8dec8b022f0a0de3699b230e47887ddc670ba08))
+
 ## 0.53.0 (2024-08-23)
 
 Full Changelog: [v0.52.0...v0.53.0](https://github.com/lithic-com/lithic-java/compare/v0.52.0...v0.53.0)
