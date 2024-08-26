@@ -48,7 +48,8 @@ private constructor(
     private var hashCode: Int = 0
 
     /**
-     * Type of account/card that is being used for the transaction. Maps to EMV 3DS field acctType.
+     * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
+     * `acctType`.
      */
     fun accountType(): Optional<AccountType> =
         Optional.ofNullable(accountType.getNullable("account_type"))
@@ -136,7 +137,8 @@ private constructor(
         Optional.ofNullable(transaction.getNullable("transaction"))
 
     /**
-     * Type of account/card that is being used for the transaction. Maps to EMV 3DS field acctType.
+     * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
+     * `acctType`.
      */
     @JsonProperty("account_type") @ExcludeMissing fun _accountType() = accountType
 
@@ -359,13 +361,13 @@ private constructor(
 
         /**
          * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
-         * acctType.
+         * `acctType`.
          */
         fun accountType(accountType: AccountType) = accountType(JsonField.of(accountType))
 
         /**
          * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
-         * acctType.
+         * `acctType`.
          */
         @JsonProperty("account_type")
         @ExcludeMissing
