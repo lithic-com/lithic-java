@@ -93,6 +93,7 @@ class CardServiceTest {
                     .digitalCardArtToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .memo("New Card")
                     .pin("pin")
+                    .pinStatus(CardUpdateParams.PinStatus.OK)
                     .spendLimit(123L)
                     .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                     .state(CardUpdateParams.State.CLOSED)

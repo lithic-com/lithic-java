@@ -28,6 +28,7 @@ class CardTest {
                         .build()
                 )
                 .lastFour("xxxx")
+                .pinStatus(Card.PinStatus.OK)
                 .spendLimit(123L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(Card.State.CLOSED)
@@ -41,6 +42,7 @@ class CardTest {
                 .hostname("hostname")
                 .memo("New Card")
                 .pan("4111111289144142")
+                .pendingCommands(listOf("string"))
                 .productId("1")
                 .build()
         assertThat(card).isNotNull
@@ -61,6 +63,7 @@ class CardTest {
                     .build()
             )
         assertThat(card.lastFour()).isEqualTo("xxxx")
+        assertThat(card.pinStatus()).isEqualTo(Card.PinStatus.OK)
         assertThat(card.spendLimit()).isEqualTo(123L)
         assertThat(card.spendLimitDuration()).isEqualTo(SpendLimitDuration.ANNUALLY)
         assertThat(card.state()).isEqualTo(Card.State.CLOSED)
@@ -74,6 +77,7 @@ class CardTest {
         assertThat(card.hostname()).contains("hostname")
         assertThat(card.memo()).contains("New Card")
         assertThat(card.pan()).contains("4111111289144142")
+        assertThat(card.pendingCommands().get()).containsExactly("string")
         assertThat(card.productId()).contains("1")
     }
 }
