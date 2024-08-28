@@ -111,6 +111,7 @@ class ServiceParamsTest {
                         .build()
                 )
                 .lastFour("xxxx")
+                .pinStatus(Card.PinStatus.OK)
                 .spendLimit(123L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(Card.State.CLOSED)
@@ -124,6 +125,7 @@ class ServiceParamsTest {
                 .hostname("hostname")
                 .memo("New Card")
                 .pan("4111111289144142")
+                .pendingCommands(listOf("string"))
                 .productId("1")
                 .build()
 
