@@ -16,13 +16,12 @@ import com.lithic.api.core.toUnmodifiable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
-import java.util.Optional
 
 class AccountHolderUploadDocumentParams
 constructor(
     private val accountHolderToken: String,
-    private val documentType: DocumentType?,
-    private val entityToken: String?,
+    private val documentType: DocumentType,
+    private val entityToken: String,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
     private val additionalBodyProperties: Map<String, JsonValue>,
@@ -30,9 +29,9 @@ constructor(
 
     fun accountHolderToken(): String = accountHolderToken
 
-    fun documentType(): Optional<DocumentType> = Optional.ofNullable(documentType)
+    fun documentType(): DocumentType = documentType
 
-    fun entityToken(): Optional<String> = Optional.ofNullable(entityToken)
+    fun entityToken(): String = entityToken
 
     @JvmSynthetic
     internal fun getBody(): AccountHolderUploadDocumentBody {
@@ -148,8 +147,8 @@ constructor(
 
             fun build(): AccountHolderUploadDocumentBody =
                 AccountHolderUploadDocumentBody(
-                    documentType,
-                    entityToken,
+                    checkNotNull(documentType) { "`documentType` is required but was not set" },
+                    checkNotNull(entityToken) { "`entityToken` is required but was not set" },
                     additionalProperties.toUnmodifiable(),
                 )
         }
@@ -286,8 +285,8 @@ constructor(
                 checkNotNull(accountHolderToken) {
                     "`accountHolderToken` is required but was not set"
                 },
-                documentType,
-                entityToken,
+                checkNotNull(documentType) { "`documentType` is required but was not set" },
+                checkNotNull(entityToken) { "`entityToken` is required but was not set" },
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
                 additionalBodyProperties.toUnmodifiable(),
