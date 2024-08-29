@@ -95,7 +95,7 @@ private constructor(
         Optional.ofNullable(controlPerson.getNullable("control_person"))
 
     /** Timestamp of when the account holder was created. */
-    fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
+    fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
      * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
@@ -843,8 +843,7 @@ private constructor(
         fun phoneNumbers(): List<String> = phoneNumbers.getRequired("phone_numbers")
 
         /** Globally unique identifier for the entity. */
-        fun entityToken(): Optional<String> =
-            Optional.ofNullable(entityToken.getNullable("entity_token"))
+        fun entityToken(): String = entityToken.getRequired("entity_token")
 
         /**
          * Business's physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
@@ -1100,27 +1099,25 @@ private constructor(
         private var hashCode: Int = 0
 
         /** Individual's current address */
-        fun address(): Optional<Address> = Optional.ofNullable(address.getNullable("address"))
+        fun address(): Address = address.getRequired("address")
 
         /** Individual's date of birth, as an RFC 3339 date. */
-        fun dob(): Optional<String> = Optional.ofNullable(dob.getNullable("dob"))
+        fun dob(): String = dob.getRequired("dob")
 
         /** Individual's email address. */
-        fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
+        fun email(): String = email.getRequired("email")
 
         /** Individual's first name, as it appears on government-issued identity documents. */
-        fun firstName(): Optional<String> = Optional.ofNullable(firstName.getNullable("first_name"))
+        fun firstName(): String = firstName.getRequired("first_name")
 
         /** Individual's last name, as it appears on government-issued identity documents. */
-        fun lastName(): Optional<String> = Optional.ofNullable(lastName.getNullable("last_name"))
+        fun lastName(): String = lastName.getRequired("last_name")
 
         /** Individual's phone number, entered in E.164 format. */
-        fun phoneNumber(): Optional<String> =
-            Optional.ofNullable(phoneNumber.getNullable("phone_number"))
+        fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
 
         /** Globally unique identifier for the entity. */
-        fun entityToken(): Optional<String> =
-            Optional.ofNullable(entityToken.getNullable("entity_token"))
+        fun entityToken(): String = entityToken.getRequired("entity_token")
 
         /** Individual's current address */
         @JsonProperty("address") @ExcludeMissing fun _address() = address
@@ -1149,7 +1146,7 @@ private constructor(
 
         fun validate(): AccountHolderIndividualResponse = apply {
             if (!validated) {
-                address().map { it.validate() }
+                address().validate()
                 dob()
                 email()
                 firstName()
