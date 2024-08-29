@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.55.0 (2024-08-29)
+
+Full Changelog: [v0.54.0...v0.55.0](https://github.com/lithic-com/lithic-java/compare/v0.54.0...v0.55.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** add shared model Document ([#296](https://github.com/lithic-com/lithic-java/issues/296))
+
+### Features
+
+* **api:** add shared model Document ([#296](https://github.com/lithic-com/lithic-java/issues/296)) ([6421a0e](https://github.com/lithic-com/lithic-java/commit/6421a0ec80744b18ff57aba46cdc3afd9003c640))
+
+
+### Chores
+
+* use headless jdk for containers ([#294](https://github.com/lithic-com/lithic-java/issues/294)) ([014f899](https://github.com/lithic-com/lithic-java/commit/014f899ca1edb8ac96d07c924352b95cbe04d26e))
+
 ## 0.54.0 (2024-08-28)
 
 Full Changelog: [v0.53.1...v0.54.0](https://github.com/lithic-com/lithic-java/compare/v0.53.1...v0.54.0)
