@@ -8,7 +8,6 @@ import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.AccountHolder
 import com.lithic.api.models.AccountHolderCreateParams
 import com.lithic.api.models.AccountHolderCreateResponse
-import com.lithic.api.models.AccountHolderDocument
 import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListDocumentsResponse
 import com.lithic.api.models.AccountHolderListPageAsync
@@ -17,12 +16,12 @@ import com.lithic.api.models.AccountHolderResubmitParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
 import com.lithic.api.models.AccountHolderRetrieveParams
 import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
-import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewResponse
 import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewParams
 import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewResponse
 import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
+import com.lithic.api.models.Document
 import java.util.concurrent.CompletableFuture
 
 interface AccountHolderServiceAsync {
@@ -118,14 +117,14 @@ interface AccountHolderServiceAsync {
     fun retrieveDocument(
         params: AccountHolderRetrieveDocumentParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<AccountHolderDocument>
+    ): CompletableFuture<Document>
 
     /** Simulates a review for an account holder document upload. */
     @JvmOverloads
     fun simulateEnrollmentDocumentReview(
         params: AccountHolderSimulateEnrollmentDocumentReviewParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<AccountHolderSimulateEnrollmentDocumentReviewResponse>
+    ): CompletableFuture<Document>
 
     /**
      * Simulates an enrollment review for an account holder. This endpoint is only applicable for
@@ -159,5 +158,5 @@ interface AccountHolderServiceAsync {
     fun uploadDocument(
         params: AccountHolderUploadDocumentParams,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<AccountHolderDocument>
+    ): CompletableFuture<Document>
 }
