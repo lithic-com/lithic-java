@@ -38,11 +38,11 @@ class AccountHolderServiceTest {
                                                 .address2("address2")
                                                 .build()
                                         )
+                                        .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .governmentId("114-123-1513")
                                         .legalBusinessName("Acme, Inc.")
                                         .phoneNumbers(listOf("+12124007676"))
                                         .dbaBusinessName("dba_business_name")
-                                        .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                         .parentCompany("parent_company")
                                         .build()
                                 )
@@ -81,11 +81,11 @@ class AccountHolderServiceTest {
                                             .address2("address2")
                                             .build()
                                     )
+                                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                     .governmentId("114-123-1513")
                                     .legalBusinessName("Acme, Inc.")
                                     .phoneNumbers(listOf("+12124007676"))
                                     .dbaBusinessName("dba_business_name")
-                                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                                     .parentCompany("parent_company")
                                     .build()
                             )
@@ -243,15 +243,15 @@ class AccountHolderServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolderDocument =
+        val document =
             accountHolderService.retrieveDocument(
                 AccountHolderRetrieveDocumentParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .documentToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(accountHolderDocument)
-        accountHolderDocument.validate()
+        println(document)
+        document.validate()
     }
 
     @Test
@@ -262,7 +262,7 @@ class AccountHolderServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolderSimulateEnrollmentDocumentReviewResponse =
+        val document =
             accountHolderService.simulateEnrollmentDocumentReview(
                 AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
                     .documentUploadToken("document_upload_token")
@@ -275,8 +275,8 @@ class AccountHolderServiceTest {
                     )
                     .build()
             )
-        println(accountHolderSimulateEnrollmentDocumentReviewResponse)
-        accountHolderSimulateEnrollmentDocumentReviewResponse.validate()
+        println(document)
+        document.validate()
     }
 
     @Test
@@ -312,7 +312,7 @@ class AccountHolderServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val accountHolderService = client.accountHolders()
-        val accountHolderDocument =
+        val document =
             accountHolderService.uploadDocument(
                 AccountHolderUploadDocumentParams.builder()
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -320,7 +320,7 @@ class AccountHolderServiceTest {
                     .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        println(accountHolderDocument)
-        accountHolderDocument.validate()
+        println(document)
+        document.validate()
     }
 }

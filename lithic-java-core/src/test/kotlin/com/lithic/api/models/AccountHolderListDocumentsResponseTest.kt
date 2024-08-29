@@ -13,28 +13,19 @@ class AccountHolderListDocumentsResponseTest {
             AccountHolderListDocumentsResponse.builder()
                 .data(
                     listOf(
-                        AccountHolderDocument.builder()
+                        Document.builder()
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .documentType(AccountHolderDocument.DocumentType.EIN_LETTER)
-                            .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .documentType(Document.DocumentType.DRIVERS_LICENSE)
                             .requiredDocumentUploads(
                                 listOf(
-                                    AccountHolderDocument.RequiredDocumentUpload.builder()
-                                        .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                        .imageType(
-                                            AccountHolderDocument.RequiredDocumentUpload.ImageType
-                                                .BACK
-                                        )
-                                        .status(
-                                            AccountHolderDocument.RequiredDocumentUpload.Status
-                                                .COMPLETED
-                                        )
+                                    Document.RequiredDocumentUpload.builder()
+                                        .imageType(Document.RequiredDocumentUpload.ImageType.FRONT)
+                                        .status(Document.RequiredDocumentUpload.Status.ACCEPTED)
                                         .statusReasons(
                                             listOf(
-                                                AccountHolderDocument.RequiredDocumentUpload
-                                                    .StatusReason
-                                                    .BACK_IMAGE_BLURRY
+                                                Document.RequiredDocumentUpload.StatusReason
+                                                    .DOCUMENT_MISSING_REQUIRED_DATA
                                             )
                                         )
                                         .uploadUrl("upload_url")
@@ -48,25 +39,19 @@ class AccountHolderListDocumentsResponseTest {
         assertThat(accountHolderListDocumentsResponse).isNotNull
         assertThat(accountHolderListDocumentsResponse.data().get())
             .containsExactly(
-                AccountHolderDocument.builder()
+                Document.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .documentType(AccountHolderDocument.DocumentType.EIN_LETTER)
-                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .documentType(Document.DocumentType.DRIVERS_LICENSE)
                     .requiredDocumentUploads(
                         listOf(
-                            AccountHolderDocument.RequiredDocumentUpload.builder()
-                                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                                .imageType(
-                                    AccountHolderDocument.RequiredDocumentUpload.ImageType.BACK
-                                )
-                                .status(
-                                    AccountHolderDocument.RequiredDocumentUpload.Status.COMPLETED
-                                )
+                            Document.RequiredDocumentUpload.builder()
+                                .imageType(Document.RequiredDocumentUpload.ImageType.FRONT)
+                                .status(Document.RequiredDocumentUpload.Status.ACCEPTED)
                                 .statusReasons(
                                     listOf(
-                                        AccountHolderDocument.RequiredDocumentUpload.StatusReason
-                                            .BACK_IMAGE_BLURRY
+                                        Document.RequiredDocumentUpload.StatusReason
+                                            .DOCUMENT_MISSING_REQUIRED_DATA
                                     )
                                 )
                                 .uploadUrl("upload_url")

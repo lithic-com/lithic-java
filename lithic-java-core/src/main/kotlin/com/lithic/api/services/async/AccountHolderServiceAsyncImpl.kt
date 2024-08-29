@@ -11,7 +11,6 @@ import com.lithic.api.errors.LithicError
 import com.lithic.api.models.AccountHolder
 import com.lithic.api.models.AccountHolderCreateParams
 import com.lithic.api.models.AccountHolderCreateResponse
-import com.lithic.api.models.AccountHolderDocument
 import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListDocumentsResponse
 import com.lithic.api.models.AccountHolderListPageAsync
@@ -20,12 +19,12 @@ import com.lithic.api.models.AccountHolderResubmitParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
 import com.lithic.api.models.AccountHolderRetrieveParams
 import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
-import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewResponse
 import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewParams
 import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewResponse
 import com.lithic.api.models.AccountHolderUpdateParams
 import com.lithic.api.models.AccountHolderUpdateResponse
 import com.lithic.api.models.AccountHolderUploadDocumentParams
+import com.lithic.api.models.Document
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -258,8 +257,8 @@ constructor(
         }
     }
 
-    private val retrieveDocumentHandler: Handler<AccountHolderDocument> =
-        jsonHandler<AccountHolderDocument>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    private val retrieveDocumentHandler: Handler<Document> =
+        jsonHandler<Document>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
      * Check the status of an account holder document upload, or retrieve the upload URLs to process
@@ -279,7 +278,7 @@ constructor(
     override fun retrieveDocument(
         params: AccountHolderRetrieveDocumentParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<AccountHolderDocument> {
+    ): CompletableFuture<Document> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
@@ -306,16 +305,14 @@ constructor(
         }
     }
 
-    private val simulateEnrollmentDocumentReviewHandler:
-        Handler<AccountHolderSimulateEnrollmentDocumentReviewResponse> =
-        jsonHandler<AccountHolderSimulateEnrollmentDocumentReviewResponse>(clientOptions.jsonMapper)
-            .withErrorHandler(errorHandler)
+    private val simulateEnrollmentDocumentReviewHandler: Handler<Document> =
+        jsonHandler<Document>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /** Simulates a review for an account holder document upload. */
     override fun simulateEnrollmentDocumentReview(
         params: AccountHolderSimulateEnrollmentDocumentReviewParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<AccountHolderSimulateEnrollmentDocumentReviewResponse> {
+    ): CompletableFuture<Document> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
@@ -373,8 +370,8 @@ constructor(
         }
     }
 
-    private val uploadDocumentHandler: Handler<AccountHolderDocument> =
-        jsonHandler<AccountHolderDocument>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+    private val uploadDocumentHandler: Handler<Document> =
+        jsonHandler<Document>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
      * Use this endpoint to identify which type of supported government-issued documentation you
@@ -397,7 +394,7 @@ constructor(
     override fun uploadDocument(
         params: AccountHolderUploadDocumentParams,
         requestOptions: RequestOptions
-    ): CompletableFuture<AccountHolderDocument> {
+    ): CompletableFuture<Document> {
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)

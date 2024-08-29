@@ -523,8 +523,7 @@ private constructor(
         fun phoneNumbers(): List<String> = phoneNumbers.getRequired("phone_numbers")
 
         /** Globally unique identifier for the entity. */
-        fun entityToken(): Optional<String> =
-            Optional.ofNullable(entityToken.getNullable("entity_token"))
+        fun entityToken(): String = entityToken.getRequired("entity_token")
 
         /**
          * Business's physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;

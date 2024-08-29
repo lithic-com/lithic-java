@@ -37,9 +37,14 @@ class AccountHolderUploadDocumentParamsTest {
         val params =
             AccountHolderUploadDocumentParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .documentType(AccountHolderUploadDocumentParams.DocumentType.EIN_LETTER)
+                .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
+        assertThat(body.documentType())
+            .isEqualTo(AccountHolderUploadDocumentParams.DocumentType.EIN_LETTER)
+        assertThat(body.entityToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test
@@ -47,6 +52,8 @@ class AccountHolderUploadDocumentParamsTest {
         val params =
             AccountHolderUploadDocumentParams.builder()
                 .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .documentType(AccountHolderUploadDocumentParams.DocumentType.EIN_LETTER)
+                .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(params).isNotNull
         // path param "accountHolderToken"
