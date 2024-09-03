@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.56.0 (2024-09-03)
+
+Full Changelog: [v0.55.0...v0.56.0](https://github.com/lithic-com/lithic-java/compare/v0.55.0...v0.56.0)
+
+### Features
+
+* **api:** declare AccountHolderBusinessResponse and remove entity_token from BusinessEntity ([#297](https://github.com/lithic-com/lithic-java/issues/297)) ([52a4f39](https://github.com/lithic-com/lithic-java/commit/52a4f39de4f4dd69a6df8d787e2cf17a01bcff60))
+
 ## 0.55.0 (2024-08-29)
 
 Full Changelog: [v0.54.0...v0.55.0](https://github.com/lithic-com/lithic-java/compare/v0.54.0...v0.55.0)
