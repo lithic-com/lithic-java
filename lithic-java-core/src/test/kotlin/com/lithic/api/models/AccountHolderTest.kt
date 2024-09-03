@@ -17,7 +17,7 @@ class AccountHolderTest {
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .beneficialOwnerEntities(
                     listOf(
-                        AccountHolder.BusinessEntity.builder()
+                        AccountHolder.AccountHolderBusinessResponse.builder()
                             .address(
                                 Address.builder()
                                     .address1("123 Old Forest Way")
@@ -28,11 +28,11 @@ class AccountHolderTest {
                                     .address2("address2")
                                     .build()
                             )
+                            .dbaBusinessName("dba_business_name")
                             .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .governmentId("114-123-1513")
                             .legalBusinessName("Acme, Inc.")
                             .phoneNumbers(listOf("+12124007676"))
-                            .dbaBusinessName("dba_business_name")
                             .parentCompany("parent_company")
                             .build()
                     )
@@ -61,7 +61,7 @@ class AccountHolderTest {
                 )
                 .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .businessEntity(
-                    AccountHolder.BusinessEntity.builder()
+                    AccountHolder.AccountHolderBusinessResponse.builder()
                         .address(
                             Address.builder()
                                 .address1("123 Old Forest Way")
@@ -72,11 +72,11 @@ class AccountHolderTest {
                                 .address2("address2")
                                 .build()
                         )
+                        .dbaBusinessName("dba_business_name")
                         .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .governmentId("114-123-1513")
                         .legalBusinessName("Acme, Inc.")
                         .phoneNumbers(listOf("+12124007676"))
-                        .dbaBusinessName("dba_business_name")
                         .parentCompany("parent_company")
                         .build()
                 )
@@ -159,7 +159,7 @@ class AccountHolderTest {
         assertThat(accountHolder.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(accountHolder.beneficialOwnerEntities().get())
             .containsExactly(
-                AccountHolder.BusinessEntity.builder()
+                AccountHolder.AccountHolderBusinessResponse.builder()
                     .address(
                         Address.builder()
                             .address1("123 Old Forest Way")
@@ -170,11 +170,11 @@ class AccountHolderTest {
                             .address2("address2")
                             .build()
                     )
+                    .dbaBusinessName("dba_business_name")
                     .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .governmentId("114-123-1513")
                     .legalBusinessName("Acme, Inc.")
                     .phoneNumbers(listOf("+12124007676"))
-                    .dbaBusinessName("dba_business_name")
                     .parentCompany("parent_company")
                     .build()
             )
@@ -203,7 +203,7 @@ class AccountHolderTest {
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(accountHolder.businessEntity())
             .contains(
-                AccountHolder.BusinessEntity.builder()
+                AccountHolder.AccountHolderBusinessResponse.builder()
                     .address(
                         Address.builder()
                             .address1("123 Old Forest Way")
@@ -214,11 +214,11 @@ class AccountHolderTest {
                             .address2("address2")
                             .build()
                     )
+                    .dbaBusinessName("dba_business_name")
                     .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .governmentId("114-123-1513")
                     .legalBusinessName("Acme, Inc.")
                     .phoneNumbers(listOf("+12124007676"))
-                    .dbaBusinessName("dba_business_name")
                     .parentCompany("parent_company")
                     .build()
             )
