@@ -24,10 +24,10 @@ import java.util.Optional
 class AccountHolder
 private constructor(
     private val accountToken: JsonField<String>,
-    private val beneficialOwnerEntities: JsonField<List<BusinessEntity>>,
+    private val beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>>,
     private val beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>>,
     private val businessAccountToken: JsonField<String>,
-    private val businessEntity: JsonField<BusinessEntity>,
+    private val businessEntity: JsonField<AccountHolderBusinessResponse>,
     private val controlPerson: JsonField<AccountHolderIndividualResponse>,
     private val created: JsonField<OffsetDateTime>,
     private val email: JsonField<String>,
@@ -58,7 +58,7 @@ private constructor(
      * Only present when user_type == "BUSINESS". List of all entities with >25% ownership in the
      * company.
      */
-    fun beneficialOwnerEntities(): Optional<List<BusinessEntity>> =
+    fun beneficialOwnerEntities(): Optional<List<AccountHolderBusinessResponse>> =
         Optional.ofNullable(beneficialOwnerEntities.getNullable("beneficial_owner_entities"))
 
     /**
@@ -80,7 +80,7 @@ private constructor(
      * Only present when user_type == "BUSINESS". Information about the business for which the
      * account is being opened and KYB is being run.
      */
-    fun businessEntity(): Optional<BusinessEntity> =
+    fun businessEntity(): Optional<AccountHolderBusinessResponse> =
         Optional.ofNullable(businessEntity.getNullable("business_entity"))
 
     /**
@@ -399,11 +399,12 @@ private constructor(
     class Builder {
 
         private var accountToken: JsonField<String> = JsonMissing.of()
-        private var beneficialOwnerEntities: JsonField<List<BusinessEntity>> = JsonMissing.of()
+        private var beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>> =
+            JsonMissing.of()
         private var beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>> =
             JsonMissing.of()
         private var businessAccountToken: JsonField<String> = JsonMissing.of()
-        private var businessEntity: JsonField<BusinessEntity> = JsonMissing.of()
+        private var businessEntity: JsonField<AccountHolderBusinessResponse> = JsonMissing.of()
         private var controlPerson: JsonField<AccountHolderIndividualResponse> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var email: JsonField<String> = JsonMissing.of()
@@ -461,7 +462,7 @@ private constructor(
          * Only present when user_type == "BUSINESS". List of all entities with >25% ownership in
          * the company.
          */
-        fun beneficialOwnerEntities(beneficialOwnerEntities: List<BusinessEntity>) =
+        fun beneficialOwnerEntities(beneficialOwnerEntities: List<AccountHolderBusinessResponse>) =
             beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
 
         /**
@@ -470,10 +471,9 @@ private constructor(
          */
         @JsonProperty("beneficial_owner_entities")
         @ExcludeMissing
-        fun beneficialOwnerEntities(beneficialOwnerEntities: JsonField<List<BusinessEntity>>) =
-            apply {
-                this.beneficialOwnerEntities = beneficialOwnerEntities
-            }
+        fun beneficialOwnerEntities(
+            beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>>
+        ) = apply { this.beneficialOwnerEntities = beneficialOwnerEntities }
 
         /**
          * Only present when user_type == "BUSINESS". List of all individuals with >25% ownership in
@@ -516,7 +516,7 @@ private constructor(
          * Only present when user_type == "BUSINESS". Information about the business for which the
          * account is being opened and KYB is being run.
          */
-        fun businessEntity(businessEntity: BusinessEntity) =
+        fun businessEntity(businessEntity: AccountHolderBusinessResponse) =
             businessEntity(JsonField.of(businessEntity))
 
         /**
@@ -525,7 +525,7 @@ private constructor(
          */
         @JsonProperty("business_entity")
         @ExcludeMissing
-        fun businessEntity(businessEntity: JsonField<BusinessEntity>) = apply {
+        fun businessEntity(businessEntity: JsonField<AccountHolderBusinessResponse>) = apply {
             this.businessEntity = businessEntity
         }
 
@@ -795,9 +795,9 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = BusinessEntity.Builder::class)
+    @JsonDeserialize(builder = AccountHolderBusinessResponse.Builder::class)
     @NoAutoDetect
-    class BusinessEntity
+    class AccountHolderBusinessResponse
     private constructor(
         private val address: JsonField<Address>,
         private val dbaBusinessName: JsonField<String>,
@@ -823,8 +823,7 @@ private constructor(
          * Any name that the business operates under that is not its legal business name (if
          * applicable).
          */
-        fun dbaBusinessName(): Optional<String> =
-            Optional.ofNullable(dbaBusinessName.getNullable("dba_business_name"))
+        fun dbaBusinessName(): String = dbaBusinessName.getRequired("dba_business_name")
 
         /**
          * Government-issued identification number. US Federal Employer Identification Numbers (EIN)
@@ -881,7 +880,7 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate(): BusinessEntity = apply {
+        fun validate(): AccountHolderBusinessResponse = apply {
             if (!validated) {
                 address().validate()
                 dbaBusinessName()
@@ -901,7 +900,7 @@ private constructor(
                 return true
             }
 
-            return other is BusinessEntity &&
+            return other is AccountHolderBusinessResponse &&
                 this.address == other.address &&
                 this.dbaBusinessName == other.dbaBusinessName &&
                 this.governmentId == other.governmentId &&
@@ -930,7 +929,7 @@ private constructor(
         }
 
         override fun toString() =
-            "BusinessEntity{address=$address, dbaBusinessName=$dbaBusinessName, governmentId=$governmentId, legalBusinessName=$legalBusinessName, parentCompany=$parentCompany, phoneNumbers=$phoneNumbers, entityToken=$entityToken, additionalProperties=$additionalProperties}"
+            "AccountHolderBusinessResponse{address=$address, dbaBusinessName=$dbaBusinessName, governmentId=$governmentId, legalBusinessName=$legalBusinessName, parentCompany=$parentCompany, phoneNumbers=$phoneNumbers, entityToken=$entityToken, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -949,16 +948,17 @@ private constructor(
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(businessEntity: BusinessEntity) = apply {
-                this.address = businessEntity.address
-                this.dbaBusinessName = businessEntity.dbaBusinessName
-                this.governmentId = businessEntity.governmentId
-                this.legalBusinessName = businessEntity.legalBusinessName
-                this.parentCompany = businessEntity.parentCompany
-                this.phoneNumbers = businessEntity.phoneNumbers
-                this.entityToken = businessEntity.entityToken
-                additionalProperties(businessEntity.additionalProperties)
-            }
+            internal fun from(accountHolderBusinessResponse: AccountHolderBusinessResponse) =
+                apply {
+                    this.address = accountHolderBusinessResponse.address
+                    this.dbaBusinessName = accountHolderBusinessResponse.dbaBusinessName
+                    this.governmentId = accountHolderBusinessResponse.governmentId
+                    this.legalBusinessName = accountHolderBusinessResponse.legalBusinessName
+                    this.parentCompany = accountHolderBusinessResponse.parentCompany
+                    this.phoneNumbers = accountHolderBusinessResponse.phoneNumbers
+                    this.entityToken = accountHolderBusinessResponse.entityToken
+                    additionalProperties(accountHolderBusinessResponse.additionalProperties)
+                }
 
             /**
              * Business's physical address - PO boxes, UPS drops, and FedEx drops are not
@@ -1062,8 +1062,8 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): BusinessEntity =
-                BusinessEntity(
+            fun build(): AccountHolderBusinessResponse =
+                AccountHolderBusinessResponse(
                     address,
                     dbaBusinessName,
                     governmentId,
