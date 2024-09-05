@@ -48,8 +48,8 @@ private constructor(
     fun country(): String = country.getRequired("country")
 
     /**
-     * Valid postal code. Only USA ZIP codes are currently supported, entered as a five-digit ZIP or
-     * nine-digit ZIP+4.
+     * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered as a
+     * five-digit postal code or nine-digit postal code (ZIP+4) using the format 12345-1234.
      */
     fun postalCode(): String = postalCode.getRequired("postal_code")
 
@@ -75,8 +75,8 @@ private constructor(
     @JsonProperty("country") @ExcludeMissing fun _country() = country
 
     /**
-     * Valid postal code. Only USA ZIP codes are currently supported, entered as a five-digit ZIP or
-     * nine-digit ZIP+4.
+     * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered as a
+     * five-digit postal code or nine-digit postal code (ZIP+4) using the format 12345-1234.
      */
     @JsonProperty("postal_code") @ExcludeMissing fun _postalCode() = postalCode
 
@@ -203,14 +203,14 @@ private constructor(
         fun country(country: JsonField<String>) = apply { this.country = country }
 
         /**
-         * Valid postal code. Only USA ZIP codes are currently supported, entered as a five-digit
-         * ZIP or nine-digit ZIP+4.
+         * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered as
+         * a five-digit postal code or nine-digit postal code (ZIP+4) using the format 12345-1234.
          */
         fun postalCode(postalCode: String) = postalCode(JsonField.of(postalCode))
 
         /**
-         * Valid postal code. Only USA ZIP codes are currently supported, entered as a five-digit
-         * ZIP or nine-digit ZIP+4.
+         * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered as
+         * a five-digit postal code or nine-digit postal code (ZIP+4) using the format 12345-1234.
          */
         @JsonProperty("postal_code")
         @ExcludeMissing

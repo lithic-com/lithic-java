@@ -81,8 +81,8 @@ private constructor(
         Optional.ofNullable(phoneNumber.getNullable("phone_number"))
 
     /**
-     * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or nine-digit
-     * "ZIP+4".
+     * Postal code (formerly zipcode). For US addresses, either five-digit postal code or nine-digit
+     * postal code (ZIP+4) using the format 12345-1234.
      */
     fun postalCode(): String = postalCode.getRequired("postal_code")
 
@@ -135,8 +135,8 @@ private constructor(
     @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
 
     /**
-     * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or nine-digit
-     * "ZIP+4".
+     * Postal code (formerly zipcode). For US addresses, either five-digit postal code or nine-digit
+     * postal code (ZIP+4) using the format 12345-1234.
      */
     @JsonProperty("postal_code") @ExcludeMissing fun _postalCode() = postalCode
 
@@ -352,14 +352,14 @@ private constructor(
         fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
 
         /**
-         * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or nine-digit
-         * "ZIP+4".
+         * Postal code (formerly zipcode). For US addresses, either five-digit postal code or
+         * nine-digit postal code (ZIP+4) using the format 12345-1234.
          */
         fun postalCode(postalCode: String) = postalCode(JsonField.of(postalCode))
 
         /**
-         * Postal code (formerly zipcode). For US addresses, either five-digit zipcode or nine-digit
-         * "ZIP+4".
+         * Postal code (formerly zipcode). For US addresses, either five-digit postal code or
+         * nine-digit postal code (ZIP+4) using the format 12345-1234.
          */
         @JsonProperty("postal_code")
         @ExcludeMissing
