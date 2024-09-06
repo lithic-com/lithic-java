@@ -15,6 +15,7 @@ class FinancialAccountCreditConfigurationUpdateParamsTest {
             .creditLimit(123L)
             .creditProductToken("credit_product_token")
             .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .tier("x")
             .build()
     }
 
@@ -26,6 +27,7 @@ class FinancialAccountCreditConfigurationUpdateParamsTest {
                 .creditLimit(123L)
                 .creditProductToken("credit_product_token")
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .tier("x")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -33,6 +35,7 @@ class FinancialAccountCreditConfigurationUpdateParamsTest {
         assertThat(body.creditProductToken()).isEqualTo("credit_product_token")
         assertThat(body.externalBankAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.tier()).isEqualTo("x")
     }
 
     @Test
