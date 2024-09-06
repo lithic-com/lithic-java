@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.57.0 (2024-09-06)
+
+Full Changelog: [v0.56.0...v0.57.0](https://github.com/lithic-com/lithic-java/compare/v0.56.0...v0.57.0)
+
+### Features
+
+* **api:** add tier and state to financial_accounts ([#301](https://github.com/lithic-com/lithic-java/issues/301)) ([76f3678](https://github.com/lithic-com/lithic-java/commit/76f367867e11a15bf96f06c9d7ff2400784b26cc))
+
+
+### Chores
+
+* **docs:** update description for postal codes ([#299](https://github.com/lithic-com/lithic-java/issues/299)) ([736626a](https://github.com/lithic-com/lithic-java/commit/736626aac4ddf4b7dff13b897b5a8b4aaffac47e))
+
 ## 0.56.0 (2024-09-03)
 
 Full Changelog: [v0.55.0...v0.56.0](https://github.com/lithic-com/lithic-java/compare/v0.55.0...v0.56.0)
