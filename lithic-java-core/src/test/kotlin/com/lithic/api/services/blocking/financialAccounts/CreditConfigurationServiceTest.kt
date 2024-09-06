@@ -44,6 +44,7 @@ class CreditConfigurationServiceTest {
                     .creditLimit(123L)
                     .creditProductToken("credit_product_token")
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .tier("x")
                     .build()
             )
         println(financialAccountCreditConfig)

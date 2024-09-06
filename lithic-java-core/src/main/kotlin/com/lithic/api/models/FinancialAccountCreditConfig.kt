@@ -23,6 +23,8 @@ private constructor(
     private val creditLimit: JsonField<Long>,
     private val externalBankAccountToken: JsonField<String>,
     private val creditProductToken: JsonField<String>,
+    private val tier: JsonField<String>,
+    private val financialAccountState: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -42,6 +44,13 @@ private constructor(
     fun creditProductToken(): Optional<String> =
         Optional.ofNullable(creditProductToken.getNullable("credit_product_token"))
 
+    /** Tier assigned to the financial account */
+    fun tier(): Optional<String> = Optional.ofNullable(tier.getNullable("tier"))
+
+    /** State of the financial account */
+    fun financialAccountState(): Optional<String> =
+        Optional.ofNullable(financialAccountState.getNullable("financial_account_state"))
+
     /** Globally unique identifier for the account */
     @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
 
@@ -56,6 +65,14 @@ private constructor(
     @ExcludeMissing
     fun _creditProductToken() = creditProductToken
 
+    /** Tier assigned to the financial account */
+    @JsonProperty("tier") @ExcludeMissing fun _tier() = tier
+
+    /** State of the financial account */
+    @JsonProperty("financial_account_state")
+    @ExcludeMissing
+    fun _financialAccountState() = financialAccountState
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -66,6 +83,8 @@ private constructor(
             creditLimit()
             externalBankAccountToken()
             creditProductToken()
+            tier()
+            financialAccountState()
             validated = true
         }
     }
@@ -82,6 +101,8 @@ private constructor(
             this.creditLimit == other.creditLimit &&
             this.externalBankAccountToken == other.externalBankAccountToken &&
             this.creditProductToken == other.creditProductToken &&
+            this.tier == other.tier &&
+            this.financialAccountState == other.financialAccountState &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -93,6 +114,8 @@ private constructor(
                     creditLimit,
                     externalBankAccountToken,
                     creditProductToken,
+                    tier,
+                    financialAccountState,
                     additionalProperties,
                 )
         }
@@ -100,7 +123,7 @@ private constructor(
     }
 
     override fun toString() =
-        "FinancialAccountCreditConfig{accountToken=$accountToken, creditLimit=$creditLimit, externalBankAccountToken=$externalBankAccountToken, creditProductToken=$creditProductToken, additionalProperties=$additionalProperties}"
+        "FinancialAccountCreditConfig{accountToken=$accountToken, creditLimit=$creditLimit, externalBankAccountToken=$externalBankAccountToken, creditProductToken=$creditProductToken, tier=$tier, financialAccountState=$financialAccountState, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -113,6 +136,8 @@ private constructor(
         private var creditLimit: JsonField<Long> = JsonMissing.of()
         private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
         private var creditProductToken: JsonField<String> = JsonMissing.of()
+        private var tier: JsonField<String> = JsonMissing.of()
+        private var financialAccountState: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -121,6 +146,8 @@ private constructor(
             this.creditLimit = financialAccountCreditConfig.creditLimit
             this.externalBankAccountToken = financialAccountCreditConfig.externalBankAccountToken
             this.creditProductToken = financialAccountCreditConfig.creditProductToken
+            this.tier = financialAccountCreditConfig.tier
+            this.financialAccountState = financialAccountCreditConfig.financialAccountState
             additionalProperties(financialAccountCreditConfig.additionalProperties)
         }
 
@@ -160,6 +187,25 @@ private constructor(
             this.creditProductToken = creditProductToken
         }
 
+        /** Tier assigned to the financial account */
+        fun tier(tier: String) = tier(JsonField.of(tier))
+
+        /** Tier assigned to the financial account */
+        @JsonProperty("tier")
+        @ExcludeMissing
+        fun tier(tier: JsonField<String>) = apply { this.tier = tier }
+
+        /** State of the financial account */
+        fun financialAccountState(financialAccountState: String) =
+            financialAccountState(JsonField.of(financialAccountState))
+
+        /** State of the financial account */
+        @JsonProperty("financial_account_state")
+        @ExcludeMissing
+        fun financialAccountState(financialAccountState: JsonField<String>) = apply {
+            this.financialAccountState = financialAccountState
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -180,6 +226,8 @@ private constructor(
                 creditLimit,
                 externalBankAccountToken,
                 creditProductToken,
+                tier,
+                financialAccountState,
                 additionalProperties.toUnmodifiable(),
             )
     }
