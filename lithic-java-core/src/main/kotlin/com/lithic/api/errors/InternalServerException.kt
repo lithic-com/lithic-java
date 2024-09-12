@@ -2,13 +2,9 @@ package com.lithic.api.errors
 
 import com.google.common.collect.ListMultimap
 
-class InternalServerException
-constructor(
-    private val statusCode: Int,
+class InternalServerException(
+    statusCode: Int,
     headers: ListMultimap<String, String>,
-    private val error: LithicError,
-) : LithicServiceException(headers, "${error}") {
-    override fun statusCode(): Int = statusCode
-
-    fun error(): LithicError = error
-}
+    body: String,
+    error: LithicError,
+) : LithicServiceException(statusCode, headers, body, error)
