@@ -57,7 +57,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("account_holders")
+                .addPathSegments("v1", "account_holders")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -93,7 +93,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("account_holders", params.getPathParam(0))
+                .addPathSegments("v1", "account_holders", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -123,7 +123,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
-                .addPathSegments("account_holders", params.getPathParam(0))
+                .addPathSegments("v1", "account_holders", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -156,7 +156,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("account_holders")
+                .addPathSegments("v1", "account_holders")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -201,7 +201,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("account_holders", params.getPathParam(0), "documents")
+                .addPathSegments("v1", "account_holders", params.getPathParam(0), "documents")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -238,7 +238,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("account_holders", params.getPathParam(0), "resubmit")
+                .addPathSegments("v1", "account_holders", params.getPathParam(0), "resubmit")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -283,6 +283,7 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments(
+                    "v1",
                     "account_holders",
                     params.getPathParam(0),
                     "documents",
@@ -316,7 +317,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("simulate", "account_holders", "enrollment_document_review")
+                .addPathSegments("v1", "simulate", "account_holders", "enrollment_document_review")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -351,7 +352,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("simulate", "account_holders", "enrollment_review")
+                .addPathSegments("v1", "simulate", "account_holders", "enrollment_review")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -398,7 +399,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("account_holders", params.getPathParam(0), "documents")
+                .addPathSegments("v1", "account_holders", params.getPathParam(0), "documents")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)

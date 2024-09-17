@@ -52,7 +52,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("external_bank_accounts")
+                .addPathSegments("v1", "external_bank_accounts")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -82,7 +82,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("external_bank_accounts", params.getPathParam(0))
+                .addPathSegments("v1", "external_bank_accounts", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -111,7 +111,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
-                .addPathSegments("external_bank_accounts", params.getPathParam(0))
+                .addPathSegments("v1", "external_bank_accounts", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -141,7 +141,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("external_bank_accounts")
+                .addPathSegments("v1", "external_bank_accounts")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -172,6 +172,7 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments(
+                    "v1",
                     "external_bank_accounts",
                     params.getPathParam(0),
                     "retry_micro_deposits"
@@ -205,7 +206,12 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("external_bank_accounts", params.getPathParam(0), "retry_prenote")
+                .addPathSegments(
+                    "v1",
+                    "external_bank_accounts",
+                    params.getPathParam(0),
+                    "retry_prenote"
+                )
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)

@@ -45,7 +45,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("disputes")
+                .addPathSegments("v1", "disputes")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -75,7 +75,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("disputes", params.getPathParam(0))
+                .addPathSegments("v1", "disputes", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -104,7 +104,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
-                .addPathSegments("disputes", params.getPathParam(0))
+                .addPathSegments("v1", "disputes", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -135,7 +135,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("disputes")
+                .addPathSegments("v1", "disputes")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -165,7 +165,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.DELETE)
-                .addPathSegments("disputes", params.getPathParam(0))
+                .addPathSegments("v1", "disputes", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -199,6 +199,7 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.DELETE)
                 .addPathSegments(
+                    "v1",
                     "disputes",
                     params.getPathParam(0),
                     "evidences",
@@ -239,7 +240,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("disputes", params.getPathParam(0), "evidences")
+                .addPathSegments("v1", "disputes", params.getPathParam(0), "evidences")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -270,7 +271,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("disputes", params.getPathParam(0), "evidences")
+                .addPathSegments("v1", "disputes", params.getPathParam(0), "evidences")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -301,6 +302,7 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments(
+                    "v1",
                     "disputes",
                     params.getPathParam(0),
                     "evidences",

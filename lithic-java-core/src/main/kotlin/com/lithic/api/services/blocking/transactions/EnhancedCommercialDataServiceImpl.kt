@@ -36,7 +36,12 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("transactions", params.getPathParam(0), "enhanced_commercial_data")
+                .addPathSegments(
+                    "v1",
+                    "transactions",
+                    params.getPathParam(0),
+                    "enhanced_commercial_data"
+                )
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)

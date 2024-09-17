@@ -107,14 +107,14 @@ private constructor(
     fun merchant(): Merchant = merchant.getRequired("merchant")
 
     /**
-     * Analogous to the "amount" property, but will represent the amount in the transaction's local
+     * Analogous to the 'amount' property, but will represent the amount in the transaction's local
      * currency (smallest unit), including any acquirer fees.
      */
     fun merchantAmount(): Optional<Long> =
         Optional.ofNullable(merchantAmount.getNullable("merchant_amount"))
 
     /**
-     * Analogous to the "authorization_amount" property, but will represent the amount in the
+     * Analogous to the 'authorization_amount' property, but will represent the amount in the
      * transaction's local currency (smallest unit), including any acquirer fees.
      */
     fun merchantAuthorizationAmount(): Optional<Long> =
@@ -228,13 +228,13 @@ private constructor(
     @JsonProperty("merchant") @ExcludeMissing fun _merchant() = merchant
 
     /**
-     * Analogous to the "amount" property, but will represent the amount in the transaction's local
+     * Analogous to the 'amount' property, but will represent the amount in the transaction's local
      * currency (smallest unit), including any acquirer fees.
      */
     @JsonProperty("merchant_amount") @ExcludeMissing fun _merchantAmount() = merchantAmount
 
     /**
-     * Analogous to the "authorization_amount" property, but will represent the amount in the
+     * Analogous to the 'authorization_amount' property, but will represent the amount in the
      * transaction's local currency (smallest unit), including any acquirer fees.
      */
     @JsonProperty("merchant_authorization_amount")
@@ -594,13 +594,13 @@ private constructor(
         fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
         /**
-         * Analogous to the "amount" property, but will represent the amount in the transaction's
+         * Analogous to the 'amount' property, but will represent the amount in the transaction's
          * local currency (smallest unit), including any acquirer fees.
          */
         fun merchantAmount(merchantAmount: Long) = merchantAmount(JsonField.of(merchantAmount))
 
         /**
-         * Analogous to the "amount" property, but will represent the amount in the transaction's
+         * Analogous to the 'amount' property, but will represent the amount in the transaction's
          * local currency (smallest unit), including any acquirer fees.
          */
         @JsonProperty("merchant_amount")
@@ -610,14 +610,14 @@ private constructor(
         }
 
         /**
-         * Analogous to the "authorization_amount" property, but will represent the amount in the
+         * Analogous to the 'authorization_amount' property, but will represent the amount in the
          * transaction's local currency (smallest unit), including any acquirer fees.
          */
         fun merchantAuthorizationAmount(merchantAuthorizationAmount: Long) =
             merchantAuthorizationAmount(JsonField.of(merchantAuthorizationAmount))
 
         /**
-         * Analogous to the "authorization_amount" property, but will represent the amount in the
+         * Analogous to the 'authorization_amount' property, but will represent the amount in the
          * transaction's local currency (smallest unit), including any acquirer fees.
          */
         @JsonProperty("merchant_authorization_amount")

@@ -47,7 +47,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("tokenizations", params.getPathParam(0))
+                .addPathSegments("v1", "tokenizations", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -77,7 +77,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("tokenizations")
+                .addPathSegments("v1", "tokenizations")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -114,7 +114,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("tokenizations", params.getPathParam(0), "activate")
+                .addPathSegments("v1", "tokenizations", params.getPathParam(0), "activate")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -146,7 +146,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("tokenizations", params.getPathParam(0), "deactivate")
+                .addPathSegments("v1", "tokenizations", params.getPathParam(0), "deactivate")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -177,7 +177,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("tokenizations", params.getPathParam(0), "pause")
+                .addPathSegments("v1", "tokenizations", params.getPathParam(0), "pause")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -211,7 +211,12 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("tokenizations", params.getPathParam(0), "resend_activation_code")
+                .addPathSegments(
+                    "v1",
+                    "tokenizations",
+                    params.getPathParam(0),
+                    "resend_activation_code"
+                )
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -239,7 +244,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("simulate", "tokenizations")
+                .addPathSegments("v1", "simulate", "tokenizations")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -275,7 +280,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("tokenizations", params.getPathParam(0), "unpause")
+                .addPathSegments("v1", "tokenizations", params.getPathParam(0), "unpause")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -308,7 +313,12 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("tokenizations", params.getPathParam(0), "update_digital_card_art")
+                .addPathSegments(
+                    "v1",
+                    "tokenizations",
+                    params.getPathParam(0),
+                    "update_digital_card_art"
+                )
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
