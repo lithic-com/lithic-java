@@ -80,8 +80,8 @@ private constructor(
     fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
 
     /**
-     * Status types: _ `DECLINED` - The transfer was declined. _ `PENDING` - The transfer is pending
-     * release from a hold. \* `SETTLED` - The transfer is completed.
+     * Status types: _ `DECLINED` - The transfer was declined. _ `REVERSED` - The transfer was
+     * reversed \* `SETTLED` - The transfer is completed.
      */
     fun status(): Status = status.getRequired("status")
 
@@ -134,8 +134,8 @@ private constructor(
     @JsonProperty("settled_amount") @ExcludeMissing fun _settledAmount() = settledAmount
 
     /**
-     * Status types: _ `DECLINED` - The transfer was declined. _ `PENDING` - The transfer is pending
-     * release from a hold. \* `SETTLED` - The transfer is completed.
+     * Status types: _ `DECLINED` - The transfer was declined. _ `REVERSED` - The transfer was
+     * reversed \* `SETTLED` - The transfer is completed.
      */
     @JsonProperty("status") @ExcludeMissing fun _status() = status
 
@@ -361,14 +361,14 @@ private constructor(
         }
 
         /**
-         * Status types: _ `DECLINED` - The transfer was declined. _ `PENDING` - The transfer is
-         * pending release from a hold. \* `SETTLED` - The transfer is completed.
+         * Status types: _ `DECLINED` - The transfer was declined. _ `REVERSED` - The transfer was
+         * reversed \* `SETTLED` - The transfer is completed.
          */
         fun status(status: Status) = status(JsonField.of(status))
 
         /**
-         * Status types: _ `DECLINED` - The transfer was declined. _ `PENDING` - The transfer is
-         * pending release from a hold. \* `SETTLED` - The transfer is completed.
+         * Status types: _ `DECLINED` - The transfer was declined. _ `REVERSED` - The transfer was
+         * reversed \* `SETTLED` - The transfer is completed.
          */
         @JsonProperty("status")
         @ExcludeMissing
@@ -997,7 +997,7 @@ private constructor(
 
             @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
 
-            @JvmField val PENDING = Status(JsonField.of("PENDING"))
+            @JvmField val REVERSED = Status(JsonField.of("REVERSED"))
 
             @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
 
@@ -1006,13 +1006,13 @@ private constructor(
 
         enum class Known {
             DECLINED,
-            PENDING,
+            REVERSED,
             SETTLED,
         }
 
         enum class Value {
             DECLINED,
-            PENDING,
+            REVERSED,
             SETTLED,
             _UNKNOWN,
         }
@@ -1020,7 +1020,7 @@ private constructor(
         fun value(): Value =
             when (this) {
                 DECLINED -> Value.DECLINED
-                PENDING -> Value.PENDING
+                REVERSED -> Value.REVERSED
                 SETTLED -> Value.SETTLED
                 else -> Value._UNKNOWN
             }
@@ -1028,7 +1028,7 @@ private constructor(
         fun known(): Known =
             when (this) {
                 DECLINED -> Known.DECLINED
-                PENDING -> Known.PENDING
+                REVERSED -> Known.REVERSED
                 SETTLED -> Known.SETTLED
                 else -> throw LithicInvalidDataException("Unknown Status: $value")
             }

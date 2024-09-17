@@ -16,6 +16,38 @@ class TransactionTest {
                 .acquirerFee(123L)
                 .acquirerReferenceNumber("12345678987654321234567")
                 .amount(123L)
+                .amounts(
+                    Transaction.TransactionAggregateAmounts.builder()
+                        .cardholder(
+                            Transaction.TransactionAggregateAmounts.CardholderAggregateAmount
+                                .builder()
+                                .amount(123L)
+                                .conversionRate("conversion_rate")
+                                .currency(Currency.AED)
+                                .build()
+                        )
+                        .hold(
+                            Transaction.TransactionAggregateAmounts.HoldAggregateAmount.builder()
+                                .amount(123L)
+                                .currency(Currency.AED)
+                                .build()
+                        )
+                        .merchant(
+                            Transaction.TransactionAggregateAmounts.MerchantAggregateAmount
+                                .builder()
+                                .amount(123L)
+                                .currency(Currency.AED)
+                                .build()
+                        )
+                        .settlement(
+                            Transaction.TransactionAggregateAmounts.SettlementAggregateAmount
+                                .builder()
+                                .amount(123L)
+                                .currency(Currency.AED)
+                                .build()
+                        )
+                        .build()
+                )
                 .authorizationAmount(123L)
                 .authorizationCode("123456")
                 .avs(Transaction.Avs.builder().address("address").zipcode("zipcode").build())
@@ -26,6 +58,36 @@ class TransactionTest {
                         Transaction.TransactionEvent.builder()
                             .token("0c2adae9-f535-4505-8c35-421dad9bd0b6")
                             .amount(123L)
+                            .amounts(
+                                Transaction.TransactionEvent.TransactionEventAmounts.builder()
+                                    .cardholder(
+                                        Transaction.TransactionEvent.TransactionEventAmounts
+                                            .CardholderEventAmounts
+                                            .builder()
+                                            .amount(123L)
+                                            .conversionRate("conversion_rate")
+                                            .currency(Currency.AED)
+                                            .build()
+                                    )
+                                    .merchant(
+                                        Transaction.TransactionEvent.TransactionEventAmounts
+                                            .MerchantEventAmounts
+                                            .builder()
+                                            .amount(123L)
+                                            .currency(Currency.AED)
+                                            .build()
+                                    )
+                                    .settlement(
+                                        Transaction.TransactionEvent.TransactionEventAmounts
+                                            .SettlementEventAmounts
+                                            .builder()
+                                            .amount(123L)
+                                            .conversionRate("conversion_rate")
+                                            .currency(Currency.AED)
+                                            .build()
+                                    )
+                                    .build()
+                            )
                             .created(OffsetDateTime.parse("2018-05-29T21:16:05Z"))
                             .detailedResults(
                                 listOf(
@@ -83,6 +145,7 @@ class TransactionTest {
                         .walletType(Transaction.TokenInfo.WalletType.APPLE_PAY)
                         .build()
                 )
+                .updated(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
                 .cardholderAuthentication(
                     Transaction.CardholderAuthentication.builder()
                         ._3dsVersion("2")
@@ -114,6 +177,36 @@ class TransactionTest {
         assertThat(transaction.acquirerFee()).contains(123L)
         assertThat(transaction.acquirerReferenceNumber()).contains("12345678987654321234567")
         assertThat(transaction.amount()).isEqualTo(123L)
+        assertThat(transaction.amounts())
+            .isEqualTo(
+                Transaction.TransactionAggregateAmounts.builder()
+                    .cardholder(
+                        Transaction.TransactionAggregateAmounts.CardholderAggregateAmount.builder()
+                            .amount(123L)
+                            .conversionRate("conversion_rate")
+                            .currency(Currency.AED)
+                            .build()
+                    )
+                    .hold(
+                        Transaction.TransactionAggregateAmounts.HoldAggregateAmount.builder()
+                            .amount(123L)
+                            .currency(Currency.AED)
+                            .build()
+                    )
+                    .merchant(
+                        Transaction.TransactionAggregateAmounts.MerchantAggregateAmount.builder()
+                            .amount(123L)
+                            .currency(Currency.AED)
+                            .build()
+                    )
+                    .settlement(
+                        Transaction.TransactionAggregateAmounts.SettlementAggregateAmount.builder()
+                            .amount(123L)
+                            .currency(Currency.AED)
+                            .build()
+                    )
+                    .build()
+            )
         assertThat(transaction.authorizationAmount()).contains(123L)
         assertThat(transaction.authorizationCode()).contains("123456")
         assertThat(transaction.avs())
@@ -126,6 +219,36 @@ class TransactionTest {
                 Transaction.TransactionEvent.builder()
                     .token("0c2adae9-f535-4505-8c35-421dad9bd0b6")
                     .amount(123L)
+                    .amounts(
+                        Transaction.TransactionEvent.TransactionEventAmounts.builder()
+                            .cardholder(
+                                Transaction.TransactionEvent.TransactionEventAmounts
+                                    .CardholderEventAmounts
+                                    .builder()
+                                    .amount(123L)
+                                    .conversionRate("conversion_rate")
+                                    .currency(Currency.AED)
+                                    .build()
+                            )
+                            .merchant(
+                                Transaction.TransactionEvent.TransactionEventAmounts
+                                    .MerchantEventAmounts
+                                    .builder()
+                                    .amount(123L)
+                                    .currency(Currency.AED)
+                                    .build()
+                            )
+                            .settlement(
+                                Transaction.TransactionEvent.TransactionEventAmounts
+                                    .SettlementEventAmounts
+                                    .builder()
+                                    .amount(123L)
+                                    .conversionRate("conversion_rate")
+                                    .currency(Currency.AED)
+                                    .build()
+                            )
+                            .build()
+                    )
                     .created(OffsetDateTime.parse("2018-05-29T21:16:05Z"))
                     .detailedResults(
                         listOf(
@@ -185,6 +308,8 @@ class TransactionTest {
                     .walletType(Transaction.TokenInfo.WalletType.APPLE_PAY)
                     .build()
             )
+        assertThat(transaction.updated())
+            .isEqualTo(OffsetDateTime.parse("2023-09-26T21:14:28.637Z"))
         assertThat(transaction.cardholderAuthentication())
             .contains(
                 Transaction.CardholderAuthentication.builder()

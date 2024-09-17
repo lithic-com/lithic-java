@@ -26,6 +26,7 @@ private constructor(
     private val acquirerFee: JsonField<Long>,
     private val acquirerReferenceNumber: JsonField<String>,
     private val amount: JsonField<Long>,
+    private val amounts: JsonField<TransactionAggregateAmounts>,
     private val authorizationAmount: JsonField<Long>,
     private val authorizationCode: JsonField<String>,
     private val avs: JsonField<Avs>,
@@ -45,6 +46,7 @@ private constructor(
     private val status: JsonField<Status>,
     private val token: JsonField<String>,
     private val tokenInfo: JsonField<TokenInfo>,
+    private val updated: JsonField<OffsetDateTime>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -71,6 +73,8 @@ private constructor(
      * change over time, and will represent the settled amount once the transaction is settled.
      */
     fun amount(): Long = amount.getRequired("amount")
+
+    fun amounts(): TransactionAggregateAmounts = amounts.getRequired("amounts")
 
     /**
      * Authorization amount (in cents) of the transaction, including any acquirer fees. This amount
@@ -166,6 +170,9 @@ private constructor(
 
     fun tokenInfo(): Optional<TokenInfo> = Optional.ofNullable(tokenInfo.getNullable("token_info"))
 
+    /** Date and time when the transaction last updated. UTC time zone. */
+    fun updated(): OffsetDateTime = updated.getRequired("updated")
+
     /**
      * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
      * currency. Will be zero if no fee is assessed. Rebates may be transmitted as a negative value
@@ -186,6 +193,8 @@ private constructor(
      * change over time, and will represent the settled amount once the transaction is settled.
      */
     @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+    @JsonProperty("amounts") @ExcludeMissing fun _amounts() = amounts
 
     /**
      * Authorization amount (in cents) of the transaction, including any acquirer fees. This amount
@@ -279,6 +288,9 @@ private constructor(
 
     @JsonProperty("token_info") @ExcludeMissing fun _tokenInfo() = tokenInfo
 
+    /** Date and time when the transaction last updated. UTC time zone. */
+    @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -288,6 +300,7 @@ private constructor(
             acquirerFee()
             acquirerReferenceNumber()
             amount()
+            amounts().validate()
             authorizationAmount()
             authorizationCode()
             avs().map { it.validate() }
@@ -307,6 +320,7 @@ private constructor(
             status()
             token()
             tokenInfo().map { it.validate() }
+            updated()
             validated = true
         }
     }
@@ -322,6 +336,7 @@ private constructor(
             this.acquirerFee == other.acquirerFee &&
             this.acquirerReferenceNumber == other.acquirerReferenceNumber &&
             this.amount == other.amount &&
+            this.amounts == other.amounts &&
             this.authorizationAmount == other.authorizationAmount &&
             this.authorizationCode == other.authorizationCode &&
             this.avs == other.avs &&
@@ -341,6 +356,7 @@ private constructor(
             this.status == other.status &&
             this.token == other.token &&
             this.tokenInfo == other.tokenInfo &&
+            this.updated == other.updated &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -351,6 +367,7 @@ private constructor(
                     acquirerFee,
                     acquirerReferenceNumber,
                     amount,
+                    amounts,
                     authorizationAmount,
                     authorizationCode,
                     avs,
@@ -370,6 +387,7 @@ private constructor(
                     status,
                     token,
                     tokenInfo,
+                    updated,
                     additionalProperties,
                 )
         }
@@ -377,7 +395,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Transaction{acquirerFee=$acquirerFee, acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, authorizationAmount=$authorizationAmount, authorizationCode=$authorizationCode, avs=$avs, cardToken=$cardToken, cardholderAuthentication=$cardholderAuthentication, created=$created, events=$events, merchant=$merchant, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, network=$network, networkRiskScore=$networkRiskScore, pos=$pos, result=$result, settledAmount=$settledAmount, status=$status, token=$token, tokenInfo=$tokenInfo, additionalProperties=$additionalProperties}"
+        "Transaction{acquirerFee=$acquirerFee, acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, authorizationCode=$authorizationCode, avs=$avs, cardToken=$cardToken, cardholderAuthentication=$cardholderAuthentication, created=$created, events=$events, merchant=$merchant, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, network=$network, networkRiskScore=$networkRiskScore, pos=$pos, result=$result, settledAmount=$settledAmount, status=$status, token=$token, tokenInfo=$tokenInfo, updated=$updated, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -389,6 +407,7 @@ private constructor(
         private var acquirerFee: JsonField<Long> = JsonMissing.of()
         private var acquirerReferenceNumber: JsonField<String> = JsonMissing.of()
         private var amount: JsonField<Long> = JsonMissing.of()
+        private var amounts: JsonField<TransactionAggregateAmounts> = JsonMissing.of()
         private var authorizationAmount: JsonField<Long> = JsonMissing.of()
         private var authorizationCode: JsonField<String> = JsonMissing.of()
         private var avs: JsonField<Avs> = JsonMissing.of()
@@ -408,6 +427,7 @@ private constructor(
         private var status: JsonField<Status> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
         private var tokenInfo: JsonField<TokenInfo> = JsonMissing.of()
+        private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -415,6 +435,7 @@ private constructor(
             this.acquirerFee = transaction.acquirerFee
             this.acquirerReferenceNumber = transaction.acquirerReferenceNumber
             this.amount = transaction.amount
+            this.amounts = transaction.amounts
             this.authorizationAmount = transaction.authorizationAmount
             this.authorizationCode = transaction.authorizationCode
             this.avs = transaction.avs
@@ -434,6 +455,7 @@ private constructor(
             this.status = transaction.status
             this.token = transaction.token
             this.tokenInfo = transaction.tokenInfo
+            this.updated = transaction.updated
             additionalProperties(transaction.additionalProperties)
         }
 
@@ -483,6 +505,14 @@ private constructor(
         @JsonProperty("amount")
         @ExcludeMissing
         fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+        fun amounts(amounts: TransactionAggregateAmounts) = amounts(JsonField.of(amounts))
+
+        @JsonProperty("amounts")
+        @ExcludeMissing
+        fun amounts(amounts: JsonField<TransactionAggregateAmounts>) = apply {
+            this.amounts = amounts
+        }
 
         /**
          * Authorization amount (in cents) of the transaction, including any acquirer fees. This
@@ -714,6 +744,14 @@ private constructor(
         @ExcludeMissing
         fun tokenInfo(tokenInfo: JsonField<TokenInfo>) = apply { this.tokenInfo = tokenInfo }
 
+        /** Date and time when the transaction last updated. UTC time zone. */
+        fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
+
+        /** Date and time when the transaction last updated. UTC time zone. */
+        @JsonProperty("updated")
+        @ExcludeMissing
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -733,6 +771,7 @@ private constructor(
                 acquirerFee,
                 acquirerReferenceNumber,
                 amount,
+                amounts,
                 authorizationAmount,
                 authorizationCode,
                 avs,
@@ -752,8 +791,725 @@ private constructor(
                 status,
                 token,
                 tokenInfo,
+                updated,
                 additionalProperties.toUnmodifiable(),
             )
+    }
+
+    @JsonDeserialize(builder = TransactionAggregateAmounts.Builder::class)
+    @NoAutoDetect
+    class TransactionAggregateAmounts
+    private constructor(
+        private val cardholder: JsonField<CardholderAggregateAmount>,
+        private val hold: JsonField<HoldAggregateAmount>,
+        private val merchant: JsonField<MerchantAggregateAmount>,
+        private val settlement: JsonField<SettlementAggregateAmount>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
+
+        private var validated: Boolean = false
+
+        private var hashCode: Int = 0
+
+        fun cardholder(): CardholderAggregateAmount = cardholder.getRequired("cardholder")
+
+        fun hold(): HoldAggregateAmount = hold.getRequired("hold")
+
+        fun merchant(): MerchantAggregateAmount = merchant.getRequired("merchant")
+
+        fun settlement(): SettlementAggregateAmount = settlement.getRequired("settlement")
+
+        @JsonProperty("cardholder") @ExcludeMissing fun _cardholder() = cardholder
+
+        @JsonProperty("hold") @ExcludeMissing fun _hold() = hold
+
+        @JsonProperty("merchant") @ExcludeMissing fun _merchant() = merchant
+
+        @JsonProperty("settlement") @ExcludeMissing fun _settlement() = settlement
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun validate(): TransactionAggregateAmounts = apply {
+            if (!validated) {
+                cardholder().validate()
+                hold().validate()
+                merchant().validate()
+                settlement().validate()
+                validated = true
+            }
+        }
+
+        fun toBuilder() = Builder().from(this)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TransactionAggregateAmounts &&
+                this.cardholder == other.cardholder &&
+                this.hold == other.hold &&
+                this.merchant == other.merchant &&
+                this.settlement == other.settlement &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        cardholder,
+                        hold,
+                        merchant,
+                        settlement,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "TransactionAggregateAmounts{cardholder=$cardholder, hold=$hold, merchant=$merchant, settlement=$settlement, additionalProperties=$additionalProperties}"
+
+        companion object {
+
+            @JvmStatic fun builder() = Builder()
+        }
+
+        class Builder {
+
+            private var cardholder: JsonField<CardholderAggregateAmount> = JsonMissing.of()
+            private var hold: JsonField<HoldAggregateAmount> = JsonMissing.of()
+            private var merchant: JsonField<MerchantAggregateAmount> = JsonMissing.of()
+            private var settlement: JsonField<SettlementAggregateAmount> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(transactionAggregateAmounts: TransactionAggregateAmounts) = apply {
+                this.cardholder = transactionAggregateAmounts.cardholder
+                this.hold = transactionAggregateAmounts.hold
+                this.merchant = transactionAggregateAmounts.merchant
+                this.settlement = transactionAggregateAmounts.settlement
+                additionalProperties(transactionAggregateAmounts.additionalProperties)
+            }
+
+            fun cardholder(cardholder: CardholderAggregateAmount) =
+                cardholder(JsonField.of(cardholder))
+
+            @JsonProperty("cardholder")
+            @ExcludeMissing
+            fun cardholder(cardholder: JsonField<CardholderAggregateAmount>) = apply {
+                this.cardholder = cardholder
+            }
+
+            fun hold(hold: HoldAggregateAmount) = hold(JsonField.of(hold))
+
+            @JsonProperty("hold")
+            @ExcludeMissing
+            fun hold(hold: JsonField<HoldAggregateAmount>) = apply { this.hold = hold }
+
+            fun merchant(merchant: MerchantAggregateAmount) = merchant(JsonField.of(merchant))
+
+            @JsonProperty("merchant")
+            @ExcludeMissing
+            fun merchant(merchant: JsonField<MerchantAggregateAmount>) = apply {
+                this.merchant = merchant
+            }
+
+            fun settlement(settlement: SettlementAggregateAmount) =
+                settlement(JsonField.of(settlement))
+
+            @JsonProperty("settlement")
+            @ExcludeMissing
+            fun settlement(settlement: JsonField<SettlementAggregateAmount>) = apply {
+                this.settlement = settlement
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            @JsonAnySetter
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                this.additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun build(): TransactionAggregateAmounts =
+                TransactionAggregateAmounts(
+                    cardholder,
+                    hold,
+                    merchant,
+                    settlement,
+                    additionalProperties.toUnmodifiable(),
+                )
+        }
+
+        @JsonDeserialize(builder = CardholderAggregateAmount.Builder::class)
+        @NoAutoDetect
+        class CardholderAggregateAmount
+        private constructor(
+            private val amount: JsonField<Long>,
+            private val conversionRate: JsonField<String>,
+            private val currency: JsonField<Currency>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
+
+            private var validated: Boolean = false
+
+            private var hashCode: Int = 0
+
+            fun amount(): Long = amount.getRequired("amount")
+
+            fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
+
+            /**
+             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+             * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             */
+            fun currency(): Currency = currency.getRequired("currency")
+
+            @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+            @JsonProperty("conversion_rate") @ExcludeMissing fun _conversionRate() = conversionRate
+
+            /**
+             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+             * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             */
+            @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun validate(): CardholderAggregateAmount = apply {
+                if (!validated) {
+                    amount()
+                    conversionRate()
+                    currency()
+                    validated = true
+                }
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is CardholderAggregateAmount &&
+                    this.amount == other.amount &&
+                    this.conversionRate == other.conversionRate &&
+                    this.currency == other.currency &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            amount,
+                            conversionRate,
+                            currency,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "CardholderAggregateAmount{amount=$amount, conversionRate=$conversionRate, currency=$currency, additionalProperties=$additionalProperties}"
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            class Builder {
+
+                private var amount: JsonField<Long> = JsonMissing.of()
+                private var conversionRate: JsonField<String> = JsonMissing.of()
+                private var currency: JsonField<Currency> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(cardholderAggregateAmount: CardholderAggregateAmount) = apply {
+                    this.amount = cardholderAggregateAmount.amount
+                    this.conversionRate = cardholderAggregateAmount.conversionRate
+                    this.currency = cardholderAggregateAmount.currency
+                    additionalProperties(cardholderAggregateAmount.additionalProperties)
+                }
+
+                fun amount(amount: Long) = amount(JsonField.of(amount))
+
+                @JsonProperty("amount")
+                @ExcludeMissing
+                fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+                fun conversionRate(conversionRate: String) =
+                    conversionRate(JsonField.of(conversionRate))
+
+                @JsonProperty("conversion_rate")
+                @ExcludeMissing
+                fun conversionRate(conversionRate: JsonField<String>) = apply {
+                    this.conversionRate = conversionRate
+                }
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                fun currency(currency: Currency) = currency(JsonField.of(currency))
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                @JsonProperty("currency")
+                @ExcludeMissing
+                fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    this.additionalProperties.putAll(additionalProperties)
+                }
+
+                @JsonAnySetter
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    this.additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun build(): CardholderAggregateAmount =
+                    CardholderAggregateAmount(
+                        amount,
+                        conversionRate,
+                        currency,
+                        additionalProperties.toUnmodifiable(),
+                    )
+            }
+        }
+
+        @JsonDeserialize(builder = HoldAggregateAmount.Builder::class)
+        @NoAutoDetect
+        class HoldAggregateAmount
+        private constructor(
+            private val amount: JsonField<Long>,
+            private val currency: JsonField<Currency>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
+
+            private var validated: Boolean = false
+
+            private var hashCode: Int = 0
+
+            fun amount(): Long = amount.getRequired("amount")
+
+            /**
+             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+             * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             */
+            fun currency(): Currency = currency.getRequired("currency")
+
+            @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+            /**
+             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+             * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             */
+            @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun validate(): HoldAggregateAmount = apply {
+                if (!validated) {
+                    amount()
+                    currency()
+                    validated = true
+                }
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is HoldAggregateAmount &&
+                    this.amount == other.amount &&
+                    this.currency == other.currency &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            amount,
+                            currency,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "HoldAggregateAmount{amount=$amount, currency=$currency, additionalProperties=$additionalProperties}"
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            class Builder {
+
+                private var amount: JsonField<Long> = JsonMissing.of()
+                private var currency: JsonField<Currency> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(holdAggregateAmount: HoldAggregateAmount) = apply {
+                    this.amount = holdAggregateAmount.amount
+                    this.currency = holdAggregateAmount.currency
+                    additionalProperties(holdAggregateAmount.additionalProperties)
+                }
+
+                fun amount(amount: Long) = amount(JsonField.of(amount))
+
+                @JsonProperty("amount")
+                @ExcludeMissing
+                fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                fun currency(currency: Currency) = currency(JsonField.of(currency))
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                @JsonProperty("currency")
+                @ExcludeMissing
+                fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    this.additionalProperties.putAll(additionalProperties)
+                }
+
+                @JsonAnySetter
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    this.additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun build(): HoldAggregateAmount =
+                    HoldAggregateAmount(
+                        amount,
+                        currency,
+                        additionalProperties.toUnmodifiable(),
+                    )
+            }
+        }
+
+        @JsonDeserialize(builder = MerchantAggregateAmount.Builder::class)
+        @NoAutoDetect
+        class MerchantAggregateAmount
+        private constructor(
+            private val amount: JsonField<Long>,
+            private val currency: JsonField<Currency>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
+
+            private var validated: Boolean = false
+
+            private var hashCode: Int = 0
+
+            fun amount(): Long = amount.getRequired("amount")
+
+            /**
+             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+             * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             */
+            fun currency(): Currency = currency.getRequired("currency")
+
+            @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+            /**
+             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+             * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             */
+            @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun validate(): MerchantAggregateAmount = apply {
+                if (!validated) {
+                    amount()
+                    currency()
+                    validated = true
+                }
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is MerchantAggregateAmount &&
+                    this.amount == other.amount &&
+                    this.currency == other.currency &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            amount,
+                            currency,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "MerchantAggregateAmount{amount=$amount, currency=$currency, additionalProperties=$additionalProperties}"
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            class Builder {
+
+                private var amount: JsonField<Long> = JsonMissing.of()
+                private var currency: JsonField<Currency> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(merchantAggregateAmount: MerchantAggregateAmount) = apply {
+                    this.amount = merchantAggregateAmount.amount
+                    this.currency = merchantAggregateAmount.currency
+                    additionalProperties(merchantAggregateAmount.additionalProperties)
+                }
+
+                fun amount(amount: Long) = amount(JsonField.of(amount))
+
+                @JsonProperty("amount")
+                @ExcludeMissing
+                fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                fun currency(currency: Currency) = currency(JsonField.of(currency))
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                @JsonProperty("currency")
+                @ExcludeMissing
+                fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    this.additionalProperties.putAll(additionalProperties)
+                }
+
+                @JsonAnySetter
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    this.additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun build(): MerchantAggregateAmount =
+                    MerchantAggregateAmount(
+                        amount,
+                        currency,
+                        additionalProperties.toUnmodifiable(),
+                    )
+            }
+        }
+
+        @JsonDeserialize(builder = SettlementAggregateAmount.Builder::class)
+        @NoAutoDetect
+        class SettlementAggregateAmount
+        private constructor(
+            private val amount: JsonField<Long>,
+            private val currency: JsonField<Currency>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
+
+            private var validated: Boolean = false
+
+            private var hashCode: Int = 0
+
+            fun amount(): Long = amount.getRequired("amount")
+
+            /**
+             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+             * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             */
+            fun currency(): Currency = currency.getRequired("currency")
+
+            @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+            /**
+             * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+             * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             */
+            @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun validate(): SettlementAggregateAmount = apply {
+                if (!validated) {
+                    amount()
+                    currency()
+                    validated = true
+                }
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is SettlementAggregateAmount &&
+                    this.amount == other.amount &&
+                    this.currency == other.currency &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            amount,
+                            currency,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "SettlementAggregateAmount{amount=$amount, currency=$currency, additionalProperties=$additionalProperties}"
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            class Builder {
+
+                private var amount: JsonField<Long> = JsonMissing.of()
+                private var currency: JsonField<Currency> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(settlementAggregateAmount: SettlementAggregateAmount) = apply {
+                    this.amount = settlementAggregateAmount.amount
+                    this.currency = settlementAggregateAmount.currency
+                    additionalProperties(settlementAggregateAmount.additionalProperties)
+                }
+
+                fun amount(amount: Long) = amount(JsonField.of(amount))
+
+                @JsonProperty("amount")
+                @ExcludeMissing
+                fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                fun currency(currency: Currency) = currency(JsonField.of(currency))
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                @JsonProperty("currency")
+                @ExcludeMissing
+                fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    this.additionalProperties.putAll(additionalProperties)
+                }
+
+                @JsonAnySetter
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    this.additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun build(): SettlementAggregateAmount =
+                    SettlementAggregateAmount(
+                        amount,
+                        currency,
+                        additionalProperties.toUnmodifiable(),
+                    )
+            }
+        }
     }
 
     @JsonDeserialize(builder = Avs.Builder::class)
@@ -887,6 +1643,7 @@ private constructor(
     class TransactionEvent
     private constructor(
         private val amount: JsonField<Long>,
+        private val amounts: JsonField<TransactionEventAmounts>,
         private val created: JsonField<OffsetDateTime>,
         private val detailedResults: JsonField<List<DetailedResult>>,
         private val result: JsonField<Result>,
@@ -901,6 +1658,8 @@ private constructor(
 
         /** Amount of the transaction event (in cents), including any acquirer fees. */
         fun amount(): Long = amount.getRequired("amount")
+
+        fun amounts(): TransactionEventAmounts = amounts.getRequired("amounts")
 
         /** RFC 3339 date and time this event entered the system. UTC time zone. */
         fun created(): OffsetDateTime = created.getRequired("created")
@@ -963,6 +1722,8 @@ private constructor(
 
         /** Amount of the transaction event (in cents), including any acquirer fees. */
         @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+        @JsonProperty("amounts") @ExcludeMissing fun _amounts() = amounts
 
         /** RFC 3339 date and time this event entered the system. UTC time zone. */
         @JsonProperty("created") @ExcludeMissing fun _created() = created
@@ -1029,6 +1790,7 @@ private constructor(
         fun validate(): TransactionEvent = apply {
             if (!validated) {
                 amount()
+                amounts().validate()
                 created()
                 detailedResults()
                 result()
@@ -1047,6 +1809,7 @@ private constructor(
 
             return other is TransactionEvent &&
                 this.amount == other.amount &&
+                this.amounts == other.amounts &&
                 this.created == other.created &&
                 this.detailedResults == other.detailedResults &&
                 this.result == other.result &&
@@ -1060,6 +1823,7 @@ private constructor(
                 hashCode =
                     Objects.hash(
                         amount,
+                        amounts,
                         created,
                         detailedResults,
                         result,
@@ -1072,7 +1836,7 @@ private constructor(
         }
 
         override fun toString() =
-            "TransactionEvent{amount=$amount, created=$created, detailedResults=$detailedResults, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
+            "TransactionEvent{amount=$amount, amounts=$amounts, created=$created, detailedResults=$detailedResults, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1082,6 +1846,7 @@ private constructor(
         class Builder {
 
             private var amount: JsonField<Long> = JsonMissing.of()
+            private var amounts: JsonField<TransactionEventAmounts> = JsonMissing.of()
             private var created: JsonField<OffsetDateTime> = JsonMissing.of()
             private var detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of()
             private var result: JsonField<Result> = JsonMissing.of()
@@ -1092,6 +1857,7 @@ private constructor(
             @JvmSynthetic
             internal fun from(transactionEvent: TransactionEvent) = apply {
                 this.amount = transactionEvent.amount
+                this.amounts = transactionEvent.amounts
                 this.created = transactionEvent.created
                 this.detailedResults = transactionEvent.detailedResults
                 this.result = transactionEvent.result
@@ -1107,6 +1873,14 @@ private constructor(
             @JsonProperty("amount")
             @ExcludeMissing
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+            fun amounts(amounts: TransactionEventAmounts) = amounts(JsonField.of(amounts))
+
+            @JsonProperty("amounts")
+            @ExcludeMissing
+            fun amounts(amounts: JsonField<TransactionEventAmounts>) = apply {
+                this.amounts = amounts
+            }
 
             /** RFC 3339 date and time this event entered the system. UTC time zone. */
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -1256,6 +2030,7 @@ private constructor(
             fun build(): TransactionEvent =
                 TransactionEvent(
                     amount,
+                    amounts,
                     created,
                     detailedResults.map { it.toUnmodifiable() },
                     result,
@@ -1263,6 +2038,596 @@ private constructor(
                     type,
                     additionalProperties.toUnmodifiable(),
                 )
+        }
+
+        @JsonDeserialize(builder = TransactionEventAmounts.Builder::class)
+        @NoAutoDetect
+        class TransactionEventAmounts
+        private constructor(
+            private val cardholder: JsonField<CardholderEventAmounts>,
+            private val merchant: JsonField<MerchantEventAmounts>,
+            private val settlement: JsonField<SettlementEventAmounts>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
+
+            private var validated: Boolean = false
+
+            private var hashCode: Int = 0
+
+            fun cardholder(): CardholderEventAmounts = cardholder.getRequired("cardholder")
+
+            fun merchant(): MerchantEventAmounts = merchant.getRequired("merchant")
+
+            fun settlement(): Optional<SettlementEventAmounts> =
+                Optional.ofNullable(settlement.getNullable("settlement"))
+
+            @JsonProperty("cardholder") @ExcludeMissing fun _cardholder() = cardholder
+
+            @JsonProperty("merchant") @ExcludeMissing fun _merchant() = merchant
+
+            @JsonProperty("settlement") @ExcludeMissing fun _settlement() = settlement
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun validate(): TransactionEventAmounts = apply {
+                if (!validated) {
+                    cardholder().validate()
+                    merchant().validate()
+                    settlement().map { it.validate() }
+                    validated = true
+                }
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is TransactionEventAmounts &&
+                    this.cardholder == other.cardholder &&
+                    this.merchant == other.merchant &&
+                    this.settlement == other.settlement &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            cardholder,
+                            merchant,
+                            settlement,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "TransactionEventAmounts{cardholder=$cardholder, merchant=$merchant, settlement=$settlement, additionalProperties=$additionalProperties}"
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            class Builder {
+
+                private var cardholder: JsonField<CardholderEventAmounts> = JsonMissing.of()
+                private var merchant: JsonField<MerchantEventAmounts> = JsonMissing.of()
+                private var settlement: JsonField<SettlementEventAmounts> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(transactionEventAmounts: TransactionEventAmounts) = apply {
+                    this.cardholder = transactionEventAmounts.cardholder
+                    this.merchant = transactionEventAmounts.merchant
+                    this.settlement = transactionEventAmounts.settlement
+                    additionalProperties(transactionEventAmounts.additionalProperties)
+                }
+
+                fun cardholder(cardholder: CardholderEventAmounts) =
+                    cardholder(JsonField.of(cardholder))
+
+                @JsonProperty("cardholder")
+                @ExcludeMissing
+                fun cardholder(cardholder: JsonField<CardholderEventAmounts>) = apply {
+                    this.cardholder = cardholder
+                }
+
+                fun merchant(merchant: MerchantEventAmounts) = merchant(JsonField.of(merchant))
+
+                @JsonProperty("merchant")
+                @ExcludeMissing
+                fun merchant(merchant: JsonField<MerchantEventAmounts>) = apply {
+                    this.merchant = merchant
+                }
+
+                fun settlement(settlement: SettlementEventAmounts) =
+                    settlement(JsonField.of(settlement))
+
+                @JsonProperty("settlement")
+                @ExcludeMissing
+                fun settlement(settlement: JsonField<SettlementEventAmounts>) = apply {
+                    this.settlement = settlement
+                }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    this.additionalProperties.putAll(additionalProperties)
+                }
+
+                @JsonAnySetter
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    this.additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun build(): TransactionEventAmounts =
+                    TransactionEventAmounts(
+                        cardholder,
+                        merchant,
+                        settlement,
+                        additionalProperties.toUnmodifiable(),
+                    )
+            }
+
+            @JsonDeserialize(builder = CardholderEventAmounts.Builder::class)
+            @NoAutoDetect
+            class CardholderEventAmounts
+            private constructor(
+                private val amount: JsonField<Long>,
+                private val conversionRate: JsonField<String>,
+                private val currency: JsonField<Currency>,
+                private val additionalProperties: Map<String, JsonValue>,
+            ) {
+
+                private var validated: Boolean = false
+
+                private var hashCode: Int = 0
+
+                fun amount(): Long = amount.getRequired("amount")
+
+                fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                fun currency(): Currency = currency.getRequired("currency")
+
+                @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+                @JsonProperty("conversion_rate")
+                @ExcludeMissing
+                fun _conversionRate() = conversionRate
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                fun validate(): CardholderEventAmounts = apply {
+                    if (!validated) {
+                        amount()
+                        conversionRate()
+                        currency()
+                        validated = true
+                    }
+                }
+
+                fun toBuilder() = Builder().from(this)
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is CardholderEventAmounts &&
+                        this.amount == other.amount &&
+                        this.conversionRate == other.conversionRate &&
+                        this.currency == other.currency &&
+                        this.additionalProperties == other.additionalProperties
+                }
+
+                override fun hashCode(): Int {
+                    if (hashCode == 0) {
+                        hashCode =
+                            Objects.hash(
+                                amount,
+                                conversionRate,
+                                currency,
+                                additionalProperties,
+                            )
+                    }
+                    return hashCode
+                }
+
+                override fun toString() =
+                    "CardholderEventAmounts{amount=$amount, conversionRate=$conversionRate, currency=$currency, additionalProperties=$additionalProperties}"
+
+                companion object {
+
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                class Builder {
+
+                    private var amount: JsonField<Long> = JsonMissing.of()
+                    private var conversionRate: JsonField<String> = JsonMissing.of()
+                    private var currency: JsonField<Currency> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(cardholderEventAmounts: CardholderEventAmounts) = apply {
+                        this.amount = cardholderEventAmounts.amount
+                        this.conversionRate = cardholderEventAmounts.conversionRate
+                        this.currency = cardholderEventAmounts.currency
+                        additionalProperties(cardholderEventAmounts.additionalProperties)
+                    }
+
+                    fun amount(amount: Long) = amount(JsonField.of(amount))
+
+                    @JsonProperty("amount")
+                    @ExcludeMissing
+                    fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+                    fun conversionRate(conversionRate: String) =
+                        conversionRate(JsonField.of(conversionRate))
+
+                    @JsonProperty("conversion_rate")
+                    @ExcludeMissing
+                    fun conversionRate(conversionRate: JsonField<String>) = apply {
+                        this.conversionRate = conversionRate
+                    }
+
+                    /**
+                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
+                     * special currencies like ``XXX`. Enumerants names are lowercase cureency code
+                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     */
+                    fun currency(currency: Currency) = currency(JsonField.of(currency))
+
+                    /**
+                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
+                     * special currencies like ``XXX`. Enumerants names are lowercase cureency code
+                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     */
+                    @JsonProperty("currency")
+                    @ExcludeMissing
+                    fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                    @JsonAnySetter
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        this.additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun build(): CardholderEventAmounts =
+                        CardholderEventAmounts(
+                            amount,
+                            conversionRate,
+                            currency,
+                            additionalProperties.toUnmodifiable(),
+                        )
+                }
+            }
+
+            @JsonDeserialize(builder = MerchantEventAmounts.Builder::class)
+            @NoAutoDetect
+            class MerchantEventAmounts
+            private constructor(
+                private val amount: JsonField<Long>,
+                private val currency: JsonField<Currency>,
+                private val additionalProperties: Map<String, JsonValue>,
+            ) {
+
+                private var validated: Boolean = false
+
+                private var hashCode: Int = 0
+
+                fun amount(): Long = amount.getRequired("amount")
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                fun currency(): Currency = currency.getRequired("currency")
+
+                @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                fun validate(): MerchantEventAmounts = apply {
+                    if (!validated) {
+                        amount()
+                        currency()
+                        validated = true
+                    }
+                }
+
+                fun toBuilder() = Builder().from(this)
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is MerchantEventAmounts &&
+                        this.amount == other.amount &&
+                        this.currency == other.currency &&
+                        this.additionalProperties == other.additionalProperties
+                }
+
+                override fun hashCode(): Int {
+                    if (hashCode == 0) {
+                        hashCode =
+                            Objects.hash(
+                                amount,
+                                currency,
+                                additionalProperties,
+                            )
+                    }
+                    return hashCode
+                }
+
+                override fun toString() =
+                    "MerchantEventAmounts{amount=$amount, currency=$currency, additionalProperties=$additionalProperties}"
+
+                companion object {
+
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                class Builder {
+
+                    private var amount: JsonField<Long> = JsonMissing.of()
+                    private var currency: JsonField<Currency> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(merchantEventAmounts: MerchantEventAmounts) = apply {
+                        this.amount = merchantEventAmounts.amount
+                        this.currency = merchantEventAmounts.currency
+                        additionalProperties(merchantEventAmounts.additionalProperties)
+                    }
+
+                    fun amount(amount: Long) = amount(JsonField.of(amount))
+
+                    @JsonProperty("amount")
+                    @ExcludeMissing
+                    fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+                    /**
+                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
+                     * special currencies like ``XXX`. Enumerants names are lowercase cureency code
+                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     */
+                    fun currency(currency: Currency) = currency(JsonField.of(currency))
+
+                    /**
+                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
+                     * special currencies like ``XXX`. Enumerants names are lowercase cureency code
+                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     */
+                    @JsonProperty("currency")
+                    @ExcludeMissing
+                    fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                    @JsonAnySetter
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        this.additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun build(): MerchantEventAmounts =
+                        MerchantEventAmounts(
+                            amount,
+                            currency,
+                            additionalProperties.toUnmodifiable(),
+                        )
+                }
+            }
+
+            @JsonDeserialize(builder = SettlementEventAmounts.Builder::class)
+            @NoAutoDetect
+            class SettlementEventAmounts
+            private constructor(
+                private val amount: JsonField<Long>,
+                private val conversionRate: JsonField<String>,
+                private val currency: JsonField<Currency>,
+                private val additionalProperties: Map<String, JsonValue>,
+            ) {
+
+                private var validated: Boolean = false
+
+                private var hashCode: Int = 0
+
+                fun amount(): Long = amount.getRequired("amount")
+
+                fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                fun currency(): Currency = currency.getRequired("currency")
+
+                @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+                @JsonProperty("conversion_rate")
+                @ExcludeMissing
+                fun _conversionRate() = conversionRate
+
+                /**
+                 * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
+                 * currencies like ``XXX`. Enumerants names are lowercase cureency code e.g.
+                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 */
+                @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                fun validate(): SettlementEventAmounts = apply {
+                    if (!validated) {
+                        amount()
+                        conversionRate()
+                        currency()
+                        validated = true
+                    }
+                }
+
+                fun toBuilder() = Builder().from(this)
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is SettlementEventAmounts &&
+                        this.amount == other.amount &&
+                        this.conversionRate == other.conversionRate &&
+                        this.currency == other.currency &&
+                        this.additionalProperties == other.additionalProperties
+                }
+
+                override fun hashCode(): Int {
+                    if (hashCode == 0) {
+                        hashCode =
+                            Objects.hash(
+                                amount,
+                                conversionRate,
+                                currency,
+                                additionalProperties,
+                            )
+                    }
+                    return hashCode
+                }
+
+                override fun toString() =
+                    "SettlementEventAmounts{amount=$amount, conversionRate=$conversionRate, currency=$currency, additionalProperties=$additionalProperties}"
+
+                companion object {
+
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                class Builder {
+
+                    private var amount: JsonField<Long> = JsonMissing.of()
+                    private var conversionRate: JsonField<String> = JsonMissing.of()
+                    private var currency: JsonField<Currency> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(settlementEventAmounts: SettlementEventAmounts) = apply {
+                        this.amount = settlementEventAmounts.amount
+                        this.conversionRate = settlementEventAmounts.conversionRate
+                        this.currency = settlementEventAmounts.currency
+                        additionalProperties(settlementEventAmounts.additionalProperties)
+                    }
+
+                    fun amount(amount: Long) = amount(JsonField.of(amount))
+
+                    @JsonProperty("amount")
+                    @ExcludeMissing
+                    fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+                    fun conversionRate(conversionRate: String) =
+                        conversionRate(JsonField.of(conversionRate))
+
+                    @JsonProperty("conversion_rate")
+                    @ExcludeMissing
+                    fun conversionRate(conversionRate: JsonField<String>) = apply {
+                        this.conversionRate = conversionRate
+                    }
+
+                    /**
+                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
+                     * special currencies like ``XXX`. Enumerants names are lowercase cureency code
+                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     */
+                    fun currency(currency: Currency) = currency(JsonField.of(currency))
+
+                    /**
+                     * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
+                     * special currencies like ``XXX`. Enumerants names are lowercase cureency code
+                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     */
+                    @JsonProperty("currency")
+                    @ExcludeMissing
+                    fun currency(currency: JsonField<Currency>) = apply { this.currency = currency }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                    @JsonAnySetter
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        this.additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun build(): SettlementEventAmounts =
+                        SettlementEventAmounts(
+                            amount,
+                            conversionRate,
+                            currency,
+                            additionalProperties.toUnmodifiable(),
+                        )
+                }
+            }
         }
 
         class DetailedResult

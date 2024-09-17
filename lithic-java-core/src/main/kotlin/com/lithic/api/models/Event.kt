@@ -329,6 +329,10 @@ private constructor(
             @JvmField
             val ACCOUNT_HOLDER_VERIFICATION = EventType(JsonField.of("account_holder.verification"))
 
+            @JvmField
+            val AUTH_RULES_PERFORMANCE_REPORT_CREATED =
+                EventType(JsonField.of("auth_rules.performance_report.created"))
+
             @JvmField val BALANCE_UPDATED = EventType(JsonField.of("balance.updated"))
 
             @JvmField
@@ -388,6 +392,9 @@ private constructor(
             val FINANCIAL_ACCOUNT_CREATED = EventType(JsonField.of("financial_account.created"))
 
             @JvmField
+            val FINANCIAL_ACCOUNT_UPDATED = EventType(JsonField.of("financial_account.updated"))
+
+            @JvmField
             val PAYMENT_TRANSACTION_CREATED = EventType(JsonField.of("payment_transaction.created"))
 
             @JvmField
@@ -429,6 +436,7 @@ private constructor(
             ACCOUNT_HOLDER_CREATED,
             ACCOUNT_HOLDER_UPDATED,
             ACCOUNT_HOLDER_VERIFICATION,
+            AUTH_RULES_PERFORMANCE_REPORT_CREATED,
             BALANCE_UPDATED,
             BOOK_TRANSFER_TRANSACTION_CREATED,
             CARD_CREATED,
@@ -446,6 +454,7 @@ private constructor(
             EXTERNAL_BANK_ACCOUNT_CREATED,
             EXTERNAL_BANK_ACCOUNT_UPDATED,
             FINANCIAL_ACCOUNT_CREATED,
+            FINANCIAL_ACCOUNT_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
             SETTLEMENT_REPORT_UPDATED,
@@ -463,6 +472,7 @@ private constructor(
             ACCOUNT_HOLDER_CREATED,
             ACCOUNT_HOLDER_UPDATED,
             ACCOUNT_HOLDER_VERIFICATION,
+            AUTH_RULES_PERFORMANCE_REPORT_CREATED,
             BALANCE_UPDATED,
             BOOK_TRANSFER_TRANSACTION_CREATED,
             CARD_CREATED,
@@ -480,6 +490,7 @@ private constructor(
             EXTERNAL_BANK_ACCOUNT_CREATED,
             EXTERNAL_BANK_ACCOUNT_UPDATED,
             FINANCIAL_ACCOUNT_CREATED,
+            FINANCIAL_ACCOUNT_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
             SETTLEMENT_REPORT_UPDATED,
@@ -499,6 +510,7 @@ private constructor(
                 ACCOUNT_HOLDER_CREATED -> Value.ACCOUNT_HOLDER_CREATED
                 ACCOUNT_HOLDER_UPDATED -> Value.ACCOUNT_HOLDER_UPDATED
                 ACCOUNT_HOLDER_VERIFICATION -> Value.ACCOUNT_HOLDER_VERIFICATION
+                AUTH_RULES_PERFORMANCE_REPORT_CREATED -> Value.AUTH_RULES_PERFORMANCE_REPORT_CREATED
                 BALANCE_UPDATED -> Value.BALANCE_UPDATED
                 BOOK_TRANSFER_TRANSACTION_CREATED -> Value.BOOK_TRANSFER_TRANSACTION_CREATED
                 CARD_CREATED -> Value.CARD_CREATED
@@ -519,6 +531,7 @@ private constructor(
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Value.EXTERNAL_BANK_ACCOUNT_CREATED
                 EXTERNAL_BANK_ACCOUNT_UPDATED -> Value.EXTERNAL_BANK_ACCOUNT_UPDATED
                 FINANCIAL_ACCOUNT_CREATED -> Value.FINANCIAL_ACCOUNT_CREATED
+                FINANCIAL_ACCOUNT_UPDATED -> Value.FINANCIAL_ACCOUNT_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Value.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Value.PAYMENT_TRANSACTION_UPDATED
                 SETTLEMENT_REPORT_UPDATED -> Value.SETTLEMENT_REPORT_UPDATED
@@ -540,6 +553,7 @@ private constructor(
                 ACCOUNT_HOLDER_CREATED -> Known.ACCOUNT_HOLDER_CREATED
                 ACCOUNT_HOLDER_UPDATED -> Known.ACCOUNT_HOLDER_UPDATED
                 ACCOUNT_HOLDER_VERIFICATION -> Known.ACCOUNT_HOLDER_VERIFICATION
+                AUTH_RULES_PERFORMANCE_REPORT_CREATED -> Known.AUTH_RULES_PERFORMANCE_REPORT_CREATED
                 BALANCE_UPDATED -> Known.BALANCE_UPDATED
                 BOOK_TRANSFER_TRANSACTION_CREATED -> Known.BOOK_TRANSFER_TRANSACTION_CREATED
                 CARD_CREATED -> Known.CARD_CREATED
@@ -560,6 +574,7 @@ private constructor(
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Known.EXTERNAL_BANK_ACCOUNT_CREATED
                 EXTERNAL_BANK_ACCOUNT_UPDATED -> Known.EXTERNAL_BANK_ACCOUNT_UPDATED
                 FINANCIAL_ACCOUNT_CREATED -> Known.FINANCIAL_ACCOUNT_CREATED
+                FINANCIAL_ACCOUNT_UPDATED -> Known.FINANCIAL_ACCOUNT_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Known.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Known.PAYMENT_TRANSACTION_UPDATED
                 SETTLEMENT_REPORT_UPDATED -> Known.SETTLEMENT_REPORT_UPDATED
