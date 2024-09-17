@@ -25,6 +25,7 @@ private constructor(
     private val token: JsonField<String>,
     private val accountHolderToken: JsonField<String>,
     private val documentType: JsonField<DocumentType>,
+    private val entityToken: JsonField<String>,
     private val requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
@@ -42,6 +43,9 @@ private constructor(
     /** Type of documentation to be submitted for verification. */
     fun documentType(): DocumentType = documentType.getRequired("document_type")
 
+    /** Globally unique identifier for an entity. */
+    fun entityToken(): String = entityToken.getRequired("entity_token")
+
     /** Represents a single image of the document to upload. */
     fun requiredDocumentUploads(): List<RequiredDocumentUpload> =
         requiredDocumentUploads.getRequired("required_document_uploads")
@@ -57,6 +61,9 @@ private constructor(
     /** Type of documentation to be submitted for verification. */
     @JsonProperty("document_type") @ExcludeMissing fun _documentType() = documentType
 
+    /** Globally unique identifier for an entity. */
+    @JsonProperty("entity_token") @ExcludeMissing fun _entityToken() = entityToken
+
     /** Represents a single image of the document to upload. */
     @JsonProperty("required_document_uploads")
     @ExcludeMissing
@@ -71,6 +78,7 @@ private constructor(
             token()
             accountHolderToken()
             documentType()
+            entityToken()
             requiredDocumentUploads().forEach { it.validate() }
             validated = true
         }
@@ -87,6 +95,7 @@ private constructor(
             this.token == other.token &&
             this.accountHolderToken == other.accountHolderToken &&
             this.documentType == other.documentType &&
+            this.entityToken == other.entityToken &&
             this.requiredDocumentUploads == other.requiredDocumentUploads &&
             this.additionalProperties == other.additionalProperties
     }
@@ -98,6 +107,7 @@ private constructor(
                     token,
                     accountHolderToken,
                     documentType,
+                    entityToken,
                     requiredDocumentUploads,
                     additionalProperties,
                 )
@@ -106,7 +116,7 @@ private constructor(
     }
 
     override fun toString() =
-        "Document{token=$token, accountHolderToken=$accountHolderToken, documentType=$documentType, requiredDocumentUploads=$requiredDocumentUploads, additionalProperties=$additionalProperties}"
+        "Document{token=$token, accountHolderToken=$accountHolderToken, documentType=$documentType, entityToken=$entityToken, requiredDocumentUploads=$requiredDocumentUploads, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -118,6 +128,7 @@ private constructor(
         private var token: JsonField<String> = JsonMissing.of()
         private var accountHolderToken: JsonField<String> = JsonMissing.of()
         private var documentType: JsonField<DocumentType> = JsonMissing.of()
+        private var entityToken: JsonField<String> = JsonMissing.of()
         private var requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>> =
             JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -127,6 +138,7 @@ private constructor(
             this.token = document.token
             this.accountHolderToken = document.accountHolderToken
             this.documentType = document.documentType
+            this.entityToken = document.entityToken
             this.requiredDocumentUploads = document.requiredDocumentUploads
             additionalProperties(document.additionalProperties)
         }
@@ -160,6 +172,14 @@ private constructor(
             this.documentType = documentType
         }
 
+        /** Globally unique identifier for an entity. */
+        fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
+
+        /** Globally unique identifier for an entity. */
+        @JsonProperty("entity_token")
+        @ExcludeMissing
+        fun entityToken(entityToken: JsonField<String>) = apply { this.entityToken = entityToken }
+
         /** Represents a single image of the document to upload. */
         fun requiredDocumentUploads(requiredDocumentUploads: List<RequiredDocumentUpload>) =
             requiredDocumentUploads(JsonField.of(requiredDocumentUploads))
@@ -190,6 +210,7 @@ private constructor(
                 token,
                 accountHolderToken,
                 documentType,
+                entityToken,
                 requiredDocumentUploads.map { it.toUnmodifiable() },
                 additionalProperties.toUnmodifiable(),
             )
@@ -366,6 +387,7 @@ private constructor(
         private val status: JsonField<Status>,
         private val statusReasons: JsonField<List<StatusReason>>,
         private val uploadUrl: JsonField<String>,
+        private val token: JsonField<String>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -391,6 +413,9 @@ private constructor(
          */
         fun uploadUrl(): String = uploadUrl.getRequired("upload_url")
 
+        /** Globally unique identifier for the document upload. */
+        fun token(): String = token.getRequired("token")
+
         /** Type of image to upload. */
         @JsonProperty("image_type") @ExcludeMissing fun _imageType() = imageType
 
@@ -409,6 +434,9 @@ private constructor(
          */
         @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl() = uploadUrl
 
+        /** Globally unique identifier for the document upload. */
+        @JsonProperty("token") @ExcludeMissing fun _token() = token
+
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -419,6 +447,7 @@ private constructor(
                 status()
                 statusReasons()
                 uploadUrl()
+                token()
                 validated = true
             }
         }
@@ -435,6 +464,7 @@ private constructor(
                 this.status == other.status &&
                 this.statusReasons == other.statusReasons &&
                 this.uploadUrl == other.uploadUrl &&
+                this.token == other.token &&
                 this.additionalProperties == other.additionalProperties
         }
 
@@ -446,6 +476,7 @@ private constructor(
                         status,
                         statusReasons,
                         uploadUrl,
+                        token,
                         additionalProperties,
                     )
             }
@@ -453,7 +484,7 @@ private constructor(
         }
 
         override fun toString() =
-            "RequiredDocumentUpload{imageType=$imageType, status=$status, statusReasons=$statusReasons, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
+            "RequiredDocumentUpload{imageType=$imageType, status=$status, statusReasons=$statusReasons, uploadUrl=$uploadUrl, token=$token, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -466,6 +497,7 @@ private constructor(
             private var status: JsonField<Status> = JsonMissing.of()
             private var statusReasons: JsonField<List<StatusReason>> = JsonMissing.of()
             private var uploadUrl: JsonField<String> = JsonMissing.of()
+            private var token: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -474,6 +506,7 @@ private constructor(
                 this.status = requiredDocumentUpload.status
                 this.statusReasons = requiredDocumentUpload.statusReasons
                 this.uploadUrl = requiredDocumentUpload.uploadUrl
+                this.token = requiredDocumentUpload.token
                 additionalProperties(requiredDocumentUpload.additionalProperties)
             }
 
@@ -524,6 +557,14 @@ private constructor(
             @ExcludeMissing
             fun uploadUrl(uploadUrl: JsonField<String>) = apply { this.uploadUrl = uploadUrl }
 
+            /** Globally unique identifier for the document upload. */
+            fun token(token: String) = token(JsonField.of(token))
+
+            /** Globally unique identifier for the document upload. */
+            @JsonProperty("token")
+            @ExcludeMissing
+            fun token(token: JsonField<String>) = apply { this.token = token }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 this.additionalProperties.putAll(additionalProperties)
@@ -544,6 +585,7 @@ private constructor(
                     status,
                     statusReasons.map { it.toUnmodifiable() },
                     uploadUrl,
+                    token,
                     additionalProperties.toUnmodifiable(),
                 )
         }
