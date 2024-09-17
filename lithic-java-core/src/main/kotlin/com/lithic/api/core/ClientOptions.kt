@@ -24,9 +24,9 @@ private constructor(
 
     companion object {
 
-        const val PRODUCTION_URL = "https://api.lithic.com/v1"
+        const val PRODUCTION_URL = "https://api.lithic.com"
 
-        const val SANDBOX_URL = "https://sandbox.lithic.com/v1"
+        const val SANDBOX_URL = "https://sandbox.lithic.com"
 
         @JvmStatic fun builder() = Builder()
 

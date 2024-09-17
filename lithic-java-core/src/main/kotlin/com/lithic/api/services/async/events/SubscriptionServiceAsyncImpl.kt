@@ -48,7 +48,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("event_subscriptions")
+                .addPathSegments("v1", "event_subscriptions")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -78,7 +78,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("event_subscriptions", params.getPathParam(0))
+                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -107,7 +107,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
-                .addPathSegments("event_subscriptions", params.getPathParam(0))
+                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -138,7 +138,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("event_subscriptions")
+                .addPathSegments("v1", "event_subscriptions")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -167,7 +167,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.DELETE)
-                .addPathSegments("event_subscriptions", params.getPathParam(0))
+                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -192,7 +192,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("event_subscriptions", params.getPathParam(0), "attempts")
+                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "attempts")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -221,7 +221,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("event_subscriptions", params.getPathParam(0), "recover")
+                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "recover")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -249,7 +249,12 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("event_subscriptions", params.getPathParam(0), "replay_missing")
+                .addPathSegments(
+                    "v1",
+                    "event_subscriptions",
+                    params.getPathParam(0),
+                    "replay_missing"
+                )
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -274,7 +279,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("event_subscriptions", params.getPathParam(0), "secret")
+                .addPathSegments("v1", "event_subscriptions", params.getPathParam(0), "secret")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -305,7 +310,13 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("event_subscriptions", params.getPathParam(0), "secret", "rotate")
+                .addPathSegments(
+                    "v1",
+                    "event_subscriptions",
+                    params.getPathParam(0),
+                    "secret",
+                    "rotate"
+                )
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -330,6 +341,7 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments(
+                    "v1",
                     "simulate",
                     "event_subscriptions",
                     params.getPathParam(0),

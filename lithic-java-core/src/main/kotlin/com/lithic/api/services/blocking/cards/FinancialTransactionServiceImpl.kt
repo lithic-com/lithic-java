@@ -35,6 +35,7 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments(
+                    "v1",
                     "cards",
                     params.getPathParam(0),
                     "financial_transactions",
@@ -68,7 +69,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("cards", params.getPathParam(0), "financial_transactions")
+                .addPathSegments("v1", "cards", params.getPathParam(0), "financial_transactions")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)

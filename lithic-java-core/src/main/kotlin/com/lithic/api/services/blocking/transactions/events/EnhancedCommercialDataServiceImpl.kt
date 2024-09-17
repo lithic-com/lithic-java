@@ -36,6 +36,7 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments(
+                    "v1",
                     "transactions",
                     "events",
                     params.getPathParam(0),
