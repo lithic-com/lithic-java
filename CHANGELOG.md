@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.58.0 (2024-09-17)
+
+Full Changelog: [v0.57.0...v0.58.0](https://github.com/lithic-com/lithic-java/compare/v0.57.0...v0.58.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** updates book transfer status, updates to transactions, add currency model ([#305](https://github.com/lithic-com/lithic-java/issues/305))
+
+### Features
+
+* **api:** updates book transfer status, updates to transactions, add currency model ([#305](https://github.com/lithic-com/lithic-java/issues/305)) ([1f7d713](https://github.com/lithic-com/lithic-java/commit/1f7d71302e3d77f4e222b49ee380cbc4c537af2a))
+* **client:** added structured fields to errors ([#304](https://github.com/lithic-com/lithic-java/issues/304)) ([17761b0](https://github.com/lithic-com/lithic-java/commit/17761b046af3fca3d4b9d4174c3b6230d8ba365e))
+
+
+### Documentation
+
+* adjust additional properties example ([#302](https://github.com/lithic-com/lithic-java/issues/302)) ([856180b](https://github.com/lithic-com/lithic-java/commit/856180bad6a65d3b41fa9ad1039705c05bf39200))
+
 ## 0.57.0 (2024-09-06)
 
 Full Changelog: [v0.56.0...v0.57.0](https://github.com/lithic-com/lithic-java/compare/v0.56.0...v0.57.0)
