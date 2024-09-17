@@ -41,7 +41,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("tokenization_decisioning", "secret")
+                .addPathSegments("v1", "tokenization_decisioning", "secret")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -73,7 +73,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.POST)
-                .addPathSegments("tokenization_decisioning", "secret", "rotate")
+                .addPathSegments("v1", "tokenization_decisioning", "secret", "rotate")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
