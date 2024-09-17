@@ -84,7 +84,7 @@ constructor(
 
         /**
          * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a list
-         * of countries in which all transactions are blocked; "allowing" those countries in an Auth
+         * of countries in which all transactions are blocked; 'allowing' those countries in an Auth
          * Rule does not override the Lithic-wide restrictions.
          */
         @JsonProperty("allowed_countries") fun allowedCountries(): List<String>? = allowedCountries
@@ -188,7 +188,7 @@ constructor(
 
             /**
              * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a
-             * list of countries in which all transactions are blocked; "allowing" those countries
+             * list of countries in which all transactions are blocked; 'allowing' those countries
              * in an Auth Rule does not override the Lithic-wide restrictions.
              */
             @JsonProperty("allowed_countries")
@@ -345,7 +345,7 @@ constructor(
 
         /**
          * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a list
-         * of countries in which all transactions are blocked; "allowing" those countries in an Auth
+         * of countries in which all transactions are blocked; 'allowing' those countries in an Auth
          * Rule does not override the Lithic-wide restrictions.
          */
         fun allowedCountries(allowedCountries: List<String>) = apply {
@@ -355,7 +355,7 @@ constructor(
 
         /**
          * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a list
-         * of countries in which all transactions are blocked; "allowing" those countries in an Auth
+         * of countries in which all transactions are blocked; 'allowing' those countries in an Auth
          * Rule does not override the Lithic-wide restrictions.
          */
         fun addAllowedCountry(allowedCountry: String) = apply {

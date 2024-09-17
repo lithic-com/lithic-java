@@ -39,7 +39,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("accounts", params.getPathParam(0))
+                .addPathSegments("v1", "accounts", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -73,7 +73,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
-                .addPathSegments("accounts", params.getPathParam(0))
+                .addPathSegments("v1", "accounts", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -104,7 +104,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("accounts")
+                .addPathSegments("v1", "accounts")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -139,7 +139,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("accounts", params.getPathParam(0), "spend_limits")
+                .addPathSegments("v1", "accounts", params.getPathParam(0), "spend_limits")
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)

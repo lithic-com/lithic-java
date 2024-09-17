@@ -55,14 +55,14 @@ private constructor(
         Optional.ofNullable(accountToken.getNullable("account_token"))
 
     /**
-     * Only present when user_type == "BUSINESS". List of all entities with >25% ownership in the
+     * Only present when user_type == 'BUSINESS'. List of all entities with >25% ownership in the
      * company.
      */
     fun beneficialOwnerEntities(): Optional<List<AccountHolderBusinessResponse>> =
         Optional.ofNullable(beneficialOwnerEntities.getNullable("beneficial_owner_entities"))
 
     /**
-     * Only present when user_type == "BUSINESS". List of all individuals with >25% ownership in the
+     * Only present when user_type == 'BUSINESS'. List of all individuals with >25% ownership in the
      * company.
      */
     fun beneficialOwnerIndividuals(): Optional<List<AccountHolderIndividualResponse>> =
@@ -77,14 +77,14 @@ private constructor(
         Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
 
     /**
-     * Only present when user_type == "BUSINESS". Information about the business for which the
+     * Only present when user_type == 'BUSINESS'. Information about the business for which the
      * account is being opened and KYB is being run.
      */
     fun businessEntity(): Optional<AccountHolderBusinessResponse> =
         Optional.ofNullable(businessEntity.getNullable("business_entity"))
 
     /**
-     * Only present when user_type == "BUSINESS". An individual with significant responsibility for
+     * Only present when user_type == 'BUSINESS'. An individual with significant responsibility for
      * managing the legal entity (e.g., a Chief Executive Officer, Chief Financial Officer, Chief
      * Operating Officer, Managing Member, General Partner, President, Vice President, or
      * Treasurer). This can be an executive, or someone who will have program-wide access to the
@@ -98,8 +98,8 @@ private constructor(
     fun created(): OffsetDateTime = created.getRequired("created")
 
     /**
-     * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
-     * individual.phone_number when user_type == "INDIVIDUAL".
+     * < Deprecated. Use control_person.email when user_type == 'BUSINESS'. Use
+     * individual.phone_number when user_type == 'INDIVIDUAL'.
      * > Primary email of Account Holder.
      */
     fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
@@ -115,19 +115,19 @@ private constructor(
     fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
 
     /**
-     * Only present when user_type == "INDIVIDUAL". Information about the individual for which the
+     * Only present when user_type == 'INDIVIDUAL'. Information about the individual for which the
      * account is being opened and KYC is being run.
      */
     fun individual(): Optional<AccountHolderIndividualResponse> =
         Optional.ofNullable(individual.getNullable("individual"))
 
-    /** Only present when user_type == "BUSINESS". User-submitted description of the business. */
+    /** Only present when user_type == 'BUSINESS'. User-submitted description of the business. */
     fun natureOfBusiness(): Optional<String> =
         Optional.ofNullable(natureOfBusiness.getNullable("nature_of_business"))
 
     /**
-     * < Deprecated. Use control_person.phone_number when user_type == "BUSINESS". Use
-     * individual.phone_number when user_type == "INDIVIDUAL".
+     * < Deprecated. Use control_person.phone_number when user_type == 'BUSINESS'. Use
+     * individual.phone_number when user_type == 'INDIVIDUAL'.
      * > Primary phone of Account Holder, entered in E.164 format.
      */
     fun phoneNumber(): Optional<String> =
@@ -155,10 +155,10 @@ private constructor(
     fun token(): String = token.getRequired("token")
 
     /**
-     * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will be
-     * present. If the type is "BUSINESS" then the "business_entity", "control_person",
-     * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
-     * "website_url" attributes will be present.
+     * The type of Account Holder. If the type is 'INDIVIDUAL', the 'individual' attribute will be
+     * present. If the type is 'BUSINESS' then the 'business_entity', 'control_person',
+     * 'beneficial_owner_individuals', 'beneficial_owner_entities', 'nature_of_business', and
+     * 'website_url' attributes will be present.
      */
     fun userType(): Optional<UserType> = Optional.ofNullable(userType.getNullable("user_type"))
 
@@ -167,20 +167,20 @@ private constructor(
         Optional.ofNullable(verificationApplication.getNullable("verification_application"))
 
     /**
-     * Only present for "KYB_BASIC" and "KYC_ADVANCED" workflows. A list of documents required for
+     * Only present for 'KYB_BASIC' and 'KYC_ADVANCED' workflows. A list of documents required for
      * the account holder to be approved.
      */
     fun requiredDocuments(): Optional<List<RequiredDocument>> =
         Optional.ofNullable(requiredDocuments.getNullable("required_documents"))
 
-    /** Only present when user_type == "BUSINESS". Business's primary website. */
+    /** Only present when user_type == 'BUSINESS'. Business's primary website. */
     fun websiteUrl(): Optional<String> = Optional.ofNullable(websiteUrl.getNullable("website_url"))
 
     /** Globally unique identifier for the account. */
     @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
 
     /**
-     * Only present when user_type == "BUSINESS". List of all entities with >25% ownership in the
+     * Only present when user_type == 'BUSINESS'. List of all entities with >25% ownership in the
      * company.
      */
     @JsonProperty("beneficial_owner_entities")
@@ -188,7 +188,7 @@ private constructor(
     fun _beneficialOwnerEntities() = beneficialOwnerEntities
 
     /**
-     * Only present when user_type == "BUSINESS". List of all individuals with >25% ownership in the
+     * Only present when user_type == 'BUSINESS'. List of all individuals with >25% ownership in the
      * company.
      */
     @JsonProperty("beneficial_owner_individuals")
@@ -205,13 +205,13 @@ private constructor(
     fun _businessAccountToken() = businessAccountToken
 
     /**
-     * Only present when user_type == "BUSINESS". Information about the business for which the
+     * Only present when user_type == 'BUSINESS'. Information about the business for which the
      * account is being opened and KYB is being run.
      */
     @JsonProperty("business_entity") @ExcludeMissing fun _businessEntity() = businessEntity
 
     /**
-     * Only present when user_type == "BUSINESS". An individual with significant responsibility for
+     * Only present when user_type == 'BUSINESS'. An individual with significant responsibility for
      * managing the legal entity (e.g., a Chief Executive Officer, Chief Financial Officer, Chief
      * Operating Officer, Managing Member, General Partner, President, Vice President, or
      * Treasurer). This can be an executive, or someone who will have program-wide access to the
@@ -224,8 +224,8 @@ private constructor(
     @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     /**
-     * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
-     * individual.phone_number when user_type == "INDIVIDUAL".
+     * < Deprecated. Use control_person.email when user_type == 'BUSINESS'. Use
+     * individual.phone_number when user_type == 'INDIVIDUAL'.
      * > Primary email of Account Holder.
      */
     @JsonProperty("email") @ExcludeMissing fun _email() = email
@@ -240,17 +240,17 @@ private constructor(
     @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
 
     /**
-     * Only present when user_type == "INDIVIDUAL". Information about the individual for which the
+     * Only present when user_type == 'INDIVIDUAL'. Information about the individual for which the
      * account is being opened and KYC is being run.
      */
     @JsonProperty("individual") @ExcludeMissing fun _individual() = individual
 
-    /** Only present when user_type == "BUSINESS". User-submitted description of the business. */
+    /** Only present when user_type == 'BUSINESS'. User-submitted description of the business. */
     @JsonProperty("nature_of_business") @ExcludeMissing fun _natureOfBusiness() = natureOfBusiness
 
     /**
-     * < Deprecated. Use control_person.phone_number when user_type == "BUSINESS". Use
-     * individual.phone_number when user_type == "INDIVIDUAL".
+     * < Deprecated. Use control_person.phone_number when user_type == 'BUSINESS'. Use
+     * individual.phone_number when user_type == 'INDIVIDUAL'.
      * > Primary phone of Account Holder, entered in E.164 format.
      */
     @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
@@ -276,10 +276,10 @@ private constructor(
     @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /**
-     * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will be
-     * present. If the type is "BUSINESS" then the "business_entity", "control_person",
-     * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
-     * "website_url" attributes will be present.
+     * The type of Account Holder. If the type is 'INDIVIDUAL', the 'individual' attribute will be
+     * present. If the type is 'BUSINESS' then the 'business_entity', 'control_person',
+     * 'beneficial_owner_individuals', 'beneficial_owner_entities', 'nature_of_business', and
+     * 'website_url' attributes will be present.
      */
     @JsonProperty("user_type") @ExcludeMissing fun _userType() = userType
 
@@ -289,12 +289,12 @@ private constructor(
     fun _verificationApplication() = verificationApplication
 
     /**
-     * Only present for "KYB_BASIC" and "KYC_ADVANCED" workflows. A list of documents required for
+     * Only present for 'KYB_BASIC' and 'KYC_ADVANCED' workflows. A list of documents required for
      * the account holder to be approved.
      */
     @JsonProperty("required_documents") @ExcludeMissing fun _requiredDocuments() = requiredDocuments
 
-    /** Only present when user_type == "BUSINESS". Business's primary website. */
+    /** Only present when user_type == 'BUSINESS'. Business's primary website. */
     @JsonProperty("website_url") @ExcludeMissing fun _websiteUrl() = websiteUrl
 
     @JsonAnyGetter
@@ -459,14 +459,14 @@ private constructor(
         }
 
         /**
-         * Only present when user_type == "BUSINESS". List of all entities with >25% ownership in
+         * Only present when user_type == 'BUSINESS'. List of all entities with >25% ownership in
          * the company.
          */
         fun beneficialOwnerEntities(beneficialOwnerEntities: List<AccountHolderBusinessResponse>) =
             beneficialOwnerEntities(JsonField.of(beneficialOwnerEntities))
 
         /**
-         * Only present when user_type == "BUSINESS". List of all entities with >25% ownership in
+         * Only present when user_type == 'BUSINESS'. List of all entities with >25% ownership in
          * the company.
          */
         @JsonProperty("beneficial_owner_entities")
@@ -476,7 +476,7 @@ private constructor(
         ) = apply { this.beneficialOwnerEntities = beneficialOwnerEntities }
 
         /**
-         * Only present when user_type == "BUSINESS". List of all individuals with >25% ownership in
+         * Only present when user_type == 'BUSINESS'. List of all individuals with >25% ownership in
          * the company.
          */
         fun beneficialOwnerIndividuals(
@@ -484,7 +484,7 @@ private constructor(
         ) = beneficialOwnerIndividuals(JsonField.of(beneficialOwnerIndividuals))
 
         /**
-         * Only present when user_type == "BUSINESS". List of all individuals with >25% ownership in
+         * Only present when user_type == 'BUSINESS'. List of all individuals with >25% ownership in
          * the company.
          */
         @JsonProperty("beneficial_owner_individuals")
@@ -513,14 +513,14 @@ private constructor(
         }
 
         /**
-         * Only present when user_type == "BUSINESS". Information about the business for which the
+         * Only present when user_type == 'BUSINESS'. Information about the business for which the
          * account is being opened and KYB is being run.
          */
         fun businessEntity(businessEntity: AccountHolderBusinessResponse) =
             businessEntity(JsonField.of(businessEntity))
 
         /**
-         * Only present when user_type == "BUSINESS". Information about the business for which the
+         * Only present when user_type == 'BUSINESS'. Information about the business for which the
          * account is being opened and KYB is being run.
          */
         @JsonProperty("business_entity")
@@ -530,7 +530,7 @@ private constructor(
         }
 
         /**
-         * Only present when user_type == "BUSINESS". An individual with significant responsibility
+         * Only present when user_type == 'BUSINESS'. An individual with significant responsibility
          * for managing the legal entity (e.g., a Chief Executive Officer, Chief Financial Officer,
          * Chief Operating Officer, Managing Member, General Partner, President, Vice President, or
          * Treasurer). This can be an executive, or someone who will have program-wide access to the
@@ -541,7 +541,7 @@ private constructor(
             controlPerson(JsonField.of(controlPerson))
 
         /**
-         * Only present when user_type == "BUSINESS". An individual with significant responsibility
+         * Only present when user_type == 'BUSINESS'. An individual with significant responsibility
          * for managing the legal entity (e.g., a Chief Executive Officer, Chief Financial Officer,
          * Chief Operating Officer, Managing Member, General Partner, President, Vice President, or
          * Treasurer). This can be an executive, or someone who will have program-wide access to the
@@ -563,15 +563,15 @@ private constructor(
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
-         * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
-         * individual.phone_number when user_type == "INDIVIDUAL".
+         * < Deprecated. Use control_person.email when user_type == 'BUSINESS'. Use
+         * individual.phone_number when user_type == 'INDIVIDUAL'.
          * > Primary email of Account Holder.
          */
         fun email(email: String) = email(JsonField.of(email))
 
         /**
-         * < Deprecated. Use control_person.email when user_type == "BUSINESS". Use
-         * individual.phone_number when user_type == "INDIVIDUAL".
+         * < Deprecated. Use control_person.email when user_type == 'BUSINESS'. Use
+         * individual.phone_number when user_type == 'INDIVIDUAL'.
          * > Primary email of Account Holder.
          */
         @JsonProperty("email")
@@ -603,14 +603,14 @@ private constructor(
         fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         /**
-         * Only present when user_type == "INDIVIDUAL". Information about the individual for which
+         * Only present when user_type == 'INDIVIDUAL'. Information about the individual for which
          * the account is being opened and KYC is being run.
          */
         fun individual(individual: AccountHolderIndividualResponse) =
             individual(JsonField.of(individual))
 
         /**
-         * Only present when user_type == "INDIVIDUAL". Information about the individual for which
+         * Only present when user_type == 'INDIVIDUAL'. Information about the individual for which
          * the account is being opened and KYC is being run.
          */
         @JsonProperty("individual")
@@ -620,13 +620,13 @@ private constructor(
         }
 
         /**
-         * Only present when user_type == "BUSINESS". User-submitted description of the business.
+         * Only present when user_type == 'BUSINESS'. User-submitted description of the business.
          */
         fun natureOfBusiness(natureOfBusiness: String) =
             natureOfBusiness(JsonField.of(natureOfBusiness))
 
         /**
-         * Only present when user_type == "BUSINESS". User-submitted description of the business.
+         * Only present when user_type == 'BUSINESS'. User-submitted description of the business.
          */
         @JsonProperty("nature_of_business")
         @ExcludeMissing
@@ -635,15 +635,15 @@ private constructor(
         }
 
         /**
-         * < Deprecated. Use control_person.phone_number when user_type == "BUSINESS". Use
-         * individual.phone_number when user_type == "INDIVIDUAL".
+         * < Deprecated. Use control_person.phone_number when user_type == 'BUSINESS'. Use
+         * individual.phone_number when user_type == 'INDIVIDUAL'.
          * > Primary phone of Account Holder, entered in E.164 format.
          */
         fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
         /**
-         * < Deprecated. Use control_person.phone_number when user_type == "BUSINESS". Use
-         * individual.phone_number when user_type == "INDIVIDUAL".
+         * < Deprecated. Use control_person.phone_number when user_type == 'BUSINESS'. Use
+         * individual.phone_number when user_type == 'INDIVIDUAL'.
          * > Primary phone of Account Holder, entered in E.164 format.
          */
         @JsonProperty("phone_number")
@@ -702,18 +702,18 @@ private constructor(
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
-         * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will
-         * be present. If the type is "BUSINESS" then the "business_entity", "control_person",
-         * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
-         * "website_url" attributes will be present.
+         * The type of Account Holder. If the type is 'INDIVIDUAL', the 'individual' attribute will
+         * be present. If the type is 'BUSINESS' then the 'business_entity', 'control_person',
+         * 'beneficial_owner_individuals', 'beneficial_owner_entities', 'nature_of_business', and
+         * 'website_url' attributes will be present.
          */
         fun userType(userType: UserType) = userType(JsonField.of(userType))
 
         /**
-         * The type of Account Holder. If the type is "INDIVIDUAL", the "individual" attribute will
-         * be present. If the type is "BUSINESS" then the "business_entity", "control_person",
-         * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
-         * "website_url" attributes will be present.
+         * The type of Account Holder. If the type is 'INDIVIDUAL', the 'individual' attribute will
+         * be present. If the type is 'BUSINESS' then the 'business_entity', 'control_person',
+         * 'beneficial_owner_individuals', 'beneficial_owner_entities', 'nature_of_business', and
+         * 'website_url' attributes will be present.
          */
         @JsonProperty("user_type")
         @ExcludeMissing
@@ -731,14 +731,14 @@ private constructor(
         ) = apply { this.verificationApplication = verificationApplication }
 
         /**
-         * Only present for "KYB_BASIC" and "KYC_ADVANCED" workflows. A list of documents required
+         * Only present for 'KYB_BASIC' and 'KYC_ADVANCED' workflows. A list of documents required
          * for the account holder to be approved.
          */
         fun requiredDocuments(requiredDocuments: List<RequiredDocument>) =
             requiredDocuments(JsonField.of(requiredDocuments))
 
         /**
-         * Only present for "KYB_BASIC" and "KYC_ADVANCED" workflows. A list of documents required
+         * Only present for 'KYB_BASIC' and 'KYC_ADVANCED' workflows. A list of documents required
          * for the account holder to be approved.
          */
         @JsonProperty("required_documents")
@@ -747,10 +747,10 @@ private constructor(
             this.requiredDocuments = requiredDocuments
         }
 
-        /** Only present when user_type == "BUSINESS". Business's primary website. */
+        /** Only present when user_type == 'BUSINESS'. Business's primary website. */
         fun websiteUrl(websiteUrl: String) = websiteUrl(JsonField.of(websiteUrl))
 
-        /** Only present when user_type == "BUSINESS". Business's primary website. */
+        /** Only present when user_type == 'BUSINESS'. Business's primary website. */
         @JsonProperty("website_url")
         @ExcludeMissing
         fun websiteUrl(websiteUrl: JsonField<String>) = apply { this.websiteUrl = websiteUrl }

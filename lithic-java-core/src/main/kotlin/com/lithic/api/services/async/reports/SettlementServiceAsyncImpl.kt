@@ -36,7 +36,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("reports", "settlement", "details", params.getPathParam(0))
+                .addPathSegments("v1", "reports", "settlement", "details", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)
@@ -66,7 +66,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("reports", "settlement", "summary", params.getPathParam(0))
+                .addPathSegments("v1", "reports", "settlement", "summary", params.getPathParam(0))
                 .putAllQueryParams(clientOptions.queryParams)
                 .putAllQueryParams(params.getQueryParams())
                 .putAllHeaders(clientOptions.headers)

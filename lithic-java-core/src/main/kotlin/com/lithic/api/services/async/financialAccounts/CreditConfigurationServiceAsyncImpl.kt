@@ -37,6 +37,7 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments(
+                    "v1",
                     "financial_accounts",
                     params.getPathParam(0),
                     "credit_configuration"
@@ -71,6 +72,7 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.PATCH)
                 .addPathSegments(
+                    "v1",
                     "financial_accounts",
                     params.getPathParam(0),
                     "credit_configuration"
