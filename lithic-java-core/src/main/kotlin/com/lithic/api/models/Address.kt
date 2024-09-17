@@ -42,21 +42,15 @@ private constructor(
     fun city(): String = city.getRequired("city")
 
     /**
-     * Valid country code. Only USA is currently supported, entered in uppercase ISO 3166-1 alpha-3
+     * Valid country code. USA and CAN are supported, entered in uppercase ISO 3166-1 alpha-3
      * three-character format.
      */
     fun country(): String = country.getRequired("country")
 
-    /**
-     * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered as a
-     * five-digit postal code or nine-digit postal code (ZIP+4) using the format 12345-1234.
-     */
+    /** Valid postal code. */
     fun postalCode(): String = postalCode.getRequired("postal_code")
 
-    /**
-     * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
-     * 3166-2 two-character format.
-     */
+    /** Valid state code. */
     fun state(): String = state.getRequired("state")
 
     /** Valid deliverable address (no PO boxes). */
@@ -69,21 +63,15 @@ private constructor(
     @JsonProperty("city") @ExcludeMissing fun _city() = city
 
     /**
-     * Valid country code. Only USA is currently supported, entered in uppercase ISO 3166-1 alpha-3
+     * Valid country code. USA and CAN are supported, entered in uppercase ISO 3166-1 alpha-3
      * three-character format.
      */
     @JsonProperty("country") @ExcludeMissing fun _country() = country
 
-    /**
-     * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered as a
-     * five-digit postal code or nine-digit postal code (ZIP+4) using the format 12345-1234.
-     */
+    /** Valid postal code. */
     @JsonProperty("postal_code") @ExcludeMissing fun _postalCode() = postalCode
 
-    /**
-     * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
-     * 3166-2 two-character format.
-     */
+    /** Valid state code. */
     @JsonProperty("state") @ExcludeMissing fun _state() = state
 
     @JsonAnyGetter
@@ -189,43 +177,31 @@ private constructor(
         fun city(city: JsonField<String>) = apply { this.city = city }
 
         /**
-         * Valid country code. Only USA is currently supported, entered in uppercase ISO 3166-1
-         * alpha-3 three-character format.
+         * Valid country code. USA and CAN are supported, entered in uppercase ISO 3166-1 alpha-3
+         * three-character format.
          */
         fun country(country: String) = country(JsonField.of(country))
 
         /**
-         * Valid country code. Only USA is currently supported, entered in uppercase ISO 3166-1
-         * alpha-3 three-character format.
+         * Valid country code. USA and CAN are supported, entered in uppercase ISO 3166-1 alpha-3
+         * three-character format.
          */
         @JsonProperty("country")
         @ExcludeMissing
         fun country(country: JsonField<String>) = apply { this.country = country }
 
-        /**
-         * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered as
-         * a five-digit postal code or nine-digit postal code (ZIP+4) using the format 12345-1234.
-         */
+        /** Valid postal code. */
         fun postalCode(postalCode: String) = postalCode(JsonField.of(postalCode))
 
-        /**
-         * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered as
-         * a five-digit postal code or nine-digit postal code (ZIP+4) using the format 12345-1234.
-         */
+        /** Valid postal code. */
         @JsonProperty("postal_code")
         @ExcludeMissing
         fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
 
-        /**
-         * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
-         * 3166-2 two-character format.
-         */
+        /** Valid state code. */
         fun state(state: String) = state(JsonField.of(state))
 
-        /**
-         * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
-         * 3166-2 two-character format.
-         */
+        /** Valid state code. */
         @JsonProperty("state")
         @ExcludeMissing
         fun state(state: JsonField<String>) = apply { this.state = state }
