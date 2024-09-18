@@ -393,7 +393,7 @@ constructor(
         val request =
             HttpRequest.builder()
                 .method(HttpMethod.GET)
-                .addPathSegments("embed", "card")
+                .addPathSegments("v1", "embed", "card")
                 .putQueryParam("embed_request", embed_request)
                 .putQueryParam("hmac", embed_request_hmac)
                 .putAllHeaders(clientOptions.headers)
