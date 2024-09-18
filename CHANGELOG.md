@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.58.1 (2024-09-18)
+
+Full Changelog: [v0.58.0...v0.58.1](https://github.com/lithic-com/lithic-java/compare/v0.58.0...v0.58.1)
+
+### Chores
+
+* **internal:** specify API version for each endpoints instead of hardcoded in base URLs ([#306](https://github.com/lithic-com/lithic-java/issues/306)) ([26d3b0a](https://github.com/lithic-com/lithic-java/commit/26d3b0ae5efa858680dc37501962573d88c6021d))
+* **tests:** fix getEmbedURL to specify /v1/ prefix ([6659ab9](https://github.com/lithic-com/lithic-java/commit/6659ab9cd077311938b721333c2727436e49986b))
+
 ## 0.58.0 (2024-09-17)
 
 Full Changelog: [v0.57.0...v0.58.0](https://github.com/lithic-com/lithic-java/compare/v0.57.0...v0.58.0)
