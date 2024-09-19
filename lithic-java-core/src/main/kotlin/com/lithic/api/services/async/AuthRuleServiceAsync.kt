@@ -15,9 +15,12 @@ import com.lithic.api.models.AuthRuleRemoveResponse
 import com.lithic.api.models.AuthRuleRetrieveParams
 import com.lithic.api.models.AuthRuleRetrieveResponse
 import com.lithic.api.models.AuthRuleUpdateParams
+import com.lithic.api.services.async.authRules.V2ServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface AuthRuleServiceAsync {
+
+    fun v2(): V2ServiceAsync
 
     /**
      * Creates an authorization rule (Auth Rule) and applies it at the program, account, or card

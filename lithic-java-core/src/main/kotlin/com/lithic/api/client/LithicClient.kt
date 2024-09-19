@@ -60,6 +60,8 @@ interface LithicClient {
 
     fun creditProducts(): CreditProductService
 
+    fun externalPayments(): ExternalPaymentService
+
     /** Status of api */
     @JvmOverloads
     fun apiStatus(

@@ -18,6 +18,8 @@ import com.lithic.api.models.AuthRuleRemoveResponse
 import com.lithic.api.models.AuthRuleRetrieveParams
 import com.lithic.api.models.AuthRuleRetrieveResponse
 import com.lithic.api.models.AuthRuleUpdateParams
+import com.lithic.api.services.async.authRules.V2ServiceAsync
+import com.lithic.api.services.async.authRules.V2ServiceAsyncImpl
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
 import com.lithic.api.services.jsonHandler
@@ -30,6 +32,10 @@ constructor(
 ) : AuthRuleServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+    private val v2: V2ServiceAsync by lazy { V2ServiceAsyncImpl(clientOptions) }
+
+    override fun v2(): V2ServiceAsync = v2
 
     private val createHandler: Handler<AuthRule> =
         jsonHandler<AuthRule>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
