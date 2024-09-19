@@ -4,14 +4,17 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
@@ -24,7 +27,7 @@ private constructor(
     private val externalBankAccountToken: JsonField<String>,
     private val creditProductToken: JsonField<String>,
     private val tier: JsonField<String>,
-    private val financialAccountState: JsonField<String>,
+    private val financialAccountState: JsonField<FinancialAccountState>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -48,7 +51,7 @@ private constructor(
     fun tier(): Optional<String> = Optional.ofNullable(tier.getNullable("tier"))
 
     /** State of the financial account */
-    fun financialAccountState(): Optional<String> =
+    fun financialAccountState(): Optional<FinancialAccountState> =
         Optional.ofNullable(financialAccountState.getNullable("financial_account_state"))
 
     /** Globally unique identifier for the account */
@@ -137,7 +140,7 @@ private constructor(
         private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
         private var creditProductToken: JsonField<String> = JsonMissing.of()
         private var tier: JsonField<String> = JsonMissing.of()
-        private var financialAccountState: JsonField<String> = JsonMissing.of()
+        private var financialAccountState: JsonField<FinancialAccountState> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -196,13 +199,13 @@ private constructor(
         fun tier(tier: JsonField<String>) = apply { this.tier = tier }
 
         /** State of the financial account */
-        fun financialAccountState(financialAccountState: String) =
+        fun financialAccountState(financialAccountState: FinancialAccountState) =
             financialAccountState(JsonField.of(financialAccountState))
 
         /** State of the financial account */
         @JsonProperty("financial_account_state")
         @ExcludeMissing
-        fun financialAccountState(financialAccountState: JsonField<String>) = apply {
+        fun financialAccountState(financialAccountState: JsonField<FinancialAccountState>) = apply {
             this.financialAccountState = financialAccountState
         }
 
@@ -230,5 +233,68 @@ private constructor(
                 financialAccountState,
                 additionalProperties.toUnmodifiable(),
             )
+    }
+
+    class FinancialAccountState
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) : Enum {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is FinancialAccountState && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val PENDING = FinancialAccountState(JsonField.of("PENDING"))
+
+            @JvmField val CURRENT = FinancialAccountState(JsonField.of("CURRENT"))
+
+            @JvmField val DELINQUENT = FinancialAccountState(JsonField.of("DELINQUENT"))
+
+            @JvmStatic fun of(value: String) = FinancialAccountState(JsonField.of(value))
+        }
+
+        enum class Known {
+            PENDING,
+            CURRENT,
+            DELINQUENT,
+        }
+
+        enum class Value {
+            PENDING,
+            CURRENT,
+            DELINQUENT,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                PENDING -> Value.PENDING
+                CURRENT -> Value.CURRENT
+                DELINQUENT -> Value.DELINQUENT
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                PENDING -> Known.PENDING
+                CURRENT -> Known.CURRENT
+                DELINQUENT -> Known.DELINQUENT
+                else -> throw LithicInvalidDataException("Unknown FinancialAccountState: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 }

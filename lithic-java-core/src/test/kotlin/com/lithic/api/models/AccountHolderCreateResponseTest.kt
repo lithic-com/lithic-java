@@ -20,6 +20,15 @@ class AccountHolderCreateResponseTest {
                 )
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .externalId("external_id")
+                .requiredDocuments(
+                    listOf(
+                        RequiredDocument.builder()
+                            .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .statusReasons(listOf("string"))
+                            .validDocuments(listOf("string"))
+                            .build()
+                    )
+                )
                 .build()
         assertThat(accountHolderCreateResponse).isNotNull
         assertThat(accountHolderCreateResponse.token())
@@ -33,5 +42,13 @@ class AccountHolderCreateResponseTest {
         assertThat(accountHolderCreateResponse.created())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(accountHolderCreateResponse.externalId()).contains("external_id")
+        assertThat(accountHolderCreateResponse.requiredDocuments().get())
+            .containsExactly(
+                RequiredDocument.builder()
+                    .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .statusReasons(listOf("string"))
+                    .validDocuments(listOf("string"))
+                    .build()
+            )
     }
 }
