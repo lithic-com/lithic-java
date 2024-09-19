@@ -12,27 +12,51 @@ class FinancialAccountTest {
     fun createFinancialAccount() {
         val financialAccount =
             FinancialAccount.builder()
-                .token("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+                .token("b68b7424-aa69-4cbc-a946-30d90181b621")
+                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .creditConfiguration(
+                    FinancialAccount.FinancialAccountCreditConfig.builder()
+                        .creditLimit(123L)
+                        .creditProductToken("credit_product_token")
+                        .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .tier("tier")
+                        .financialAccountState(
+                            FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState
+                                .PENDING
+                        )
+                        .build()
+                )
                 .isForBenefitOf(true)
+                .nickname("nickname")
                 .type(FinancialAccount.Type.ISSUING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .accountNumber("account_number")
-                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .nickname("nickname")
                 .routingNumber("routing_number")
                 .build()
         assertThat(financialAccount).isNotNull
-        assertThat(financialAccount.token()).isEqualTo("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+        assertThat(financialAccount.token()).isEqualTo("b68b7424-aa69-4cbc-a946-30d90181b621")
+        assertThat(financialAccount.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(financialAccount.created())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(financialAccount.creditConfiguration())
+            .contains(
+                FinancialAccount.FinancialAccountCreditConfig.builder()
+                    .creditLimit(123L)
+                    .creditProductToken("credit_product_token")
+                    .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .tier("tier")
+                    .financialAccountState(
+                        FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState.PENDING
+                    )
+                    .build()
+            )
         assertThat(financialAccount.isForBenefitOf()).isEqualTo(true)
+        assertThat(financialAccount.nickname()).contains("nickname")
         assertThat(financialAccount.type()).isEqualTo(FinancialAccount.Type.ISSUING)
         assertThat(financialAccount.updated())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(financialAccount.accountNumber()).contains("account_number")
-        assertThat(financialAccount.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(financialAccount.nickname()).contains("nickname")
         assertThat(financialAccount.routingNumber()).contains("routing_number")
     }
 }

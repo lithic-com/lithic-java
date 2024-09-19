@@ -287,6 +287,12 @@ private constructor(
                 EventType(JsonField.of("external_bank_account.updated"))
 
             @JvmField
+            val EXTERNAL_PAYMENT_CREATED = EventType(JsonField.of("external_payment.created"))
+
+            @JvmField
+            val EXTERNAL_PAYMENT_UPDATED = EventType(JsonField.of("external_payment.updated"))
+
+            @JvmField
             val FINANCIAL_ACCOUNT_CREATED = EventType(JsonField.of("financial_account.created"))
 
             @JvmField
@@ -351,6 +357,8 @@ private constructor(
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
             EXTERNAL_BANK_ACCOUNT_CREATED,
             EXTERNAL_BANK_ACCOUNT_UPDATED,
+            EXTERNAL_PAYMENT_CREATED,
+            EXTERNAL_PAYMENT_UPDATED,
             FINANCIAL_ACCOUNT_CREATED,
             FINANCIAL_ACCOUNT_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
@@ -387,6 +395,8 @@ private constructor(
             DISPUTE_EVIDENCE_UPLOAD_FAILED,
             EXTERNAL_BANK_ACCOUNT_CREATED,
             EXTERNAL_BANK_ACCOUNT_UPDATED,
+            EXTERNAL_PAYMENT_CREATED,
+            EXTERNAL_PAYMENT_UPDATED,
             FINANCIAL_ACCOUNT_CREATED,
             FINANCIAL_ACCOUNT_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
@@ -428,6 +438,8 @@ private constructor(
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Value.DISPUTE_EVIDENCE_UPLOAD_FAILED
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Value.EXTERNAL_BANK_ACCOUNT_CREATED
                 EXTERNAL_BANK_ACCOUNT_UPDATED -> Value.EXTERNAL_BANK_ACCOUNT_UPDATED
+                EXTERNAL_PAYMENT_CREATED -> Value.EXTERNAL_PAYMENT_CREATED
+                EXTERNAL_PAYMENT_UPDATED -> Value.EXTERNAL_PAYMENT_UPDATED
                 FINANCIAL_ACCOUNT_CREATED -> Value.FINANCIAL_ACCOUNT_CREATED
                 FINANCIAL_ACCOUNT_UPDATED -> Value.FINANCIAL_ACCOUNT_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Value.PAYMENT_TRANSACTION_CREATED
@@ -471,6 +483,8 @@ private constructor(
                 DISPUTE_EVIDENCE_UPLOAD_FAILED -> Known.DISPUTE_EVIDENCE_UPLOAD_FAILED
                 EXTERNAL_BANK_ACCOUNT_CREATED -> Known.EXTERNAL_BANK_ACCOUNT_CREATED
                 EXTERNAL_BANK_ACCOUNT_UPDATED -> Known.EXTERNAL_BANK_ACCOUNT_UPDATED
+                EXTERNAL_PAYMENT_CREATED -> Known.EXTERNAL_PAYMENT_CREATED
+                EXTERNAL_PAYMENT_UPDATED -> Known.EXTERNAL_PAYMENT_UPDATED
                 FINANCIAL_ACCOUNT_CREATED -> Known.FINANCIAL_ACCOUNT_CREATED
                 FINANCIAL_ACCOUNT_UPDATED -> Known.FINANCIAL_ACCOUNT_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Known.PAYMENT_TRANSACTION_CREATED

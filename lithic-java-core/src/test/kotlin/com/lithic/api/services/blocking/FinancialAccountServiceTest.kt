@@ -78,8 +78,9 @@ class FinancialAccountServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val financialAccountService = client.financialAccounts()
-        val response = financialAccountService.list(FinancialAccountListParams.builder().build())
-        println(response)
-        response.data().forEach { it.validate() }
+        val financialAccountsResponse =
+            financialAccountService.list(FinancialAccountListParams.builder().build())
+        println(financialAccountsResponse)
+        financialAccountsResponse.data().forEach { it.validate() }
     }
 }

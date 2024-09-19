@@ -133,7 +133,7 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
                 .phoneNumber("phone_number")
                 .requiredDocuments(
                     listOf(
-                        AccountHolderSimulateEnrollmentReviewResponse.RequiredDocument.builder()
+                        RequiredDocument.builder()
                             .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .statusReasons(listOf("string"))
                             .validDocuments(listOf("string"))
@@ -294,7 +294,7 @@ class AccountHolderSimulateEnrollmentReviewResponseTest {
             .contains("phone_number")
         assertThat(accountHolderSimulateEnrollmentReviewResponse.requiredDocuments().get())
             .containsExactly(
-                AccountHolderSimulateEnrollmentReviewResponse.RequiredDocument.builder()
+                RequiredDocument.builder()
                     .entityToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .statusReasons(listOf("string"))
                     .validDocuments(listOf("string"))
