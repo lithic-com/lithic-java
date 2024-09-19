@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.59.0 (2024-09-19)
+
+Full Changelog: [v0.58.1...v0.59.0](https://github.com/lithic-com/lithic-java/compare/v0.58.1...v0.59.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** update model `FinancialAccount` ([#308](https://github.com/lithic-com/lithic-java/issues/308))
+
+### Features
+
+* **api:** update model `FinancialAccount` ([#308](https://github.com/lithic-com/lithic-java/issues/308)) ([47a3561](https://github.com/lithic-com/lithic-java/commit/47a35613b8c61bb3b2b2ad3b71759ce207624df4))
+
 ## 0.58.1 (2024-09-18)
 
 Full Changelog: [v0.58.0...v0.58.1](https://github.com/lithic-com/lithic-java/compare/v0.58.0...v0.58.1)
