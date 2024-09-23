@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.60.0 (2024-09-23)
+
+Full Changelog: [v0.59.0...v0.60.0](https://github.com/lithic-com/lithic-java/compare/v0.59.0...v0.60.0)
+
+### Features
+
+* **api:** add `canceled` to `transaction_status` enum values ([#310](https://github.com/lithic-com/lithic-java/issues/310)) ([e0d7dfc](https://github.com/lithic-com/lithic-java/commit/e0d7dfc79be405bfe1e3b80d769a9e398fdf7936))
+
 ## 0.59.0 (2024-09-19)
 
 Full Changelog: [v0.58.1...v0.59.0](https://github.com/lithic-com/lithic-java/compare/v0.58.1...v0.59.0)
