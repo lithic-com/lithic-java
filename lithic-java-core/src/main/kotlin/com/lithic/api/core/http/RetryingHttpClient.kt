@@ -40,9 +40,16 @@ private constructor(
 
         maybeAddIdempotencyHeader(request)
 
+        // Don't send the current retry count in the headers if the caller set their own value.
+        val shouldSendRetryCount = !request.headers.containsKey("x-stainless-retry-count")
+
         var retries = 0
 
         while (true) {
+            if (shouldSendRetryCount) {
+                setRetryCountHeader(request, retries)
+            }
+
             val response =
                 try {
                     val response = httpClient.execute(request, requestOptions)
@@ -74,10 +81,21 @@ private constructor(
 
         maybeAddIdempotencyHeader(request)
 
+        // Don't send the current retry count in the headers if the caller set their own value.
+        val shouldSendRetryCount = !request.headers.containsKey("x-stainless-retry-count")
+
         var retries = 0
 
-        fun wrap(future: CompletableFuture<HttpResponse>): CompletableFuture<HttpResponse> {
-            return future
+        fun executeWithRetries(
+            request: HttpRequest,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponse> {
+            if (shouldSendRetryCount) {
+                setRetryCountHeader(request, retries)
+            }
+
+            return httpClient
+                .executeAsync(request, requestOptions)
                 .handleAsync(
                     fun(
                         response: HttpResponse?,
@@ -97,7 +115,7 @@ private constructor(
 
                         val backoffMillis = getRetryBackoffMillis(retries, response)
                         return sleepAsync(backoffMillis.toMillis()).thenCompose {
-                            wrap(httpClient.executeAsync(request, requestOptions))
+                            executeWithRetries(request, requestOptions)
                         }
                     },
                     MoreExecutors.directExecutor()
@@ -105,7 +123,7 @@ private constructor(
                 .thenCompose(Function.identity())
         }
 
-        return wrap(httpClient.executeAsync(request, requestOptions))
+        return executeWithRetries(request, requestOptions)
     }
 
     override fun close() {
@@ -116,6 +134,11 @@ private constructor(
         // Some requests, such as when a request body is being streamed, cannot be retried because
         // the body data aren't available on subsequent attempts.
         return request.body?.repeatable() ?: true
+    }
+
+    private fun setRetryCountHeader(request: HttpRequest, retries: Int) {
+        request.headers.removeAll("x-stainless-retry-count")
+        request.headers.put("x-stainless-retry-count", retries.toString())
     }
 
     private fun idempotencyKey(): String = "stainless-java-retry-${UUID.randomUUID()}"
