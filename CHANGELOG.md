@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.61.0 (2024-09-24)
+
+Full Changelog: [v0.60.0...v0.61.0](https://github.com/lithic-com/lithic-java/compare/v0.60.0...v0.61.0)
+
+### Features
+
+* **api:** add `ACCOUNT_DELINQUENT` to `detailed_results` enum ([#312](https://github.com/lithic-com/lithic-java/issues/312)) ([2f7a283](https://github.com/lithic-com/lithic-java/commit/2f7a283c1ed7e093ba5e8847f0d2d586775d3c69))
+
 ## 0.60.0 (2024-09-23)
 
 Full Changelog: [v0.59.0...v0.60.0](https://github.com/lithic-com/lithic-java/compare/v0.59.0...v0.60.0)
