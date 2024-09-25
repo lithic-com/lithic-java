@@ -13,6 +13,8 @@ import com.lithic.api.models.AuthRuleApplyParams
 import com.lithic.api.models.AuthRuleCreateParams
 import com.lithic.api.models.AuthRuleListPage
 import com.lithic.api.models.AuthRuleListParams
+import com.lithic.api.models.AuthRuleMigrateV1ToV2Params
+import com.lithic.api.models.AuthRuleMigrateV1ToV2Response
 import com.lithic.api.models.AuthRuleRemoveParams
 import com.lithic.api.models.AuthRuleRemoveResponse
 import com.lithic.api.models.AuthRuleRetrieveParams
@@ -171,6 +173,44 @@ constructor(
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response
                 .use { applyHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val migrateV1ToV2Handler: Handler<AuthRuleMigrateV1ToV2Response> =
+        jsonHandler<AuthRuleMigrateV1ToV2Response>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /**
+     * Migrates an existing V1 authorization rule to a V2 authorization rule. This will alter the
+     * internal structure of the Auth Rule such that it becomes a V2 Authorization Rule that can be
+     * operated on through the /v2/auth_rules endpoints.
+     *
+     * After a V1 Auth Rule has been migrated, it can no longer be operated on through the
+     * /v1/auth_rules/\* endpoints. Eventually, Lithic will deprecate the /v1/auth_rules endpoints
+     * and migrate all existing V1 Auth Rules to V2 Auth Rules.
+     */
+    override fun migrateV1ToV2(
+        params: AuthRuleMigrateV1ToV2Params,
+        requestOptions: RequestOptions
+    ): AuthRuleMigrateV1ToV2Response {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("v1", "auth_rules", params.getPathParam(0), "migrate")
+                .putAllQueryParams(clientOptions.queryParams)
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { migrateV1ToV2Handler.handle(it) }
                 .apply {
                     if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
                         validate()
