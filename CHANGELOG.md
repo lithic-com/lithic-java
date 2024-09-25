@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.62.0 (2024-09-25)
+
+Full Changelog: [v0.61.0...v0.62.0](https://github.com/lithic-com/lithic-java/compare/v0.61.0...v0.62.0)
+
+### Features
+
+* **api:** adds endpoint for migrating auth rules from v1 to V2. marks v1 auth rules as deprecated ([#316](https://github.com/lithic-com/lithic-java/issues/316)) ([c92d0b3](https://github.com/lithic-com/lithic-java/commit/c92d0b3f59740cfcd61a8e65b3fce8416b61fc30))
+* **client:** send retry count header ([#314](https://github.com/lithic-com/lithic-java/issues/314)) ([c9476e0](https://github.com/lithic-com/lithic-java/commit/c9476e02998e623c7962180a07e5a6963d8a9ce5))
+
 ## 0.61.0 (2024-09-24)
 
 Full Changelog: [v0.60.0...v0.61.0](https://github.com/lithic-com/lithic-java/compare/v0.60.0...v0.61.0)
