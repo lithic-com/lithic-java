@@ -10,6 +10,8 @@ import com.lithic.api.models.AuthRuleApplyParams
 import com.lithic.api.models.AuthRuleCreateParams
 import com.lithic.api.models.AuthRuleListPage
 import com.lithic.api.models.AuthRuleListParams
+import com.lithic.api.models.AuthRuleMigrateV1ToV2Params
+import com.lithic.api.models.AuthRuleMigrateV1ToV2Response
 import com.lithic.api.models.AuthRuleRemoveParams
 import com.lithic.api.models.AuthRuleRemoveResponse
 import com.lithic.api.models.AuthRuleRetrieveParams
@@ -61,6 +63,21 @@ interface AuthRuleService {
         params: AuthRuleApplyParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): AuthRule
+
+    /**
+     * Migrates an existing V1 authorization rule to a V2 authorization rule. This will alter the
+     * internal structure of the Auth Rule such that it becomes a V2 Authorization Rule that can be
+     * operated on through the /v2/auth_rules endpoints.
+     *
+     * After a V1 Auth Rule has been migrated, it can no longer be operated on through the
+     * /v1/auth_rules/\* endpoints. Eventually, Lithic will deprecate the /v1/auth_rules endpoints
+     * and migrate all existing V1 Auth Rules to V2 Auth Rules.
+     */
+    @JvmOverloads
+    fun migrateV1ToV2(
+        params: AuthRuleMigrateV1ToV2Params,
+        requestOptions: RequestOptions = RequestOptions.none()
+    ): AuthRuleMigrateV1ToV2Response
 
     /**
      * Remove an existing authorization rule (Auth Rule) from an program, account, or card-level.
