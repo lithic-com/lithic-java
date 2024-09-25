@@ -97,6 +97,9 @@ class TransactionTest {
                             )
                             .result(Transaction.TransactionEvent.Result.APPROVED)
                             .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
+                            .effectivePolarity(
+                                Transaction.TransactionEvent.EffectivePolarity.CREDIT
+                            )
                             .build()
                     )
                 )
@@ -258,6 +261,7 @@ class TransactionTest {
                     )
                     .result(Transaction.TransactionEvent.Result.APPROVED)
                     .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
+                    .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.CREDIT)
                     .build()
             )
         assertThat(transaction.merchant())

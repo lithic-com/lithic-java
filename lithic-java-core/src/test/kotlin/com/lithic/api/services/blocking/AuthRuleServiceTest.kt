@@ -111,6 +111,24 @@ class AuthRuleServiceTest {
     }
 
     @Test
+    fun callMigrateV1ToV2() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val authRuleService = client.authRules()
+        val authRuleMigrateV1ToV2Response =
+            authRuleService.migrateV1ToV2(
+                AuthRuleMigrateV1ToV2Params.builder()
+                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+        println(authRuleMigrateV1ToV2Response)
+        authRuleMigrateV1ToV2Response.validate()
+    }
+
+    @Test
     fun callRemove() {
         val client =
             LithicOkHttpClient.builder()

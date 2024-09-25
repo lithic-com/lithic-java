@@ -972,7 +972,7 @@ private constructor(
             /**
              * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
              * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             * :attr:`EUR`, :attr:`USD`.
              */
             fun currency(): Currency = currency.getRequired("currency")
 
@@ -983,7 +983,7 @@ private constructor(
             /**
              * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
              * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             * :attr:`EUR`, :attr:`USD`.
              */
             @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
@@ -1068,14 +1068,14 @@ private constructor(
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 fun currency(currency: Currency) = currency(JsonField.of(currency))
 
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 @JsonProperty("currency")
                 @ExcludeMissing
@@ -1124,7 +1124,7 @@ private constructor(
             /**
              * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
              * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             * :attr:`EUR`, :attr:`USD`.
              */
             fun currency(): Currency = currency.getRequired("currency")
 
@@ -1133,7 +1133,7 @@ private constructor(
             /**
              * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
              * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             * :attr:`EUR`, :attr:`USD`.
              */
             @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
@@ -1204,14 +1204,14 @@ private constructor(
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 fun currency(currency: Currency) = currency(JsonField.of(currency))
 
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 @JsonProperty("currency")
                 @ExcludeMissing
@@ -1259,7 +1259,7 @@ private constructor(
             /**
              * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
              * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             * :attr:`EUR`, :attr:`USD`.
              */
             fun currency(): Currency = currency.getRequired("currency")
 
@@ -1268,7 +1268,7 @@ private constructor(
             /**
              * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
              * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             * :attr:`EUR`, :attr:`USD`.
              */
             @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
@@ -1339,14 +1339,14 @@ private constructor(
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 fun currency(currency: Currency) = currency(JsonField.of(currency))
 
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 @JsonProperty("currency")
                 @ExcludeMissing
@@ -1394,7 +1394,7 @@ private constructor(
             /**
              * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
              * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             * :attr:`EUR`, :attr:`USD`.
              */
             fun currency(): Currency = currency.getRequired("currency")
 
@@ -1403,7 +1403,7 @@ private constructor(
             /**
              * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
              * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-             * :attr:`Currency.eur`, :attr:`Currency.usd`.
+             * :attr:`EUR`, :attr:`USD`.
              */
             @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
@@ -1474,14 +1474,14 @@ private constructor(
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 fun currency(currency: Currency) = currency(JsonField.of(currency))
 
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 @JsonProperty("currency")
                 @ExcludeMissing
@@ -1646,6 +1646,7 @@ private constructor(
         private val amounts: JsonField<TransactionEventAmounts>,
         private val created: JsonField<OffsetDateTime>,
         private val detailedResults: JsonField<List<DetailedResult>>,
+        private val effectivePolarity: JsonField<EffectivePolarity>,
         private val result: JsonField<Result>,
         private val token: JsonField<String>,
         private val type: JsonField<Type>,
@@ -1666,6 +1667,10 @@ private constructor(
 
         fun detailedResults(): List<DetailedResult> =
             detailedResults.getRequired("detailed_results")
+
+        /** Indicates whether the transaction event is a credit or debit to the account. */
+        fun effectivePolarity(): Optional<EffectivePolarity> =
+            Optional.ofNullable(effectivePolarity.getNullable("effective_polarity"))
 
         /**
          * `APPROVED` or decline reason.
@@ -1730,6 +1735,11 @@ private constructor(
 
         @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
 
+        /** Indicates whether the transaction event is a credit or debit to the account. */
+        @JsonProperty("effective_polarity")
+        @ExcludeMissing
+        fun _effectivePolarity() = effectivePolarity
+
         /**
          * `APPROVED` or decline reason.
          *
@@ -1793,6 +1803,7 @@ private constructor(
                 amounts().validate()
                 created()
                 detailedResults()
+                effectivePolarity()
                 result()
                 token()
                 type()
@@ -1812,6 +1823,7 @@ private constructor(
                 this.amounts == other.amounts &&
                 this.created == other.created &&
                 this.detailedResults == other.detailedResults &&
+                this.effectivePolarity == other.effectivePolarity &&
                 this.result == other.result &&
                 this.token == other.token &&
                 this.type == other.type &&
@@ -1826,6 +1838,7 @@ private constructor(
                         amounts,
                         created,
                         detailedResults,
+                        effectivePolarity,
                         result,
                         token,
                         type,
@@ -1836,7 +1849,7 @@ private constructor(
         }
 
         override fun toString() =
-            "TransactionEvent{amount=$amount, amounts=$amounts, created=$created, detailedResults=$detailedResults, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
+            "TransactionEvent{amount=$amount, amounts=$amounts, created=$created, detailedResults=$detailedResults, effectivePolarity=$effectivePolarity, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1849,6 +1862,7 @@ private constructor(
             private var amounts: JsonField<TransactionEventAmounts> = JsonMissing.of()
             private var created: JsonField<OffsetDateTime> = JsonMissing.of()
             private var detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of()
+            private var effectivePolarity: JsonField<EffectivePolarity> = JsonMissing.of()
             private var result: JsonField<Result> = JsonMissing.of()
             private var token: JsonField<String> = JsonMissing.of()
             private var type: JsonField<Type> = JsonMissing.of()
@@ -1860,6 +1874,7 @@ private constructor(
                 this.amounts = transactionEvent.amounts
                 this.created = transactionEvent.created
                 this.detailedResults = transactionEvent.detailedResults
+                this.effectivePolarity = transactionEvent.effectivePolarity
                 this.result = transactionEvent.result
                 this.token = transactionEvent.token
                 this.type = transactionEvent.type
@@ -1897,6 +1912,17 @@ private constructor(
             @ExcludeMissing
             fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
                 this.detailedResults = detailedResults
+            }
+
+            /** Indicates whether the transaction event is a credit or debit to the account. */
+            fun effectivePolarity(effectivePolarity: EffectivePolarity) =
+                effectivePolarity(JsonField.of(effectivePolarity))
+
+            /** Indicates whether the transaction event is a credit or debit to the account. */
+            @JsonProperty("effective_polarity")
+            @ExcludeMissing
+            fun effectivePolarity(effectivePolarity: JsonField<EffectivePolarity>) = apply {
+                this.effectivePolarity = effectivePolarity
             }
 
             /**
@@ -2033,6 +2059,7 @@ private constructor(
                     amounts,
                     created,
                     detailedResults.map { it.toUnmodifiable() },
+                    effectivePolarity,
                     result,
                     token,
                     type,
@@ -2201,7 +2228,7 @@ private constructor(
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 fun currency(): Currency = currency.getRequired("currency")
 
@@ -2214,7 +2241,7 @@ private constructor(
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
@@ -2299,14 +2326,14 @@ private constructor(
                     /**
                      * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
                      * special currencies like ``XXX`. Enumerants names are lowercase currency code
-                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     * e.g. :attr:`EUR`, :attr:`USD`.
                      */
                     fun currency(currency: Currency) = currency(JsonField.of(currency))
 
                     /**
                      * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
                      * special currencies like ``XXX`. Enumerants names are lowercase currency code
-                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     * e.g. :attr:`EUR`, :attr:`USD`.
                      */
                     @JsonProperty("currency")
                     @ExcludeMissing
@@ -2355,7 +2382,7 @@ private constructor(
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 fun currency(): Currency = currency.getRequired("currency")
 
@@ -2364,7 +2391,7 @@ private constructor(
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
@@ -2435,14 +2462,14 @@ private constructor(
                     /**
                      * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
                      * special currencies like ``XXX`. Enumerants names are lowercase currency code
-                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     * e.g. :attr:`EUR`, :attr:`USD`.
                      */
                     fun currency(currency: Currency) = currency(JsonField.of(currency))
 
                     /**
                      * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
                      * special currencies like ``XXX`. Enumerants names are lowercase currency code
-                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     * e.g. :attr:`EUR`, :attr:`USD`.
                      */
                     @JsonProperty("currency")
                     @ExcludeMissing
@@ -2493,7 +2520,7 @@ private constructor(
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 fun currency(): Currency = currency.getRequired("currency")
 
@@ -2506,7 +2533,7 @@ private constructor(
                 /**
                  * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some special
                  * currencies like ``XXX`. Enumerants names are lowercase currency code e.g.
-                 * :attr:`Currency.eur`, :attr:`Currency.usd`.
+                 * :attr:`EUR`, :attr:`USD`.
                  */
                 @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
@@ -2591,14 +2618,14 @@ private constructor(
                     /**
                      * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
                      * special currencies like ``XXX`. Enumerants names are lowercase currency code
-                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     * e.g. :attr:`EUR`, :attr:`USD`.
                      */
                     fun currency(currency: Currency) = currency(JsonField.of(currency))
 
                     /**
                      * ISO 4217 currency. Its enumerants are ISO 4217 currencies except for some
                      * special currencies like ``XXX`. Enumerants names are lowercase currency code
-                     * e.g. :attr:`Currency.eur`, :attr:`Currency.usd`.
+                     * e.g. :attr:`EUR`, :attr:`USD`.
                      */
                     @JsonProperty("currency")
                     @ExcludeMissing
@@ -3334,6 +3361,63 @@ private constructor(
                     RETURN_REVERSAL -> Known.RETURN_REVERSAL
                     VOID -> Known.VOID
                     else -> throw LithicInvalidDataException("Unknown Type: $value")
+                }
+
+            fun asString(): String = _value().asStringOrThrow()
+        }
+
+        class EffectivePolarity
+        @JsonCreator
+        private constructor(
+            private val value: JsonField<String>,
+        ) : Enum {
+
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is EffectivePolarity && this.value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+
+            companion object {
+
+                @JvmField val CREDIT = EffectivePolarity(JsonField.of("CREDIT"))
+
+                @JvmField val DEBIT = EffectivePolarity(JsonField.of("DEBIT"))
+
+                @JvmStatic fun of(value: String) = EffectivePolarity(JsonField.of(value))
+            }
+
+            enum class Known {
+                CREDIT,
+                DEBIT,
+            }
+
+            enum class Value {
+                CREDIT,
+                DEBIT,
+                _UNKNOWN,
+            }
+
+            fun value(): Value =
+                when (this) {
+                    CREDIT -> Value.CREDIT
+                    DEBIT -> Value.DEBIT
+                    else -> Value._UNKNOWN
+                }
+
+            fun known(): Known =
+                when (this) {
+                    CREDIT -> Known.CREDIT
+                    DEBIT -> Known.DEBIT
+                    else -> throw LithicInvalidDataException("Unknown EffectivePolarity: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
