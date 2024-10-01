@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.63.0 (2024-10-01)
+
+Full Changelog: [v0.62.0...v0.63.0](https://github.com/lithic-com/lithic-java/compare/v0.62.0...v0.63.0)
+
+### Features
+
+* **api:** add Management Operations and Loan Tapes API ([#317](https://github.com/lithic-com/lithic-java/issues/317)) ([8da35f9](https://github.com/lithic-com/lithic-java/commit/8da35f9f44469f90eb1a8a4fa27eaee19cf6953e))
+
 ## 0.62.0 (2024-09-25)
 
 Full Changelog: [v0.61.0...v0.62.0](https://github.com/lithic-com/lithic-java/compare/v0.61.0...v0.62.0)
