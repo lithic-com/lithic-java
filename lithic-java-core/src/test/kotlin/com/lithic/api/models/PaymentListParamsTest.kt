@@ -12,7 +12,9 @@ class PaymentListParamsTest {
     @Test
     fun createPaymentListParams() {
         PaymentListParams.builder()
+            .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+            .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .category(PaymentListParams.Category.ACH)
             .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .endingBefore("ending_before")
@@ -28,7 +30,9 @@ class PaymentListParamsTest {
     fun getQueryParams() {
         val params =
             PaymentListParams.builder()
+                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .category(PaymentListParams.Category.ACH)
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .endingBefore("ending_before")
@@ -39,7 +43,9 @@ class PaymentListParamsTest {
                 .status(PaymentListParams.Status.DECLINED)
                 .build()
         val expected = mutableMapOf<String, List<String>>()
+        expected.put("account_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
         expected.put("begin", listOf("2019-12-27T18:11:19.117Z"))
+        expected.put("business_account_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
         expected.put("category", listOf(PaymentListParams.Category.ACH.toString()))
         expected.put("end", listOf("2019-12-27T18:11:19.117Z"))
         expected.put("ending_before", listOf("ending_before"))
