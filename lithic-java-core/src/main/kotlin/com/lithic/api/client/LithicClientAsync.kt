@@ -61,6 +61,8 @@ interface LithicClientAsync {
 
     fun externalPayments(): ExternalPaymentServiceAsync
 
+    fun managementOperations(): ManagementOperationServiceAsync
+
     /** Status of api */
     @JvmOverloads
     fun apiStatus(
