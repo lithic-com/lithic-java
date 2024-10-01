@@ -43,7 +43,7 @@ private constructor(
     private val tier: JsonField<String>,
     private val paymentAllocation: JsonField<CategoryBalances>,
     private val minimumPaymentBalance: JsonField<BalanceDetails>,
-    private val statementBalance: JsonField<BalanceDetails>,
+    private val previousStatementBalance: JsonField<BalanceDetails>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -117,7 +117,8 @@ private constructor(
     fun minimumPaymentBalance(): BalanceDetails =
         minimumPaymentBalance.getRequired("minimum_payment_balance")
 
-    fun statementBalance(): BalanceDetails = statementBalance.getRequired("statement_balance")
+    fun previousStatementBalance(): BalanceDetails =
+        previousStatementBalance.getRequired("previous_statement_balance")
 
     /** Globally unique identifier for a loan tape */
     @JsonProperty("token") @ExcludeMissing fun _token() = token
@@ -189,7 +190,9 @@ private constructor(
     @ExcludeMissing
     fun _minimumPaymentBalance() = minimumPaymentBalance
 
-    @JsonProperty("statement_balance") @ExcludeMissing fun _statementBalance() = statementBalance
+    @JsonProperty("previous_statement_balance")
+    @ExcludeMissing
+    fun _previousStatementBalance() = previousStatementBalance
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -216,7 +219,7 @@ private constructor(
             tier()
             paymentAllocation().validate()
             minimumPaymentBalance().validate()
-            statementBalance().validate()
+            previousStatementBalance().validate()
             validated = true
         }
     }
@@ -248,7 +251,7 @@ private constructor(
             this.tier == other.tier &&
             this.paymentAllocation == other.paymentAllocation &&
             this.minimumPaymentBalance == other.minimumPaymentBalance &&
-            this.statementBalance == other.statementBalance &&
+            this.previousStatementBalance == other.previousStatementBalance &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -275,7 +278,7 @@ private constructor(
                     tier,
                     paymentAllocation,
                     minimumPaymentBalance,
-                    statementBalance,
+                    previousStatementBalance,
                     additionalProperties,
                 )
         }
@@ -283,7 +286,7 @@ private constructor(
     }
 
     override fun toString() =
-        "LoanTape{token=$token, financialAccountToken=$financialAccountToken, date=$date, created=$created, updated=$updated, version=$version, ytdTotals=$ytdTotals, periodTotals=$periodTotals, dayTotals=$dayTotals, balancePastDue=$balancePastDue, balanceDue=$balanceDue, balanceNextDue=$balanceNextDue, creditLimit=$creditLimit, excessCredits=$excessCredits, accountStanding=$accountStanding, creditProductToken=$creditProductToken, tier=$tier, paymentAllocation=$paymentAllocation, minimumPaymentBalance=$minimumPaymentBalance, statementBalance=$statementBalance, additionalProperties=$additionalProperties}"
+        "LoanTape{token=$token, financialAccountToken=$financialAccountToken, date=$date, created=$created, updated=$updated, version=$version, ytdTotals=$ytdTotals, periodTotals=$periodTotals, dayTotals=$dayTotals, balancePastDue=$balancePastDue, balanceDue=$balanceDue, balanceNextDue=$balanceNextDue, creditLimit=$creditLimit, excessCredits=$excessCredits, accountStanding=$accountStanding, creditProductToken=$creditProductToken, tier=$tier, paymentAllocation=$paymentAllocation, minimumPaymentBalance=$minimumPaymentBalance, previousStatementBalance=$previousStatementBalance, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -311,7 +314,7 @@ private constructor(
         private var tier: JsonField<String> = JsonMissing.of()
         private var paymentAllocation: JsonField<CategoryBalances> = JsonMissing.of()
         private var minimumPaymentBalance: JsonField<BalanceDetails> = JsonMissing.of()
-        private var statementBalance: JsonField<BalanceDetails> = JsonMissing.of()
+        private var previousStatementBalance: JsonField<BalanceDetails> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -335,7 +338,7 @@ private constructor(
             this.tier = loanTape.tier
             this.paymentAllocation = loanTape.paymentAllocation
             this.minimumPaymentBalance = loanTape.minimumPaymentBalance
-            this.statementBalance = loanTape.statementBalance
+            this.previousStatementBalance = loanTape.previousStatementBalance
             additionalProperties(loanTape.additionalProperties)
         }
 
@@ -532,13 +535,13 @@ private constructor(
             this.minimumPaymentBalance = minimumPaymentBalance
         }
 
-        fun statementBalance(statementBalance: BalanceDetails) =
-            statementBalance(JsonField.of(statementBalance))
+        fun previousStatementBalance(previousStatementBalance: BalanceDetails) =
+            previousStatementBalance(JsonField.of(previousStatementBalance))
 
-        @JsonProperty("statement_balance")
+        @JsonProperty("previous_statement_balance")
         @ExcludeMissing
-        fun statementBalance(statementBalance: JsonField<BalanceDetails>) = apply {
-            this.statementBalance = statementBalance
+        fun previousStatementBalance(previousStatementBalance: JsonField<BalanceDetails>) = apply {
+            this.previousStatementBalance = previousStatementBalance
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -576,7 +579,7 @@ private constructor(
                 tier,
                 paymentAllocation,
                 minimumPaymentBalance,
-                statementBalance,
+                previousStatementBalance,
                 additionalProperties.toUnmodifiable(),
             )
     }
