@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.64.0 (2024-10-01)
+
+Full Changelog: [v0.63.0...v0.64.0](https://github.com/lithic-com/lithic-java/compare/v0.63.0...v0.64.0)
+
+### Features
+
+* **api:** rename `loan_tape_response.statement_balance` to `previous_statement_balance` ([#319](https://github.com/lithic-com/lithic-java/issues/319)) ([7cf1663](https://github.com/lithic-com/lithic-java/commit/7cf16633fc953843bf6229c938df21cde14ba1b6))
+
 ## 0.63.0 (2024-10-01)
 
 Full Changelog: [v0.62.0...v0.63.0](https://github.com/lithic-com/lithic-java/compare/v0.62.0...v0.63.0)
