@@ -28,9 +28,10 @@ private constructor(
     private val financialAccountToken: JsonField<String>,
     private val cardToken: JsonField<String>,
     private val financialTransactionToken: JsonField<String>,
-    private val category: JsonField<Category>,
+    private val financialTransactionEventToken: JsonField<String>,
+    private val category: JsonField<TransactionCategory>,
     private val eventType: JsonField<FinancialEventType>,
-    private val settledDate: JsonField<LocalDate>,
+    private val effectiveDate: JsonField<LocalDate>,
     private val descriptor: JsonField<String>,
     private val amount: JsonField<Long>,
     private val currency: JsonField<String>,
@@ -56,43 +57,20 @@ private constructor(
     fun financialTransactionToken(): String =
         financialTransactionToken.getRequired("financial_transaction_token")
 
-    fun category(): Category = category.getRequired("category")
+    /** Globally unique identifier for a financial transaction event */
+    fun financialTransactionEventToken(): String =
+        financialTransactionEventToken.getRequired("financial_transaction_event_token")
 
-    /**
-     * Event types: _ `ACH_ORIGINATION_INITIATED` - ACH origination received and pending
-     * approval/release from an ACH hold. _ `ACH_ORIGINATION_REVIEWED` - ACH origination has
-     * completed the review process. _ `ACH_ORIGINATION_CANCELLED` - ACH origination has been
-     * cancelled. _ `ACH_ORIGINATION_PROCESSED` - ACH origination has been processed and sent to the
-     * fed. _ `ACH_ORIGINATION_SETTLED` - ACH origination has settled. _
-     * `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available balance. _
-     * `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository Financial
-     * Institution. _ `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder. _
-     * `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt. _ `ACH_RECEIPT_SETTLED` -
-     * ACH receipt funds have settled. _ `ACH_RECEIPT_RELEASED` - ACH receipt released from pending
-     * to available balance. _ `AUTHORIZATION` - Authorize a card transaction. _
-     * `AUTHORIZATION_ADVICE` - Advice on a card transaction. _ `AUTHORIZATION_EXPIRY` - Card
-     * Authorization has expired and reversed by Lithic. _ `AUTHORIZATION_REVERSAL` - Card
-     * Authorization was reversed by the merchant. _ `BALANCE_INQUIRY` - A card balance inquiry
-     * (typically a $0 authorization) has occurred on a card. _ `CLEARING` - Card Transaction is
-     * settled. _ `CORRECTION_DEBIT` - Manual card transaction correction (Debit). _
-     * `CORRECTION_CREDIT` - Manual card transaction correction (Credit). _ `CREDIT_AUTHORIZATION` -
-     * A refund or credit card authorization from a merchant. _ `CREDIT_AUTHORIZATION_ADVICE` - A
-     * credit card authorization was approved on your behalf by the network. _
-     * `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit card funds without additional
-     * clearing. _ `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit
-     * card funds without additional clearing. _ `RETURN` - A card refund has been processed on the
-     * transaction. _ `RETURN_REVERSAL` - A card refund has been reversed (e.g., when a merchant
-     * reverses an incorrect refund). _ `TRANSFER` - Successful internal transfer of funds between
-     * financial accounts. \* `TRANSFER_INSUFFICIENT_FUNDS` - Declined internal transfer of funds
-     * due to insufficient balance of the sender.
-     */
+    fun category(): TransactionCategory = category.getRequired("category")
+
     fun eventType(): FinancialEventType = eventType.getRequired("event_type")
 
-    /** Date that the transaction settled */
-    fun settledDate(): LocalDate = settledDate.getRequired("settled_date")
+    /** Date that the transaction effected the account balance */
+    fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
 
     fun descriptor(): Optional<String> = Optional.ofNullable(descriptor.getNullable("descriptor"))
 
+    /** Transaction amount in cents */
     fun amount(): Long = amount.getRequired("amount")
 
     /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
@@ -117,43 +95,21 @@ private constructor(
     @ExcludeMissing
     fun _financialTransactionToken() = financialTransactionToken
 
+    /** Globally unique identifier for a financial transaction event */
+    @JsonProperty("financial_transaction_event_token")
+    @ExcludeMissing
+    fun _financialTransactionEventToken() = financialTransactionEventToken
+
     @JsonProperty("category") @ExcludeMissing fun _category() = category
 
-    /**
-     * Event types: _ `ACH_ORIGINATION_INITIATED` - ACH origination received and pending
-     * approval/release from an ACH hold. _ `ACH_ORIGINATION_REVIEWED` - ACH origination has
-     * completed the review process. _ `ACH_ORIGINATION_CANCELLED` - ACH origination has been
-     * cancelled. _ `ACH_ORIGINATION_PROCESSED` - ACH origination has been processed and sent to the
-     * fed. _ `ACH_ORIGINATION_SETTLED` - ACH origination has settled. _
-     * `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available balance. _
-     * `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository Financial
-     * Institution. _ `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder. _
-     * `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt. _ `ACH_RECEIPT_SETTLED` -
-     * ACH receipt funds have settled. _ `ACH_RECEIPT_RELEASED` - ACH receipt released from pending
-     * to available balance. _ `AUTHORIZATION` - Authorize a card transaction. _
-     * `AUTHORIZATION_ADVICE` - Advice on a card transaction. _ `AUTHORIZATION_EXPIRY` - Card
-     * Authorization has expired and reversed by Lithic. _ `AUTHORIZATION_REVERSAL` - Card
-     * Authorization was reversed by the merchant. _ `BALANCE_INQUIRY` - A card balance inquiry
-     * (typically a $0 authorization) has occurred on a card. _ `CLEARING` - Card Transaction is
-     * settled. _ `CORRECTION_DEBIT` - Manual card transaction correction (Debit). _
-     * `CORRECTION_CREDIT` - Manual card transaction correction (Credit). _ `CREDIT_AUTHORIZATION` -
-     * A refund or credit card authorization from a merchant. _ `CREDIT_AUTHORIZATION_ADVICE` - A
-     * credit card authorization was approved on your behalf by the network. _
-     * `FINANCIAL_AUTHORIZATION` - A request from a merchant to debit card funds without additional
-     * clearing. _ `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit
-     * card funds without additional clearing. _ `RETURN` - A card refund has been processed on the
-     * transaction. _ `RETURN_REVERSAL` - A card refund has been reversed (e.g., when a merchant
-     * reverses an incorrect refund). _ `TRANSFER` - Successful internal transfer of funds between
-     * financial accounts. \* `TRANSFER_INSUFFICIENT_FUNDS` - Declined internal transfer of funds
-     * due to insufficient balance of the sender.
-     */
     @JsonProperty("event_type") @ExcludeMissing fun _eventType() = eventType
 
-    /** Date that the transaction settled */
-    @JsonProperty("settled_date") @ExcludeMissing fun _settledDate() = settledDate
+    /** Date that the transaction effected the account balance */
+    @JsonProperty("effective_date") @ExcludeMissing fun _effectiveDate() = effectiveDate
 
     @JsonProperty("descriptor") @ExcludeMissing fun _descriptor() = descriptor
 
+    /** Transaction amount in cents */
     @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
     /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
@@ -172,9 +128,10 @@ private constructor(
             financialAccountToken()
             cardToken()
             financialTransactionToken()
+            financialTransactionEventToken()
             category()
             eventType()
-            settledDate()
+            effectiveDate()
             descriptor()
             amount()
             currency()
@@ -195,9 +152,10 @@ private constructor(
             this.financialAccountToken == other.financialAccountToken &&
             this.cardToken == other.cardToken &&
             this.financialTransactionToken == other.financialTransactionToken &&
+            this.financialTransactionEventToken == other.financialTransactionEventToken &&
             this.category == other.category &&
             this.eventType == other.eventType &&
-            this.settledDate == other.settledDate &&
+            this.effectiveDate == other.effectiveDate &&
             this.descriptor == other.descriptor &&
             this.amount == other.amount &&
             this.currency == other.currency &&
@@ -213,9 +171,10 @@ private constructor(
                     financialAccountToken,
                     cardToken,
                     financialTransactionToken,
+                    financialTransactionEventToken,
                     category,
                     eventType,
-                    settledDate,
+                    effectiveDate,
                     descriptor,
                     amount,
                     currency,
@@ -227,7 +186,7 @@ private constructor(
     }
 
     override fun toString() =
-        "LineItemListResponse{token=$token, financialAccountToken=$financialAccountToken, cardToken=$cardToken, financialTransactionToken=$financialTransactionToken, category=$category, eventType=$eventType, settledDate=$settledDate, descriptor=$descriptor, amount=$amount, currency=$currency, created=$created, additionalProperties=$additionalProperties}"
+        "LineItemListResponse{token=$token, financialAccountToken=$financialAccountToken, cardToken=$cardToken, financialTransactionToken=$financialTransactionToken, financialTransactionEventToken=$financialTransactionEventToken, category=$category, eventType=$eventType, effectiveDate=$effectiveDate, descriptor=$descriptor, amount=$amount, currency=$currency, created=$created, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -240,9 +199,10 @@ private constructor(
         private var financialAccountToken: JsonField<String> = JsonMissing.of()
         private var cardToken: JsonField<String> = JsonMissing.of()
         private var financialTransactionToken: JsonField<String> = JsonMissing.of()
-        private var category: JsonField<Category> = JsonMissing.of()
+        private var financialTransactionEventToken: JsonField<String> = JsonMissing.of()
+        private var category: JsonField<TransactionCategory> = JsonMissing.of()
         private var eventType: JsonField<FinancialEventType> = JsonMissing.of()
-        private var settledDate: JsonField<LocalDate> = JsonMissing.of()
+        private var effectiveDate: JsonField<LocalDate> = JsonMissing.of()
         private var descriptor: JsonField<String> = JsonMissing.of()
         private var amount: JsonField<Long> = JsonMissing.of()
         private var currency: JsonField<String> = JsonMissing.of()
@@ -255,9 +215,11 @@ private constructor(
             this.financialAccountToken = lineItemListResponse.financialAccountToken
             this.cardToken = lineItemListResponse.cardToken
             this.financialTransactionToken = lineItemListResponse.financialTransactionToken
+            this.financialTransactionEventToken =
+                lineItemListResponse.financialTransactionEventToken
             this.category = lineItemListResponse.category
             this.eventType = lineItemListResponse.eventType
-            this.settledDate = lineItemListResponse.settledDate
+            this.effectiveDate = lineItemListResponse.effectiveDate
             this.descriptor = lineItemListResponse.descriptor
             this.amount = lineItemListResponse.amount
             this.currency = lineItemListResponse.currency
@@ -303,86 +265,40 @@ private constructor(
             this.financialTransactionToken = financialTransactionToken
         }
 
-        fun category(category: Category) = category(JsonField.of(category))
+        /** Globally unique identifier for a financial transaction event */
+        fun financialTransactionEventToken(financialTransactionEventToken: String) =
+            financialTransactionEventToken(JsonField.of(financialTransactionEventToken))
+
+        /** Globally unique identifier for a financial transaction event */
+        @JsonProperty("financial_transaction_event_token")
+        @ExcludeMissing
+        fun financialTransactionEventToken(financialTransactionEventToken: JsonField<String>) =
+            apply {
+                this.financialTransactionEventToken = financialTransactionEventToken
+            }
+
+        fun category(category: TransactionCategory) = category(JsonField.of(category))
 
         @JsonProperty("category")
         @ExcludeMissing
-        fun category(category: JsonField<Category>) = apply { this.category = category }
+        fun category(category: JsonField<TransactionCategory>) = apply { this.category = category }
 
-        /**
-         * Event types: _ `ACH_ORIGINATION_INITIATED` - ACH origination received and pending
-         * approval/release from an ACH hold. _ `ACH_ORIGINATION_REVIEWED` - ACH origination has
-         * completed the review process. _ `ACH_ORIGINATION_CANCELLED` - ACH origination has been
-         * cancelled. _ `ACH_ORIGINATION_PROCESSED` - ACH origination has been processed and sent to
-         * the fed. _ `ACH_ORIGINATION_SETTLED` - ACH origination has settled. _
-         * `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available balance.
-         * _ `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository Financial
-         * Institution. _ `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
-         * _ `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt. _
-         * `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled. _ `ACH_RECEIPT_RELEASED` - ACH
-         * receipt released from pending to available balance. _ `AUTHORIZATION` - Authorize a card
-         * transaction. _ `AUTHORIZATION_ADVICE` - Advice on a card transaction. _
-         * `AUTHORIZATION_EXPIRY` - Card Authorization has expired and reversed by Lithic. _
-         * `AUTHORIZATION_REVERSAL` - Card Authorization was reversed by the merchant. _
-         * `BALANCE_INQUIRY` - A card balance inquiry (typically a $0 authorization) has occurred on
-         * a card. _ `CLEARING` - Card Transaction is settled. _ `CORRECTION_DEBIT` - Manual card
-         * transaction correction (Debit). _ `CORRECTION_CREDIT` - Manual card transaction
-         * correction (Credit). _ `CREDIT_AUTHORIZATION` - A refund or credit card authorization
-         * from a merchant. _ `CREDIT_AUTHORIZATION_ADVICE` - A credit card authorization was
-         * approved on your behalf by the network. _ `FINANCIAL_AUTHORIZATION` - A request from a
-         * merchant to debit card funds without additional clearing. _
-         * `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit card
-         * funds without additional clearing. _ `RETURN` - A card refund has been processed on the
-         * transaction. _ `RETURN_REVERSAL` - A card refund has been reversed (e.g., when a merchant
-         * reverses an incorrect refund). _ `TRANSFER` - Successful internal transfer of funds
-         * between financial accounts. \* `TRANSFER_INSUFFICIENT_FUNDS` - Declined internal transfer
-         * of funds due to insufficient balance of the sender.
-         */
         fun eventType(eventType: FinancialEventType) = eventType(JsonField.of(eventType))
 
-        /**
-         * Event types: _ `ACH_ORIGINATION_INITIATED` - ACH origination received and pending
-         * approval/release from an ACH hold. _ `ACH_ORIGINATION_REVIEWED` - ACH origination has
-         * completed the review process. _ `ACH_ORIGINATION_CANCELLED` - ACH origination has been
-         * cancelled. _ `ACH_ORIGINATION_PROCESSED` - ACH origination has been processed and sent to
-         * the fed. _ `ACH_ORIGINATION_SETTLED` - ACH origination has settled. _
-         * `ACH_ORIGINATION_RELEASED` - ACH origination released from pending to available balance.
-         * _ `ACH_RETURN_PROCESSED` - ACH origination returned by the Receiving Depository Financial
-         * Institution. _ `ACH_RECEIPT_PROCESSED` - ACH receipt pending release from an ACH holder.
-         * _ `ACH_RETURN_INITIATED` - ACH initiated return for a ACH receipt. _
-         * `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled. _ `ACH_RECEIPT_RELEASED` - ACH
-         * receipt released from pending to available balance. _ `AUTHORIZATION` - Authorize a card
-         * transaction. _ `AUTHORIZATION_ADVICE` - Advice on a card transaction. _
-         * `AUTHORIZATION_EXPIRY` - Card Authorization has expired and reversed by Lithic. _
-         * `AUTHORIZATION_REVERSAL` - Card Authorization was reversed by the merchant. _
-         * `BALANCE_INQUIRY` - A card balance inquiry (typically a $0 authorization) has occurred on
-         * a card. _ `CLEARING` - Card Transaction is settled. _ `CORRECTION_DEBIT` - Manual card
-         * transaction correction (Debit). _ `CORRECTION_CREDIT` - Manual card transaction
-         * correction (Credit). _ `CREDIT_AUTHORIZATION` - A refund or credit card authorization
-         * from a merchant. _ `CREDIT_AUTHORIZATION_ADVICE` - A credit card authorization was
-         * approved on your behalf by the network. _ `FINANCIAL_AUTHORIZATION` - A request from a
-         * merchant to debit card funds without additional clearing. _
-         * `FINANCIAL_CREDIT_AUTHORIZATION` - A request from a merchant to refund or credit card
-         * funds without additional clearing. _ `RETURN` - A card refund has been processed on the
-         * transaction. _ `RETURN_REVERSAL` - A card refund has been reversed (e.g., when a merchant
-         * reverses an incorrect refund). _ `TRANSFER` - Successful internal transfer of funds
-         * between financial accounts. \* `TRANSFER_INSUFFICIENT_FUNDS` - Declined internal transfer
-         * of funds due to insufficient balance of the sender.
-         */
         @JsonProperty("event_type")
         @ExcludeMissing
         fun eventType(eventType: JsonField<FinancialEventType>) = apply {
             this.eventType = eventType
         }
 
-        /** Date that the transaction settled */
-        fun settledDate(settledDate: LocalDate) = settledDate(JsonField.of(settledDate))
+        /** Date that the transaction effected the account balance */
+        fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
 
-        /** Date that the transaction settled */
-        @JsonProperty("settled_date")
+        /** Date that the transaction effected the account balance */
+        @JsonProperty("effective_date")
         @ExcludeMissing
-        fun settledDate(settledDate: JsonField<LocalDate>) = apply {
-            this.settledDate = settledDate
+        fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
+            this.effectiveDate = effectiveDate
         }
 
         fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
@@ -391,8 +307,10 @@ private constructor(
         @ExcludeMissing
         fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
+        /** Transaction amount in cents */
         fun amount(amount: Long) = amount(JsonField.of(amount))
 
+        /** Transaction amount in cents */
         @JsonProperty("amount")
         @ExcludeMissing
         fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
@@ -433,9 +351,10 @@ private constructor(
                 financialAccountToken,
                 cardToken,
                 financialTransactionToken,
+                financialTransactionEventToken,
                 category,
                 eventType,
-                settledDate,
+                effectiveDate,
                 descriptor,
                 amount,
                 currency,
@@ -444,7 +363,7 @@ private constructor(
             )
     }
 
-    class Category
+    class TransactionCategory
     @JsonCreator
     private constructor(
         private val value: JsonField<String>,
@@ -457,7 +376,7 @@ private constructor(
                 return true
             }
 
-            return other is Category && this.value == other.value
+            return other is TransactionCategory && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -466,25 +385,55 @@ private constructor(
 
         companion object {
 
-            @JvmField val ACH = Category(JsonField.of("ACH"))
+            @JvmField val ACH = TransactionCategory(JsonField.of("ACH"))
 
-            @JvmField val CARD = Category(JsonField.of("CARD"))
+            @JvmField val CARD = TransactionCategory(JsonField.of("CARD"))
 
-            @JvmField val TRANSFER = Category(JsonField.of("TRANSFER"))
+            @JvmField val EXTERNAL_ACH = TransactionCategory(JsonField.of("EXTERNAL_ACH"))
 
-            @JvmStatic fun of(value: String) = Category(JsonField.of(value))
+            @JvmField val EXTERNAL_CHECK = TransactionCategory(JsonField.of("EXTERNAL_CHECK"))
+
+            @JvmField val EXTERNAL_TRANSFER = TransactionCategory(JsonField.of("EXTERNAL_TRANSFER"))
+
+            @JvmField val EXTERNAL_WIRE = TransactionCategory(JsonField.of("EXTERNAL_WIRE"))
+
+            @JvmField
+            val MANAGEMENT_ADJUSTMENT = TransactionCategory(JsonField.of("MANAGEMENT_ADJUSTMENT"))
+
+            @JvmField
+            val MANAGEMENT_DISPUTE = TransactionCategory(JsonField.of("MANAGEMENT_DISPUTE"))
+
+            @JvmField val MANAGEMENT_FEE = TransactionCategory(JsonField.of("MANAGEMENT_FEE"))
+
+            @JvmField val MANAGEMENT_REWARD = TransactionCategory(JsonField.of("MANAGEMENT_REWARD"))
+
+            @JvmStatic fun of(value: String) = TransactionCategory(JsonField.of(value))
         }
 
         enum class Known {
             ACH,
             CARD,
-            TRANSFER,
+            EXTERNAL_ACH,
+            EXTERNAL_CHECK,
+            EXTERNAL_TRANSFER,
+            EXTERNAL_WIRE,
+            MANAGEMENT_ADJUSTMENT,
+            MANAGEMENT_DISPUTE,
+            MANAGEMENT_FEE,
+            MANAGEMENT_REWARD,
         }
 
         enum class Value {
             ACH,
             CARD,
-            TRANSFER,
+            EXTERNAL_ACH,
+            EXTERNAL_CHECK,
+            EXTERNAL_TRANSFER,
+            EXTERNAL_WIRE,
+            MANAGEMENT_ADJUSTMENT,
+            MANAGEMENT_DISPUTE,
+            MANAGEMENT_FEE,
+            MANAGEMENT_REWARD,
             _UNKNOWN,
         }
 
@@ -492,7 +441,14 @@ private constructor(
             when (this) {
                 ACH -> Value.ACH
                 CARD -> Value.CARD
-                TRANSFER -> Value.TRANSFER
+                EXTERNAL_ACH -> Value.EXTERNAL_ACH
+                EXTERNAL_CHECK -> Value.EXTERNAL_CHECK
+                EXTERNAL_TRANSFER -> Value.EXTERNAL_TRANSFER
+                EXTERNAL_WIRE -> Value.EXTERNAL_WIRE
+                MANAGEMENT_ADJUSTMENT -> Value.MANAGEMENT_ADJUSTMENT
+                MANAGEMENT_DISPUTE -> Value.MANAGEMENT_DISPUTE
+                MANAGEMENT_FEE -> Value.MANAGEMENT_FEE
+                MANAGEMENT_REWARD -> Value.MANAGEMENT_REWARD
                 else -> Value._UNKNOWN
             }
 
@@ -500,8 +456,15 @@ private constructor(
             when (this) {
                 ACH -> Known.ACH
                 CARD -> Known.CARD
-                TRANSFER -> Known.TRANSFER
-                else -> throw LithicInvalidDataException("Unknown Category: $value")
+                EXTERNAL_ACH -> Known.EXTERNAL_ACH
+                EXTERNAL_CHECK -> Known.EXTERNAL_CHECK
+                EXTERNAL_TRANSFER -> Known.EXTERNAL_TRANSFER
+                EXTERNAL_WIRE -> Known.EXTERNAL_WIRE
+                MANAGEMENT_ADJUSTMENT -> Known.MANAGEMENT_ADJUSTMENT
+                MANAGEMENT_DISPUTE -> Known.MANAGEMENT_DISPUTE
+                MANAGEMENT_FEE -> Known.MANAGEMENT_FEE
+                MANAGEMENT_REWARD -> Known.MANAGEMENT_REWARD
+                else -> throw LithicInvalidDataException("Unknown TransactionCategory: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
@@ -542,16 +505,16 @@ private constructor(
                 FinancialEventType(JsonField.of("ACH_ORIGINATION_PROCESSED"))
 
             @JvmField
-            val ACH_ORIGINATION_SETTLED =
-                FinancialEventType(JsonField.of("ACH_ORIGINATION_SETTLED"))
-
-            @JvmField
             val ACH_ORIGINATION_RELEASED =
                 FinancialEventType(JsonField.of("ACH_ORIGINATION_RELEASED"))
 
             @JvmField
             val ACH_ORIGINATION_REVIEWED =
                 FinancialEventType(JsonField.of("ACH_ORIGINATION_REVIEWED"))
+
+            @JvmField
+            val ACH_ORIGINATION_SETTLED =
+                FinancialEventType(JsonField.of("ACH_ORIGINATION_SETTLED"))
 
             @JvmField
             val ACH_RECEIPT_PROCESSED = FinancialEventType(JsonField.of("ACH_RECEIPT_PROCESSED"))
@@ -578,6 +541,10 @@ private constructor(
 
             @JvmField val BALANCE_INQUIRY = FinancialEventType(JsonField.of("BALANCE_INQUIRY"))
 
+            @JvmField val BILLING_ERROR = FinancialEventType(JsonField.of("BILLING_ERROR"))
+
+            @JvmField val CASH_BACK = FinancialEventType(JsonField.of("CASH_BACK"))
+
             @JvmField val CLEARING = FinancialEventType(JsonField.of("CLEARING"))
 
             @JvmField val CORRECTION_CREDIT = FinancialEventType(JsonField.of("CORRECTION_CREDIT"))
@@ -592,12 +559,94 @@ private constructor(
                 FinancialEventType(JsonField.of("CREDIT_AUTHORIZATION_ADVICE"))
 
             @JvmField
+            val CURRENCY_CONVERSION = FinancialEventType(JsonField.of("CURRENCY_CONVERSION"))
+
+            @JvmField val DISPUTE_WON = FinancialEventType(JsonField.of("DISPUTE_WON"))
+
+            @JvmField
+            val EXTERNAL_ACH_CANCELED = FinancialEventType(JsonField.of("EXTERNAL_ACH_CANCELED"))
+
+            @JvmField
+            val EXTERNAL_ACH_INITIATED = FinancialEventType(JsonField.of("EXTERNAL_ACH_INITIATED"))
+
+            @JvmField
+            val EXTERNAL_ACH_RELEASED = FinancialEventType(JsonField.of("EXTERNAL_ACH_RELEASED"))
+
+            @JvmField
+            val EXTERNAL_ACH_REVERSED = FinancialEventType(JsonField.of("EXTERNAL_ACH_REVERSED"))
+
+            @JvmField
+            val EXTERNAL_ACH_SETTLED = FinancialEventType(JsonField.of("EXTERNAL_ACH_SETTLED"))
+
+            @JvmField
+            val EXTERNAL_CHECK_CANCELED =
+                FinancialEventType(JsonField.of("EXTERNAL_CHECK_CANCELED"))
+
+            @JvmField
+            val EXTERNAL_CHECK_INITIATED =
+                FinancialEventType(JsonField.of("EXTERNAL_CHECK_INITIATED"))
+
+            @JvmField
+            val EXTERNAL_CHECK_RELEASED =
+                FinancialEventType(JsonField.of("EXTERNAL_CHECK_RELEASED"))
+
+            @JvmField
+            val EXTERNAL_CHECK_REVERSED =
+                FinancialEventType(JsonField.of("EXTERNAL_CHECK_REVERSED"))
+
+            @JvmField
+            val EXTERNAL_CHECK_SETTLED = FinancialEventType(JsonField.of("EXTERNAL_CHECK_SETTLED"))
+
+            @JvmField
+            val EXTERNAL_TRANSFER_CANCELED =
+                FinancialEventType(JsonField.of("EXTERNAL_TRANSFER_CANCELED"))
+
+            @JvmField
+            val EXTERNAL_TRANSFER_INITIATED =
+                FinancialEventType(JsonField.of("EXTERNAL_TRANSFER_INITIATED"))
+
+            @JvmField
+            val EXTERNAL_TRANSFER_RELEASED =
+                FinancialEventType(JsonField.of("EXTERNAL_TRANSFER_RELEASED"))
+
+            @JvmField
+            val EXTERNAL_TRANSFER_REVERSED =
+                FinancialEventType(JsonField.of("EXTERNAL_TRANSFER_REVERSED"))
+
+            @JvmField
+            val EXTERNAL_TRANSFER_SETTLED =
+                FinancialEventType(JsonField.of("EXTERNAL_TRANSFER_SETTLED"))
+
+            @JvmField
+            val EXTERNAL_WIRE_CANCELED = FinancialEventType(JsonField.of("EXTERNAL_WIRE_CANCELED"))
+
+            @JvmField
+            val EXTERNAL_WIRE_INITIATED =
+                FinancialEventType(JsonField.of("EXTERNAL_WIRE_INITIATED"))
+
+            @JvmField
+            val EXTERNAL_WIRE_RELEASED = FinancialEventType(JsonField.of("EXTERNAL_WIRE_RELEASED"))
+
+            @JvmField
+            val EXTERNAL_WIRE_REVERSED = FinancialEventType(JsonField.of("EXTERNAL_WIRE_REVERSED"))
+
+            @JvmField
+            val EXTERNAL_WIRE_SETTLED = FinancialEventType(JsonField.of("EXTERNAL_WIRE_SETTLED"))
+
+            @JvmField
             val FINANCIAL_AUTHORIZATION =
                 FinancialEventType(JsonField.of("FINANCIAL_AUTHORIZATION"))
 
             @JvmField
             val FINANCIAL_CREDIT_AUTHORIZATION =
                 FinancialEventType(JsonField.of("FINANCIAL_CREDIT_AUTHORIZATION"))
+
+            @JvmField val INTEREST = FinancialEventType(JsonField.of("INTEREST"))
+
+            @JvmField val LATE_PAYMENT = FinancialEventType(JsonField.of("LATE_PAYMENT"))
+
+            @JvmField
+            val PROVISIONAL_CREDIT = FinancialEventType(JsonField.of("PROVISIONAL_CREDIT"))
 
             @JvmField val RETURN = FinancialEventType(JsonField.of("RETURN"))
 
@@ -616,9 +665,9 @@ private constructor(
             ACH_ORIGINATION_CANCELLED,
             ACH_ORIGINATION_INITIATED,
             ACH_ORIGINATION_PROCESSED,
-            ACH_ORIGINATION_SETTLED,
             ACH_ORIGINATION_RELEASED,
             ACH_ORIGINATION_REVIEWED,
+            ACH_ORIGINATION_SETTLED,
             ACH_RECEIPT_PROCESSED,
             ACH_RECEIPT_SETTLED,
             ACH_RETURN_INITIATED,
@@ -628,13 +677,40 @@ private constructor(
             AUTHORIZATION_EXPIRY,
             AUTHORIZATION_REVERSAL,
             BALANCE_INQUIRY,
+            BILLING_ERROR,
+            CASH_BACK,
             CLEARING,
             CORRECTION_CREDIT,
             CORRECTION_DEBIT,
             CREDIT_AUTHORIZATION,
             CREDIT_AUTHORIZATION_ADVICE,
+            CURRENCY_CONVERSION,
+            DISPUTE_WON,
+            EXTERNAL_ACH_CANCELED,
+            EXTERNAL_ACH_INITIATED,
+            EXTERNAL_ACH_RELEASED,
+            EXTERNAL_ACH_REVERSED,
+            EXTERNAL_ACH_SETTLED,
+            EXTERNAL_CHECK_CANCELED,
+            EXTERNAL_CHECK_INITIATED,
+            EXTERNAL_CHECK_RELEASED,
+            EXTERNAL_CHECK_REVERSED,
+            EXTERNAL_CHECK_SETTLED,
+            EXTERNAL_TRANSFER_CANCELED,
+            EXTERNAL_TRANSFER_INITIATED,
+            EXTERNAL_TRANSFER_RELEASED,
+            EXTERNAL_TRANSFER_REVERSED,
+            EXTERNAL_TRANSFER_SETTLED,
+            EXTERNAL_WIRE_CANCELED,
+            EXTERNAL_WIRE_INITIATED,
+            EXTERNAL_WIRE_RELEASED,
+            EXTERNAL_WIRE_REVERSED,
+            EXTERNAL_WIRE_SETTLED,
             FINANCIAL_AUTHORIZATION,
             FINANCIAL_CREDIT_AUTHORIZATION,
+            INTEREST,
+            LATE_PAYMENT,
+            PROVISIONAL_CREDIT,
             RETURN,
             RETURN_REVERSAL,
             TRANSFER,
@@ -645,9 +721,9 @@ private constructor(
             ACH_ORIGINATION_CANCELLED,
             ACH_ORIGINATION_INITIATED,
             ACH_ORIGINATION_PROCESSED,
-            ACH_ORIGINATION_SETTLED,
             ACH_ORIGINATION_RELEASED,
             ACH_ORIGINATION_REVIEWED,
+            ACH_ORIGINATION_SETTLED,
             ACH_RECEIPT_PROCESSED,
             ACH_RECEIPT_SETTLED,
             ACH_RETURN_INITIATED,
@@ -657,13 +733,40 @@ private constructor(
             AUTHORIZATION_EXPIRY,
             AUTHORIZATION_REVERSAL,
             BALANCE_INQUIRY,
+            BILLING_ERROR,
+            CASH_BACK,
             CLEARING,
             CORRECTION_CREDIT,
             CORRECTION_DEBIT,
             CREDIT_AUTHORIZATION,
             CREDIT_AUTHORIZATION_ADVICE,
+            CURRENCY_CONVERSION,
+            DISPUTE_WON,
+            EXTERNAL_ACH_CANCELED,
+            EXTERNAL_ACH_INITIATED,
+            EXTERNAL_ACH_RELEASED,
+            EXTERNAL_ACH_REVERSED,
+            EXTERNAL_ACH_SETTLED,
+            EXTERNAL_CHECK_CANCELED,
+            EXTERNAL_CHECK_INITIATED,
+            EXTERNAL_CHECK_RELEASED,
+            EXTERNAL_CHECK_REVERSED,
+            EXTERNAL_CHECK_SETTLED,
+            EXTERNAL_TRANSFER_CANCELED,
+            EXTERNAL_TRANSFER_INITIATED,
+            EXTERNAL_TRANSFER_RELEASED,
+            EXTERNAL_TRANSFER_REVERSED,
+            EXTERNAL_TRANSFER_SETTLED,
+            EXTERNAL_WIRE_CANCELED,
+            EXTERNAL_WIRE_INITIATED,
+            EXTERNAL_WIRE_RELEASED,
+            EXTERNAL_WIRE_REVERSED,
+            EXTERNAL_WIRE_SETTLED,
             FINANCIAL_AUTHORIZATION,
             FINANCIAL_CREDIT_AUTHORIZATION,
+            INTEREST,
+            LATE_PAYMENT,
+            PROVISIONAL_CREDIT,
             RETURN,
             RETURN_REVERSAL,
             TRANSFER,
@@ -676,9 +779,9 @@ private constructor(
                 ACH_ORIGINATION_CANCELLED -> Value.ACH_ORIGINATION_CANCELLED
                 ACH_ORIGINATION_INITIATED -> Value.ACH_ORIGINATION_INITIATED
                 ACH_ORIGINATION_PROCESSED -> Value.ACH_ORIGINATION_PROCESSED
-                ACH_ORIGINATION_SETTLED -> Value.ACH_ORIGINATION_SETTLED
                 ACH_ORIGINATION_RELEASED -> Value.ACH_ORIGINATION_RELEASED
                 ACH_ORIGINATION_REVIEWED -> Value.ACH_ORIGINATION_REVIEWED
+                ACH_ORIGINATION_SETTLED -> Value.ACH_ORIGINATION_SETTLED
                 ACH_RECEIPT_PROCESSED -> Value.ACH_RECEIPT_PROCESSED
                 ACH_RECEIPT_SETTLED -> Value.ACH_RECEIPT_SETTLED
                 ACH_RETURN_INITIATED -> Value.ACH_RETURN_INITIATED
@@ -688,13 +791,40 @@ private constructor(
                 AUTHORIZATION_EXPIRY -> Value.AUTHORIZATION_EXPIRY
                 AUTHORIZATION_REVERSAL -> Value.AUTHORIZATION_REVERSAL
                 BALANCE_INQUIRY -> Value.BALANCE_INQUIRY
+                BILLING_ERROR -> Value.BILLING_ERROR
+                CASH_BACK -> Value.CASH_BACK
                 CLEARING -> Value.CLEARING
                 CORRECTION_CREDIT -> Value.CORRECTION_CREDIT
                 CORRECTION_DEBIT -> Value.CORRECTION_DEBIT
                 CREDIT_AUTHORIZATION -> Value.CREDIT_AUTHORIZATION
                 CREDIT_AUTHORIZATION_ADVICE -> Value.CREDIT_AUTHORIZATION_ADVICE
+                CURRENCY_CONVERSION -> Value.CURRENCY_CONVERSION
+                DISPUTE_WON -> Value.DISPUTE_WON
+                EXTERNAL_ACH_CANCELED -> Value.EXTERNAL_ACH_CANCELED
+                EXTERNAL_ACH_INITIATED -> Value.EXTERNAL_ACH_INITIATED
+                EXTERNAL_ACH_RELEASED -> Value.EXTERNAL_ACH_RELEASED
+                EXTERNAL_ACH_REVERSED -> Value.EXTERNAL_ACH_REVERSED
+                EXTERNAL_ACH_SETTLED -> Value.EXTERNAL_ACH_SETTLED
+                EXTERNAL_CHECK_CANCELED -> Value.EXTERNAL_CHECK_CANCELED
+                EXTERNAL_CHECK_INITIATED -> Value.EXTERNAL_CHECK_INITIATED
+                EXTERNAL_CHECK_RELEASED -> Value.EXTERNAL_CHECK_RELEASED
+                EXTERNAL_CHECK_REVERSED -> Value.EXTERNAL_CHECK_REVERSED
+                EXTERNAL_CHECK_SETTLED -> Value.EXTERNAL_CHECK_SETTLED
+                EXTERNAL_TRANSFER_CANCELED -> Value.EXTERNAL_TRANSFER_CANCELED
+                EXTERNAL_TRANSFER_INITIATED -> Value.EXTERNAL_TRANSFER_INITIATED
+                EXTERNAL_TRANSFER_RELEASED -> Value.EXTERNAL_TRANSFER_RELEASED
+                EXTERNAL_TRANSFER_REVERSED -> Value.EXTERNAL_TRANSFER_REVERSED
+                EXTERNAL_TRANSFER_SETTLED -> Value.EXTERNAL_TRANSFER_SETTLED
+                EXTERNAL_WIRE_CANCELED -> Value.EXTERNAL_WIRE_CANCELED
+                EXTERNAL_WIRE_INITIATED -> Value.EXTERNAL_WIRE_INITIATED
+                EXTERNAL_WIRE_RELEASED -> Value.EXTERNAL_WIRE_RELEASED
+                EXTERNAL_WIRE_REVERSED -> Value.EXTERNAL_WIRE_REVERSED
+                EXTERNAL_WIRE_SETTLED -> Value.EXTERNAL_WIRE_SETTLED
                 FINANCIAL_AUTHORIZATION -> Value.FINANCIAL_AUTHORIZATION
                 FINANCIAL_CREDIT_AUTHORIZATION -> Value.FINANCIAL_CREDIT_AUTHORIZATION
+                INTEREST -> Value.INTEREST
+                LATE_PAYMENT -> Value.LATE_PAYMENT
+                PROVISIONAL_CREDIT -> Value.PROVISIONAL_CREDIT
                 RETURN -> Value.RETURN
                 RETURN_REVERSAL -> Value.RETURN_REVERSAL
                 TRANSFER -> Value.TRANSFER
@@ -707,9 +837,9 @@ private constructor(
                 ACH_ORIGINATION_CANCELLED -> Known.ACH_ORIGINATION_CANCELLED
                 ACH_ORIGINATION_INITIATED -> Known.ACH_ORIGINATION_INITIATED
                 ACH_ORIGINATION_PROCESSED -> Known.ACH_ORIGINATION_PROCESSED
-                ACH_ORIGINATION_SETTLED -> Known.ACH_ORIGINATION_SETTLED
                 ACH_ORIGINATION_RELEASED -> Known.ACH_ORIGINATION_RELEASED
                 ACH_ORIGINATION_REVIEWED -> Known.ACH_ORIGINATION_REVIEWED
+                ACH_ORIGINATION_SETTLED -> Known.ACH_ORIGINATION_SETTLED
                 ACH_RECEIPT_PROCESSED -> Known.ACH_RECEIPT_PROCESSED
                 ACH_RECEIPT_SETTLED -> Known.ACH_RECEIPT_SETTLED
                 ACH_RETURN_INITIATED -> Known.ACH_RETURN_INITIATED
@@ -719,13 +849,40 @@ private constructor(
                 AUTHORIZATION_EXPIRY -> Known.AUTHORIZATION_EXPIRY
                 AUTHORIZATION_REVERSAL -> Known.AUTHORIZATION_REVERSAL
                 BALANCE_INQUIRY -> Known.BALANCE_INQUIRY
+                BILLING_ERROR -> Known.BILLING_ERROR
+                CASH_BACK -> Known.CASH_BACK
                 CLEARING -> Known.CLEARING
                 CORRECTION_CREDIT -> Known.CORRECTION_CREDIT
                 CORRECTION_DEBIT -> Known.CORRECTION_DEBIT
                 CREDIT_AUTHORIZATION -> Known.CREDIT_AUTHORIZATION
                 CREDIT_AUTHORIZATION_ADVICE -> Known.CREDIT_AUTHORIZATION_ADVICE
+                CURRENCY_CONVERSION -> Known.CURRENCY_CONVERSION
+                DISPUTE_WON -> Known.DISPUTE_WON
+                EXTERNAL_ACH_CANCELED -> Known.EXTERNAL_ACH_CANCELED
+                EXTERNAL_ACH_INITIATED -> Known.EXTERNAL_ACH_INITIATED
+                EXTERNAL_ACH_RELEASED -> Known.EXTERNAL_ACH_RELEASED
+                EXTERNAL_ACH_REVERSED -> Known.EXTERNAL_ACH_REVERSED
+                EXTERNAL_ACH_SETTLED -> Known.EXTERNAL_ACH_SETTLED
+                EXTERNAL_CHECK_CANCELED -> Known.EXTERNAL_CHECK_CANCELED
+                EXTERNAL_CHECK_INITIATED -> Known.EXTERNAL_CHECK_INITIATED
+                EXTERNAL_CHECK_RELEASED -> Known.EXTERNAL_CHECK_RELEASED
+                EXTERNAL_CHECK_REVERSED -> Known.EXTERNAL_CHECK_REVERSED
+                EXTERNAL_CHECK_SETTLED -> Known.EXTERNAL_CHECK_SETTLED
+                EXTERNAL_TRANSFER_CANCELED -> Known.EXTERNAL_TRANSFER_CANCELED
+                EXTERNAL_TRANSFER_INITIATED -> Known.EXTERNAL_TRANSFER_INITIATED
+                EXTERNAL_TRANSFER_RELEASED -> Known.EXTERNAL_TRANSFER_RELEASED
+                EXTERNAL_TRANSFER_REVERSED -> Known.EXTERNAL_TRANSFER_REVERSED
+                EXTERNAL_TRANSFER_SETTLED -> Known.EXTERNAL_TRANSFER_SETTLED
+                EXTERNAL_WIRE_CANCELED -> Known.EXTERNAL_WIRE_CANCELED
+                EXTERNAL_WIRE_INITIATED -> Known.EXTERNAL_WIRE_INITIATED
+                EXTERNAL_WIRE_RELEASED -> Known.EXTERNAL_WIRE_RELEASED
+                EXTERNAL_WIRE_REVERSED -> Known.EXTERNAL_WIRE_REVERSED
+                EXTERNAL_WIRE_SETTLED -> Known.EXTERNAL_WIRE_SETTLED
                 FINANCIAL_AUTHORIZATION -> Known.FINANCIAL_AUTHORIZATION
                 FINANCIAL_CREDIT_AUTHORIZATION -> Known.FINANCIAL_CREDIT_AUTHORIZATION
+                INTEREST -> Known.INTEREST
+                LATE_PAYMENT -> Known.LATE_PAYMENT
+                PROVISIONAL_CREDIT -> Known.PROVISIONAL_CREDIT
                 RETURN -> Known.RETURN
                 RETURN_REVERSAL -> Known.RETURN_REVERSAL
                 TRANSFER -> Known.TRANSFER

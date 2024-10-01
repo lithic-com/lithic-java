@@ -298,6 +298,18 @@ private constructor(
             @JvmField
             val FINANCIAL_ACCOUNT_UPDATED = EventType(JsonField.of("financial_account.updated"))
 
+            @JvmField val LOAN_TAPE_CREATED = EventType(JsonField.of("loan_tape.created"))
+
+            @JvmField val LOAN_TAPE_UPDATED = EventType(JsonField.of("loan_tape.updated"))
+
+            @JvmField
+            val MANAGEMENT_OPERATION_CREATED =
+                EventType(JsonField.of("management_operation.created"))
+
+            @JvmField
+            val MANAGEMENT_OPERATION_UPDATED =
+                EventType(JsonField.of("management_operation.updated"))
+
             @JvmField
             val PAYMENT_TRANSACTION_CREATED = EventType(JsonField.of("payment_transaction.created"))
 
@@ -361,6 +373,10 @@ private constructor(
             EXTERNAL_PAYMENT_UPDATED,
             FINANCIAL_ACCOUNT_CREATED,
             FINANCIAL_ACCOUNT_UPDATED,
+            LOAN_TAPE_CREATED,
+            LOAN_TAPE_UPDATED,
+            MANAGEMENT_OPERATION_CREATED,
+            MANAGEMENT_OPERATION_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
             SETTLEMENT_REPORT_UPDATED,
@@ -399,6 +415,10 @@ private constructor(
             EXTERNAL_PAYMENT_UPDATED,
             FINANCIAL_ACCOUNT_CREATED,
             FINANCIAL_ACCOUNT_UPDATED,
+            LOAN_TAPE_CREATED,
+            LOAN_TAPE_UPDATED,
+            MANAGEMENT_OPERATION_CREATED,
+            MANAGEMENT_OPERATION_UPDATED,
             PAYMENT_TRANSACTION_CREATED,
             PAYMENT_TRANSACTION_UPDATED,
             SETTLEMENT_REPORT_UPDATED,
@@ -442,6 +462,10 @@ private constructor(
                 EXTERNAL_PAYMENT_UPDATED -> Value.EXTERNAL_PAYMENT_UPDATED
                 FINANCIAL_ACCOUNT_CREATED -> Value.FINANCIAL_ACCOUNT_CREATED
                 FINANCIAL_ACCOUNT_UPDATED -> Value.FINANCIAL_ACCOUNT_UPDATED
+                LOAN_TAPE_CREATED -> Value.LOAN_TAPE_CREATED
+                LOAN_TAPE_UPDATED -> Value.LOAN_TAPE_UPDATED
+                MANAGEMENT_OPERATION_CREATED -> Value.MANAGEMENT_OPERATION_CREATED
+                MANAGEMENT_OPERATION_UPDATED -> Value.MANAGEMENT_OPERATION_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Value.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Value.PAYMENT_TRANSACTION_UPDATED
                 SETTLEMENT_REPORT_UPDATED -> Value.SETTLEMENT_REPORT_UPDATED
@@ -487,6 +511,10 @@ private constructor(
                 EXTERNAL_PAYMENT_UPDATED -> Known.EXTERNAL_PAYMENT_UPDATED
                 FINANCIAL_ACCOUNT_CREATED -> Known.FINANCIAL_ACCOUNT_CREATED
                 FINANCIAL_ACCOUNT_UPDATED -> Known.FINANCIAL_ACCOUNT_UPDATED
+                LOAN_TAPE_CREATED -> Known.LOAN_TAPE_CREATED
+                LOAN_TAPE_UPDATED -> Known.LOAN_TAPE_UPDATED
+                MANAGEMENT_OPERATION_CREATED -> Known.MANAGEMENT_OPERATION_CREATED
+                MANAGEMENT_OPERATION_UPDATED -> Known.MANAGEMENT_OPERATION_UPDATED
                 PAYMENT_TRANSACTION_CREATED -> Known.PAYMENT_TRANSACTION_CREATED
                 PAYMENT_TRANSACTION_UPDATED -> Known.PAYMENT_TRANSACTION_UPDATED
                 SETTLEMENT_REPORT_UPDATED -> Known.SETTLEMENT_REPORT_UPDATED

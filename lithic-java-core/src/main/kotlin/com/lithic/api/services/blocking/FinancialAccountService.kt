@@ -14,6 +14,7 @@ import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.services.blocking.financialAccounts.BalanceService
 import com.lithic.api.services.blocking.financialAccounts.CreditConfigurationService
 import com.lithic.api.services.blocking.financialAccounts.FinancialTransactionService
+import com.lithic.api.services.blocking.financialAccounts.LoanTapeService
 import com.lithic.api.services.blocking.financialAccounts.StatementService
 
 interface FinancialAccountService {
@@ -25,6 +26,8 @@ interface FinancialAccountService {
     fun creditConfiguration(): CreditConfigurationService
 
     fun statements(): StatementService
+
+    fun loanTapes(): LoanTapeService
 
     /** Create a new financial account */
     @JvmOverloads

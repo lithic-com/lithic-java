@@ -12,7 +12,9 @@ class BookTransferListParamsTest {
     @Test
     fun createBookTransferListParams() {
         BookTransferListParams.builder()
+            .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+            .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .category(BookTransferListParams.Category.BALANCE_OR_FUNDING)
             .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .endingBefore("ending_before")
@@ -28,7 +30,9 @@ class BookTransferListParamsTest {
     fun getQueryParams() {
         val params =
             BookTransferListParams.builder()
+                .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .begin(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .category(BookTransferListParams.Category.BALANCE_OR_FUNDING)
                 .end(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .endingBefore("ending_before")
@@ -39,7 +43,9 @@ class BookTransferListParamsTest {
                 .status(BookTransferListParams.Status.DECLINED)
                 .build()
         val expected = mutableMapOf<String, List<String>>()
+        expected.put("account_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
         expected.put("begin", listOf("2019-12-27T18:11:19.117Z"))
+        expected.put("business_account_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
         expected.put(
             "category",
             listOf(BookTransferListParams.Category.BALANCE_OR_FUNDING.toString())

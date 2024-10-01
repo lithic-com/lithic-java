@@ -18,6 +18,7 @@ import java.util.Optional
 class ExternalPaymentListParams
 constructor(
     private val begin: OffsetDateTime?,
+    private val businessAccountToken: String?,
     private val category: ExternalPaymentCategory?,
     private val end: OffsetDateTime?,
     private val endingBefore: String?,
@@ -31,6 +32,8 @@ constructor(
 ) {
 
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
+
+    fun businessAccountToken(): Optional<String> = Optional.ofNullable(businessAccountToken)
 
     fun category(): Optional<ExternalPaymentCategory> = Optional.ofNullable(category)
 
@@ -53,6 +56,9 @@ constructor(
         val params = mutableMapOf<String, List<String>>()
         this.begin?.let {
             params.put("begin", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
+        }
+        this.businessAccountToken?.let {
+            params.put("business_account_token", listOf(it.toString()))
         }
         this.category?.let { params.put("category", listOf(it.toString())) }
         this.end?.let {
@@ -83,6 +89,7 @@ constructor(
 
         return other is ExternalPaymentListParams &&
             this.begin == other.begin &&
+            this.businessAccountToken == other.businessAccountToken &&
             this.category == other.category &&
             this.end == other.end &&
             this.endingBefore == other.endingBefore &&
@@ -98,6 +105,7 @@ constructor(
     override fun hashCode(): Int {
         return Objects.hash(
             begin,
+            businessAccountToken,
             category,
             end,
             endingBefore,
@@ -112,7 +120,7 @@ constructor(
     }
 
     override fun toString() =
-        "ExternalPaymentListParams{begin=$begin, category=$category, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "ExternalPaymentListParams{begin=$begin, businessAccountToken=$businessAccountToken, category=$category, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -125,6 +133,7 @@ constructor(
     class Builder {
 
         private var begin: OffsetDateTime? = null
+        private var businessAccountToken: String? = null
         private var category: ExternalPaymentCategory? = null
         private var end: OffsetDateTime? = null
         private var endingBefore: String? = null
@@ -139,6 +148,7 @@ constructor(
         @JvmSynthetic
         internal fun from(externalPaymentListParams: ExternalPaymentListParams) = apply {
             this.begin = externalPaymentListParams.begin
+            this.businessAccountToken = externalPaymentListParams.businessAccountToken
             this.category = externalPaymentListParams.category
             this.end = externalPaymentListParams.end
             this.endingBefore = externalPaymentListParams.endingBefore
@@ -156,6 +166,10 @@ constructor(
          * included. UTC time zone.
          */
         fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
+
+        fun businessAccountToken(businessAccountToken: String) = apply {
+            this.businessAccountToken = businessAccountToken
+        }
 
         /** External Payment category to be returned. */
         fun category(category: ExternalPaymentCategory) = apply { this.category = category }
@@ -238,6 +252,7 @@ constructor(
         fun build(): ExternalPaymentListParams =
             ExternalPaymentListParams(
                 begin,
+                businessAccountToken,
                 category,
                 end,
                 endingBefore,
