@@ -14,6 +14,7 @@ import com.lithic.api.models.FinancialAccountUpdateParams
 import com.lithic.api.services.async.financialAccounts.BalanceServiceAsync
 import com.lithic.api.services.async.financialAccounts.CreditConfigurationServiceAsync
 import com.lithic.api.services.async.financialAccounts.FinancialTransactionServiceAsync
+import com.lithic.api.services.async.financialAccounts.LoanTapeServiceAsync
 import com.lithic.api.services.async.financialAccounts.StatementServiceAsync
 import java.util.concurrent.CompletableFuture
 
@@ -26,6 +27,8 @@ interface FinancialAccountServiceAsync {
     fun creditConfiguration(): CreditConfigurationServiceAsync
 
     fun statements(): StatementServiceAsync
+
+    fun loanTapes(): LoanTapeServiceAsync
 
     /** Create a new financial account */
     @JvmOverloads

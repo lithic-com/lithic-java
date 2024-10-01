@@ -15,30 +15,26 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
-class BookTransferListParams
+class ManagementOperationListParams
 constructor(
-    private val accountToken: String?,
     private val begin: OffsetDateTime?,
     private val businessAccountToken: String?,
-    private val category: Category?,
+    private val category: ManagementOperationCategory?,
     private val end: OffsetDateTime?,
     private val endingBefore: String?,
     private val financialAccountToken: String?,
     private val pageSize: Long?,
-    private val result: Result?,
     private val startingAfter: String?,
-    private val status: Status?,
+    private val status: TransactionStatus?,
     private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
 ) {
-
-    fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
 
     fun businessAccountToken(): Optional<String> = Optional.ofNullable(businessAccountToken)
 
-    fun category(): Optional<Category> = Optional.ofNullable(category)
+    fun category(): Optional<ManagementOperationCategory> = Optional.ofNullable(category)
 
     fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
@@ -48,16 +44,13 @@ constructor(
 
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
-    fun result(): Optional<Result> = Optional.ofNullable(result)
-
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
-    fun status(): Optional<Status> = Optional.ofNullable(status)
+    fun status(): Optional<TransactionStatus> = Optional.ofNullable(status)
 
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
-        this.accountToken?.let { params.put("account_token", listOf(it.toString())) }
         this.begin?.let {
             params.put("begin", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
         }
@@ -73,7 +66,6 @@ constructor(
             params.put("financial_account_token", listOf(it.toString()))
         }
         this.pageSize?.let { params.put("page_size", listOf(it.toString())) }
-        this.result?.let { params.put("result", listOf(it.toString())) }
         this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
         this.status?.let { params.put("status", listOf(it.toString())) }
         params.putAll(additionalQueryParams)
@@ -91,8 +83,7 @@ constructor(
             return true
         }
 
-        return other is BookTransferListParams &&
-            this.accountToken == other.accountToken &&
+        return other is ManagementOperationListParams &&
             this.begin == other.begin &&
             this.businessAccountToken == other.businessAccountToken &&
             this.category == other.category &&
@@ -100,7 +91,6 @@ constructor(
             this.endingBefore == other.endingBefore &&
             this.financialAccountToken == other.financialAccountToken &&
             this.pageSize == other.pageSize &&
-            this.result == other.result &&
             this.startingAfter == other.startingAfter &&
             this.status == other.status &&
             this.additionalQueryParams == other.additionalQueryParams &&
@@ -109,7 +99,6 @@ constructor(
 
     override fun hashCode(): Int {
         return Objects.hash(
-            accountToken,
             begin,
             businessAccountToken,
             category,
@@ -117,7 +106,6 @@ constructor(
             endingBefore,
             financialAccountToken,
             pageSize,
-            result,
             startingAfter,
             status,
             additionalQueryParams,
@@ -126,7 +114,7 @@ constructor(
     }
 
     override fun toString() =
-        "BookTransferListParams{accountToken=$accountToken, begin=$begin, businessAccountToken=$businessAccountToken, category=$category, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "ManagementOperationListParams{begin=$begin, businessAccountToken=$businessAccountToken, category=$category, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, startingAfter=$startingAfter, status=$status, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -138,38 +126,32 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var accountToken: String? = null
         private var begin: OffsetDateTime? = null
         private var businessAccountToken: String? = null
-        private var category: Category? = null
+        private var category: ManagementOperationCategory? = null
         private var end: OffsetDateTime? = null
         private var endingBefore: String? = null
         private var financialAccountToken: String? = null
         private var pageSize: Long? = null
-        private var result: Result? = null
         private var startingAfter: String? = null
-        private var status: Status? = null
+        private var status: TransactionStatus? = null
         private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(bookTransferListParams: BookTransferListParams) = apply {
-            this.accountToken = bookTransferListParams.accountToken
-            this.begin = bookTransferListParams.begin
-            this.businessAccountToken = bookTransferListParams.businessAccountToken
-            this.category = bookTransferListParams.category
-            this.end = bookTransferListParams.end
-            this.endingBefore = bookTransferListParams.endingBefore
-            this.financialAccountToken = bookTransferListParams.financialAccountToken
-            this.pageSize = bookTransferListParams.pageSize
-            this.result = bookTransferListParams.result
-            this.startingAfter = bookTransferListParams.startingAfter
-            this.status = bookTransferListParams.status
-            additionalQueryParams(bookTransferListParams.additionalQueryParams)
-            additionalHeaders(bookTransferListParams.additionalHeaders)
+        internal fun from(managementOperationListParams: ManagementOperationListParams) = apply {
+            this.begin = managementOperationListParams.begin
+            this.businessAccountToken = managementOperationListParams.businessAccountToken
+            this.category = managementOperationListParams.category
+            this.end = managementOperationListParams.end
+            this.endingBefore = managementOperationListParams.endingBefore
+            this.financialAccountToken = managementOperationListParams.financialAccountToken
+            this.pageSize = managementOperationListParams.pageSize
+            this.startingAfter = managementOperationListParams.startingAfter
+            this.status = managementOperationListParams.status
+            additionalQueryParams(managementOperationListParams.additionalQueryParams)
+            additionalHeaders(managementOperationListParams.additionalHeaders)
         }
-
-        fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
         /**
          * Date string in RFC 3339 format. Only entries created after the specified time will be
@@ -181,8 +163,8 @@ constructor(
             this.businessAccountToken = businessAccountToken
         }
 
-        /** Book Transfer category to be returned. */
-        fun category(category: Category) = apply { this.category = category }
+        /** Management operation category to be returned. */
+        fun category(category: ManagementOperationCategory) = apply { this.category = category }
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified time will be
@@ -197,8 +179,8 @@ constructor(
         fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
 
         /**
-         * Globally unique identifier for the financial account or card that will send the funds.
-         * Accepted type dependent on the program's use case.
+         * Globally unique identifier for the financial account. Accepted type dependent on the
+         * program's use case.
          */
         fun financialAccountToken(financialAccountToken: String) = apply {
             this.financialAccountToken = financialAccountToken
@@ -207,17 +189,14 @@ constructor(
         /** Page size (for pagination). */
         fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
 
-        /** Book transfer result to be returned. */
-        fun result(result: Result) = apply { this.result = result }
-
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
          * retrieve the next page of results after this item.
          */
         fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
-        /** Book transfer status to be returned. */
-        fun status(status: Status) = apply { this.status = status }
+        /** Management operation status to be returned. */
+        fun status(status: TransactionStatus) = apply { this.status = status }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
             this.additionalQueryParams.clear()
@@ -259,9 +238,8 @@ constructor(
 
         fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
 
-        fun build(): BookTransferListParams =
-            BookTransferListParams(
-                accountToken,
+        fun build(): ManagementOperationListParams =
+            ManagementOperationListParams(
                 begin,
                 businessAccountToken,
                 category,
@@ -269,7 +247,6 @@ constructor(
                 endingBefore,
                 financialAccountToken,
                 pageSize,
-                result,
                 startingAfter,
                 status,
                 additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
@@ -277,7 +254,7 @@ constructor(
             )
     }
 
-    class Category
+    class ManagementOperationCategory
     @JsonCreator
     private constructor(
         private val value: JsonField<String>,
@@ -290,7 +267,7 @@ constructor(
                 return true
             }
 
-            return other is Category && this.value == other.value
+            return other is ManagementOperationCategory && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -299,72 +276,60 @@ constructor(
 
         companion object {
 
-            @JvmField val BALANCE_OR_FUNDING = Category(JsonField.of("BALANCE_OR_FUNDING"))
+            @JvmField
+            val MANAGEMENT_FEE = ManagementOperationCategory(JsonField.of("MANAGEMENT_FEE"))
 
-            @JvmField val FEE = Category(JsonField.of("FEE"))
+            @JvmField
+            val MANAGEMENT_DISPUTE = ManagementOperationCategory(JsonField.of("MANAGEMENT_DISPUTE"))
 
-            @JvmField val REWARD = Category(JsonField.of("REWARD"))
+            @JvmField
+            val MANAGEMENT_REWARD = ManagementOperationCategory(JsonField.of("MANAGEMENT_REWARD"))
 
-            @JvmField val ADJUSTMENT = Category(JsonField.of("ADJUSTMENT"))
+            @JvmField
+            val MANAGEMENT_ADJUSTMENT =
+                ManagementOperationCategory(JsonField.of("MANAGEMENT_ADJUSTMENT"))
 
-            @JvmField val DERECOGNITION = Category(JsonField.of("DERECOGNITION"))
-
-            @JvmField val DISPUTE = Category(JsonField.of("DISPUTE"))
-
-            @JvmField val INTERNAL = Category(JsonField.of("INTERNAL"))
-
-            @JvmStatic fun of(value: String) = Category(JsonField.of(value))
+            @JvmStatic fun of(value: String) = ManagementOperationCategory(JsonField.of(value))
         }
 
         enum class Known {
-            BALANCE_OR_FUNDING,
-            FEE,
-            REWARD,
-            ADJUSTMENT,
-            DERECOGNITION,
-            DISPUTE,
-            INTERNAL,
+            MANAGEMENT_FEE,
+            MANAGEMENT_DISPUTE,
+            MANAGEMENT_REWARD,
+            MANAGEMENT_ADJUSTMENT,
         }
 
         enum class Value {
-            BALANCE_OR_FUNDING,
-            FEE,
-            REWARD,
-            ADJUSTMENT,
-            DERECOGNITION,
-            DISPUTE,
-            INTERNAL,
+            MANAGEMENT_FEE,
+            MANAGEMENT_DISPUTE,
+            MANAGEMENT_REWARD,
+            MANAGEMENT_ADJUSTMENT,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                BALANCE_OR_FUNDING -> Value.BALANCE_OR_FUNDING
-                FEE -> Value.FEE
-                REWARD -> Value.REWARD
-                ADJUSTMENT -> Value.ADJUSTMENT
-                DERECOGNITION -> Value.DERECOGNITION
-                DISPUTE -> Value.DISPUTE
-                INTERNAL -> Value.INTERNAL
+                MANAGEMENT_FEE -> Value.MANAGEMENT_FEE
+                MANAGEMENT_DISPUTE -> Value.MANAGEMENT_DISPUTE
+                MANAGEMENT_REWARD -> Value.MANAGEMENT_REWARD
+                MANAGEMENT_ADJUSTMENT -> Value.MANAGEMENT_ADJUSTMENT
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                BALANCE_OR_FUNDING -> Known.BALANCE_OR_FUNDING
-                FEE -> Known.FEE
-                REWARD -> Known.REWARD
-                ADJUSTMENT -> Known.ADJUSTMENT
-                DERECOGNITION -> Known.DERECOGNITION
-                DISPUTE -> Known.DISPUTE
-                INTERNAL -> Known.INTERNAL
-                else -> throw LithicInvalidDataException("Unknown Category: $value")
+                MANAGEMENT_FEE -> Known.MANAGEMENT_FEE
+                MANAGEMENT_DISPUTE -> Known.MANAGEMENT_DISPUTE
+                MANAGEMENT_REWARD -> Known.MANAGEMENT_REWARD
+                MANAGEMENT_ADJUSTMENT -> Known.MANAGEMENT_ADJUSTMENT
+                else ->
+                    throw LithicInvalidDataException("Unknown ManagementOperationCategory: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class Result
+    class TransactionStatus
     @JsonCreator
     private constructor(
         private val value: JsonField<String>,
@@ -377,7 +342,7 @@ constructor(
                 return true
             }
 
-            return other is Result && this.value == other.value
+            return other is TransactionStatus && this.value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -386,93 +351,54 @@ constructor(
 
         companion object {
 
-            @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+            @JvmField val PENDING = TransactionStatus(JsonField.of("PENDING"))
 
-            @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+            @JvmField val SETTLED = TransactionStatus(JsonField.of("SETTLED"))
 
-            @JvmStatic fun of(value: String) = Result(JsonField.of(value))
+            @JvmField val DECLINED = TransactionStatus(JsonField.of("DECLINED"))
+
+            @JvmField val REVERSED = TransactionStatus(JsonField.of("REVERSED"))
+
+            @JvmField val CANCELED = TransactionStatus(JsonField.of("CANCELED"))
+
+            @JvmStatic fun of(value: String) = TransactionStatus(JsonField.of(value))
         }
 
         enum class Known {
-            APPROVED,
+            PENDING,
+            SETTLED,
             DECLINED,
+            REVERSED,
+            CANCELED,
         }
 
         enum class Value {
-            APPROVED,
+            PENDING,
+            SETTLED,
             DECLINED,
+            REVERSED,
+            CANCELED,
             _UNKNOWN,
         }
 
         fun value(): Value =
             when (this) {
-                APPROVED -> Value.APPROVED
-                DECLINED -> Value.DECLINED
-                else -> Value._UNKNOWN
-            }
-
-        fun known(): Known =
-            when (this) {
-                APPROVED -> Known.APPROVED
-                DECLINED -> Known.DECLINED
-                else -> throw LithicInvalidDataException("Unknown Result: $value")
-            }
-
-        fun asString(): String = _value().asStringOrThrow()
-    }
-
-    class Status
-    @JsonCreator
-    private constructor(
-        private val value: JsonField<String>,
-    ) : Enum {
-
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Status && this.value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
-        companion object {
-
-            @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
-
-            @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
-
-            @JvmStatic fun of(value: String) = Status(JsonField.of(value))
-        }
-
-        enum class Known {
-            DECLINED,
-            SETTLED,
-        }
-
-        enum class Value {
-            DECLINED,
-            SETTLED,
-            _UNKNOWN,
-        }
-
-        fun value(): Value =
-            when (this) {
-                DECLINED -> Value.DECLINED
+                PENDING -> Value.PENDING
                 SETTLED -> Value.SETTLED
+                DECLINED -> Value.DECLINED
+                REVERSED -> Value.REVERSED
+                CANCELED -> Value.CANCELED
                 else -> Value._UNKNOWN
             }
 
         fun known(): Known =
             when (this) {
-                DECLINED -> Known.DECLINED
+                PENDING -> Known.PENDING
                 SETTLED -> Known.SETTLED
-                else -> throw LithicInvalidDataException("Unknown Status: $value")
+                DECLINED -> Known.DECLINED
+                REVERSED -> Known.REVERSED
+                CANCELED -> Known.CANCELED
+                else -> throw LithicInvalidDataException("Unknown TransactionStatus: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
