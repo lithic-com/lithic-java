@@ -852,7 +852,7 @@ private constructor(
                     class Value
                     private constructor(
                         private val string: String? = null,
-                        private val double: Double? = null,
+                        private val double_: Double? = null,
                         private val strings: List<String>? = null,
                         private val _json: JsonValue? = null,
                     ) {
@@ -862,19 +862,19 @@ private constructor(
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                         fun string(): Optional<String> = Optional.ofNullable(string)
                         /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
-                        fun double(): Optional<Double> = Optional.ofNullable(double)
+                        fun double_(): Optional<Double> = Optional.ofNullable(double_)
                         /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
                         fun strings(): Optional<List<String>> = Optional.ofNullable(strings)
 
                         fun isString(): Boolean = string != null
 
-                        fun isDouble(): Boolean = double != null
+                        fun isDouble(): Boolean = double_ != null
 
                         fun isStrings(): Boolean = strings != null
 
                         fun asString(): String = string.getOrThrow("string")
 
-                        fun asDouble(): Double = double.getOrThrow("double")
+                        fun asDouble(): Double = double_.getOrThrow("double_")
 
                         fun asStrings(): List<String> = strings.getOrThrow("strings")
 
@@ -883,7 +883,7 @@ private constructor(
                         fun <T> accept(visitor: Visitor<T>): T {
                             return when {
                                 string != null -> visitor.visitString(string)
-                                double != null -> visitor.visitDouble(double)
+                                double_ != null -> visitor.visitDouble(double_)
                                 strings != null -> visitor.visitStrings(strings)
                                 else -> visitor.unknown(_json)
                             }
@@ -891,7 +891,7 @@ private constructor(
 
                         fun validate(): Value = apply {
                             if (!validated) {
-                                if (string == null && double == null && strings == null) {
+                                if (string == null && double_ == null && strings == null) {
                                     throw LithicInvalidDataException("Unknown Value: $_json")
                                 }
                                 validated = true
@@ -905,14 +905,14 @@ private constructor(
 
                             return other is Value &&
                                 this.string == other.string &&
-                                this.double == other.double &&
+                                this.double_ == other.double_ &&
                                 this.strings == other.strings
                         }
 
                         override fun hashCode(): Int {
                             return Objects.hash(
                                 string,
-                                double,
+                                double_,
                                 strings,
                             )
                         }
@@ -920,7 +920,7 @@ private constructor(
                         override fun toString(): String {
                             return when {
                                 string != null -> "Value{string=$string}"
-                                double != null -> "Value{double=$double}"
+                                double_ != null -> "Value{double_=$double_}"
                                 strings != null -> "Value{strings=$strings}"
                                 _json != null -> "Value{_unknown=$_json}"
                                 else -> throw IllegalStateException("Invalid Value")
@@ -931,7 +931,7 @@ private constructor(
 
                             @JvmStatic fun ofString(string: String) = Value(string = string)
 
-                            @JvmStatic fun ofDouble(double: Double) = Value(double = double)
+                            @JvmStatic fun ofDouble(double_: Double) = Value(double_ = double_)
 
                             @JvmStatic
                             fun ofStrings(strings: List<String>) = Value(strings = strings)
@@ -941,7 +941,7 @@ private constructor(
 
                             fun visitString(string: String): T
 
-                            fun visitDouble(double: Double): T
+                            fun visitDouble(double_: Double): T
 
                             fun visitStrings(strings: List<String>): T
 
@@ -958,7 +958,7 @@ private constructor(
                                     return Value(string = it, _json = json)
                                 }
                                 tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    return Value(double = it, _json = json)
+                                    return Value(double_ = it, _json = json)
                                 }
                                 tryDeserialize(node, jacksonTypeRef<List<String>>())?.let {
                                     return Value(strings = it, _json = json)
@@ -977,7 +977,7 @@ private constructor(
                             ) {
                                 when {
                                     value.string != null -> generator.writeObject(value.string)
-                                    value.double != null -> generator.writeObject(value.double)
+                                    value.double_ != null -> generator.writeObject(value.double_)
                                     value.strings != null -> generator.writeObject(value.strings)
                                     value._json != null -> generator.writeObject(value._json)
                                     else -> throw IllegalStateException("Invalid Value")
@@ -1689,7 +1689,7 @@ private constructor(
                     class Value
                     private constructor(
                         private val string: String? = null,
-                        private val double: Double? = null,
+                        private val double_: Double? = null,
                         private val strings: List<String>? = null,
                         private val _json: JsonValue? = null,
                     ) {
@@ -1699,19 +1699,19 @@ private constructor(
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                         fun string(): Optional<String> = Optional.ofNullable(string)
                         /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
-                        fun double(): Optional<Double> = Optional.ofNullable(double)
+                        fun double_(): Optional<Double> = Optional.ofNullable(double_)
                         /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
                         fun strings(): Optional<List<String>> = Optional.ofNullable(strings)
 
                         fun isString(): Boolean = string != null
 
-                        fun isDouble(): Boolean = double != null
+                        fun isDouble(): Boolean = double_ != null
 
                         fun isStrings(): Boolean = strings != null
 
                         fun asString(): String = string.getOrThrow("string")
 
-                        fun asDouble(): Double = double.getOrThrow("double")
+                        fun asDouble(): Double = double_.getOrThrow("double_")
 
                         fun asStrings(): List<String> = strings.getOrThrow("strings")
 
@@ -1720,7 +1720,7 @@ private constructor(
                         fun <T> accept(visitor: Visitor<T>): T {
                             return when {
                                 string != null -> visitor.visitString(string)
-                                double != null -> visitor.visitDouble(double)
+                                double_ != null -> visitor.visitDouble(double_)
                                 strings != null -> visitor.visitStrings(strings)
                                 else -> visitor.unknown(_json)
                             }
@@ -1728,7 +1728,7 @@ private constructor(
 
                         fun validate(): Value = apply {
                             if (!validated) {
-                                if (string == null && double == null && strings == null) {
+                                if (string == null && double_ == null && strings == null) {
                                     throw LithicInvalidDataException("Unknown Value: $_json")
                                 }
                                 validated = true
@@ -1742,14 +1742,14 @@ private constructor(
 
                             return other is Value &&
                                 this.string == other.string &&
-                                this.double == other.double &&
+                                this.double_ == other.double_ &&
                                 this.strings == other.strings
                         }
 
                         override fun hashCode(): Int {
                             return Objects.hash(
                                 string,
-                                double,
+                                double_,
                                 strings,
                             )
                         }
@@ -1757,7 +1757,7 @@ private constructor(
                         override fun toString(): String {
                             return when {
                                 string != null -> "Value{string=$string}"
-                                double != null -> "Value{double=$double}"
+                                double_ != null -> "Value{double_=$double_}"
                                 strings != null -> "Value{strings=$strings}"
                                 _json != null -> "Value{_unknown=$_json}"
                                 else -> throw IllegalStateException("Invalid Value")
@@ -1768,7 +1768,7 @@ private constructor(
 
                             @JvmStatic fun ofString(string: String) = Value(string = string)
 
-                            @JvmStatic fun ofDouble(double: Double) = Value(double = double)
+                            @JvmStatic fun ofDouble(double_: Double) = Value(double_ = double_)
 
                             @JvmStatic
                             fun ofStrings(strings: List<String>) = Value(strings = strings)
@@ -1778,7 +1778,7 @@ private constructor(
 
                             fun visitString(string: String): T
 
-                            fun visitDouble(double: Double): T
+                            fun visitDouble(double_: Double): T
 
                             fun visitStrings(strings: List<String>): T
 
@@ -1795,7 +1795,7 @@ private constructor(
                                     return Value(string = it, _json = json)
                                 }
                                 tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    return Value(double = it, _json = json)
+                                    return Value(double_ = it, _json = json)
                                 }
                                 tryDeserialize(node, jacksonTypeRef<List<String>>())?.let {
                                     return Value(strings = it, _json = json)
@@ -1814,7 +1814,7 @@ private constructor(
                             ) {
                                 when {
                                     value.string != null -> generator.writeObject(value.string)
-                                    value.double != null -> generator.writeObject(value.double)
+                                    value.double_ != null -> generator.writeObject(value.double_)
                                     value.strings != null -> generator.writeObject(value.strings)
                                     value._json != null -> generator.writeObject(value._json)
                                     else -> throw IllegalStateException("Invalid Value")
