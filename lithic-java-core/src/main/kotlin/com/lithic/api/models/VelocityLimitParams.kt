@@ -359,7 +359,7 @@ private constructor(
     @JsonSerialize(using = Period.Serializer::class)
     class Period
     private constructor(
-        private val double: Double? = null,
+        private val double_: Double? = null,
         private val velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow? = null,
         private val _json: JsonValue? = null,
     ) {
@@ -367,7 +367,7 @@ private constructor(
         private var validated: Boolean = false
 
         /** The size of the trailing window to calculate Spend Velocity over in seconds. */
-        fun double(): Optional<Double> = Optional.ofNullable(double)
+        fun double_(): Optional<Double> = Optional.ofNullable(double_)
         /**
          * The window of time to calculate Spend Velocity over.
          * - `DAY`: Velocity over the current day since midnight Eastern Time.
@@ -377,11 +377,11 @@ private constructor(
         fun velocityLimitParamsPeriodWindow(): Optional<VelocityLimitParamsPeriodWindow> =
             Optional.ofNullable(velocityLimitParamsPeriodWindow)
 
-        fun isDouble(): Boolean = double != null
+        fun isDouble(): Boolean = double_ != null
 
         fun isVelocityLimitParamsPeriodWindow(): Boolean = velocityLimitParamsPeriodWindow != null
 
-        fun asDouble(): Double = double.getOrThrow("double")
+        fun asDouble(): Double = double_.getOrThrow("double_")
 
         fun asVelocityLimitParamsPeriodWindow(): VelocityLimitParamsPeriodWindow =
             velocityLimitParamsPeriodWindow.getOrThrow("velocityLimitParamsPeriodWindow")
@@ -390,7 +390,7 @@ private constructor(
 
         fun <T> accept(visitor: Visitor<T>): T {
             return when {
-                double != null -> visitor.visitDouble(double)
+                double_ != null -> visitor.visitDouble(double_)
                 velocityLimitParamsPeriodWindow != null ->
                     visitor.visitVelocityLimitParamsPeriodWindow(velocityLimitParamsPeriodWindow)
                 else -> visitor.unknown(_json)
@@ -399,7 +399,7 @@ private constructor(
 
         fun validate(): Period = apply {
             if (!validated) {
-                if (double == null && velocityLimitParamsPeriodWindow == null) {
+                if (double_ == null && velocityLimitParamsPeriodWindow == null) {
                     throw LithicInvalidDataException("Unknown Period: $_json")
                 }
                 validated = true
@@ -412,17 +412,17 @@ private constructor(
             }
 
             return other is Period &&
-                this.double == other.double &&
+                this.double_ == other.double_ &&
                 this.velocityLimitParamsPeriodWindow == other.velocityLimitParamsPeriodWindow
         }
 
         override fun hashCode(): Int {
-            return Objects.hash(double, velocityLimitParamsPeriodWindow)
+            return Objects.hash(double_, velocityLimitParamsPeriodWindow)
         }
 
         override fun toString(): String {
             return when {
-                double != null -> "Period{double=$double}"
+                double_ != null -> "Period{double_=$double_}"
                 velocityLimitParamsPeriodWindow != null ->
                     "Period{velocityLimitParamsPeriodWindow=$velocityLimitParamsPeriodWindow}"
                 _json != null -> "Period{_unknown=$_json}"
@@ -432,7 +432,7 @@ private constructor(
 
         companion object {
 
-            @JvmStatic fun ofDouble(double: Double) = Period(double = double)
+            @JvmStatic fun ofDouble(double_: Double) = Period(double_ = double_)
 
             @JvmStatic
             fun ofVelocityLimitParamsPeriodWindow(
@@ -442,7 +442,7 @@ private constructor(
 
         interface Visitor<out T> {
 
-            fun visitDouble(double: Double): T
+            fun visitDouble(double_: Double): T
 
             fun visitVelocityLimitParamsPeriodWindow(
                 velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow
@@ -458,7 +458,7 @@ private constructor(
             override fun ObjectCodec.deserialize(node: JsonNode): Period {
                 val json = JsonValue.fromJsonNode(node)
                 tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                    return Period(double = it, _json = json)
+                    return Period(double_ = it, _json = json)
                 }
                 tryDeserialize(node, jacksonTypeRef<VelocityLimitParamsPeriodWindow>())?.let {
                     return Period(velocityLimitParamsPeriodWindow = it, _json = json)
@@ -476,7 +476,7 @@ private constructor(
                 provider: SerializerProvider
             ) {
                 when {
-                    value.double != null -> generator.writeObject(value.double)
+                    value.double_ != null -> generator.writeObject(value.double_)
                     value.velocityLimitParamsPeriodWindow != null ->
                         generator.writeObject(value.velocityLimitParamsPeriodWindow)
                     value._json != null -> generator.writeObject(value._json)
