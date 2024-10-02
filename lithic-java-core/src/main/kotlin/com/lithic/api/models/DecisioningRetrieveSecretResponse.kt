@@ -25,8 +25,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** The 3DS Decisioning HMAC secret */
     fun secret(): Optional<String> = Optional.ofNullable(secret.getNullable("secret"))
 
@@ -45,26 +43,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is DecisioningRetrieveSecretResponse &&
-            this.secret == other.secret &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = Objects.hash(secret, additionalProperties)
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "DecisioningRetrieveSecretResponse{secret=$secret, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -108,4 +86,26 @@ private constructor(
         fun build(): DecisioningRetrieveSecretResponse =
             DecisioningRetrieveSecretResponse(secret, additionalProperties.toUnmodifiable())
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is DecisioningRetrieveSecretResponse &&
+            this.secret == other.secret &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode = Objects.hash(secret, additionalProperties)
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "DecisioningRetrieveSecretResponse{secret=$secret, additionalProperties=$additionalProperties}"
 }

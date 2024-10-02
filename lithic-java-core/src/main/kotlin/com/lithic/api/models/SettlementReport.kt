@@ -35,8 +35,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Date and time when the transaction first occurred. UTC time zone. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
@@ -183,50 +181,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is SettlementReport &&
-            this.created == other.created &&
-            this.currency == other.currency &&
-            this.details == other.details &&
-            this.disputesGrossAmount == other.disputesGrossAmount &&
-            this.interchangeGrossAmount == other.interchangeGrossAmount &&
-            this.isComplete == other.isComplete &&
-            this.otherFeesGrossAmount == other.otherFeesGrossAmount &&
-            this.reportDate == other.reportDate &&
-            this.settledNetAmount == other.settledNetAmount &&
-            this.transactionsGrossAmount == other.transactionsGrossAmount &&
-            this.updated == other.updated &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    created,
-                    currency,
-                    details,
-                    disputesGrossAmount,
-                    interchangeGrossAmount,
-                    isComplete,
-                    otherFeesGrossAmount,
-                    reportDate,
-                    settledNetAmount,
-                    transactionsGrossAmount,
-                    updated,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "SettlementReport{created=$created, currency=$currency, details=$details, disputesGrossAmount=$disputesGrossAmount, interchangeGrossAmount=$interchangeGrossAmount, isComplete=$isComplete, otherFeesGrossAmount=$otherFeesGrossAmount, reportDate=$reportDate, settledNetAmount=$settledNetAmount, transactionsGrossAmount=$transactionsGrossAmount, updated=$updated, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -447,4 +401,50 @@ private constructor(
                 additionalProperties.toUnmodifiable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is SettlementReport &&
+            this.created == other.created &&
+            this.currency == other.currency &&
+            this.details == other.details &&
+            this.disputesGrossAmount == other.disputesGrossAmount &&
+            this.interchangeGrossAmount == other.interchangeGrossAmount &&
+            this.isComplete == other.isComplete &&
+            this.otherFeesGrossAmount == other.otherFeesGrossAmount &&
+            this.reportDate == other.reportDate &&
+            this.settledNetAmount == other.settledNetAmount &&
+            this.transactionsGrossAmount == other.transactionsGrossAmount &&
+            this.updated == other.updated &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    created,
+                    currency,
+                    details,
+                    disputesGrossAmount,
+                    interchangeGrossAmount,
+                    isComplete,
+                    otherFeesGrossAmount,
+                    reportDate,
+                    settledNetAmount,
+                    transactionsGrossAmount,
+                    updated,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "SettlementReport{created=$created, currency=$currency, details=$details, disputesGrossAmount=$disputesGrossAmount, interchangeGrossAmount=$interchangeGrossAmount, isComplete=$isComplete, otherFeesGrossAmount=$otherFeesGrossAmount, reportDate=$reportDate, settledNetAmount=$settledNetAmount, transactionsGrossAmount=$transactionsGrossAmount, updated=$updated, additionalProperties=$additionalProperties}"
 }

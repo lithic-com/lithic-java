@@ -88,8 +88,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /**
          * Specifies the digital card art to be displayed in the user’s digital wallet after
          * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
@@ -154,42 +152,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is CardUpdateBody &&
-                this.digitalCardArtToken == other.digitalCardArtToken &&
-                this.memo == other.memo &&
-                this.pin == other.pin &&
-                this.pinStatus == other.pinStatus &&
-                this.spendLimit == other.spendLimit &&
-                this.spendLimitDuration == other.spendLimitDuration &&
-                this.state == other.state &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        digitalCardArtToken,
-                        memo,
-                        pin,
-                        pinStatus,
-                        spendLimit,
-                        spendLimitDuration,
-                        state,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "CardUpdateBody{digitalCardArtToken=$digitalCardArtToken, memo=$memo, pin=$pin, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -313,6 +275,44 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is CardUpdateBody &&
+                this.digitalCardArtToken == other.digitalCardArtToken &&
+                this.memo == other.memo &&
+                this.pin == other.pin &&
+                this.pinStatus == other.pinStatus &&
+                this.spendLimit == other.spendLimit &&
+                this.spendLimitDuration == other.spendLimitDuration &&
+                this.state == other.state &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        digitalCardArtToken,
+                        memo,
+                        pin,
+                        pinStatus,
+                        spendLimit,
+                        spendLimitDuration,
+                        state,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "CardUpdateBody{digitalCardArtToken=$digitalCardArtToken, memo=$memo, pin=$pin, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams

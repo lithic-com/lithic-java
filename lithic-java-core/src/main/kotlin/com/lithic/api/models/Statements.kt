@@ -25,8 +25,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     fun data(): List<Statement> = data.getRequired("data")
 
     fun hasMore(): Boolean = hasMore.getRequired("has_more")
@@ -48,32 +46,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is Statements &&
-            this.data == other.data &&
-            this.hasMore == other.hasMore &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    data,
-                    hasMore,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "Statements{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -126,4 +98,32 @@ private constructor(
                 additionalProperties.toUnmodifiable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is Statements &&
+            this.data == other.data &&
+            this.hasMore == other.hasMore &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    data,
+                    hasMore,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "Statements{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 }

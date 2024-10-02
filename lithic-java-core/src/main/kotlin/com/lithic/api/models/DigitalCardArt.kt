@@ -35,8 +35,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Globally unique identifier for the card program. */
     fun cardProgramToken(): String = cardProgramToken.getRequired("card_program_token")
 
@@ -100,42 +98,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is DigitalCardArt &&
-            this.cardProgramToken == other.cardProgramToken &&
-            this.created == other.created &&
-            this.description == other.description &&
-            this.isCardProgramDefault == other.isCardProgramDefault &&
-            this.isEnabled == other.isEnabled &&
-            this.network == other.network &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    cardProgramToken,
-                    created,
-                    description,
-                    isCardProgramDefault,
-                    isEnabled,
-                    network,
-                    token,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "DigitalCardArt{cardProgramToken=$cardProgramToken, created=$created, description=$description, isCardProgramDefault=$isCardProgramDefault, isEnabled=$isEnabled, network=$network, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -310,4 +272,42 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is DigitalCardArt &&
+            this.cardProgramToken == other.cardProgramToken &&
+            this.created == other.created &&
+            this.description == other.description &&
+            this.isCardProgramDefault == other.isCardProgramDefault &&
+            this.isEnabled == other.isEnabled &&
+            this.network == other.network &&
+            this.token == other.token &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    cardProgramToken,
+                    created,
+                    description,
+                    isCardProgramDefault,
+                    isEnabled,
+                    network,
+                    token,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "DigitalCardArt{cardProgramToken=$cardProgramToken, created=$created, description=$description, isCardProgramDefault=$isCardProgramDefault, isEnabled=$isEnabled, network=$network, token=$token, additionalProperties=$additionalProperties}"
 }

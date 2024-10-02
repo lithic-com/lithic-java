@@ -48,8 +48,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Globally unique identifier for the account. */
     fun accountToken(): Optional<String> =
         Optional.ofNullable(accountToken.getNullable("account_token"))
@@ -328,68 +326,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is AccountHolder &&
-            this.accountToken == other.accountToken &&
-            this.beneficialOwnerEntities == other.beneficialOwnerEntities &&
-            this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
-            this.businessAccountToken == other.businessAccountToken &&
-            this.businessEntity == other.businessEntity &&
-            this.controlPerson == other.controlPerson &&
-            this.created == other.created &&
-            this.email == other.email &&
-            this.exemptionType == other.exemptionType &&
-            this.externalId == other.externalId &&
-            this.individual == other.individual &&
-            this.natureOfBusiness == other.natureOfBusiness &&
-            this.phoneNumber == other.phoneNumber &&
-            this.status == other.status &&
-            this.statusReasons == other.statusReasons &&
-            this.token == other.token &&
-            this.userType == other.userType &&
-            this.verificationApplication == other.verificationApplication &&
-            this.requiredDocuments == other.requiredDocuments &&
-            this.websiteUrl == other.websiteUrl &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountToken,
-                    beneficialOwnerEntities,
-                    beneficialOwnerIndividuals,
-                    businessAccountToken,
-                    businessEntity,
-                    controlPerson,
-                    created,
-                    email,
-                    exemptionType,
-                    externalId,
-                    individual,
-                    natureOfBusiness,
-                    phoneNumber,
-                    status,
-                    statusReasons,
-                    token,
-                    userType,
-                    verificationApplication,
-                    requiredDocuments,
-                    websiteUrl,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "AccountHolder{accountToken=$accountToken, beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessAccountToken=$businessAccountToken, businessEntity=$businessEntity, controlPerson=$controlPerson, created=$created, email=$email, exemptionType=$exemptionType, externalId=$externalId, individual=$individual, natureOfBusiness=$natureOfBusiness, phoneNumber=$phoneNumber, status=$status, statusReasons=$statusReasons, token=$token, userType=$userType, verificationApplication=$verificationApplication, requiredDocuments=$requiredDocuments, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -811,8 +747,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         /**
          * Business's physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
          * APO/FPO are acceptable.
@@ -894,42 +828,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AccountHolderBusinessResponse &&
-                this.address == other.address &&
-                this.dbaBusinessName == other.dbaBusinessName &&
-                this.governmentId == other.governmentId &&
-                this.legalBusinessName == other.legalBusinessName &&
-                this.parentCompany == other.parentCompany &&
-                this.phoneNumbers == other.phoneNumbers &&
-                this.entityToken == other.entityToken &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        dbaBusinessName,
-                        governmentId,
-                        legalBusinessName,
-                        parentCompany,
-                        phoneNumbers,
-                        entityToken,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "AccountHolderBusinessResponse{address=$address, dbaBusinessName=$dbaBusinessName, governmentId=$governmentId, legalBusinessName=$legalBusinessName, parentCompany=$parentCompany, phoneNumbers=$phoneNumbers, entityToken=$entityToken, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1074,6 +972,44 @@ private constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AccountHolderBusinessResponse &&
+                this.address == other.address &&
+                this.dbaBusinessName == other.dbaBusinessName &&
+                this.governmentId == other.governmentId &&
+                this.legalBusinessName == other.legalBusinessName &&
+                this.parentCompany == other.parentCompany &&
+                this.phoneNumbers == other.phoneNumbers &&
+                this.entityToken == other.entityToken &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        address,
+                        dbaBusinessName,
+                        governmentId,
+                        legalBusinessName,
+                        parentCompany,
+                        phoneNumbers,
+                        entityToken,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "AccountHolderBusinessResponse{address=$address, dbaBusinessName=$dbaBusinessName, governmentId=$governmentId, legalBusinessName=$legalBusinessName, parentCompany=$parentCompany, phoneNumbers=$phoneNumbers, entityToken=$entityToken, additionalProperties=$additionalProperties}"
     }
 
     /**
@@ -1095,8 +1031,6 @@ private constructor(
     ) {
 
         private var validated: Boolean = false
-
-        private var hashCode: Int = 0
 
         /** Individual's current address */
         fun address(): Address = address.getRequired("address")
@@ -1158,42 +1092,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AccountHolderIndividualResponse &&
-                this.address == other.address &&
-                this.dob == other.dob &&
-                this.email == other.email &&
-                this.firstName == other.firstName &&
-                this.lastName == other.lastName &&
-                this.phoneNumber == other.phoneNumber &&
-                this.entityToken == other.entityToken &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        dob,
-                        email,
-                        firstName,
-                        lastName,
-                        phoneNumber,
-                        entityToken,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "AccountHolderIndividualResponse{address=$address, dob=$dob, email=$email, firstName=$firstName, lastName=$lastName, phoneNumber=$phoneNumber, entityToken=$entityToken, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1310,6 +1208,44 @@ private constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AccountHolderIndividualResponse &&
+                this.address == other.address &&
+                this.dob == other.dob &&
+                this.email == other.email &&
+                this.firstName == other.firstName &&
+                this.lastName == other.lastName &&
+                this.phoneNumber == other.phoneNumber &&
+                this.entityToken == other.entityToken &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        address,
+                        dob,
+                        email,
+                        firstName,
+                        lastName,
+                        phoneNumber,
+                        entityToken,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "AccountHolderIndividualResponse{address=$address, dob=$dob, email=$email, firstName=$firstName, lastName=$lastName, phoneNumber=$phoneNumber, entityToken=$entityToken, additionalProperties=$additionalProperties}"
     }
 
     class ExemptionType
@@ -1640,8 +1576,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         /** Timestamp of when the application was created. */
         fun created(): Optional<OffsetDateTime> =
             Optional.ofNullable(created.getNullable("created"))
@@ -1698,36 +1632,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AccountHolderVerificationApplication &&
-                this.created == other.created &&
-                this.status == other.status &&
-                this.statusReasons == other.statusReasons &&
-                this.updated == other.updated &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        created,
-                        status,
-                        statusReasons,
-                        updated,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "AccountHolderVerificationApplication{created=$created, status=$status, statusReasons=$statusReasons, updated=$updated, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -2028,5 +1932,101 @@ private constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AccountHolderVerificationApplication &&
+                this.created == other.created &&
+                this.status == other.status &&
+                this.statusReasons == other.statusReasons &&
+                this.updated == other.updated &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        created,
+                        status,
+                        statusReasons,
+                        updated,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "AccountHolderVerificationApplication{created=$created, status=$status, statusReasons=$statusReasons, updated=$updated, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is AccountHolder &&
+            this.accountToken == other.accountToken &&
+            this.beneficialOwnerEntities == other.beneficialOwnerEntities &&
+            this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
+            this.businessAccountToken == other.businessAccountToken &&
+            this.businessEntity == other.businessEntity &&
+            this.controlPerson == other.controlPerson &&
+            this.created == other.created &&
+            this.email == other.email &&
+            this.exemptionType == other.exemptionType &&
+            this.externalId == other.externalId &&
+            this.individual == other.individual &&
+            this.natureOfBusiness == other.natureOfBusiness &&
+            this.phoneNumber == other.phoneNumber &&
+            this.status == other.status &&
+            this.statusReasons == other.statusReasons &&
+            this.token == other.token &&
+            this.userType == other.userType &&
+            this.verificationApplication == other.verificationApplication &&
+            this.requiredDocuments == other.requiredDocuments &&
+            this.websiteUrl == other.websiteUrl &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    accountToken,
+                    beneficialOwnerEntities,
+                    beneficialOwnerIndividuals,
+                    businessAccountToken,
+                    businessEntity,
+                    controlPerson,
+                    created,
+                    email,
+                    exemptionType,
+                    externalId,
+                    individual,
+                    natureOfBusiness,
+                    phoneNumber,
+                    status,
+                    statusReasons,
+                    token,
+                    userType,
+                    verificationApplication,
+                    requiredDocuments,
+                    websiteUrl,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "AccountHolder{accountToken=$accountToken, beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessAccountToken=$businessAccountToken, businessEntity=$businessEntity, controlPerson=$controlPerson, created=$created, email=$email, exemptionType=$exemptionType, externalId=$externalId, individual=$individual, natureOfBusiness=$natureOfBusiness, phoneNumber=$phoneNumber, status=$status, statusReasons=$statusReasons, token=$token, userType=$userType, verificationApplication=$verificationApplication, requiredDocuments=$requiredDocuments, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
 }

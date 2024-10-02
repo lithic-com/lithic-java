@@ -36,8 +36,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /**
      * KYC Exempt user's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
      * APO/FPO are acceptable.
@@ -129,46 +127,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is KycExempt &&
-            this.address == other.address &&
-            this.businessAccountToken == other.businessAccountToken &&
-            this.email == other.email &&
-            this.externalId == other.externalId &&
-            this.firstName == other.firstName &&
-            this.kycExemptionType == other.kycExemptionType &&
-            this.lastName == other.lastName &&
-            this.phoneNumber == other.phoneNumber &&
-            this.workflow == other.workflow &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    address,
-                    businessAccountToken,
-                    email,
-                    externalId,
-                    firstName,
-                    kycExemptionType,
-                    lastName,
-                    phoneNumber,
-                    workflow,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "KycExempt{address=$address, businessAccountToken=$businessAccountToken, email=$email, externalId=$externalId, firstName=$firstName, kycExemptionType=$kycExemptionType, lastName=$lastName, phoneNumber=$phoneNumber, workflow=$workflow, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -430,4 +388,46 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is KycExempt &&
+            this.address == other.address &&
+            this.businessAccountToken == other.businessAccountToken &&
+            this.email == other.email &&
+            this.externalId == other.externalId &&
+            this.firstName == other.firstName &&
+            this.kycExemptionType == other.kycExemptionType &&
+            this.lastName == other.lastName &&
+            this.phoneNumber == other.phoneNumber &&
+            this.workflow == other.workflow &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    address,
+                    businessAccountToken,
+                    email,
+                    externalId,
+                    firstName,
+                    kycExemptionType,
+                    lastName,
+                    phoneNumber,
+                    workflow,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "KycExempt{address=$address, businessAccountToken=$businessAccountToken, email=$email, externalId=$externalId, firstName=$firstName, kycExemptionType=$kycExemptionType, lastName=$lastName, phoneNumber=$phoneNumber, workflow=$workflow, additionalProperties=$additionalProperties}"
 }

@@ -25,8 +25,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** True if the endpoint was enrolled successfully. */
     fun enrolled(): Optional<Boolean> = Optional.ofNullable(enrolled.getNullable("enrolled"))
 
@@ -45,26 +43,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is ResponderEndpointCreateResponse &&
-            this.enrolled == other.enrolled &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = Objects.hash(enrolled, additionalProperties)
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "ResponderEndpointCreateResponse{enrolled=$enrolled, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -108,4 +86,26 @@ private constructor(
         fun build(): ResponderEndpointCreateResponse =
             ResponderEndpointCreateResponse(enrolled, additionalProperties.toUnmodifiable())
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is ResponderEndpointCreateResponse &&
+            this.enrolled == other.enrolled &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode = Objects.hash(enrolled, additionalProperties)
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "ResponderEndpointCreateResponse{enrolled=$enrolled, additionalProperties=$additionalProperties}"
 }

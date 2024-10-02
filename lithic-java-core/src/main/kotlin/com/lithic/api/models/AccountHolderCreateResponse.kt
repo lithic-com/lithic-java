@@ -35,8 +35,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Globally unique identifier for the account. */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
@@ -124,42 +122,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is AccountHolderCreateResponse &&
-            this.accountToken == other.accountToken &&
-            this.created == other.created &&
-            this.externalId == other.externalId &&
-            this.status == other.status &&
-            this.statusReasons == other.statusReasons &&
-            this.requiredDocuments == other.requiredDocuments &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountToken,
-                    created,
-                    externalId,
-                    status,
-                    statusReasons,
-                    requiredDocuments,
-                    token,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "AccountHolderCreateResponse{accountToken=$accountToken, created=$created, externalId=$externalId, status=$status, statusReasons=$statusReasons, requiredDocuments=$requiredDocuments, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -505,4 +467,42 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is AccountHolderCreateResponse &&
+            this.accountToken == other.accountToken &&
+            this.created == other.created &&
+            this.externalId == other.externalId &&
+            this.status == other.status &&
+            this.statusReasons == other.statusReasons &&
+            this.requiredDocuments == other.requiredDocuments &&
+            this.token == other.token &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    accountToken,
+                    created,
+                    externalId,
+                    status,
+                    statusReasons,
+                    requiredDocuments,
+                    token,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "AccountHolderCreateResponse{accountToken=$accountToken, created=$created, externalId=$externalId, status=$status, statusReasons=$statusReasons, requiredDocuments=$requiredDocuments, token=$token, additionalProperties=$additionalProperties}"
 }

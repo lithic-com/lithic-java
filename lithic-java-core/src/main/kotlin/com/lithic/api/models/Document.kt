@@ -32,8 +32,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Globally unique identifier for the document. */
     fun token(): String = token.getRequired("token")
 
@@ -85,38 +83,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is Document &&
-            this.token == other.token &&
-            this.accountHolderToken == other.accountHolderToken &&
-            this.documentType == other.documentType &&
-            this.entityToken == other.entityToken &&
-            this.requiredDocumentUploads == other.requiredDocumentUploads &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    token,
-                    accountHolderToken,
-                    documentType,
-                    entityToken,
-                    requiredDocumentUploads,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "Document{token=$token, accountHolderToken=$accountHolderToken, documentType=$documentType, entityToken=$entityToken, requiredDocumentUploads=$requiredDocumentUploads, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -393,8 +359,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         /** Type of image to upload. */
         fun imageType(): ImageType = imageType.getRequired("image_type")
 
@@ -453,38 +417,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is RequiredDocumentUpload &&
-                this.imageType == other.imageType &&
-                this.status == other.status &&
-                this.statusReasons == other.statusReasons &&
-                this.uploadUrl == other.uploadUrl &&
-                this.token == other.token &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        imageType,
-                        status,
-                        statusReasons,
-                        uploadUrl,
-                        token,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "RequiredDocumentUpload{imageType=$imageType, status=$status, statusReasons=$statusReasons, uploadUrl=$uploadUrl, token=$token, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -803,5 +735,73 @@ private constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is RequiredDocumentUpload &&
+                this.imageType == other.imageType &&
+                this.status == other.status &&
+                this.statusReasons == other.statusReasons &&
+                this.uploadUrl == other.uploadUrl &&
+                this.token == other.token &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        imageType,
+                        status,
+                        statusReasons,
+                        uploadUrl,
+                        token,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "RequiredDocumentUpload{imageType=$imageType, status=$status, statusReasons=$statusReasons, uploadUrl=$uploadUrl, token=$token, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is Document &&
+            this.token == other.token &&
+            this.accountHolderToken == other.accountHolderToken &&
+            this.documentType == other.documentType &&
+            this.entityToken == other.entityToken &&
+            this.requiredDocumentUploads == other.requiredDocumentUploads &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    token,
+                    accountHolderToken,
+                    documentType,
+                    entityToken,
+                    requiredDocumentUploads,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "Document{token=$token, accountHolderToken=$accountHolderToken, documentType=$documentType, entityToken=$entityToken, requiredDocumentUploads=$requiredDocumentUploads, additionalProperties=$additionalProperties}"
 }
