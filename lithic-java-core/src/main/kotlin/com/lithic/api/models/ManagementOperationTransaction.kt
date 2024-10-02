@@ -42,8 +42,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     fun token(): String = token.getRequired("token")
 
     fun result(): TransactionResult = result.getRequired("result")
@@ -124,54 +122,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is ManagementOperationTransaction &&
-            this.token == other.token &&
-            this.result == other.result &&
-            this.category == other.category &&
-            this.status == other.status &&
-            this.settledAmount == other.settledAmount &&
-            this.pendingAmount == other.pendingAmount &&
-            this.currency == other.currency &&
-            this.events == other.events &&
-            this.created == other.created &&
-            this.updated == other.updated &&
-            this.userDefinedId == other.userDefinedId &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.direction == other.direction &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    token,
-                    result,
-                    category,
-                    status,
-                    settledAmount,
-                    pendingAmount,
-                    currency,
-                    events,
-                    created,
-                    updated,
-                    userDefinedId,
-                    financialAccountToken,
-                    direction,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "ManagementOperationTransaction{token=$token, result=$result, category=$category, status=$status, settledAmount=$settledAmount, pendingAmount=$pendingAmount, currency=$currency, events=$events, created=$created, updated=$updated, userDefinedId=$userDefinedId, financialAccountToken=$financialAccountToken, direction=$direction, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -490,8 +440,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         fun amount(): Long = amount.getRequired("amount")
 
         fun type(): ManagementOperationEventType = type.getRequired("type")
@@ -549,46 +497,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is ManagementOperationEvent &&
-                this.amount == other.amount &&
-                this.type == other.type &&
-                this.subtype == other.subtype &&
-                this.result == other.result &&
-                this.detailedResults == other.detailedResults &&
-                this.created == other.created &&
-                this.token == other.token &&
-                this.memo == other.memo &&
-                this.effectiveDate == other.effectiveDate &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        amount,
-                        type,
-                        subtype,
-                        result,
-                        detailedResults,
-                        created,
-                        token,
-                        memo,
-                        effectiveDate,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "ManagementOperationEvent{amount=$amount, type=$type, subtype=$subtype, result=$result, detailedResults=$detailedResults, created=$created, token=$token, memo=$memo, effectiveDate=$effectiveDate, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -955,6 +863,48 @@ private constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ManagementOperationEvent &&
+                this.amount == other.amount &&
+                this.type == other.type &&
+                this.subtype == other.subtype &&
+                this.result == other.result &&
+                this.detailedResults == other.detailedResults &&
+                this.created == other.created &&
+                this.token == other.token &&
+                this.memo == other.memo &&
+                this.effectiveDate == other.effectiveDate &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        type,
+                        subtype,
+                        result,
+                        detailedResults,
+                        created,
+                        token,
+                        memo,
+                        effectiveDate,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "ManagementOperationEvent{amount=$amount, type=$type, subtype=$subtype, result=$result, detailedResults=$detailedResults, created=$created, token=$token, memo=$memo, effectiveDate=$effectiveDate, additionalProperties=$additionalProperties}"
     }
 
     class TransactionResult
@@ -1088,4 +1038,54 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is ManagementOperationTransaction &&
+            this.token == other.token &&
+            this.result == other.result &&
+            this.category == other.category &&
+            this.status == other.status &&
+            this.settledAmount == other.settledAmount &&
+            this.pendingAmount == other.pendingAmount &&
+            this.currency == other.currency &&
+            this.events == other.events &&
+            this.created == other.created &&
+            this.updated == other.updated &&
+            this.userDefinedId == other.userDefinedId &&
+            this.financialAccountToken == other.financialAccountToken &&
+            this.direction == other.direction &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    token,
+                    result,
+                    category,
+                    status,
+                    settledAmount,
+                    pendingAmount,
+                    currency,
+                    events,
+                    created,
+                    updated,
+                    userDefinedId,
+                    financialAccountToken,
+                    direction,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "ManagementOperationTransaction{token=$token, result=$result, category=$category, status=$status, settledAmount=$settledAmount, pendingAmount=$pendingAmount, currency=$currency, events=$events, created=$created, updated=$updated, userDefinedId=$userDefinedId, financialAccountToken=$financialAccountToken, direction=$direction, additionalProperties=$additionalProperties}"
 }

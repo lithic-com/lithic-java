@@ -69,8 +69,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /**
          * Array of country codes for which the Auth Rule will permit transactions. Note that only
          * this field or `blocked_countries` can be used for a given Auth Rule.
@@ -101,36 +99,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AuthRuleUpdateBody &&
-                this.allowedCountries == other.allowedCountries &&
-                this.allowedMcc == other.allowedMcc &&
-                this.blockedCountries == other.blockedCountries &&
-                this.blockedMcc == other.blockedMcc &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        allowedCountries,
-                        allowedMcc,
-                        blockedCountries,
-                        blockedMcc,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "AuthRuleUpdateBody{allowedCountries=$allowedCountries, allowedMcc=$allowedMcc, blockedCountries=$blockedCountries, blockedMcc=$blockedMcc, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -211,6 +179,38 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AuthRuleUpdateBody &&
+                this.allowedCountries == other.allowedCountries &&
+                this.allowedMcc == other.allowedMcc &&
+                this.blockedCountries == other.blockedCountries &&
+                this.blockedMcc == other.blockedMcc &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        allowedCountries,
+                        allowedMcc,
+                        blockedCountries,
+                        blockedMcc,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "AuthRuleUpdateBody{allowedCountries=$allowedCountries, allowedMcc=$allowedMcc, blockedCountries=$blockedCountries, blockedMcc=$blockedMcc, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams

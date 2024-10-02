@@ -33,8 +33,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** A description of the subscription. */
     fun description(): String = description.getRequired("description")
 
@@ -78,38 +76,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is EventSubscription &&
-            this.description == other.description &&
-            this.disabled == other.disabled &&
-            this.eventTypes == other.eventTypes &&
-            this.token == other.token &&
-            this.url == other.url &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    description,
-                    disabled,
-                    eventTypes,
-                    token,
-                    url,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "EventSubscription{description=$description, disabled=$disabled, eventTypes=$eventTypes, token=$token, url=$url, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -533,4 +499,38 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is EventSubscription &&
+            this.description == other.description &&
+            this.disabled == other.disabled &&
+            this.eventTypes == other.eventTypes &&
+            this.token == other.token &&
+            this.url == other.url &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    description,
+                    disabled,
+                    eventTypes,
+                    token,
+                    url,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "EventSubscription{description=$description, disabled=$disabled, eventTypes=$eventTypes, token=$token, url=$url, additionalProperties=$additionalProperties}"
 }

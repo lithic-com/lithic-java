@@ -36,8 +36,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Timestamp of when dispute evidence was created. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
@@ -117,42 +115,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is DisputeEvidence &&
-            this.created == other.created &&
-            this.disputeToken == other.disputeToken &&
-            this.downloadUrl == other.downloadUrl &&
-            this.filename == other.filename &&
-            this.token == other.token &&
-            this.uploadStatus == other.uploadStatus &&
-            this.uploadUrl == other.uploadUrl &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    created,
-                    disputeToken,
-                    downloadUrl,
-                    filename,
-                    token,
-                    uploadStatus,
-                    uploadUrl,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "DisputeEvidence{created=$created, disputeToken=$disputeToken, downloadUrl=$downloadUrl, filename=$filename, token=$token, uploadStatus=$uploadStatus, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -363,4 +325,42 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is DisputeEvidence &&
+            this.created == other.created &&
+            this.disputeToken == other.disputeToken &&
+            this.downloadUrl == other.downloadUrl &&
+            this.filename == other.filename &&
+            this.token == other.token &&
+            this.uploadStatus == other.uploadStatus &&
+            this.uploadUrl == other.uploadUrl &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    created,
+                    disputeToken,
+                    downloadUrl,
+                    filename,
+                    token,
+                    uploadStatus,
+                    uploadUrl,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "DisputeEvidence{created=$created, disputeToken=$disputeToken, downloadUrl=$downloadUrl, filename=$filename, token=$token, uploadStatus=$uploadStatus, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
 }

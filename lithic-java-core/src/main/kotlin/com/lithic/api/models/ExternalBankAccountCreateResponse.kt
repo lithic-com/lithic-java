@@ -51,8 +51,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /**
      * A globally unique identifier for this record of an external bank account association. If a
      * program links an external bank account to more than one end-user or to both the program and
@@ -267,72 +265,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is ExternalBankAccountCreateResponse &&
-            this.token == other.token &&
-            this.owner == other.owner &&
-            this.routingNumber == other.routingNumber &&
-            this.lastFour == other.lastFour &&
-            this.name == other.name &&
-            this.currency == other.currency &&
-            this.country == other.country &&
-            this.accountToken == other.accountToken &&
-            this.created == other.created &&
-            this.companyId == other.companyId &&
-            this.dob == other.dob &&
-            this.doingBusinessAs == other.doingBusinessAs &&
-            this.userDefinedId == other.userDefinedId &&
-            this.verificationFailedReason == other.verificationFailedReason &&
-            this.verificationAttempts == other.verificationAttempts &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.type == other.type &&
-            this.verificationMethod == other.verificationMethod &&
-            this.ownerType == other.ownerType &&
-            this.state == other.state &&
-            this.verificationState == other.verificationState &&
-            this.address == other.address &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    token,
-                    owner,
-                    routingNumber,
-                    lastFour,
-                    name,
-                    currency,
-                    country,
-                    accountToken,
-                    created,
-                    companyId,
-                    dob,
-                    doingBusinessAs,
-                    userDefinedId,
-                    verificationFailedReason,
-                    verificationAttempts,
-                    financialAccountToken,
-                    type,
-                    verificationMethod,
-                    ownerType,
-                    state,
-                    verificationState,
-                    address,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "ExternalBankAccountCreateResponse{token=$token, owner=$owner, routingNumber=$routingNumber, lastFour=$lastFour, name=$name, currency=$currency, country=$country, accountToken=$accountToken, created=$created, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, userDefinedId=$userDefinedId, verificationFailedReason=$verificationFailedReason, verificationAttempts=$verificationAttempts, financialAccountToken=$financialAccountToken, type=$type, verificationMethod=$verificationMethod, ownerType=$ownerType, state=$state, verificationState=$verificationState, address=$address, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -995,4 +927,72 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is ExternalBankAccountCreateResponse &&
+            this.token == other.token &&
+            this.owner == other.owner &&
+            this.routingNumber == other.routingNumber &&
+            this.lastFour == other.lastFour &&
+            this.name == other.name &&
+            this.currency == other.currency &&
+            this.country == other.country &&
+            this.accountToken == other.accountToken &&
+            this.created == other.created &&
+            this.companyId == other.companyId &&
+            this.dob == other.dob &&
+            this.doingBusinessAs == other.doingBusinessAs &&
+            this.userDefinedId == other.userDefinedId &&
+            this.verificationFailedReason == other.verificationFailedReason &&
+            this.verificationAttempts == other.verificationAttempts &&
+            this.financialAccountToken == other.financialAccountToken &&
+            this.type == other.type &&
+            this.verificationMethod == other.verificationMethod &&
+            this.ownerType == other.ownerType &&
+            this.state == other.state &&
+            this.verificationState == other.verificationState &&
+            this.address == other.address &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    token,
+                    owner,
+                    routingNumber,
+                    lastFour,
+                    name,
+                    currency,
+                    country,
+                    accountToken,
+                    created,
+                    companyId,
+                    dob,
+                    doingBusinessAs,
+                    userDefinedId,
+                    verificationFailedReason,
+                    verificationAttempts,
+                    financialAccountToken,
+                    type,
+                    verificationMethod,
+                    ownerType,
+                    state,
+                    verificationState,
+                    address,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "ExternalBankAccountCreateResponse{token=$token, owner=$owner, routingNumber=$routingNumber, lastFour=$lastFour, name=$name, currency=$currency, country=$country, accountToken=$accountToken, created=$created, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, userDefinedId=$userDefinedId, verificationFailedReason=$verificationFailedReason, verificationAttempts=$verificationAttempts, financialAccountToken=$financialAccountToken, type=$type, verificationMethod=$verificationMethod, ownerType=$ownerType, state=$state, verificationState=$verificationState, address=$address, additionalProperties=$additionalProperties}"
 }

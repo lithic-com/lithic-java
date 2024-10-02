@@ -36,8 +36,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     fun accountHolder(): Optional<AccountHolder> =
         Optional.ofNullable(accountHolder.getNullable("account_holder"))
 
@@ -159,44 +157,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is Account &&
-            this.accountHolder == other.accountHolder &&
-            this.authRuleTokens == other.authRuleTokens &&
-            this.cardholderCurrency == other.cardholderCurrency &&
-            this.spendLimit == other.spendLimit &&
-            this.state == other.state &&
-            this.token == other.token &&
-            this.verificationAddress == other.verificationAddress &&
-            this.created == other.created &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountHolder,
-                    authRuleTokens,
-                    cardholderCurrency,
-                    spendLimit,
-                    state,
-                    token,
-                    verificationAddress,
-                    created,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "Account{accountHolder=$accountHolder, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, spendLimit=$spendLimit, state=$state, token=$token, verificationAddress=$verificationAddress, created=$created, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -397,8 +357,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         /** Daily spend limit (in cents). */
         fun daily(): Long = daily.getRequired("daily")
 
@@ -431,34 +389,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is SpendLimit &&
-                this.daily == other.daily &&
-                this.lifetime == other.lifetime &&
-                this.monthly == other.monthly &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        daily,
-                        lifetime,
-                        monthly,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "SpendLimit{daily=$daily, lifetime=$lifetime, monthly=$monthly, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -526,6 +456,36 @@ private constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is SpendLimit &&
+                this.daily == other.daily &&
+                this.lifetime == other.lifetime &&
+                this.monthly == other.monthly &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        daily,
+                        lifetime,
+                        monthly,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "SpendLimit{daily=$daily, lifetime=$lifetime, monthly=$monthly, additionalProperties=$additionalProperties}"
     }
 
     class State
@@ -604,8 +564,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         /**
          * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
          * businesses. Account_token of the enrolled business associated with an enrolled
@@ -656,36 +614,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AccountHolder &&
-                this.businessAccountToken == other.businessAccountToken &&
-                this.email == other.email &&
-                this.phoneNumber == other.phoneNumber &&
-                this.token == other.token &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        businessAccountToken,
-                        email,
-                        phoneNumber,
-                        token,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "AccountHolder{businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, token=$token, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -777,6 +705,38 @@ private constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AccountHolder &&
+                this.businessAccountToken == other.businessAccountToken &&
+                this.email == other.email &&
+                this.phoneNumber == other.phoneNumber &&
+                this.token == other.token &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        businessAccountToken,
+                        email,
+                        phoneNumber,
+                        token,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "AccountHolder{businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, token=$token, additionalProperties=$additionalProperties}"
     }
 
     @JsonDeserialize(builder = VerificationAddress.Builder::class)
@@ -793,8 +753,6 @@ private constructor(
     ) {
 
         private var validated: Boolean = false
-
-        private var hashCode: Int = 0
 
         /** Valid deliverable address (no PO boxes). */
         fun address1(): String = address1.getRequired("address1")
@@ -861,40 +819,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is VerificationAddress &&
-                this.address1 == other.address1 &&
-                this.address2 == other.address2 &&
-                this.city == other.city &&
-                this.country == other.country &&
-                this.postalCode == other.postalCode &&
-                this.state == other.state &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address1,
-                        address2,
-                        city,
-                        country,
-                        postalCode,
-                        state,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "VerificationAddress{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1009,5 +933,81 @@ private constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is VerificationAddress &&
+                this.address1 == other.address1 &&
+                this.address2 == other.address2 &&
+                this.city == other.city &&
+                this.country == other.country &&
+                this.postalCode == other.postalCode &&
+                this.state == other.state &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        address1,
+                        address2,
+                        city,
+                        country,
+                        postalCode,
+                        state,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "VerificationAddress{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is Account &&
+            this.accountHolder == other.accountHolder &&
+            this.authRuleTokens == other.authRuleTokens &&
+            this.cardholderCurrency == other.cardholderCurrency &&
+            this.spendLimit == other.spendLimit &&
+            this.state == other.state &&
+            this.token == other.token &&
+            this.verificationAddress == other.verificationAddress &&
+            this.created == other.created &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    accountHolder,
+                    authRuleTokens,
+                    cardholderCurrency,
+                    spendLimit,
+                    state,
+                    token,
+                    verificationAddress,
+                    created,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "Account{accountHolder=$accountHolder, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, spendLimit=$spendLimit, state=$state, token=$token, verificationAddress=$verificationAddress, created=$created, additionalProperties=$additionalProperties}"
 }

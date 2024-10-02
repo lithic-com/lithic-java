@@ -94,8 +94,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         @JsonProperty("amount") fun amount(): Long? = amount
 
         @JsonProperty("category") fun category(): ManagementOperationCategory? = category
@@ -122,48 +120,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is ManagementOperationCreateBody &&
-                this.amount == other.amount &&
-                this.category == other.category &&
-                this.direction == other.direction &&
-                this.effectiveDate == other.effectiveDate &&
-                this.eventType == other.eventType &&
-                this.financialAccountToken == other.financialAccountToken &&
-                this.token == other.token &&
-                this.memo == other.memo &&
-                this.subtype == other.subtype &&
-                this.userDefinedId == other.userDefinedId &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        amount,
-                        category,
-                        direction,
-                        effectiveDate,
-                        eventType,
-                        financialAccountToken,
-                        token,
-                        memo,
-                        subtype,
-                        userDefinedId,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "ManagementOperationCreateBody{amount=$amount, category=$category, direction=$direction, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, token=$token, memo=$memo, subtype=$subtype, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -265,6 +221,50 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ManagementOperationCreateBody &&
+                this.amount == other.amount &&
+                this.category == other.category &&
+                this.direction == other.direction &&
+                this.effectiveDate == other.effectiveDate &&
+                this.eventType == other.eventType &&
+                this.financialAccountToken == other.financialAccountToken &&
+                this.token == other.token &&
+                this.memo == other.memo &&
+                this.subtype == other.subtype &&
+                this.userDefinedId == other.userDefinedId &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        category,
+                        direction,
+                        effectiveDate,
+                        eventType,
+                        financialAccountToken,
+                        token,
+                        memo,
+                        subtype,
+                        userDefinedId,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "ManagementOperationCreateBody{amount=$amount, category=$category, direction=$direction, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, token=$token, memo=$memo, subtype=$subtype, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams

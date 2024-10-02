@@ -32,8 +32,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
     fun cardholderCurrency(): Optional<String> =
         Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
@@ -106,42 +104,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is CardProgram &&
-            this.cardholderCurrency == other.cardholderCurrency &&
-            this.created == other.created &&
-            this.name == other.name &&
-            this.panRangeEnd == other.panRangeEnd &&
-            this.panRangeStart == other.panRangeStart &&
-            this.settlementCurrencies == other.settlementCurrencies &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    cardholderCurrency,
-                    created,
-                    name,
-                    panRangeEnd,
-                    panRangeStart,
-                    settlementCurrencies,
-                    token,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "CardProgram{cardholderCurrency=$cardholderCurrency, created=$created, name=$name, panRangeEnd=$panRangeEnd, panRangeStart=$panRangeStart, settlementCurrencies=$settlementCurrencies, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -267,4 +229,42 @@ private constructor(
                 additionalProperties.toUnmodifiable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is CardProgram &&
+            this.cardholderCurrency == other.cardholderCurrency &&
+            this.created == other.created &&
+            this.name == other.name &&
+            this.panRangeEnd == other.panRangeEnd &&
+            this.panRangeStart == other.panRangeStart &&
+            this.settlementCurrencies == other.settlementCurrencies &&
+            this.token == other.token &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    cardholderCurrency,
+                    created,
+                    name,
+                    panRangeEnd,
+                    panRangeStart,
+                    settlementCurrencies,
+                    token,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "CardProgram{cardholderCurrency=$cardholderCurrency, created=$created, name=$name, panRangeEnd=$panRangeEnd, panRangeStart=$panRangeStart, settlementCurrencies=$settlementCurrencies, token=$token, additionalProperties=$additionalProperties}"
 }

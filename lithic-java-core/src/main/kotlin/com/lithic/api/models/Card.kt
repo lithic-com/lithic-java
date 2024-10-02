@@ -50,8 +50,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Globally unique identifier for the account to which the card belongs. */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
@@ -360,72 +358,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is Card &&
-            this.accountToken == other.accountToken &&
-            this.authRuleTokens == other.authRuleTokens &&
-            this.cardProgramToken == other.cardProgramToken &&
-            this.cardholderCurrency == other.cardholderCurrency &&
-            this.created == other.created &&
-            this.cvv == other.cvv &&
-            this.digitalCardArtToken == other.digitalCardArtToken &&
-            this.expMonth == other.expMonth &&
-            this.expYear == other.expYear &&
-            this.funding == other.funding &&
-            this.hostname == other.hostname &&
-            this.lastFour == other.lastFour &&
-            this.memo == other.memo &&
-            this.pan == other.pan &&
-            this.pendingCommands == other.pendingCommands &&
-            this.pinStatus == other.pinStatus &&
-            this.productId == other.productId &&
-            this.spendLimit == other.spendLimit &&
-            this.spendLimitDuration == other.spendLimitDuration &&
-            this.state == other.state &&
-            this.token == other.token &&
-            this.type == other.type &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountToken,
-                    authRuleTokens,
-                    cardProgramToken,
-                    cardholderCurrency,
-                    created,
-                    cvv,
-                    digitalCardArtToken,
-                    expMonth,
-                    expYear,
-                    funding,
-                    hostname,
-                    lastFour,
-                    memo,
-                    pan,
-                    pendingCommands,
-                    pinStatus,
-                    productId,
-                    spendLimit,
-                    spendLimitDuration,
-                    state,
-                    token,
-                    type,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "Card{accountToken=$accountToken, authRuleTokens=$authRuleTokens, cardProgramToken=$cardProgramToken, cardholderCurrency=$cardholderCurrency, created=$created, cvv=$cvv, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, funding=$funding, hostname=$hostname, lastFour=$lastFour, memo=$memo, pan=$pan, pendingCommands=$pendingCommands, pinStatus=$pinStatus, productId=$productId, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -878,8 +810,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         /** Account name identifying the funding source. This may be `null`. */
         fun accountName(): Optional<String> =
             Optional.ofNullable(accountName.getNullable("account_name"))
@@ -977,42 +907,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is FundingAccount &&
-                this.accountName == other.accountName &&
-                this.created == other.created &&
-                this.lastFour == other.lastFour &&
-                this.nickname == other.nickname &&
-                this.state == other.state &&
-                this.token == other.token &&
-                this.type == other.type &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        accountName,
-                        created,
-                        lastFour,
-                        nickname,
-                        state,
-                        token,
-                        type,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "FundingAccount{accountName=$accountName, created=$created, lastFour=$lastFour, nickname=$nickname, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1284,6 +1178,44 @@ private constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is FundingAccount &&
+                this.accountName == other.accountName &&
+                this.created == other.created &&
+                this.lastFour == other.lastFour &&
+                this.nickname == other.nickname &&
+                this.state == other.state &&
+                this.token == other.token &&
+                this.type == other.type &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        accountName,
+                        created,
+                        lastFour,
+                        nickname,
+                        state,
+                        token,
+                        type,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "FundingAccount{accountName=$accountName, created=$created, lastFour=$lastFour, nickname=$nickname, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
     }
 
     class PinStatus
@@ -1492,4 +1424,72 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is Card &&
+            this.accountToken == other.accountToken &&
+            this.authRuleTokens == other.authRuleTokens &&
+            this.cardProgramToken == other.cardProgramToken &&
+            this.cardholderCurrency == other.cardholderCurrency &&
+            this.created == other.created &&
+            this.cvv == other.cvv &&
+            this.digitalCardArtToken == other.digitalCardArtToken &&
+            this.expMonth == other.expMonth &&
+            this.expYear == other.expYear &&
+            this.funding == other.funding &&
+            this.hostname == other.hostname &&
+            this.lastFour == other.lastFour &&
+            this.memo == other.memo &&
+            this.pan == other.pan &&
+            this.pendingCommands == other.pendingCommands &&
+            this.pinStatus == other.pinStatus &&
+            this.productId == other.productId &&
+            this.spendLimit == other.spendLimit &&
+            this.spendLimitDuration == other.spendLimitDuration &&
+            this.state == other.state &&
+            this.token == other.token &&
+            this.type == other.type &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    accountToken,
+                    authRuleTokens,
+                    cardProgramToken,
+                    cardholderCurrency,
+                    created,
+                    cvv,
+                    digitalCardArtToken,
+                    expMonth,
+                    expYear,
+                    funding,
+                    hostname,
+                    lastFour,
+                    memo,
+                    pan,
+                    pendingCommands,
+                    pinStatus,
+                    productId,
+                    spendLimit,
+                    spendLimitDuration,
+                    state,
+                    token,
+                    type,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "Card{accountToken=$accountToken, authRuleTokens=$authRuleTokens, cardProgramToken=$cardProgramToken, cardholderCurrency=$cardholderCurrency, created=$created, cvv=$cvv, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, funding=$funding, hostname=$hostname, lastFour=$lastFour, memo=$memo, pan=$pan, pendingCommands=$pendingCommands, pinStatus=$pinStatus, productId=$productId, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
 }

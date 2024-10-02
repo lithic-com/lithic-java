@@ -30,8 +30,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Valid deliverable address (no PO boxes). */
     fun address1(): String = address1.getRequired("address1")
 
@@ -105,40 +103,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is Address &&
-            this.address1 == other.address1 &&
-            this.address2 == other.address2 &&
-            this.city == other.city &&
-            this.country == other.country &&
-            this.postalCode == other.postalCode &&
-            this.state == other.state &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    address1,
-                    address2,
-                    city,
-                    country,
-                    postalCode,
-                    state,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "Address{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -259,4 +223,40 @@ private constructor(
                 additionalProperties.toUnmodifiable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is Address &&
+            this.address1 == other.address1 &&
+            this.address2 == other.address2 &&
+            this.city == other.city &&
+            this.country == other.country &&
+            this.postalCode == other.postalCode &&
+            this.state == other.state &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    address1,
+                    address2,
+                    city,
+                    country,
+                    postalCode,
+                    state,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "Address{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 }

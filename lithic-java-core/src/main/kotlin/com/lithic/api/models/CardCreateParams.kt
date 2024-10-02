@@ -123,8 +123,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /**
          * Card types:
          * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
@@ -253,60 +251,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is CardCreateBody &&
-                this.type == other.type &&
-                this.accountToken == other.accountToken &&
-                this.cardProgramToken == other.cardProgramToken &&
-                this.carrier == other.carrier &&
-                this.digitalCardArtToken == other.digitalCardArtToken &&
-                this.expMonth == other.expMonth &&
-                this.expYear == other.expYear &&
-                this.memo == other.memo &&
-                this.pin == other.pin &&
-                this.productId == other.productId &&
-                this.replacementFor == other.replacementFor &&
-                this.shippingAddress == other.shippingAddress &&
-                this.shippingMethod == other.shippingMethod &&
-                this.spendLimit == other.spendLimit &&
-                this.spendLimitDuration == other.spendLimitDuration &&
-                this.state == other.state &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        type,
-                        accountToken,
-                        cardProgramToken,
-                        carrier,
-                        digitalCardArtToken,
-                        expMonth,
-                        expYear,
-                        memo,
-                        pin,
-                        productId,
-                        replacementFor,
-                        shippingAddress,
-                        shippingMethod,
-                        spendLimit,
-                        spendLimitDuration,
-                        state,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "CardCreateBody{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -539,6 +483,62 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is CardCreateBody &&
+                this.type == other.type &&
+                this.accountToken == other.accountToken &&
+                this.cardProgramToken == other.cardProgramToken &&
+                this.carrier == other.carrier &&
+                this.digitalCardArtToken == other.digitalCardArtToken &&
+                this.expMonth == other.expMonth &&
+                this.expYear == other.expYear &&
+                this.memo == other.memo &&
+                this.pin == other.pin &&
+                this.productId == other.productId &&
+                this.replacementFor == other.replacementFor &&
+                this.shippingAddress == other.shippingAddress &&
+                this.shippingMethod == other.shippingMethod &&
+                this.spendLimit == other.spendLimit &&
+                this.spendLimitDuration == other.spendLimitDuration &&
+                this.state == other.state &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        type,
+                        accountToken,
+                        cardProgramToken,
+                        carrier,
+                        digitalCardArtToken,
+                        expMonth,
+                        expYear,
+                        memo,
+                        pin,
+                        productId,
+                        replacementFor,
+                        shippingAddress,
+                        shippingMethod,
+                        spendLimit,
+                        spendLimitDuration,
+                        state,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "CardCreateBody{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
