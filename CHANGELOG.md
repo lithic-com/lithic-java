@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.64.1 (2024-10-02)
+
+Full Changelog: [v0.64.0...v0.64.1](https://github.com/lithic-com/lithic-java/compare/v0.64.0...v0.64.1)
+
+### Bug Fixes
+
+* **client:** escape keywords reserved in java, but not in kotlin, for the java sdk ([#323](https://github.com/lithic-com/lithic-java/issues/323)) ([de90120](https://github.com/lithic-com/lithic-java/commit/de9012087e99f83f68ccc689b5380b28d046f2fa))
+
+
+### Styles
+
+* **client:** move equals, hashCode, and toString to the bottom of entity files ([#321](https://github.com/lithic-com/lithic-java/issues/321)) ([88d052f](https://github.com/lithic-com/lithic-java/commit/88d052f82390ba6540c971952f4def79fef78528))
+
 ## 0.64.0 (2024-10-01)
 
 Full Changelog: [v0.63.0...v0.64.0](https://github.com/lithic-com/lithic-java/compare/v0.63.0...v0.64.0)
