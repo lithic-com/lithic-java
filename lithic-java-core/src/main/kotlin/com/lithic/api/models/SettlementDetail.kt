@@ -48,8 +48,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa). */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
@@ -226,68 +224,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is SettlementDetail &&
-            this.accountToken == other.accountToken &&
-            this.cardProgramToken == other.cardProgramToken &&
-            this.cardToken == other.cardToken &&
-            this.created == other.created &&
-            this.currency == other.currency &&
-            this.disputesGrossAmount == other.disputesGrossAmount &&
-            this.eventTokens == other.eventTokens &&
-            this.institution == other.institution &&
-            this.interchangeFeeExtendedPrecision == other.interchangeFeeExtendedPrecision &&
-            this.interchangeGrossAmount == other.interchangeGrossAmount &&
-            this.network == other.network &&
-            this.otherFeesDetails == other.otherFeesDetails &&
-            this.otherFeesGrossAmount == other.otherFeesGrossAmount &&
-            this.reportDate == other.reportDate &&
-            this.settlementDate == other.settlementDate &&
-            this.token == other.token &&
-            this.transactionToken == other.transactionToken &&
-            this.transactionsGrossAmount == other.transactionsGrossAmount &&
-            this.type == other.type &&
-            this.updated == other.updated &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountToken,
-                    cardProgramToken,
-                    cardToken,
-                    created,
-                    currency,
-                    disputesGrossAmount,
-                    eventTokens,
-                    institution,
-                    interchangeFeeExtendedPrecision,
-                    interchangeGrossAmount,
-                    network,
-                    otherFeesDetails,
-                    otherFeesGrossAmount,
-                    reportDate,
-                    settlementDate,
-                    token,
-                    transactionToken,
-                    transactionsGrossAmount,
-                    type,
-                    updated,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "SettlementDetail{accountToken=$accountToken, cardProgramToken=$cardProgramToken, cardToken=$cardToken, created=$created, currency=$currency, disputesGrossAmount=$disputesGrossAmount, eventTokens=$eventTokens, institution=$institution, interchangeFeeExtendedPrecision=$interchangeFeeExtendedPrecision, interchangeGrossAmount=$interchangeGrossAmount, network=$network, otherFeesDetails=$otherFeesDetails, otherFeesGrossAmount=$otherFeesGrossAmount, reportDate=$reportDate, settlementDate=$settlementDate, token=$token, transactionToken=$transactionToken, transactionsGrossAmount=$transactionsGrossAmount, type=$type, updated=$updated, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -684,8 +620,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         fun isa(): Optional<Long> = Optional.ofNullable(isa.getNullable("ISA"))
 
         @JsonProperty("ISA") @ExcludeMissing fun _isa() = isa
@@ -702,26 +636,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is OtherFeesDetails &&
-                this.isa == other.isa &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = Objects.hash(isa, additionalProperties)
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "OtherFeesDetails{isa=$isa, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -762,6 +676,28 @@ private constructor(
             fun build(): OtherFeesDetails =
                 OtherFeesDetails(isa, additionalProperties.toUnmodifiable())
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is OtherFeesDetails &&
+                this.isa == other.isa &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode = Objects.hash(isa, additionalProperties)
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "OtherFeesDetails{isa=$isa, additionalProperties=$additionalProperties}"
     }
 
     class Type
@@ -862,4 +798,68 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is SettlementDetail &&
+            this.accountToken == other.accountToken &&
+            this.cardProgramToken == other.cardProgramToken &&
+            this.cardToken == other.cardToken &&
+            this.created == other.created &&
+            this.currency == other.currency &&
+            this.disputesGrossAmount == other.disputesGrossAmount &&
+            this.eventTokens == other.eventTokens &&
+            this.institution == other.institution &&
+            this.interchangeFeeExtendedPrecision == other.interchangeFeeExtendedPrecision &&
+            this.interchangeGrossAmount == other.interchangeGrossAmount &&
+            this.network == other.network &&
+            this.otherFeesDetails == other.otherFeesDetails &&
+            this.otherFeesGrossAmount == other.otherFeesGrossAmount &&
+            this.reportDate == other.reportDate &&
+            this.settlementDate == other.settlementDate &&
+            this.token == other.token &&
+            this.transactionToken == other.transactionToken &&
+            this.transactionsGrossAmount == other.transactionsGrossAmount &&
+            this.type == other.type &&
+            this.updated == other.updated &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    accountToken,
+                    cardProgramToken,
+                    cardToken,
+                    created,
+                    currency,
+                    disputesGrossAmount,
+                    eventTokens,
+                    institution,
+                    interchangeFeeExtendedPrecision,
+                    interchangeGrossAmount,
+                    network,
+                    otherFeesDetails,
+                    otherFeesGrossAmount,
+                    reportDate,
+                    settlementDate,
+                    token,
+                    transactionToken,
+                    transactionsGrossAmount,
+                    type,
+                    updated,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "SettlementDetail{accountToken=$accountToken, cardProgramToken=$cardProgramToken, cardToken=$cardToken, created=$created, currency=$currency, disputesGrossAmount=$disputesGrossAmount, eventTokens=$eventTokens, institution=$institution, interchangeFeeExtendedPrecision=$interchangeFeeExtendedPrecision, interchangeGrossAmount=$interchangeGrossAmount, network=$network, otherFeesDetails=$otherFeesDetails, otherFeesGrossAmount=$otherFeesGrossAmount, reportDate=$reportDate, settlementDate=$settlementDate, token=$token, transactionToken=$transactionToken, transactionsGrossAmount=$transactionsGrossAmount, type=$type, updated=$updated, additionalProperties=$additionalProperties}"
 }

@@ -36,8 +36,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /**
      * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note that
      * only this field or `card_tokens` can be provided for a given Auth Rule.
@@ -139,46 +137,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is AuthRule &&
-            this.accountTokens == other.accountTokens &&
-            this.allowedCountries == other.allowedCountries &&
-            this.allowedMcc == other.allowedMcc &&
-            this.blockedCountries == other.blockedCountries &&
-            this.blockedMcc == other.blockedMcc &&
-            this.cardTokens == other.cardTokens &&
-            this.programLevel == other.programLevel &&
-            this.state == other.state &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountTokens,
-                    allowedCountries,
-                    allowedMcc,
-                    blockedCountries,
-                    blockedMcc,
-                    cardTokens,
-                    programLevel,
-                    state,
-                    token,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "AuthRule{accountTokens=$accountTokens, allowedCountries=$allowedCountries, allowedMcc=$allowedMcc, blockedCountries=$blockedCountries, blockedMcc=$blockedMcc, cardTokens=$cardTokens, programLevel=$programLevel, state=$state, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -399,4 +357,46 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is AuthRule &&
+            this.accountTokens == other.accountTokens &&
+            this.allowedCountries == other.allowedCountries &&
+            this.allowedMcc == other.allowedMcc &&
+            this.blockedCountries == other.blockedCountries &&
+            this.blockedMcc == other.blockedMcc &&
+            this.cardTokens == other.cardTokens &&
+            this.programLevel == other.programLevel &&
+            this.state == other.state &&
+            this.token == other.token &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    accountTokens,
+                    allowedCountries,
+                    allowedMcc,
+                    blockedCountries,
+                    blockedMcc,
+                    cardTokens,
+                    programLevel,
+                    state,
+                    token,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "AuthRule{accountTokens=$accountTokens, allowedCountries=$allowedCountries, allowedMcc=$allowedMcc, blockedCountries=$blockedCountries, blockedMcc=$blockedMcc, cardTokens=$cardTokens, programLevel=$programLevel, state=$state, token=$token, additionalProperties=$additionalProperties}"
 }

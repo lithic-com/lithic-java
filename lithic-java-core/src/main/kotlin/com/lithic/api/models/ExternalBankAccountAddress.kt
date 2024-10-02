@@ -30,8 +30,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     fun address1(): String = address1.getRequired("address1")
 
     fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
@@ -73,40 +71,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is ExternalBankAccountAddress &&
-            this.address1 == other.address1 &&
-            this.address2 == other.address2 &&
-            this.city == other.city &&
-            this.state == other.state &&
-            this.postalCode == other.postalCode &&
-            this.country == other.country &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    address1,
-                    address2,
-                    city,
-                    state,
-                    postalCode,
-                    country,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "ExternalBankAccountAddress{address1=$address1, address2=$address2, city=$city, state=$state, postalCode=$postalCode, country=$country, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -195,4 +159,40 @@ private constructor(
                 additionalProperties.toUnmodifiable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is ExternalBankAccountAddress &&
+            this.address1 == other.address1 &&
+            this.address2 == other.address2 &&
+            this.city == other.city &&
+            this.state == other.state &&
+            this.postalCode == other.postalCode &&
+            this.country == other.country &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    address1,
+                    address2,
+                    city,
+                    state,
+                    postalCode,
+                    country,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "ExternalBankAccountAddress{address1=$address1, address2=$address2, city=$city, state=$state, postalCode=$postalCode, country=$country, additionalProperties=$additionalProperties}"
 }

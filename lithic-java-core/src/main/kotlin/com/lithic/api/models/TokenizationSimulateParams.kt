@@ -84,8 +84,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /** The three digit cvv for the card. */
         @JsonProperty("cvv") fun cvv(): String? = cvv
 
@@ -126,44 +124,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is TokenizationSimulateBody &&
-                this.cvv == other.cvv &&
-                this.expirationDate == other.expirationDate &&
-                this.pan == other.pan &&
-                this.tokenizationSource == other.tokenizationSource &&
-                this.accountScore == other.accountScore &&
-                this.deviceScore == other.deviceScore &&
-                this.entity == other.entity &&
-                this.walletRecommendedDecision == other.walletRecommendedDecision &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        cvv,
-                        expirationDate,
-                        pan,
-                        tokenizationSource,
-                        accountScore,
-                        deviceScore,
-                        entity,
-                        walletRecommendedDecision,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "TokenizationSimulateBody{cvv=$cvv, expirationDate=$expirationDate, pan=$pan, tokenizationSource=$tokenizationSource, accountScore=$accountScore, deviceScore=$deviceScore, entity=$entity, walletRecommendedDecision=$walletRecommendedDecision, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -269,6 +229,46 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TokenizationSimulateBody &&
+                this.cvv == other.cvv &&
+                this.expirationDate == other.expirationDate &&
+                this.pan == other.pan &&
+                this.tokenizationSource == other.tokenizationSource &&
+                this.accountScore == other.accountScore &&
+                this.deviceScore == other.deviceScore &&
+                this.entity == other.entity &&
+                this.walletRecommendedDecision == other.walletRecommendedDecision &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        cvv,
+                        expirationDate,
+                        pan,
+                        tokenizationSource,
+                        accountScore,
+                        deviceScore,
+                        entity,
+                        walletRecommendedDecision,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "TokenizationSimulateBody{cvv=$cvv, expirationDate=$expirationDate, pan=$pan, tokenizationSource=$tokenizationSource, accountScore=$accountScore, deviceScore=$deviceScore, entity=$entity, walletRecommendedDecision=$walletRecommendedDecision, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams

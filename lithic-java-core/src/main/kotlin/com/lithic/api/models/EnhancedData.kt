@@ -33,8 +33,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** A unique identifier for the enhanced commercial data. */
     fun token(): String = token.getRequired("token")
 
@@ -77,38 +75,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is EnhancedData &&
-            this.token == other.token &&
-            this.transactionToken == other.transactionToken &&
-            this.eventToken == other.eventToken &&
-            this.common == other.common &&
-            this.fleet == other.fleet &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    token,
-                    transactionToken,
-                    eventToken,
-                    common,
-                    fleet,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "EnhancedData{token=$token, transactionToken=$transactionToken, eventToken=$eventToken, common=$common, fleet=$fleet, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -212,8 +178,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         /** A customer identifier. */
         fun customerReferenceNumber(): Optional<String> =
             Optional.ofNullable(customerReferenceNumber.getNullable("customer_reference_number"))
@@ -263,38 +227,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is CommonData &&
-                this.customerReferenceNumber == other.customerReferenceNumber &&
-                this.merchantReferenceNumber == other.merchantReferenceNumber &&
-                this.orderDate == other.orderDate &&
-                this.tax == other.tax &&
-                this.lineItems == other.lineItems &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        customerReferenceNumber,
-                        merchantReferenceNumber,
-                        orderDate,
-                        tax,
-                        lineItems,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "CommonData{customerReferenceNumber=$customerReferenceNumber, merchantReferenceNumber=$merchantReferenceNumber, orderDate=$orderDate, tax=$tax, lineItems=$lineItems, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -403,8 +335,6 @@ private constructor(
 
             private var validated: Boolean = false
 
-            private var hashCode: Int = 0
-
             /** An identifier for the item purchased. */
             fun productCode(): Optional<String> =
                 Optional.ofNullable(productCode.getNullable("product_code"))
@@ -446,36 +376,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is LineItem &&
-                    this.productCode == other.productCode &&
-                    this.description == other.description &&
-                    this.quantity == other.quantity &&
-                    this.amount == other.amount &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            productCode,
-                            description,
-                            quantity,
-                            amount,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "LineItem{productCode=$productCode, description=$description, quantity=$quantity, amount=$amount, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -559,6 +459,38 @@ private constructor(
                         additionalProperties.toUnmodifiable(),
                     )
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is LineItem &&
+                    this.productCode == other.productCode &&
+                    this.description == other.description &&
+                    this.quantity == other.quantity &&
+                    this.amount == other.amount &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            private var hashCode: Int = 0
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            productCode,
+                            description,
+                            quantity,
+                            amount,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "LineItem{productCode=$productCode, description=$description, quantity=$quantity, amount=$amount, additionalProperties=$additionalProperties}"
         }
 
         @JsonDeserialize(builder = TaxData.Builder::class)
@@ -572,8 +504,6 @@ private constructor(
         ) {
 
             private var validated: Boolean = false
-
-            private var hashCode: Int = 0
 
             /** The amount of tax collected. */
             fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
@@ -609,34 +539,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is TaxData &&
-                    this.amount == other.amount &&
-                    this.exempt == other.exempt &&
-                    this.merchantTaxId == other.merchantTaxId &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            amount,
-                            exempt,
-                            merchantTaxId,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "TaxData{amount=$amount, exempt=$exempt, merchantTaxId=$merchantTaxId, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -773,7 +675,71 @@ private constructor(
 
                 fun asString(): String = _value().asStringOrThrow()
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is TaxData &&
+                    this.amount == other.amount &&
+                    this.exempt == other.exempt &&
+                    this.merchantTaxId == other.merchantTaxId &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            private var hashCode: Int = 0
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            amount,
+                            exempt,
+                            merchantTaxId,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "TaxData{amount=$amount, exempt=$exempt, merchantTaxId=$merchantTaxId, additionalProperties=$additionalProperties}"
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is CommonData &&
+                this.customerReferenceNumber == other.customerReferenceNumber &&
+                this.merchantReferenceNumber == other.merchantReferenceNumber &&
+                this.orderDate == other.orderDate &&
+                this.tax == other.tax &&
+                this.lineItems == other.lineItems &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        customerReferenceNumber,
+                        merchantReferenceNumber,
+                        orderDate,
+                        tax,
+                        lineItems,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "CommonData{customerReferenceNumber=$customerReferenceNumber, merchantReferenceNumber=$merchantReferenceNumber, orderDate=$orderDate, tax=$tax, lineItems=$lineItems, additionalProperties=$additionalProperties}"
     }
 
     @JsonDeserialize(builder = Fleet.Builder::class)
@@ -790,8 +756,6 @@ private constructor(
     ) {
 
         private var validated: Boolean = false
-
-        private var hashCode: Int = 0
 
         /** The type of fuel service. */
         fun serviceType(): Optional<ServiceType> =
@@ -857,40 +821,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Fleet &&
-                this.serviceType == other.serviceType &&
-                this.odometer == other.odometer &&
-                this.vehicleNumber == other.vehicleNumber &&
-                this.driverNumber == other.driverNumber &&
-                this.fuel == other.fuel &&
-                this.amountTotals == other.amountTotals &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        serviceType,
-                        odometer,
-                        vehicleNumber,
-                        driverNumber,
-                        fuel,
-                        amountTotals,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Fleet{serviceType=$serviceType, odometer=$odometer, vehicleNumber=$vehicleNumber, driverNumber=$driverNumber, fuel=$fuel, amountTotals=$amountTotals, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1020,8 +950,6 @@ private constructor(
 
             private var validated: Boolean = false
 
-            private var hashCode: Int = 0
-
             /** The gross sale amount. */
             fun grossSale(): Optional<Long> =
                 Optional.ofNullable(grossSale.getNullable("gross_sale"))
@@ -1055,34 +983,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is AmountTotals &&
-                    this.grossSale == other.grossSale &&
-                    this.discount == other.discount &&
-                    this.netSale == other.netSale &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            grossSale,
-                            discount,
-                            netSale,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "AmountTotals{grossSale=$grossSale, discount=$discount, netSale=$netSale, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -1151,6 +1051,36 @@ private constructor(
                         additionalProperties.toUnmodifiable(),
                     )
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is AmountTotals &&
+                    this.grossSale == other.grossSale &&
+                    this.discount == other.discount &&
+                    this.netSale == other.netSale &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            private var hashCode: Int = 0
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            grossSale,
+                            discount,
+                            netSale,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "AmountTotals{grossSale=$grossSale, discount=$discount, netSale=$netSale, additionalProperties=$additionalProperties}"
         }
 
         @JsonDeserialize(builder = FuelData.Builder::class)
@@ -1165,8 +1095,6 @@ private constructor(
         ) {
 
             private var validated: Boolean = false
-
-            private var hashCode: Int = 0
 
             /** The type of fuel purchased. */
             fun type(): Optional<FuelType> = Optional.ofNullable(type.getNullable("type"))
@@ -1209,36 +1137,6 @@ private constructor(
             }
 
             fun toBuilder() = Builder().from(this)
-
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return other is FuelData &&
-                    this.type == other.type &&
-                    this.quantity == other.quantity &&
-                    this.unitPrice == other.unitPrice &&
-                    this.unitOfMeasure == other.unitOfMeasure &&
-                    this.additionalProperties == other.additionalProperties
-            }
-
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            type,
-                            quantity,
-                            unitPrice,
-                            unitOfMeasure,
-                            additionalProperties,
-                        )
-                }
-                return hashCode
-            }
-
-            override fun toString() =
-                "FuelData{type=$type, quantity=$quantity, unitPrice=$unitPrice, unitOfMeasure=$unitOfMeasure, additionalProperties=$additionalProperties}"
 
             companion object {
 
@@ -2388,6 +2286,38 @@ private constructor(
 
                 fun asString(): String = _value().asStringOrThrow()
             }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is FuelData &&
+                    this.type == other.type &&
+                    this.quantity == other.quantity &&
+                    this.unitPrice == other.unitPrice &&
+                    this.unitOfMeasure == other.unitOfMeasure &&
+                    this.additionalProperties == other.additionalProperties
+            }
+
+            private var hashCode: Int = 0
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode =
+                        Objects.hash(
+                            type,
+                            quantity,
+                            unitPrice,
+                            unitOfMeasure,
+                            additionalProperties,
+                        )
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "FuelData{type=$type, quantity=$quantity, unitPrice=$unitPrice, unitOfMeasure=$unitOfMeasure, additionalProperties=$additionalProperties}"
         }
 
         class ServiceType
@@ -2464,5 +2394,75 @@ private constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Fleet &&
+                this.serviceType == other.serviceType &&
+                this.odometer == other.odometer &&
+                this.vehicleNumber == other.vehicleNumber &&
+                this.driverNumber == other.driverNumber &&
+                this.fuel == other.fuel &&
+                this.amountTotals == other.amountTotals &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        serviceType,
+                        odometer,
+                        vehicleNumber,
+                        driverNumber,
+                        fuel,
+                        amountTotals,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "Fleet{serviceType=$serviceType, odometer=$odometer, vehicleNumber=$vehicleNumber, driverNumber=$driverNumber, fuel=$fuel, amountTotals=$amountTotals, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is EnhancedData &&
+            this.token == other.token &&
+            this.transactionToken == other.transactionToken &&
+            this.eventToken == other.eventToken &&
+            this.common == other.common &&
+            this.fleet == other.fleet &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    token,
+                    transactionToken,
+                    eventToken,
+                    common,
+                    fleet,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "EnhancedData{token=$token, transactionToken=$transactionToken, eventToken=$eventToken, common=$common, fleet=$fleet, additionalProperties=$additionalProperties}"
 }

@@ -29,8 +29,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Request Result */
     fun result(): Result = result.getRequired("result")
 
@@ -68,34 +66,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is PaymentSimulateActionResponse &&
-            this.result == other.result &&
-            this.transactionEventToken == other.transactionEventToken &&
-            this.debuggingRequestId == other.debuggingRequestId &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    result,
-                    transactionEventToken,
-                    debuggingRequestId,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "PaymentSimulateActionResponse{result=$result, transactionEventToken=$transactionEventToken, debuggingRequestId=$debuggingRequestId, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -226,4 +196,34 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is PaymentSimulateActionResponse &&
+            this.result == other.result &&
+            this.transactionEventToken == other.transactionEventToken &&
+            this.debuggingRequestId == other.debuggingRequestId &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    result,
+                    transactionEventToken,
+                    debuggingRequestId,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "PaymentSimulateActionResponse{result=$result, transactionEventToken=$transactionEventToken, debuggingRequestId=$debuggingRequestId, additionalProperties=$additionalProperties}"
 }

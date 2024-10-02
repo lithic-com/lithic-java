@@ -39,8 +39,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Category of the book transfer */
     fun category(): Category = category.getRequired("category")
 
@@ -178,52 +176,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is BookTransferResponse &&
-            this.category == other.category &&
-            this.created == other.created &&
-            this.currency == other.currency &&
-            this.events == other.events &&
-            this.fromFinancialAccountToken == other.fromFinancialAccountToken &&
-            this.pendingAmount == other.pendingAmount &&
-            this.result == other.result &&
-            this.settledAmount == other.settledAmount &&
-            this.status == other.status &&
-            this.toFinancialAccountToken == other.toFinancialAccountToken &&
-            this.token == other.token &&
-            this.updated == other.updated &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    category,
-                    created,
-                    currency,
-                    events,
-                    fromFinancialAccountToken,
-                    pendingAmount,
-                    result,
-                    settledAmount,
-                    status,
-                    toFinancialAccountToken,
-                    token,
-                    updated,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "BookTransferResponse{category=$category, created=$created, currency=$currency, events=$events, fromFinancialAccountToken=$fromFinancialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, toFinancialAccountToken=$toFinancialAccountToken, token=$token, updated=$updated, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -542,8 +494,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
          * (e.g., cents).
@@ -624,44 +574,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is BookTransferEvent &&
-                this.amount == other.amount &&
-                this.type == other.type &&
-                this.result == other.result &&
-                this.created == other.created &&
-                this.token == other.token &&
-                this.subtype == other.subtype &&
-                this.memo == other.memo &&
-                this.detailedResults == other.detailedResults &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        amount,
-                        type,
-                        result,
-                        created,
-                        token,
-                        subtype,
-                        memo,
-                        detailedResults,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "BookTransferEvent{amount=$amount, type=$type, result=$result, created=$created, token=$token, subtype=$subtype, memo=$memo, detailedResults=$detailedResults, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -914,6 +826,46 @@ private constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is BookTransferEvent &&
+                this.amount == other.amount &&
+                this.type == other.type &&
+                this.result == other.result &&
+                this.created == other.created &&
+                this.token == other.token &&
+                this.subtype == other.subtype &&
+                this.memo == other.memo &&
+                this.detailedResults == other.detailedResults &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        type,
+                        result,
+                        created,
+                        token,
+                        subtype,
+                        memo,
+                        detailedResults,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "BookTransferEvent{amount=$amount, type=$type, result=$result, created=$created, token=$token, subtype=$subtype, memo=$memo, detailedResults=$detailedResults, additionalProperties=$additionalProperties}"
     }
 
     class Result
@@ -1035,4 +987,52 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is BookTransferResponse &&
+            this.category == other.category &&
+            this.created == other.created &&
+            this.currency == other.currency &&
+            this.events == other.events &&
+            this.fromFinancialAccountToken == other.fromFinancialAccountToken &&
+            this.pendingAmount == other.pendingAmount &&
+            this.result == other.result &&
+            this.settledAmount == other.settledAmount &&
+            this.status == other.status &&
+            this.toFinancialAccountToken == other.toFinancialAccountToken &&
+            this.token == other.token &&
+            this.updated == other.updated &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    category,
+                    created,
+                    currency,
+                    events,
+                    fromFinancialAccountToken,
+                    pendingAmount,
+                    result,
+                    settledAmount,
+                    status,
+                    toFinancialAccountToken,
+                    token,
+                    updated,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "BookTransferResponse{category=$category, created=$created, currency=$currency, events=$events, fromFinancialAccountToken=$fromFinancialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, toFinancialAccountToken=$toFinancialAccountToken, token=$token, updated=$updated, additionalProperties=$additionalProperties}"
 }

@@ -26,8 +26,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Debugging request ID to share with Lithic Support team. */
     fun debuggingRequestId(): Optional<String> =
         Optional.ofNullable(debuggingRequestId.getNullable("debugging_request_id"))
@@ -62,32 +60,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is AuthenticationSimulateResponse &&
-            this.debuggingRequestId == other.debuggingRequestId &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    debuggingRequestId,
-                    token,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "AuthenticationSimulateResponse{debuggingRequestId=$debuggingRequestId, token=$token, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -153,4 +125,32 @@ private constructor(
                 additionalProperties.toUnmodifiable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is AuthenticationSimulateResponse &&
+            this.debuggingRequestId == other.debuggingRequestId &&
+            this.token == other.token &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    debuggingRequestId,
+                    token,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "AuthenticationSimulateResponse{debuggingRequestId=$debuggingRequestId, token=$token, additionalProperties=$additionalProperties}"
 }

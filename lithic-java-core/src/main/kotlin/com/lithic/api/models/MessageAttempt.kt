@@ -36,8 +36,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
      *
@@ -116,44 +114,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is MessageAttempt &&
-            this.created == other.created &&
-            this.eventSubscriptionToken == other.eventSubscriptionToken &&
-            this.eventToken == other.eventToken &&
-            this.response == other.response &&
-            this.responseStatusCode == other.responseStatusCode &&
-            this.status == other.status &&
-            this.token == other.token &&
-            this.url == other.url &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    created,
-                    eventSubscriptionToken,
-                    eventToken,
-                    response,
-                    responseStatusCode,
-                    status,
-                    token,
-                    url,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "MessageAttempt{created=$created, eventSubscriptionToken=$eventSubscriptionToken, eventToken=$eventToken, response=$response, responseStatusCode=$responseStatusCode, status=$status, token=$token, url=$url, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -357,4 +317,44 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is MessageAttempt &&
+            this.created == other.created &&
+            this.eventSubscriptionToken == other.eventSubscriptionToken &&
+            this.eventToken == other.eventToken &&
+            this.response == other.response &&
+            this.responseStatusCode == other.responseStatusCode &&
+            this.status == other.status &&
+            this.token == other.token &&
+            this.url == other.url &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    created,
+                    eventSubscriptionToken,
+                    eventToken,
+                    response,
+                    responseStatusCode,
+                    status,
+                    token,
+                    url,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "MessageAttempt{created=$created, eventSubscriptionToken=$eventSubscriptionToken, eventToken=$eventToken, response=$response, responseStatusCode=$responseStatusCode, status=$status, token=$token, url=$url, additionalProperties=$additionalProperties}"
 }

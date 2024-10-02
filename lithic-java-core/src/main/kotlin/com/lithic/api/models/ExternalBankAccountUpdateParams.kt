@@ -90,8 +90,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /** Address */
         @JsonProperty("address") fun address(): ExternalBankAccountAddress? = address
 
@@ -124,44 +122,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is ExternalBankAccountUpdateBody &&
-                this.address == other.address &&
-                this.companyId == other.companyId &&
-                this.dob == other.dob &&
-                this.doingBusinessAs == other.doingBusinessAs &&
-                this.name == other.name &&
-                this.owner == other.owner &&
-                this.ownerType == other.ownerType &&
-                this.userDefinedId == other.userDefinedId &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        companyId,
-                        dob,
-                        doingBusinessAs,
-                        name,
-                        owner,
-                        ownerType,
-                        userDefinedId,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "ExternalBankAccountUpdateBody{address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, name=$name, owner=$owner, ownerType=$ownerType, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -255,6 +215,46 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ExternalBankAccountUpdateBody &&
+                this.address == other.address &&
+                this.companyId == other.companyId &&
+                this.dob == other.dob &&
+                this.doingBusinessAs == other.doingBusinessAs &&
+                this.name == other.name &&
+                this.owner == other.owner &&
+                this.ownerType == other.ownerType &&
+                this.userDefinedId == other.userDefinedId &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        address,
+                        companyId,
+                        dob,
+                        doingBusinessAs,
+                        name,
+                        owner,
+                        ownerType,
+                        userDefinedId,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "ExternalBankAccountUpdateBody{address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, name=$name, owner=$owner, ownerType=$ownerType, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams

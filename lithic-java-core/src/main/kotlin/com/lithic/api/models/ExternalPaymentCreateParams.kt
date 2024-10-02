@@ -89,8 +89,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         @JsonProperty("amount") fun amount(): Long? = amount
 
         @JsonProperty("category") fun category(): ExternalPaymentCategory? = category
@@ -115,46 +113,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is ExternalPaymentCreateBody &&
-                this.amount == other.amount &&
-                this.category == other.category &&
-                this.effectiveDate == other.effectiveDate &&
-                this.financialAccountToken == other.financialAccountToken &&
-                this.paymentType == other.paymentType &&
-                this.token == other.token &&
-                this.memo == other.memo &&
-                this.progressTo == other.progressTo &&
-                this.userDefinedId == other.userDefinedId &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        amount,
-                        category,
-                        effectiveDate,
-                        financialAccountToken,
-                        paymentType,
-                        token,
-                        memo,
-                        progressTo,
-                        userDefinedId,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "ExternalPaymentCreateBody{amount=$amount, category=$category, effectiveDate=$effectiveDate, financialAccountToken=$financialAccountToken, paymentType=$paymentType, token=$token, memo=$memo, progressTo=$progressTo, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -250,6 +208,48 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ExternalPaymentCreateBody &&
+                this.amount == other.amount &&
+                this.category == other.category &&
+                this.effectiveDate == other.effectiveDate &&
+                this.financialAccountToken == other.financialAccountToken &&
+                this.paymentType == other.paymentType &&
+                this.token == other.token &&
+                this.memo == other.memo &&
+                this.progressTo == other.progressTo &&
+                this.userDefinedId == other.userDefinedId &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        category,
+                        effectiveDate,
+                        financialAccountToken,
+                        paymentType,
+                        token,
+                        memo,
+                        progressTo,
+                        userDefinedId,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "ExternalPaymentCreateBody{amount=$amount, category=$category, effectiveDate=$effectiveDate, financialAccountToken=$financialAccountToken, paymentType=$paymentType, token=$token, memo=$memo, progressTo=$progressTo, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
