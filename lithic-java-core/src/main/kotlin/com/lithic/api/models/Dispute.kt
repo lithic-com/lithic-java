@@ -48,8 +48,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Amount under dispute. May be different from the original transaction amount. */
     fun amount(): Long = amount.getRequired("amount")
 
@@ -315,66 +313,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is Dispute &&
-            this.amount == other.amount &&
-            this.arbitrationDate == other.arbitrationDate &&
-            this.created == other.created &&
-            this.customerFiledDate == other.customerFiledDate &&
-            this.customerNote == other.customerNote &&
-            this.networkClaimIds == other.networkClaimIds &&
-            this.networkFiledDate == other.networkFiledDate &&
-            this.networkReasonCode == other.networkReasonCode &&
-            this.prearbitrationDate == other.prearbitrationDate &&
-            this.primaryClaimId == other.primaryClaimId &&
-            this.reason == other.reason &&
-            this.representmentDate == other.representmentDate &&
-            this.resolutionAmount == other.resolutionAmount &&
-            this.resolutionDate == other.resolutionDate &&
-            this.resolutionNote == other.resolutionNote &&
-            this.resolutionReason == other.resolutionReason &&
-            this.status == other.status &&
-            this.token == other.token &&
-            this.transactionToken == other.transactionToken &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    amount,
-                    arbitrationDate,
-                    created,
-                    customerFiledDate,
-                    customerNote,
-                    networkClaimIds,
-                    networkFiledDate,
-                    networkReasonCode,
-                    prearbitrationDate,
-                    primaryClaimId,
-                    reason,
-                    representmentDate,
-                    resolutionAmount,
-                    resolutionDate,
-                    resolutionNote,
-                    resolutionReason,
-                    status,
-                    token,
-                    transactionToken,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "Dispute{amount=$amount, arbitrationDate=$arbitrationDate, created=$created, customerFiledDate=$customerFiledDate, customerNote=$customerNote, networkClaimIds=$networkClaimIds, networkFiledDate=$networkFiledDate, networkReasonCode=$networkReasonCode, prearbitrationDate=$prearbitrationDate, primaryClaimId=$primaryClaimId, reason=$reason, representmentDate=$representmentDate, resolutionAmount=$resolutionAmount, resolutionDate=$resolutionDate, resolutionNote=$resolutionNote, resolutionReason=$resolutionReason, status=$status, token=$token, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -1151,4 +1089,66 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is Dispute &&
+            this.amount == other.amount &&
+            this.arbitrationDate == other.arbitrationDate &&
+            this.created == other.created &&
+            this.customerFiledDate == other.customerFiledDate &&
+            this.customerNote == other.customerNote &&
+            this.networkClaimIds == other.networkClaimIds &&
+            this.networkFiledDate == other.networkFiledDate &&
+            this.networkReasonCode == other.networkReasonCode &&
+            this.prearbitrationDate == other.prearbitrationDate &&
+            this.primaryClaimId == other.primaryClaimId &&
+            this.reason == other.reason &&
+            this.representmentDate == other.representmentDate &&
+            this.resolutionAmount == other.resolutionAmount &&
+            this.resolutionDate == other.resolutionDate &&
+            this.resolutionNote == other.resolutionNote &&
+            this.resolutionReason == other.resolutionReason &&
+            this.status == other.status &&
+            this.token == other.token &&
+            this.transactionToken == other.transactionToken &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    amount,
+                    arbitrationDate,
+                    created,
+                    customerFiledDate,
+                    customerNote,
+                    networkClaimIds,
+                    networkFiledDate,
+                    networkReasonCode,
+                    prearbitrationDate,
+                    primaryClaimId,
+                    reason,
+                    representmentDate,
+                    resolutionAmount,
+                    resolutionDate,
+                    resolutionNote,
+                    resolutionReason,
+                    status,
+                    token,
+                    transactionToken,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "Dispute{amount=$amount, arbitrationDate=$arbitrationDate, created=$created, customerFiledDate=$customerFiledDate, customerNote=$customerNote, networkClaimIds=$networkClaimIds, networkFiledDate=$networkFiledDate, networkReasonCode=$networkReasonCode, prearbitrationDate=$prearbitrationDate, primaryClaimId=$primaryClaimId, reason=$reason, representmentDate=$representmentDate, resolutionAmount=$resolutionAmount, resolutionDate=$resolutionDate, resolutionNote=$resolutionNote, resolutionReason=$resolutionReason, status=$status, token=$token, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
 }

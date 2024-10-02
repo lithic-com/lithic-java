@@ -83,8 +83,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Apple's public leaf certificate. Base64 encoded in PEM format with
@@ -126,40 +124,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is CardProvisionBody &&
-                this.certificate == other.certificate &&
-                this.clientDeviceId == other.clientDeviceId &&
-                this.clientWalletAccountId == other.clientWalletAccountId &&
-                this.digitalWallet == other.digitalWallet &&
-                this.nonce == other.nonce &&
-                this.nonceSignature == other.nonceSignature &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        certificate,
-                        clientDeviceId,
-                        clientWalletAccountId,
-                        digitalWallet,
-                        nonce,
-                        nonceSignature,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "CardProvisionBody{certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -262,6 +226,42 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is CardProvisionBody &&
+                this.certificate == other.certificate &&
+                this.clientDeviceId == other.clientDeviceId &&
+                this.clientWalletAccountId == other.clientWalletAccountId &&
+                this.digitalWallet == other.digitalWallet &&
+                this.nonce == other.nonce &&
+                this.nonceSignature == other.nonceSignature &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        certificate,
+                        clientDeviceId,
+                        clientWalletAccountId,
+                        digitalWallet,
+                        nonce,
+                        nonceSignature,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "CardProvisionBody{certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams

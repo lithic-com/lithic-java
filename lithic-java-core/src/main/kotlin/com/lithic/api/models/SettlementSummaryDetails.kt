@@ -35,8 +35,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** ISO 4217 alpha 3 code. */
     fun currency(): Optional<String> = Optional.ofNullable(currency.getNullable("currency"))
 
@@ -128,44 +126,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is SettlementSummaryDetails &&
-            this.currency == other.currency &&
-            this.disputesGrossAmount == other.disputesGrossAmount &&
-            this.institution == other.institution &&
-            this.interchangeGrossAmount == other.interchangeGrossAmount &&
-            this.network == other.network &&
-            this.otherFeesGrossAmount == other.otherFeesGrossAmount &&
-            this.settledNetAmount == other.settledNetAmount &&
-            this.transactionsGrossAmount == other.transactionsGrossAmount &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    currency,
-                    disputesGrossAmount,
-                    institution,
-                    interchangeGrossAmount,
-                    network,
-                    otherFeesGrossAmount,
-                    settledNetAmount,
-                    transactionsGrossAmount,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "SettlementSummaryDetails{currency=$currency, disputesGrossAmount=$disputesGrossAmount, institution=$institution, interchangeGrossAmount=$interchangeGrossAmount, network=$network, otherFeesGrossAmount=$otherFeesGrossAmount, settledNetAmount=$settledNetAmount, transactionsGrossAmount=$transactionsGrossAmount, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -394,4 +354,44 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is SettlementSummaryDetails &&
+            this.currency == other.currency &&
+            this.disputesGrossAmount == other.disputesGrossAmount &&
+            this.institution == other.institution &&
+            this.interchangeGrossAmount == other.interchangeGrossAmount &&
+            this.network == other.network &&
+            this.otherFeesGrossAmount == other.otherFeesGrossAmount &&
+            this.settledNetAmount == other.settledNetAmount &&
+            this.transactionsGrossAmount == other.transactionsGrossAmount &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    currency,
+                    disputesGrossAmount,
+                    institution,
+                    interchangeGrossAmount,
+                    network,
+                    otherFeesGrossAmount,
+                    settledNetAmount,
+                    transactionsGrossAmount,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "SettlementSummaryDetails{currency=$currency, disputesGrossAmount=$disputesGrossAmount, institution=$institution, interchangeGrossAmount=$interchangeGrossAmount, network=$network, otherFeesGrossAmount=$otherFeesGrossAmount, settledNetAmount=$settledNetAmount, transactionsGrossAmount=$transactionsGrossAmount, additionalProperties=$additionalProperties}"
 }

@@ -35,8 +35,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Valid USPS routable address. */
     fun address1(): String = address1.getRequired("address1")
 
@@ -168,50 +166,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is ShippingAddress &&
-            this.address1 == other.address1 &&
-            this.address2 == other.address2 &&
-            this.city == other.city &&
-            this.country == other.country &&
-            this.email == other.email &&
-            this.firstName == other.firstName &&
-            this.lastName == other.lastName &&
-            this.line2Text == other.line2Text &&
-            this.phoneNumber == other.phoneNumber &&
-            this.postalCode == other.postalCode &&
-            this.state == other.state &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    address1,
-                    address2,
-                    city,
-                    country,
-                    email,
-                    firstName,
-                    lastName,
-                    line2Text,
-                    phoneNumber,
-                    postalCode,
-                    state,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "ShippingAddress{address1=$address1, address2=$address2, city=$city, country=$country, email=$email, firstName=$firstName, lastName=$lastName, line2Text=$line2Text, phoneNumber=$phoneNumber, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -409,4 +363,50 @@ private constructor(
                 additionalProperties.toUnmodifiable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is ShippingAddress &&
+            this.address1 == other.address1 &&
+            this.address2 == other.address2 &&
+            this.city == other.city &&
+            this.country == other.country &&
+            this.email == other.email &&
+            this.firstName == other.firstName &&
+            this.lastName == other.lastName &&
+            this.line2Text == other.line2Text &&
+            this.phoneNumber == other.phoneNumber &&
+            this.postalCode == other.postalCode &&
+            this.state == other.state &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    address1,
+                    address2,
+                    city,
+                    country,
+                    email,
+                    firstName,
+                    lastName,
+                    line2Text,
+                    phoneNumber,
+                    postalCode,
+                    state,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "ShippingAddress{address1=$address1, address2=$address2, city=$city, country=$country, email=$email, firstName=$firstName, lastName=$lastName, line2Text=$line2Text, phoneNumber=$phoneNumber, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 }

@@ -34,8 +34,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
     fun availableAmount(): Long = availableAmount.getRequired("available_amount")
 
@@ -127,46 +125,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is AggregateBalanceListResponse &&
-            this.availableAmount == other.availableAmount &&
-            this.created == other.created &&
-            this.currency == other.currency &&
-            this.lastCardToken == other.lastCardToken &&
-            this.lastTransactionEventToken == other.lastTransactionEventToken &&
-            this.lastTransactionToken == other.lastTransactionToken &&
-            this.pendingAmount == other.pendingAmount &&
-            this.totalAmount == other.totalAmount &&
-            this.updated == other.updated &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    availableAmount,
-                    created,
-                    currency,
-                    lastCardToken,
-                    lastTransactionEventToken,
-                    lastTransactionToken,
-                    pendingAmount,
-                    totalAmount,
-                    updated,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "AggregateBalanceListResponse{availableAmount=$availableAmount, created=$created, currency=$currency, lastCardToken=$lastCardToken, lastTransactionEventToken=$lastTransactionEventToken, lastTransactionToken=$lastTransactionToken, pendingAmount=$pendingAmount, totalAmount=$totalAmount, updated=$updated, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -324,4 +282,46 @@ private constructor(
                 additionalProperties.toUnmodifiable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is AggregateBalanceListResponse &&
+            this.availableAmount == other.availableAmount &&
+            this.created == other.created &&
+            this.currency == other.currency &&
+            this.lastCardToken == other.lastCardToken &&
+            this.lastTransactionEventToken == other.lastTransactionEventToken &&
+            this.lastTransactionToken == other.lastTransactionToken &&
+            this.pendingAmount == other.pendingAmount &&
+            this.totalAmount == other.totalAmount &&
+            this.updated == other.updated &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    availableAmount,
+                    created,
+                    currency,
+                    lastCardToken,
+                    lastTransactionEventToken,
+                    lastTransactionToken,
+                    pendingAmount,
+                    totalAmount,
+                    updated,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "AggregateBalanceListResponse{availableAmount=$availableAmount, created=$created, currency=$currency, lastCardToken=$lastCardToken, lastTransactionEventToken=$lastTransactionEventToken, lastTransactionToken=$lastTransactionToken, pendingAmount=$pendingAmount, totalAmount=$totalAmount, updated=$updated, additionalProperties=$additionalProperties}"
 }

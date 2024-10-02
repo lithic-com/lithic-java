@@ -37,8 +37,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /**
      * List of all entities with >25% ownership in the company. If no entity or individual owns >25%
      * of the company, and the largest shareholder is an entity, please identify them in this field.
@@ -195,48 +193,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is Kyb &&
-            this.beneficialOwnerEntities == other.beneficialOwnerEntities &&
-            this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
-            this.businessEntity == other.businessEntity &&
-            this.controlPerson == other.controlPerson &&
-            this.externalId == other.externalId &&
-            this.kybPassedTimestamp == other.kybPassedTimestamp &&
-            this.natureOfBusiness == other.natureOfBusiness &&
-            this.tosTimestamp == other.tosTimestamp &&
-            this.websiteUrl == other.websiteUrl &&
-            this.workflow == other.workflow &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    beneficialOwnerEntities,
-                    beneficialOwnerIndividuals,
-                    businessEntity,
-                    controlPerson,
-                    externalId,
-                    kybPassedTimestamp,
-                    natureOfBusiness,
-                    tosTimestamp,
-                    websiteUrl,
-                    workflow,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "Kyb{beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, externalId=$externalId, kybPassedTimestamp=$kybPassedTimestamp, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -490,8 +446,6 @@ private constructor(
 
         private var validated: Boolean = false
 
-        private var hashCode: Int = 0
-
         /**
          * Business's physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
          * APO/FPO are acceptable.
@@ -567,40 +521,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is BusinessEntity &&
-                this.address == other.address &&
-                this.dbaBusinessName == other.dbaBusinessName &&
-                this.governmentId == other.governmentId &&
-                this.legalBusinessName == other.legalBusinessName &&
-                this.parentCompany == other.parentCompany &&
-                this.phoneNumbers == other.phoneNumbers &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        dbaBusinessName,
-                        governmentId,
-                        legalBusinessName,
-                        parentCompany,
-                        phoneNumbers,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "BusinessEntity{address=$address, dbaBusinessName=$dbaBusinessName, governmentId=$governmentId, legalBusinessName=$legalBusinessName, parentCompany=$parentCompany, phoneNumbers=$phoneNumbers, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -731,6 +651,42 @@ private constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is BusinessEntity &&
+                this.address == other.address &&
+                this.dbaBusinessName == other.dbaBusinessName &&
+                this.governmentId == other.governmentId &&
+                this.legalBusinessName == other.legalBusinessName &&
+                this.parentCompany == other.parentCompany &&
+                this.phoneNumbers == other.phoneNumbers &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        address,
+                        dbaBusinessName,
+                        governmentId,
+                        legalBusinessName,
+                        parentCompany,
+                        phoneNumbers,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "BusinessEntity{address=$address, dbaBusinessName=$dbaBusinessName, governmentId=$governmentId, legalBusinessName=$legalBusinessName, parentCompany=$parentCompany, phoneNumbers=$phoneNumbers, additionalProperties=$additionalProperties}"
     }
 
     /** Individuals associated with a KYB application. Phone number is optional. */
@@ -749,8 +705,6 @@ private constructor(
     ) {
 
         private var validated: Boolean = false
-
-        private var hashCode: Int = 0
 
         /**
          * Individual's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
@@ -835,42 +789,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is KybIndividual &&
-                this.address == other.address &&
-                this.dob == other.dob &&
-                this.email == other.email &&
-                this.firstName == other.firstName &&
-                this.governmentId == other.governmentId &&
-                this.lastName == other.lastName &&
-                this.phoneNumber == other.phoneNumber &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        dob,
-                        email,
-                        firstName,
-                        governmentId,
-                        lastName,
-                        phoneNumber,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "KybIndividual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1008,6 +926,44 @@ private constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is KybIndividual &&
+                this.address == other.address &&
+                this.dob == other.dob &&
+                this.email == other.email &&
+                this.firstName == other.firstName &&
+                this.governmentId == other.governmentId &&
+                this.lastName == other.lastName &&
+                this.phoneNumber == other.phoneNumber &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        address,
+                        dob,
+                        email,
+                        firstName,
+                        governmentId,
+                        lastName,
+                        phoneNumber,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "KybIndividual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
 
     class Workflow
@@ -1066,4 +1022,48 @@ private constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is Kyb &&
+            this.beneficialOwnerEntities == other.beneficialOwnerEntities &&
+            this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
+            this.businessEntity == other.businessEntity &&
+            this.controlPerson == other.controlPerson &&
+            this.externalId == other.externalId &&
+            this.kybPassedTimestamp == other.kybPassedTimestamp &&
+            this.natureOfBusiness == other.natureOfBusiness &&
+            this.tosTimestamp == other.tosTimestamp &&
+            this.websiteUrl == other.websiteUrl &&
+            this.workflow == other.workflow &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    beneficialOwnerEntities,
+                    beneficialOwnerIndividuals,
+                    businessEntity,
+                    controlPerson,
+                    externalId,
+                    kybPassedTimestamp,
+                    natureOfBusiness,
+                    tosTimestamp,
+                    websiteUrl,
+                    workflow,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "Kyb{beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, externalId=$externalId, kybPassedTimestamp=$kybPassedTimestamp, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, additionalProperties=$additionalProperties}"
 }

@@ -379,8 +379,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /** Account tokens to which the Auth Rule applies. */
         @JsonProperty("account_tokens") fun accountTokens(): List<String>? = accountTokens
 
@@ -395,34 +393,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is CreateAuthRuleRequestAccountTokens &&
-                this.accountTokens == other.accountTokens &&
-                this.type == other.type &&
-                this.parameters == other.parameters &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        accountTokens,
-                        type,
-                        parameters,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "CreateAuthRuleRequestAccountTokens{accountTokens=$accountTokens, type=$type, parameters=$parameters, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -630,8 +600,6 @@ constructor(
 
                 private var validated: Boolean = false
 
-                private var hashCode: Int = 0
-
                 fun conditions(): List<Condition> = conditions.getRequired("conditions")
 
                 @JsonProperty("conditions") @ExcludeMissing fun _conditions() = conditions
@@ -648,26 +616,6 @@ constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is ConditionalBlockParameters &&
-                        this.conditions == other.conditions &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode = Objects.hash(conditions, additionalProperties)
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "ConditionalBlockParameters{conditions=$conditions, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -729,8 +677,6 @@ constructor(
 
                     private var validated: Boolean = false
 
-                    private var hashCode: Int = 0
-
                     /** The attribute to target */
                     fun attribute(): Optional<Attribute> =
                         Optional.ofNullable(attribute.getNullable("attribute"))
@@ -763,34 +709,6 @@ constructor(
                     }
 
                     fun toBuilder() = Builder().from(this)
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is Condition &&
-                            this.attribute == other.attribute &&
-                            this.operation == other.operation &&
-                            this.value == other.value &&
-                            this.additionalProperties == other.additionalProperties
-                    }
-
-                    override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    attribute,
-                                    operation,
-                                    value,
-                                    additionalProperties,
-                                )
-                        }
-                        return hashCode
-                    }
-
-                    override fun toString() =
-                        "Condition{attribute=$attribute, operation=$operation, value=$value, additionalProperties=$additionalProperties}"
 
                     companion object {
 
@@ -1188,7 +1106,59 @@ constructor(
                             }
                         }
                     }
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Condition &&
+                            this.attribute == other.attribute &&
+                            this.operation == other.operation &&
+                            this.value == other.value &&
+                            this.additionalProperties == other.additionalProperties
+                    }
+
+                    private var hashCode: Int = 0
+
+                    override fun hashCode(): Int {
+                        if (hashCode == 0) {
+                            hashCode =
+                                Objects.hash(
+                                    attribute,
+                                    operation,
+                                    value,
+                                    additionalProperties,
+                                )
+                        }
+                        return hashCode
+                    }
+
+                    override fun toString() =
+                        "Condition{attribute=$attribute, operation=$operation, value=$value, additionalProperties=$additionalProperties}"
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is ConditionalBlockParameters &&
+                        this.conditions == other.conditions &&
+                        this.additionalProperties == other.additionalProperties
+                }
+
+                private var hashCode: Int = 0
+
+                override fun hashCode(): Int {
+                    if (hashCode == 0) {
+                        hashCode = Objects.hash(conditions, additionalProperties)
+                    }
+                    return hashCode
+                }
+
+                override fun toString() =
+                    "ConditionalBlockParameters{conditions=$conditions, additionalProperties=$additionalProperties}"
             }
         }
 
@@ -1248,6 +1218,36 @@ constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is CreateAuthRuleRequestAccountTokens &&
+                this.accountTokens == other.accountTokens &&
+                this.type == other.type &&
+                this.parameters == other.parameters &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        accountTokens,
+                        type,
+                        parameters,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "CreateAuthRuleRequestAccountTokens{accountTokens=$accountTokens, type=$type, parameters=$parameters, additionalProperties=$additionalProperties}"
     }
 
     @JsonDeserialize(builder = CreateAuthRuleRequestCardTokens.Builder::class)
@@ -1259,8 +1259,6 @@ constructor(
         private val parameters: AuthRuleParameters?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
-
-        private var hashCode: Int = 0
 
         /** Card tokens to which the Auth Rule applies. */
         @JsonProperty("card_tokens") fun cardTokens(): List<String>? = cardTokens
@@ -1276,34 +1274,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is CreateAuthRuleRequestCardTokens &&
-                this.cardTokens == other.cardTokens &&
-                this.type == other.type &&
-                this.parameters == other.parameters &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        cardTokens,
-                        type,
-                        parameters,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "CreateAuthRuleRequestCardTokens{cardTokens=$cardTokens, type=$type, parameters=$parameters, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1508,8 +1478,6 @@ constructor(
 
                 private var validated: Boolean = false
 
-                private var hashCode: Int = 0
-
                 fun conditions(): List<Condition> = conditions.getRequired("conditions")
 
                 @JsonProperty("conditions") @ExcludeMissing fun _conditions() = conditions
@@ -1526,26 +1494,6 @@ constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is ConditionalBlockParameters &&
-                        this.conditions == other.conditions &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode = Objects.hash(conditions, additionalProperties)
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "ConditionalBlockParameters{conditions=$conditions, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -1607,8 +1555,6 @@ constructor(
 
                     private var validated: Boolean = false
 
-                    private var hashCode: Int = 0
-
                     /** The attribute to target */
                     fun attribute(): Optional<Attribute> =
                         Optional.ofNullable(attribute.getNullable("attribute"))
@@ -1641,34 +1587,6 @@ constructor(
                     }
 
                     fun toBuilder() = Builder().from(this)
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is Condition &&
-                            this.attribute == other.attribute &&
-                            this.operation == other.operation &&
-                            this.value == other.value &&
-                            this.additionalProperties == other.additionalProperties
-                    }
-
-                    override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    attribute,
-                                    operation,
-                                    value,
-                                    additionalProperties,
-                                )
-                        }
-                        return hashCode
-                    }
-
-                    override fun toString() =
-                        "Condition{attribute=$attribute, operation=$operation, value=$value, additionalProperties=$additionalProperties}"
 
                     companion object {
 
@@ -2066,7 +1984,59 @@ constructor(
                             }
                         }
                     }
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Condition &&
+                            this.attribute == other.attribute &&
+                            this.operation == other.operation &&
+                            this.value == other.value &&
+                            this.additionalProperties == other.additionalProperties
+                    }
+
+                    private var hashCode: Int = 0
+
+                    override fun hashCode(): Int {
+                        if (hashCode == 0) {
+                            hashCode =
+                                Objects.hash(
+                                    attribute,
+                                    operation,
+                                    value,
+                                    additionalProperties,
+                                )
+                        }
+                        return hashCode
+                    }
+
+                    override fun toString() =
+                        "Condition{attribute=$attribute, operation=$operation, value=$value, additionalProperties=$additionalProperties}"
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is ConditionalBlockParameters &&
+                        this.conditions == other.conditions &&
+                        this.additionalProperties == other.additionalProperties
+                }
+
+                private var hashCode: Int = 0
+
+                override fun hashCode(): Int {
+                    if (hashCode == 0) {
+                        hashCode = Objects.hash(conditions, additionalProperties)
+                    }
+                    return hashCode
+                }
+
+                override fun toString() =
+                    "ConditionalBlockParameters{conditions=$conditions, additionalProperties=$additionalProperties}"
             }
         }
 
@@ -2126,6 +2096,36 @@ constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is CreateAuthRuleRequestCardTokens &&
+                this.cardTokens == other.cardTokens &&
+                this.type == other.type &&
+                this.parameters == other.parameters &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        cardTokens,
+                        type,
+                        parameters,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "CreateAuthRuleRequestCardTokens{cardTokens=$cardTokens, type=$type, parameters=$parameters, additionalProperties=$additionalProperties}"
     }
 
     @JsonDeserialize(builder = CreateAuthRuleRequestProgramLevel.Builder::class)
@@ -2137,8 +2137,6 @@ constructor(
         private val parameters: AuthRuleParameters?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
-
-        private var hashCode: Int = 0
 
         /** Whether the Auth Rule applies to all authorizations on the card program. */
         @JsonProperty("program_level") fun programLevel(): Boolean? = programLevel
@@ -2154,34 +2152,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is CreateAuthRuleRequestProgramLevel &&
-                this.programLevel == other.programLevel &&
-                this.type == other.type &&
-                this.parameters == other.parameters &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        programLevel,
-                        type,
-                        parameters,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "CreateAuthRuleRequestProgramLevel{programLevel=$programLevel, type=$type, parameters=$parameters, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -2386,8 +2356,6 @@ constructor(
 
                 private var validated: Boolean = false
 
-                private var hashCode: Int = 0
-
                 fun conditions(): List<Condition> = conditions.getRequired("conditions")
 
                 @JsonProperty("conditions") @ExcludeMissing fun _conditions() = conditions
@@ -2404,26 +2372,6 @@ constructor(
                 }
 
                 fun toBuilder() = Builder().from(this)
-
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return other is ConditionalBlockParameters &&
-                        this.conditions == other.conditions &&
-                        this.additionalProperties == other.additionalProperties
-                }
-
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode = Objects.hash(conditions, additionalProperties)
-                    }
-                    return hashCode
-                }
-
-                override fun toString() =
-                    "ConditionalBlockParameters{conditions=$conditions, additionalProperties=$additionalProperties}"
 
                 companion object {
 
@@ -2485,8 +2433,6 @@ constructor(
 
                     private var validated: Boolean = false
 
-                    private var hashCode: Int = 0
-
                     /** The attribute to target */
                     fun attribute(): Optional<Attribute> =
                         Optional.ofNullable(attribute.getNullable("attribute"))
@@ -2519,34 +2465,6 @@ constructor(
                     }
 
                     fun toBuilder() = Builder().from(this)
-
-                    override fun equals(other: Any?): Boolean {
-                        if (this === other) {
-                            return true
-                        }
-
-                        return other is Condition &&
-                            this.attribute == other.attribute &&
-                            this.operation == other.operation &&
-                            this.value == other.value &&
-                            this.additionalProperties == other.additionalProperties
-                    }
-
-                    override fun hashCode(): Int {
-                        if (hashCode == 0) {
-                            hashCode =
-                                Objects.hash(
-                                    attribute,
-                                    operation,
-                                    value,
-                                    additionalProperties,
-                                )
-                        }
-                        return hashCode
-                    }
-
-                    override fun toString() =
-                        "Condition{attribute=$attribute, operation=$operation, value=$value, additionalProperties=$additionalProperties}"
 
                     companion object {
 
@@ -2944,7 +2862,59 @@ constructor(
                             }
                         }
                     }
+
+                    override fun equals(other: Any?): Boolean {
+                        if (this === other) {
+                            return true
+                        }
+
+                        return other is Condition &&
+                            this.attribute == other.attribute &&
+                            this.operation == other.operation &&
+                            this.value == other.value &&
+                            this.additionalProperties == other.additionalProperties
+                    }
+
+                    private var hashCode: Int = 0
+
+                    override fun hashCode(): Int {
+                        if (hashCode == 0) {
+                            hashCode =
+                                Objects.hash(
+                                    attribute,
+                                    operation,
+                                    value,
+                                    additionalProperties,
+                                )
+                        }
+                        return hashCode
+                    }
+
+                    override fun toString() =
+                        "Condition{attribute=$attribute, operation=$operation, value=$value, additionalProperties=$additionalProperties}"
                 }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is ConditionalBlockParameters &&
+                        this.conditions == other.conditions &&
+                        this.additionalProperties == other.additionalProperties
+                }
+
+                private var hashCode: Int = 0
+
+                override fun hashCode(): Int {
+                    if (hashCode == 0) {
+                        hashCode = Objects.hash(conditions, additionalProperties)
+                    }
+                    return hashCode
+                }
+
+                override fun toString() =
+                    "ConditionalBlockParameters{conditions=$conditions, additionalProperties=$additionalProperties}"
             }
         }
 
@@ -3004,5 +2974,35 @@ constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is CreateAuthRuleRequestProgramLevel &&
+                this.programLevel == other.programLevel &&
+                this.type == other.type &&
+                this.parameters == other.parameters &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        programLevel,
+                        type,
+                        parameters,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "CreateAuthRuleRequestProgramLevel{programLevel=$programLevel, type=$type, parameters=$parameters, additionalProperties=$additionalProperties}"
     }
 }

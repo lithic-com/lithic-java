@@ -26,8 +26,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     /** Globally unique identifier for an entity. */
     fun entityToken(): String = entityToken.getRequired("entity_token")
 
@@ -68,34 +66,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is RequiredDocument &&
-            this.entityToken == other.entityToken &&
-            this.validDocuments == other.validDocuments &&
-            this.statusReasons == other.statusReasons &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    entityToken,
-                    validDocuments,
-                    statusReasons,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "RequiredDocument{entityToken=$entityToken, validDocuments=$validDocuments, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -180,4 +150,34 @@ private constructor(
                 additionalProperties.toUnmodifiable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is RequiredDocument &&
+            this.entityToken == other.entityToken &&
+            this.validDocuments == other.validDocuments &&
+            this.statusReasons == other.statusReasons &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    entityToken,
+                    validDocuments,
+                    statusReasons,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "RequiredDocument{entityToken=$entityToken, validDocuments=$validDocuments, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
 }

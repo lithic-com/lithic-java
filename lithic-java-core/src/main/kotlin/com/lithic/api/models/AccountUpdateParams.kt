@@ -79,8 +79,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /**
          * Amount (in cents) for the account's daily spend limit. By default the daily spend limit
          * is set to $1,250.
@@ -118,38 +116,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AccountUpdateBody &&
-                this.dailySpendLimit == other.dailySpendLimit &&
-                this.lifetimeSpendLimit == other.lifetimeSpendLimit &&
-                this.monthlySpendLimit == other.monthlySpendLimit &&
-                this.state == other.state &&
-                this.verificationAddress == other.verificationAddress &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        dailySpendLimit,
-                        lifetimeSpendLimit,
-                        monthlySpendLimit,
-                        state,
-                        verificationAddress,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "AccountUpdateBody{dailySpendLimit=$dailySpendLimit, lifetimeSpendLimit=$lifetimeSpendLimit, monthlySpendLimit=$monthlySpendLimit, state=$state, verificationAddress=$verificationAddress, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -242,6 +208,40 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AccountUpdateBody &&
+                this.dailySpendLimit == other.dailySpendLimit &&
+                this.lifetimeSpendLimit == other.lifetimeSpendLimit &&
+                this.monthlySpendLimit == other.monthlySpendLimit &&
+                this.state == other.state &&
+                this.verificationAddress == other.verificationAddress &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        dailySpendLimit,
+                        lifetimeSpendLimit,
+                        monthlySpendLimit,
+                        state,
+                        verificationAddress,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "AccountUpdateBody{dailySpendLimit=$dailySpendLimit, lifetimeSpendLimit=$lifetimeSpendLimit, monthlySpendLimit=$monthlySpendLimit, state=$state, verificationAddress=$verificationAddress, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
@@ -500,8 +500,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         @JsonProperty("address1") fun address1(): String? = address1
 
         @JsonProperty("address2") fun address2(): String? = address2
@@ -519,40 +517,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is VerificationAddress &&
-                this.address1 == other.address1 &&
-                this.address2 == other.address2 &&
-                this.city == other.city &&
-                this.country == other.country &&
-                this.postalCode == other.postalCode &&
-                this.state == other.state &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address1,
-                        address2,
-                        city,
-                        country,
-                        postalCode,
-                        state,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "VerificationAddress{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -620,5 +584,41 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is VerificationAddress &&
+                this.address1 == other.address1 &&
+                this.address2 == other.address2 &&
+                this.city == other.city &&
+                this.country == other.country &&
+                this.postalCode == other.postalCode &&
+                this.state == other.state &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        address1,
+                        address2,
+                        city,
+                        country,
+                        postalCode,
+                        state,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "VerificationAddress{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
     }
 }

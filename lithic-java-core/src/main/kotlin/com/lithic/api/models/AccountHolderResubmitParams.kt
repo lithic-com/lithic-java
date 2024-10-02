@@ -67,8 +67,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /**
          * Information on individual for whom the account is being opened and KYC is being re-run.
          */
@@ -88,34 +86,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AccountHolderResubmitBody &&
-                this.individual == other.individual &&
-                this.tosTimestamp == other.tosTimestamp &&
-                this.workflow == other.workflow &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        individual,
-                        tosTimestamp,
-                        workflow,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "AccountHolderResubmitBody{individual=$individual, tosTimestamp=$tosTimestamp, workflow=$workflow, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -177,6 +147,36 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AccountHolderResubmitBody &&
+                this.individual == other.individual &&
+                this.tosTimestamp == other.tosTimestamp &&
+                this.workflow == other.workflow &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        individual,
+                        tosTimestamp,
+                        workflow,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "AccountHolderResubmitBody{individual=$individual, tosTimestamp=$tosTimestamp, workflow=$workflow, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
@@ -345,8 +345,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /**
          * Individual's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
          * APO/FPO are acceptable. Only USA addresses are currently supported.
@@ -384,42 +382,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Individual &&
-                this.address == other.address &&
-                this.dob == other.dob &&
-                this.email == other.email &&
-                this.firstName == other.firstName &&
-                this.governmentId == other.governmentId &&
-                this.lastName == other.lastName &&
-                this.phoneNumber == other.phoneNumber &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        dob,
-                        email,
-                        firstName,
-                        governmentId,
-                        lastName,
-                        phoneNumber,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "Individual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -512,6 +474,44 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Individual &&
+                this.address == other.address &&
+                this.dob == other.dob &&
+                this.email == other.email &&
+                this.firstName == other.firstName &&
+                this.governmentId == other.governmentId &&
+                this.lastName == other.lastName &&
+                this.phoneNumber == other.phoneNumber &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        address,
+                        dob,
+                        email,
+                        firstName,
+                        governmentId,
+                        lastName,
+                        phoneNumber,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "Individual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
 
     class Workflow

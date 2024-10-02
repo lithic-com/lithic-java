@@ -31,8 +31,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     fun data(): List<StatementLineItemResponse> = data.getRequired("data")
 
     fun hasMore(): Boolean = hasMore.getRequired("has_more")
@@ -54,32 +52,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is StatementLineItems &&
-            this.data == other.data &&
-            this.hasMore == other.hasMore &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    data,
-                    hasMore,
-                    additionalProperties,
-                )
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "StatementLineItems{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -153,8 +125,6 @@ private constructor(
     ) {
 
         private var validated: Boolean = false
-
-        private var hashCode: Int = 0
 
         /** Globally unique identifier for a Statement Line Item */
         fun token(): String = token.getRequired("token")
@@ -255,52 +225,6 @@ private constructor(
         }
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is StatementLineItemResponse &&
-                this.token == other.token &&
-                this.financialAccountToken == other.financialAccountToken &&
-                this.cardToken == other.cardToken &&
-                this.financialTransactionToken == other.financialTransactionToken &&
-                this.financialTransactionEventToken == other.financialTransactionEventToken &&
-                this.category == other.category &&
-                this.eventType == other.eventType &&
-                this.effectiveDate == other.effectiveDate &&
-                this.descriptor == other.descriptor &&
-                this.amount == other.amount &&
-                this.currency == other.currency &&
-                this.created == other.created &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        token,
-                        financialAccountToken,
-                        cardToken,
-                        financialTransactionToken,
-                        financialTransactionEventToken,
-                        category,
-                        eventType,
-                        effectiveDate,
-                        descriptor,
-                        amount,
-                        currency,
-                        created,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "StatementLineItemResponse{token=$token, financialAccountToken=$financialAccountToken, cardToken=$cardToken, financialTransactionToken=$financialTransactionToken, financialTransactionEventToken=$financialTransactionEventToken, category=$category, eventType=$eventType, effectiveDate=$effectiveDate, descriptor=$descriptor, amount=$amount, currency=$currency, created=$created, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1024,5 +948,81 @@ private constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is StatementLineItemResponse &&
+                this.token == other.token &&
+                this.financialAccountToken == other.financialAccountToken &&
+                this.cardToken == other.cardToken &&
+                this.financialTransactionToken == other.financialTransactionToken &&
+                this.financialTransactionEventToken == other.financialTransactionEventToken &&
+                this.category == other.category &&
+                this.eventType == other.eventType &&
+                this.effectiveDate == other.effectiveDate &&
+                this.descriptor == other.descriptor &&
+                this.amount == other.amount &&
+                this.currency == other.currency &&
+                this.created == other.created &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        token,
+                        financialAccountToken,
+                        cardToken,
+                        financialTransactionToken,
+                        financialTransactionEventToken,
+                        category,
+                        eventType,
+                        effectiveDate,
+                        descriptor,
+                        amount,
+                        currency,
+                        created,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "StatementLineItemResponse{token=$token, financialAccountToken=$financialAccountToken, cardToken=$cardToken, financialTransactionToken=$financialTransactionToken, financialTransactionEventToken=$financialTransactionEventToken, category=$category, eventType=$eventType, effectiveDate=$effectiveDate, descriptor=$descriptor, amount=$amount, currency=$currency, created=$created, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is StatementLineItems &&
+            this.data == other.data &&
+            this.hasMore == other.hasMore &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode =
+                Objects.hash(
+                    data,
+                    hasMore,
+                    additionalProperties,
+                )
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "StatementLineItems{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 }

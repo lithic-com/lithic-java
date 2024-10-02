@@ -24,8 +24,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     fun creditExtended(): Long = creditExtended.getRequired("credit_extended")
 
     @JsonProperty("credit_extended") @ExcludeMissing fun _creditExtended() = creditExtended
@@ -42,26 +40,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is ExtendedCredit &&
-            this.creditExtended == other.creditExtended &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = Objects.hash(creditExtended, additionalProperties)
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "ExtendedCredit{creditExtended=$creditExtended, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -104,4 +82,26 @@ private constructor(
         fun build(): ExtendedCredit =
             ExtendedCredit(creditExtended, additionalProperties.toUnmodifiable())
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is ExtendedCredit &&
+            this.creditExtended == other.creditExtended &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode = Objects.hash(creditExtended, additionalProperties)
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "ExtendedCredit{creditExtended=$creditExtended, additionalProperties=$additionalProperties}"
 }

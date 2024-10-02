@@ -431,8 +431,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /** Verification Method */
         @JsonProperty("verification_method")
         fun verificationMethod(): VerificationMethod? = verificationMethod
@@ -500,62 +498,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is BankVerifiedCreateBankAccountApiRequest &&
-                this.verificationMethod == other.verificationMethod &&
-                this.ownerType == other.ownerType &&
-                this.owner == other.owner &&
-                this.accountToken == other.accountToken &&
-                this.companyId == other.companyId &&
-                this.doingBusinessAs == other.doingBusinessAs &&
-                this.dob == other.dob &&
-                this.userDefinedId == other.userDefinedId &&
-                this.type == other.type &&
-                this.routingNumber == other.routingNumber &&
-                this.accountNumber == other.accountNumber &&
-                this.name == other.name &&
-                this.country == other.country &&
-                this.currency == other.currency &&
-                this.verificationEnforcement == other.verificationEnforcement &&
-                this.address == other.address &&
-                this.financialAccountToken == other.financialAccountToken &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        verificationMethod,
-                        ownerType,
-                        owner,
-                        accountToken,
-                        companyId,
-                        doingBusinessAs,
-                        dob,
-                        userDefinedId,
-                        type,
-                        routingNumber,
-                        accountNumber,
-                        name,
-                        country,
-                        currency,
-                        verificationEnforcement,
-                        address,
-                        financialAccountToken,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "BankVerifiedCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, type=$type, routingNumber=$routingNumber, accountNumber=$accountNumber, name=$name, country=$country, currency=$currency, verificationEnforcement=$verificationEnforcement, address=$address, financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -786,6 +728,64 @@ constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is BankVerifiedCreateBankAccountApiRequest &&
+                this.verificationMethod == other.verificationMethod &&
+                this.ownerType == other.ownerType &&
+                this.owner == other.owner &&
+                this.accountToken == other.accountToken &&
+                this.companyId == other.companyId &&
+                this.doingBusinessAs == other.doingBusinessAs &&
+                this.dob == other.dob &&
+                this.userDefinedId == other.userDefinedId &&
+                this.type == other.type &&
+                this.routingNumber == other.routingNumber &&
+                this.accountNumber == other.accountNumber &&
+                this.name == other.name &&
+                this.country == other.country &&
+                this.currency == other.currency &&
+                this.verificationEnforcement == other.verificationEnforcement &&
+                this.address == other.address &&
+                this.financialAccountToken == other.financialAccountToken &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        verificationMethod,
+                        ownerType,
+                        owner,
+                        accountToken,
+                        companyId,
+                        doingBusinessAs,
+                        dob,
+                        userDefinedId,
+                        type,
+                        routingNumber,
+                        accountNumber,
+                        name,
+                        country,
+                        currency,
+                        verificationEnforcement,
+                        address,
+                        financialAccountToken,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "BankVerifiedCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, type=$type, routingNumber=$routingNumber, accountNumber=$accountNumber, name=$name, country=$country, currency=$currency, verificationEnforcement=$verificationEnforcement, address=$address, financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
     }
 
     @JsonDeserialize(builder = PlaidCreateBankAccountApiRequest.Builder::class)
@@ -803,8 +803,6 @@ constructor(
         private val processorToken: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
-
-        private var hashCode: Int = 0
 
         /** Verification Method */
         @JsonProperty("verification_method")
@@ -844,46 +842,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is PlaidCreateBankAccountApiRequest &&
-                this.verificationMethod == other.verificationMethod &&
-                this.ownerType == other.ownerType &&
-                this.owner == other.owner &&
-                this.accountToken == other.accountToken &&
-                this.companyId == other.companyId &&
-                this.doingBusinessAs == other.doingBusinessAs &&
-                this.dob == other.dob &&
-                this.userDefinedId == other.userDefinedId &&
-                this.processorToken == other.processorToken &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        verificationMethod,
-                        ownerType,
-                        owner,
-                        accountToken,
-                        companyId,
-                        doingBusinessAs,
-                        dob,
-                        userDefinedId,
-                        processorToken,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "PlaidCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, processorToken=$processorToken, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -994,6 +952,48 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is PlaidCreateBankAccountApiRequest &&
+                this.verificationMethod == other.verificationMethod &&
+                this.ownerType == other.ownerType &&
+                this.owner == other.owner &&
+                this.accountToken == other.accountToken &&
+                this.companyId == other.companyId &&
+                this.doingBusinessAs == other.doingBusinessAs &&
+                this.dob == other.dob &&
+                this.userDefinedId == other.userDefinedId &&
+                this.processorToken == other.processorToken &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        verificationMethod,
+                        ownerType,
+                        owner,
+                        accountToken,
+                        companyId,
+                        doingBusinessAs,
+                        dob,
+                        userDefinedId,
+                        processorToken,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "PlaidCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, processorToken=$processorToken, additionalProperties=$additionalProperties}"
     }
 
     @JsonDeserialize(builder = ExternallyVerifiedCreateBankAccountApiRequest.Builder::class)
@@ -1017,8 +1017,6 @@ constructor(
         private val address: ExternalBankAccountAddress?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
-
-        private var hashCode: Int = 0
 
         /** Verification Method */
         @JsonProperty("verification_method")
@@ -1080,58 +1078,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is ExternallyVerifiedCreateBankAccountApiRequest &&
-                this.verificationMethod == other.verificationMethod &&
-                this.ownerType == other.ownerType &&
-                this.owner == other.owner &&
-                this.accountToken == other.accountToken &&
-                this.companyId == other.companyId &&
-                this.doingBusinessAs == other.doingBusinessAs &&
-                this.dob == other.dob &&
-                this.userDefinedId == other.userDefinedId &&
-                this.type == other.type &&
-                this.routingNumber == other.routingNumber &&
-                this.accountNumber == other.accountNumber &&
-                this.name == other.name &&
-                this.country == other.country &&
-                this.currency == other.currency &&
-                this.address == other.address &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        verificationMethod,
-                        ownerType,
-                        owner,
-                        accountToken,
-                        companyId,
-                        doingBusinessAs,
-                        dob,
-                        userDefinedId,
-                        type,
-                        routingNumber,
-                        accountNumber,
-                        name,
-                        country,
-                        currency,
-                        address,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "ExternallyVerifiedCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, type=$type, routingNumber=$routingNumber, accountNumber=$accountNumber, name=$name, country=$country, currency=$currency, address=$address, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -1403,5 +1349,59 @@ constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ExternallyVerifiedCreateBankAccountApiRequest &&
+                this.verificationMethod == other.verificationMethod &&
+                this.ownerType == other.ownerType &&
+                this.owner == other.owner &&
+                this.accountToken == other.accountToken &&
+                this.companyId == other.companyId &&
+                this.doingBusinessAs == other.doingBusinessAs &&
+                this.dob == other.dob &&
+                this.userDefinedId == other.userDefinedId &&
+                this.type == other.type &&
+                this.routingNumber == other.routingNumber &&
+                this.accountNumber == other.accountNumber &&
+                this.name == other.name &&
+                this.country == other.country &&
+                this.currency == other.currency &&
+                this.address == other.address &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        verificationMethod,
+                        ownerType,
+                        owner,
+                        accountToken,
+                        companyId,
+                        doingBusinessAs,
+                        dob,
+                        userDefinedId,
+                        type,
+                        routingNumber,
+                        accountNumber,
+                        name,
+                        country,
+                        currency,
+                        address,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "ExternallyVerifiedCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, type=$type, routingNumber=$routingNumber, accountNumber=$accountNumber, name=$name, country=$country, currency=$currency, address=$address, additionalProperties=$additionalProperties}"
     }
 }

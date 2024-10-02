@@ -25,8 +25,6 @@ private constructor(
 
     private var validated: Boolean = false
 
-    private var hashCode: Int = 0
-
     fun reportToken(): Optional<String> =
         Optional.ofNullable(reportToken.getNullable("report_token"))
 
@@ -44,26 +42,6 @@ private constructor(
     }
 
     fun toBuilder() = Builder().from(this)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return other is V2ReportResponse &&
-            this.reportToken == other.reportToken &&
-            this.additionalProperties == other.additionalProperties
-    }
-
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = Objects.hash(reportToken, additionalProperties)
-        }
-        return hashCode
-    }
-
-    override fun toString() =
-        "V2ReportResponse{reportToken=$reportToken, additionalProperties=$additionalProperties}"
 
     companion object {
 
@@ -104,4 +82,26 @@ private constructor(
         fun build(): V2ReportResponse =
             V2ReportResponse(reportToken, additionalProperties.toUnmodifiable())
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return other is V2ReportResponse &&
+            this.reportToken == other.reportToken &&
+            this.additionalProperties == other.additionalProperties
+    }
+
+    private var hashCode: Int = 0
+
+    override fun hashCode(): Int {
+        if (hashCode == 0) {
+            hashCode = Objects.hash(reportToken, additionalProperties)
+        }
+        return hashCode
+    }
+
+    override fun toString() =
+        "V2ReportResponse{reportToken=$reportToken, additionalProperties=$additionalProperties}"
 }

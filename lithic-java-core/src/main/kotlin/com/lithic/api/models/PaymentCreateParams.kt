@@ -88,8 +88,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         @JsonProperty("amount") fun amount(): Long? = amount
 
         @JsonProperty("external_bank_account_token")
@@ -120,46 +118,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is PaymentCreateBody &&
-                this.amount == other.amount &&
-                this.externalBankAccountToken == other.externalBankAccountToken &&
-                this.financialAccountToken == other.financialAccountToken &&
-                this.method == other.method &&
-                this.methodAttributes == other.methodAttributes &&
-                this.type == other.type &&
-                this.token == other.token &&
-                this.memo == other.memo &&
-                this.userDefinedId == other.userDefinedId &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        amount,
-                        externalBankAccountToken,
-                        financialAccountToken,
-                        method,
-                        methodAttributes,
-                        type,
-                        token,
-                        memo,
-                        userDefinedId,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "PaymentCreateBody{amount=$amount, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, type=$type, token=$token, memo=$memo, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -259,6 +217,48 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is PaymentCreateBody &&
+                this.amount == other.amount &&
+                this.externalBankAccountToken == other.externalBankAccountToken &&
+                this.financialAccountToken == other.financialAccountToken &&
+                this.method == other.method &&
+                this.methodAttributes == other.methodAttributes &&
+                this.type == other.type &&
+                this.token == other.token &&
+                this.memo == other.memo &&
+                this.userDefinedId == other.userDefinedId &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        amount,
+                        externalBankAccountToken,
+                        financialAccountToken,
+                        method,
+                        methodAttributes,
+                        type,
+                        token,
+                        memo,
+                        userDefinedId,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "PaymentCreateBody{amount=$amount, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, type=$type, token=$token, memo=$memo, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
@@ -514,8 +514,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         @JsonProperty("sec_code") fun secCode(): SecCode? = secCode
 
         @JsonAnyGetter
@@ -523,26 +521,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is PaymentMethodRequestAttributes &&
-                this.secCode == other.secCode &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = Objects.hash(secCode, additionalProperties)
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "PaymentMethodRequestAttributes{secCode=$secCode, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -647,6 +625,28 @@ constructor(
 
             fun asString(): String = _value().asStringOrThrow()
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is PaymentMethodRequestAttributes &&
+                this.secCode == other.secCode &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode = Objects.hash(secCode, additionalProperties)
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "PaymentMethodRequestAttributes{secCode=$secCode, additionalProperties=$additionalProperties}"
     }
 
     class Type

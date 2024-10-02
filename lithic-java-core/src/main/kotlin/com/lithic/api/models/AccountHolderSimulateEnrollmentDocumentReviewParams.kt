@@ -58,8 +58,6 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var hashCode: Int = 0
-
         /** The account holder document upload which to perform the simulation upon. */
         @JsonProperty("document_upload_token")
         fun documentUploadToken(): String? = documentUploadToken
@@ -78,34 +76,6 @@ constructor(
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
         fun toBuilder() = Builder().from(this)
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is AccountHolderSimulateEnrollmentDocumentReviewBody &&
-                this.documentUploadToken == other.documentUploadToken &&
-                this.status == other.status &&
-                this.statusReasons == other.statusReasons &&
-                this.additionalProperties == other.additionalProperties
-        }
-
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        documentUploadToken,
-                        status,
-                        statusReasons,
-                        additionalProperties,
-                    )
-            }
-            return hashCode
-        }
-
-        override fun toString() =
-            "AccountHolderSimulateEnrollmentDocumentReviewBody{documentUploadToken=$documentUploadToken, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
 
         companion object {
 
@@ -173,6 +143,36 @@ constructor(
                     additionalProperties.toUnmodifiable(),
                 )
         }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is AccountHolderSimulateEnrollmentDocumentReviewBody &&
+                this.documentUploadToken == other.documentUploadToken &&
+                this.status == other.status &&
+                this.statusReasons == other.statusReasons &&
+                this.additionalProperties == other.additionalProperties
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode =
+                    Objects.hash(
+                        documentUploadToken,
+                        status,
+                        statusReasons,
+                        additionalProperties,
+                    )
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "AccountHolderSimulateEnrollmentDocumentReviewBody{documentUploadToken=$documentUploadToken, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
