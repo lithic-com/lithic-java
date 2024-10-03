@@ -547,7 +547,7 @@ private constructor(
                 return true
             }
 
-            return other is Network && this.value == other.value
+            return /* spotless:off */ other is Network && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -682,16 +682,14 @@ private constructor(
                 return true
             }
 
-            return other is OtherFeesDetails &&
-                this.isa == other.isa &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is OtherFeesDetails && this.isa == other.isa && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(isa, additionalProperties)
+                hashCode = /* spotless:off */ Objects.hash(isa, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -713,7 +711,7 @@ private constructor(
                 return true
             }
 
-            return other is Type && this.value == other.value
+            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -804,58 +802,14 @@ private constructor(
             return true
         }
 
-        return other is SettlementDetail &&
-            this.accountToken == other.accountToken &&
-            this.cardProgramToken == other.cardProgramToken &&
-            this.cardToken == other.cardToken &&
-            this.created == other.created &&
-            this.currency == other.currency &&
-            this.disputesGrossAmount == other.disputesGrossAmount &&
-            this.eventTokens == other.eventTokens &&
-            this.institution == other.institution &&
-            this.interchangeFeeExtendedPrecision == other.interchangeFeeExtendedPrecision &&
-            this.interchangeGrossAmount == other.interchangeGrossAmount &&
-            this.network == other.network &&
-            this.otherFeesDetails == other.otherFeesDetails &&
-            this.otherFeesGrossAmount == other.otherFeesGrossAmount &&
-            this.reportDate == other.reportDate &&
-            this.settlementDate == other.settlementDate &&
-            this.token == other.token &&
-            this.transactionToken == other.transactionToken &&
-            this.transactionsGrossAmount == other.transactionsGrossAmount &&
-            this.type == other.type &&
-            this.updated == other.updated &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is SettlementDetail && this.accountToken == other.accountToken && this.cardProgramToken == other.cardProgramToken && this.cardToken == other.cardToken && this.created == other.created && this.currency == other.currency && this.disputesGrossAmount == other.disputesGrossAmount && this.eventTokens == other.eventTokens && this.institution == other.institution && this.interchangeFeeExtendedPrecision == other.interchangeFeeExtendedPrecision && this.interchangeGrossAmount == other.interchangeGrossAmount && this.network == other.network && this.otherFeesDetails == other.otherFeesDetails && this.otherFeesGrossAmount == other.otherFeesGrossAmount && this.reportDate == other.reportDate && this.settlementDate == other.settlementDate && this.token == other.token && this.transactionToken == other.transactionToken && this.transactionsGrossAmount == other.transactionsGrossAmount && this.type == other.type && this.updated == other.updated && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountToken,
-                    cardProgramToken,
-                    cardToken,
-                    created,
-                    currency,
-                    disputesGrossAmount,
-                    eventTokens,
-                    institution,
-                    interchangeFeeExtendedPrecision,
-                    interchangeGrossAmount,
-                    network,
-                    otherFeesDetails,
-                    otherFeesGrossAmount,
-                    reportDate,
-                    settlementDate,
-                    token,
-                    transactionToken,
-                    transactionsGrossAmount,
-                    type,
-                    updated,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(accountToken, cardProgramToken, cardToken, created, currency, disputesGrossAmount, eventTokens, institution, interchangeFeeExtendedPrecision, interchangeGrossAmount, network, otherFeesDetails, otherFeesGrossAmount, reportDate, settlementDate, token, transactionToken, transactionsGrossAmount, type, updated, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

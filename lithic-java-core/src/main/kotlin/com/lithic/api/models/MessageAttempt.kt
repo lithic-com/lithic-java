@@ -262,7 +262,7 @@ private constructor(
                 return true
             }
 
-            return other is Status && this.value == other.value
+            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -323,34 +323,14 @@ private constructor(
             return true
         }
 
-        return other is MessageAttempt &&
-            this.created == other.created &&
-            this.eventSubscriptionToken == other.eventSubscriptionToken &&
-            this.eventToken == other.eventToken &&
-            this.response == other.response &&
-            this.responseStatusCode == other.responseStatusCode &&
-            this.status == other.status &&
-            this.token == other.token &&
-            this.url == other.url &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is MessageAttempt && this.created == other.created && this.eventSubscriptionToken == other.eventSubscriptionToken && this.eventToken == other.eventToken && this.response == other.response && this.responseStatusCode == other.responseStatusCode && this.status == other.status && this.token == other.token && this.url == other.url && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    created,
-                    eventSubscriptionToken,
-                    eventToken,
-                    response,
-                    responseStatusCode,
-                    status,
-                    token,
-                    url,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(created, eventSubscriptionToken, eventToken, response, responseStatusCode, status, token, url, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

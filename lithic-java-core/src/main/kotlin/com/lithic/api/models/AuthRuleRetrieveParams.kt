@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is AuthRuleRetrieveParams &&
-            this.authRuleToken == other.authRuleToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is AuthRuleRetrieveParams && this.authRuleToken == other.authRuleToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            authRuleToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(authRuleToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

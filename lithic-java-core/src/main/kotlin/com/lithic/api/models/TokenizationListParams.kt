@@ -71,32 +71,11 @@ constructor(
             return true
         }
 
-        return other is TokenizationListParams &&
-            this.accountToken == other.accountToken &&
-            this.begin == other.begin &&
-            this.cardToken == other.cardToken &&
-            this.end == other.end &&
-            this.endingBefore == other.endingBefore &&
-            this.pageSize == other.pageSize &&
-            this.startingAfter == other.startingAfter &&
-            this.tokenizationChannel == other.tokenizationChannel &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is TokenizationListParams && this.accountToken == other.accountToken && this.begin == other.begin && this.cardToken == other.cardToken && this.end == other.end && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.tokenizationChannel == other.tokenizationChannel && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountToken,
-            begin,
-            cardToken,
-            end,
-            endingBefore,
-            pageSize,
-            startingAfter,
-            tokenizationChannel,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, startingAfter, tokenizationChannel, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =
@@ -240,7 +219,7 @@ constructor(
                 return true
             }
 
-            return other is TokenizationChannel && this.value == other.value
+            return /* spotless:off */ other is TokenizationChannel && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

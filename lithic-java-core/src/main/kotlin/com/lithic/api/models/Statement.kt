@@ -738,7 +738,7 @@ private constructor(
                     return true
                 }
 
-                return other is PeriodState && this.value == other.value
+                return /* spotless:off */ other is PeriodState && this.value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -793,32 +793,14 @@ private constructor(
                 return true
             }
 
-            return other is AccountStanding &&
-                this.periodState == other.periodState &&
-                this.periodNumber == other.periodNumber &&
-                this.consecutiveMinimumPaymentsMade == other.consecutiveMinimumPaymentsMade &&
-                this.consecutiveMinimumPaymentsMissed == other.consecutiveMinimumPaymentsMissed &&
-                this.consecutiveFullPaymentsMade == other.consecutiveFullPaymentsMade &&
-                this.daysPastDue == other.daysPastDue &&
-                this.hasGrace == other.hasGrace &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AccountStanding && this.periodState == other.periodState && this.periodNumber == other.periodNumber && this.consecutiveMinimumPaymentsMade == other.consecutiveMinimumPaymentsMade && this.consecutiveMinimumPaymentsMissed == other.consecutiveMinimumPaymentsMissed && this.consecutiveFullPaymentsMade == other.consecutiveFullPaymentsMade && this.daysPastDue == other.daysPastDue && this.hasGrace == other.hasGrace && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        periodState,
-                        periodNumber,
-                        consecutiveMinimumPaymentsMade,
-                        consecutiveMinimumPaymentsMissed,
-                        consecutiveFullPaymentsMade,
-                        daysPastDue,
-                        hasGrace,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(periodState, periodNumber, consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed, consecutiveFullPaymentsMade, daysPastDue, hasGrace, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -945,22 +927,14 @@ private constructor(
                 return true
             }
 
-            return other is AmountDue &&
-                this.amount == other.amount &&
-                this.pastDue == other.pastDue &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AmountDue && this.amount == other.amount && this.pastDue == other.pastDue && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        amount,
-                        pastDue,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(amount, pastDue, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -1179,32 +1153,14 @@ private constructor(
                 return true
             }
 
-            return other is StatementTotals &&
-                this.payments == other.payments &&
-                this.purchases == other.purchases &&
-                this.fees == other.fees &&
-                this.credits == other.credits &&
-                this.interest == other.interest &&
-                this.cashAdvances == other.cashAdvances &&
-                this.balanceTransfers == other.balanceTransfers &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is StatementTotals && this.payments == other.payments && this.purchases == other.purchases && this.fees == other.fees && this.credits == other.credits && this.interest == other.interest && this.cashAdvances == other.cashAdvances && this.balanceTransfers == other.balanceTransfers && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        payments,
-                        purchases,
-                        fees,
-                        credits,
-                        interest,
-                        cashAdvances,
-                        balanceTransfers,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(payments, purchases, fees, credits, interest, cashAdvances, balanceTransfers, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -1226,7 +1182,7 @@ private constructor(
                 return true
             }
 
-            return other is StatementType && this.value == other.value
+            return /* spotless:off */ other is StatementType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1577,24 +1533,14 @@ private constructor(
                     return true
                 }
 
-                return other is CategoryDetails &&
-                    this.purchases == other.purchases &&
-                    this.cashAdvances == other.cashAdvances &&
-                    this.balanceTransfers == other.balanceTransfers &&
-                    this.additionalProperties == other.additionalProperties
+                return /* spotless:off */ other is CategoryDetails && this.purchases == other.purchases && this.cashAdvances == other.cashAdvances && this.balanceTransfers == other.balanceTransfers && this.additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             private var hashCode: Int = 0
 
             override fun hashCode(): Int {
                 if (hashCode == 0) {
-                    hashCode =
-                        Objects.hash(
-                            purchases,
-                            cashAdvances,
-                            balanceTransfers,
-                            additionalProperties,
-                        )
+                    hashCode = /* spotless:off */ Objects.hash(purchases, cashAdvances, balanceTransfers, additionalProperties) /* spotless:on */
                 }
                 return hashCode
             }
@@ -1616,7 +1562,7 @@ private constructor(
                     return true
                 }
 
-                return other is InterestCalculationMethod && this.value == other.value
+                return /* spotless:off */ other is InterestCalculationMethod && this.value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1669,32 +1615,14 @@ private constructor(
                 return true
             }
 
-            return other is InterestDetails &&
-                this.primeRate == other.primeRate &&
-                this.interestCalculationMethod == other.interestCalculationMethod &&
-                this.effectiveApr == other.effectiveApr &&
-                this.interestForPeriod == other.interestForPeriod &&
-                this.dailyBalanceAmounts == other.dailyBalanceAmounts &&
-                this.minimumInterestCharged == other.minimumInterestCharged &&
-                this.actualInterestCharged == other.actualInterestCharged &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is InterestDetails && this.primeRate == other.primeRate && this.interestCalculationMethod == other.interestCalculationMethod && this.effectiveApr == other.effectiveApr && this.interestForPeriod == other.interestForPeriod && this.dailyBalanceAmounts == other.dailyBalanceAmounts && this.minimumInterestCharged == other.minimumInterestCharged && this.actualInterestCharged == other.actualInterestCharged && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        primeRate,
-                        interestCalculationMethod,
-                        effectiveApr,
-                        interestForPeriod,
-                        dailyBalanceAmounts,
-                        minimumInterestCharged,
-                        actualInterestCharged,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(primeRate, interestCalculationMethod, effectiveApr, interestForPeriod, dailyBalanceAmounts, minimumInterestCharged, actualInterestCharged, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -1708,60 +1636,14 @@ private constructor(
             return true
         }
 
-        return other is Statement &&
-            this.token == other.token &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.statementStartDate == other.statementStartDate &&
-            this.statementEndDate == other.statementEndDate &&
-            this.nextStatementEndDate == other.nextStatementEndDate &&
-            this.paymentDueDate == other.paymentDueDate &&
-            this.nextPaymentDueDate == other.nextPaymentDueDate &&
-            this.daysInBillingCycle == other.daysInBillingCycle &&
-            this.creditLimit == other.creditLimit &&
-            this.availableCredit == other.availableCredit &&
-            this.startingBalance == other.startingBalance &&
-            this.endingBalance == other.endingBalance &&
-            this.periodTotals == other.periodTotals &&
-            this.ytdTotals == other.ytdTotals &&
-            this.created == other.created &&
-            this.updated == other.updated &&
-            this.creditProductToken == other.creditProductToken &&
-            this.accountStanding == other.accountStanding &&
-            this.amountDue == other.amountDue &&
-            this.interestDetails == other.interestDetails &&
-            this.statementType == other.statementType &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is Statement && this.token == other.token && this.financialAccountToken == other.financialAccountToken && this.statementStartDate == other.statementStartDate && this.statementEndDate == other.statementEndDate && this.nextStatementEndDate == other.nextStatementEndDate && this.paymentDueDate == other.paymentDueDate && this.nextPaymentDueDate == other.nextPaymentDueDate && this.daysInBillingCycle == other.daysInBillingCycle && this.creditLimit == other.creditLimit && this.availableCredit == other.availableCredit && this.startingBalance == other.startingBalance && this.endingBalance == other.endingBalance && this.periodTotals == other.periodTotals && this.ytdTotals == other.ytdTotals && this.created == other.created && this.updated == other.updated && this.creditProductToken == other.creditProductToken && this.accountStanding == other.accountStanding && this.amountDue == other.amountDue && this.interestDetails == other.interestDetails && this.statementType == other.statementType && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    token,
-                    financialAccountToken,
-                    statementStartDate,
-                    statementEndDate,
-                    nextStatementEndDate,
-                    paymentDueDate,
-                    nextPaymentDueDate,
-                    daysInBillingCycle,
-                    creditLimit,
-                    availableCredit,
-                    startingBalance,
-                    endingBalance,
-                    periodTotals,
-                    ytdTotals,
-                    created,
-                    updated,
-                    creditProductToken,
-                    accountStanding,
-                    amountDue,
-                    interestDetails,
-                    statementType,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(token, financialAccountToken, statementStartDate, statementEndDate, nextStatementEndDate, paymentDueDate, nextPaymentDueDate, daysInBillingCycle, creditLimit, availableCredit, startingBalance, endingBalance, periodTotals, ytdTotals, created, updated, creditProductToken, accountStanding, amountDue, interestDetails, statementType, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

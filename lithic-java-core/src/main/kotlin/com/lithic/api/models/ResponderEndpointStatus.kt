@@ -113,22 +113,14 @@ private constructor(
             return true
         }
 
-        return other is ResponderEndpointStatus &&
-            this.enrolled == other.enrolled &&
-            this.url == other.url &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is ResponderEndpointStatus && this.enrolled == other.enrolled && this.url == other.url && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    enrolled,
-                    url,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(enrolled, url, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

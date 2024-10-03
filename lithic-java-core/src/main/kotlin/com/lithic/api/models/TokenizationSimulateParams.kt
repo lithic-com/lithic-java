@@ -235,34 +235,14 @@ constructor(
                 return true
             }
 
-            return other is TokenizationSimulateBody &&
-                this.cvv == other.cvv &&
-                this.expirationDate == other.expirationDate &&
-                this.pan == other.pan &&
-                this.tokenizationSource == other.tokenizationSource &&
-                this.accountScore == other.accountScore &&
-                this.deviceScore == other.deviceScore &&
-                this.entity == other.entity &&
-                this.walletRecommendedDecision == other.walletRecommendedDecision &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is TokenizationSimulateBody && this.cvv == other.cvv && this.expirationDate == other.expirationDate && this.pan == other.pan && this.tokenizationSource == other.tokenizationSource && this.accountScore == other.accountScore && this.deviceScore == other.deviceScore && this.entity == other.entity && this.walletRecommendedDecision == other.walletRecommendedDecision && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        cvv,
-                        expirationDate,
-                        pan,
-                        tokenizationSource,
-                        accountScore,
-                        deviceScore,
-                        entity,
-                        walletRecommendedDecision,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(cvv, expirationDate, pan, tokenizationSource, accountScore, deviceScore, entity, walletRecommendedDecision, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -282,34 +262,11 @@ constructor(
             return true
         }
 
-        return other is TokenizationSimulateParams &&
-            this.cvv == other.cvv &&
-            this.expirationDate == other.expirationDate &&
-            this.pan == other.pan &&
-            this.tokenizationSource == other.tokenizationSource &&
-            this.accountScore == other.accountScore &&
-            this.deviceScore == other.deviceScore &&
-            this.entity == other.entity &&
-            this.walletRecommendedDecision == other.walletRecommendedDecision &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is TokenizationSimulateParams && this.cvv == other.cvv && this.expirationDate == other.expirationDate && this.pan == other.pan && this.tokenizationSource == other.tokenizationSource && this.accountScore == other.accountScore && this.deviceScore == other.deviceScore && this.entity == other.entity && this.walletRecommendedDecision == other.walletRecommendedDecision && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            cvv,
-            expirationDate,
-            pan,
-            tokenizationSource,
-            accountScore,
-            deviceScore,
-            entity,
-            walletRecommendedDecision,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(cvv, expirationDate, pan, tokenizationSource, accountScore, deviceScore, entity, walletRecommendedDecision, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -475,7 +432,7 @@ constructor(
                 return true
             }
 
-            return other is TokenizationSource && this.value == other.value
+            return /* spotless:off */ other is TokenizationSource && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -544,7 +501,7 @@ constructor(
                 return true
             }
 
-            return other is WalletRecommendedDecision && this.value == other.value
+            return /* spotless:off */ other is WalletRecommendedDecision && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

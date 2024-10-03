@@ -89,16 +89,14 @@ private constructor(
             return true
         }
 
-        return other is TokenizationUpdateDigitalCardArtResponse &&
-            this.data == other.data &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is TokenizationUpdateDigitalCardArtResponse && this.data == other.data && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode = Objects.hash(data, additionalProperties)
+            hashCode = /* spotless:off */ Objects.hash(data, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

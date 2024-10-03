@@ -314,7 +314,7 @@ private constructor(
                 return true
             }
 
-            return other is State && this.value == other.value
+            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -363,36 +363,14 @@ private constructor(
             return true
         }
 
-        return other is AuthRule &&
-            this.accountTokens == other.accountTokens &&
-            this.allowedCountries == other.allowedCountries &&
-            this.allowedMcc == other.allowedMcc &&
-            this.blockedCountries == other.blockedCountries &&
-            this.blockedMcc == other.blockedMcc &&
-            this.cardTokens == other.cardTokens &&
-            this.programLevel == other.programLevel &&
-            this.state == other.state &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is AuthRule && this.accountTokens == other.accountTokens && this.allowedCountries == other.allowedCountries && this.allowedMcc == other.allowedMcc && this.blockedCountries == other.blockedCountries && this.blockedMcc == other.blockedMcc && this.cardTokens == other.cardTokens && this.programLevel == other.programLevel && this.state == other.state && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountTokens,
-                    allowedCountries,
-                    allowedMcc,
-                    blockedCountries,
-                    blockedMcc,
-                    cardTokens,
-                    programLevel,
-                    state,
-                    token,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(accountTokens, allowedCountries, allowedMcc, blockedCountries, blockedMcc, cardTokens, programLevel, state, token, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

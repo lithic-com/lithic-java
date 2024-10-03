@@ -77,30 +77,11 @@ constructor(
             return true
         }
 
-        return other is EventListAttemptsParams &&
-            this.eventToken == other.eventToken &&
-            this.begin == other.begin &&
-            this.end == other.end &&
-            this.endingBefore == other.endingBefore &&
-            this.pageSize == other.pageSize &&
-            this.startingAfter == other.startingAfter &&
-            this.status == other.status &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is EventListAttemptsParams && this.eventToken == other.eventToken && this.begin == other.begin && this.end == other.end && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.status == other.status && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            eventToken,
-            begin,
-            end,
-            endingBefore,
-            pageSize,
-            startingAfter,
-            status,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(eventToken, begin, end, endingBefore, pageSize, startingAfter, status, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =
@@ -237,7 +218,7 @@ constructor(
                 return true
             }
 
-            return other is Status && this.value == other.value
+            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

@@ -121,16 +121,14 @@ constructor(
                 return true
             }
 
-            return other is TokenizationUpdateDigitalCardArtBody &&
-                this.digitalCardArtToken == other.digitalCardArtToken &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is TokenizationUpdateDigitalCardArtBody && this.digitalCardArtToken == other.digitalCardArtToken && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(digitalCardArtToken, additionalProperties)
+                hashCode = /* spotless:off */ Objects.hash(digitalCardArtToken, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -150,22 +148,11 @@ constructor(
             return true
         }
 
-        return other is TokenizationUpdateDigitalCardArtParams &&
-            this.tokenizationToken == other.tokenizationToken &&
-            this.digitalCardArtToken == other.digitalCardArtToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is TokenizationUpdateDigitalCardArtParams && this.tokenizationToken == other.tokenizationToken && this.digitalCardArtToken == other.digitalCardArtToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            tokenizationToken,
-            digitalCardArtToken,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(tokenizationToken, digitalCardArtToken, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

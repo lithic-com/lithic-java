@@ -44,18 +44,11 @@ constructor(
             return true
         }
 
-        return other is AggregateBalanceListParams &&
-            this.financialAccountType == other.financialAccountType &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is AggregateBalanceListParams && this.financialAccountType == other.financialAccountType && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            financialAccountType,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(financialAccountType, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =
@@ -148,7 +141,7 @@ constructor(
                 return true
             }
 
-            return other is FinancialAccountType && this.value == other.value
+            return /* spotless:off */ other is FinancialAccountType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

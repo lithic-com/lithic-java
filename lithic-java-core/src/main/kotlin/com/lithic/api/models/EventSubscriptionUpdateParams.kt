@@ -163,26 +163,14 @@ constructor(
                 return true
             }
 
-            return other is EventSubscriptionUpdateBody &&
-                this.url == other.url &&
-                this.description == other.description &&
-                this.disabled == other.disabled &&
-                this.eventTypes == other.eventTypes &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is EventSubscriptionUpdateBody && this.url == other.url && this.description == other.description && this.disabled == other.disabled && this.eventTypes == other.eventTypes && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        url,
-                        description,
-                        disabled,
-                        eventTypes,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(url, description, disabled, eventTypes, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -202,28 +190,11 @@ constructor(
             return true
         }
 
-        return other is EventSubscriptionUpdateParams &&
-            this.eventSubscriptionToken == other.eventSubscriptionToken &&
-            this.url == other.url &&
-            this.description == other.description &&
-            this.disabled == other.disabled &&
-            this.eventTypes == other.eventTypes &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is EventSubscriptionUpdateParams && this.eventSubscriptionToken == other.eventSubscriptionToken && this.url == other.url && this.description == other.description && this.disabled == other.disabled && this.eventTypes == other.eventTypes && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            eventSubscriptionToken,
-            url,
-            description,
-            disabled,
-            eventTypes,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(eventSubscriptionToken, url, description, disabled, eventTypes, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -370,7 +341,7 @@ constructor(
                 return true
             }
 
-            return other is EventType && this.value == other.value
+            return /* spotless:off */ other is EventType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

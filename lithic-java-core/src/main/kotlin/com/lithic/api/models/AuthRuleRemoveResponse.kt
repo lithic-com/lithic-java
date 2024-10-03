@@ -127,24 +127,14 @@ private constructor(
             return true
         }
 
-        return other is AuthRuleRemoveResponse &&
-            this.accountTokens == other.accountTokens &&
-            this.cardTokens == other.cardTokens &&
-            this.programLevel == other.programLevel &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is AuthRuleRemoveResponse && this.accountTokens == other.accountTokens && this.cardTokens == other.cardTokens && this.programLevel == other.programLevel && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountTokens,
-                    cardTokens,
-                    programLevel,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(accountTokens, cardTokens, programLevel, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

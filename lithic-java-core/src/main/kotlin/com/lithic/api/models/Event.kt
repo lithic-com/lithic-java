@@ -281,7 +281,7 @@ private constructor(
                 return true
             }
 
-            return other is EventType && this.value == other.value
+            return /* spotless:off */ other is EventType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -661,14 +661,14 @@ private constructor(
                 return true
             }
 
-            return other is Payload && this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Payload && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(additionalProperties)
+                hashCode = /* spotless:off */ Objects.hash(additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -681,26 +681,14 @@ private constructor(
             return true
         }
 
-        return other is Event &&
-            this.created == other.created &&
-            this.eventType == other.eventType &&
-            this.payload == other.payload &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is Event && this.created == other.created && this.eventType == other.eventType && this.payload == other.payload && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    created,
-                    eventType,
-                    payload,
-                    token,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(created, eventType, payload, token, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

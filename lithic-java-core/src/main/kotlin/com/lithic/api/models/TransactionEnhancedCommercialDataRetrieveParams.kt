@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is TransactionEnhancedCommercialDataRetrieveParams &&
-            this.transactionToken == other.transactionToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is TransactionEnhancedCommercialDataRetrieveParams && this.transactionToken == other.transactionToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            transactionToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(transactionToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

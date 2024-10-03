@@ -403,7 +403,7 @@ private constructor(
                 return true
             }
 
-            return other is Category && this.value == other.value
+            return /* spotless:off */ other is Category && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -725,7 +725,7 @@ private constructor(
                     return true
                 }
 
-                return other is DetailedResult && this.value == other.value
+                return /* spotless:off */ other is DetailedResult && this.value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -783,7 +783,7 @@ private constructor(
                     return true
                 }
 
-                return other is Result && this.value == other.value
+                return /* spotless:off */ other is Result && this.value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -832,34 +832,14 @@ private constructor(
                 return true
             }
 
-            return other is BookTransferEvent &&
-                this.amount == other.amount &&
-                this.type == other.type &&
-                this.result == other.result &&
-                this.created == other.created &&
-                this.token == other.token &&
-                this.subtype == other.subtype &&
-                this.memo == other.memo &&
-                this.detailedResults == other.detailedResults &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is BookTransferEvent && this.amount == other.amount && this.type == other.type && this.result == other.result && this.created == other.created && this.token == other.token && this.subtype == other.subtype && this.memo == other.memo && this.detailedResults == other.detailedResults && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        amount,
-                        type,
-                        result,
-                        created,
-                        token,
-                        subtype,
-                        memo,
-                        detailedResults,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(amount, type, result, created, token, subtype, memo, detailedResults, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -881,7 +861,7 @@ private constructor(
                 return true
             }
 
-            return other is Result && this.value == other.value
+            return /* spotless:off */ other is Result && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -938,7 +918,7 @@ private constructor(
                 return true
             }
 
-            return other is Status && this.value == other.value
+            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -993,42 +973,14 @@ private constructor(
             return true
         }
 
-        return other is BookTransferResponse &&
-            this.category == other.category &&
-            this.created == other.created &&
-            this.currency == other.currency &&
-            this.events == other.events &&
-            this.fromFinancialAccountToken == other.fromFinancialAccountToken &&
-            this.pendingAmount == other.pendingAmount &&
-            this.result == other.result &&
-            this.settledAmount == other.settledAmount &&
-            this.status == other.status &&
-            this.toFinancialAccountToken == other.toFinancialAccountToken &&
-            this.token == other.token &&
-            this.updated == other.updated &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is BookTransferResponse && this.category == other.category && this.created == other.created && this.currency == other.currency && this.events == other.events && this.fromFinancialAccountToken == other.fromFinancialAccountToken && this.pendingAmount == other.pendingAmount && this.result == other.result && this.settledAmount == other.settledAmount && this.status == other.status && this.toFinancialAccountToken == other.toFinancialAccountToken && this.token == other.token && this.updated == other.updated && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    category,
-                    created,
-                    currency,
-                    events,
-                    fromFinancialAccountToken,
-                    pendingAmount,
-                    result,
-                    settledAmount,
-                    status,
-                    toFinancialAccountToken,
-                    token,
-                    updated,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(category, created, currency, events, fromFinancialAccountToken, pendingAmount, result, settledAmount, status, toFinancialAccountToken, token, updated, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

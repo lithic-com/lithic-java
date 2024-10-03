@@ -163,24 +163,14 @@ constructor(
                 return true
             }
 
-            return other is AccountHolderUpdateBody &&
-                this.businessAccountToken == other.businessAccountToken &&
-                this.email == other.email &&
-                this.phoneNumber == other.phoneNumber &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AccountHolderUpdateBody && this.businessAccountToken == other.businessAccountToken && this.email == other.email && this.phoneNumber == other.phoneNumber && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        businessAccountToken,
-                        email,
-                        phoneNumber,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(businessAccountToken, email, phoneNumber, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -200,26 +190,11 @@ constructor(
             return true
         }
 
-        return other is AccountHolderUpdateParams &&
-            this.accountHolderToken == other.accountHolderToken &&
-            this.businessAccountToken == other.businessAccountToken &&
-            this.email == other.email &&
-            this.phoneNumber == other.phoneNumber &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is AccountHolderUpdateParams && this.accountHolderToken == other.accountHolderToken && this.businessAccountToken == other.businessAccountToken && this.email == other.email && this.phoneNumber == other.phoneNumber && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountHolderToken,
-            businessAccountToken,
-            email,
-            phoneNumber,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(accountHolderToken, businessAccountToken, email, phoneNumber, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

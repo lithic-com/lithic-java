@@ -90,16 +90,14 @@ private constructor(
             return true
         }
 
-        return other is Carrier &&
-            this.qrCodeUrl == other.qrCodeUrl &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is Carrier && this.qrCodeUrl == other.qrCodeUrl && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode = Objects.hash(qrCodeUrl, additionalProperties)
+            hashCode = /* spotless:off */ Objects.hash(qrCodeUrl, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

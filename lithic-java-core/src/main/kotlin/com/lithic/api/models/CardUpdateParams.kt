@@ -281,32 +281,14 @@ constructor(
                 return true
             }
 
-            return other is CardUpdateBody &&
-                this.digitalCardArtToken == other.digitalCardArtToken &&
-                this.memo == other.memo &&
-                this.pin == other.pin &&
-                this.pinStatus == other.pinStatus &&
-                this.spendLimit == other.spendLimit &&
-                this.spendLimitDuration == other.spendLimitDuration &&
-                this.state == other.state &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is CardUpdateBody && this.digitalCardArtToken == other.digitalCardArtToken && this.memo == other.memo && this.pin == other.pin && this.pinStatus == other.pinStatus && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        digitalCardArtToken,
-                        memo,
-                        pin,
-                        pinStatus,
-                        spendLimit,
-                        spendLimitDuration,
-                        state,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(digitalCardArtToken, memo, pin, pinStatus, spendLimit, spendLimitDuration, state, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -326,34 +308,11 @@ constructor(
             return true
         }
 
-        return other is CardUpdateParams &&
-            this.cardToken == other.cardToken &&
-            this.digitalCardArtToken == other.digitalCardArtToken &&
-            this.memo == other.memo &&
-            this.pin == other.pin &&
-            this.pinStatus == other.pinStatus &&
-            this.spendLimit == other.spendLimit &&
-            this.spendLimitDuration == other.spendLimitDuration &&
-            this.state == other.state &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is CardUpdateParams && this.cardToken == other.cardToken && this.digitalCardArtToken == other.digitalCardArtToken && this.memo == other.memo && this.pin == other.pin && this.pinStatus == other.pinStatus && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            cardToken,
-            digitalCardArtToken,
-            memo,
-            pin,
-            pinStatus,
-            spendLimit,
-            spendLimitDuration,
-            state,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(cardToken, digitalCardArtToken, memo, pin, pinStatus, spendLimit, spendLimitDuration, state, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -542,7 +501,7 @@ constructor(
                 return true
             }
 
-            return other is PinStatus && this.value == other.value
+            return /* spotless:off */ other is PinStatus && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -593,7 +552,7 @@ constructor(
                 return true
             }
 
-            return other is State && this.value == other.value
+            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

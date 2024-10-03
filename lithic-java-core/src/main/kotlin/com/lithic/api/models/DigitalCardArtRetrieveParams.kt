@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is DigitalCardArtRetrieveParams &&
-            this.digitalCardArtToken == other.digitalCardArtToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is DigitalCardArtRetrieveParams && this.digitalCardArtToken == other.digitalCardArtToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            digitalCardArtToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(digitalCardArtToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

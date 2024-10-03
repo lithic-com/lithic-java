@@ -117,16 +117,14 @@ constructor(
                 return true
             }
 
-            return other is AuthRuleV2DraftBody &&
-                this.parameters == other.parameters &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AuthRuleV2DraftBody && this.parameters == other.parameters && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(parameters, additionalProperties)
+                hashCode = /* spotless:off */ Objects.hash(parameters, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -146,22 +144,11 @@ constructor(
             return true
         }
 
-        return other is AuthRuleV2DraftParams &&
-            this.authRuleToken == other.authRuleToken &&
-            this.parameters == other.parameters &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is AuthRuleV2DraftParams && this.authRuleToken == other.authRuleToken && this.parameters == other.parameters && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            authRuleToken,
-            parameters,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(authRuleToken, parameters, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -327,13 +314,11 @@ constructor(
                 return true
             }
 
-            return other is AuthRuleParameters &&
-                this.conditionalBlockParameters == other.conditionalBlockParameters &&
-                this.velocityLimitParams == other.velocityLimitParams
+            return /* spotless:off */ other is AuthRuleParameters && this.conditionalBlockParameters == other.conditionalBlockParameters && this.velocityLimitParams == other.velocityLimitParams /* spotless:on */
         }
 
         override fun hashCode(): Int {
-            return Objects.hash(conditionalBlockParameters, velocityLimitParams)
+            return /* spotless:off */ Objects.hash(conditionalBlockParameters, velocityLimitParams) /* spotless:on */
         }
 
         override fun toString(): String {
@@ -609,7 +594,7 @@ constructor(
                             return true
                         }
 
-                        return other is Attribute && this.value == other.value
+                        return /* spotless:off */ other is Attribute && this.value == other.value /* spotless:on */
                     }
 
                     override fun hashCode() = value.hashCode()
@@ -710,7 +695,7 @@ constructor(
                             return true
                         }
 
-                        return other is Operation && this.value == other.value
+                        return /* spotless:off */ other is Operation && this.value == other.value /* spotless:on */
                     }
 
                     override fun hashCode() = value.hashCode()
@@ -834,18 +819,11 @@ constructor(
                             return true
                         }
 
-                        return other is Value &&
-                            this.string == other.string &&
-                            this.double_ == other.double_ &&
-                            this.strings == other.strings
+                        return /* spotless:off */ other is Value && this.string == other.string && this.double_ == other.double_ && this.strings == other.strings /* spotless:on */
                     }
 
                     override fun hashCode(): Int {
-                        return Objects.hash(
-                            string,
-                            double_,
-                            strings,
-                        )
+                        return /* spotless:off */ Objects.hash(string, double_, strings) /* spotless:on */
                     }
 
                     override fun toString(): String {
@@ -921,24 +899,14 @@ constructor(
                         return true
                     }
 
-                    return other is Condition &&
-                        this.attribute == other.attribute &&
-                        this.operation == other.operation &&
-                        this.value == other.value &&
-                        this.additionalProperties == other.additionalProperties
+                    return /* spotless:off */ other is Condition && this.attribute == other.attribute && this.operation == other.operation && this.value == other.value && this.additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
                 private var hashCode: Int = 0
 
                 override fun hashCode(): Int {
                     if (hashCode == 0) {
-                        hashCode =
-                            Objects.hash(
-                                attribute,
-                                operation,
-                                value,
-                                additionalProperties,
-                            )
+                        hashCode = /* spotless:off */ Objects.hash(attribute, operation, value, additionalProperties) /* spotless:on */
                     }
                     return hashCode
                 }
@@ -952,16 +920,14 @@ constructor(
                     return true
                 }
 
-                return other is ConditionalBlockParameters &&
-                    this.conditions == other.conditions &&
-                    this.additionalProperties == other.additionalProperties
+                return /* spotless:off */ other is ConditionalBlockParameters && this.conditions == other.conditions && this.additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             private var hashCode: Int = 0
 
             override fun hashCode(): Int {
                 if (hashCode == 0) {
-                    hashCode = Objects.hash(conditions, additionalProperties)
+                    hashCode = /* spotless:off */ Objects.hash(conditions, additionalProperties) /* spotless:on */
                 }
                 return hashCode
             }

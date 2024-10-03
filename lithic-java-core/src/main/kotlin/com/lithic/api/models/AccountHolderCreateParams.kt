@@ -92,18 +92,11 @@ constructor(
                 return true
             }
 
-            return other is AccountHolderCreateBody &&
-                this.kyb == other.kyb &&
-                this.kyc == other.kyc &&
-                this.kycExempt == other.kycExempt
+            return /* spotless:off */ other is AccountHolderCreateBody && this.kyb == other.kyb && this.kyc == other.kyc && this.kycExempt == other.kycExempt /* spotless:on */
         }
 
         override fun hashCode(): Int {
-            return Objects.hash(
-                kyb,
-                kyc,
-                kycExempt,
-            )
+            return /* spotless:off */ Objects.hash(kyb, kyc, kycExempt) /* spotless:on */
         }
 
         override fun toString(): String {
@@ -185,22 +178,11 @@ constructor(
             return true
         }
 
-        return other is AccountHolderCreateParams &&
-            this.kyb == other.kyb &&
-            this.kyc == other.kyc &&
-            this.kycExempt == other.kycExempt &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is AccountHolderCreateParams && this.kyb == other.kyb && this.kyc == other.kyc && this.kycExempt == other.kycExempt && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            kyb,
-            kyc,
-            kycExempt,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(kyb, kyc, kycExempt, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

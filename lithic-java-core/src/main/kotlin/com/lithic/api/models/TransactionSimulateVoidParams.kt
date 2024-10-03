@@ -145,24 +145,14 @@ constructor(
                 return true
             }
 
-            return other is TransactionSimulateVoidBody &&
-                this.token == other.token &&
-                this.amount == other.amount &&
-                this.type == other.type &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is TransactionSimulateVoidBody && this.token == other.token && this.amount == other.amount && this.type == other.type && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        token,
-                        amount,
-                        type,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(token, amount, type, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -182,24 +172,11 @@ constructor(
             return true
         }
 
-        return other is TransactionSimulateVoidParams &&
-            this.token == other.token &&
-            this.amount == other.amount &&
-            this.type == other.type &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is TransactionSimulateVoidParams && this.token == other.token && this.amount == other.amount && this.type == other.type && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            token,
-            amount,
-            type,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(token, amount, type, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -326,7 +303,7 @@ constructor(
                 return true
             }
 
-            return other is Type && this.value == other.value
+            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

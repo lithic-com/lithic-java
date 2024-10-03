@@ -91,38 +91,11 @@ constructor(
             return true
         }
 
-        return other is PaymentListParams &&
-            this.accountToken == other.accountToken &&
-            this.begin == other.begin &&
-            this.businessAccountToken == other.businessAccountToken &&
-            this.category == other.category &&
-            this.end == other.end &&
-            this.endingBefore == other.endingBefore &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.pageSize == other.pageSize &&
-            this.result == other.result &&
-            this.startingAfter == other.startingAfter &&
-            this.status == other.status &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is PaymentListParams && this.accountToken == other.accountToken && this.begin == other.begin && this.businessAccountToken == other.businessAccountToken && this.category == other.category && this.end == other.end && this.endingBefore == other.endingBefore && this.financialAccountToken == other.financialAccountToken && this.pageSize == other.pageSize && this.result == other.result && this.startingAfter == other.startingAfter && this.status == other.status && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountToken,
-            begin,
-            businessAccountToken,
-            category,
-            end,
-            endingBefore,
-            financialAccountToken,
-            pageSize,
-            result,
-            startingAfter,
-            status,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(accountToken, begin, businessAccountToken, category, end, endingBefore, financialAccountToken, pageSize, result, startingAfter, status, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =
@@ -283,7 +256,7 @@ constructor(
                 return true
             }
 
-            return other is Category && this.value == other.value
+            return /* spotless:off */ other is Category && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -334,7 +307,7 @@ constructor(
                 return true
             }
 
-            return other is Result && this.value == other.value
+            return /* spotless:off */ other is Result && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -391,7 +364,7 @@ constructor(
                 return true
             }
 
-            return other is Status && this.value == other.value
+            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

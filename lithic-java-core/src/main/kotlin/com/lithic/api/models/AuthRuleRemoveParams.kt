@@ -143,24 +143,14 @@ constructor(
                 return true
             }
 
-            return other is AuthRuleRemoveBody &&
-                this.accountTokens == other.accountTokens &&
-                this.cardTokens == other.cardTokens &&
-                this.programLevel == other.programLevel &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AuthRuleRemoveBody && this.accountTokens == other.accountTokens && this.cardTokens == other.cardTokens && this.programLevel == other.programLevel && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        accountTokens,
-                        cardTokens,
-                        programLevel,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(accountTokens, cardTokens, programLevel, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -180,24 +170,11 @@ constructor(
             return true
         }
 
-        return other is AuthRuleRemoveParams &&
-            this.accountTokens == other.accountTokens &&
-            this.cardTokens == other.cardTokens &&
-            this.programLevel == other.programLevel &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is AuthRuleRemoveParams && this.accountTokens == other.accountTokens && this.cardTokens == other.cardTokens && this.programLevel == other.programLevel && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountTokens,
-            cardTokens,
-            programLevel,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(accountTokens, cardTokens, programLevel, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

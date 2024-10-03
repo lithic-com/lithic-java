@@ -217,28 +217,14 @@ constructor(
                 return true
             }
 
-            return other is AccountUpdateBody &&
-                this.dailySpendLimit == other.dailySpendLimit &&
-                this.lifetimeSpendLimit == other.lifetimeSpendLimit &&
-                this.monthlySpendLimit == other.monthlySpendLimit &&
-                this.state == other.state &&
-                this.verificationAddress == other.verificationAddress &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AccountUpdateBody && this.dailySpendLimit == other.dailySpendLimit && this.lifetimeSpendLimit == other.lifetimeSpendLimit && this.monthlySpendLimit == other.monthlySpendLimit && this.state == other.state && this.verificationAddress == other.verificationAddress && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        dailySpendLimit,
-                        lifetimeSpendLimit,
-                        monthlySpendLimit,
-                        state,
-                        verificationAddress,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(dailySpendLimit, lifetimeSpendLimit, monthlySpendLimit, state, verificationAddress, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -258,30 +244,11 @@ constructor(
             return true
         }
 
-        return other is AccountUpdateParams &&
-            this.accountToken == other.accountToken &&
-            this.dailySpendLimit == other.dailySpendLimit &&
-            this.lifetimeSpendLimit == other.lifetimeSpendLimit &&
-            this.monthlySpendLimit == other.monthlySpendLimit &&
-            this.state == other.state &&
-            this.verificationAddress == other.verificationAddress &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is AccountUpdateParams && this.accountToken == other.accountToken && this.dailySpendLimit == other.dailySpendLimit && this.lifetimeSpendLimit == other.lifetimeSpendLimit && this.monthlySpendLimit == other.monthlySpendLimit && this.state == other.state && this.verificationAddress == other.verificationAddress && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountToken,
-            dailySpendLimit,
-            lifetimeSpendLimit,
-            monthlySpendLimit,
-            state,
-            verificationAddress,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(accountToken, dailySpendLimit, lifetimeSpendLimit, monthlySpendLimit, state, verificationAddress, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -443,7 +410,7 @@ constructor(
                 return true
             }
 
-            return other is State && this.value == other.value
+            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -595,30 +562,14 @@ constructor(
                 return true
             }
 
-            return other is VerificationAddress &&
-                this.address1 == other.address1 &&
-                this.address2 == other.address2 &&
-                this.city == other.city &&
-                this.country == other.country &&
-                this.postalCode == other.postalCode &&
-                this.state == other.state &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is VerificationAddress && this.address1 == other.address1 && this.address2 == other.address2 && this.city == other.city && this.country == other.country && this.postalCode == other.postalCode && this.state == other.state && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address1,
-                        address2,
-                        city,
-                        country,
-                        postalCode,
-                        state,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(address1, address2, city, country, postalCode, state, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
