@@ -36,7 +36,9 @@ private constructor(
     private val balancePastDue: JsonField<CategoryBalances>,
     private val balanceDue: JsonField<CategoryBalances>,
     private val balanceNextDue: JsonField<CategoryBalances>,
+    private val endingBalance: JsonField<Long>,
     private val creditLimit: JsonField<Long>,
+    private val availableCredit: JsonField<Long>,
     private val excessCredits: JsonField<Long>,
     private val accountStanding: JsonField<AccountStanding>,
     private val creditProductToken: JsonField<String>,
@@ -89,11 +91,17 @@ private constructor(
      */
     fun balanceNextDue(): CategoryBalances = balanceNextDue.getRequired("balance_next_due")
 
+    /** Balance at the end of the day */
+    fun endingBalance(): Long = endingBalance.getRequired("ending_balance")
+
     /**
      * For prepay accounts, this is the minimum prepay balance that must be maintained. For charge
      * card accounts, this is the maximum credit balance extended by a lender
      */
     fun creditLimit(): Long = creditLimit.getRequired("credit_limit")
+
+    /** Amount of credit available to spend in cents */
+    fun availableCredit(): Long = availableCredit.getRequired("available_credit")
 
     /**
      * Excess credits in the form of provisional credits, payments, or purchase refunds. If
@@ -159,11 +167,17 @@ private constructor(
      */
     @JsonProperty("balance_next_due") @ExcludeMissing fun _balanceNextDue() = balanceNextDue
 
+    /** Balance at the end of the day */
+    @JsonProperty("ending_balance") @ExcludeMissing fun _endingBalance() = endingBalance
+
     /**
      * For prepay accounts, this is the minimum prepay balance that must be maintained. For charge
      * card accounts, this is the maximum credit balance extended by a lender
      */
     @JsonProperty("credit_limit") @ExcludeMissing fun _creditLimit() = creditLimit
+
+    /** Amount of credit available to spend in cents */
+    @JsonProperty("available_credit") @ExcludeMissing fun _availableCredit() = availableCredit
 
     /**
      * Excess credits in the form of provisional credits, payments, or purchase refunds. If
@@ -210,7 +224,9 @@ private constructor(
             balancePastDue().validate()
             balanceDue().validate()
             balanceNextDue().validate()
+            endingBalance()
             creditLimit()
+            availableCredit()
             excessCredits()
             accountStanding().validate()
             creditProductToken()
@@ -243,7 +259,9 @@ private constructor(
         private var balancePastDue: JsonField<CategoryBalances> = JsonMissing.of()
         private var balanceDue: JsonField<CategoryBalances> = JsonMissing.of()
         private var balanceNextDue: JsonField<CategoryBalances> = JsonMissing.of()
+        private var endingBalance: JsonField<Long> = JsonMissing.of()
         private var creditLimit: JsonField<Long> = JsonMissing.of()
+        private var availableCredit: JsonField<Long> = JsonMissing.of()
         private var excessCredits: JsonField<Long> = JsonMissing.of()
         private var accountStanding: JsonField<AccountStanding> = JsonMissing.of()
         private var creditProductToken: JsonField<String> = JsonMissing.of()
@@ -267,7 +285,9 @@ private constructor(
             this.balancePastDue = loanTape.balancePastDue
             this.balanceDue = loanTape.balanceDue
             this.balanceNextDue = loanTape.balanceNextDue
+            this.endingBalance = loanTape.endingBalance
             this.creditLimit = loanTape.creditLimit
+            this.availableCredit = loanTape.availableCredit
             this.excessCredits = loanTape.excessCredits
             this.accountStanding = loanTape.accountStanding
             this.creditProductToken = loanTape.creditProductToken
@@ -393,6 +413,16 @@ private constructor(
             this.balanceNextDue = balanceNextDue
         }
 
+        /** Balance at the end of the day */
+        fun endingBalance(endingBalance: Long) = endingBalance(JsonField.of(endingBalance))
+
+        /** Balance at the end of the day */
+        @JsonProperty("ending_balance")
+        @ExcludeMissing
+        fun endingBalance(endingBalance: JsonField<Long>) = apply {
+            this.endingBalance = endingBalance
+        }
+
         /**
          * For prepay accounts, this is the minimum prepay balance that must be maintained. For
          * charge card accounts, this is the maximum credit balance extended by a lender
@@ -406,6 +436,16 @@ private constructor(
         @JsonProperty("credit_limit")
         @ExcludeMissing
         fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
+
+        /** Amount of credit available to spend in cents */
+        fun availableCredit(availableCredit: Long) = availableCredit(JsonField.of(availableCredit))
+
+        /** Amount of credit available to spend in cents */
+        @JsonProperty("available_credit")
+        @ExcludeMissing
+        fun availableCredit(availableCredit: JsonField<Long>) = apply {
+            this.availableCredit = availableCredit
+        }
 
         /**
          * Excess credits in the form of provisional credits, payments, or purchase refunds. If
@@ -508,7 +548,9 @@ private constructor(
                 balancePastDue,
                 balanceDue,
                 balanceNextDue,
+                endingBalance,
                 creditLimit,
+                availableCredit,
                 excessCredits,
                 accountStanding,
                 creditProductToken,
@@ -1341,7 +1383,9 @@ private constructor(
             this.balancePastDue == other.balancePastDue &&
             this.balanceDue == other.balanceDue &&
             this.balanceNextDue == other.balanceNextDue &&
+            this.endingBalance == other.endingBalance &&
             this.creditLimit == other.creditLimit &&
+            this.availableCredit == other.availableCredit &&
             this.excessCredits == other.excessCredits &&
             this.accountStanding == other.accountStanding &&
             this.creditProductToken == other.creditProductToken &&
@@ -1370,7 +1414,9 @@ private constructor(
                     balancePastDue,
                     balanceDue,
                     balanceNextDue,
+                    endingBalance,
                     creditLimit,
+                    availableCredit,
                     excessCredits,
                     accountStanding,
                     creditProductToken,
@@ -1385,5 +1431,5 @@ private constructor(
     }
 
     override fun toString() =
-        "LoanTape{token=$token, financialAccountToken=$financialAccountToken, date=$date, created=$created, updated=$updated, version=$version, ytdTotals=$ytdTotals, periodTotals=$periodTotals, dayTotals=$dayTotals, balancePastDue=$balancePastDue, balanceDue=$balanceDue, balanceNextDue=$balanceNextDue, creditLimit=$creditLimit, excessCredits=$excessCredits, accountStanding=$accountStanding, creditProductToken=$creditProductToken, tier=$tier, paymentAllocation=$paymentAllocation, minimumPaymentBalance=$minimumPaymentBalance, previousStatementBalance=$previousStatementBalance, additionalProperties=$additionalProperties}"
+        "LoanTape{token=$token, financialAccountToken=$financialAccountToken, date=$date, created=$created, updated=$updated, version=$version, ytdTotals=$ytdTotals, periodTotals=$periodTotals, dayTotals=$dayTotals, balancePastDue=$balancePastDue, balanceDue=$balanceDue, balanceNextDue=$balanceNextDue, endingBalance=$endingBalance, creditLimit=$creditLimit, availableCredit=$availableCredit, excessCredits=$excessCredits, accountStanding=$accountStanding, creditProductToken=$creditProductToken, tier=$tier, paymentAllocation=$paymentAllocation, minimumPaymentBalance=$minimumPaymentBalance, previousStatementBalance=$previousStatementBalance, additionalProperties=$additionalProperties}"
 }
