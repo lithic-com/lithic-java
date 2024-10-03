@@ -44,6 +44,7 @@ private constructor(
     private val accountStanding: JsonField<AccountStanding>,
     private val amountDue: JsonField<AmountDue>,
     private val interestDetails: JsonField<InterestDetails>,
+    private val statementType: JsonField<StatementType>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -110,6 +111,8 @@ private constructor(
 
     fun interestDetails(): Optional<InterestDetails> =
         Optional.ofNullable(interestDetails.getNullable("interest_details"))
+
+    fun statementType(): StatementType = statementType.getRequired("statement_type")
 
     /** Globally unique identifier for a statement */
     @JsonProperty("token") @ExcludeMissing fun _token() = token
@@ -181,6 +184,8 @@ private constructor(
 
     @JsonProperty("interest_details") @ExcludeMissing fun _interestDetails() = interestDetails
 
+    @JsonProperty("statement_type") @ExcludeMissing fun _statementType() = statementType
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -207,6 +212,7 @@ private constructor(
             accountStanding().validate()
             amountDue().validate()
             interestDetails().map { it.validate() }
+            statementType()
             validated = true
         }
     }
@@ -240,6 +246,7 @@ private constructor(
         private var accountStanding: JsonField<AccountStanding> = JsonMissing.of()
         private var amountDue: JsonField<AmountDue> = JsonMissing.of()
         private var interestDetails: JsonField<InterestDetails> = JsonMissing.of()
+        private var statementType: JsonField<StatementType> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -264,6 +271,7 @@ private constructor(
             this.accountStanding = statement.accountStanding
             this.amountDue = statement.amountDue
             this.interestDetails = statement.interestDetails
+            this.statementType = statement.statementType
             additionalProperties(statement.additionalProperties)
         }
 
@@ -460,6 +468,14 @@ private constructor(
             this.interestDetails = interestDetails
         }
 
+        fun statementType(statementType: StatementType) = statementType(JsonField.of(statementType))
+
+        @JsonProperty("statement_type")
+        @ExcludeMissing
+        fun statementType(statementType: JsonField<StatementType>) = apply {
+            this.statementType = statementType
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -496,6 +512,7 @@ private constructor(
                 accountStanding,
                 amountDue,
                 interestDetails,
+                statementType,
                 additionalProperties.toUnmodifiable(),
             )
     }
@@ -1196,6 +1213,63 @@ private constructor(
             "StatementTotals{payments=$payments, purchases=$purchases, fees=$fees, credits=$credits, interest=$interest, cashAdvances=$cashAdvances, balanceTransfers=$balanceTransfers, additionalProperties=$additionalProperties}"
     }
 
+    class StatementType
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) : Enum {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is StatementType && this.value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val INITIAL = StatementType(JsonField.of("INITIAL"))
+
+            @JvmField val PERIOD_END = StatementType(JsonField.of("PERIOD_END"))
+
+            @JvmStatic fun of(value: String) = StatementType(JsonField.of(value))
+        }
+
+        enum class Known {
+            INITIAL,
+            PERIOD_END,
+        }
+
+        enum class Value {
+            INITIAL,
+            PERIOD_END,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                INITIAL -> Value.INITIAL
+                PERIOD_END -> Value.PERIOD_END
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                INITIAL -> Known.INITIAL
+                PERIOD_END -> Known.PERIOD_END
+                else -> throw LithicInvalidDataException("Unknown StatementType: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+    }
+
     @JsonDeserialize(builder = InterestDetails.Builder::class)
     @NoAutoDetect
     class InterestDetails
@@ -1655,6 +1729,7 @@ private constructor(
             this.accountStanding == other.accountStanding &&
             this.amountDue == other.amountDue &&
             this.interestDetails == other.interestDetails &&
+            this.statementType == other.statementType &&
             this.additionalProperties == other.additionalProperties
     }
 
@@ -1684,6 +1759,7 @@ private constructor(
                     accountStanding,
                     amountDue,
                     interestDetails,
+                    statementType,
                     additionalProperties,
                 )
         }
@@ -1691,5 +1767,5 @@ private constructor(
     }
 
     override fun toString() =
-        "Statement{token=$token, financialAccountToken=$financialAccountToken, statementStartDate=$statementStartDate, statementEndDate=$statementEndDate, nextStatementEndDate=$nextStatementEndDate, paymentDueDate=$paymentDueDate, nextPaymentDueDate=$nextPaymentDueDate, daysInBillingCycle=$daysInBillingCycle, creditLimit=$creditLimit, availableCredit=$availableCredit, startingBalance=$startingBalance, endingBalance=$endingBalance, periodTotals=$periodTotals, ytdTotals=$ytdTotals, created=$created, updated=$updated, creditProductToken=$creditProductToken, accountStanding=$accountStanding, amountDue=$amountDue, interestDetails=$interestDetails, additionalProperties=$additionalProperties}"
+        "Statement{token=$token, financialAccountToken=$financialAccountToken, statementStartDate=$statementStartDate, statementEndDate=$statementEndDate, nextStatementEndDate=$nextStatementEndDate, paymentDueDate=$paymentDueDate, nextPaymentDueDate=$nextPaymentDueDate, daysInBillingCycle=$daysInBillingCycle, creditLimit=$creditLimit, availableCredit=$availableCredit, startingBalance=$startingBalance, endingBalance=$endingBalance, periodTotals=$periodTotals, ytdTotals=$ytdTotals, created=$created, updated=$updated, creditProductToken=$creditProductToken, accountStanding=$accountStanding, amountDue=$amountDue, interestDetails=$interestDetails, statementType=$statementType, additionalProperties=$additionalProperties}"
 }

@@ -25,6 +25,7 @@ class LoanTapeTest {
                         .periodState(LoanTape.AccountStanding.PeriodState.STANDARD)
                         .build()
                 )
+                .availableCredit(123L)
                 .balanceDue(
                     LoanTape.CategoryBalances.builder()
                         .fees(123L)
@@ -61,6 +62,7 @@ class LoanTapeTest {
                         .purchases(123L)
                         .build()
                 )
+                .endingBalance(123L)
                 .excessCredits(123L)
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .minimumPaymentBalance(
@@ -116,6 +118,7 @@ class LoanTapeTest {
                     .periodState(LoanTape.AccountStanding.PeriodState.STANDARD)
                     .build()
             )
+        assertThat(loanTape.availableCredit()).isEqualTo(123L)
         assertThat(loanTape.balanceDue())
             .isEqualTo(
                 LoanTape.CategoryBalances.builder()
@@ -156,6 +159,7 @@ class LoanTapeTest {
                     .purchases(123L)
                     .build()
             )
+        assertThat(loanTape.endingBalance()).isEqualTo(123L)
         assertThat(loanTape.excessCredits()).isEqualTo(123L)
         assertThat(loanTape.financialAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

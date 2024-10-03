@@ -48,6 +48,7 @@ class StatementTest {
                 .startingBalance(123L)
                 .statementEndDate(LocalDate.parse("2019-12-27"))
                 .statementStartDate(LocalDate.parse("2019-12-27"))
+                .statementType(Statement.StatementType.INITIAL)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .ytdTotals(
                     Statement.StatementTotals.builder()
@@ -134,6 +135,7 @@ class StatementTest {
         assertThat(statement.startingBalance()).isEqualTo(123L)
         assertThat(statement.statementEndDate()).isEqualTo(LocalDate.parse("2019-12-27"))
         assertThat(statement.statementStartDate()).isEqualTo(LocalDate.parse("2019-12-27"))
+        assertThat(statement.statementType()).isEqualTo(Statement.StatementType.INITIAL)
         assertThat(statement.updated()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(statement.ytdTotals())
             .isEqualTo(
