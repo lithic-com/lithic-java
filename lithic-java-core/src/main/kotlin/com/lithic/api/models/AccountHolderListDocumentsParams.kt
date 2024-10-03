@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is AccountHolderListDocumentsParams &&
-            this.accountHolderToken == other.accountHolderToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is AccountHolderListDocumentsParams && this.accountHolderToken == other.accountHolderToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountHolderToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(accountHolderToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

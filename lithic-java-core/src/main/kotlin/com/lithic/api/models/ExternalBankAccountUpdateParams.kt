@@ -221,34 +221,14 @@ constructor(
                 return true
             }
 
-            return other is ExternalBankAccountUpdateBody &&
-                this.address == other.address &&
-                this.companyId == other.companyId &&
-                this.dob == other.dob &&
-                this.doingBusinessAs == other.doingBusinessAs &&
-                this.name == other.name &&
-                this.owner == other.owner &&
-                this.ownerType == other.ownerType &&
-                this.userDefinedId == other.userDefinedId &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is ExternalBankAccountUpdateBody && this.address == other.address && this.companyId == other.companyId && this.dob == other.dob && this.doingBusinessAs == other.doingBusinessAs && this.name == other.name && this.owner == other.owner && this.ownerType == other.ownerType && this.userDefinedId == other.userDefinedId && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        companyId,
-                        dob,
-                        doingBusinessAs,
-                        name,
-                        owner,
-                        ownerType,
-                        userDefinedId,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(address, companyId, dob, doingBusinessAs, name, owner, ownerType, userDefinedId, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -268,36 +248,11 @@ constructor(
             return true
         }
 
-        return other is ExternalBankAccountUpdateParams &&
-            this.externalBankAccountToken == other.externalBankAccountToken &&
-            this.address == other.address &&
-            this.companyId == other.companyId &&
-            this.dob == other.dob &&
-            this.doingBusinessAs == other.doingBusinessAs &&
-            this.name == other.name &&
-            this.owner == other.owner &&
-            this.ownerType == other.ownerType &&
-            this.userDefinedId == other.userDefinedId &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is ExternalBankAccountUpdateParams && this.externalBankAccountToken == other.externalBankAccountToken && this.address == other.address && this.companyId == other.companyId && this.dob == other.dob && this.doingBusinessAs == other.doingBusinessAs && this.name == other.name && this.owner == other.owner && this.ownerType == other.ownerType && this.userDefinedId == other.userDefinedId && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            externalBankAccountToken,
-            address,
-            companyId,
-            dob,
-            doingBusinessAs,
-            name,
-            owner,
-            ownerType,
-            userDefinedId,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(externalBankAccountToken, address, companyId, dob, doingBusinessAs, name, owner, ownerType, userDefinedId, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

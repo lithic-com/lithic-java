@@ -235,32 +235,14 @@ private constructor(
             return true
         }
 
-        return other is CardProgram &&
-            this.cardholderCurrency == other.cardholderCurrency &&
-            this.created == other.created &&
-            this.name == other.name &&
-            this.panRangeEnd == other.panRangeEnd &&
-            this.panRangeStart == other.panRangeStart &&
-            this.settlementCurrencies == other.settlementCurrencies &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is CardProgram && this.cardholderCurrency == other.cardholderCurrency && this.created == other.created && this.name == other.name && this.panRangeEnd == other.panRangeEnd && this.panRangeStart == other.panRangeStart && this.settlementCurrencies == other.settlementCurrencies && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    cardholderCurrency,
-                    created,
-                    name,
-                    panRangeEnd,
-                    panRangeStart,
-                    settlementCurrencies,
-                    token,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(cardholderCurrency, created, name, panRangeEnd, panRangeStart, settlementCurrencies, token, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

@@ -101,16 +101,14 @@ private constructor(
             return true
         }
 
-        return other is TransactionSimulateVoidResponse &&
-            this.debuggingRequestId == other.debuggingRequestId &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is TransactionSimulateVoidResponse && this.debuggingRequestId == other.debuggingRequestId && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode = Objects.hash(debuggingRequestId, additionalProperties)
+            hashCode = /* spotless:off */ Objects.hash(debuggingRequestId, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

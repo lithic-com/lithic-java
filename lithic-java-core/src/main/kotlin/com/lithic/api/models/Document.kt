@@ -195,7 +195,7 @@ private constructor(
                 return true
             }
 
-            return other is DocumentType && this.value == other.value
+            return /* spotless:off */ other is DocumentType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -535,7 +535,7 @@ private constructor(
                     return true
                 }
 
-                return other is ImageType && this.value == other.value
+                return /* spotless:off */ other is ImageType && this.value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -592,7 +592,7 @@ private constructor(
                     return true
                 }
 
-                return other is Status && this.value == other.value
+                return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -661,7 +661,7 @@ private constructor(
                     return true
                 }
 
-                return other is StatusReason && this.value == other.value
+                return /* spotless:off */ other is StatusReason && this.value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -741,28 +741,14 @@ private constructor(
                 return true
             }
 
-            return other is RequiredDocumentUpload &&
-                this.imageType == other.imageType &&
-                this.status == other.status &&
-                this.statusReasons == other.statusReasons &&
-                this.uploadUrl == other.uploadUrl &&
-                this.token == other.token &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is RequiredDocumentUpload && this.imageType == other.imageType && this.status == other.status && this.statusReasons == other.statusReasons && this.uploadUrl == other.uploadUrl && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        imageType,
-                        status,
-                        statusReasons,
-                        uploadUrl,
-                        token,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(imageType, status, statusReasons, uploadUrl, token, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -776,28 +762,14 @@ private constructor(
             return true
         }
 
-        return other is Document &&
-            this.token == other.token &&
-            this.accountHolderToken == other.accountHolderToken &&
-            this.documentType == other.documentType &&
-            this.entityToken == other.entityToken &&
-            this.requiredDocumentUploads == other.requiredDocumentUploads &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is Document && this.token == other.token && this.accountHolderToken == other.accountHolderToken && this.documentType == other.documentType && this.entityToken == other.entityToken && this.requiredDocumentUploads == other.requiredDocumentUploads && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    token,
-                    accountHolderToken,
-                    documentType,
-                    entityToken,
-                    requiredDocumentUploads,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(token, accountHolderToken, documentType, entityToken, requiredDocumentUploads, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

@@ -40,20 +40,11 @@ constructor(
             return true
         }
 
-        return other is FinancialAccountStatementRetrieveParams &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.statementToken == other.statementToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is FinancialAccountStatementRetrieveParams && this.financialAccountToken == other.financialAccountToken && this.statementToken == other.statementToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            financialAccountToken,
-            statementToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(financialAccountToken, statementToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

@@ -122,22 +122,14 @@ constructor(
                 return true
             }
 
-            return other is ExternalPaymentReverseBody &&
-                this.effectiveDate == other.effectiveDate &&
-                this.memo == other.memo &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is ExternalPaymentReverseBody && this.effectiveDate == other.effectiveDate && this.memo == other.memo && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        effectiveDate,
-                        memo,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(effectiveDate, memo, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -157,24 +149,11 @@ constructor(
             return true
         }
 
-        return other is ExternalPaymentReverseParams &&
-            this.externalPaymentToken == other.externalPaymentToken &&
-            this.effectiveDate == other.effectiveDate &&
-            this.memo == other.memo &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is ExternalPaymentReverseParams && this.externalPaymentToken == other.externalPaymentToken && this.effectiveDate == other.effectiveDate && this.memo == other.memo && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            externalPaymentToken,
-            effectiveDate,
-            memo,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(externalPaymentToken, effectiveDate, memo, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

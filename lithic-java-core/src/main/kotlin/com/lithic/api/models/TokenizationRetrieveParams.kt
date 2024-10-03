@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is TokenizationRetrieveParams &&
-            this.tokenizationToken == other.tokenizationToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is TokenizationRetrieveParams && this.tokenizationToken == other.tokenizationToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            tokenizationToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(tokenizationToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

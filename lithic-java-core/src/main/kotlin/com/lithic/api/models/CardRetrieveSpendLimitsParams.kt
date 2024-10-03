@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is CardRetrieveSpendLimitsParams &&
-            this.cardToken == other.cardToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is CardRetrieveSpendLimitsParams && this.cardToken == other.cardToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            cardToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(cardToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

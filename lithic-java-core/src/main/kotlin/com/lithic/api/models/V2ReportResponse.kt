@@ -88,16 +88,14 @@ private constructor(
             return true
         }
 
-        return other is V2ReportResponse &&
-            this.reportToken == other.reportToken &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is V2ReportResponse && this.reportToken == other.reportToken && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode = Objects.hash(reportToken, additionalProperties)
+            hashCode = /* spotless:off */ Objects.hash(reportToken, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

@@ -125,22 +125,14 @@ private constructor(
             return true
         }
 
-        return other is TransactionSimulateAuthorizationAdviceResponse &&
-            this.debuggingRequestId == other.debuggingRequestId &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is TransactionSimulateAuthorizationAdviceResponse && this.debuggingRequestId == other.debuggingRequestId && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    debuggingRequestId,
-                    token,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(debuggingRequestId, token, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

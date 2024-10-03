@@ -58,26 +58,11 @@ constructor(
             return true
         }
 
-        return other is AccountListParams &&
-            this.begin == other.begin &&
-            this.end == other.end &&
-            this.endingBefore == other.endingBefore &&
-            this.pageSize == other.pageSize &&
-            this.startingAfter == other.startingAfter &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is AccountListParams && this.begin == other.begin && this.end == other.end && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            begin,
-            end,
-            endingBefore,
-            pageSize,
-            startingAfter,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(begin, end, endingBefore, pageSize, startingAfter, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

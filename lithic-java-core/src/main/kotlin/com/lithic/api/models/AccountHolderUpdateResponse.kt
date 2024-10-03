@@ -174,26 +174,14 @@ private constructor(
             return true
         }
 
-        return other is AccountHolderUpdateResponse &&
-            this.businessAccountToken == other.businessAccountToken &&
-            this.email == other.email &&
-            this.phoneNumber == other.phoneNumber &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is AccountHolderUpdateResponse && this.businessAccountToken == other.businessAccountToken && this.email == other.email && this.phoneNumber == other.phoneNumber && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    businessAccountToken,
-                    email,
-                    phoneNumber,
-                    token,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(businessAccountToken, email, phoneNumber, token, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

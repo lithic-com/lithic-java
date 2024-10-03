@@ -153,24 +153,14 @@ constructor(
                 return true
             }
 
-            return other is AccountHolderResubmitBody &&
-                this.individual == other.individual &&
-                this.tosTimestamp == other.tosTimestamp &&
-                this.workflow == other.workflow &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AccountHolderResubmitBody && this.individual == other.individual && this.tosTimestamp == other.tosTimestamp && this.workflow == other.workflow && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        individual,
-                        tosTimestamp,
-                        workflow,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(individual, tosTimestamp, workflow, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -190,26 +180,11 @@ constructor(
             return true
         }
 
-        return other is AccountHolderResubmitParams &&
-            this.accountHolderToken == other.accountHolderToken &&
-            this.individual == other.individual &&
-            this.tosTimestamp == other.tosTimestamp &&
-            this.workflow == other.workflow &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is AccountHolderResubmitParams && this.accountHolderToken == other.accountHolderToken && this.individual == other.individual && this.tosTimestamp == other.tosTimestamp && this.workflow == other.workflow && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountHolderToken,
-            individual,
-            tosTimestamp,
-            workflow,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(accountHolderToken, individual, tosTimestamp, workflow, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -480,32 +455,14 @@ constructor(
                 return true
             }
 
-            return other is Individual &&
-                this.address == other.address &&
-                this.dob == other.dob &&
-                this.email == other.email &&
-                this.firstName == other.firstName &&
-                this.governmentId == other.governmentId &&
-                this.lastName == other.lastName &&
-                this.phoneNumber == other.phoneNumber &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Individual && this.address == other.address && this.dob == other.dob && this.email == other.email && this.firstName == other.firstName && this.governmentId == other.governmentId && this.lastName == other.lastName && this.phoneNumber == other.phoneNumber && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        dob,
-                        email,
-                        firstName,
-                        governmentId,
-                        lastName,
-                        phoneNumber,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(address, dob, email, firstName, governmentId, lastName, phoneNumber, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -527,7 +484,7 @@ constructor(
                 return true
             }
 
-            return other is Workflow && this.value == other.value
+            return /* spotless:off */ other is Workflow && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

@@ -264,7 +264,7 @@ private constructor(
                 return true
             }
 
-            return other is UploadStatus && this.value == other.value
+            return /* spotless:off */ other is UploadStatus && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -331,32 +331,14 @@ private constructor(
             return true
         }
 
-        return other is DisputeEvidence &&
-            this.created == other.created &&
-            this.disputeToken == other.disputeToken &&
-            this.downloadUrl == other.downloadUrl &&
-            this.filename == other.filename &&
-            this.token == other.token &&
-            this.uploadStatus == other.uploadStatus &&
-            this.uploadUrl == other.uploadUrl &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is DisputeEvidence && this.created == other.created && this.disputeToken == other.disputeToken && this.downloadUrl == other.downloadUrl && this.filename == other.filename && this.token == other.token && this.uploadStatus == other.uploadStatus && this.uploadUrl == other.uploadUrl && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    created,
-                    disputeToken,
-                    downloadUrl,
-                    filename,
-                    token,
-                    uploadStatus,
-                    uploadUrl,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(created, disputeToken, downloadUrl, filename, token, uploadStatus, uploadUrl, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

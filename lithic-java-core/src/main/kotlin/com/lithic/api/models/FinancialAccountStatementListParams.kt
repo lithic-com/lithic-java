@@ -70,30 +70,11 @@ constructor(
             return true
         }
 
-        return other is FinancialAccountStatementListParams &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.begin == other.begin &&
-            this.end == other.end &&
-            this.endingBefore == other.endingBefore &&
-            this.includeInitialStatements == other.includeInitialStatements &&
-            this.pageSize == other.pageSize &&
-            this.startingAfter == other.startingAfter &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is FinancialAccountStatementListParams && this.financialAccountToken == other.financialAccountToken && this.begin == other.begin && this.end == other.end && this.endingBefore == other.endingBefore && this.includeInitialStatements == other.includeInitialStatements && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            financialAccountToken,
-            begin,
-            end,
-            endingBefore,
-            includeInitialStatements,
-            pageSize,
-            startingAfter,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(financialAccountToken, begin, end, endingBefore, includeInitialStatements, pageSize, startingAfter, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

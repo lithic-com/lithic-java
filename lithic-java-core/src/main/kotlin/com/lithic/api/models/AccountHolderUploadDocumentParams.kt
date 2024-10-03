@@ -130,22 +130,14 @@ constructor(
                 return true
             }
 
-            return other is AccountHolderUploadDocumentBody &&
-                this.documentType == other.documentType &&
-                this.entityToken == other.entityToken &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AccountHolderUploadDocumentBody && this.documentType == other.documentType && this.entityToken == other.entityToken && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        documentType,
-                        entityToken,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(documentType, entityToken, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -165,24 +157,11 @@ constructor(
             return true
         }
 
-        return other is AccountHolderUploadDocumentParams &&
-            this.accountHolderToken == other.accountHolderToken &&
-            this.documentType == other.documentType &&
-            this.entityToken == other.entityToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is AccountHolderUploadDocumentParams && this.accountHolderToken == other.accountHolderToken && this.documentType == other.documentType && this.entityToken == other.entityToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountHolderToken,
-            documentType,
-            entityToken,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(accountHolderToken, documentType, entityToken, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -306,7 +285,7 @@ constructor(
                 return true
             }
 
-            return other is DocumentType && this.value == other.value
+            return /* spotless:off */ other is DocumentType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

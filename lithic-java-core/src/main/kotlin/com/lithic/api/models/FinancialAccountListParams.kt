@@ -51,22 +51,11 @@ constructor(
             return true
         }
 
-        return other is FinancialAccountListParams &&
-            this.accountToken == other.accountToken &&
-            this.businessAccountToken == other.businessAccountToken &&
-            this.type == other.type &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is FinancialAccountListParams && this.accountToken == other.accountToken && this.businessAccountToken == other.businessAccountToken && this.type == other.type && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountToken,
-            businessAccountToken,
-            type,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(accountToken, businessAccountToken, type, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =
@@ -171,7 +160,7 @@ constructor(
                 return true
             }
 
-            return other is Type && this.value == other.value
+            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

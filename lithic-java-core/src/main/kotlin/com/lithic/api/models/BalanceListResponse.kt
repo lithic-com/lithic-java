@@ -332,7 +332,7 @@ private constructor(
                 return true
             }
 
-            return other is Type && this.value == other.value
+            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -387,38 +387,14 @@ private constructor(
             return true
         }
 
-        return other is BalanceListResponse &&
-            this.availableAmount == other.availableAmount &&
-            this.created == other.created &&
-            this.currency == other.currency &&
-            this.token == other.token &&
-            this.type == other.type &&
-            this.lastTransactionEventToken == other.lastTransactionEventToken &&
-            this.lastTransactionToken == other.lastTransactionToken &&
-            this.pendingAmount == other.pendingAmount &&
-            this.totalAmount == other.totalAmount &&
-            this.updated == other.updated &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is BalanceListResponse && this.availableAmount == other.availableAmount && this.created == other.created && this.currency == other.currency && this.token == other.token && this.type == other.type && this.lastTransactionEventToken == other.lastTransactionEventToken && this.lastTransactionToken == other.lastTransactionToken && this.pendingAmount == other.pendingAmount && this.totalAmount == other.totalAmount && this.updated == other.updated && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    availableAmount,
-                    created,
-                    currency,
-                    token,
-                    type,
-                    lastTransactionEventToken,
-                    lastTransactionToken,
-                    pendingAmount,
-                    totalAmount,
-                    updated,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(availableAmount, created, currency, token, type, lastTransactionEventToken, lastTransactionToken, pendingAmount, totalAmount, updated, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

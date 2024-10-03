@@ -454,32 +454,14 @@ private constructor(
                 return true
             }
 
-            return other is Individual &&
-                this.address == other.address &&
-                this.dob == other.dob &&
-                this.email == other.email &&
-                this.firstName == other.firstName &&
-                this.governmentId == other.governmentId &&
-                this.lastName == other.lastName &&
-                this.phoneNumber == other.phoneNumber &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Individual && this.address == other.address && this.dob == other.dob && this.email == other.email && this.firstName == other.firstName && this.governmentId == other.governmentId && this.lastName == other.lastName && this.phoneNumber == other.phoneNumber && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        dob,
-                        email,
-                        firstName,
-                        governmentId,
-                        lastName,
-                        phoneNumber,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(address, dob, email, firstName, governmentId, lastName, phoneNumber, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -501,7 +483,7 @@ private constructor(
                 return true
             }
 
-            return other is Workflow && this.value == other.value
+            return /* spotless:off */ other is Workflow && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -556,28 +538,14 @@ private constructor(
             return true
         }
 
-        return other is Kyc &&
-            this.externalId == other.externalId &&
-            this.individual == other.individual &&
-            this.kycPassedTimestamp == other.kycPassedTimestamp &&
-            this.tosTimestamp == other.tosTimestamp &&
-            this.workflow == other.workflow &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is Kyc && this.externalId == other.externalId && this.individual == other.individual && this.kycPassedTimestamp == other.kycPassedTimestamp && this.tosTimestamp == other.tosTimestamp && this.workflow == other.workflow && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    externalId,
-                    individual,
-                    kycPassedTimestamp,
-                    tosTimestamp,
-                    workflow,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(externalId, individual, kycPassedTimestamp, tosTimestamp, workflow, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

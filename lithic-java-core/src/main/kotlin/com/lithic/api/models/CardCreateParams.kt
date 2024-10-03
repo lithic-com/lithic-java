@@ -489,50 +489,14 @@ constructor(
                 return true
             }
 
-            return other is CardCreateBody &&
-                this.type == other.type &&
-                this.accountToken == other.accountToken &&
-                this.cardProgramToken == other.cardProgramToken &&
-                this.carrier == other.carrier &&
-                this.digitalCardArtToken == other.digitalCardArtToken &&
-                this.expMonth == other.expMonth &&
-                this.expYear == other.expYear &&
-                this.memo == other.memo &&
-                this.pin == other.pin &&
-                this.productId == other.productId &&
-                this.replacementFor == other.replacementFor &&
-                this.shippingAddress == other.shippingAddress &&
-                this.shippingMethod == other.shippingMethod &&
-                this.spendLimit == other.spendLimit &&
-                this.spendLimitDuration == other.spendLimitDuration &&
-                this.state == other.state &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is CardCreateBody && this.type == other.type && this.accountToken == other.accountToken && this.cardProgramToken == other.cardProgramToken && this.carrier == other.carrier && this.digitalCardArtToken == other.digitalCardArtToken && this.expMonth == other.expMonth && this.expYear == other.expYear && this.memo == other.memo && this.pin == other.pin && this.productId == other.productId && this.replacementFor == other.replacementFor && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        type,
-                        accountToken,
-                        cardProgramToken,
-                        carrier,
-                        digitalCardArtToken,
-                        expMonth,
-                        expYear,
-                        memo,
-                        pin,
-                        productId,
-                        replacementFor,
-                        shippingAddress,
-                        shippingMethod,
-                        spendLimit,
-                        spendLimitDuration,
-                        state,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -552,50 +516,11 @@ constructor(
             return true
         }
 
-        return other is CardCreateParams &&
-            this.type == other.type &&
-            this.accountToken == other.accountToken &&
-            this.cardProgramToken == other.cardProgramToken &&
-            this.carrier == other.carrier &&
-            this.digitalCardArtToken == other.digitalCardArtToken &&
-            this.expMonth == other.expMonth &&
-            this.expYear == other.expYear &&
-            this.memo == other.memo &&
-            this.pin == other.pin &&
-            this.productId == other.productId &&
-            this.replacementFor == other.replacementFor &&
-            this.shippingAddress == other.shippingAddress &&
-            this.shippingMethod == other.shippingMethod &&
-            this.spendLimit == other.spendLimit &&
-            this.spendLimitDuration == other.spendLimitDuration &&
-            this.state == other.state &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is CardCreateParams && this.type == other.type && this.accountToken == other.accountToken && this.cardProgramToken == other.cardProgramToken && this.carrier == other.carrier && this.digitalCardArtToken == other.digitalCardArtToken && this.expMonth == other.expMonth && this.expYear == other.expYear && this.memo == other.memo && this.pin == other.pin && this.productId == other.productId && this.replacementFor == other.replacementFor && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            type,
-            accountToken,
-            cardProgramToken,
-            carrier,
-            digitalCardArtToken,
-            expMonth,
-            expYear,
-            memo,
-            pin,
-            productId,
-            replacementFor,
-            shippingAddress,
-            shippingMethod,
-            spendLimit,
-            spendLimitDuration,
-            state,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -876,7 +801,7 @@ constructor(
                 return true
             }
 
-            return other is Type && this.value == other.value
+            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -945,7 +870,7 @@ constructor(
                 return true
             }
 
-            return other is ShippingMethod && this.value == other.value
+            return /* spotless:off */ other is ShippingMethod && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1027,7 +952,7 @@ constructor(
                 return true
             }
 
-            return other is State && this.value == other.value
+            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

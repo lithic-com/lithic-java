@@ -112,16 +112,14 @@ constructor(
                 return true
             }
 
-            return other is EventSubscriptionSendSimulatedExampleBody &&
-                this.eventType == other.eventType &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is EventSubscriptionSendSimulatedExampleBody && this.eventType == other.eventType && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(eventType, additionalProperties)
+                hashCode = /* spotless:off */ Objects.hash(eventType, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -141,22 +139,11 @@ constructor(
             return true
         }
 
-        return other is EventSubscriptionSendSimulatedExampleParams &&
-            this.eventSubscriptionToken == other.eventSubscriptionToken &&
-            this.eventType == other.eventType &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is EventSubscriptionSendSimulatedExampleParams && this.eventSubscriptionToken == other.eventSubscriptionToken && this.eventType == other.eventType && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            eventSubscriptionToken,
-            eventType,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(eventSubscriptionToken, eventType, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -278,7 +265,7 @@ constructor(
                 return true
             }
 
-            return other is EventType && this.value == other.value
+            return /* spotless:off */ other is EventType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

@@ -105,16 +105,14 @@ constructor(
                 return true
             }
 
-            return other is DisputeInitiateEvidenceUploadBody &&
-                this.filename == other.filename &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is DisputeInitiateEvidenceUploadBody && this.filename == other.filename && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(filename, additionalProperties)
+                hashCode = /* spotless:off */ Objects.hash(filename, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -134,22 +132,11 @@ constructor(
             return true
         }
 
-        return other is DisputeInitiateEvidenceUploadParams &&
-            this.disputeToken == other.disputeToken &&
-            this.filename == other.filename &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is DisputeInitiateEvidenceUploadParams && this.disputeToken == other.disputeToken && this.filename == other.filename && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            disputeToken,
-            filename,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(disputeToken, filename, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

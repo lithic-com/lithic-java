@@ -407,40 +407,14 @@ private constructor(
             return true
         }
 
-        return other is SettlementReport &&
-            this.created == other.created &&
-            this.currency == other.currency &&
-            this.details == other.details &&
-            this.disputesGrossAmount == other.disputesGrossAmount &&
-            this.interchangeGrossAmount == other.interchangeGrossAmount &&
-            this.isComplete == other.isComplete &&
-            this.otherFeesGrossAmount == other.otherFeesGrossAmount &&
-            this.reportDate == other.reportDate &&
-            this.settledNetAmount == other.settledNetAmount &&
-            this.transactionsGrossAmount == other.transactionsGrossAmount &&
-            this.updated == other.updated &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is SettlementReport && this.created == other.created && this.currency == other.currency && this.details == other.details && this.disputesGrossAmount == other.disputesGrossAmount && this.interchangeGrossAmount == other.interchangeGrossAmount && this.isComplete == other.isComplete && this.otherFeesGrossAmount == other.otherFeesGrossAmount && this.reportDate == other.reportDate && this.settledNetAmount == other.settledNetAmount && this.transactionsGrossAmount == other.transactionsGrossAmount && this.updated == other.updated && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    created,
-                    currency,
-                    details,
-                    disputesGrossAmount,
-                    interchangeGrossAmount,
-                    isComplete,
-                    otherFeesGrossAmount,
-                    reportDate,
-                    settledNetAmount,
-                    transactionsGrossAmount,
-                    updated,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(created, currency, details, disputesGrossAmount, interchangeGrossAmount, isComplete, otherFeesGrossAmount, reportDate, settledNetAmount, transactionsGrossAmount, updated, additionalProperties) /* spotless:on */
         }
         return hashCode
     }
