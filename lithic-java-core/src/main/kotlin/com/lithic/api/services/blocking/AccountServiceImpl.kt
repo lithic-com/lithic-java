@@ -56,10 +56,9 @@ constructor(
         jsonHandler<Account>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
-     * Update account configuration such as spend limits and verification address. Can only be run
-     * on accounts that are part of the program managed by this API key.
-     *
-     * Accounts that are in the `PAUSED` state will not be able to transact or create new cards.
+     * Update account configuration such as state or spend limits. Can only be run on accounts that
+     * are part of the program managed by this API key. Accounts that are in the `PAUSED` state will
+     * not be able to transact or create new cards.
      */
     override fun update(params: AccountUpdateParams, requestOptions: RequestOptions): Account {
         val request =

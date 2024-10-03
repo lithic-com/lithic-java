@@ -53,6 +53,7 @@ class StatementsTest {
                             .startingBalance(123L)
                             .statementEndDate(LocalDate.parse("2019-12-27"))
                             .statementStartDate(LocalDate.parse("2019-12-27"))
+                            .statementType(Statement.StatementType.INITIAL)
                             .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .ytdTotals(
                                 Statement.StatementTotals.builder()
@@ -142,6 +143,7 @@ class StatementsTest {
                     .startingBalance(123L)
                     .statementEndDate(LocalDate.parse("2019-12-27"))
                     .statementStartDate(LocalDate.parse("2019-12-27"))
+                    .statementType(Statement.StatementType.INITIAL)
                     .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .ytdTotals(
                         Statement.StatementTotals.builder()
