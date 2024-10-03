@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is EventSubscriptionRetrieveSecretParams &&
-            this.eventSubscriptionToken == other.eventSubscriptionToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is EventSubscriptionRetrieveSecretParams && this.eventSubscriptionToken == other.eventSubscriptionToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            eventSubscriptionToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(eventSubscriptionToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

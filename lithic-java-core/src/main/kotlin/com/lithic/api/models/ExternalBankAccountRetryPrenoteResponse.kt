@@ -627,7 +627,7 @@ private constructor(
                 return true
             }
 
-            return other is State && this.value == other.value
+            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -690,7 +690,7 @@ private constructor(
                 return true
             }
 
-            return other is Type && this.value == other.value
+            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -747,7 +747,7 @@ private constructor(
                 return true
             }
 
-            return other is VerificationState && this.value == other.value
+            return /* spotless:off */ other is VerificationState && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -809,62 +809,14 @@ private constructor(
             return true
         }
 
-        return other is ExternalBankAccountRetryPrenoteResponse &&
-            this.token == other.token &&
-            this.owner == other.owner &&
-            this.routingNumber == other.routingNumber &&
-            this.lastFour == other.lastFour &&
-            this.name == other.name &&
-            this.currency == other.currency &&
-            this.country == other.country &&
-            this.accountToken == other.accountToken &&
-            this.created == other.created &&
-            this.companyId == other.companyId &&
-            this.dob == other.dob &&
-            this.doingBusinessAs == other.doingBusinessAs &&
-            this.userDefinedId == other.userDefinedId &&
-            this.verificationFailedReason == other.verificationFailedReason &&
-            this.verificationAttempts == other.verificationAttempts &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.type == other.type &&
-            this.verificationMethod == other.verificationMethod &&
-            this.ownerType == other.ownerType &&
-            this.state == other.state &&
-            this.verificationState == other.verificationState &&
-            this.address == other.address &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is ExternalBankAccountRetryPrenoteResponse && this.token == other.token && this.owner == other.owner && this.routingNumber == other.routingNumber && this.lastFour == other.lastFour && this.name == other.name && this.currency == other.currency && this.country == other.country && this.accountToken == other.accountToken && this.created == other.created && this.companyId == other.companyId && this.dob == other.dob && this.doingBusinessAs == other.doingBusinessAs && this.userDefinedId == other.userDefinedId && this.verificationFailedReason == other.verificationFailedReason && this.verificationAttempts == other.verificationAttempts && this.financialAccountToken == other.financialAccountToken && this.type == other.type && this.verificationMethod == other.verificationMethod && this.ownerType == other.ownerType && this.state == other.state && this.verificationState == other.verificationState && this.address == other.address && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    token,
-                    owner,
-                    routingNumber,
-                    lastFour,
-                    name,
-                    currency,
-                    country,
-                    accountToken,
-                    created,
-                    companyId,
-                    dob,
-                    doingBusinessAs,
-                    userDefinedId,
-                    verificationFailedReason,
-                    verificationAttempts,
-                    financialAccountToken,
-                    type,
-                    verificationMethod,
-                    ownerType,
-                    state,
-                    verificationState,
-                    address,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(token, owner, routingNumber, lastFour, name, currency, country, accountToken, created, companyId, dob, doingBusinessAs, userDefinedId, verificationFailedReason, verificationAttempts, financialAccountToken, type, verificationMethod, ownerType, state, verificationState, address, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

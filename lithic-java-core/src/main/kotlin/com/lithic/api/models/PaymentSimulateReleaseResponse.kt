@@ -153,7 +153,7 @@ private constructor(
                 return true
             }
 
-            return other is Result && this.value == other.value
+            return /* spotless:off */ other is Result && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -202,24 +202,14 @@ private constructor(
             return true
         }
 
-        return other is PaymentSimulateReleaseResponse &&
-            this.result == other.result &&
-            this.transactionEventToken == other.transactionEventToken &&
-            this.debuggingRequestId == other.debuggingRequestId &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is PaymentSimulateReleaseResponse && this.result == other.result && this.transactionEventToken == other.transactionEventToken && this.debuggingRequestId == other.debuggingRequestId && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    result,
-                    transactionEventToken,
-                    debuggingRequestId,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(result, transactionEventToken, debuggingRequestId, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

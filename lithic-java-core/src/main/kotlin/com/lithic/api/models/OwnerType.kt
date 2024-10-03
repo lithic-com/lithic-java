@@ -21,7 +21,7 @@ private constructor(
             return true
         }
 
-        return other is OwnerType && this.value == other.value
+        return /* spotless:off */ other is OwnerType && this.value == other.value /* spotless:on */
     }
 
     override fun hashCode() = value.hashCode()

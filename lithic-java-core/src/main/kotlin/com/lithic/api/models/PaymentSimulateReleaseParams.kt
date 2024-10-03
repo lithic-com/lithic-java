@@ -95,16 +95,14 @@ constructor(
                 return true
             }
 
-            return other is PaymentSimulateReleaseBody &&
-                this.paymentToken == other.paymentToken &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is PaymentSimulateReleaseBody && this.paymentToken == other.paymentToken && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(paymentToken, additionalProperties)
+                hashCode = /* spotless:off */ Objects.hash(paymentToken, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -124,20 +122,11 @@ constructor(
             return true
         }
 
-        return other is PaymentSimulateReleaseParams &&
-            this.paymentToken == other.paymentToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is PaymentSimulateReleaseParams && this.paymentToken == other.paymentToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            paymentToken,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(paymentToken, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

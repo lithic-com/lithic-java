@@ -331,22 +331,14 @@ private constructor(
                 return true
             }
 
-            return other is Filters &&
-                this.includeMccs == other.includeMccs &&
-                this.includeCountries == other.includeCountries &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Filters && this.includeMccs == other.includeMccs && this.includeCountries == other.includeCountries && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        includeMccs,
-                        includeCountries,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(includeMccs, includeCountries, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -411,13 +403,11 @@ private constructor(
                 return true
             }
 
-            return other is Period &&
-                this.double_ == other.double_ &&
-                this.velocityLimitParamsPeriodWindow == other.velocityLimitParamsPeriodWindow
+            return /* spotless:off */ other is Period && this.double_ == other.double_ && this.velocityLimitParamsPeriodWindow == other.velocityLimitParamsPeriodWindow /* spotless:on */
         }
 
         override fun hashCode(): Int {
-            return Objects.hash(double_, velocityLimitParamsPeriodWindow)
+            return /* spotless:off */ Objects.hash(double_, velocityLimitParamsPeriodWindow) /* spotless:on */
         }
 
         override fun toString(): String {
@@ -499,7 +489,7 @@ private constructor(
                 return true
             }
 
-            return other is Scope && this.value == other.value
+            return /* spotless:off */ other is Scope && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -548,28 +538,14 @@ private constructor(
             return true
         }
 
-        return other is VelocityLimitParams &&
-            this.scope == other.scope &&
-            this.period == other.period &&
-            this.filters == other.filters &&
-            this.limitAmount == other.limitAmount &&
-            this.limitCount == other.limitCount &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is VelocityLimitParams && this.scope == other.scope && this.period == other.period && this.filters == other.filters && this.limitAmount == other.limitAmount && this.limitCount == other.limitCount && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    scope,
-                    period,
-                    filters,
-                    limitAmount,
-                    limitCount,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(scope, period, filters, limitAmount, limitCount, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

@@ -217,32 +217,14 @@ constructor(
                 return true
             }
 
-            return other is AuthRuleCreateBody &&
-                this.accountTokens == other.accountTokens &&
-                this.allowedCountries == other.allowedCountries &&
-                this.allowedMcc == other.allowedMcc &&
-                this.blockedCountries == other.blockedCountries &&
-                this.blockedMcc == other.blockedMcc &&
-                this.cardTokens == other.cardTokens &&
-                this.programLevel == other.programLevel &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AuthRuleCreateBody && this.accountTokens == other.accountTokens && this.allowedCountries == other.allowedCountries && this.allowedMcc == other.allowedMcc && this.blockedCountries == other.blockedCountries && this.blockedMcc == other.blockedMcc && this.cardTokens == other.cardTokens && this.programLevel == other.programLevel && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        accountTokens,
-                        allowedCountries,
-                        allowedMcc,
-                        blockedCountries,
-                        blockedMcc,
-                        cardTokens,
-                        programLevel,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(accountTokens, allowedCountries, allowedMcc, blockedCountries, blockedMcc, cardTokens, programLevel, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -262,32 +244,11 @@ constructor(
             return true
         }
 
-        return other is AuthRuleCreateParams &&
-            this.accountTokens == other.accountTokens &&
-            this.allowedCountries == other.allowedCountries &&
-            this.allowedMcc == other.allowedMcc &&
-            this.blockedCountries == other.blockedCountries &&
-            this.blockedMcc == other.blockedMcc &&
-            this.cardTokens == other.cardTokens &&
-            this.programLevel == other.programLevel &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is AuthRuleCreateParams && this.accountTokens == other.accountTokens && this.allowedCountries == other.allowedCountries && this.allowedMcc == other.allowedMcc && this.blockedCountries == other.blockedCountries && this.blockedMcc == other.blockedMcc && this.cardTokens == other.cardTokens && this.programLevel == other.programLevel && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountTokens,
-            allowedCountries,
-            allowedMcc,
-            blockedCountries,
-            blockedMcc,
-            cardTokens,
-            programLevel,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(accountTokens, allowedCountries, allowedMcc, blockedCountries, blockedMcc, cardTokens, programLevel, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

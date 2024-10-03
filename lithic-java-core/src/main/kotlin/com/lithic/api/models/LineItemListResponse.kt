@@ -328,7 +328,7 @@ private constructor(
                 return true
             }
 
-            return other is TransactionCategory && this.value == other.value
+            return /* spotless:off */ other is TransactionCategory && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -435,7 +435,7 @@ private constructor(
                 return true
             }
 
-            return other is FinancialEventType && this.value == other.value
+            return /* spotless:off */ other is FinancialEventType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -850,42 +850,14 @@ private constructor(
             return true
         }
 
-        return other is LineItemListResponse &&
-            this.token == other.token &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.cardToken == other.cardToken &&
-            this.financialTransactionToken == other.financialTransactionToken &&
-            this.financialTransactionEventToken == other.financialTransactionEventToken &&
-            this.category == other.category &&
-            this.eventType == other.eventType &&
-            this.effectiveDate == other.effectiveDate &&
-            this.descriptor == other.descriptor &&
-            this.amount == other.amount &&
-            this.currency == other.currency &&
-            this.created == other.created &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is LineItemListResponse && this.token == other.token && this.financialAccountToken == other.financialAccountToken && this.cardToken == other.cardToken && this.financialTransactionToken == other.financialTransactionToken && this.financialTransactionEventToken == other.financialTransactionEventToken && this.category == other.category && this.eventType == other.eventType && this.effectiveDate == other.effectiveDate && this.descriptor == other.descriptor && this.amount == other.amount && this.currency == other.currency && this.created == other.created && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    token,
-                    financialAccountToken,
-                    cardToken,
-                    financialTransactionToken,
-                    financialTransactionEventToken,
-                    category,
-                    eventType,
-                    effectiveDate,
-                    descriptor,
-                    amount,
-                    currency,
-                    created,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(token, financialAccountToken, cardToken, financialTransactionToken, financialTransactionEventToken, category, eventType, effectiveDate, descriptor, amount, currency, created, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

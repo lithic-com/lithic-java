@@ -462,24 +462,14 @@ private constructor(
                 return true
             }
 
-            return other is SpendLimit &&
-                this.daily == other.daily &&
-                this.lifetime == other.lifetime &&
-                this.monthly == other.monthly &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is SpendLimit && this.daily == other.daily && this.lifetime == other.lifetime && this.monthly == other.monthly && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        daily,
-                        lifetime,
-                        monthly,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(daily, lifetime, monthly, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -501,7 +491,7 @@ private constructor(
                 return true
             }
 
-            return other is State && this.value == other.value
+            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -711,26 +701,14 @@ private constructor(
                 return true
             }
 
-            return other is AccountHolder &&
-                this.businessAccountToken == other.businessAccountToken &&
-                this.email == other.email &&
-                this.phoneNumber == other.phoneNumber &&
-                this.token == other.token &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AccountHolder && this.businessAccountToken == other.businessAccountToken && this.email == other.email && this.phoneNumber == other.phoneNumber && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        businessAccountToken,
-                        email,
-                        phoneNumber,
-                        token,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(businessAccountToken, email, phoneNumber, token, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -939,30 +917,14 @@ private constructor(
                 return true
             }
 
-            return other is VerificationAddress &&
-                this.address1 == other.address1 &&
-                this.address2 == other.address2 &&
-                this.city == other.city &&
-                this.country == other.country &&
-                this.postalCode == other.postalCode &&
-                this.state == other.state &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is VerificationAddress && this.address1 == other.address1 && this.address2 == other.address2 && this.city == other.city && this.country == other.country && this.postalCode == other.postalCode && this.state == other.state && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address1,
-                        address2,
-                        city,
-                        country,
-                        postalCode,
-                        state,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(address1, address2, city, country, postalCode, state, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -976,34 +938,14 @@ private constructor(
             return true
         }
 
-        return other is Account &&
-            this.accountHolder == other.accountHolder &&
-            this.authRuleTokens == other.authRuleTokens &&
-            this.cardholderCurrency == other.cardholderCurrency &&
-            this.spendLimit == other.spendLimit &&
-            this.state == other.state &&
-            this.token == other.token &&
-            this.verificationAddress == other.verificationAddress &&
-            this.created == other.created &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is Account && this.accountHolder == other.accountHolder && this.authRuleTokens == other.authRuleTokens && this.cardholderCurrency == other.cardholderCurrency && this.spendLimit == other.spendLimit && this.state == other.state && this.token == other.token && this.verificationAddress == other.verificationAddress && this.created == other.created && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountHolder,
-                    authRuleTokens,
-                    cardholderCurrency,
-                    spendLimit,
-                    state,
-                    token,
-                    verificationAddress,
-                    created,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(accountHolder, authRuleTokens, cardholderCurrency, spendLimit, state, token, verificationAddress, created, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

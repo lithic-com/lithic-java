@@ -657,30 +657,14 @@ private constructor(
                 return true
             }
 
-            return other is BusinessEntity &&
-                this.address == other.address &&
-                this.dbaBusinessName == other.dbaBusinessName &&
-                this.governmentId == other.governmentId &&
-                this.legalBusinessName == other.legalBusinessName &&
-                this.parentCompany == other.parentCompany &&
-                this.phoneNumbers == other.phoneNumbers &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is BusinessEntity && this.address == other.address && this.dbaBusinessName == other.dbaBusinessName && this.governmentId == other.governmentId && this.legalBusinessName == other.legalBusinessName && this.parentCompany == other.parentCompany && this.phoneNumbers == other.phoneNumbers && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        dbaBusinessName,
-                        governmentId,
-                        legalBusinessName,
-                        parentCompany,
-                        phoneNumbers,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(address, dbaBusinessName, governmentId, legalBusinessName, parentCompany, phoneNumbers, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -932,32 +916,14 @@ private constructor(
                 return true
             }
 
-            return other is KybIndividual &&
-                this.address == other.address &&
-                this.dob == other.dob &&
-                this.email == other.email &&
-                this.firstName == other.firstName &&
-                this.governmentId == other.governmentId &&
-                this.lastName == other.lastName &&
-                this.phoneNumber == other.phoneNumber &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is KybIndividual && this.address == other.address && this.dob == other.dob && this.email == other.email && this.firstName == other.firstName && this.governmentId == other.governmentId && this.lastName == other.lastName && this.phoneNumber == other.phoneNumber && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        dob,
-                        email,
-                        firstName,
-                        governmentId,
-                        lastName,
-                        phoneNumber,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(address, dob, email, firstName, governmentId, lastName, phoneNumber, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -979,7 +945,7 @@ private constructor(
                 return true
             }
 
-            return other is Workflow && this.value == other.value
+            return /* spotless:off */ other is Workflow && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1028,38 +994,14 @@ private constructor(
             return true
         }
 
-        return other is Kyb &&
-            this.beneficialOwnerEntities == other.beneficialOwnerEntities &&
-            this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
-            this.businessEntity == other.businessEntity &&
-            this.controlPerson == other.controlPerson &&
-            this.externalId == other.externalId &&
-            this.kybPassedTimestamp == other.kybPassedTimestamp &&
-            this.natureOfBusiness == other.natureOfBusiness &&
-            this.tosTimestamp == other.tosTimestamp &&
-            this.websiteUrl == other.websiteUrl &&
-            this.workflow == other.workflow &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is Kyb && this.beneficialOwnerEntities == other.beneficialOwnerEntities && this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals && this.businessEntity == other.businessEntity && this.controlPerson == other.controlPerson && this.externalId == other.externalId && this.kybPassedTimestamp == other.kybPassedTimestamp && this.natureOfBusiness == other.natureOfBusiness && this.tosTimestamp == other.tosTimestamp && this.websiteUrl == other.websiteUrl && this.workflow == other.workflow && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    beneficialOwnerEntities,
-                    beneficialOwnerIndividuals,
-                    businessEntity,
-                    controlPerson,
-                    externalId,
-                    kybPassedTimestamp,
-                    natureOfBusiness,
-                    tosTimestamp,
-                    websiteUrl,
-                    workflow,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(beneficialOwnerEntities, beneficialOwnerIndividuals, businessEntity, controlPerson, externalId, kybPassedTimestamp, natureOfBusiness, tosTimestamp, websiteUrl, workflow, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

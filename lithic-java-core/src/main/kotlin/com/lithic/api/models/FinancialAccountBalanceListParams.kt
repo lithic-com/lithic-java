@@ -57,22 +57,11 @@ constructor(
             return true
         }
 
-        return other is FinancialAccountBalanceListParams &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.balanceDate == other.balanceDate &&
-            this.lastTransactionEventToken == other.lastTransactionEventToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is FinancialAccountBalanceListParams && this.financialAccountToken == other.financialAccountToken && this.balanceDate == other.balanceDate && this.lastTransactionEventToken == other.lastTransactionEventToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            financialAccountToken,
-            balanceDate,
-            lastTransactionEventToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(financialAccountToken, balanceDate, lastTransactionEventToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

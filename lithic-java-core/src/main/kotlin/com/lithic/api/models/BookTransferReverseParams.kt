@@ -102,16 +102,14 @@ constructor(
                 return true
             }
 
-            return other is BookTransferReverseBody &&
-                this.memo == other.memo &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is BookTransferReverseBody && this.memo == other.memo && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(memo, additionalProperties)
+                hashCode = /* spotless:off */ Objects.hash(memo, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -131,22 +129,11 @@ constructor(
             return true
         }
 
-        return other is BookTransferReverseParams &&
-            this.bookTransferToken == other.bookTransferToken &&
-            this.memo == other.memo &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is BookTransferReverseParams && this.bookTransferToken == other.bookTransferToken && this.memo == other.memo && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            bookTransferToken,
-            memo,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(bookTransferToken, memo, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

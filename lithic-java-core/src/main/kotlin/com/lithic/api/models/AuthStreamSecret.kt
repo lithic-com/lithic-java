@@ -91,16 +91,14 @@ private constructor(
             return true
         }
 
-        return other is AuthStreamSecret &&
-            this.secret == other.secret &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is AuthStreamSecret && this.secret == other.secret && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode = Objects.hash(secret, additionalProperties)
+            hashCode = /* spotless:off */ Objects.hash(secret, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

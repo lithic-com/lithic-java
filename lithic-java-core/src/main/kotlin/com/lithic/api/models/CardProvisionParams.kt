@@ -232,30 +232,14 @@ constructor(
                 return true
             }
 
-            return other is CardProvisionBody &&
-                this.certificate == other.certificate &&
-                this.clientDeviceId == other.clientDeviceId &&
-                this.clientWalletAccountId == other.clientWalletAccountId &&
-                this.digitalWallet == other.digitalWallet &&
-                this.nonce == other.nonce &&
-                this.nonceSignature == other.nonceSignature &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is CardProvisionBody && this.certificate == other.certificate && this.clientDeviceId == other.clientDeviceId && this.clientWalletAccountId == other.clientWalletAccountId && this.digitalWallet == other.digitalWallet && this.nonce == other.nonce && this.nonceSignature == other.nonceSignature && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        certificate,
-                        clientDeviceId,
-                        clientWalletAccountId,
-                        digitalWallet,
-                        nonce,
-                        nonceSignature,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(certificate, clientDeviceId, clientWalletAccountId, digitalWallet, nonce, nonceSignature, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -275,32 +259,11 @@ constructor(
             return true
         }
 
-        return other is CardProvisionParams &&
-            this.cardToken == other.cardToken &&
-            this.certificate == other.certificate &&
-            this.clientDeviceId == other.clientDeviceId &&
-            this.clientWalletAccountId == other.clientWalletAccountId &&
-            this.digitalWallet == other.digitalWallet &&
-            this.nonce == other.nonce &&
-            this.nonceSignature == other.nonceSignature &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is CardProvisionParams && this.cardToken == other.cardToken && this.certificate == other.certificate && this.clientDeviceId == other.clientDeviceId && this.clientWalletAccountId == other.clientWalletAccountId && this.digitalWallet == other.digitalWallet && this.nonce == other.nonce && this.nonceSignature == other.nonceSignature && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            cardToken,
-            certificate,
-            clientDeviceId,
-            clientWalletAccountId,
-            digitalWallet,
-            nonce,
-            nonceSignature,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(cardToken, certificate, clientDeviceId, clientWalletAccountId, digitalWallet, nonce, nonceSignature, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -464,7 +427,7 @@ constructor(
                 return true
             }
 
-            return other is DigitalWallet && this.value == other.value
+            return /* spotless:off */ other is DigitalWallet && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

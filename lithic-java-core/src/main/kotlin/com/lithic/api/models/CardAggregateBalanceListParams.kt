@@ -42,20 +42,11 @@ constructor(
             return true
         }
 
-        return other is CardAggregateBalanceListParams &&
-            this.accountToken == other.accountToken &&
-            this.businessAccountToken == other.businessAccountToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is CardAggregateBalanceListParams && this.accountToken == other.accountToken && this.businessAccountToken == other.businessAccountToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountToken,
-            businessAccountToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(accountToken, businessAccountToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

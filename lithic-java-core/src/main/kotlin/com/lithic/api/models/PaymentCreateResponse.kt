@@ -522,56 +522,14 @@ private constructor(
             return true
         }
 
-        return other is PaymentCreateResponse &&
-            this.category == other.category &&
-            this.created == other.created &&
-            this.currency == other.currency &&
-            this.descriptor == other.descriptor &&
-            this.events == other.events &&
-            this.pendingAmount == other.pendingAmount &&
-            this.result == other.result &&
-            this.settledAmount == other.settledAmount &&
-            this.status == other.status &&
-            this.token == other.token &&
-            this.updated == other.updated &&
-            this.direction == other.direction &&
-            this.financialAccountToken == other.financialAccountToken &&
-            this.externalBankAccountToken == other.externalBankAccountToken &&
-            this.method == other.method &&
-            this.methodAttributes == other.methodAttributes &&
-            this.source == other.source &&
-            this.userDefinedId == other.userDefinedId &&
-            this.balance == other.balance &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is PaymentCreateResponse && this.category == other.category && this.created == other.created && this.currency == other.currency && this.descriptor == other.descriptor && this.events == other.events && this.pendingAmount == other.pendingAmount && this.result == other.result && this.settledAmount == other.settledAmount && this.status == other.status && this.token == other.token && this.updated == other.updated && this.direction == other.direction && this.financialAccountToken == other.financialAccountToken && this.externalBankAccountToken == other.externalBankAccountToken && this.method == other.method && this.methodAttributes == other.methodAttributes && this.source == other.source && this.userDefinedId == other.userDefinedId && this.balance == other.balance && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    category,
-                    created,
-                    currency,
-                    descriptor,
-                    events,
-                    pendingAmount,
-                    result,
-                    settledAmount,
-                    status,
-                    token,
-                    updated,
-                    direction,
-                    financialAccountToken,
-                    externalBankAccountToken,
-                    method,
-                    methodAttributes,
-                    source,
-                    userDefinedId,
-                    balance,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(category, created, currency, descriptor, events, pendingAmount, result, settledAmount, status, token, updated, direction, financialAccountToken, externalBankAccountToken, method, methodAttributes, source, userDefinedId, balance, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

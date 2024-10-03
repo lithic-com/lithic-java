@@ -713,7 +713,7 @@ private constructor(
                 return true
             }
 
-            return other is Reason && this.value == other.value
+            return /* spotless:off */ other is Reason && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -847,7 +847,7 @@ private constructor(
                 return true
             }
 
-            return other is ResolutionReason && this.value == other.value
+            return /* spotless:off */ other is ResolutionReason && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1010,7 +1010,7 @@ private constructor(
                 return true
             }
 
-            return other is Status && this.value == other.value
+            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1095,56 +1095,14 @@ private constructor(
             return true
         }
 
-        return other is Dispute &&
-            this.amount == other.amount &&
-            this.arbitrationDate == other.arbitrationDate &&
-            this.created == other.created &&
-            this.customerFiledDate == other.customerFiledDate &&
-            this.customerNote == other.customerNote &&
-            this.networkClaimIds == other.networkClaimIds &&
-            this.networkFiledDate == other.networkFiledDate &&
-            this.networkReasonCode == other.networkReasonCode &&
-            this.prearbitrationDate == other.prearbitrationDate &&
-            this.primaryClaimId == other.primaryClaimId &&
-            this.reason == other.reason &&
-            this.representmentDate == other.representmentDate &&
-            this.resolutionAmount == other.resolutionAmount &&
-            this.resolutionDate == other.resolutionDate &&
-            this.resolutionNote == other.resolutionNote &&
-            this.resolutionReason == other.resolutionReason &&
-            this.status == other.status &&
-            this.token == other.token &&
-            this.transactionToken == other.transactionToken &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is Dispute && this.amount == other.amount && this.arbitrationDate == other.arbitrationDate && this.created == other.created && this.customerFiledDate == other.customerFiledDate && this.customerNote == other.customerNote && this.networkClaimIds == other.networkClaimIds && this.networkFiledDate == other.networkFiledDate && this.networkReasonCode == other.networkReasonCode && this.prearbitrationDate == other.prearbitrationDate && this.primaryClaimId == other.primaryClaimId && this.reason == other.reason && this.representmentDate == other.representmentDate && this.resolutionAmount == other.resolutionAmount && this.resolutionDate == other.resolutionDate && this.resolutionNote == other.resolutionNote && this.resolutionReason == other.resolutionReason && this.status == other.status && this.token == other.token && this.transactionToken == other.transactionToken && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    amount,
-                    arbitrationDate,
-                    created,
-                    customerFiledDate,
-                    customerNote,
-                    networkClaimIds,
-                    networkFiledDate,
-                    networkReasonCode,
-                    prearbitrationDate,
-                    primaryClaimId,
-                    reason,
-                    representmentDate,
-                    resolutionAmount,
-                    resolutionDate,
-                    resolutionNote,
-                    resolutionReason,
-                    status,
-                    token,
-                    transactionToken,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(amount, arbitrationDate, created, customerFiledDate, customerNote, networkClaimIds, networkFiledDate, networkReasonCode, prearbitrationDate, primaryClaimId, reason, representmentDate, resolutionAmount, resolutionDate, resolutionNote, resolutionReason, status, token, transactionToken, additionalProperties) /* spotless:on */
         }
         return hashCode
     }
