@@ -177,7 +177,7 @@ private constructor(
                 return true
             }
 
-            return other is EventType && this.value == other.value
+            return /* spotless:off */ other is EventType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -505,28 +505,14 @@ private constructor(
             return true
         }
 
-        return other is EventSubscription &&
-            this.description == other.description &&
-            this.disabled == other.disabled &&
-            this.eventTypes == other.eventTypes &&
-            this.token == other.token &&
-            this.url == other.url &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is EventSubscription && this.description == other.description && this.disabled == other.disabled && this.eventTypes == other.eventTypes && this.token == other.token && this.url == other.url && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    description,
-                    disabled,
-                    eventTypes,
-                    token,
-                    url,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(description, disabled, eventTypes, token, url, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

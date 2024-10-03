@@ -36,18 +36,11 @@ private constructor(
             return true
         }
 
-        return other is ExternalPaymentListPage &&
-            this.externalPaymentsService == other.externalPaymentsService &&
-            this.params == other.params &&
-            this.response == other.response
+        return /* spotless:off */ other is ExternalPaymentListPage && this.externalPaymentsService == other.externalPaymentsService && this.params == other.params && this.response == other.response /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            externalPaymentsService,
-            params,
-            response,
-        )
+        return /* spotless:off */ Objects.hash(externalPaymentsService, params, response) /* spotless:on */
     }
 
     override fun toString() =
@@ -140,18 +133,11 @@ private constructor(
                 return true
             }
 
-            return other is Response &&
-                this.data == other.data &&
-                this.hasMore == other.hasMore &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is Response && this.data == other.data && this.hasMore == other.hasMore && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         override fun hashCode(): Int {
-            return Objects.hash(
-                data,
-                hasMore,
-                additionalProperties,
-            )
+            return /* spotless:off */ Objects.hash(data, hasMore, additionalProperties) /* spotless:on */
         }
 
         override fun toString() =

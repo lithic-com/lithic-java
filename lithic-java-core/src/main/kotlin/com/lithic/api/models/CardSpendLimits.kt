@@ -276,24 +276,14 @@ private constructor(
                 return true
             }
 
-            return other is AvailableSpendLimit &&
-                this.annually == other.annually &&
-                this.forever == other.forever &&
-                this.monthly == other.monthly &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AvailableSpendLimit && this.annually == other.annually && this.forever == other.forever && this.monthly == other.monthly && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        annually,
-                        forever,
-                        monthly,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(annually, forever, monthly, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -419,24 +409,14 @@ private constructor(
                 return true
             }
 
-            return other is SpendLimit &&
-                this.annually == other.annually &&
-                this.forever == other.forever &&
-                this.monthly == other.monthly &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is SpendLimit && this.annually == other.annually && this.forever == other.forever && this.monthly == other.monthly && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        annually,
-                        forever,
-                        monthly,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(annually, forever, monthly, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -598,24 +578,14 @@ private constructor(
                 return true
             }
 
-            return other is SpendVelocity &&
-                this.annually == other.annually &&
-                this.forever == other.forever &&
-                this.monthly == other.monthly &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is SpendVelocity && this.annually == other.annually && this.forever == other.forever && this.monthly == other.monthly && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        annually,
-                        forever,
-                        monthly,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(annually, forever, monthly, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -629,24 +599,14 @@ private constructor(
             return true
         }
 
-        return other is CardSpendLimits &&
-            this.availableSpendLimit == other.availableSpendLimit &&
-            this.spendLimit == other.spendLimit &&
-            this.spendVelocity == other.spendVelocity &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is CardSpendLimits && this.availableSpendLimit == other.availableSpendLimit && this.spendLimit == other.spendLimit && this.spendVelocity == other.spendVelocity && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    availableSpendLimit,
-                    spendLimit,
-                    spendVelocity,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(availableSpendLimit, spendLimit, spendVelocity, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

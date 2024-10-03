@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is ThreeDSAuthenticationRetrieveParams &&
-            this.threeDSAuthenticationToken == other.threeDSAuthenticationToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is ThreeDSAuthenticationRetrieveParams && this.threeDSAuthenticationToken == other.threeDSAuthenticationToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            threeDSAuthenticationToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(threeDSAuthenticationToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

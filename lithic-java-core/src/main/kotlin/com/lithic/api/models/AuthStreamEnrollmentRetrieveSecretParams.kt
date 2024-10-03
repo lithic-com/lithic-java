@@ -26,13 +26,11 @@ constructor(
             return true
         }
 
-        return other is AuthStreamEnrollmentRetrieveSecretParams &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is AuthStreamEnrollmentRetrieveSecretParams && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(additionalQueryParams, additionalHeaders)
+        return /* spotless:off */ Objects.hash(additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

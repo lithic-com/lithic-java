@@ -178,28 +178,14 @@ constructor(
                 return true
             }
 
-            return other is TransferCreateBody &&
-                this.amount == other.amount &&
-                this.from == other.from &&
-                this.to == other.to &&
-                this.token == other.token &&
-                this.memo == other.memo &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is TransferCreateBody && this.amount == other.amount && this.from == other.from && this.to == other.to && this.token == other.token && this.memo == other.memo && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        amount,
-                        from,
-                        to,
-                        token,
-                        memo,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(amount, from, to, token, memo, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -219,28 +205,11 @@ constructor(
             return true
         }
 
-        return other is TransferCreateParams &&
-            this.amount == other.amount &&
-            this.from == other.from &&
-            this.to == other.to &&
-            this.token == other.token &&
-            this.memo == other.memo &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is TransferCreateParams && this.amount == other.amount && this.from == other.from && this.to == other.to && this.token == other.token && this.memo == other.memo && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            amount,
-            from,
-            to,
-            token,
-            memo,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(amount, from, to, token, memo, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

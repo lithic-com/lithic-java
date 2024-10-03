@@ -978,32 +978,14 @@ private constructor(
                 return true
             }
 
-            return other is AccountHolderBusinessResponse &&
-                this.address == other.address &&
-                this.dbaBusinessName == other.dbaBusinessName &&
-                this.governmentId == other.governmentId &&
-                this.legalBusinessName == other.legalBusinessName &&
-                this.parentCompany == other.parentCompany &&
-                this.phoneNumbers == other.phoneNumbers &&
-                this.entityToken == other.entityToken &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AccountHolderBusinessResponse && this.address == other.address && this.dbaBusinessName == other.dbaBusinessName && this.governmentId == other.governmentId && this.legalBusinessName == other.legalBusinessName && this.parentCompany == other.parentCompany && this.phoneNumbers == other.phoneNumbers && this.entityToken == other.entityToken && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        dbaBusinessName,
-                        governmentId,
-                        legalBusinessName,
-                        parentCompany,
-                        phoneNumbers,
-                        entityToken,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(address, dbaBusinessName, governmentId, legalBusinessName, parentCompany, phoneNumbers, entityToken, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -1214,32 +1196,14 @@ private constructor(
                 return true
             }
 
-            return other is AccountHolderIndividualResponse &&
-                this.address == other.address &&
-                this.dob == other.dob &&
-                this.email == other.email &&
-                this.firstName == other.firstName &&
-                this.lastName == other.lastName &&
-                this.phoneNumber == other.phoneNumber &&
-                this.entityToken == other.entityToken &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AccountHolderIndividualResponse && this.address == other.address && this.dob == other.dob && this.email == other.email && this.firstName == other.firstName && this.lastName == other.lastName && this.phoneNumber == other.phoneNumber && this.entityToken == other.entityToken && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        address,
-                        dob,
-                        email,
-                        firstName,
-                        lastName,
-                        phoneNumber,
-                        entityToken,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(address, dob, email, firstName, lastName, phoneNumber, entityToken, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -1261,7 +1225,7 @@ private constructor(
                 return true
             }
 
-            return other is ExemptionType && this.value == other.value
+            return /* spotless:off */ other is ExemptionType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1318,7 +1282,7 @@ private constructor(
                 return true
             }
 
-            return other is Status && this.value == other.value
+            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1393,7 +1357,7 @@ private constructor(
                 return true
             }
 
-            return other is StatusReason && this.value == other.value
+            return /* spotless:off */ other is StatusReason && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1518,7 +1482,7 @@ private constructor(
                 return true
             }
 
-            return other is UserType && this.value == other.value
+            return /* spotless:off */ other is UserType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1743,7 +1707,7 @@ private constructor(
                     return true
                 }
 
-                return other is Status && this.value == other.value
+                return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1818,7 +1782,7 @@ private constructor(
                     return true
                 }
 
-                return other is StatusReason && this.value == other.value
+                return /* spotless:off */ other is StatusReason && this.value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1938,26 +1902,14 @@ private constructor(
                 return true
             }
 
-            return other is AccountHolderVerificationApplication &&
-                this.created == other.created &&
-                this.status == other.status &&
-                this.statusReasons == other.statusReasons &&
-                this.updated == other.updated &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is AccountHolderVerificationApplication && this.created == other.created && this.status == other.status && this.statusReasons == other.statusReasons && this.updated == other.updated && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        created,
-                        status,
-                        statusReasons,
-                        updated,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(created, status, statusReasons, updated, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -1971,58 +1923,14 @@ private constructor(
             return true
         }
 
-        return other is AccountHolder &&
-            this.accountToken == other.accountToken &&
-            this.beneficialOwnerEntities == other.beneficialOwnerEntities &&
-            this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals &&
-            this.businessAccountToken == other.businessAccountToken &&
-            this.businessEntity == other.businessEntity &&
-            this.controlPerson == other.controlPerson &&
-            this.created == other.created &&
-            this.email == other.email &&
-            this.exemptionType == other.exemptionType &&
-            this.externalId == other.externalId &&
-            this.individual == other.individual &&
-            this.natureOfBusiness == other.natureOfBusiness &&
-            this.phoneNumber == other.phoneNumber &&
-            this.status == other.status &&
-            this.statusReasons == other.statusReasons &&
-            this.token == other.token &&
-            this.userType == other.userType &&
-            this.verificationApplication == other.verificationApplication &&
-            this.requiredDocuments == other.requiredDocuments &&
-            this.websiteUrl == other.websiteUrl &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is AccountHolder && this.accountToken == other.accountToken && this.beneficialOwnerEntities == other.beneficialOwnerEntities && this.beneficialOwnerIndividuals == other.beneficialOwnerIndividuals && this.businessAccountToken == other.businessAccountToken && this.businessEntity == other.businessEntity && this.controlPerson == other.controlPerson && this.created == other.created && this.email == other.email && this.exemptionType == other.exemptionType && this.externalId == other.externalId && this.individual == other.individual && this.natureOfBusiness == other.natureOfBusiness && this.phoneNumber == other.phoneNumber && this.status == other.status && this.statusReasons == other.statusReasons && this.token == other.token && this.userType == other.userType && this.verificationApplication == other.verificationApplication && this.requiredDocuments == other.requiredDocuments && this.websiteUrl == other.websiteUrl && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    accountToken,
-                    beneficialOwnerEntities,
-                    beneficialOwnerIndividuals,
-                    businessAccountToken,
-                    businessEntity,
-                    controlPerson,
-                    created,
-                    email,
-                    exemptionType,
-                    externalId,
-                    individual,
-                    natureOfBusiness,
-                    phoneNumber,
-                    status,
-                    statusReasons,
-                    token,
-                    userType,
-                    verificationApplication,
-                    requiredDocuments,
-                    websiteUrl,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(accountToken, beneficialOwnerEntities, beneficialOwnerIndividuals, businessAccountToken, businessEntity, controlPerson, created, email, exemptionType, externalId, individual, natureOfBusiness, phoneNumber, status, statusReasons, token, userType, verificationApplication, requiredDocuments, websiteUrl, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

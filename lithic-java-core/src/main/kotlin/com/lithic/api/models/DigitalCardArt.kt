@@ -229,7 +229,7 @@ private constructor(
                 return true
             }
 
-            return other is Network && this.value == other.value
+            return /* spotless:off */ other is Network && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -278,32 +278,14 @@ private constructor(
             return true
         }
 
-        return other is DigitalCardArt &&
-            this.cardProgramToken == other.cardProgramToken &&
-            this.created == other.created &&
-            this.description == other.description &&
-            this.isCardProgramDefault == other.isCardProgramDefault &&
-            this.isEnabled == other.isEnabled &&
-            this.network == other.network &&
-            this.token == other.token &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is DigitalCardArt && this.cardProgramToken == other.cardProgramToken && this.created == other.created && this.description == other.description && this.isCardProgramDefault == other.isCardProgramDefault && this.isEnabled == other.isEnabled && this.network == other.network && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    cardProgramToken,
-                    created,
-                    description,
-                    isCardProgramDefault,
-                    isEnabled,
-                    network,
-                    token,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(cardProgramToken, created, description, isCardProgramDefault, isEnabled, network, token, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

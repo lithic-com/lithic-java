@@ -426,7 +426,7 @@ private constructor(
                     return true
                 }
 
-                return other is FinancialAccountState && this.value == other.value
+                return /* spotless:off */ other is FinancialAccountState && this.value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -482,28 +482,14 @@ private constructor(
                 return true
             }
 
-            return other is FinancialAccountCreditConfig &&
-                this.creditLimit == other.creditLimit &&
-                this.externalBankAccountToken == other.externalBankAccountToken &&
-                this.creditProductToken == other.creditProductToken &&
-                this.tier == other.tier &&
-                this.financialAccountState == other.financialAccountState &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is FinancialAccountCreditConfig && this.creditLimit == other.creditLimit && this.externalBankAccountToken == other.externalBankAccountToken && this.creditProductToken == other.creditProductToken && this.tier == other.tier && this.financialAccountState == other.financialAccountState && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        creditLimit,
-                        externalBankAccountToken,
-                        creditProductToken,
-                        tier,
-                        financialAccountState,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(creditLimit, externalBankAccountToken, creditProductToken, tier, financialAccountState, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -525,7 +511,7 @@ private constructor(
                 return true
             }
 
-            return other is Type && this.value == other.value
+            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -580,38 +566,14 @@ private constructor(
             return true
         }
 
-        return other is FinancialAccount &&
-            this.token == other.token &&
-            this.created == other.created &&
-            this.updated == other.updated &&
-            this.type == other.type &&
-            this.routingNumber == other.routingNumber &&
-            this.accountNumber == other.accountNumber &&
-            this.nickname == other.nickname &&
-            this.accountToken == other.accountToken &&
-            this.isForBenefitOf == other.isForBenefitOf &&
-            this.creditConfiguration == other.creditConfiguration &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is FinancialAccount && this.token == other.token && this.created == other.created && this.updated == other.updated && this.type == other.type && this.routingNumber == other.routingNumber && this.accountNumber == other.accountNumber && this.nickname == other.nickname && this.accountToken == other.accountToken && this.isForBenefitOf == other.isForBenefitOf && this.creditConfiguration == other.creditConfiguration && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    token,
-                    created,
-                    updated,
-                    type,
-                    routingNumber,
-                    accountNumber,
-                    nickname,
-                    accountToken,
-                    isForBenefitOf,
-                    creditConfiguration,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(token, created, updated, type, routingNumber, accountNumber, nickname, accountToken, isForBenefitOf, creditConfiguration, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

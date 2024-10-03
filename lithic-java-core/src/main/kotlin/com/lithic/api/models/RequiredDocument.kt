@@ -156,24 +156,14 @@ private constructor(
             return true
         }
 
-        return other is RequiredDocument &&
-            this.entityToken == other.entityToken &&
-            this.validDocuments == other.validDocuments &&
-            this.statusReasons == other.statusReasons &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is RequiredDocument && this.entityToken == other.entityToken && this.validDocuments == other.validDocuments && this.statusReasons == other.statusReasons && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode =
-                Objects.hash(
-                    entityToken,
-                    validDocuments,
-                    statusReasons,
-                    additionalProperties,
-                )
+            hashCode = /* spotless:off */ Objects.hash(entityToken, validDocuments, statusReasons, additionalProperties) /* spotless:on */
         }
         return hashCode
     }

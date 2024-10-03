@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is ExternalBankAccountRetrieveParams &&
-            this.externalBankAccountToken == other.externalBankAccountToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is ExternalBankAccountRetrieveParams && this.externalBankAccountToken == other.externalBankAccountToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            externalBankAccountToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(externalBankAccountToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

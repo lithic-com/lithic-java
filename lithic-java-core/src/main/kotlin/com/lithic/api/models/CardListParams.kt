@@ -71,30 +71,11 @@ constructor(
             return true
         }
 
-        return other is CardListParams &&
-            this.accountToken == other.accountToken &&
-            this.begin == other.begin &&
-            this.end == other.end &&
-            this.endingBefore == other.endingBefore &&
-            this.pageSize == other.pageSize &&
-            this.startingAfter == other.startingAfter &&
-            this.state == other.state &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is CardListParams && this.accountToken == other.accountToken && this.begin == other.begin && this.end == other.end && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.state == other.state && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            accountToken,
-            begin,
-            end,
-            endingBefore,
-            pageSize,
-            startingAfter,
-            state,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(accountToken, begin, end, endingBefore, pageSize, startingAfter, state, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =
@@ -233,7 +214,7 @@ constructor(
                 return true
             }
 
-            return other is State && this.value == other.value
+            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

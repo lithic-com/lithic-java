@@ -125,16 +125,14 @@ constructor(
                 return true
             }
 
-            return other is TokenizationResendActivationCodeBody &&
-                this.activationMethodType == other.activationMethodType &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is TokenizationResendActivationCodeBody && this.activationMethodType == other.activationMethodType && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(activationMethodType, additionalProperties)
+                hashCode = /* spotless:off */ Objects.hash(activationMethodType, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -154,22 +152,11 @@ constructor(
             return true
         }
 
-        return other is TokenizationResendActivationCodeParams &&
-            this.tokenizationToken == other.tokenizationToken &&
-            this.activationMethodType == other.activationMethodType &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is TokenizationResendActivationCodeParams && this.tokenizationToken == other.tokenizationToken && this.activationMethodType == other.activationMethodType && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            tokenizationToken,
-            activationMethodType,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(tokenizationToken, activationMethodType, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -296,7 +283,7 @@ constructor(
                 return true
             }
 
-            return other is ActivationMethodType && this.value == other.value
+            return /* spotless:off */ other is ActivationMethodType && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

@@ -141,24 +141,14 @@ constructor(
                 return true
             }
 
-            return other is ExternalPaymentSettleBody &&
-                this.effectiveDate == other.effectiveDate &&
-                this.memo == other.memo &&
-                this.progressTo == other.progressTo &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is ExternalPaymentSettleBody && this.effectiveDate == other.effectiveDate && this.memo == other.memo && this.progressTo == other.progressTo && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode =
-                    Objects.hash(
-                        effectiveDate,
-                        memo,
-                        progressTo,
-                        additionalProperties,
-                    )
+                hashCode = /* spotless:off */ Objects.hash(effectiveDate, memo, progressTo, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -178,26 +168,11 @@ constructor(
             return true
         }
 
-        return other is ExternalPaymentSettleParams &&
-            this.externalPaymentToken == other.externalPaymentToken &&
-            this.effectiveDate == other.effectiveDate &&
-            this.memo == other.memo &&
-            this.progressTo == other.progressTo &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is ExternalPaymentSettleParams && this.externalPaymentToken == other.externalPaymentToken && this.effectiveDate == other.effectiveDate && this.memo == other.memo && this.progressTo == other.progressTo && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            externalPaymentToken,
-            effectiveDate,
-            memo,
-            progressTo,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(externalPaymentToken, effectiveDate, memo, progressTo, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
@@ -325,7 +300,7 @@ constructor(
                 return true
             }
 
-            return other is ExternalPaymentProgressTo && this.value == other.value
+            return /* spotless:off */ other is ExternalPaymentProgressTo && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

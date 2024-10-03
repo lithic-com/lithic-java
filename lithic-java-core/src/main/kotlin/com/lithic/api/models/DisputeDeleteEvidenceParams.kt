@@ -50,22 +50,11 @@ constructor(
             return true
         }
 
-        return other is DisputeDeleteEvidenceParams &&
-            this.disputeToken == other.disputeToken &&
-            this.evidenceToken == other.evidenceToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is DisputeDeleteEvidenceParams && this.disputeToken == other.disputeToken && this.evidenceToken == other.evidenceToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            disputeToken,
-            evidenceToken,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(disputeToken, evidenceToken, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

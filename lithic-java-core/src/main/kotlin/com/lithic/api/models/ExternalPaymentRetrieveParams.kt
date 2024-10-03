@@ -36,18 +36,11 @@ constructor(
             return true
         }
 
-        return other is ExternalPaymentRetrieveParams &&
-            this.externalPaymentToken == other.externalPaymentToken &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is ExternalPaymentRetrieveParams && this.externalPaymentToken == other.externalPaymentToken && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            externalPaymentToken,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(externalPaymentToken, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

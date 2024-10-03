@@ -82,38 +82,11 @@ constructor(
             return true
         }
 
-        return other is AccountHolderListParams &&
-            this.begin == other.begin &&
-            this.email == other.email &&
-            this.end == other.end &&
-            this.endingBefore == other.endingBefore &&
-            this.externalId == other.externalId &&
-            this.firstName == other.firstName &&
-            this.lastName == other.lastName &&
-            this.legalBusinessName == other.legalBusinessName &&
-            this.limit == other.limit &&
-            this.phoneNumber == other.phoneNumber &&
-            this.startingAfter == other.startingAfter &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders
+        return /* spotless:off */ other is AccountHolderListParams && this.begin == other.begin && this.email == other.email && this.end == other.end && this.endingBefore == other.endingBefore && this.externalId == other.externalId && this.firstName == other.firstName && this.lastName == other.lastName && this.legalBusinessName == other.legalBusinessName && this.limit == other.limit && this.phoneNumber == other.phoneNumber && this.startingAfter == other.startingAfter && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            begin,
-            email,
-            end,
-            endingBefore,
-            externalId,
-            firstName,
-            lastName,
-            legalBusinessName,
-            limit,
-            phoneNumber,
-            startingAfter,
-            additionalQueryParams,
-            additionalHeaders,
-        )
+        return /* spotless:off */ Objects.hash(begin, email, end, endingBefore, externalId, firstName, lastName, legalBusinessName, limit, phoneNumber, startingAfter, additionalQueryParams, additionalHeaders) /* spotless:on */
     }
 
     override fun toString() =

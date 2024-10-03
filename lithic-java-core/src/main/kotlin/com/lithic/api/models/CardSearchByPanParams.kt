@@ -94,16 +94,14 @@ constructor(
                 return true
             }
 
-            return other is CardSearchByPanBody &&
-                this.pan == other.pan &&
-                this.additionalProperties == other.additionalProperties
+            return /* spotless:off */ other is CardSearchByPanBody && this.pan == other.pan && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = Objects.hash(pan, additionalProperties)
+                hashCode = /* spotless:off */ Objects.hash(pan, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
@@ -123,20 +121,11 @@ constructor(
             return true
         }
 
-        return other is CardSearchByPanParams &&
-            this.pan == other.pan &&
-            this.additionalQueryParams == other.additionalQueryParams &&
-            this.additionalHeaders == other.additionalHeaders &&
-            this.additionalBodyProperties == other.additionalBodyProperties
+        return /* spotless:off */ other is CardSearchByPanParams && this.pan == other.pan && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(
-            pan,
-            additionalQueryParams,
-            additionalHeaders,
-            additionalBodyProperties,
-        )
+        return /* spotless:off */ Objects.hash(pan, additionalQueryParams, additionalHeaders, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =

@@ -93,16 +93,14 @@ private constructor(
             return true
         }
 
-        return other is CardProvisionResponse &&
-            this.provisioningPayload == other.provisioningPayload &&
-            this.additionalProperties == other.additionalProperties
+        return /* spotless:off */ other is CardProvisionResponse && this.provisioningPayload == other.provisioningPayload && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode = Objects.hash(provisioningPayload, additionalProperties)
+            hashCode = /* spotless:off */ Objects.hash(provisioningPayload, additionalProperties) /* spotless:on */
         }
         return hashCode
     }
