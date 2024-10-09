@@ -28,6 +28,7 @@ private constructor(
     private val creditProductToken: JsonField<String>,
     private val tier: JsonField<String>,
     private val financialAccountState: JsonField<FinancialAccountState>,
+    private val isSpendBlocked: JsonField<Boolean>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -52,6 +53,9 @@ private constructor(
     fun financialAccountState(): Optional<FinancialAccountState> =
         Optional.ofNullable(financialAccountState.getNullable("financial_account_state"))
 
+    fun isSpendBlocked(): Optional<Boolean> =
+        Optional.ofNullable(isSpendBlocked.getNullable("is_spend_blocked"))
+
     /** Globally unique identifier for the account */
     @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
 
@@ -74,6 +78,8 @@ private constructor(
     @ExcludeMissing
     fun _financialAccountState() = financialAccountState
 
+    @JsonProperty("is_spend_blocked") @ExcludeMissing fun _isSpendBlocked() = isSpendBlocked
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -86,6 +92,7 @@ private constructor(
             creditProductToken()
             tier()
             financialAccountState()
+            isSpendBlocked()
             validated = true
         }
     }
@@ -105,6 +112,7 @@ private constructor(
         private var creditProductToken: JsonField<String> = JsonMissing.of()
         private var tier: JsonField<String> = JsonMissing.of()
         private var financialAccountState: JsonField<FinancialAccountState> = JsonMissing.of()
+        private var isSpendBlocked: JsonField<Boolean> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -115,6 +123,7 @@ private constructor(
             this.creditProductToken = financialAccountCreditConfig.creditProductToken
             this.tier = financialAccountCreditConfig.tier
             this.financialAccountState = financialAccountCreditConfig.financialAccountState
+            this.isSpendBlocked = financialAccountCreditConfig.isSpendBlocked
             additionalProperties(financialAccountCreditConfig.additionalProperties)
         }
 
@@ -173,6 +182,14 @@ private constructor(
             this.financialAccountState = financialAccountState
         }
 
+        fun isSpendBlocked(isSpendBlocked: Boolean) = isSpendBlocked(JsonField.of(isSpendBlocked))
+
+        @JsonProperty("is_spend_blocked")
+        @ExcludeMissing
+        fun isSpendBlocked(isSpendBlocked: JsonField<Boolean>) = apply {
+            this.isSpendBlocked = isSpendBlocked
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -195,6 +212,7 @@ private constructor(
                 creditProductToken,
                 tier,
                 financialAccountState,
+                isSpendBlocked,
                 additionalProperties.toUnmodifiable(),
             )
     }
@@ -267,18 +285,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FinancialAccountCreditConfig && this.accountToken == other.accountToken && this.creditLimit == other.creditLimit && this.externalBankAccountToken == other.externalBankAccountToken && this.creditProductToken == other.creditProductToken && this.tier == other.tier && this.financialAccountState == other.financialAccountState && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is FinancialAccountCreditConfig && this.accountToken == other.accountToken && this.creditLimit == other.creditLimit && this.externalBankAccountToken == other.externalBankAccountToken && this.creditProductToken == other.creditProductToken && this.tier == other.tier && this.financialAccountState == other.financialAccountState && this.isSpendBlocked == other.isSpendBlocked && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(accountToken, creditLimit, externalBankAccountToken, creditProductToken, tier, financialAccountState, additionalProperties) /* spotless:on */
+            hashCode = /* spotless:off */ Objects.hash(accountToken, creditLimit, externalBankAccountToken, creditProductToken, tier, financialAccountState, isSpendBlocked, additionalProperties) /* spotless:on */
         }
         return hashCode
     }
 
     override fun toString() =
-        "FinancialAccountCreditConfig{accountToken=$accountToken, creditLimit=$creditLimit, externalBankAccountToken=$externalBankAccountToken, creditProductToken=$creditProductToken, tier=$tier, financialAccountState=$financialAccountState, additionalProperties=$additionalProperties}"
+        "FinancialAccountCreditConfig{accountToken=$accountToken, creditLimit=$creditLimit, externalBankAccountToken=$externalBankAccountToken, creditProductToken=$creditProductToken, tier=$tier, financialAccountState=$financialAccountState, isSpendBlocked=$isSpendBlocked, additionalProperties=$additionalProperties}"
 }

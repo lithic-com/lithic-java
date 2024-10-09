@@ -17,6 +17,7 @@ class FinancialAccountCreditConfigTest {
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .tier("tier")
                 .financialAccountState(FinancialAccountCreditConfig.FinancialAccountState.PENDING)
+                .isSpendBlocked(true)
                 .build()
         assertThat(financialAccountCreditConfig).isNotNull
         assertThat(financialAccountCreditConfig.accountToken())
@@ -29,5 +30,6 @@ class FinancialAccountCreditConfigTest {
         assertThat(financialAccountCreditConfig.tier()).contains("tier")
         assertThat(financialAccountCreditConfig.financialAccountState())
             .contains(FinancialAccountCreditConfig.FinancialAccountState.PENDING)
+        assertThat(financialAccountCreditConfig.isSpendBlocked()).contains(true)
     }
 }
