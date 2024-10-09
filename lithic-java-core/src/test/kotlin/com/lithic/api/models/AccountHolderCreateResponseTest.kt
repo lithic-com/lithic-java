@@ -16,7 +16,7 @@ class AccountHolderCreateResponseTest {
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .status(AccountHolderCreateResponse.Status.ACCEPTED)
                 .statusReasons(
-                    listOf(AccountHolderCreateResponse.StatusReason.ADDRESS_VERIFICATION_FAILURE)
+                    listOf(AccountHolderCreateResponse.StatusReasons.ADDRESS_VERIFICATION_FAILURE)
                 )
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .externalId("external_id")
@@ -38,7 +38,7 @@ class AccountHolderCreateResponseTest {
         assertThat(accountHolderCreateResponse.status())
             .isEqualTo(AccountHolderCreateResponse.Status.ACCEPTED)
         assertThat(accountHolderCreateResponse.statusReasons())
-            .containsExactly(AccountHolderCreateResponse.StatusReason.ADDRESS_VERIFICATION_FAILURE)
+            .containsExactly(AccountHolderCreateResponse.StatusReasons.ADDRESS_VERIFICATION_FAILURE)
         assertThat(accountHolderCreateResponse.created())
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(accountHolderCreateResponse.externalId()).contains("external_id")
