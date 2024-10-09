@@ -89,6 +89,7 @@ class LoanTapeTest {
                 .previousStatementBalance(
                     LoanTape.BalanceDetails.builder().amount(123L).remaining(123L).build()
                 )
+                .startingBalance(123L)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .version(123L)
                 .ytdTotals(
@@ -187,6 +188,7 @@ class LoanTapeTest {
             )
         assertThat(loanTape.previousStatementBalance())
             .isEqualTo(LoanTape.BalanceDetails.builder().amount(123L).remaining(123L).build())
+        assertThat(loanTape.startingBalance()).isEqualTo(123L)
         assertThat(loanTape.updated()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(loanTape.version()).isEqualTo(123L)
         assertThat(loanTape.ytdTotals())

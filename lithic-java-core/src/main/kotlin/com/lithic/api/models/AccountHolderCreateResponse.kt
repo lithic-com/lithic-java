@@ -27,7 +27,7 @@ private constructor(
     private val created: JsonField<OffsetDateTime>,
     private val externalId: JsonField<String>,
     private val status: JsonField<Status>,
-    private val statusReasons: JsonField<List<StatusReason>>,
+    private val statusReasons: JsonField<List<StatusReasons>>,
     private val requiredDocuments: JsonField<List<RequiredDocument>>,
     private val token: JsonField<String>,
     private val additionalProperties: Map<String, JsonValue>,
@@ -58,7 +58,7 @@ private constructor(
     fun status(): Status = status.getRequired("status")
 
     /** Reason for the evaluation status. */
-    fun statusReasons(): List<StatusReason> = statusReasons.getRequired("status_reasons")
+    fun statusReasons(): List<StatusReasons> = statusReasons.getRequired("status_reasons")
 
     /**
      * Only present for "KYB_BASIC" and "KYC_ADVANCED" workflows. A list of documents required for
@@ -134,7 +134,7 @@ private constructor(
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var externalId: JsonField<String> = JsonMissing.of()
         private var status: JsonField<Status> = JsonMissing.of()
-        private var statusReasons: JsonField<List<StatusReason>> = JsonMissing.of()
+        private var statusReasons: JsonField<List<StatusReasons>> = JsonMissing.of()
         private var requiredDocuments: JsonField<List<RequiredDocument>> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -206,13 +206,13 @@ private constructor(
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** Reason for the evaluation status. */
-        fun statusReasons(statusReasons: List<StatusReason>) =
+        fun statusReasons(statusReasons: List<StatusReasons>) =
             statusReasons(JsonField.of(statusReasons))
 
         /** Reason for the evaluation status. */
         @JsonProperty("status_reasons")
         @ExcludeMissing
-        fun statusReasons(statusReasons: JsonField<List<StatusReason>>) = apply {
+        fun statusReasons(statusReasons: JsonField<List<StatusReasons>>) = apply {
             this.statusReasons = statusReasons
         }
 
@@ -343,7 +343,7 @@ private constructor(
         fun asString(): String = _value().asStringOrThrow()
     }
 
-    class StatusReason
+    class StatusReasons
     @JsonCreator
     private constructor(
         private val value: JsonField<String>,
@@ -356,7 +356,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is StatusReason && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is StatusReasons && this.value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -367,41 +367,93 @@ private constructor(
 
             @JvmField
             val ADDRESS_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("ADDRESS_VERIFICATION_FAILURE"))
+                StatusReasons(JsonField.of("ADDRESS_VERIFICATION_FAILURE"))
 
             @JvmField
-            val AGE_THRESHOLD_FAILURE = StatusReason(JsonField.of("AGE_THRESHOLD_FAILURE"))
+            val AGE_THRESHOLD_FAILURE = StatusReasons(JsonField.of("AGE_THRESHOLD_FAILURE"))
 
             @JvmField
             val COMPLETE_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("COMPLETE_VERIFICATION_FAILURE"))
+                StatusReasons(JsonField.of("COMPLETE_VERIFICATION_FAILURE"))
 
             @JvmField
-            val DOB_VERIFICATION_FAILURE = StatusReason(JsonField.of("DOB_VERIFICATION_FAILURE"))
+            val DOB_VERIFICATION_FAILURE = StatusReasons(JsonField.of("DOB_VERIFICATION_FAILURE"))
 
             @JvmField
-            val ID_VERIFICATION_FAILURE = StatusReason(JsonField.of("ID_VERIFICATION_FAILURE"))
+            val ID_VERIFICATION_FAILURE = StatusReasons(JsonField.of("ID_VERIFICATION_FAILURE"))
 
             @JvmField
-            val MAX_DOCUMENT_ATTEMPTS = StatusReason(JsonField.of("MAX_DOCUMENT_ATTEMPTS"))
+            val MAX_DOCUMENT_ATTEMPTS = StatusReasons(JsonField.of("MAX_DOCUMENT_ATTEMPTS"))
 
             @JvmField
-            val MAX_RESUBMISSION_ATTEMPTS = StatusReason(JsonField.of("MAX_RESUBMISSION_ATTEMPTS"))
+            val MAX_RESUBMISSION_ATTEMPTS = StatusReasons(JsonField.of("MAX_RESUBMISSION_ATTEMPTS"))
 
             @JvmField
-            val NAME_VERIFICATION_FAILURE = StatusReason(JsonField.of("NAME_VERIFICATION_FAILURE"))
+            val NAME_VERIFICATION_FAILURE = StatusReasons(JsonField.of("NAME_VERIFICATION_FAILURE"))
 
             @JvmField
             val OTHER_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("OTHER_VERIFICATION_FAILURE"))
+                StatusReasons(JsonField.of("OTHER_VERIFICATION_FAILURE"))
 
             @JvmField
-            val RISK_THRESHOLD_FAILURE = StatusReason(JsonField.of("RISK_THRESHOLD_FAILURE"))
+            val RISK_THRESHOLD_FAILURE = StatusReasons(JsonField.of("RISK_THRESHOLD_FAILURE"))
 
             @JvmField
-            val WATCHLIST_ALERT_FAILURE = StatusReason(JsonField.of("WATCHLIST_ALERT_FAILURE"))
+            val WATCHLIST_ALERT_FAILURE = StatusReasons(JsonField.of("WATCHLIST_ALERT_FAILURE"))
 
-            @JvmStatic fun of(value: String) = StatusReason(JsonField.of(value))
+            @JvmField
+            val PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE =
+                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE"))
+
+            @JvmField
+            val PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE =
+                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE"))
+
+            @JvmField
+            val PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE =
+                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE"))
+
+            @JvmField
+            val PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED =
+                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED"))
+
+            @JvmField
+            val PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE =
+                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE"))
+
+            @JvmField
+            val PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED =
+                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED"))
+
+            @JvmField
+            val PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE =
+                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE"))
+
+            @JvmField
+            val PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE =
+                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE"))
+
+            @JvmField
+            val PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE =
+                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE"))
+
+            @JvmField
+            val CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE =
+                StatusReasons(JsonField.of("CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE"))
+
+            @JvmField
+            val CONTROL_PERSON_ID_VERIFICATION_FAILURE =
+                StatusReasons(JsonField.of("CONTROL_PERSON_ID_VERIFICATION_FAILURE"))
+
+            @JvmField
+            val CONTROL_PERSON_DOB_VERIFICATION_FAILURE =
+                StatusReasons(JsonField.of("CONTROL_PERSON_DOB_VERIFICATION_FAILURE"))
+
+            @JvmField
+            val CONTROL_PERSON_NAME_VERIFICATION_FAILURE =
+                StatusReasons(JsonField.of("CONTROL_PERSON_NAME_VERIFICATION_FAILURE"))
+
+            @JvmStatic fun of(value: String) = StatusReasons(JsonField.of(value))
         }
 
         enum class Known {
@@ -416,6 +468,19 @@ private constructor(
             OTHER_VERIFICATION_FAILURE,
             RISK_THRESHOLD_FAILURE,
             WATCHLIST_ALERT_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED,
+            PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE,
+            PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED,
+            PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE,
+            CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE,
+            CONTROL_PERSON_ID_VERIFICATION_FAILURE,
+            CONTROL_PERSON_DOB_VERIFICATION_FAILURE,
+            CONTROL_PERSON_NAME_VERIFICATION_FAILURE,
         }
 
         enum class Value {
@@ -430,6 +495,19 @@ private constructor(
             OTHER_VERIFICATION_FAILURE,
             RISK_THRESHOLD_FAILURE,
             WATCHLIST_ALERT_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED,
+            PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE,
+            PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED,
+            PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE,
+            PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE,
+            CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE,
+            CONTROL_PERSON_ID_VERIFICATION_FAILURE,
+            CONTROL_PERSON_DOB_VERIFICATION_FAILURE,
+            CONTROL_PERSON_NAME_VERIFICATION_FAILURE,
             _UNKNOWN,
         }
 
@@ -446,6 +524,31 @@ private constructor(
                 OTHER_VERIFICATION_FAILURE -> Value.OTHER_VERIFICATION_FAILURE
                 RISK_THRESHOLD_FAILURE -> Value.RISK_THRESHOLD_FAILURE
                 WATCHLIST_ALERT_FAILURE -> Value.WATCHLIST_ALERT_FAILURE
+                PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE ->
+                    Value.PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
+                PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE ->
+                    Value.PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE
+                PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE ->
+                    Value.PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE
+                PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED ->
+                    Value.PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED
+                PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE ->
+                    Value.PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE
+                PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED ->
+                    Value.PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED
+                PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE -> Value.PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE
+                PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE ->
+                    Value.PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE
+                PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE ->
+                    Value.PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE
+                CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE ->
+                    Value.CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE
+                CONTROL_PERSON_ID_VERIFICATION_FAILURE ->
+                    Value.CONTROL_PERSON_ID_VERIFICATION_FAILURE
+                CONTROL_PERSON_DOB_VERIFICATION_FAILURE ->
+                    Value.CONTROL_PERSON_DOB_VERIFICATION_FAILURE
+                CONTROL_PERSON_NAME_VERIFICATION_FAILURE ->
+                    Value.CONTROL_PERSON_NAME_VERIFICATION_FAILURE
                 else -> Value._UNKNOWN
             }
 
@@ -462,7 +565,32 @@ private constructor(
                 OTHER_VERIFICATION_FAILURE -> Known.OTHER_VERIFICATION_FAILURE
                 RISK_THRESHOLD_FAILURE -> Known.RISK_THRESHOLD_FAILURE
                 WATCHLIST_ALERT_FAILURE -> Known.WATCHLIST_ALERT_FAILURE
-                else -> throw LithicInvalidDataException("Unknown StatusReason: $value")
+                PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE ->
+                    Known.PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE
+                PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE ->
+                    Known.PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE
+                PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE ->
+                    Known.PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE
+                PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED ->
+                    Known.PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED
+                PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE ->
+                    Known.PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE
+                PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED ->
+                    Known.PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED
+                PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE -> Known.PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE
+                PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE ->
+                    Known.PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE
+                PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE ->
+                    Known.PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE
+                CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE ->
+                    Known.CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE
+                CONTROL_PERSON_ID_VERIFICATION_FAILURE ->
+                    Known.CONTROL_PERSON_ID_VERIFICATION_FAILURE
+                CONTROL_PERSON_DOB_VERIFICATION_FAILURE ->
+                    Known.CONTROL_PERSON_DOB_VERIFICATION_FAILURE
+                CONTROL_PERSON_NAME_VERIFICATION_FAILURE ->
+                    Known.CONTROL_PERSON_NAME_VERIFICATION_FAILURE
+                else -> throw LithicInvalidDataException("Unknown StatusReasons: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()

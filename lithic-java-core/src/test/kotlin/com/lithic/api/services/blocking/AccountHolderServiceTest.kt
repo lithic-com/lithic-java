@@ -265,11 +265,11 @@ class AccountHolderServiceTest {
                 AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
                     .documentUploadToken("document_upload_token")
                     .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
-                    .statusReasons(
-                        listOf(
-                            AccountHolderSimulateEnrollmentDocumentReviewParams.StatusReason
-                                .DOCUMENT_MISSING_REQUIRED_DATA
-                        )
+                    .acceptedEntityStatusReasons(listOf("string"))
+                    .statusReason(
+                        AccountHolderSimulateEnrollmentDocumentReviewParams
+                            .DocumentUploadStatusReasons
+                            .DOCUMENT_MISSING_REQUIRED_DATA
                     )
                     .build()
             )

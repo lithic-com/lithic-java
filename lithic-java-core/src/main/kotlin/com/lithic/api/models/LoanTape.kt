@@ -36,6 +36,7 @@ private constructor(
     private val balancePastDue: JsonField<CategoryBalances>,
     private val balanceDue: JsonField<CategoryBalances>,
     private val balanceNextDue: JsonField<CategoryBalances>,
+    private val startingBalance: JsonField<Long>,
     private val endingBalance: JsonField<Long>,
     private val creditLimit: JsonField<Long>,
     private val availableCredit: JsonField<Long>,
@@ -90,6 +91,9 @@ private constructor(
      * credits will be considered due at the end of the current billing period
      */
     fun balanceNextDue(): CategoryBalances = balanceNextDue.getRequired("balance_next_due")
+
+    /** Balance at the start of the day */
+    fun startingBalance(): Long = startingBalance.getRequired("starting_balance")
 
     /** Balance at the end of the day */
     fun endingBalance(): Long = endingBalance.getRequired("ending_balance")
@@ -167,6 +171,9 @@ private constructor(
      */
     @JsonProperty("balance_next_due") @ExcludeMissing fun _balanceNextDue() = balanceNextDue
 
+    /** Balance at the start of the day */
+    @JsonProperty("starting_balance") @ExcludeMissing fun _startingBalance() = startingBalance
+
     /** Balance at the end of the day */
     @JsonProperty("ending_balance") @ExcludeMissing fun _endingBalance() = endingBalance
 
@@ -224,6 +231,7 @@ private constructor(
             balancePastDue().validate()
             balanceDue().validate()
             balanceNextDue().validate()
+            startingBalance()
             endingBalance()
             creditLimit()
             availableCredit()
@@ -259,6 +267,7 @@ private constructor(
         private var balancePastDue: JsonField<CategoryBalances> = JsonMissing.of()
         private var balanceDue: JsonField<CategoryBalances> = JsonMissing.of()
         private var balanceNextDue: JsonField<CategoryBalances> = JsonMissing.of()
+        private var startingBalance: JsonField<Long> = JsonMissing.of()
         private var endingBalance: JsonField<Long> = JsonMissing.of()
         private var creditLimit: JsonField<Long> = JsonMissing.of()
         private var availableCredit: JsonField<Long> = JsonMissing.of()
@@ -285,6 +294,7 @@ private constructor(
             this.balancePastDue = loanTape.balancePastDue
             this.balanceDue = loanTape.balanceDue
             this.balanceNextDue = loanTape.balanceNextDue
+            this.startingBalance = loanTape.startingBalance
             this.endingBalance = loanTape.endingBalance
             this.creditLimit = loanTape.creditLimit
             this.availableCredit = loanTape.availableCredit
@@ -411,6 +421,16 @@ private constructor(
         @ExcludeMissing
         fun balanceNextDue(balanceNextDue: JsonField<CategoryBalances>) = apply {
             this.balanceNextDue = balanceNextDue
+        }
+
+        /** Balance at the start of the day */
+        fun startingBalance(startingBalance: Long) = startingBalance(JsonField.of(startingBalance))
+
+        /** Balance at the start of the day */
+        @JsonProperty("starting_balance")
+        @ExcludeMissing
+        fun startingBalance(startingBalance: JsonField<Long>) = apply {
+            this.startingBalance = startingBalance
         }
 
         /** Balance at the end of the day */
@@ -548,6 +568,7 @@ private constructor(
                 balancePastDue,
                 balanceDue,
                 balanceNextDue,
+                startingBalance,
                 endingBalance,
                 creditLimit,
                 availableCredit,
@@ -1316,18 +1337,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is LoanTape && this.token == other.token && this.financialAccountToken == other.financialAccountToken && this.date == other.date && this.created == other.created && this.updated == other.updated && this.version == other.version && this.ytdTotals == other.ytdTotals && this.periodTotals == other.periodTotals && this.dayTotals == other.dayTotals && this.balancePastDue == other.balancePastDue && this.balanceDue == other.balanceDue && this.balanceNextDue == other.balanceNextDue && this.endingBalance == other.endingBalance && this.creditLimit == other.creditLimit && this.availableCredit == other.availableCredit && this.excessCredits == other.excessCredits && this.accountStanding == other.accountStanding && this.creditProductToken == other.creditProductToken && this.tier == other.tier && this.paymentAllocation == other.paymentAllocation && this.minimumPaymentBalance == other.minimumPaymentBalance && this.previousStatementBalance == other.previousStatementBalance && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is LoanTape && this.token == other.token && this.financialAccountToken == other.financialAccountToken && this.date == other.date && this.created == other.created && this.updated == other.updated && this.version == other.version && this.ytdTotals == other.ytdTotals && this.periodTotals == other.periodTotals && this.dayTotals == other.dayTotals && this.balancePastDue == other.balancePastDue && this.balanceDue == other.balanceDue && this.balanceNextDue == other.balanceNextDue && this.startingBalance == other.startingBalance && this.endingBalance == other.endingBalance && this.creditLimit == other.creditLimit && this.availableCredit == other.availableCredit && this.excessCredits == other.excessCredits && this.accountStanding == other.accountStanding && this.creditProductToken == other.creditProductToken && this.tier == other.tier && this.paymentAllocation == other.paymentAllocation && this.minimumPaymentBalance == other.minimumPaymentBalance && this.previousStatementBalance == other.previousStatementBalance && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(token, financialAccountToken, date, created, updated, version, ytdTotals, periodTotals, dayTotals, balancePastDue, balanceDue, balanceNextDue, endingBalance, creditLimit, availableCredit, excessCredits, accountStanding, creditProductToken, tier, paymentAllocation, minimumPaymentBalance, previousStatementBalance, additionalProperties) /* spotless:on */
+            hashCode = /* spotless:off */ Objects.hash(token, financialAccountToken, date, created, updated, version, ytdTotals, periodTotals, dayTotals, balancePastDue, balanceDue, balanceNextDue, startingBalance, endingBalance, creditLimit, availableCredit, excessCredits, accountStanding, creditProductToken, tier, paymentAllocation, minimumPaymentBalance, previousStatementBalance, additionalProperties) /* spotless:on */
         }
         return hashCode
     }
 
     override fun toString() =
-        "LoanTape{token=$token, financialAccountToken=$financialAccountToken, date=$date, created=$created, updated=$updated, version=$version, ytdTotals=$ytdTotals, periodTotals=$periodTotals, dayTotals=$dayTotals, balancePastDue=$balancePastDue, balanceDue=$balanceDue, balanceNextDue=$balanceNextDue, endingBalance=$endingBalance, creditLimit=$creditLimit, availableCredit=$availableCredit, excessCredits=$excessCredits, accountStanding=$accountStanding, creditProductToken=$creditProductToken, tier=$tier, paymentAllocation=$paymentAllocation, minimumPaymentBalance=$minimumPaymentBalance, previousStatementBalance=$previousStatementBalance, additionalProperties=$additionalProperties}"
+        "LoanTape{token=$token, financialAccountToken=$financialAccountToken, date=$date, created=$created, updated=$updated, version=$version, ytdTotals=$ytdTotals, periodTotals=$periodTotals, dayTotals=$dayTotals, balancePastDue=$balancePastDue, balanceDue=$balanceDue, balanceNextDue=$balanceNextDue, startingBalance=$startingBalance, endingBalance=$endingBalance, creditLimit=$creditLimit, availableCredit=$availableCredit, excessCredits=$excessCredits, accountStanding=$accountStanding, creditProductToken=$creditProductToken, tier=$tier, paymentAllocation=$paymentAllocation, minimumPaymentBalance=$minimumPaymentBalance, previousStatementBalance=$previousStatementBalance, additionalProperties=$additionalProperties}"
 }

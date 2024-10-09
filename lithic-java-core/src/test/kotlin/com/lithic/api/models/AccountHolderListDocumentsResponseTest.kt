@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -22,14 +23,22 @@ class AccountHolderListDocumentsResponseTest {
                                 listOf(
                                     Document.RequiredDocumentUpload.builder()
                                         .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                        .acceptedEntityStatusReasons(listOf("string"))
+                                        .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .imageType(Document.RequiredDocumentUpload.ImageType.FRONT)
-                                        .status(Document.RequiredDocumentUpload.Status.ACCEPTED)
+                                        .rejectedEntityStatusReasons(listOf("string"))
+                                        .status(
+                                            Document.RequiredDocumentUpload.DocumentUploadStatus
+                                                .ACCEPTED
+                                        )
                                         .statusReasons(
                                             listOf(
-                                                Document.RequiredDocumentUpload.StatusReason
+                                                Document.RequiredDocumentUpload
+                                                    .DocumentUploadStatusReasons
                                                     .DOCUMENT_MISSING_REQUIRED_DATA
                                             )
                                         )
+                                        .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                         .uploadUrl("upload_url")
                                         .build()
                                 )
@@ -50,14 +59,20 @@ class AccountHolderListDocumentsResponseTest {
                         listOf(
                             Document.RequiredDocumentUpload.builder()
                                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .acceptedEntityStatusReasons(listOf("string"))
+                                .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                 .imageType(Document.RequiredDocumentUpload.ImageType.FRONT)
-                                .status(Document.RequiredDocumentUpload.Status.ACCEPTED)
+                                .rejectedEntityStatusReasons(listOf("string"))
+                                .status(
+                                    Document.RequiredDocumentUpload.DocumentUploadStatus.ACCEPTED
+                                )
                                 .statusReasons(
                                     listOf(
-                                        Document.RequiredDocumentUpload.StatusReason
+                                        Document.RequiredDocumentUpload.DocumentUploadStatusReasons
                                             .DOCUMENT_MISSING_REQUIRED_DATA
                                     )
                                 )
+                                .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                                 .uploadUrl("upload_url")
                                 .build()
                         )
