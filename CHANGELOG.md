@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.66.0 (2024-10-09)
+
+Full Changelog: [v0.65.0...v0.66.0](https://github.com/lithic-com/lithic-java/compare/v0.65.0...v0.66.0)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** don't generate default variant field/method names with underscores ([#328](https://github.com/lithic-com/lithic-java/issues/328))
+
+### Bug Fixes
+
+* **client:** don't generate default variant field/method names with underscores ([#328](https://github.com/lithic-com/lithic-java/issues/328)) ([b57530c](https://github.com/lithic-com/lithic-java/commit/b57530cc42117808cd410a44c8e7d3ea93608ee1))
+
 ## 0.65.0 (2024-10-09)
 
 Full Changelog: [v0.64.1...v0.65.0](https://github.com/lithic-com/lithic-java/compare/v0.64.1...v0.65.0)
