@@ -13,11 +13,10 @@ class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
         AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
             .documentUploadToken("document_upload_token")
             .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
-            .statusReasons(
-                listOf(
-                    AccountHolderSimulateEnrollmentDocumentReviewParams.StatusReason
-                        .DOCUMENT_MISSING_REQUIRED_DATA
-                )
+            .acceptedEntityStatusReasons(listOf("string"))
+            .statusReason(
+                AccountHolderSimulateEnrollmentDocumentReviewParams.DocumentUploadStatusReasons
+                    .DOCUMENT_MISSING_REQUIRED_DATA
             )
             .build()
     }
@@ -28,11 +27,10 @@ class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
             AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
                 .documentUploadToken("document_upload_token")
                 .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
-                .statusReasons(
-                    listOf(
-                        AccountHolderSimulateEnrollmentDocumentReviewParams.StatusReason
-                            .DOCUMENT_MISSING_REQUIRED_DATA
-                    )
+                .acceptedEntityStatusReasons(listOf("string"))
+                .statusReason(
+                    AccountHolderSimulateEnrollmentDocumentReviewParams.DocumentUploadStatusReasons
+                        .DOCUMENT_MISSING_REQUIRED_DATA
                 )
                 .build()
         val body = params.getBody()
@@ -40,19 +38,25 @@ class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
         assertThat(body.documentUploadToken()).isEqualTo("document_upload_token")
         assertThat(body.status())
             .isEqualTo(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
-        assertThat(body.statusReasons())
+        assertThat(body.acceptedEntityStatusReasons()).isEqualTo(listOf("string"))
+        assertThat(body.statusReason())
             .isEqualTo(
-                listOf(
-                    AccountHolderSimulateEnrollmentDocumentReviewParams.StatusReason
-                        .DOCUMENT_MISSING_REQUIRED_DATA
-                )
+                AccountHolderSimulateEnrollmentDocumentReviewParams.DocumentUploadStatusReasons
+                    .DOCUMENT_MISSING_REQUIRED_DATA
             )
     }
 
     @Test
     fun getBodyWithoutOptionalFields() {
-        val params = AccountHolderSimulateEnrollmentDocumentReviewParams.builder().build()
+        val params =
+            AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
+                .documentUploadToken("document_upload_token")
+                .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
+                .build()
         val body = params.getBody()
         assertThat(body).isNotNull
+        assertThat(body.documentUploadToken()).isEqualTo("document_upload_token")
+        assertThat(body.status())
+            .isEqualTo(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
     }
 }
