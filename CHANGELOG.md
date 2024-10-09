@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.65.0 (2024-10-09)
+
+Full Changelog: [v0.64.1...v0.65.0](https://github.com/lithic-com/lithic-java/compare/v0.64.1...v0.65.0)
+
+### Features
+
+* **api:** small updates to Documents, AccountHolders and LoanTapes ([#327](https://github.com/lithic-com/lithic-java/issues/327)) ([3717b31](https://github.com/lithic-com/lithic-java/commit/3717b3135cc213d4c1ea5cfe967cc391a3b062cd))
+
+
+### Chores
+
+* **api:** small updates to verification addresses and Statement and LoanTape fields ([#324](https://github.com/lithic-com/lithic-java/issues/324)) ([2e16bc7](https://github.com/lithic-com/lithic-java/commit/2e16bc74e4f043fddfa93e7aac643a83ceef586e))
+
+
+### Styles
+
+* **client:** disable formatting for java boilerplate ([#326](https://github.com/lithic-com/lithic-java/issues/326)) ([5ad2b48](https://github.com/lithic-com/lithic-java/commit/5ad2b48f06897200b4b4fc1d03446edcba215637))
+
 ## 0.64.1 (2024-10-02)
 
 Full Changelog: [v0.64.0...v0.64.1](https://github.com/lithic-com/lithic-java/compare/v0.64.0...v0.64.1)
