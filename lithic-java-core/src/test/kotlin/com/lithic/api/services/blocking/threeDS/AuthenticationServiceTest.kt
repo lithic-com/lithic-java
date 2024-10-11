@@ -55,6 +55,7 @@ class AuthenticationServiceTest {
                             .currency("GBP")
                             .build()
                     )
+                    .cardExpiryCheck(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
                     .build()
             )
         println(authenticationSimulateResponse)
