@@ -22,9 +22,7 @@ class DecisioningServiceTest {
         decisioningService.challengeResponse(
             ThreeDSDecisioningChallengeResponseParams.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .challengeResponse(
-                    ThreeDSDecisioningChallengeResponseParams.ChallengeResponse.APPROVE
-                )
+                .challengeResponse(ChallengeResult.APPROVE)
                 .build()
         )
     }
@@ -54,5 +52,39 @@ class DecisioningServiceTest {
                 .build()
         val decisioningService = client.threeDS().decisioning()
         decisioningService.rotateSecret(ThreeDSDecisioningRotateSecretParams.builder().build())
+    }
+
+    @Test
+    fun callSimulateChallenge() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val decisioningService = client.threeDS().decisioning()
+        val decisioningSimulateChallengeResponse =
+            decisioningService.simulateChallenge(
+                ThreeDSDecisioningSimulateChallengeParams.builder()
+                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+        println(decisioningSimulateChallengeResponse)
+        decisioningSimulateChallengeResponse.validate()
+    }
+
+    @Test
+    fun callSimulateChallengeResponse() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val decisioningService = client.threeDS().decisioning()
+        decisioningService.simulateChallengeResponse(
+            ThreeDSDecisioningSimulateChallengeResponseParams.builder()
+                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .challengeResponse(ChallengeResult.APPROVE)
+                .build()
+        )
     }
 }

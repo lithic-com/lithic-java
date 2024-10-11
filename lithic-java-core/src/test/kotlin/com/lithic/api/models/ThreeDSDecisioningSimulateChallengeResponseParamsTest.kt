@@ -6,11 +6,11 @@ import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class ThreeDSDecisioningChallengeResponseParamsTest {
+class ThreeDSDecisioningSimulateChallengeResponseParamsTest {
 
     @Test
-    fun createThreeDSDecisioningChallengeResponseParams() {
-        ThreeDSDecisioningChallengeResponseParams.builder()
+    fun createThreeDSDecisioningSimulateChallengeResponseParams() {
+        ThreeDSDecisioningSimulateChallengeResponseParams.builder()
             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .challengeResponse(ChallengeResult.APPROVE)
             .build()
@@ -19,7 +19,7 @@ class ThreeDSDecisioningChallengeResponseParamsTest {
     @Test
     fun getBody() {
         val params =
-            ThreeDSDecisioningChallengeResponseParams.builder()
+            ThreeDSDecisioningSimulateChallengeResponseParams.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .challengeResponse(ChallengeResult.APPROVE)
                 .build()
@@ -32,7 +32,7 @@ class ThreeDSDecisioningChallengeResponseParamsTest {
     @Test
     fun getBodyWithoutOptionalFields() {
         val params =
-            ThreeDSDecisioningChallengeResponseParams.builder()
+            ThreeDSDecisioningSimulateChallengeResponseParams.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .challengeResponse(ChallengeResult.APPROVE)
                 .build()

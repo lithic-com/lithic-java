@@ -26,6 +26,7 @@ class ThreeDSAuthenticationSimulateParamsTest {
                     .currency("GBP")
                     .build()
             )
+            .cardExpiryCheck(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
             .build()
     }
 
@@ -48,6 +49,7 @@ class ThreeDSAuthenticationSimulateParamsTest {
                         .currency("GBP")
                         .build()
                 )
+                .cardExpiryCheck(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -68,6 +70,8 @@ class ThreeDSAuthenticationSimulateParamsTest {
                     .currency("GBP")
                     .build()
             )
+        assertThat(body.cardExpiryCheck())
+            .isEqualTo(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
     }
 
     @Test
