@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.67.0 (2024-10-11)
+
+Full Changelog: [v0.66.0...v0.67.0](https://github.com/lithic-com/lithic-java/compare/v0.66.0...v0.67.0)
+
+### Features
+
+* **api:** updates to documentation and addition of new 3DS simulation methods ([#330](https://github.com/lithic-com/lithic-java/issues/330)) ([54c9c05](https://github.com/lithic-com/lithic-java/commit/54c9c051cfe5a603c4c2cc79bc39720d58955849))
+
 ## 0.66.0 (2024-10-09)
 
 Full Changelog: [v0.65.0...v0.66.0](https://github.com/lithic-com/lithic-java/compare/v0.65.0...v0.66.0)
