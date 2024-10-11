@@ -33,9 +33,7 @@ private constructor(
     private val ytdTotals: JsonField<StatementTotals>,
     private val periodTotals: JsonField<StatementTotals>,
     private val dayTotals: JsonField<StatementTotals>,
-    private val balancePastDue: JsonField<CategoryBalances>,
-    private val balanceDue: JsonField<CategoryBalances>,
-    private val balanceNextDue: JsonField<CategoryBalances>,
+    private val balances: JsonField<Balances>,
     private val startingBalance: JsonField<Long>,
     private val endingBalance: JsonField<Long>,
     private val creditLimit: JsonField<Long>,
@@ -77,20 +75,7 @@ private constructor(
 
     fun dayTotals(): StatementTotals = dayTotals.getRequired("day_totals")
 
-    /** Amount not paid off on previous due dates */
-    fun balancePastDue(): CategoryBalances = balancePastDue.getRequired("balance_past_due")
-
-    /**
-     * Amount due for the prior billing cycle. Any amounts not fully paid off on this due date will
-     * be considered past due the next day
-     */
-    fun balanceDue(): CategoryBalances = balanceDue.getRequired("balance_due")
-
-    /**
-     * Amount due for the current billing cycle. Any amounts not paid off by early payments or
-     * credits will be considered due at the end of the current billing period
-     */
-    fun balanceNextDue(): CategoryBalances = balanceNextDue.getRequired("balance_next_due")
+    fun balances(): Balances = balances.getRequired("balances")
 
     /** Balance at the start of the day */
     fun startingBalance(): Long = startingBalance.getRequired("starting_balance")
@@ -156,20 +141,7 @@ private constructor(
 
     @JsonProperty("day_totals") @ExcludeMissing fun _dayTotals() = dayTotals
 
-    /** Amount not paid off on previous due dates */
-    @JsonProperty("balance_past_due") @ExcludeMissing fun _balancePastDue() = balancePastDue
-
-    /**
-     * Amount due for the prior billing cycle. Any amounts not fully paid off on this due date will
-     * be considered past due the next day
-     */
-    @JsonProperty("balance_due") @ExcludeMissing fun _balanceDue() = balanceDue
-
-    /**
-     * Amount due for the current billing cycle. Any amounts not paid off by early payments or
-     * credits will be considered due at the end of the current billing period
-     */
-    @JsonProperty("balance_next_due") @ExcludeMissing fun _balanceNextDue() = balanceNextDue
+    @JsonProperty("balances") @ExcludeMissing fun _balances() = balances
 
     /** Balance at the start of the day */
     @JsonProperty("starting_balance") @ExcludeMissing fun _startingBalance() = startingBalance
@@ -228,9 +200,7 @@ private constructor(
             ytdTotals().validate()
             periodTotals().validate()
             dayTotals().validate()
-            balancePastDue().validate()
-            balanceDue().validate()
-            balanceNextDue().validate()
+            balances().validate()
             startingBalance()
             endingBalance()
             creditLimit()
@@ -264,9 +234,7 @@ private constructor(
         private var ytdTotals: JsonField<StatementTotals> = JsonMissing.of()
         private var periodTotals: JsonField<StatementTotals> = JsonMissing.of()
         private var dayTotals: JsonField<StatementTotals> = JsonMissing.of()
-        private var balancePastDue: JsonField<CategoryBalances> = JsonMissing.of()
-        private var balanceDue: JsonField<CategoryBalances> = JsonMissing.of()
-        private var balanceNextDue: JsonField<CategoryBalances> = JsonMissing.of()
+        private var balances: JsonField<Balances> = JsonMissing.of()
         private var startingBalance: JsonField<Long> = JsonMissing.of()
         private var endingBalance: JsonField<Long> = JsonMissing.of()
         private var creditLimit: JsonField<Long> = JsonMissing.of()
@@ -291,9 +259,7 @@ private constructor(
             this.ytdTotals = loanTape.ytdTotals
             this.periodTotals = loanTape.periodTotals
             this.dayTotals = loanTape.dayTotals
-            this.balancePastDue = loanTape.balancePastDue
-            this.balanceDue = loanTape.balanceDue
-            this.balanceNextDue = loanTape.balanceNextDue
+            this.balances = loanTape.balances
             this.startingBalance = loanTape.startingBalance
             this.endingBalance = loanTape.endingBalance
             this.creditLimit = loanTape.creditLimit
@@ -379,49 +345,11 @@ private constructor(
         @ExcludeMissing
         fun dayTotals(dayTotals: JsonField<StatementTotals>) = apply { this.dayTotals = dayTotals }
 
-        /** Amount not paid off on previous due dates */
-        fun balancePastDue(balancePastDue: CategoryBalances) =
-            balancePastDue(JsonField.of(balancePastDue))
+        fun balances(balances: Balances) = balances(JsonField.of(balances))
 
-        /** Amount not paid off on previous due dates */
-        @JsonProperty("balance_past_due")
+        @JsonProperty("balances")
         @ExcludeMissing
-        fun balancePastDue(balancePastDue: JsonField<CategoryBalances>) = apply {
-            this.balancePastDue = balancePastDue
-        }
-
-        /**
-         * Amount due for the prior billing cycle. Any amounts not fully paid off on this due date
-         * will be considered past due the next day
-         */
-        fun balanceDue(balanceDue: CategoryBalances) = balanceDue(JsonField.of(balanceDue))
-
-        /**
-         * Amount due for the prior billing cycle. Any amounts not fully paid off on this due date
-         * will be considered past due the next day
-         */
-        @JsonProperty("balance_due")
-        @ExcludeMissing
-        fun balanceDue(balanceDue: JsonField<CategoryBalances>) = apply {
-            this.balanceDue = balanceDue
-        }
-
-        /**
-         * Amount due for the current billing cycle. Any amounts not paid off by early payments or
-         * credits will be considered due at the end of the current billing period
-         */
-        fun balanceNextDue(balanceNextDue: CategoryBalances) =
-            balanceNextDue(JsonField.of(balanceNextDue))
-
-        /**
-         * Amount due for the current billing cycle. Any amounts not paid off by early payments or
-         * credits will be considered due at the end of the current billing period
-         */
-        @JsonProperty("balance_next_due")
-        @ExcludeMissing
-        fun balanceNextDue(balanceNextDue: JsonField<CategoryBalances>) = apply {
-            this.balanceNextDue = balanceNextDue
-        }
+        fun balances(balances: JsonField<Balances>) = apply { this.balances = balances }
 
         /** Balance at the start of the day */
         fun startingBalance(startingBalance: Long) = startingBalance(JsonField.of(startingBalance))
@@ -565,9 +493,7 @@ private constructor(
                 ytdTotals,
                 periodTotals,
                 dayTotals,
-                balancePastDue,
-                balanceDue,
-                balanceNextDue,
+                balances,
                 startingBalance,
                 endingBalance,
                 creditLimit,
@@ -875,43 +801,71 @@ private constructor(
             "AccountStanding{periodState=$periodState, periodNumber=$periodNumber, consecutiveMinimumPaymentsMade=$consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed=$consecutiveMinimumPaymentsMissed, consecutiveFullPaymentsMade=$consecutiveFullPaymentsMade, daysPastDue=$daysPastDue, hasGrace=$hasGrace, additionalProperties=$additionalProperties}"
     }
 
-    /**
-     * Amount due for the prior billing cycle. Any amounts not fully paid off on this due date will
-     * be considered past due the next day
-     */
-    @JsonDeserialize(builder = CategoryBalances.Builder::class)
+    @JsonDeserialize(builder = Balances.Builder::class)
     @NoAutoDetect
-    class CategoryBalances
+    class Balances
     private constructor(
-        private val interest: JsonField<Long>,
-        private val principal: JsonField<Long>,
-        private val fees: JsonField<Long>,
+        private val pastDue: JsonField<CategoryBalances>,
+        private val due: JsonField<CategoryBalances>,
+        private val pastStatementsDue: JsonField<CategoryBalances>,
+        private val nextStatementDue: JsonField<CategoryBalances>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         private var validated: Boolean = false
 
-        fun interest(): Long = interest.getRequired("interest")
+        /** Amount not paid off on previous due dates */
+        fun pastDue(): CategoryBalances = pastDue.getRequired("past_due")
 
-        fun principal(): Long = principal.getRequired("principal")
+        /**
+         * Amount due for the prior billing cycle. Any amounts not fully paid off on this due date
+         * will be considered past due the next day
+         */
+        fun due(): CategoryBalances = due.getRequired("due")
 
-        fun fees(): Long = fees.getRequired("fees")
+        /** Amount due for the past billing cycles. */
+        fun pastStatementsDue(): CategoryBalances =
+            pastStatementsDue.getRequired("past_statements_due")
 
-        @JsonProperty("interest") @ExcludeMissing fun _interest() = interest
+        /**
+         * Amount due for the current billing cycle. Any amounts not paid off by early payments or
+         * credits will be considered due at the end of the current billing period
+         */
+        fun nextStatementDue(): CategoryBalances =
+            nextStatementDue.getRequired("next_statement_due")
 
-        @JsonProperty("principal") @ExcludeMissing fun _principal() = principal
+        /** Amount not paid off on previous due dates */
+        @JsonProperty("past_due") @ExcludeMissing fun _pastDue() = pastDue
 
-        @JsonProperty("fees") @ExcludeMissing fun _fees() = fees
+        /**
+         * Amount due for the prior billing cycle. Any amounts not fully paid off on this due date
+         * will be considered past due the next day
+         */
+        @JsonProperty("due") @ExcludeMissing fun _due() = due
+
+        /** Amount due for the past billing cycles. */
+        @JsonProperty("past_statements_due")
+        @ExcludeMissing
+        fun _pastStatementsDue() = pastStatementsDue
+
+        /**
+         * Amount due for the current billing cycle. Any amounts not paid off by early payments or
+         * credits will be considered due at the end of the current billing period
+         */
+        @JsonProperty("next_statement_due")
+        @ExcludeMissing
+        fun _nextStatementDue() = nextStatementDue
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
-        fun validate(): CategoryBalances = apply {
+        fun validate(): Balances = apply {
             if (!validated) {
-                interest()
-                principal()
-                fees()
+                pastDue().validate()
+                due().validate()
+                pastStatementsDue().validate()
+                nextStatementDue().validate()
                 validated = true
             }
         }
@@ -925,36 +879,70 @@ private constructor(
 
         class Builder {
 
-            private var interest: JsonField<Long> = JsonMissing.of()
-            private var principal: JsonField<Long> = JsonMissing.of()
-            private var fees: JsonField<Long> = JsonMissing.of()
+            private var pastDue: JsonField<CategoryBalances> = JsonMissing.of()
+            private var due: JsonField<CategoryBalances> = JsonMissing.of()
+            private var pastStatementsDue: JsonField<CategoryBalances> = JsonMissing.of()
+            private var nextStatementDue: JsonField<CategoryBalances> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(categoryBalances: CategoryBalances) = apply {
-                this.interest = categoryBalances.interest
-                this.principal = categoryBalances.principal
-                this.fees = categoryBalances.fees
-                additionalProperties(categoryBalances.additionalProperties)
+            internal fun from(balances: Balances) = apply {
+                this.pastDue = balances.pastDue
+                this.due = balances.due
+                this.pastStatementsDue = balances.pastStatementsDue
+                this.nextStatementDue = balances.nextStatementDue
+                additionalProperties(balances.additionalProperties)
             }
 
-            fun interest(interest: Long) = interest(JsonField.of(interest))
+            /** Amount not paid off on previous due dates */
+            fun pastDue(pastDue: CategoryBalances) = pastDue(JsonField.of(pastDue))
 
-            @JsonProperty("interest")
+            /** Amount not paid off on previous due dates */
+            @JsonProperty("past_due")
             @ExcludeMissing
-            fun interest(interest: JsonField<Long>) = apply { this.interest = interest }
+            fun pastDue(pastDue: JsonField<CategoryBalances>) = apply { this.pastDue = pastDue }
 
-            fun principal(principal: Long) = principal(JsonField.of(principal))
+            /**
+             * Amount due for the prior billing cycle. Any amounts not fully paid off on this due
+             * date will be considered past due the next day
+             */
+            fun due(due: CategoryBalances) = due(JsonField.of(due))
 
-            @JsonProperty("principal")
+            /**
+             * Amount due for the prior billing cycle. Any amounts not fully paid off on this due
+             * date will be considered past due the next day
+             */
+            @JsonProperty("due")
             @ExcludeMissing
-            fun principal(principal: JsonField<Long>) = apply { this.principal = principal }
+            fun due(due: JsonField<CategoryBalances>) = apply { this.due = due }
 
-            fun fees(fees: Long) = fees(JsonField.of(fees))
+            /** Amount due for the past billing cycles. */
+            fun pastStatementsDue(pastStatementsDue: CategoryBalances) =
+                pastStatementsDue(JsonField.of(pastStatementsDue))
 
-            @JsonProperty("fees")
+            /** Amount due for the past billing cycles. */
+            @JsonProperty("past_statements_due")
             @ExcludeMissing
-            fun fees(fees: JsonField<Long>) = apply { this.fees = fees }
+            fun pastStatementsDue(pastStatementsDue: JsonField<CategoryBalances>) = apply {
+                this.pastStatementsDue = pastStatementsDue
+            }
+
+            /**
+             * Amount due for the current billing cycle. Any amounts not paid off by early payments
+             * or credits will be considered due at the end of the current billing period
+             */
+            fun nextStatementDue(nextStatementDue: CategoryBalances) =
+                nextStatementDue(JsonField.of(nextStatementDue))
+
+            /**
+             * Amount due for the current billing cycle. Any amounts not paid off by early payments
+             * or credits will be considered due at the end of the current billing period
+             */
+            @JsonProperty("next_statement_due")
+            @ExcludeMissing
+            fun nextStatementDue(nextStatementDue: JsonField<CategoryBalances>) = apply {
+                this.nextStatementDue = nextStatementDue
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -970,13 +958,140 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): CategoryBalances =
-                CategoryBalances(
-                    interest,
-                    principal,
-                    fees,
+            fun build(): Balances =
+                Balances(
+                    pastDue,
+                    due,
+                    pastStatementsDue,
+                    nextStatementDue,
                     additionalProperties.toUnmodifiable(),
                 )
+        }
+
+        /**
+         * Amount due for the prior billing cycle. Any amounts not fully paid off on this due date
+         * will be considered past due the next day
+         */
+        @JsonDeserialize(builder = CategoryBalances.Builder::class)
+        @NoAutoDetect
+        class CategoryBalances
+        private constructor(
+            private val interest: JsonField<Long>,
+            private val principal: JsonField<Long>,
+            private val fees: JsonField<Long>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
+
+            private var validated: Boolean = false
+
+            fun interest(): Long = interest.getRequired("interest")
+
+            fun principal(): Long = principal.getRequired("principal")
+
+            fun fees(): Long = fees.getRequired("fees")
+
+            @JsonProperty("interest") @ExcludeMissing fun _interest() = interest
+
+            @JsonProperty("principal") @ExcludeMissing fun _principal() = principal
+
+            @JsonProperty("fees") @ExcludeMissing fun _fees() = fees
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun validate(): CategoryBalances = apply {
+                if (!validated) {
+                    interest()
+                    principal()
+                    fees()
+                    validated = true
+                }
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            class Builder {
+
+                private var interest: JsonField<Long> = JsonMissing.of()
+                private var principal: JsonField<Long> = JsonMissing.of()
+                private var fees: JsonField<Long> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(categoryBalances: CategoryBalances) = apply {
+                    this.interest = categoryBalances.interest
+                    this.principal = categoryBalances.principal
+                    this.fees = categoryBalances.fees
+                    additionalProperties(categoryBalances.additionalProperties)
+                }
+
+                fun interest(interest: Long) = interest(JsonField.of(interest))
+
+                @JsonProperty("interest")
+                @ExcludeMissing
+                fun interest(interest: JsonField<Long>) = apply { this.interest = interest }
+
+                fun principal(principal: Long) = principal(JsonField.of(principal))
+
+                @JsonProperty("principal")
+                @ExcludeMissing
+                fun principal(principal: JsonField<Long>) = apply { this.principal = principal }
+
+                fun fees(fees: Long) = fees(JsonField.of(fees))
+
+                @JsonProperty("fees")
+                @ExcludeMissing
+                fun fees(fees: JsonField<Long>) = apply { this.fees = fees }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    this.additionalProperties.putAll(additionalProperties)
+                }
+
+                @JsonAnySetter
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    this.additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun build(): CategoryBalances =
+                    CategoryBalances(
+                        interest,
+                        principal,
+                        fees,
+                        additionalProperties.toUnmodifiable(),
+                    )
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is CategoryBalances && this.interest == other.interest && this.principal == other.principal && this.fees == other.fees && this.additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            private var hashCode: Int = 0
+
+            override fun hashCode(): Int {
+                if (hashCode == 0) {
+                    hashCode = /* spotless:off */ Objects.hash(interest, principal, fees, additionalProperties) /* spotless:on */
+                }
+                return hashCode
+            }
+
+            override fun toString() =
+                "CategoryBalances{interest=$interest, principal=$principal, fees=$fees, additionalProperties=$additionalProperties}"
         }
 
         override fun equals(other: Any?): Boolean {
@@ -984,20 +1099,20 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CategoryBalances && this.interest == other.interest && this.principal == other.principal && this.fees == other.fees && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Balances && this.pastDue == other.pastDue && this.due == other.due && this.pastStatementsDue == other.pastStatementsDue && this.nextStatementDue == other.nextStatementDue && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(interest, principal, fees, additionalProperties) /* spotless:on */
+                hashCode = /* spotless:off */ Objects.hash(pastDue, due, pastStatementsDue, nextStatementDue, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
 
         override fun toString() =
-            "CategoryBalances{interest=$interest, principal=$principal, fees=$fees, additionalProperties=$additionalProperties}"
+            "Balances{pastDue=$pastDue, due=$due, pastStatementsDue=$pastStatementsDue, nextStatementDue=$nextStatementDue, additionalProperties=$additionalProperties}"
     }
 
     @JsonDeserialize(builder = StatementTotals.Builder::class)
@@ -1332,23 +1447,144 @@ private constructor(
             "BalanceDetails{amount=$amount, remaining=$remaining, additionalProperties=$additionalProperties}"
     }
 
+    @JsonDeserialize(builder = CategoryBalances.Builder::class)
+    @NoAutoDetect
+    class CategoryBalances
+    private constructor(
+        private val interest: JsonField<Long>,
+        private val principal: JsonField<Long>,
+        private val fees: JsonField<Long>,
+        private val additionalProperties: Map<String, JsonValue>,
+    ) {
+
+        private var validated: Boolean = false
+
+        fun interest(): Long = interest.getRequired("interest")
+
+        fun principal(): Long = principal.getRequired("principal")
+
+        fun fees(): Long = fees.getRequired("fees")
+
+        @JsonProperty("interest") @ExcludeMissing fun _interest() = interest
+
+        @JsonProperty("principal") @ExcludeMissing fun _principal() = principal
+
+        @JsonProperty("fees") @ExcludeMissing fun _fees() = fees
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        fun validate(): CategoryBalances = apply {
+            if (!validated) {
+                interest()
+                principal()
+                fees()
+                validated = true
+            }
+        }
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            @JvmStatic fun builder() = Builder()
+        }
+
+        class Builder {
+
+            private var interest: JsonField<Long> = JsonMissing.of()
+            private var principal: JsonField<Long> = JsonMissing.of()
+            private var fees: JsonField<Long> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(categoryBalances: CategoryBalances) = apply {
+                this.interest = categoryBalances.interest
+                this.principal = categoryBalances.principal
+                this.fees = categoryBalances.fees
+                additionalProperties(categoryBalances.additionalProperties)
+            }
+
+            fun interest(interest: Long) = interest(JsonField.of(interest))
+
+            @JsonProperty("interest")
+            @ExcludeMissing
+            fun interest(interest: JsonField<Long>) = apply { this.interest = interest }
+
+            fun principal(principal: Long) = principal(JsonField.of(principal))
+
+            @JsonProperty("principal")
+            @ExcludeMissing
+            fun principal(principal: JsonField<Long>) = apply { this.principal = principal }
+
+            fun fees(fees: Long) = fees(JsonField.of(fees))
+
+            @JsonProperty("fees")
+            @ExcludeMissing
+            fun fees(fees: JsonField<Long>) = apply { this.fees = fees }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            @JsonAnySetter
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                this.additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun build(): CategoryBalances =
+                CategoryBalances(
+                    interest,
+                    principal,
+                    fees,
+                    additionalProperties.toUnmodifiable(),
+                )
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is CategoryBalances && this.interest == other.interest && this.principal == other.principal && this.fees == other.fees && this.additionalProperties == other.additionalProperties /* spotless:on */
+        }
+
+        private var hashCode: Int = 0
+
+        override fun hashCode(): Int {
+            if (hashCode == 0) {
+                hashCode = /* spotless:off */ Objects.hash(interest, principal, fees, additionalProperties) /* spotless:on */
+            }
+            return hashCode
+        }
+
+        override fun toString() =
+            "CategoryBalances{interest=$interest, principal=$principal, fees=$fees, additionalProperties=$additionalProperties}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is LoanTape && this.token == other.token && this.financialAccountToken == other.financialAccountToken && this.date == other.date && this.created == other.created && this.updated == other.updated && this.version == other.version && this.ytdTotals == other.ytdTotals && this.periodTotals == other.periodTotals && this.dayTotals == other.dayTotals && this.balancePastDue == other.balancePastDue && this.balanceDue == other.balanceDue && this.balanceNextDue == other.balanceNextDue && this.startingBalance == other.startingBalance && this.endingBalance == other.endingBalance && this.creditLimit == other.creditLimit && this.availableCredit == other.availableCredit && this.excessCredits == other.excessCredits && this.accountStanding == other.accountStanding && this.creditProductToken == other.creditProductToken && this.tier == other.tier && this.paymentAllocation == other.paymentAllocation && this.minimumPaymentBalance == other.minimumPaymentBalance && this.previousStatementBalance == other.previousStatementBalance && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is LoanTape && this.token == other.token && this.financialAccountToken == other.financialAccountToken && this.date == other.date && this.created == other.created && this.updated == other.updated && this.version == other.version && this.ytdTotals == other.ytdTotals && this.periodTotals == other.periodTotals && this.dayTotals == other.dayTotals && this.balances == other.balances && this.startingBalance == other.startingBalance && this.endingBalance == other.endingBalance && this.creditLimit == other.creditLimit && this.availableCredit == other.availableCredit && this.excessCredits == other.excessCredits && this.accountStanding == other.accountStanding && this.creditProductToken == other.creditProductToken && this.tier == other.tier && this.paymentAllocation == other.paymentAllocation && this.minimumPaymentBalance == other.minimumPaymentBalance && this.previousStatementBalance == other.previousStatementBalance && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(token, financialAccountToken, date, created, updated, version, ytdTotals, periodTotals, dayTotals, balancePastDue, balanceDue, balanceNextDue, startingBalance, endingBalance, creditLimit, availableCredit, excessCredits, accountStanding, creditProductToken, tier, paymentAllocation, minimumPaymentBalance, previousStatementBalance, additionalProperties) /* spotless:on */
+            hashCode = /* spotless:off */ Objects.hash(token, financialAccountToken, date, created, updated, version, ytdTotals, periodTotals, dayTotals, balances, startingBalance, endingBalance, creditLimit, availableCredit, excessCredits, accountStanding, creditProductToken, tier, paymentAllocation, minimumPaymentBalance, previousStatementBalance, additionalProperties) /* spotless:on */
         }
         return hashCode
     }
 
     override fun toString() =
-        "LoanTape{token=$token, financialAccountToken=$financialAccountToken, date=$date, created=$created, updated=$updated, version=$version, ytdTotals=$ytdTotals, periodTotals=$periodTotals, dayTotals=$dayTotals, balancePastDue=$balancePastDue, balanceDue=$balanceDue, balanceNextDue=$balanceNextDue, startingBalance=$startingBalance, endingBalance=$endingBalance, creditLimit=$creditLimit, availableCredit=$availableCredit, excessCredits=$excessCredits, accountStanding=$accountStanding, creditProductToken=$creditProductToken, tier=$tier, paymentAllocation=$paymentAllocation, minimumPaymentBalance=$minimumPaymentBalance, previousStatementBalance=$previousStatementBalance, additionalProperties=$additionalProperties}"
+        "LoanTape{token=$token, financialAccountToken=$financialAccountToken, date=$date, created=$created, updated=$updated, version=$version, ytdTotals=$ytdTotals, periodTotals=$periodTotals, dayTotals=$dayTotals, balances=$balances, startingBalance=$startingBalance, endingBalance=$endingBalance, creditLimit=$creditLimit, availableCredit=$availableCredit, excessCredits=$excessCredits, accountStanding=$accountStanding, creditProductToken=$creditProductToken, tier=$tier, paymentAllocation=$paymentAllocation, minimumPaymentBalance=$minimumPaymentBalance, previousStatementBalance=$previousStatementBalance, additionalProperties=$additionalProperties}"
 }

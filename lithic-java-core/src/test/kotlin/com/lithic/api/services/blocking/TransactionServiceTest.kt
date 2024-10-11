@@ -38,9 +38,10 @@ class TransactionServiceTest {
                 .apiKey("My Lithic API Key")
                 .build()
         val transactionService = client.transactions()
-        val response = transactionService.list(TransactionListParams.builder().build())
-        println(response)
-        response.data().forEach { it.validate() }
+        val listTransactionsResponse =
+            transactionService.list(TransactionListParams.builder().build())
+        println(listTransactionsResponse)
+        listTransactionsResponse.data().forEach { it.validate() }
     }
 
     @Test

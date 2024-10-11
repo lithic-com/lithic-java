@@ -11,7 +11,6 @@ import com.lithic.api.models.AuthRuleCreateParams
 import com.lithic.api.models.AuthRuleListPageAsync
 import com.lithic.api.models.AuthRuleListParams
 import com.lithic.api.models.AuthRuleMigrateV1ToV2Params
-import com.lithic.api.models.AuthRuleMigrateV1ToV2Response
 import com.lithic.api.models.AuthRuleRemoveParams
 import com.lithic.api.models.AuthRuleRemoveResponse
 import com.lithic.api.models.AuthRuleRetrieveParams
@@ -66,9 +65,10 @@ interface AuthRuleServiceAsync {
     ): CompletableFuture<AuthRule>
 
     /**
-     * Migrates an existing V1 authorization rule to a V2 authorization rule. This will alter the
-     * internal structure of the Auth Rule such that it becomes a V2 Authorization Rule that can be
-     * operated on through the /v2/auth_rules endpoints.
+     * Migrates an existing V1 authorization rule to a V2 authorization rule. Depending on the
+     * configuration of the V1 Auth Rule, this will yield one or two V2 authorization rules. This
+     * endpoint will alter the internal structure of the Auth Rule such that the resulting rules
+     * become a V2 Authorization Rule that can be operated on through the /v2/auth_rules endpoints.
      *
      * After a V1 Auth Rule has been migrated, it can no longer be operated on through the
      * /v1/auth_rules/\* endpoints. Eventually, Lithic will deprecate the /v1/auth_rules endpoints
@@ -78,7 +78,7 @@ interface AuthRuleServiceAsync {
     fun migrateV1ToV2(
         params: AuthRuleMigrateV1ToV2Params,
         requestOptions: RequestOptions = RequestOptions.none()
-    ): CompletableFuture<AuthRuleMigrateV1ToV2Response>
+    ): CompletableFuture<List<AuthRule>>
 
     /**
      * Remove an existing authorization rule (Auth Rule) from an program, account, or card-level.
