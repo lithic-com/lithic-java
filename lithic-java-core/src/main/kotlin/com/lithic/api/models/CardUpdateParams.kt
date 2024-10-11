@@ -97,10 +97,7 @@ constructor(
         @JsonProperty("digital_card_art_token")
         fun digitalCardArtToken(): String? = digitalCardArtToken
 
-        /**
-         * Friendly name to identify the card. We recommend against using this field to store JSON
-         * data as it can cause unexpected behavior.
-         */
+        /** Friendly name to identify the card. */
         @JsonProperty("memo") fun memo(): String? = memo
 
         /**
@@ -192,10 +189,7 @@ constructor(
                 this.digitalCardArtToken = digitalCardArtToken
             }
 
-            /**
-             * Friendly name to identify the card. We recommend against using this field to store
-             * JSON data as it can cause unexpected behavior.
-             */
+            /** Friendly name to identify the card. */
             @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
 
             /**
@@ -367,10 +361,7 @@ constructor(
             this.digitalCardArtToken = digitalCardArtToken
         }
 
-        /**
-         * Friendly name to identify the card. We recommend against using this field to store JSON
-         * data as it can cause unexpected behavior.
-         */
+        /** Friendly name to identify the card. */
         fun memo(memo: String) = apply { this.memo = memo }
 
         /**

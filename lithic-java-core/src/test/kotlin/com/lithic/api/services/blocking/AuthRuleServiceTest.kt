@@ -125,7 +125,9 @@ class AuthRuleServiceTest {
                     .build()
             )
         println(authRuleMigrateV1ToV2Response)
-        authRuleMigrateV1ToV2Response.validate()
+        for (authRule: AuthRule in authRuleMigrateV1ToV2Response) {
+            authRule.validate()
+        }
     }
 
     @Test

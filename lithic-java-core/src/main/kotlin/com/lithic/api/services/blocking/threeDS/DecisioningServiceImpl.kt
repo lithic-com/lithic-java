@@ -9,9 +9,12 @@ import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.DecisioningRetrieveSecretResponse
+import com.lithic.api.models.DecisioningSimulateChallengeResponse
 import com.lithic.api.models.ThreeDSDecisioningChallengeResponseParams
 import com.lithic.api.models.ThreeDSDecisioningRetrieveSecretParams
 import com.lithic.api.models.ThreeDSDecisioningRotateSecretParams
+import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeParams
+import com.lithic.api.models.ThreeDSDecisioningSimulateChallengeResponseParams
 import com.lithic.api.services.emptyHandler
 import com.lithic.api.services.errorHandler
 import com.lithic.api.services.json
@@ -108,6 +111,66 @@ constructor(
                 .build()
         clientOptions.httpClient.execute(request, requestOptions).let { response ->
             response.use { rotateSecretHandler.handle(it) }
+        }
+    }
+
+    private val simulateChallengeHandler: Handler<DecisioningSimulateChallengeResponse> =
+        jsonHandler<DecisioningSimulateChallengeResponse>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /**
+     * Simulates a 3DS authentication challenge request from the payment network as if it came from
+     * an ACS. Requires being configured for 3DS Customer Decisioning, and enrolled with Lithic's
+     * Challenge solution.
+     */
+    override fun simulateChallenge(
+        params: ThreeDSDecisioningSimulateChallengeParams,
+        requestOptions: RequestOptions
+    ): DecisioningSimulateChallengeResponse {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("v1", "three_ds_decisioning", "simulate", "challenge")
+                .putAllQueryParams(clientOptions.queryParams)
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { simulateChallengeHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
+    private val simulateChallengeResponseHandler: Handler<Void?> =
+        emptyHandler().withErrorHandler(errorHandler)
+
+    /**
+     * Endpoint for responding to a 3DS Challenge initiated by a call to
+     * /v1/three_ds_decisioning/simulate/challenge
+     */
+    override fun simulateChallengeResponse(
+        params: ThreeDSDecisioningSimulateChallengeResponseParams,
+        requestOptions: RequestOptions
+    ) {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("v1", "three_ds_decisioning", "simulate", "challenge_response")
+                .putAllQueryParams(clientOptions.queryParams)
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response.use { simulateChallengeResponseHandler.handle(it) }
         }
     }
 }
