@@ -34,14 +34,9 @@ fun getOsName(): String {
     }
 }
 
-fun getOsVersion(): String {
-    return System.getProperty("os.version", "unknown")
-}
+fun getOsVersion(): String = System.getProperty("os.version", "unknown")
 
-fun getPackageVersion(): String {
-    return Properties::class.java.`package`.implementationVersion ?: "unknown"
-}
+fun getPackageVersion(): String =
+    Properties::class.java.`package`.implementationVersion ?: "unknown"
 
-fun getJavaVersion(): String {
-    return System.getProperty("java.version", "unknown")
-}
+fun getJavaVersion(): String = System.getProperty("java.version", "unknown")

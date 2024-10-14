@@ -31,17 +31,16 @@ private object EmptyHandler : Handler<Void?> {
 
 @JvmSynthetic internal fun stringHandler(): Handler<String> = StringHandler
 
-@JvmSynthetic internal fun binaryHandler(): Handler<BinaryResponseContent> = BinaryHandler
-
 private object StringHandler : Handler<String> {
-    override fun handle(response: HttpResponse): String {
-        return response.body().readBytes().toString(Charsets.UTF_8)
-    }
+    override fun handle(response: HttpResponse): String =
+        response.body().readBytes().toString(Charsets.UTF_8)
 }
 
+@JvmSynthetic internal fun binaryHandler(): Handler<BinaryResponseContent> = BinaryHandler
+
 private object BinaryHandler : Handler<BinaryResponseContent> {
-    override fun handle(response: HttpResponse): BinaryResponseContent {
-        return object : BinaryResponseContent {
+    override fun handle(response: HttpResponse): BinaryResponseContent =
+        object : BinaryResponseContent {
             override fun contentType(): Optional<String> =
                 Optional.ofNullable(response.headers().get("Content-Type").firstOrNull())
 
@@ -53,12 +52,11 @@ private object BinaryHandler : Handler<BinaryResponseContent> {
                 response.body().copyTo(outputStream)
             }
         }
-    }
 }
 
 @JvmSynthetic
-internal inline fun <reified T> jsonHandler(jsonMapper: JsonMapper): Handler<T> {
-    return object : Handler<T> {
+internal inline fun <reified T> jsonHandler(jsonMapper: JsonMapper): Handler<T> =
+    object : Handler<T> {
         override fun handle(response: HttpResponse): T {
             try {
                 return jsonMapper.readValue(response.body(), jacksonTypeRef())
@@ -67,26 +65,24 @@ internal inline fun <reified T> jsonHandler(jsonMapper: JsonMapper): Handler<T> 
             }
         }
     }
-}
 
 @JvmSynthetic
 internal fun errorHandler(jsonMapper: JsonMapper): Handler<LithicError> {
     val handler = jsonHandler<LithicError>(jsonMapper)
 
     return object : Handler<LithicError> {
-        override fun handle(response: HttpResponse): LithicError {
+        override fun handle(response: HttpResponse): LithicError =
             try {
-                return handler.handle(response)
+                handler.handle(response)
             } catch (e: Exception) {
-                return LithicError.builder().build()
+                LithicError.builder().build()
             }
-        }
     }
 }
 
 @JvmSynthetic
-internal fun <T> Handler<T>.withErrorHandler(errorHandler: Handler<LithicError>): Handler<T> {
-    return object : Handler<T> {
+internal fun <T> Handler<T>.withErrorHandler(errorHandler: Handler<LithicError>): Handler<T> =
+    object : Handler<T> {
         override fun handle(response: HttpResponse): T {
             when (val statusCode = response.statusCode()) {
                 in 200..299 -> {
@@ -161,26 +157,17 @@ internal fun <T> Handler<T>.withErrorHandler(errorHandler: Handler<LithicError>)
             }
         }
     }
-}
 
 private fun HttpResponse.buffered(): HttpResponse {
     val body = body().readBytes()
 
     return object : HttpResponse {
-        override fun statusCode(): Int {
-            return this@buffered.statusCode()
-        }
+        override fun statusCode(): Int = this@buffered.statusCode()
 
-        override fun headers(): ListMultimap<String, String> {
-            return this@buffered.headers()
-        }
+        override fun headers(): ListMultimap<String, String> = this@buffered.headers()
 
-        override fun body(): InputStream {
-            return ByteArrayInputStream(body)
-        }
+        override fun body(): InputStream = ByteArrayInputStream(body)
 
-        override fun close() {
-            this@buffered.close()
-        }
+        override fun close() = this@buffered.close()
     }
 }
