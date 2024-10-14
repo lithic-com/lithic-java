@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.67.1 (2024-10-14)
+
+Full Changelog: [v0.67.0...v0.67.1](https://github.com/lithic-com/lithic-java/compare/v0.67.0...v0.67.1)
+
+### Styles
+
+* **internal:** improve terseness of handlers ([#332](https://github.com/lithic-com/lithic-java/issues/332)) ([cd04c59](https://github.com/lithic-com/lithic-java/commit/cd04c595411b9c6c69ff348435179f4e4e19ad11))
+* **internal:** improve terseness of Properties.kt ([#334](https://github.com/lithic-com/lithic-java/issues/334)) ([6f7c5b1](https://github.com/lithic-com/lithic-java/commit/6f7c5b12ff3d95be3897db2480c7c88c16654ff9))
+
 ## 0.67.0 (2024-10-11)
 
 Full Changelog: [v0.66.0...v0.67.0](https://github.com/lithic-com/lithic-java/compare/v0.66.0...v0.67.0)
