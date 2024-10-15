@@ -4,17 +4,17 @@ package com.lithic.api.services.blocking.reports
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.errorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.jsonHandler
+import com.lithic.api.core.withErrorHandler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.ReportSettlementListDetailsPage
 import com.lithic.api.models.ReportSettlementListDetailsParams
 import com.lithic.api.models.ReportSettlementSummaryParams
 import com.lithic.api.models.SettlementReport
-import com.lithic.api.services.errorHandler
-import com.lithic.api.services.jsonHandler
-import com.lithic.api.services.withErrorHandler
 
 class SettlementServiceImpl
 constructor(

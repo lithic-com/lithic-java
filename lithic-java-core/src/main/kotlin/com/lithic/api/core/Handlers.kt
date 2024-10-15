@@ -1,6 +1,6 @@
 @file:JvmName("Handlers")
 
-package com.lithic.api.services
+package com.lithic.api.core
 
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef

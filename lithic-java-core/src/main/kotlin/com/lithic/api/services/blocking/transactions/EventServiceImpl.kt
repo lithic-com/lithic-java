@@ -3,11 +3,11 @@
 package com.lithic.api.services.blocking.transactions
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.errorHandler
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.services.blocking.transactions.events.EnhancedCommercialDataService
 import com.lithic.api.services.blocking.transactions.events.EnhancedCommercialDataServiceImpl
-import com.lithic.api.services.errorHandler
 
 class EventServiceImpl
 constructor(

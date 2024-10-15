@@ -4,9 +4,12 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.errorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.jsonHandler
+import com.lithic.api.core.withErrorHandler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.Event
 import com.lithic.api.models.EventListAttemptsPage
@@ -16,9 +19,6 @@ import com.lithic.api.models.EventListParams
 import com.lithic.api.models.EventRetrieveParams
 import com.lithic.api.services.blocking.events.SubscriptionService
 import com.lithic.api.services.blocking.events.SubscriptionServiceImpl
-import com.lithic.api.services.errorHandler
-import com.lithic.api.services.jsonHandler
-import com.lithic.api.services.withErrorHandler
 
 class EventServiceImpl
 constructor(

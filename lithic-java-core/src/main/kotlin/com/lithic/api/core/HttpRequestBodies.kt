@@ -1,11 +1,8 @@
 @file:JvmName("HttpRequestBodies")
 
-package com.lithic.api.services
+package com.lithic.api.core
 
 import com.fasterxml.jackson.databind.json.JsonMapper
-import com.lithic.api.core.Enum
-import com.lithic.api.core.JsonValue
-import com.lithic.api.core.MultipartFormValue
 import com.lithic.api.core.http.HttpRequestBody
 import com.lithic.api.errors.LithicException
 import java.io.ByteArrayOutputStream

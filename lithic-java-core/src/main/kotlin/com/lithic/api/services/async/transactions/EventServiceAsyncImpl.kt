@@ -3,11 +3,11 @@
 package com.lithic.api.services.async.transactions
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.errorHandler
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.services.async.transactions.events.EnhancedCommercialDataServiceAsync
 import com.lithic.api.services.async.transactions.events.EnhancedCommercialDataServiceAsyncImpl
-import com.lithic.api.services.errorHandler
 
 class EventServiceAsyncImpl
 constructor(

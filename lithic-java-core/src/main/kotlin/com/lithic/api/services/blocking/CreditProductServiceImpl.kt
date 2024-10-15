@@ -3,11 +3,11 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.errorHandler
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.services.blocking.creditProducts.ExtendedCreditService
 import com.lithic.api.services.blocking.creditProducts.ExtendedCreditServiceImpl
-import com.lithic.api.services.errorHandler
 
 class CreditProductServiceImpl
 constructor(
