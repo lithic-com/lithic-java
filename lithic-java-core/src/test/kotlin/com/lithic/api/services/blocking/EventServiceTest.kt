@@ -4,6 +4,7 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
+import com.lithic.api.core.JsonString
 import com.lithic.api.models.*
 import com.lithic.api.models.EventListAttemptsParams
 import com.lithic.api.models.EventListParams
@@ -54,5 +55,17 @@ class EventServiceTest {
             )
         println(response)
         response.data().forEach { it.validate() }
+    }
+
+    @Test
+    fun callResend() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("test-api-key")
+                .webhookSecret("string")
+                .build()
+        val eventService = client.events()
+        eventService.resend("eventToken", "eventSubscriptionToken", JsonString.of("body"))
     }
 }
