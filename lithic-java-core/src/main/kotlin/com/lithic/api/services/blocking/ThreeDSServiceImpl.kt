@@ -3,13 +3,13 @@
 package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.errorHandler
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.services.blocking.threeDS.AuthenticationService
 import com.lithic.api.services.blocking.threeDS.AuthenticationServiceImpl
 import com.lithic.api.services.blocking.threeDS.DecisioningService
 import com.lithic.api.services.blocking.threeDS.DecisioningServiceImpl
-import com.lithic.api.services.errorHandler
 
 class ThreeDSServiceImpl
 constructor(

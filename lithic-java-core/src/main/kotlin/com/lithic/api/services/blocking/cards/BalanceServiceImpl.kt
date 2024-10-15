@@ -4,15 +4,15 @@ package com.lithic.api.services.blocking.cards
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.errorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.jsonHandler
+import com.lithic.api.core.withErrorHandler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.CardBalanceListPage
 import com.lithic.api.models.CardBalanceListParams
-import com.lithic.api.services.errorHandler
-import com.lithic.api.services.jsonHandler
-import com.lithic.api.services.withErrorHandler
 
 class BalanceServiceImpl
 constructor(
