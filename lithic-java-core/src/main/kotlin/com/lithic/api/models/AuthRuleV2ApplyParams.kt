@@ -188,6 +188,7 @@ constructor(
 
             override fun ObjectCodec.deserialize(node: JsonNode): AuthRuleV2ApplyBody {
                 val json = JsonValue.fromJsonNode(node)
+
                 tryDeserialize(node, jacksonTypeRef<ApplyAuthRuleRequestAccountTokens>())?.let {
                     return AuthRuleV2ApplyBody(applyAuthRuleRequestAccountTokens = it, _json = json)
                 }
