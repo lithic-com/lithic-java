@@ -447,6 +447,7 @@ private constructor(
 
             override fun ObjectCodec.deserialize(node: JsonNode): Period {
                 val json = JsonValue.fromJsonNode(node)
+
                 tryDeserialize(node, jacksonTypeRef<Double>())?.let {
                     return Period(number = it, _json = json)
                 }

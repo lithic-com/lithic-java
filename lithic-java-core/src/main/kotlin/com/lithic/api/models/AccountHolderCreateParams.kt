@@ -137,6 +137,7 @@ constructor(
 
             override fun ObjectCodec.deserialize(node: JsonNode): AccountHolderCreateBody {
                 val json = JsonValue.fromJsonNode(node)
+
                 tryDeserialize(node, jacksonTypeRef<Kyb>())?.let {
                     return AccountHolderCreateBody(kyb = it, _json = json)
                 }
