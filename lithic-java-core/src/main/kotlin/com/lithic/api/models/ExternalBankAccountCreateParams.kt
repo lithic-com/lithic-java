@@ -27,6 +27,7 @@ import com.lithic.api.models.*
 import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class ExternalBankAccountCreateParams
 constructor(
@@ -207,6 +208,24 @@ constructor(
 
             override fun ObjectCodec.deserialize(node: JsonNode): ExternalBankAccountCreateBody {
                 val json = JsonValue.fromJsonNode(node)
+                val verificationMethod =
+                    json.asObject().getOrNull()?.get("verification_method")?.asString()?.getOrNull()
+
+                when (verificationMethod) {
+                    "EXTERNALLY_VERIFIED" -> {
+                        tryDeserialize(
+                                node,
+                                jacksonTypeRef<ExternallyVerifiedCreateBankAccountApiRequest>()
+                            )
+                            ?.let {
+                                return ExternalBankAccountCreateBody(
+                                    externallyVerifiedCreateBankAccountApiRequest = it,
+                                    _json = json
+                                )
+                            }
+                    }
+                }
+
                 tryDeserialize(node, jacksonTypeRef<BankVerifiedCreateBankAccountApiRequest>())
                     ?.let {
                         return ExternalBankAccountCreateBody(
@@ -220,16 +239,6 @@ constructor(
                         _json = json
                     )
                 }
-                tryDeserialize(
-                        node,
-                        jacksonTypeRef<ExternallyVerifiedCreateBankAccountApiRequest>()
-                    )
-                    ?.let {
-                        return ExternalBankAccountCreateBody(
-                            externallyVerifiedCreateBankAccountApiRequest = it,
-                            _json = json
-                        )
-                    }
 
                 return ExternalBankAccountCreateBody(_json = json)
             }
