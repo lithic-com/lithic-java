@@ -17,7 +17,7 @@ private constructor(
 ) {
 
     override fun toString(): String =
-        "HttpRequest {method=$method, pathSegments=$pathSegments, queryParams=$queryParams, headers=$headers, body=$body}"
+        "HttpRequest{method=$method, pathSegments=$pathSegments, queryParams=$queryParams, headers=$headers, body=$body}"
 
     companion object {
         @JvmStatic fun builder() = Builder()

@@ -479,9 +479,8 @@ internal constructor(
         }
     }
 
-    override fun toString(): String {
-        return "MultipartFormValue(name='$name', contentType=$contentType, filename=$filename, value=${valueToString()})"
-    }
+    override fun toString(): String =
+        "MultipartFormValue{name=$name, contentType=$contentType, filename=$filename, value=${valueToString()}}"
 
     private fun valueToString(): String =
         when (value) {
