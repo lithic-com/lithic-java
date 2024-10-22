@@ -2183,8 +2183,7 @@ private constructor(
         private var validated: Boolean = false
 
         /** Timestamp of when the application was created. */
-        fun created(): Optional<OffsetDateTime> =
-            Optional.ofNullable(created.getNullable("created"))
+        fun created(): OffsetDateTime = created.getRequired("created")
 
         /**
          * KYC and KYB evaluation states.
@@ -2192,15 +2191,13 @@ private constructor(
          * Note: `PENDING_RESUBMIT` and `PENDING_DOCUMENT` are only applicable for the `ADVANCED`
          * workflow.
          */
-        fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
+        fun status(): Status = status.getRequired("status")
 
         /** Reason for the evaluation status. */
-        fun statusReasons(): Optional<List<StatusReasons>> =
-            Optional.ofNullable(statusReasons.getNullable("status_reasons"))
+        fun statusReasons(): List<StatusReasons> = statusReasons.getRequired("status_reasons")
 
         /** Timestamp of when the application was last updated. */
-        fun updated(): Optional<OffsetDateTime> =
-            Optional.ofNullable(updated.getNullable("updated"))
+        fun updated(): OffsetDateTime = updated.getRequired("updated")
 
         /** Timestamp of when the application was created. */
         @JsonProperty("created") @ExcludeMissing fun _created() = created
