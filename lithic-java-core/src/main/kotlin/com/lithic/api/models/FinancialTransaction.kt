@@ -759,7 +759,14 @@ private constructor(
 
                 @JvmField val BILLING_ERROR = FinancialEventType(JsonField.of("BILLING_ERROR"))
 
+                @JvmField
+                val BILLING_ERROR_REVERSAL =
+                    FinancialEventType(JsonField.of("BILLING_ERROR_REVERSAL"))
+
                 @JvmField val CASH_BACK = FinancialEventType(JsonField.of("CASH_BACK"))
+
+                @JvmField
+                val CASH_BACK_REVERSAL = FinancialEventType(JsonField.of("CASH_BACK_REVERSAL"))
 
                 @JvmField val CLEARING = FinancialEventType(JsonField.of("CLEARING"))
 
@@ -778,6 +785,10 @@ private constructor(
 
                 @JvmField
                 val CURRENCY_CONVERSION = FinancialEventType(JsonField.of("CURRENCY_CONVERSION"))
+
+                @JvmField
+                val CURRENCY_CONVERSION_REVERSAL =
+                    FinancialEventType(JsonField.of("CURRENCY_CONVERSION_REVERSAL"))
 
                 @JvmField val DISPUTE_WON = FinancialEventType(JsonField.of("DISPUTE_WON"))
 
@@ -870,10 +881,21 @@ private constructor(
 
                 @JvmField val INTEREST = FinancialEventType(JsonField.of("INTEREST"))
 
+                @JvmField
+                val INTEREST_REVERSAL = FinancialEventType(JsonField.of("INTEREST_REVERSAL"))
+
                 @JvmField val LATE_PAYMENT = FinancialEventType(JsonField.of("LATE_PAYMENT"))
 
                 @JvmField
+                val LATE_PAYMENT_REVERSAL =
+                    FinancialEventType(JsonField.of("LATE_PAYMENT_REVERSAL"))
+
+                @JvmField
                 val PROVISIONAL_CREDIT = FinancialEventType(JsonField.of("PROVISIONAL_CREDIT"))
+
+                @JvmField
+                val PROVISIONAL_CREDIT_REVERSAL =
+                    FinancialEventType(JsonField.of("PROVISIONAL_CREDIT_REVERSAL"))
 
                 @JvmField val RETURN = FinancialEventType(JsonField.of("RETURN"))
 
@@ -905,13 +927,16 @@ private constructor(
                 AUTHORIZATION_REVERSAL,
                 BALANCE_INQUIRY,
                 BILLING_ERROR,
+                BILLING_ERROR_REVERSAL,
                 CASH_BACK,
+                CASH_BACK_REVERSAL,
                 CLEARING,
                 CORRECTION_CREDIT,
                 CORRECTION_DEBIT,
                 CREDIT_AUTHORIZATION,
                 CREDIT_AUTHORIZATION_ADVICE,
                 CURRENCY_CONVERSION,
+                CURRENCY_CONVERSION_REVERSAL,
                 DISPUTE_WON,
                 EXTERNAL_ACH_CANCELED,
                 EXTERNAL_ACH_INITIATED,
@@ -936,8 +961,11 @@ private constructor(
                 FINANCIAL_AUTHORIZATION,
                 FINANCIAL_CREDIT_AUTHORIZATION,
                 INTEREST,
+                INTEREST_REVERSAL,
                 LATE_PAYMENT,
+                LATE_PAYMENT_REVERSAL,
                 PROVISIONAL_CREDIT,
+                PROVISIONAL_CREDIT_REVERSAL,
                 RETURN,
                 RETURN_REVERSAL,
                 TRANSFER,
@@ -961,13 +989,16 @@ private constructor(
                 AUTHORIZATION_REVERSAL,
                 BALANCE_INQUIRY,
                 BILLING_ERROR,
+                BILLING_ERROR_REVERSAL,
                 CASH_BACK,
+                CASH_BACK_REVERSAL,
                 CLEARING,
                 CORRECTION_CREDIT,
                 CORRECTION_DEBIT,
                 CREDIT_AUTHORIZATION,
                 CREDIT_AUTHORIZATION_ADVICE,
                 CURRENCY_CONVERSION,
+                CURRENCY_CONVERSION_REVERSAL,
                 DISPUTE_WON,
                 EXTERNAL_ACH_CANCELED,
                 EXTERNAL_ACH_INITIATED,
@@ -992,8 +1023,11 @@ private constructor(
                 FINANCIAL_AUTHORIZATION,
                 FINANCIAL_CREDIT_AUTHORIZATION,
                 INTEREST,
+                INTEREST_REVERSAL,
                 LATE_PAYMENT,
+                LATE_PAYMENT_REVERSAL,
                 PROVISIONAL_CREDIT,
+                PROVISIONAL_CREDIT_REVERSAL,
                 RETURN,
                 RETURN_REVERSAL,
                 TRANSFER,
@@ -1019,13 +1053,16 @@ private constructor(
                     AUTHORIZATION_REVERSAL -> Value.AUTHORIZATION_REVERSAL
                     BALANCE_INQUIRY -> Value.BALANCE_INQUIRY
                     BILLING_ERROR -> Value.BILLING_ERROR
+                    BILLING_ERROR_REVERSAL -> Value.BILLING_ERROR_REVERSAL
                     CASH_BACK -> Value.CASH_BACK
+                    CASH_BACK_REVERSAL -> Value.CASH_BACK_REVERSAL
                     CLEARING -> Value.CLEARING
                     CORRECTION_CREDIT -> Value.CORRECTION_CREDIT
                     CORRECTION_DEBIT -> Value.CORRECTION_DEBIT
                     CREDIT_AUTHORIZATION -> Value.CREDIT_AUTHORIZATION
                     CREDIT_AUTHORIZATION_ADVICE -> Value.CREDIT_AUTHORIZATION_ADVICE
                     CURRENCY_CONVERSION -> Value.CURRENCY_CONVERSION
+                    CURRENCY_CONVERSION_REVERSAL -> Value.CURRENCY_CONVERSION_REVERSAL
                     DISPUTE_WON -> Value.DISPUTE_WON
                     EXTERNAL_ACH_CANCELED -> Value.EXTERNAL_ACH_CANCELED
                     EXTERNAL_ACH_INITIATED -> Value.EXTERNAL_ACH_INITIATED
@@ -1050,8 +1087,11 @@ private constructor(
                     FINANCIAL_AUTHORIZATION -> Value.FINANCIAL_AUTHORIZATION
                     FINANCIAL_CREDIT_AUTHORIZATION -> Value.FINANCIAL_CREDIT_AUTHORIZATION
                     INTEREST -> Value.INTEREST
+                    INTEREST_REVERSAL -> Value.INTEREST_REVERSAL
                     LATE_PAYMENT -> Value.LATE_PAYMENT
+                    LATE_PAYMENT_REVERSAL -> Value.LATE_PAYMENT_REVERSAL
                     PROVISIONAL_CREDIT -> Value.PROVISIONAL_CREDIT
+                    PROVISIONAL_CREDIT_REVERSAL -> Value.PROVISIONAL_CREDIT_REVERSAL
                     RETURN -> Value.RETURN
                     RETURN_REVERSAL -> Value.RETURN_REVERSAL
                     TRANSFER -> Value.TRANSFER
@@ -1077,13 +1117,16 @@ private constructor(
                     AUTHORIZATION_REVERSAL -> Known.AUTHORIZATION_REVERSAL
                     BALANCE_INQUIRY -> Known.BALANCE_INQUIRY
                     BILLING_ERROR -> Known.BILLING_ERROR
+                    BILLING_ERROR_REVERSAL -> Known.BILLING_ERROR_REVERSAL
                     CASH_BACK -> Known.CASH_BACK
+                    CASH_BACK_REVERSAL -> Known.CASH_BACK_REVERSAL
                     CLEARING -> Known.CLEARING
                     CORRECTION_CREDIT -> Known.CORRECTION_CREDIT
                     CORRECTION_DEBIT -> Known.CORRECTION_DEBIT
                     CREDIT_AUTHORIZATION -> Known.CREDIT_AUTHORIZATION
                     CREDIT_AUTHORIZATION_ADVICE -> Known.CREDIT_AUTHORIZATION_ADVICE
                     CURRENCY_CONVERSION -> Known.CURRENCY_CONVERSION
+                    CURRENCY_CONVERSION_REVERSAL -> Known.CURRENCY_CONVERSION_REVERSAL
                     DISPUTE_WON -> Known.DISPUTE_WON
                     EXTERNAL_ACH_CANCELED -> Known.EXTERNAL_ACH_CANCELED
                     EXTERNAL_ACH_INITIATED -> Known.EXTERNAL_ACH_INITIATED
@@ -1108,8 +1151,11 @@ private constructor(
                     FINANCIAL_AUTHORIZATION -> Known.FINANCIAL_AUTHORIZATION
                     FINANCIAL_CREDIT_AUTHORIZATION -> Known.FINANCIAL_CREDIT_AUTHORIZATION
                     INTEREST -> Known.INTEREST
+                    INTEREST_REVERSAL -> Known.INTEREST_REVERSAL
                     LATE_PAYMENT -> Known.LATE_PAYMENT
+                    LATE_PAYMENT_REVERSAL -> Known.LATE_PAYMENT_REVERSAL
                     PROVISIONAL_CREDIT -> Known.PROVISIONAL_CREDIT
+                    PROVISIONAL_CREDIT_REVERSAL -> Known.PROVISIONAL_CREDIT_REVERSAL
                     RETURN -> Known.RETURN
                     RETURN_REVERSAL -> Known.RETURN_REVERSAL
                     TRANSFER -> Known.TRANSFER
