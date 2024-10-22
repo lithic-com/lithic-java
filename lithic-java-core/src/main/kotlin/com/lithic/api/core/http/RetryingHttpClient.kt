@@ -1,5 +1,3 @@
-@file:JvmSynthetic
-
 package com.lithic.api.core.http
 
 import com.google.common.util.concurrent.MoreExecutors
