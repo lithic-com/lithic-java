@@ -72,8 +72,8 @@ class LithicOkHttpClient private constructor() {
 
         fun fromEnv() = apply { clientOptions.fromEnv() }
 
-        fun build(): LithicClient {
-            return LithicClientImpl(
+        fun build(): LithicClient =
+            LithicClientImpl(
                 clientOptions
                     .httpClient(
                         OkHttpClient.builder()
@@ -84,6 +84,5 @@ class LithicOkHttpClient private constructor() {
                     )
                     .build()
             )
-        }
     }
 }

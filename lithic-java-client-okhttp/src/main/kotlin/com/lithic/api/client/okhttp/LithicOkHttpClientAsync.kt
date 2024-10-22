@@ -72,8 +72,8 @@ class LithicOkHttpClientAsync private constructor() {
 
         fun fromEnv() = apply { clientOptions.fromEnv() }
 
-        fun build(): LithicClientAsync {
-            return LithicClientAsyncImpl(
+        fun build(): LithicClientAsync =
+            LithicClientAsyncImpl(
                 clientOptions
                     .httpClient(
                         OkHttpClient.builder()
@@ -84,6 +84,5 @@ class LithicOkHttpClientAsync private constructor() {
                     )
                     .build()
             )
-        }
     }
 }
