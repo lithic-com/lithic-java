@@ -396,10 +396,6 @@ private constructor(
                 EventType(JsonField.of("three_ds_authentication.created"))
 
             @JvmField
-            val TRANSFER_TRANSACTION_CREATED =
-                EventType(JsonField.of("transfer_transaction.created"))
-
-            @JvmField
             val TOKENIZATION_APPROVAL_REQUEST =
                 EventType(JsonField.of("tokenization.approval_request"))
 
@@ -452,7 +448,6 @@ private constructor(
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
-            TRANSFER_TRANSACTION_CREATED,
             TOKENIZATION_APPROVAL_REQUEST,
             TOKENIZATION_RESULT,
             TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
@@ -494,7 +489,6 @@ private constructor(
             SETTLEMENT_REPORT_UPDATED,
             STATEMENTS_CREATED,
             THREE_DS_AUTHENTICATION_CREATED,
-            TRANSFER_TRANSACTION_CREATED,
             TOKENIZATION_APPROVAL_REQUEST,
             TOKENIZATION_RESULT,
             TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE,
@@ -541,7 +535,6 @@ private constructor(
                 SETTLEMENT_REPORT_UPDATED -> Value.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Value.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Value.THREE_DS_AUTHENTICATION_CREATED
-                TRANSFER_TRANSACTION_CREATED -> Value.TRANSFER_TRANSACTION_CREATED
                 TOKENIZATION_APPROVAL_REQUEST -> Value.TOKENIZATION_APPROVAL_REQUEST
                 TOKENIZATION_RESULT -> Value.TOKENIZATION_RESULT
                 TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
@@ -590,7 +583,6 @@ private constructor(
                 SETTLEMENT_REPORT_UPDATED -> Known.SETTLEMENT_REPORT_UPDATED
                 STATEMENTS_CREATED -> Known.STATEMENTS_CREATED
                 THREE_DS_AUTHENTICATION_CREATED -> Known.THREE_DS_AUTHENTICATION_CREATED
-                TRANSFER_TRANSACTION_CREATED -> Known.TRANSFER_TRANSACTION_CREATED
                 TOKENIZATION_APPROVAL_REQUEST -> Known.TOKENIZATION_APPROVAL_REQUEST
                 TOKENIZATION_RESULT -> Known.TOKENIZATION_RESULT
                 TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE ->
