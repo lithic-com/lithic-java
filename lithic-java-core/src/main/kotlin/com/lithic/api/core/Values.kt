@@ -142,6 +142,8 @@ sealed class JsonField<out T : Any> {
     // This filter should not be used directly and should instead use the @ExcludeMissing annotation
     class IsMissing {
         override fun equals(other: Any?): Boolean = other is JsonMissing
+
+        override fun hashCode(): Int = Objects.hash()
     }
 
     class Deserializer(private val type: JavaType? = null) :
