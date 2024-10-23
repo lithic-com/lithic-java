@@ -76,6 +76,37 @@ class LoanTapeTest {
                 .endingBalance(123L)
                 .excessCredits(123L)
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .interestDetails(
+                    LoanTape.InterestDetails.builder()
+                        .actualInterestCharged(123L)
+                        .dailyBalanceAmounts(
+                            LoanTape.InterestDetails.CategoryDetails.builder()
+                                .balanceTransfers("balance_transfers")
+                                .cashAdvances("cash_advances")
+                                .purchases("purchases")
+                                .build()
+                        )
+                        .effectiveApr(
+                            LoanTape.InterestDetails.CategoryDetails.builder()
+                                .balanceTransfers("balance_transfers")
+                                .cashAdvances("cash_advances")
+                                .purchases("purchases")
+                                .build()
+                        )
+                        .interestCalculationMethod(
+                            LoanTape.InterestDetails.InterestCalculationMethod.DAILY
+                        )
+                        .interestForPeriod(
+                            LoanTape.InterestDetails.CategoryDetails.builder()
+                                .balanceTransfers("balance_transfers")
+                                .cashAdvances("cash_advances")
+                                .purchases("purchases")
+                                .build()
+                        )
+                        .primeRate("prime_rate")
+                        .minimumInterestCharged(123L)
+                        .build()
+                )
                 .minimumPaymentBalance(
                     LoanTape.BalanceDetails.builder().amount(123L).remaining(123L).build()
                 )
@@ -184,6 +215,38 @@ class LoanTapeTest {
         assertThat(loanTape.excessCredits()).isEqualTo(123L)
         assertThat(loanTape.financialAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(loanTape.interestDetails())
+            .contains(
+                LoanTape.InterestDetails.builder()
+                    .actualInterestCharged(123L)
+                    .dailyBalanceAmounts(
+                        LoanTape.InterestDetails.CategoryDetails.builder()
+                            .balanceTransfers("balance_transfers")
+                            .cashAdvances("cash_advances")
+                            .purchases("purchases")
+                            .build()
+                    )
+                    .effectiveApr(
+                        LoanTape.InterestDetails.CategoryDetails.builder()
+                            .balanceTransfers("balance_transfers")
+                            .cashAdvances("cash_advances")
+                            .purchases("purchases")
+                            .build()
+                    )
+                    .interestCalculationMethod(
+                        LoanTape.InterestDetails.InterestCalculationMethod.DAILY
+                    )
+                    .interestForPeriod(
+                        LoanTape.InterestDetails.CategoryDetails.builder()
+                            .balanceTransfers("balance_transfers")
+                            .cashAdvances("cash_advances")
+                            .purchases("purchases")
+                            .build()
+                    )
+                    .primeRate("prime_rate")
+                    .minimumInterestCharged(123L)
+                    .build()
+            )
         assertThat(loanTape.minimumPaymentBalance())
             .isEqualTo(LoanTape.BalanceDetails.builder().amount(123L).remaining(123L).build())
         assertThat(loanTape.paymentAllocation())
