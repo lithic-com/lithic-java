@@ -124,15 +124,12 @@ private constructor(
         return executeWithRetries(request, requestOptions)
     }
 
-    override fun close() {
-        httpClient.close()
-    }
+    override fun close() = httpClient.close()
 
-    private fun isRetryable(request: HttpRequest): Boolean {
+    private fun isRetryable(request: HttpRequest): Boolean =
         // Some requests, such as when a request body is being streamed, cannot be retried because
         // the body data aren't available on subsequent attempts.
-        return request.body?.repeatable() ?: true
-    }
+        request.body?.repeatable() ?: true
 
     private fun setRetryCountHeader(request: HttpRequest, retries: Int) {
         request.headers.removeAll("x-stainless-retry-count")
@@ -170,11 +167,10 @@ private constructor(
         }
     }
 
-    private fun shouldRetry(throwable: Throwable): Boolean {
+    private fun shouldRetry(throwable: Throwable): Boolean =
         // Only retry IOException and LithicIoException, other exceptions are not intended to be
         // retried.
-        return throwable is IOException || throwable is LithicIoException
-    }
+        throwable is IOException || throwable is LithicIoException
 
     private fun getRetryBackoffMillis(retries: Int, response: HttpResponse?): Duration {
         // About the Retry-After header:
