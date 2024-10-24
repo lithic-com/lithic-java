@@ -117,7 +117,7 @@ class TransactionTest {
                         )
                         .build()
                 )
-                .result(Transaction.Result.APPROVED)
+                .result(Transaction.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL)
                 .settledAmount(123L)
                 .status(Transaction.Status.DECLINED)
                 .tokenInfo(
@@ -172,7 +172,8 @@ class TransactionTest {
                                 Transaction.TransactionEvent.EffectivePolarity.CREDIT
                             )
                             .result(
-                                Transaction.TransactionEvent.Result.ACCOUNT_STATE_TRANSACTION_FAIL
+                                Transaction.TransactionEvent.DeclineResult
+                                    .ACCOUNT_STATE_TRANSACTION_FAIL
                             )
                             .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                             .build()
@@ -289,7 +290,8 @@ class TransactionTest {
                     )
                     .build()
             )
-        assertThat(transaction.result()).isEqualTo(Transaction.Result.APPROVED)
+        assertThat(transaction.result())
+            .isEqualTo(Transaction.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL)
         assertThat(transaction.settledAmount()).isEqualTo(123L)
         assertThat(transaction.status()).isEqualTo(Transaction.Status.DECLINED)
         assertThat(transaction.tokenInfo())
@@ -340,7 +342,9 @@ class TransactionTest {
                         )
                     )
                     .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.CREDIT)
-                    .result(Transaction.TransactionEvent.Result.ACCOUNT_STATE_TRANSACTION_FAIL)
+                    .result(
+                        Transaction.TransactionEvent.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL
+                    )
                     .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                     .build()
             )
