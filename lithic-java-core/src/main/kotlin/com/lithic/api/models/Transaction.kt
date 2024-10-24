@@ -5144,6 +5144,8 @@ private constructor(
                 val OVER_REVERSAL_ATTEMPTED =
                     DetailedResult(JsonField.of("OVER_REVERSAL_ATTEMPTED"))
 
+                @JvmField val PIN_BLOCKED = DetailedResult(JsonField.of("PIN_BLOCKED"))
+
                 @JvmField
                 val PROGRAM_CARD_SPEND_LIMIT_EXCEEDED =
                     DetailedResult(JsonField.of("PROGRAM_CARD_SPEND_LIMIT_EXCEEDED"))
@@ -5232,6 +5234,7 @@ private constructor(
                 MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE,
                 MERCHANT_NOT_PERMITTED,
                 OVER_REVERSAL_ATTEMPTED,
+                PIN_BLOCKED,
                 PROGRAM_CARD_SPEND_LIMIT_EXCEEDED,
                 PROGRAM_SUSPENDED,
                 PROGRAM_USAGE_RESTRICTION,
@@ -5286,6 +5289,7 @@ private constructor(
                 MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE,
                 MERCHANT_NOT_PERMITTED,
                 OVER_REVERSAL_ATTEMPTED,
+                PIN_BLOCKED,
                 PROGRAM_CARD_SPEND_LIMIT_EXCEEDED,
                 PROGRAM_SUSPENDED,
                 PROGRAM_USAGE_RESTRICTION,
@@ -5345,6 +5349,7 @@ private constructor(
                         Value.MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE
                     MERCHANT_NOT_PERMITTED -> Value.MERCHANT_NOT_PERMITTED
                     OVER_REVERSAL_ATTEMPTED -> Value.OVER_REVERSAL_ATTEMPTED
+                    PIN_BLOCKED -> Value.PIN_BLOCKED
                     PROGRAM_CARD_SPEND_LIMIT_EXCEEDED -> Value.PROGRAM_CARD_SPEND_LIMIT_EXCEEDED
                     PROGRAM_SUSPENDED -> Value.PROGRAM_SUSPENDED
                     PROGRAM_USAGE_RESTRICTION -> Value.PROGRAM_USAGE_RESTRICTION
@@ -5406,6 +5411,7 @@ private constructor(
                         Known.MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE
                     MERCHANT_NOT_PERMITTED -> Known.MERCHANT_NOT_PERMITTED
                     OVER_REVERSAL_ATTEMPTED -> Known.OVER_REVERSAL_ATTEMPTED
+                    PIN_BLOCKED -> Known.PIN_BLOCKED
                     PROGRAM_CARD_SPEND_LIMIT_EXCEEDED -> Known.PROGRAM_CARD_SPEND_LIMIT_EXCEEDED
                     PROGRAM_SUSPENDED -> Known.PROGRAM_SUSPENDED
                     PROGRAM_USAGE_RESTRICTION -> Known.PROGRAM_USAGE_RESTRICTION
