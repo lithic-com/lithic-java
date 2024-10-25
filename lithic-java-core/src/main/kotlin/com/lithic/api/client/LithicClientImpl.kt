@@ -4,6 +4,7 @@ package com.lithic.api.client
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.getPackageVersion
 import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.handlers.jsonHandler
 import com.lithic.api.core.handlers.withErrorHandler
@@ -19,84 +20,101 @@ constructor(
     private val clientOptions: ClientOptions,
 ) : LithicClient {
 
+    private val clientOptionsWithUserAgent =
+        if (clientOptions.headers.containsKey("User-Agent")) clientOptions
+        else
+            clientOptions
+                .toBuilder()
+                .putHeader("User-Agent", "${javaClass.simpleName}/Java ${getPackageVersion()}")
+                .build()
+
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
+    // Pass the original clientOptions so that this client sets its own User-Agent.
     private val async: LithicClientAsync by lazy { LithicClientAsyncImpl(clientOptions) }
 
-    private val accounts: AccountService by lazy { AccountServiceImpl(clientOptions) }
+    private val accounts: AccountService by lazy { AccountServiceImpl(clientOptionsWithUserAgent) }
 
     private val accountHolders: AccountHolderService by lazy {
-        AccountHolderServiceImpl(clientOptions)
+        AccountHolderServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val authRules: AuthRuleService by lazy { AuthRuleServiceImpl(clientOptions) }
+    private val authRules: AuthRuleService by lazy {
+        AuthRuleServiceImpl(clientOptionsWithUserAgent)
+    }
 
     private val authStreamEnrollment: AuthStreamEnrollmentService by lazy {
-        AuthStreamEnrollmentServiceImpl(clientOptions)
+        AuthStreamEnrollmentServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val tokenizationDecisioning: TokenizationDecisioningService by lazy {
-        TokenizationDecisioningServiceImpl(clientOptions)
+        TokenizationDecisioningServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val tokenizations: TokenizationService by lazy {
-        TokenizationServiceImpl(clientOptions)
+        TokenizationServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val cards: CardService by lazy { CardServiceImpl(clientOptions) }
+    private val cards: CardService by lazy { CardServiceImpl(clientOptionsWithUserAgent) }
 
-    private val balances: BalanceService by lazy { BalanceServiceImpl(clientOptions) }
+    private val balances: BalanceService by lazy { BalanceServiceImpl(clientOptionsWithUserAgent) }
 
     private val aggregateBalances: AggregateBalanceService by lazy {
-        AggregateBalanceServiceImpl(clientOptions)
+        AggregateBalanceServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val disputes: DisputeService by lazy { DisputeServiceImpl(clientOptions) }
+    private val disputes: DisputeService by lazy { DisputeServiceImpl(clientOptionsWithUserAgent) }
 
-    private val events: EventService by lazy { EventServiceImpl(clientOptions) }
+    private val events: EventService by lazy { EventServiceImpl(clientOptionsWithUserAgent) }
 
-    private val transfers: TransferService by lazy { TransferServiceImpl(clientOptions) }
+    private val transfers: TransferService by lazy {
+        TransferServiceImpl(clientOptionsWithUserAgent)
+    }
 
     private val financialAccounts: FinancialAccountService by lazy {
-        FinancialAccountServiceImpl(clientOptions)
+        FinancialAccountServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val transactions: TransactionService by lazy { TransactionServiceImpl(clientOptions) }
+    private val transactions: TransactionService by lazy {
+        TransactionServiceImpl(clientOptionsWithUserAgent)
+    }
 
     private val responderEndpoints: ResponderEndpointService by lazy {
-        ResponderEndpointServiceImpl(clientOptions)
+        ResponderEndpointServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val externalBankAccounts: ExternalBankAccountService by lazy {
-        ExternalBankAccountServiceImpl(clientOptions)
+        ExternalBankAccountServiceImpl(clientOptionsWithUserAgent)
     }
 
-    private val payments: PaymentService by lazy { PaymentServiceImpl(clientOptions) }
+    private val payments: PaymentService by lazy { PaymentServiceImpl(clientOptionsWithUserAgent) }
 
-    private val threeDS: ThreeDSService by lazy { ThreeDSServiceImpl(clientOptions) }
+    private val threeDS: ThreeDSService by lazy { ThreeDSServiceImpl(clientOptionsWithUserAgent) }
 
-    private val reports: ReportService by lazy { ReportServiceImpl(clientOptions) }
+    private val reports: ReportService by lazy { ReportServiceImpl(clientOptionsWithUserAgent) }
 
-    private val cardPrograms: CardProgramService by lazy { CardProgramServiceImpl(clientOptions) }
+    private val cardPrograms: CardProgramService by lazy {
+        CardProgramServiceImpl(clientOptionsWithUserAgent)
+    }
 
     private val digitalCardArt: DigitalCardArtService by lazy {
-        DigitalCardArtServiceImpl(clientOptions)
+        DigitalCardArtServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val bookTransfers: BookTransferService by lazy {
-        BookTransferServiceImpl(clientOptions)
+        BookTransferServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val creditProducts: CreditProductService by lazy {
-        CreditProductServiceImpl(clientOptions)
+        CreditProductServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val externalPayments: ExternalPaymentService by lazy {
-        ExternalPaymentServiceImpl(clientOptions)
+        ExternalPaymentServiceImpl(clientOptionsWithUserAgent)
     }
 
     private val managementOperations: ManagementOperationService by lazy {
-        ManagementOperationServiceImpl(clientOptions)
+        ManagementOperationServiceImpl(clientOptionsWithUserAgent)
     }
 
     override fun async(): LithicClientAsync = async
