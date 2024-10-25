@@ -11,6 +11,7 @@ import java.time.Clock
 
 class ClientOptions
 private constructor(
+    private val originalHttpClient: HttpClient,
     @get:JvmName("httpClient") val httpClient: HttpClient,
     @get:JvmName("jsonMapper") val jsonMapper: JsonMapper,
     @get:JvmName("clock") val clock: Clock,
@@ -51,7 +52,7 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(clientOptions: ClientOptions) = apply {
-            httpClient = clientOptions.httpClient
+            httpClient = clientOptions.originalHttpClient
             jsonMapper = clientOptions.jsonMapper
             clock = clientOptions.clock
             baseUrl = clientOptions.baseUrl
@@ -151,6 +152,7 @@ private constructor(
             this.queryParams.forEach(queryParams::replaceValues)
 
             return ClientOptions(
+                httpClient!!,
                 RetryingHttpClient.builder()
                     .httpClient(httpClient!!)
                     .clock(clock)
