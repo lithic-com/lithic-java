@@ -33,14 +33,20 @@ interface TransactionServiceAsync {
 
     fun events(): EventServiceAsync
 
-    /** Get specific card transaction. */
+    /**
+     * Get a specific card transaction. All amounts are in the smallest unit of their respective
+     * currency (e.g., cents for USD).
+     */
     @JvmOverloads
     fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none()
     ): CompletableFuture<Transaction>
 
-    /** List card transactions. */
+    /**
+     * List card transactions. All amounts are in the smallest unit of their respective currency
+     * (e.g., cents for USD) and inclusive of any acquirer fees.
+     */
     @JvmOverloads
     fun list(
         params: TransactionListParams,
