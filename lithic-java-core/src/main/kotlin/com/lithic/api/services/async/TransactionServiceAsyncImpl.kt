@@ -57,7 +57,10 @@ constructor(
     private val retrieveHandler: Handler<Transaction> =
         jsonHandler<Transaction>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
-    /** Get specific card transaction. */
+    /**
+     * Get a specific card transaction. All amounts are in the smallest unit of their respective
+     * currency (e.g., cents for USD).
+     */
     override fun retrieve(
         params: TransactionRetrieveParams,
         requestOptions: RequestOptions
@@ -87,7 +90,10 @@ constructor(
         jsonHandler<TransactionListPageAsync.Response>(clientOptions.jsonMapper)
             .withErrorHandler(errorHandler)
 
-    /** List card transactions. */
+    /**
+     * List card transactions. All amounts are in the smallest unit of their respective currency
+     * (e.g., cents for USD) and inclusive of any acquirer fees.
+     */
     override fun list(
         params: TransactionListParams,
         requestOptions: RequestOptions
