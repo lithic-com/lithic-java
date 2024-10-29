@@ -358,7 +358,10 @@ private constructor(
 
         private var validated: Boolean = false
 
-        /** The size of the trailing window to calculate Spend Velocity over in seconds. */
+        /**
+         * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
+         * value is 10 seconds, and the maximum value is 2678400 seconds.
+         */
         fun number(): Optional<Double> = Optional.ofNullable(number)
         /**
          * The window of time to calculate Spend Velocity over.
