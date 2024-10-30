@@ -14,24 +14,23 @@ class AuthRuleV2CreateParamsTest {
                 AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.builder()
                     .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
                     .parameters(
-                        AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.AuthRuleParameters
+                        AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.Parameters
                             .ofConditionalBlockParameters(
-                                AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens
-                                    .AuthRuleParameters
+                                AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.Parameters
                                     .ConditionalBlockParameters
                                     .builder()
                                     .conditions(
                                         listOf(
                                             AuthRuleV2CreateParams
                                                 .CreateAuthRuleRequestAccountTokens
-                                                .AuthRuleParameters
+                                                .Parameters
                                                 .ConditionalBlockParameters
                                                 .Condition
                                                 .builder()
                                                 .attribute(
                                                     AuthRuleV2CreateParams
                                                         .CreateAuthRuleRequestAccountTokens
-                                                        .AuthRuleParameters
+                                                        .Parameters
                                                         .ConditionalBlockParameters
                                                         .Condition
                                                         .Attribute
@@ -40,7 +39,7 @@ class AuthRuleV2CreateParamsTest {
                                                 .operation(
                                                     AuthRuleV2CreateParams
                                                         .CreateAuthRuleRequestAccountTokens
-                                                        .AuthRuleParameters
+                                                        .Parameters
                                                         .ConditionalBlockParameters
                                                         .Condition
                                                         .Operation
@@ -49,7 +48,7 @@ class AuthRuleV2CreateParamsTest {
                                                 .value(
                                                     AuthRuleV2CreateParams
                                                         .CreateAuthRuleRequestAccountTokens
-                                                        .AuthRuleParameters
+                                                        .Parameters
                                                         .ConditionalBlockParameters
                                                         .Condition
                                                         .Value
