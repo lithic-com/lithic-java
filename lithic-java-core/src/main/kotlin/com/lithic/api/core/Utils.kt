@@ -9,13 +9,8 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 
 @JvmSynthetic
-internal fun <T : Any> T?.getOrThrow(name: String): T {
-    if (this == null) {
-        throw LithicInvalidDataException("'${name}' is not present")
-    }
-
-    return this
-}
+internal fun <T : Any> T?.getOrThrow(name: String): T =
+    this ?: throw LithicInvalidDataException("`${name}` is not present")
 
 @JvmSynthetic
 internal fun <T> List<T>.toUnmodifiable(): List<T> {
