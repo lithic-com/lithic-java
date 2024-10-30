@@ -13,30 +13,27 @@ class AuthRuleV2DraftParamsTest {
         AuthRuleV2DraftParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .parameters(
-                AuthRuleV2DraftParams.AuthRuleParameters.ofConditionalBlockParameters(
-                    AuthRuleV2DraftParams.AuthRuleParameters.ConditionalBlockParameters.builder()
+                AuthRuleV2DraftParams.Parameters.ofConditionalBlockParameters(
+                    AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters.builder()
                         .conditions(
                             listOf(
-                                AuthRuleV2DraftParams.AuthRuleParameters.ConditionalBlockParameters
+                                AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters
                                     .Condition
                                     .builder()
                                     .attribute(
-                                        AuthRuleV2DraftParams.AuthRuleParameters
-                                            .ConditionalBlockParameters
+                                        AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters
                                             .Condition
                                             .Attribute
                                             .MCC
                                     )
                                     .operation(
-                                        AuthRuleV2DraftParams.AuthRuleParameters
-                                            .ConditionalBlockParameters
+                                        AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters
                                             .Condition
                                             .Operation
                                             .IS_ONE_OF
                                     )
                                     .value(
-                                        AuthRuleV2DraftParams.AuthRuleParameters
-                                            .ConditionalBlockParameters
+                                        AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters
                                             .Condition
                                             .Value
                                             .ofString("string")
@@ -56,31 +53,29 @@ class AuthRuleV2DraftParamsTest {
             AuthRuleV2DraftParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .parameters(
-                    AuthRuleV2DraftParams.AuthRuleParameters.ofConditionalBlockParameters(
-                        AuthRuleV2DraftParams.AuthRuleParameters.ConditionalBlockParameters
-                            .builder()
+                    AuthRuleV2DraftParams.Parameters.ofConditionalBlockParameters(
+                        AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters.builder()
                             .conditions(
                                 listOf(
-                                    AuthRuleV2DraftParams.AuthRuleParameters
-                                        .ConditionalBlockParameters
+                                    AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters
                                         .Condition
                                         .builder()
                                         .attribute(
-                                            AuthRuleV2DraftParams.AuthRuleParameters
+                                            AuthRuleV2DraftParams.Parameters
                                                 .ConditionalBlockParameters
                                                 .Condition
                                                 .Attribute
                                                 .MCC
                                         )
                                         .operation(
-                                            AuthRuleV2DraftParams.AuthRuleParameters
+                                            AuthRuleV2DraftParams.Parameters
                                                 .ConditionalBlockParameters
                                                 .Condition
                                                 .Operation
                                                 .IS_ONE_OF
                                         )
                                         .value(
-                                            AuthRuleV2DraftParams.AuthRuleParameters
+                                            AuthRuleV2DraftParams.Parameters
                                                 .ConditionalBlockParameters
                                                 .Condition
                                                 .Value
@@ -97,30 +92,27 @@ class AuthRuleV2DraftParamsTest {
         assertThat(body).isNotNull
         assertThat(body.parameters())
             .isEqualTo(
-                AuthRuleV2DraftParams.AuthRuleParameters.ofConditionalBlockParameters(
-                    AuthRuleV2DraftParams.AuthRuleParameters.ConditionalBlockParameters.builder()
+                AuthRuleV2DraftParams.Parameters.ofConditionalBlockParameters(
+                    AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters.builder()
                         .conditions(
                             listOf(
-                                AuthRuleV2DraftParams.AuthRuleParameters.ConditionalBlockParameters
+                                AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters
                                     .Condition
                                     .builder()
                                     .attribute(
-                                        AuthRuleV2DraftParams.AuthRuleParameters
-                                            .ConditionalBlockParameters
+                                        AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters
                                             .Condition
                                             .Attribute
                                             .MCC
                                     )
                                     .operation(
-                                        AuthRuleV2DraftParams.AuthRuleParameters
-                                            .ConditionalBlockParameters
+                                        AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters
                                             .Condition
                                             .Operation
                                             .IS_ONE_OF
                                     )
                                     .value(
-                                        AuthRuleV2DraftParams.AuthRuleParameters
-                                            .ConditionalBlockParameters
+                                        AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters
                                             .Condition
                                             .Value
                                             .ofString("string")

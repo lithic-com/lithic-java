@@ -17,46 +17,41 @@ class V2ListResponseTest {
                 .currentVersion(
                     V2ListResponse.CurrentVersion.builder()
                         .parameters(
-                            V2ListResponse.CurrentVersion.AuthRuleParameters
-                                .ofConditionalBlockParameters(
-                                    V2ListResponse.CurrentVersion.AuthRuleParameters
-                                        .ConditionalBlockParameters
-                                        .builder()
-                                        .conditions(
-                                            listOf(
-                                                V2ListResponse.CurrentVersion.AuthRuleParameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .builder()
-                                                    .attribute(
-                                                        V2ListResponse.CurrentVersion
-                                                            .AuthRuleParameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Attribute
-                                                            .MCC
-                                                    )
-                                                    .operation(
-                                                        V2ListResponse.CurrentVersion
-                                                            .AuthRuleParameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Operation
-                                                            .IS_ONE_OF
-                                                    )
-                                                    .value(
-                                                        V2ListResponse.CurrentVersion
-                                                            .AuthRuleParameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Value
-                                                            .ofString("string")
-                                                    )
-                                                    .build()
-                                            )
+                            V2ListResponse.CurrentVersion.Parameters.ofConditionalBlockParameters(
+                                V2ListResponse.CurrentVersion.Parameters.ConditionalBlockParameters
+                                    .builder()
+                                    .conditions(
+                                        listOf(
+                                            V2ListResponse.CurrentVersion.Parameters
+                                                .ConditionalBlockParameters
+                                                .Condition
+                                                .builder()
+                                                .attribute(
+                                                    V2ListResponse.CurrentVersion.Parameters
+                                                        .ConditionalBlockParameters
+                                                        .Condition
+                                                        .Attribute
+                                                        .MCC
+                                                )
+                                                .operation(
+                                                    V2ListResponse.CurrentVersion.Parameters
+                                                        .ConditionalBlockParameters
+                                                        .Condition
+                                                        .Operation
+                                                        .IS_ONE_OF
+                                                )
+                                                .value(
+                                                    V2ListResponse.CurrentVersion.Parameters
+                                                        .ConditionalBlockParameters
+                                                        .Condition
+                                                        .Value
+                                                        .ofString("string")
+                                                )
+                                                .build()
                                         )
-                                        .build()
-                                )
+                                    )
+                                    .build()
+                            )
                         )
                         .version(123L)
                         .build()
@@ -64,46 +59,41 @@ class V2ListResponseTest {
                 .draftVersion(
                     V2ListResponse.DraftVersion.builder()
                         .parameters(
-                            V2ListResponse.DraftVersion.AuthRuleParameters
-                                .ofConditionalBlockParameters(
-                                    V2ListResponse.DraftVersion.AuthRuleParameters
-                                        .ConditionalBlockParameters
-                                        .builder()
-                                        .conditions(
-                                            listOf(
-                                                V2ListResponse.DraftVersion.AuthRuleParameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .builder()
-                                                    .attribute(
-                                                        V2ListResponse.DraftVersion
-                                                            .AuthRuleParameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Attribute
-                                                            .MCC
-                                                    )
-                                                    .operation(
-                                                        V2ListResponse.DraftVersion
-                                                            .AuthRuleParameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Operation
-                                                            .IS_ONE_OF
-                                                    )
-                                                    .value(
-                                                        V2ListResponse.DraftVersion
-                                                            .AuthRuleParameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Value
-                                                            .ofString("string")
-                                                    )
-                                                    .build()
-                                            )
+                            V2ListResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
+                                V2ListResponse.DraftVersion.Parameters.ConditionalBlockParameters
+                                    .builder()
+                                    .conditions(
+                                        listOf(
+                                            V2ListResponse.DraftVersion.Parameters
+                                                .ConditionalBlockParameters
+                                                .Condition
+                                                .builder()
+                                                .attribute(
+                                                    V2ListResponse.DraftVersion.Parameters
+                                                        .ConditionalBlockParameters
+                                                        .Condition
+                                                        .Attribute
+                                                        .MCC
+                                                )
+                                                .operation(
+                                                    V2ListResponse.DraftVersion.Parameters
+                                                        .ConditionalBlockParameters
+                                                        .Condition
+                                                        .Operation
+                                                        .IS_ONE_OF
+                                                )
+                                                .value(
+                                                    V2ListResponse.DraftVersion.Parameters
+                                                        .ConditionalBlockParameters
+                                                        .Condition
+                                                        .Value
+                                                        .ofString("string")
+                                                )
+                                                .build()
                                         )
-                                        .build()
-                                )
+                                    )
+                                    .build()
+                            )
                         )
                         .version(123L)
                         .build()
@@ -122,43 +112,41 @@ class V2ListResponseTest {
             .contains(
                 V2ListResponse.CurrentVersion.builder()
                     .parameters(
-                        V2ListResponse.CurrentVersion.AuthRuleParameters
-                            .ofConditionalBlockParameters(
-                                V2ListResponse.CurrentVersion.AuthRuleParameters
-                                    .ConditionalBlockParameters
-                                    .builder()
-                                    .conditions(
-                                        listOf(
-                                            V2ListResponse.CurrentVersion.AuthRuleParameters
-                                                .ConditionalBlockParameters
-                                                .Condition
-                                                .builder()
-                                                .attribute(
-                                                    V2ListResponse.CurrentVersion.AuthRuleParameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Attribute
-                                                        .MCC
-                                                )
-                                                .operation(
-                                                    V2ListResponse.CurrentVersion.AuthRuleParameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Operation
-                                                        .IS_ONE_OF
-                                                )
-                                                .value(
-                                                    V2ListResponse.CurrentVersion.AuthRuleParameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Value
-                                                        .ofString("string")
-                                                )
-                                                .build()
-                                        )
+                        V2ListResponse.CurrentVersion.Parameters.ofConditionalBlockParameters(
+                            V2ListResponse.CurrentVersion.Parameters.ConditionalBlockParameters
+                                .builder()
+                                .conditions(
+                                    listOf(
+                                        V2ListResponse.CurrentVersion.Parameters
+                                            .ConditionalBlockParameters
+                                            .Condition
+                                            .builder()
+                                            .attribute(
+                                                V2ListResponse.CurrentVersion.Parameters
+                                                    .ConditionalBlockParameters
+                                                    .Condition
+                                                    .Attribute
+                                                    .MCC
+                                            )
+                                            .operation(
+                                                V2ListResponse.CurrentVersion.Parameters
+                                                    .ConditionalBlockParameters
+                                                    .Condition
+                                                    .Operation
+                                                    .IS_ONE_OF
+                                            )
+                                            .value(
+                                                V2ListResponse.CurrentVersion.Parameters
+                                                    .ConditionalBlockParameters
+                                                    .Condition
+                                                    .Value
+                                                    .ofString("string")
+                                            )
+                                            .build()
                                     )
-                                    .build()
-                            )
+                                )
+                                .build()
+                        )
                     )
                     .version(123L)
                     .build()
@@ -167,32 +155,31 @@ class V2ListResponseTest {
             .contains(
                 V2ListResponse.DraftVersion.builder()
                     .parameters(
-                        V2ListResponse.DraftVersion.AuthRuleParameters.ofConditionalBlockParameters(
-                            V2ListResponse.DraftVersion.AuthRuleParameters
-                                .ConditionalBlockParameters
+                        V2ListResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
+                            V2ListResponse.DraftVersion.Parameters.ConditionalBlockParameters
                                 .builder()
                                 .conditions(
                                     listOf(
-                                        V2ListResponse.DraftVersion.AuthRuleParameters
+                                        V2ListResponse.DraftVersion.Parameters
                                             .ConditionalBlockParameters
                                             .Condition
                                             .builder()
                                             .attribute(
-                                                V2ListResponse.DraftVersion.AuthRuleParameters
+                                                V2ListResponse.DraftVersion.Parameters
                                                     .ConditionalBlockParameters
                                                     .Condition
                                                     .Attribute
                                                     .MCC
                                             )
                                             .operation(
-                                                V2ListResponse.DraftVersion.AuthRuleParameters
+                                                V2ListResponse.DraftVersion.Parameters
                                                     .ConditionalBlockParameters
                                                     .Condition
                                                     .Operation
                                                     .IS_ONE_OF
                                             )
                                             .value(
-                                                V2ListResponse.DraftVersion.AuthRuleParameters
+                                                V2ListResponse.DraftVersion.Parameters
                                                     .ConditionalBlockParameters
                                                     .Condition
                                                     .Value

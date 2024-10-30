@@ -17,36 +17,33 @@ class V2PromoteResponseTest {
                 .currentVersion(
                     V2PromoteResponse.CurrentVersion.builder()
                         .parameters(
-                            V2PromoteResponse.CurrentVersion.AuthRuleParameters
+                            V2PromoteResponse.CurrentVersion.Parameters
                                 .ofConditionalBlockParameters(
-                                    V2PromoteResponse.CurrentVersion.AuthRuleParameters
+                                    V2PromoteResponse.CurrentVersion.Parameters
                                         .ConditionalBlockParameters
                                         .builder()
                                         .conditions(
                                             listOf(
-                                                V2PromoteResponse.CurrentVersion.AuthRuleParameters
+                                                V2PromoteResponse.CurrentVersion.Parameters
                                                     .ConditionalBlockParameters
                                                     .Condition
                                                     .builder()
                                                     .attribute(
-                                                        V2PromoteResponse.CurrentVersion
-                                                            .AuthRuleParameters
+                                                        V2PromoteResponse.CurrentVersion.Parameters
                                                             .ConditionalBlockParameters
                                                             .Condition
                                                             .Attribute
                                                             .MCC
                                                     )
                                                     .operation(
-                                                        V2PromoteResponse.CurrentVersion
-                                                            .AuthRuleParameters
+                                                        V2PromoteResponse.CurrentVersion.Parameters
                                                             .ConditionalBlockParameters
                                                             .Condition
                                                             .Operation
                                                             .IS_ONE_OF
                                                     )
                                                     .value(
-                                                        V2PromoteResponse.CurrentVersion
-                                                            .AuthRuleParameters
+                                                        V2PromoteResponse.CurrentVersion.Parameters
                                                             .ConditionalBlockParameters
                                                             .Condition
                                                             .Value
@@ -64,46 +61,41 @@ class V2PromoteResponseTest {
                 .draftVersion(
                     V2PromoteResponse.DraftVersion.builder()
                         .parameters(
-                            V2PromoteResponse.DraftVersion.AuthRuleParameters
-                                .ofConditionalBlockParameters(
-                                    V2PromoteResponse.DraftVersion.AuthRuleParameters
-                                        .ConditionalBlockParameters
-                                        .builder()
-                                        .conditions(
-                                            listOf(
-                                                V2PromoteResponse.DraftVersion.AuthRuleParameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .builder()
-                                                    .attribute(
-                                                        V2PromoteResponse.DraftVersion
-                                                            .AuthRuleParameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Attribute
-                                                            .MCC
-                                                    )
-                                                    .operation(
-                                                        V2PromoteResponse.DraftVersion
-                                                            .AuthRuleParameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Operation
-                                                            .IS_ONE_OF
-                                                    )
-                                                    .value(
-                                                        V2PromoteResponse.DraftVersion
-                                                            .AuthRuleParameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Value
-                                                            .ofString("string")
-                                                    )
-                                                    .build()
-                                            )
+                            V2PromoteResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
+                                V2PromoteResponse.DraftVersion.Parameters.ConditionalBlockParameters
+                                    .builder()
+                                    .conditions(
+                                        listOf(
+                                            V2PromoteResponse.DraftVersion.Parameters
+                                                .ConditionalBlockParameters
+                                                .Condition
+                                                .builder()
+                                                .attribute(
+                                                    V2PromoteResponse.DraftVersion.Parameters
+                                                        .ConditionalBlockParameters
+                                                        .Condition
+                                                        .Attribute
+                                                        .MCC
+                                                )
+                                                .operation(
+                                                    V2PromoteResponse.DraftVersion.Parameters
+                                                        .ConditionalBlockParameters
+                                                        .Condition
+                                                        .Operation
+                                                        .IS_ONE_OF
+                                                )
+                                                .value(
+                                                    V2PromoteResponse.DraftVersion.Parameters
+                                                        .ConditionalBlockParameters
+                                                        .Condition
+                                                        .Value
+                                                        .ofString("string")
+                                                )
+                                                .build()
                                         )
-                                        .build()
-                                )
+                                    )
+                                    .build()
+                            )
                         )
                         .version(123L)
                         .build()
@@ -122,46 +114,41 @@ class V2PromoteResponseTest {
             .contains(
                 V2PromoteResponse.CurrentVersion.builder()
                     .parameters(
-                        V2PromoteResponse.CurrentVersion.AuthRuleParameters
-                            .ofConditionalBlockParameters(
-                                V2PromoteResponse.CurrentVersion.AuthRuleParameters
-                                    .ConditionalBlockParameters
-                                    .builder()
-                                    .conditions(
-                                        listOf(
-                                            V2PromoteResponse.CurrentVersion.AuthRuleParameters
-                                                .ConditionalBlockParameters
-                                                .Condition
-                                                .builder()
-                                                .attribute(
-                                                    V2PromoteResponse.CurrentVersion
-                                                        .AuthRuleParameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Attribute
-                                                        .MCC
-                                                )
-                                                .operation(
-                                                    V2PromoteResponse.CurrentVersion
-                                                        .AuthRuleParameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Operation
-                                                        .IS_ONE_OF
-                                                )
-                                                .value(
-                                                    V2PromoteResponse.CurrentVersion
-                                                        .AuthRuleParameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Value
-                                                        .ofString("string")
-                                                )
-                                                .build()
-                                        )
+                        V2PromoteResponse.CurrentVersion.Parameters.ofConditionalBlockParameters(
+                            V2PromoteResponse.CurrentVersion.Parameters.ConditionalBlockParameters
+                                .builder()
+                                .conditions(
+                                    listOf(
+                                        V2PromoteResponse.CurrentVersion.Parameters
+                                            .ConditionalBlockParameters
+                                            .Condition
+                                            .builder()
+                                            .attribute(
+                                                V2PromoteResponse.CurrentVersion.Parameters
+                                                    .ConditionalBlockParameters
+                                                    .Condition
+                                                    .Attribute
+                                                    .MCC
+                                            )
+                                            .operation(
+                                                V2PromoteResponse.CurrentVersion.Parameters
+                                                    .ConditionalBlockParameters
+                                                    .Condition
+                                                    .Operation
+                                                    .IS_ONE_OF
+                                            )
+                                            .value(
+                                                V2PromoteResponse.CurrentVersion.Parameters
+                                                    .ConditionalBlockParameters
+                                                    .Condition
+                                                    .Value
+                                                    .ofString("string")
+                                            )
+                                            .build()
                                     )
-                                    .build()
-                            )
+                                )
+                                .build()
+                        )
                     )
                     .version(123L)
                     .build()
@@ -170,46 +157,41 @@ class V2PromoteResponseTest {
             .contains(
                 V2PromoteResponse.DraftVersion.builder()
                     .parameters(
-                        V2PromoteResponse.DraftVersion.AuthRuleParameters
-                            .ofConditionalBlockParameters(
-                                V2PromoteResponse.DraftVersion.AuthRuleParameters
-                                    .ConditionalBlockParameters
-                                    .builder()
-                                    .conditions(
-                                        listOf(
-                                            V2PromoteResponse.DraftVersion.AuthRuleParameters
-                                                .ConditionalBlockParameters
-                                                .Condition
-                                                .builder()
-                                                .attribute(
-                                                    V2PromoteResponse.DraftVersion
-                                                        .AuthRuleParameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Attribute
-                                                        .MCC
-                                                )
-                                                .operation(
-                                                    V2PromoteResponse.DraftVersion
-                                                        .AuthRuleParameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Operation
-                                                        .IS_ONE_OF
-                                                )
-                                                .value(
-                                                    V2PromoteResponse.DraftVersion
-                                                        .AuthRuleParameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Value
-                                                        .ofString("string")
-                                                )
-                                                .build()
-                                        )
+                        V2PromoteResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
+                            V2PromoteResponse.DraftVersion.Parameters.ConditionalBlockParameters
+                                .builder()
+                                .conditions(
+                                    listOf(
+                                        V2PromoteResponse.DraftVersion.Parameters
+                                            .ConditionalBlockParameters
+                                            .Condition
+                                            .builder()
+                                            .attribute(
+                                                V2PromoteResponse.DraftVersion.Parameters
+                                                    .ConditionalBlockParameters
+                                                    .Condition
+                                                    .Attribute
+                                                    .MCC
+                                            )
+                                            .operation(
+                                                V2PromoteResponse.DraftVersion.Parameters
+                                                    .ConditionalBlockParameters
+                                                    .Condition
+                                                    .Operation
+                                                    .IS_ONE_OF
+                                            )
+                                            .value(
+                                                V2PromoteResponse.DraftVersion.Parameters
+                                                    .ConditionalBlockParameters
+                                                    .Condition
+                                                    .Value
+                                                    .ofString("string")
+                                            )
+                                            .build()
                                     )
-                                    .build()
-                            )
+                                )
+                                .build()
+                        )
                     )
                     .version(123L)
                     .build()
