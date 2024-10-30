@@ -1,6 +1,5 @@
 package com.lithic.api.core.http
 
-import com.google.common.util.concurrent.MoreExecutors
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.errors.LithicIoException
 import java.io.IOException
@@ -116,8 +115,10 @@ private constructor(
                             executeWithRetries(request, requestOptions)
                         }
                     },
-                    MoreExecutors.directExecutor()
-                )
+                ) {
+                    // Run in the same thread.
+                    it.run()
+                }
                 .thenCompose(Function.identity())
         }
 
