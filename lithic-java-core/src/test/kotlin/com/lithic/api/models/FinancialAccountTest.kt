@@ -17,14 +17,19 @@ class FinancialAccountTest {
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .creditConfiguration(
                     FinancialAccount.FinancialAccountCreditConfig.builder()
+                        .chargedOffReason(
+                            FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason
+                                .DELINQUENT
+                        )
                         .creditLimit(123L)
                         .creditProductToken("credit_product_token")
                         .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .tier("tier")
                         .financialAccountState(
                             FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState
                                 .PENDING
                         )
+                        .isSpendBlocked(true)
+                        .tier("tier")
                         .build()
                 )
                 .isForBenefitOf(true)
@@ -42,13 +47,17 @@ class FinancialAccountTest {
         assertThat(financialAccount.creditConfiguration())
             .contains(
                 FinancialAccount.FinancialAccountCreditConfig.builder()
+                    .chargedOffReason(
+                        FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason.DELINQUENT
+                    )
                     .creditLimit(123L)
                     .creditProductToken("credit_product_token")
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .tier("tier")
                     .financialAccountState(
                         FinancialAccount.FinancialAccountCreditConfig.FinancialAccountState.PENDING
                     )
+                    .isSpendBlocked(true)
+                    .tier("tier")
                     .build()
             )
         assertThat(financialAccount.isForBenefitOf()).isEqualTo(true)
