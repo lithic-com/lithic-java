@@ -43,6 +43,10 @@ private constructor(
 
     fun scope(): Scope = scope.getRequired("scope")
 
+    /**
+     * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
+     * value is 10 seconds, and the maximum value is 2678400 seconds.
+     */
     fun period(): Period = period.getRequired("period")
 
     fun filters(): Filters = filters.getRequired("filters")
@@ -64,6 +68,10 @@ private constructor(
 
     @JsonProperty("scope") @ExcludeMissing fun _scope() = scope
 
+    /**
+     * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
+     * value is 10 seconds, and the maximum value is 2678400 seconds.
+     */
     @JsonProperty("period") @ExcludeMissing fun _period() = period
 
     @JsonProperty("filters") @ExcludeMissing fun _filters() = filters
@@ -129,8 +137,16 @@ private constructor(
         @ExcludeMissing
         fun scope(scope: JsonField<Scope>) = apply { this.scope = scope }
 
+        /**
+         * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
+         * value is 10 seconds, and the maximum value is 2678400 seconds.
+         */
         fun period(period: Period) = period(JsonField.of(period))
 
+        /**
+         * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
+         * value is 10 seconds, and the maximum value is 2678400 seconds.
+         */
         @JsonProperty("period")
         @ExcludeMissing
         fun period(period: JsonField<Period>) = apply { this.period = period }
