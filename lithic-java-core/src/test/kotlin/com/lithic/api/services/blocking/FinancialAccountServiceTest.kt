@@ -83,4 +83,23 @@ class FinancialAccountServiceTest {
         println(financialAccountsResponse)
         financialAccountsResponse.data().forEach { it.validate() }
     }
+
+    @Test
+    fun callChargeOff() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val financialAccountService = client.financialAccounts()
+        val financialAccountCreditConfig =
+            financialAccountService.chargeOff(
+                FinancialAccountChargeOffParams.builder()
+                    .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .reason(FinancialAccountChargeOffParams.ChargedOffReason.DELINQUENT)
+                    .build()
+            )
+        println(financialAccountCreditConfig)
+        financialAccountCreditConfig.validate()
+    }
 }

@@ -13,7 +13,9 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.json
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.FinancialAccount
+import com.lithic.api.models.FinancialAccountChargeOffParams
 import com.lithic.api.models.FinancialAccountCreateParams
+import com.lithic.api.models.FinancialAccountCreditConfig
 import com.lithic.api.models.FinancialAccountListPageAsync
 import com.lithic.api.models.FinancialAccountListParams
 import com.lithic.api.models.FinancialAccountRetrieveParams
@@ -180,6 +182,37 @@ constructor(
                     }
                 }
                 .let { FinancialAccountListPageAsync.of(this, params, it) }
+        }
+    }
+
+    private val chargeOffHandler: Handler<FinancialAccountCreditConfig> =
+        jsonHandler<FinancialAccountCreditConfig>(clientOptions.jsonMapper)
+            .withErrorHandler(errorHandler)
+
+    /** Update issuing account state to charged off */
+    override fun chargeOff(
+        params: FinancialAccountChargeOffParams,
+        requestOptions: RequestOptions
+    ): CompletableFuture<FinancialAccountCreditConfig> {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.PATCH)
+                .addPathSegments("v1", "financial_accounts", params.getPathParam(0), "charge_off")
+                .putAllQueryParams(clientOptions.queryParams)
+                .putAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .putAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
+            ->
+            response
+                .use { chargeOffHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
         }
     }
 }
