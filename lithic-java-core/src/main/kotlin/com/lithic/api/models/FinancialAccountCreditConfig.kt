@@ -29,6 +29,7 @@ private constructor(
     private val tier: JsonField<String>,
     private val financialAccountState: JsonField<FinancialAccountState>,
     private val isSpendBlocked: JsonField<Boolean>,
+    private val chargedOffReason: JsonField<ChargedOffReason>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -50,11 +51,14 @@ private constructor(
     fun tier(): Optional<String> = Optional.ofNullable(tier.getNullable("tier"))
 
     /** State of the financial account */
-    fun financialAccountState(): Optional<FinancialAccountState> =
-        Optional.ofNullable(financialAccountState.getNullable("financial_account_state"))
+    fun financialAccountState(): FinancialAccountState =
+        financialAccountState.getRequired("financial_account_state")
 
-    fun isSpendBlocked(): Optional<Boolean> =
-        Optional.ofNullable(isSpendBlocked.getNullable("is_spend_blocked"))
+    fun isSpendBlocked(): Boolean = isSpendBlocked.getRequired("is_spend_blocked")
+
+    /** Reason for the financial account being marked as Charged Off */
+    fun chargedOffReason(): Optional<ChargedOffReason> =
+        Optional.ofNullable(chargedOffReason.getNullable("charged_off_reason"))
 
     /** Globally unique identifier for the account */
     @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
@@ -80,6 +84,9 @@ private constructor(
 
     @JsonProperty("is_spend_blocked") @ExcludeMissing fun _isSpendBlocked() = isSpendBlocked
 
+    /** Reason for the financial account being marked as Charged Off */
+    @JsonProperty("charged_off_reason") @ExcludeMissing fun _chargedOffReason() = chargedOffReason
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -93,6 +100,7 @@ private constructor(
             tier()
             financialAccountState()
             isSpendBlocked()
+            chargedOffReason()
             validated = true
         }
     }
@@ -113,6 +121,7 @@ private constructor(
         private var tier: JsonField<String> = JsonMissing.of()
         private var financialAccountState: JsonField<FinancialAccountState> = JsonMissing.of()
         private var isSpendBlocked: JsonField<Boolean> = JsonMissing.of()
+        private var chargedOffReason: JsonField<ChargedOffReason> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -124,6 +133,7 @@ private constructor(
             this.tier = financialAccountCreditConfig.tier
             this.financialAccountState = financialAccountCreditConfig.financialAccountState
             this.isSpendBlocked = financialAccountCreditConfig.isSpendBlocked
+            this.chargedOffReason = financialAccountCreditConfig.chargedOffReason
             additionalProperties(financialAccountCreditConfig.additionalProperties)
         }
 
@@ -190,6 +200,17 @@ private constructor(
             this.isSpendBlocked = isSpendBlocked
         }
 
+        /** Reason for the financial account being marked as Charged Off */
+        fun chargedOffReason(chargedOffReason: ChargedOffReason) =
+            chargedOffReason(JsonField.of(chargedOffReason))
+
+        /** Reason for the financial account being marked as Charged Off */
+        @JsonProperty("charged_off_reason")
+        @ExcludeMissing
+        fun chargedOffReason(chargedOffReason: JsonField<ChargedOffReason>) = apply {
+            this.chargedOffReason = chargedOffReason
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             this.additionalProperties.putAll(additionalProperties)
@@ -213,8 +234,66 @@ private constructor(
                 tier,
                 financialAccountState,
                 isSpendBlocked,
+                chargedOffReason,
                 additionalProperties.toUnmodifiable(),
             )
+    }
+
+    class ChargedOffReason
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) : Enum {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ChargedOffReason && this.value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+
+        companion object {
+
+            @JvmField val DELINQUENT = ChargedOffReason(JsonField.of("DELINQUENT"))
+
+            @JvmField val FRAUD = ChargedOffReason(JsonField.of("FRAUD"))
+
+            @JvmStatic fun of(value: String) = ChargedOffReason(JsonField.of(value))
+        }
+
+        enum class Known {
+            DELINQUENT,
+            FRAUD,
+        }
+
+        enum class Value {
+            DELINQUENT,
+            FRAUD,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                DELINQUENT -> Value.DELINQUENT
+                FRAUD -> Value.FRAUD
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                DELINQUENT -> Known.DELINQUENT
+                FRAUD -> Known.FRAUD
+                else -> throw LithicInvalidDataException("Unknown ChargedOffReason: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
     }
 
     class FinancialAccountState
@@ -245,6 +324,8 @@ private constructor(
 
             @JvmField val DELINQUENT = FinancialAccountState(JsonField.of("DELINQUENT"))
 
+            @JvmField val CHARGED_OFF = FinancialAccountState(JsonField.of("CHARGED_OFF"))
+
             @JvmStatic fun of(value: String) = FinancialAccountState(JsonField.of(value))
         }
 
@@ -252,12 +333,14 @@ private constructor(
             PENDING,
             CURRENT,
             DELINQUENT,
+            CHARGED_OFF,
         }
 
         enum class Value {
             PENDING,
             CURRENT,
             DELINQUENT,
+            CHARGED_OFF,
             _UNKNOWN,
         }
 
@@ -266,6 +349,7 @@ private constructor(
                 PENDING -> Value.PENDING
                 CURRENT -> Value.CURRENT
                 DELINQUENT -> Value.DELINQUENT
+                CHARGED_OFF -> Value.CHARGED_OFF
                 else -> Value._UNKNOWN
             }
 
@@ -274,6 +358,7 @@ private constructor(
                 PENDING -> Known.PENDING
                 CURRENT -> Known.CURRENT
                 DELINQUENT -> Known.DELINQUENT
+                CHARGED_OFF -> Known.CHARGED_OFF
                 else -> throw LithicInvalidDataException("Unknown FinancialAccountState: $value")
             }
 
@@ -285,18 +370,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FinancialAccountCreditConfig && this.accountToken == other.accountToken && this.creditLimit == other.creditLimit && this.externalBankAccountToken == other.externalBankAccountToken && this.creditProductToken == other.creditProductToken && this.tier == other.tier && this.financialAccountState == other.financialAccountState && this.isSpendBlocked == other.isSpendBlocked && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is FinancialAccountCreditConfig && this.accountToken == other.accountToken && this.creditLimit == other.creditLimit && this.externalBankAccountToken == other.externalBankAccountToken && this.creditProductToken == other.creditProductToken && this.tier == other.tier && this.financialAccountState == other.financialAccountState && this.isSpendBlocked == other.isSpendBlocked && this.chargedOffReason == other.chargedOffReason && this.additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     private var hashCode: Int = 0
 
     override fun hashCode(): Int {
         if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(accountToken, creditLimit, externalBankAccountToken, creditProductToken, tier, financialAccountState, isSpendBlocked, additionalProperties) /* spotless:on */
+            hashCode = /* spotless:off */ Objects.hash(accountToken, creditLimit, externalBankAccountToken, creditProductToken, tier, financialAccountState, isSpendBlocked, chargedOffReason, additionalProperties) /* spotless:on */
         }
         return hashCode
     }
 
     override fun toString() =
-        "FinancialAccountCreditConfig{accountToken=$accountToken, creditLimit=$creditLimit, externalBankAccountToken=$externalBankAccountToken, creditProductToken=$creditProductToken, tier=$tier, financialAccountState=$financialAccountState, isSpendBlocked=$isSpendBlocked, additionalProperties=$additionalProperties}"
+        "FinancialAccountCreditConfig{accountToken=$accountToken, creditLimit=$creditLimit, externalBankAccountToken=$externalBankAccountToken, creditProductToken=$creditProductToken, tier=$tier, financialAccountState=$financialAccountState, isSpendBlocked=$isSpendBlocked, chargedOffReason=$chargedOffReason, additionalProperties=$additionalProperties}"
 }
