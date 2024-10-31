@@ -13,7 +13,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
@@ -178,8 +178,8 @@ private constructor(
                 accountHolderToken,
                 documentType,
                 entityToken,
-                requiredDocumentUploads.map { it.toUnmodifiable() },
-                additionalProperties.toUnmodifiable(),
+                requiredDocumentUploads.map { it.toImmutable() },
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -630,14 +630,14 @@ private constructor(
                 RequiredDocumentUpload(
                     imageType,
                     status,
-                    statusReasons.map { it.toUnmodifiable() },
+                    statusReasons.map { it.toImmutable() },
                     uploadUrl,
                     token,
-                    acceptedEntityStatusReasons.map { it.toUnmodifiable() },
-                    rejectedEntityStatusReasons.map { it.toUnmodifiable() },
+                    acceptedEntityStatusReasons.map { it.toImmutable() },
+                    rejectedEntityStatusReasons.map { it.toImmutable() },
                     created,
                     updated,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 

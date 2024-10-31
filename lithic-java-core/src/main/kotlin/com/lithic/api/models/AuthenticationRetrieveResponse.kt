@@ -13,7 +13,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
@@ -555,7 +555,7 @@ private constructor(
                 threeRiRequestType,
                 token,
                 transaction,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -1039,7 +1039,7 @@ private constructor(
                     phoneNumberMobile,
                     phoneNumberWork,
                     shippingAddress,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -1225,7 +1225,7 @@ private constructor(
                         city,
                         country,
                         postalCode,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -1608,7 +1608,7 @@ private constructor(
                     mcc,
                     name,
                     riskIndicator,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -2002,7 +2002,7 @@ private constructor(
                         preOrderAvailableDate,
                         reorderItems,
                         shippingMethod,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -2539,7 +2539,7 @@ private constructor(
                 AdditionalData(
                     networkDecision,
                     networkRiskScore,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -2739,7 +2739,7 @@ private constructor(
                 App(
                     deviceInfo,
                     ip,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -3121,7 +3121,7 @@ private constructor(
                     language,
                     timeZone,
                     userAgent,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -3501,7 +3501,7 @@ private constructor(
                     currencyExponent,
                     dateTime,
                     type,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 

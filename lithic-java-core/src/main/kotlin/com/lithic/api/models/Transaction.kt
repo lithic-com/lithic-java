@@ -13,7 +13,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
@@ -632,7 +632,7 @@ private constructor(
                 cardToken,
                 cardholderAuthentication,
                 created,
-                events.map { it.toUnmodifiable() },
+                events.map { it.toImmutable() },
                 merchant,
                 merchantAmount,
                 merchantAuthorizationAmount,
@@ -646,7 +646,7 @@ private constructor(
                 token,
                 tokenInfo,
                 updated,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -765,7 +765,7 @@ private constructor(
                     hold,
                     merchant,
                     settlement,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -909,7 +909,7 @@ private constructor(
                         amount,
                         conversionRate,
                         currency,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -1052,7 +1052,7 @@ private constructor(
                     Hold(
                         amount,
                         currency,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -1183,7 +1183,7 @@ private constructor(
                     Merchant(
                         amount,
                         currency,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -1314,7 +1314,7 @@ private constructor(
                     Settlement(
                         amount,
                         currency,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -1449,7 +1449,7 @@ private constructor(
                 Avs(
                     address,
                     zipcode,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -1801,7 +1801,7 @@ private constructor(
                     threeDSAuthenticationToken,
                     verificationAttempted,
                     verificationResult,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -2512,7 +2512,7 @@ private constructor(
                     descriptor,
                     mcc,
                     state,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -2693,7 +2693,7 @@ private constructor(
                 Pos(
                     entryMode,
                     terminal,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -2833,7 +2833,7 @@ private constructor(
                         cardholder,
                         pan,
                         pinEntered,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -3391,7 +3391,7 @@ private constructor(
                         partialApprovalCapable,
                         pinCapability,
                         type,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -4120,7 +4120,7 @@ private constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): TokenInfo = TokenInfo(walletType, additionalProperties.toUnmodifiable())
+            fun build(): TokenInfo = TokenInfo(walletType, additionalProperties.toImmutable())
         }
 
         class WalletType
@@ -4423,12 +4423,12 @@ private constructor(
                     amount,
                     amounts,
                     created,
-                    detailedResults.map { it.toUnmodifiable() },
+                    detailedResults.map { it.toImmutable() },
                     effectivePolarity,
                     result,
                     token,
                     type,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -4534,7 +4534,7 @@ private constructor(
                         cardholder,
                         merchant,
                         settlement,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -4680,7 +4680,7 @@ private constructor(
                             amount,
                             conversionRate,
                             currency,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -4811,7 +4811,7 @@ private constructor(
                         Merchant(
                             amount,
                             currency,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
 
@@ -4970,7 +4970,7 @@ private constructor(
                             amount,
                             conversionRate,
                             currency,
-                            additionalProperties.toUnmodifiable(),
+                            additionalProperties.toImmutable(),
                         )
                 }
 

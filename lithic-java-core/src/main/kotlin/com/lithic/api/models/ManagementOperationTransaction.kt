@@ -13,7 +13,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.time.OffsetDateTime
@@ -279,13 +279,13 @@ private constructor(
                 settledAmount,
                 pendingAmount,
                 currency,
-                events.map { it.toUnmodifiable() },
+                events.map { it.toImmutable() },
                 created,
                 updated,
                 userDefinedId,
                 financialAccountToken,
                 direction,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -609,12 +609,12 @@ private constructor(
                     type,
                     subtype,
                     result,
-                    detailedResults.map { it.toUnmodifiable() },
+                    detailedResults.map { it.toImmutable() },
                     created,
                     token,
                     memo,
                     effectiveDate,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
