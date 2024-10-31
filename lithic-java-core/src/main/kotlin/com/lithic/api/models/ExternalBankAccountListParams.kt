@@ -7,7 +7,7 @@ import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
@@ -64,7 +64,7 @@ constructor(
             params.put("verification_states", listOf(it.joinToString(separator = ",")))
         }
         params.putAll(additionalQueryParams)
-        return params.toUnmodifiable()
+        return params.toImmutable()
     }
 
     @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
@@ -222,16 +222,16 @@ constructor(
         fun build(): ExternalBankAccountListParams =
             ExternalBankAccountListParams(
                 accountToken,
-                if (accountTypes.size == 0) null else accountTypes.toUnmodifiable(),
-                if (countries.size == 0) null else countries.toUnmodifiable(),
+                if (accountTypes.size == 0) null else accountTypes.toImmutable(),
+                if (countries.size == 0) null else countries.toImmutable(),
                 endingBefore,
-                if (ownerTypes.size == 0) null else ownerTypes.toUnmodifiable(),
+                if (ownerTypes.size == 0) null else ownerTypes.toImmutable(),
                 pageSize,
                 startingAfter,
-                if (states.size == 0) null else states.toUnmodifiable(),
-                if (verificationStates.size == 0) null else verificationStates.toUnmodifiable(),
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                if (states.size == 0) null else states.toImmutable(),
+                if (verificationStates.size == 0) null else verificationStates.toImmutable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 

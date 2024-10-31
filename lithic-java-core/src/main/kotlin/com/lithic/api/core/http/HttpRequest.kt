@@ -4,7 +4,7 @@ import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.ListMultimap
 import com.google.common.collect.Multimap
 import com.google.common.collect.MultimapBuilder
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 
 class HttpRequest
 private constructor(
@@ -83,8 +83,8 @@ private constructor(
             HttpRequest(
                 checkNotNull(method) { "`method` is required but was not set" },
                 url,
-                pathSegments.toUnmodifiable(),
-                queryParams.toUnmodifiable(),
+                pathSegments.toImmutable(),
+                queryParams.toImmutable(),
                 headers,
                 body,
             )

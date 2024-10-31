@@ -13,7 +13,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.util.Objects
@@ -159,8 +159,8 @@ private constructor(
                 transactionToken,
                 eventToken,
                 common,
-                fleet.map { it.toUnmodifiable() },
-                additionalProperties.toUnmodifiable(),
+                fleet.map { it.toImmutable() },
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -316,8 +316,8 @@ private constructor(
                     merchantReferenceNumber,
                     orderDate,
                     tax,
-                    lineItems.map { it.toUnmodifiable() },
-                    additionalProperties.toUnmodifiable(),
+                    lineItems.map { it.toImmutable() },
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -456,7 +456,7 @@ private constructor(
                         description,
                         quantity,
                         amount,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -595,7 +595,7 @@ private constructor(
                         amount,
                         exempt,
                         merchantTaxId,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -898,7 +898,7 @@ private constructor(
                     driverNumber,
                     fuel,
                     amountTotals,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -1012,7 +1012,7 @@ private constructor(
                         grossSale,
                         discount,
                         netSale,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 
@@ -1170,7 +1170,7 @@ private constructor(
                         quantity,
                         unitPrice,
                         unitOfMeasure,
-                        additionalProperties.toUnmodifiable(),
+                        additionalProperties.toImmutable(),
                     )
             }
 

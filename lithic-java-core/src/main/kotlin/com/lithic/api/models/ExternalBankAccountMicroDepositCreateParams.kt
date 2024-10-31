@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.models.*
 import java.util.Objects
 
@@ -98,8 +98,8 @@ constructor(
             fun build(): ExternalBankAccountMicroDepositCreateBody =
                 ExternalBankAccountMicroDepositCreateBody(
                     checkNotNull(microDeposits) { "`microDeposits` is required but was not set" }
-                        .toUnmodifiable(),
-                    additionalProperties.toUnmodifiable()
+                        .toImmutable(),
+                    additionalProperties.toImmutable()
                 )
         }
 
@@ -246,10 +246,10 @@ constructor(
                     "`externalBankAccountToken` is required but was not set"
                 },
                 checkNotNull(microDeposits) { "`microDeposits` is required but was not set" }
-                    .toUnmodifiable(),
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
+                    .toImmutable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalBodyProperties.toImmutable(),
             )
     }
 }

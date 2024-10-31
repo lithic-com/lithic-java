@@ -18,7 +18,7 @@ import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
@@ -345,8 +345,8 @@ constructor(
                 applyAuthRuleRequestAccountTokens,
                 applyAuthRuleRequestCardTokens,
                 applyAuthRuleRequestProgramLevel,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 
@@ -408,8 +408,8 @@ constructor(
             fun build(): ApplyAuthRuleRequestAccountTokens =
                 ApplyAuthRuleRequestAccountTokens(
                     checkNotNull(accountTokens) { "`accountTokens` is required but was not set" }
-                        .toUnmodifiable(),
-                    additionalProperties.toUnmodifiable()
+                        .toImmutable(),
+                    additionalProperties.toImmutable()
                 )
         }
 
@@ -489,8 +489,8 @@ constructor(
             fun build(): ApplyAuthRuleRequestCardTokens =
                 ApplyAuthRuleRequestCardTokens(
                     checkNotNull(cardTokens) { "`cardTokens` is required but was not set" }
-                        .toUnmodifiable(),
-                    additionalProperties.toUnmodifiable()
+                        .toImmutable(),
+                    additionalProperties.toImmutable()
                 )
         }
 
@@ -570,7 +570,7 @@ constructor(
             fun build(): ApplyAuthRuleRequestProgramLevel =
                 ApplyAuthRuleRequestProgramLevel(
                     checkNotNull(programLevel) { "`programLevel` is required but was not set" },
-                    additionalProperties.toUnmodifiable()
+                    additionalProperties.toImmutable()
                 )
         }
 

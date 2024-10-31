@@ -13,7 +13,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
@@ -316,14 +316,14 @@ private constructor(
                 cardToken,
                 createdAt,
                 digitalCardArtToken,
-                events.map { it.toUnmodifiable() },
+                events.map { it.toImmutable() },
                 status,
                 token,
                 tokenRequestorName,
                 tokenUniqueReference,
                 tokenizationChannel,
                 updatedAt,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -712,7 +712,7 @@ private constructor(
                     result,
                     token,
                     type,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 

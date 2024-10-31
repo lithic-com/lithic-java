@@ -13,7 +13,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
@@ -682,7 +682,7 @@ private constructor(
                 created,
                 customerFiledDate,
                 customerNote,
-                networkClaimIds.map { it.toUnmodifiable() },
+                networkClaimIds.map { it.toImmutable() },
                 networkFiledDate,
                 networkReasonCode,
                 prearbitrationDate,
@@ -696,7 +696,7 @@ private constructor(
                 status,
                 token,
                 transactionToken,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 

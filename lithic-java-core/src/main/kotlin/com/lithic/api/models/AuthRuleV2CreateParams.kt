@@ -22,7 +22,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.util.Objects
@@ -346,8 +346,8 @@ constructor(
                 createAuthRuleRequestAccountTokens,
                 createAuthRuleRequestCardTokens,
                 createAuthRuleRequestProgramLevel,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 
@@ -428,10 +428,10 @@ constructor(
             fun build(): CreateAuthRuleRequestAccountTokens =
                 CreateAuthRuleRequestAccountTokens(
                     checkNotNull(accountTokens) { "`accountTokens` is required but was not set" }
-                        .toUnmodifiable(),
+                        .toImmutable(),
                     type,
                     parameters,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -641,8 +641,8 @@ constructor(
 
                     fun build(): ConditionalBlockParameters =
                         ConditionalBlockParameters(
-                            conditions.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable()
+                            conditions.map { it.toImmutable() },
+                            additionalProperties.toImmutable()
                         )
                 }
 
@@ -888,7 +888,7 @@ constructor(
                                 attribute,
                                 operation,
                                 value,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -1407,10 +1407,10 @@ constructor(
             fun build(): CreateAuthRuleRequestCardTokens =
                 CreateAuthRuleRequestCardTokens(
                     checkNotNull(cardTokens) { "`cardTokens` is required but was not set" }
-                        .toUnmodifiable(),
+                        .toImmutable(),
                     type,
                     parameters,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -1620,8 +1620,8 @@ constructor(
 
                     fun build(): ConditionalBlockParameters =
                         ConditionalBlockParameters(
-                            conditions.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable()
+                            conditions.map { it.toImmutable() },
+                            additionalProperties.toImmutable()
                         )
                 }
 
@@ -1867,7 +1867,7 @@ constructor(
                                 attribute,
                                 operation,
                                 value,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -2389,7 +2389,7 @@ constructor(
                     checkNotNull(programLevel) { "`programLevel` is required but was not set" },
                     type,
                     parameters,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -2599,8 +2599,8 @@ constructor(
 
                     fun build(): ConditionalBlockParameters =
                         ConditionalBlockParameters(
-                            conditions.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable()
+                            conditions.map { it.toImmutable() },
+                            additionalProperties.toImmutable()
                         )
                 }
 
@@ -2846,7 +2846,7 @@ constructor(
                                 attribute,
                                 operation,
                                 value,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 

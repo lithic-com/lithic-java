@@ -166,8 +166,8 @@ private constructor(
                 baseUrl,
                 apiKey!!,
                 webhookSecret,
-                headers.toUnmodifiable(),
-                queryParams.toUnmodifiable(),
+                headers.toImmutable(),
+                queryParams.toImmutable(),
                 responseValidation,
                 maxRetries,
             )

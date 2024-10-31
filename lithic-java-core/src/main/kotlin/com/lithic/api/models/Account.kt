@@ -13,7 +13,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
@@ -328,14 +328,14 @@ private constructor(
         fun build(): Account =
             Account(
                 accountHolder,
-                authRuleTokens.map { it.toUnmodifiable() },
+                authRuleTokens.map { it.toImmutable() },
                 cardholderCurrency,
                 spendLimit,
                 state,
                 token,
                 verificationAddress,
                 created,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -453,7 +453,7 @@ private constructor(
                     daily,
                     lifetime,
                     monthly,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -692,7 +692,7 @@ private constructor(
                     email,
                     phoneNumber,
                     token,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -908,7 +908,7 @@ private constructor(
                     country,
                     postalCode,
                     state,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 

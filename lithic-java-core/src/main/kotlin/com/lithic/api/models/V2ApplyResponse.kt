@@ -22,7 +22,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
@@ -224,12 +224,12 @@ private constructor(
                 token,
                 state,
                 programLevel,
-                cardTokens.map { it.toUnmodifiable() },
-                accountTokens.map { it.toUnmodifiable() },
+                cardTokens.map { it.toImmutable() },
+                accountTokens.map { it.toImmutable() },
                 type,
                 currentVersion,
                 draftVersion,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -328,7 +328,7 @@ private constructor(
                 CurrentVersion(
                     parameters,
                     version,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -538,8 +538,8 @@ private constructor(
 
                     fun build(): ConditionalBlockParameters =
                         ConditionalBlockParameters(
-                            conditions.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable()
+                            conditions.map { it.toImmutable() },
+                            additionalProperties.toImmutable()
                         )
                 }
 
@@ -785,7 +785,7 @@ private constructor(
                                 attribute,
                                 operation,
                                 value,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
@@ -1268,7 +1268,7 @@ private constructor(
                 DraftVersion(
                     parameters,
                     version,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -1478,8 +1478,8 @@ private constructor(
 
                     fun build(): ConditionalBlockParameters =
                         ConditionalBlockParameters(
-                            conditions.map { it.toUnmodifiable() },
-                            additionalProperties.toUnmodifiable()
+                            conditions.map { it.toImmutable() },
+                            additionalProperties.toImmutable()
                         )
                 }
 
@@ -1725,7 +1725,7 @@ private constructor(
                                 attribute,
                                 operation,
                                 value,
-                                additionalProperties.toUnmodifiable(),
+                                additionalProperties.toImmutable(),
                             )
                     }
 
