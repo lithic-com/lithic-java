@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
@@ -201,14 +201,14 @@ constructor(
 
             fun build(): AuthRuleCreateBody =
                 AuthRuleCreateBody(
-                    accountTokens?.toUnmodifiable(),
-                    allowedCountries?.toUnmodifiable(),
-                    allowedMcc?.toUnmodifiable(),
-                    blockedCountries?.toUnmodifiable(),
-                    blockedMcc?.toUnmodifiable(),
-                    cardTokens?.toUnmodifiable(),
+                    accountTokens?.toImmutable(),
+                    allowedCountries?.toImmutable(),
+                    allowedMcc?.toImmutable(),
+                    blockedCountries?.toImmutable(),
+                    blockedMcc?.toImmutable(),
+                    cardTokens?.toImmutable(),
                     programLevel,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -426,16 +426,16 @@ constructor(
 
         fun build(): AuthRuleCreateParams =
             AuthRuleCreateParams(
-                if (accountTokens.size == 0) null else accountTokens.toUnmodifiable(),
-                if (allowedCountries.size == 0) null else allowedCountries.toUnmodifiable(),
-                if (allowedMcc.size == 0) null else allowedMcc.toUnmodifiable(),
-                if (blockedCountries.size == 0) null else blockedCountries.toUnmodifiable(),
-                if (blockedMcc.size == 0) null else blockedMcc.toUnmodifiable(),
-                if (cardTokens.size == 0) null else cardTokens.toUnmodifiable(),
+                if (accountTokens.size == 0) null else accountTokens.toImmutable(),
+                if (allowedCountries.size == 0) null else allowedCountries.toImmutable(),
+                if (allowedMcc.size == 0) null else allowedMcc.toImmutable(),
+                if (blockedCountries.size == 0) null else blockedCountries.toImmutable(),
+                if (blockedMcc.size == 0) null else blockedMcc.toImmutable(),
+                if (cardTokens.size == 0) null else cardTokens.toImmutable(),
                 programLevel,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalBodyProperties.toImmutable(),
             )
     }
 }

@@ -22,7 +22,7 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
@@ -212,7 +212,7 @@ private constructor(
                 filters,
                 limitAmount,
                 limitCount,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -336,9 +336,9 @@ private constructor(
 
             fun build(): Filters =
                 Filters(
-                    includeMccs.map { it.toUnmodifiable() },
-                    includeCountries.map { it.toUnmodifiable() },
-                    additionalProperties.toUnmodifiable(),
+                    includeMccs.map { it.toImmutable() },
+                    includeCountries.map { it.toImmutable() },
+                    additionalProperties.toImmutable(),
                 )
         }
 

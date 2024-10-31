@@ -11,7 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
@@ -80,7 +80,7 @@ private constructor(
         }
 
         fun build(): V2ReportResponse =
-            V2ReportResponse(reportToken, additionalProperties.toUnmodifiable())
+            V2ReportResponse(reportToken, additionalProperties.toImmutable())
     }
 
     override fun equals(other: Any?): Boolean {

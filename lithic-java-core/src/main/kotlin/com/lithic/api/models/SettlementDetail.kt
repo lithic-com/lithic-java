@@ -13,7 +13,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
@@ -516,7 +516,7 @@ private constructor(
                 created,
                 currency,
                 disputesGrossAmount,
-                eventTokens.map { it.toUnmodifiable() },
+                eventTokens.map { it.toImmutable() },
                 institution,
                 interchangeFeeExtendedPrecision,
                 interchangeGrossAmount,
@@ -530,7 +530,7 @@ private constructor(
                 transactionsGrossAmount,
                 type,
                 updated,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 
@@ -674,7 +674,7 @@ private constructor(
             }
 
             fun build(): OtherFeesDetails =
-                OtherFeesDetails(isa, additionalProperties.toUnmodifiable())
+                OtherFeesDetails(isa, additionalProperties.toImmutable())
         }
 
         override fun equals(other: Any?): Boolean {

@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
@@ -131,10 +131,10 @@ constructor(
 
             fun build(): AuthRuleRemoveBody =
                 AuthRuleRemoveBody(
-                    accountTokens?.toUnmodifiable(),
-                    cardTokens?.toUnmodifiable(),
+                    accountTokens?.toImmutable(),
+                    cardTokens?.toImmutable(),
                     programLevel,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -296,12 +296,12 @@ constructor(
 
         fun build(): AuthRuleRemoveParams =
             AuthRuleRemoveParams(
-                if (accountTokens.size == 0) null else accountTokens.toUnmodifiable(),
-                if (cardTokens.size == 0) null else cardTokens.toUnmodifiable(),
+                if (accountTokens.size == 0) null else accountTokens.toImmutable(),
+                if (cardTokens.size == 0) null else cardTokens.toImmutable(),
                 programLevel,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalBodyProperties.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalBodyProperties.toImmutable(),
             )
     }
 }
