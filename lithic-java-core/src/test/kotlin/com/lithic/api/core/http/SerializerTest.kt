@@ -92,7 +92,7 @@ internal class SerializerTest {
             fun build(): ClassWithBooleanFieldPrefixedWithIs =
                 ClassWithBooleanFieldPrefixedWithIs(
                     isActive,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
     }

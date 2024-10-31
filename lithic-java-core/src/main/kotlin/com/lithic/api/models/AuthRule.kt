@@ -13,7 +13,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
@@ -288,16 +288,16 @@ private constructor(
 
         fun build(): AuthRule =
             AuthRule(
-                accountTokens.map { it.toUnmodifiable() },
-                allowedCountries.map { it.toUnmodifiable() },
-                allowedMcc.map { it.toUnmodifiable() },
-                blockedCountries.map { it.toUnmodifiable() },
-                blockedMcc.map { it.toUnmodifiable() },
-                cardTokens.map { it.toUnmodifiable() },
+                accountTokens.map { it.toImmutable() },
+                allowedCountries.map { it.toImmutable() },
+                allowedMcc.map { it.toImmutable() },
+                blockedCountries.map { it.toImmutable() },
+                blockedMcc.map { it.toImmutable() },
+                cardTokens.map { it.toImmutable() },
                 programLevel,
                 state,
                 token,
-                additionalProperties.toUnmodifiable(),
+                additionalProperties.toImmutable(),
             )
     }
 

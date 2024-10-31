@@ -11,7 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import java.util.Objects
 
 @JsonDeserialize(builder = ExtendedCredit.Builder::class)
@@ -80,7 +80,7 @@ private constructor(
         }
 
         fun build(): ExtendedCredit =
-            ExtendedCredit(creditExtended, additionalProperties.toUnmodifiable())
+            ExtendedCredit(creditExtended, additionalProperties.toImmutable())
     }
 
     override fun equals(other: Any?): Boolean {

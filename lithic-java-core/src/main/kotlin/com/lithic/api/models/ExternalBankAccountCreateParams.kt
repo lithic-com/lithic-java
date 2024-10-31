@@ -21,7 +21,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import com.lithic.api.models.*
 import java.time.LocalDate
@@ -387,8 +387,8 @@ constructor(
                 bankVerifiedCreateBankAccountApiRequest,
                 plaidCreateBankAccountApiRequest,
                 externallyVerifiedCreateBankAccountApiRequest,
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 
@@ -653,7 +653,7 @@ constructor(
                     checkNotNull(financialAccountToken) {
                         "`financialAccountToken` is required but was not set"
                     },
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -896,7 +896,7 @@ constructor(
                     dob,
                     userDefinedId,
                     checkNotNull(processorToken) { "`processorToken` is required but was not set" },
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -1157,7 +1157,7 @@ constructor(
                     checkNotNull(country) { "`country` is required but was not set" },
                     checkNotNull(currency) { "`currency` is required but was not set" },
                     address,
-                    additionalProperties.toUnmodifiable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 

@@ -3,7 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toUnmodifiable
+import com.lithic.api.core.toImmutable
 import com.lithic.api.models.*
 import java.util.Objects
 
@@ -112,8 +112,8 @@ constructor(
         fun build(): PaymentRetrieveParams =
             PaymentRetrieveParams(
                 checkNotNull(paymentToken) { "`paymentToken` is required but was not set" },
-                additionalQueryParams.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
-                additionalHeaders.mapValues { it.value.toUnmodifiable() }.toUnmodifiable(),
+                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
             )
     }
 }
