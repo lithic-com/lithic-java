@@ -3,13 +3,13 @@
 package com.lithic.api.services.async
 
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.errorHandler
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.services.async.threeDS.AuthenticationServiceAsync
 import com.lithic.api.services.async.threeDS.AuthenticationServiceAsyncImpl
 import com.lithic.api.services.async.threeDS.DecisioningServiceAsync
 import com.lithic.api.services.async.threeDS.DecisioningServiceAsyncImpl
-import com.lithic.api.services.errorHandler
 
 class ThreeDSServiceAsyncImpl
 constructor(

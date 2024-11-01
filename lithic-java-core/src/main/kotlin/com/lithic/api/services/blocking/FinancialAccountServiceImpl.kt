@@ -4,9 +4,13 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.errorHandler
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
+import com.lithic.api.core.json
+import com.lithic.api.core.jsonHandler
+import com.lithic.api.core.withErrorHandler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.FinancialAccount
 import com.lithic.api.models.FinancialAccountCreateParams
@@ -24,10 +28,6 @@ import com.lithic.api.services.blocking.financialAccounts.LoanTapeService
 import com.lithic.api.services.blocking.financialAccounts.LoanTapeServiceImpl
 import com.lithic.api.services.blocking.financialAccounts.StatementService
 import com.lithic.api.services.blocking.financialAccounts.StatementServiceImpl
-import com.lithic.api.services.errorHandler
-import com.lithic.api.services.json
-import com.lithic.api.services.jsonHandler
-import com.lithic.api.services.withErrorHandler
 
 class FinancialAccountServiceImpl
 constructor(
