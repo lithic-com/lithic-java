@@ -6,8 +6,8 @@ import com.fasterxml.jackson.core.JsonProcessingException
 import com.google.common.collect.ListMultimap
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
-import com.lithic.api.core.errorHandler
 import com.lithic.api.core.getRequiredHeader
+import com.lithic.api.core.handlers.errorHandler
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.errors.LithicException
