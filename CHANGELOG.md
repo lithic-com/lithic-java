@@ -1,5 +1,73 @@
 # Changelog
 
+## 0.68.0 (2024-11-01)
+
+Full Changelog: [v0.67.0...v0.68.0](https://github.com/lithic-com/lithic-java/compare/v0.67.0...v0.68.0)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** rename some union classes ([#361](https://github.com/lithic-com/lithic-java/issues/361))
+
+### Features
+
+* **api:** add `interest_details` properties to LoanTapes ([#351](https://github.com/lithic-com/lithic-java/issues/351)) ([d71f9c2](https://github.com/lithic-com/lithic-java/commit/d71f9c23347095873f61b894095f954c65d50810))
+* **api:** removes `transfer_transaction.created` webhook and updates to VerificationApplication ([#343](https://github.com/lithic-com/lithic-java/issues/343)) ([e6a1172](https://github.com/lithic-com/lithic-java/commit/e6a1172a01f186a463120ef05e24e1f5ed123918))
+* **api:** updates ([#358](https://github.com/lithic-com/lithic-java/issues/358)) ([242b018](https://github.com/lithic-com/lithic-java/commit/242b018302a28cb76a3c7520c3633d8c9cebcfbd))
+* **client:** add `Headers` class ([#369](https://github.com/lithic-com/lithic-java/issues/369)) ([de2ec32](https://github.com/lithic-com/lithic-java/commit/de2ec326be25bd1a14620b1ac324627a755bc480))
+* **client:** add `User-Agent` header ([#356](https://github.com/lithic-com/lithic-java/issues/356)) ([2e54069](https://github.com/lithic-com/lithic-java/commit/2e54069d945eed47e7d01aac97b3e14e0fc3e3a2))
+* **client:** clean up resource leaks when the resource becomes phantom reachable ([#359](https://github.com/lithic-com/lithic-java/issues/359)) ([0877b0e](https://github.com/lithic-com/lithic-java/commit/0877b0e3a81111a3d42cd2234ca5a2a44c3ee437))
+* **client:** set `X-Stainless-Runtime` header ([#355](https://github.com/lithic-com/lithic-java/issues/355)) ([eb4c4e9](https://github.com/lithic-com/lithic-java/commit/eb4c4e99ca9689bffdf467024c1865890b05b1ca))
+* **client:** support union discriminators in deserialization ([#339](https://github.com/lithic-com/lithic-java/issues/339)) ([520e3e8](https://github.com/lithic-com/lithic-java/commit/520e3e8da04806178bbbb6b521cda916825cef2e))
+
+
+### Bug Fixes
+
+* **client:** accidental double-wrapping with `RetryingHttpClient` ([#357](https://github.com/lithic-com/lithic-java/issues/357)) ([9454836](https://github.com/lithic-com/lithic-java/commit/9454836120ed95642eece9c3ecca47ee8629b72b))
+* **client:** add `@JvmOverloads` to `HttpClient` methods ([#349](https://github.com/lithic-com/lithic-java/issues/349)) ([95928aa](https://github.com/lithic-com/lithic-java/commit/95928aa0478bafea335173b4a05e8801387a0c8e))
+* **client:** ensure constructed objects are immutable ([#367](https://github.com/lithic-com/lithic-java/issues/367)) ([1a42aeb](https://github.com/lithic-com/lithic-java/commit/1a42aeb3c6794726bf9e9d303fc263f2531d571f))
+* **client:** implement `hashCode` for `IsMissing` ([#352](https://github.com/lithic-com/lithic-java/issues/352)) ([c93d7f3](https://github.com/lithic-com/lithic-java/commit/c93d7f35d5c8412a27ee52b2af9e5f8d744a3290))
+* **internal:** remove unnecessary error handlers ([#338](https://github.com/lithic-com/lithic-java/issues/338)) ([b9bf1e8](https://github.com/lithic-com/lithic-java/commit/b9bf1e8974d4205eeff9cba08ca9c5c78d1f56c0))
+* merge conflicts ([#371](https://github.com/lithic-com/lithic-java/issues/371)) ([709b83e](https://github.com/lithic-com/lithic-java/commit/709b83ec8726fd3dd181af99e95442f888ec01f5))
+
+
+### Chores
+
+* **api:** add `PIN_BLOCKED` to `detailed_results` property on Event ([#353](https://github.com/lithic-com/lithic-java/issues/353)) ([20b0e70](https://github.com/lithic-com/lithic-java/commit/20b0e7092061a7326406e419c83a595e54ea5f61))
+* **api:** adds `charge_off` functionality to FinancialAccounts ([#362](https://github.com/lithic-com/lithic-java/issues/362)) ([7bef93d](https://github.com/lithic-com/lithic-java/commit/7bef93dba4b1f28372cc1bcc2848fd283be9d692))
+* **api:** adds new result types to Transactions and Events ([#354](https://github.com/lithic-com/lithic-java/issues/354)) ([01c894a](https://github.com/lithic-com/lithic-java/commit/01c894a136de6604b70a91f089faa1ad9039b529))
+* **docs:** updates to documentation for V2 AuthRules ([#360](https://github.com/lithic-com/lithic-java/issues/360)) ([fa18412](https://github.com/lithic-com/lithic-java/commit/fa184129e5525eb6c9819772fd00effb50072ef6))
+* **internal:** delete unused function ([#364](https://github.com/lithic-com/lithic-java/issues/364)) ([7f394be](https://github.com/lithic-com/lithic-java/commit/7f394be6d2b74c70f65937e7f46b8d36584a12e2))
+* **internal:** omit unnecessary code ([#337](https://github.com/lithic-com/lithic-java/issues/337)) ([c8ede2e](https://github.com/lithic-com/lithic-java/commit/c8ede2e272e81446080e9f5346ea2381b71d61fb))
+* **internal:** remove empty test files ([#342](https://github.com/lithic-com/lithic-java/issues/342)) ([31579db](https://github.com/lithic-com/lithic-java/commit/31579db038c5894ab24e3888e051ac8deaede967))
+* **internal:** remove unnecessary `[@file](https://github.com/file):Suppress("OVERLOADS_INTERFACE")` ([#345](https://github.com/lithic-com/lithic-java/issues/345)) ([8517b69](https://github.com/lithic-com/lithic-java/commit/8517b69a6564fb718f43fec751d262f06cf90cb9))
+* **internal:** remove useless `[@file](https://github.com/file):JvmSynthetic` ([#348](https://github.com/lithic-com/lithic-java/issues/348)) ([2be3a58](https://github.com/lithic-com/lithic-java/commit/2be3a58614b36238a8dff360e01d1bf2e61b254c))
+
+
+### Documentation
+
+* add docstrings ([#366](https://github.com/lithic-com/lithic-java/issues/366)) ([785be2c](https://github.com/lithic-com/lithic-java/commit/785be2ce93bf5c1277b1cb4a4728e10202d89300))
+
+
+### Styles
+
+* **client:** make toString methods consistent ([#341](https://github.com/lithic-com/lithic-java/issues/341)) ([395819c](https://github.com/lithic-com/lithic-java/commit/395819c9dd691f90c22cc74582c02923f2e16146))
+* **client:** rename some union classes ([#361](https://github.com/lithic-com/lithic-java/issues/361)) ([a1e0c0a](https://github.com/lithic-com/lithic-java/commit/a1e0c0aa4315c2a89266e4523bb381adfef7c60f))
+* **internal:** improve `OkHttpClient` formatting ([#346](https://github.com/lithic-com/lithic-java/issues/346)) ([6b64c87](https://github.com/lithic-com/lithic-java/commit/6b64c8747fb457bb22d84cfb1cd86aefff5927d1))
+* **internal:** improve `RetryingHttpClient` formatting ([#350](https://github.com/lithic-com/lithic-java/issues/350)) ([81f81ab](https://github.com/lithic-com/lithic-java/commit/81f81ab88afe73e6cc1c74480b790c8a0b7b66dc))
+* **internal:** improve terseness of handlers ([#332](https://github.com/lithic-com/lithic-java/issues/332)) ([cd04c59](https://github.com/lithic-com/lithic-java/commit/cd04c595411b9c6c69ff348435179f4e4e19ad11))
+* **internal:** improve terseness of Properties.kt ([#334](https://github.com/lithic-com/lithic-java/issues/334)) ([6f7c5b1](https://github.com/lithic-com/lithic-java/commit/6f7c5b12ff3d95be3897db2480c7c88c16654ff9))
+* **internal:** make `getOrThrow` terse and consistent ([#363](https://github.com/lithic-com/lithic-java/issues/363)) ([cfb64c1](https://github.com/lithic-com/lithic-java/commit/cfb64c10056287572a409f44b80a1207eadcdaee))
+* **internal:** move Handlers.kt and HttpRequestBodies.kt to core ([#335](https://github.com/lithic-com/lithic-java/issues/335)) ([765897b](https://github.com/lithic-com/lithic-java/commit/765897b38e469868950b73fe324fbab50983cbf9))
+* **internal:** simplify client build method ([#347](https://github.com/lithic-com/lithic-java/issues/347)) ([ed191e9](https://github.com/lithic-com/lithic-java/commit/ed191e98a7702e752eac089936c22039ceed405a))
+* **internal:** update comment formatting ([#344](https://github.com/lithic-com/lithic-java/issues/344)) ([20fc451](https://github.com/lithic-com/lithic-java/commit/20fc451c1def2255fcc392afa9977df69961bd90))
+* **internal:** use `if` and `if-else` instead of `when` idiomatically ([#340](https://github.com/lithic-com/lithic-java/issues/340)) ([2536dd7](https://github.com/lithic-com/lithic-java/commit/2536dd78664196f3f7d60f962c12d900a0fcb611))
+
+
+### Refactors
+
+* **internal:** inline `MoreExecutors` usage ([#365](https://github.com/lithic-com/lithic-java/issues/365)) ([3fd63b5](https://github.com/lithic-com/lithic-java/commit/3fd63b52bcdd51150815c0181869d872dd0882ec))
+* **internal:** polish `ClientOptions` ([#368](https://github.com/lithic-com/lithic-java/issues/368)) ([5c45a3f](https://github.com/lithic-com/lithic-java/commit/5c45a3f8fe375256c37dea95b039518fc302f3a4))
+
 ## 0.67.0 (2024-10-11)
 
 Full Changelog: [v0.66.0...v0.67.0](https://github.com/lithic-com/lithic-java/compare/v0.66.0...v0.67.0)
