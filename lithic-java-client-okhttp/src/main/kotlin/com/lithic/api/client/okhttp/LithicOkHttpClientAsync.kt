@@ -52,7 +52,21 @@ class LithicOkHttpClientAsync private constructor() {
             clientOptions.putAllHeaders(headers)
         }
 
-        fun removeHeader(name: String) = apply { clientOptions.removeHeader(name) }
+        fun replaceHeaders(name: String, value: String) = apply {
+            clientOptions.replaceHeaders(name, value)
+        }
+
+        fun replaceHeaders(name: String, values: Iterable<String>) = apply {
+            clientOptions.replaceHeaders(name, values)
+        }
+
+        fun replaceAllHeaders(headers: Map<String, Iterable<String>>) = apply {
+            clientOptions.replaceAllHeaders(headers)
+        }
+
+        fun removeHeaders(name: String) = apply { clientOptions.removeHeaders(name) }
+
+        fun removeAllHeaders(names: Set<String>) = apply { clientOptions.removeAllHeaders(names) }
 
         fun queryParams(queryParams: Map<String, Iterable<String>>) = apply {
             clientOptions.queryParams(queryParams)
@@ -70,7 +84,23 @@ class LithicOkHttpClientAsync private constructor() {
             clientOptions.putAllQueryParams(queryParams)
         }
 
-        fun removeQueryParam(key: String) = apply { clientOptions.removeQueryParam(key) }
+        fun replaceQueryParams(key: String, value: String) = apply {
+            clientOptions.replaceQueryParams(key, value)
+        }
+
+        fun replaceQueryParams(key: String, values: Iterable<String>) = apply {
+            clientOptions.replaceQueryParams(key, values)
+        }
+
+        fun replaceAllQueryParams(queryParams: Map<String, Iterable<String>>) = apply {
+            clientOptions.replaceAllQueryParams(queryParams)
+        }
+
+        fun removeQueryParams(key: String) = apply { clientOptions.removeQueryParams(key) }
+
+        fun removeAllQueryParams(keys: Set<String>) = apply {
+            clientOptions.removeAllQueryParams(keys)
+        }
 
         fun timeout(timeout: Duration) = apply { this.timeout = timeout }
 
