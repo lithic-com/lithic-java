@@ -3,6 +3,8 @@
 package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonCreator
+import com.google.common.collect.ArrayListMultimap
+import com.google.common.collect.ListMultimap
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
@@ -24,8 +26,8 @@ constructor(
     private val pageSize: Long?,
     private val startingAfter: String?,
     private val tokenizationChannel: TokenizationChannel?,
-    private val additionalQueryParams: Map<String, List<String>>,
     private val additionalHeaders: Map<String, List<String>>,
+    private val additionalQueryParams: Map<String, List<String>>,
 ) {
 
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
@@ -45,6 +47,8 @@ constructor(
     fun tokenizationChannel(): Optional<TokenizationChannel> =
         Optional.ofNullable(tokenizationChannel)
 
+    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+
     @JvmSynthetic
     internal fun getQueryParams(): Map<String, List<String>> {
         val params = mutableMapOf<String, List<String>>()
@@ -60,26 +64,24 @@ constructor(
         return params.toImmutable()
     }
 
-    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
     fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
-
-    fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is TokenizationListParams && this.accountToken == other.accountToken && this.begin == other.begin && this.cardToken == other.cardToken && this.end == other.end && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.tokenizationChannel == other.tokenizationChannel && this.additionalQueryParams == other.additionalQueryParams && this.additionalHeaders == other.additionalHeaders /* spotless:on */
+        return /* spotless:off */ other is TokenizationListParams && this.accountToken == other.accountToken && this.begin == other.begin && this.cardToken == other.cardToken && this.end == other.end && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.tokenizationChannel == other.tokenizationChannel && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, startingAfter, tokenizationChannel, additionalQueryParams, additionalHeaders) /* spotless:on */
+        return /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, startingAfter, tokenizationChannel, additionalHeaders, additionalQueryParams) /* spotless:on */
     }
 
     override fun toString() =
-        "TokenizationListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, tokenizationChannel=$tokenizationChannel, additionalQueryParams=$additionalQueryParams, additionalHeaders=$additionalHeaders}"
+        "TokenizationListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, tokenizationChannel=$tokenizationChannel, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -99,8 +101,8 @@ constructor(
         private var pageSize: Long? = null
         private var startingAfter: String? = null
         private var tokenizationChannel: TokenizationChannel? = null
-        private var additionalQueryParams: MutableMap<String, MutableList<String>> = mutableMapOf()
-        private var additionalHeaders: MutableMap<String, MutableList<String>> = mutableMapOf()
+        private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()
+        private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
 
         @JvmSynthetic
         internal fun from(tokenizationListParams: TokenizationListParams) = apply {
@@ -112,8 +114,8 @@ constructor(
             this.pageSize = tokenizationListParams.pageSize
             this.startingAfter = tokenizationListParams.startingAfter
             this.tokenizationChannel = tokenizationListParams.tokenizationChannel
-            additionalQueryParams(tokenizationListParams.additionalQueryParams)
             additionalHeaders(tokenizationListParams.additionalHeaders)
+            additionalQueryParams(tokenizationListParams.additionalQueryParams)
         }
 
         /** Filters for tokenizations associated with a specific account. */
@@ -151,45 +153,44 @@ constructor(
             this.tokenizationChannel = tokenizationChannel
         }
 
-        fun additionalQueryParams(additionalQueryParams: Map<String, List<String>>) = apply {
-            this.additionalQueryParams.clear()
-            putAllQueryParams(additionalQueryParams)
-        }
-
-        fun putQueryParam(name: String, value: String) = apply {
-            this.additionalQueryParams.getOrPut(name) { mutableListOf() }.add(value)
-        }
-
-        fun putQueryParams(name: String, values: Iterable<String>) = apply {
-            this.additionalQueryParams.getOrPut(name) { mutableListOf() }.addAll(values)
-        }
-
-        fun putAllQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
-            additionalQueryParams.forEach(this::putQueryParams)
-        }
-
-        fun removeQueryParam(name: String) = apply {
-            this.additionalQueryParams.put(name, mutableListOf())
-        }
-
         fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
             this.additionalHeaders.clear()
-            putAllHeaders(additionalHeaders)
+            putAllAdditionalHeaders(additionalHeaders)
         }
 
-        fun putHeader(name: String, value: String) = apply {
-            this.additionalHeaders.getOrPut(name) { mutableListOf() }.add(value)
+        fun putAdditionalHeader(name: String, value: String) = apply {
+            additionalHeaders.put(name, value)
         }
 
-        fun putHeaders(name: String, values: Iterable<String>) = apply {
-            this.additionalHeaders.getOrPut(name) { mutableListOf() }.addAll(values)
+        fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
+            additionalHeaders.putAll(name, values)
         }
 
-        fun putAllHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            additionalHeaders.forEach(this::putHeaders)
+        fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
+            additionalHeaders.forEach(::putAdditionalHeaders)
         }
 
-        fun removeHeader(name: String) = apply { this.additionalHeaders.put(name, mutableListOf()) }
+        fun removeAdditionalHeader(name: String) = apply { additionalHeaders.removeAll(name) }
+
+        fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
+        }
+
+        fun putAdditionalQueryParam(key: String, value: String) = apply {
+            additionalQueryParams.put(key, value)
+        }
+
+        fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
+            additionalQueryParams.putAll(key, values)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
+            apply {
+                additionalQueryParams.forEach(::putAdditionalQueryParams)
+            }
+
+        fun removeAdditionalQueryParam(key: String) = apply { additionalQueryParams.removeAll(key) }
 
         fun build(): TokenizationListParams =
             TokenizationListParams(
@@ -201,8 +202,14 @@ constructor(
                 pageSize,
                 startingAfter,
                 tokenizationChannel,
-                additionalQueryParams.mapValues { it.value.toImmutable() }.toImmutable(),
-                additionalHeaders.mapValues { it.value.toImmutable() }.toImmutable(),
+                additionalHeaders
+                    .asMap()
+                    .mapValues { it.value.toList().toImmutable() }
+                    .toImmutable(),
+                additionalQueryParams
+                    .asMap()
+                    .mapValues { it.value.toList().toImmutable() }
+                    .toImmutable(),
             )
     }
 
