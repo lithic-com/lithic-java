@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.69.0 (2024-11-05)
+
+Full Changelog: [v0.68.0...v0.69.0](https://github.com/lithic-com/lithic-java/compare/v0.68.0...v0.69.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** removes AuthRules V1 ([#378](https://github.com/lithic-com/lithic-java/issues/378))
+* **client:** add/rename methods for headers/query params ([#376](https://github.com/lithic-com/lithic-java/issues/376))
+* **client:** rename header and query params builder methods ([#375](https://github.com/lithic-com/lithic-java/issues/375))
+
+### Features
+
+* **api:** removes AuthRules V1 ([#378](https://github.com/lithic-com/lithic-java/issues/378)) ([e887e6c](https://github.com/lithic-com/lithic-java/commit/e887e6c438e321d2d7018f42f9b73f7c090e129a))
+* **client:** add `QueryParams` class ([#372](https://github.com/lithic-com/lithic-java/issues/372)) ([e5750ed](https://github.com/lithic-com/lithic-java/commit/e5750ed502ac86d2402b922a94b5c73665239d3c))
+* **client:** add/rename methods for headers/query params ([#376](https://github.com/lithic-com/lithic-java/issues/376)) ([adf420b](https://github.com/lithic-com/lithic-java/commit/adf420bea7a262affbef0d02e0b1ebe013fba7e3))
+* **client:** propagate headers/query params methods to client builders ([#374](https://github.com/lithic-com/lithic-java/issues/374)) ([61b29b1](https://github.com/lithic-com/lithic-java/commit/61b29b1224795bd2fd458db49a6355f045006baa))
+
+
+### Refactors
+
+* **client:** http request methods ([7a10d7b](https://github.com/lithic-com/lithic-java/commit/7a10d7bc1798753b52c5f68434d073385989ba01))
+* **client:** rename header and query params builder methods ([#375](https://github.com/lithic-com/lithic-java/issues/375)) ([381fdd4](https://github.com/lithic-com/lithic-java/commit/381fdd4dc87db2b002591da13f29ad270e754a30))
+
 ## 0.68.0 (2024-11-01)
 
 Full Changelog: [v0.67.0...v0.68.0](https://github.com/lithic-com/lithic-java/compare/v0.67.0...v0.68.0)
