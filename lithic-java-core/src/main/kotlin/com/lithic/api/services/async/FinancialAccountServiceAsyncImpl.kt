@@ -196,7 +196,7 @@ constructor(
     ): CompletableFuture<FinancialAccountCreditConfig> {
         val request =
             HttpRequest.builder()
-                .method(HttpMethod.PATCH)
+                .method(HttpMethod.POST)
                 .addPathSegments("v1", "financial_accounts", params.getPathParam(0), "charge_off")
                 .putAllQueryParams(clientOptions.queryParams.asMap())
                 .replaceAllQueryParams(params.getQueryParams())
