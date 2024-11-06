@@ -41,9 +41,9 @@ constructor(
                     params.getPathParam(0),
                     "credit_configuration"
                 )
-                .putAllQueryParams(clientOptions.queryParams.asMap())
+                .putAllQueryParams(clientOptions.queryParams)
                 .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers.asMap())
+                .putAllHeaders(clientOptions.headers)
                 .replaceAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
@@ -75,9 +75,9 @@ constructor(
                     params.getPathParam(0),
                     "credit_configuration"
                 )
-                .putAllQueryParams(clientOptions.queryParams.asMap())
+                .putAllQueryParams(clientOptions.queryParams)
                 .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers.asMap())
+                .putAllHeaders(clientOptions.headers)
                 .replaceAllHeaders(params.getHeaders())
                 .body(json(clientOptions.jsonMapper, params.getBody()))
                 .build()

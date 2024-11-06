@@ -21,7 +21,7 @@ constructor(
 ) : LithicClient {
 
     private val clientOptionsWithUserAgent =
-        if (clientOptions.headers.containsKey("User-Agent")) clientOptions
+        if (clientOptions.headers.names().contains("User-Agent")) clientOptions
         else
             clientOptions
                 .toBuilder()
@@ -181,9 +181,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "status")
-                .putAllQueryParams(clientOptions.queryParams.asMap())
+                .putAllQueryParams(clientOptions.queryParams)
                 .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers.asMap())
+                .putAllHeaders(clientOptions.headers)
                 .replaceAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->

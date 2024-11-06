@@ -35,9 +35,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "card_programs", params.getPathParam(0))
-                .putAllQueryParams(clientOptions.queryParams.asMap())
+                .putAllQueryParams(clientOptions.queryParams)
                 .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers.asMap())
+                .putAllHeaders(clientOptions.headers)
                 .replaceAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->
@@ -64,9 +64,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "card_programs")
-                .putAllQueryParams(clientOptions.queryParams.asMap())
+                .putAllQueryParams(clientOptions.queryParams)
                 .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers.asMap())
+                .putAllHeaders(clientOptions.headers)
                 .replaceAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.execute(request, requestOptions).let { response ->

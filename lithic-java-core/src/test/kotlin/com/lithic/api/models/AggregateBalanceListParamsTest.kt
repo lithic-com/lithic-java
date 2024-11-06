@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.http.QueryParams
 import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -21,18 +22,18 @@ class AggregateBalanceListParamsTest {
             AggregateBalanceListParams.builder()
                 .financialAccountType(AggregateBalanceListParams.FinancialAccountType.ISSUING)
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
+        val expected = QueryParams.builder()
         expected.put(
             "financial_account_type",
-            listOf(AggregateBalanceListParams.FinancialAccountType.ISSUING.toString())
+            AggregateBalanceListParams.FinancialAccountType.ISSUING.toString()
         )
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params = AggregateBalanceListParams.builder().build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 }

@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.http.QueryParams
 import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -37,32 +38,26 @@ class ExternalBankAccountListParamsTest {
                 .states(listOf(ExternalBankAccountListParams.AccountState.ENABLED))
                 .verificationStates(listOf(ExternalBankAccountListParams.VerificationState.PENDING))
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("account_token", listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
-        expected.put(
-            "account_types",
-            listOf(ExternalBankAccountListParams.AccountType.CHECKING.toString())
-        )
-        expected.put("countries", listOf("string"))
-        expected.put("ending_before", listOf("ending_before"))
-        expected.put("owner_types", listOf(OwnerType.INDIVIDUAL.toString()))
-        expected.put("page_size", listOf("100"))
-        expected.put("starting_after", listOf("starting_after"))
-        expected.put(
-            "states",
-            listOf(ExternalBankAccountListParams.AccountState.ENABLED.toString())
-        )
+        val expected = QueryParams.builder()
+        expected.put("account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        expected.put("account_types", ExternalBankAccountListParams.AccountType.CHECKING.toString())
+        expected.put("countries", "string")
+        expected.put("ending_before", "ending_before")
+        expected.put("owner_types", OwnerType.INDIVIDUAL.toString())
+        expected.put("page_size", "100")
+        expected.put("starting_after", "starting_after")
+        expected.put("states", ExternalBankAccountListParams.AccountState.ENABLED.toString())
         expected.put(
             "verification_states",
-            listOf(ExternalBankAccountListParams.VerificationState.PENDING.toString())
+            ExternalBankAccountListParams.VerificationState.PENDING.toString()
         )
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
     fun getQueryParamsWithoutOptionalFields() {
         val params = ExternalBankAccountListParams.builder().build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 }

@@ -1,9 +1,9 @@
 package com.lithic.api.errors
 
-import com.google.common.collect.ListMultimap
+import com.lithic.api.core.http.Headers
 
 class RateLimitException(
-    headers: ListMultimap<String, String>,
+    headers: Headers,
     body: String,
     error: LithicError,
 ) : LithicServiceException(429, headers, body, error)

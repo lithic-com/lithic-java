@@ -43,9 +43,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.GET)
                 .addPathSegments("v1", "auth_stream", "secret")
-                .putAllQueryParams(clientOptions.queryParams.asMap())
+                .putAllQueryParams(clientOptions.queryParams)
                 .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers.asMap())
+                .putAllHeaders(clientOptions.headers)
                 .replaceAllHeaders(params.getHeaders())
                 .build()
         return clientOptions.httpClient.executeAsync(request, requestOptions).thenApply { response
@@ -76,9 +76,9 @@ constructor(
             HttpRequest.builder()
                 .method(HttpMethod.POST)
                 .addPathSegments("v1", "auth_stream", "secret", "rotate")
-                .putAllQueryParams(clientOptions.queryParams.asMap())
+                .putAllQueryParams(clientOptions.queryParams)
                 .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers.asMap())
+                .putAllHeaders(clientOptions.headers)
                 .replaceAllHeaders(params.getHeaders())
                 .apply { params.getBody().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                 .build()

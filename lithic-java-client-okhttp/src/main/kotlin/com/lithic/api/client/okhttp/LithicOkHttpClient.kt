@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.json.JsonMapper
 import com.lithic.api.client.LithicClient
 import com.lithic.api.client.LithicClientImpl
 import com.lithic.api.core.ClientOptions
+import com.lithic.api.core.http.Headers
+import com.lithic.api.core.http.QueryParams
 import java.net.Proxy
 import java.time.Clock
 import java.time.Duration
@@ -38,6 +40,8 @@ class LithicOkHttpClient private constructor() {
 
         fun clock(clock: Clock) = apply { clientOptions.clock(clock) }
 
+        fun headers(headers: Headers) = apply { clientOptions.headers(headers) }
+
         fun headers(headers: Map<String, Iterable<String>>) = apply {
             clientOptions.headers(headers)
         }
@@ -47,6 +51,8 @@ class LithicOkHttpClient private constructor() {
         fun putHeaders(name: String, values: Iterable<String>) = apply {
             clientOptions.putHeaders(name, values)
         }
+
+        fun putAllHeaders(headers: Headers) = apply { clientOptions.putAllHeaders(headers) }
 
         fun putAllHeaders(headers: Map<String, Iterable<String>>) = apply {
             clientOptions.putAllHeaders(headers)
@@ -60,6 +66,8 @@ class LithicOkHttpClient private constructor() {
             clientOptions.replaceHeaders(name, values)
         }
 
+        fun replaceAllHeaders(headers: Headers) = apply { clientOptions.replaceAllHeaders(headers) }
+
         fun replaceAllHeaders(headers: Map<String, Iterable<String>>) = apply {
             clientOptions.replaceAllHeaders(headers)
         }
@@ -67,6 +75,8 @@ class LithicOkHttpClient private constructor() {
         fun removeHeaders(name: String) = apply { clientOptions.removeHeaders(name) }
 
         fun removeAllHeaders(names: Set<String>) = apply { clientOptions.removeAllHeaders(names) }
+
+        fun queryParams(queryParams: QueryParams) = apply { clientOptions.queryParams(queryParams) }
 
         fun queryParams(queryParams: Map<String, Iterable<String>>) = apply {
             clientOptions.queryParams(queryParams)
@@ -80,6 +90,10 @@ class LithicOkHttpClient private constructor() {
             clientOptions.putQueryParams(key, values)
         }
 
+        fun putAllQueryParams(queryParams: QueryParams) = apply {
+            clientOptions.putAllQueryParams(queryParams)
+        }
+
         fun putAllQueryParams(queryParams: Map<String, Iterable<String>>) = apply {
             clientOptions.putAllQueryParams(queryParams)
         }
@@ -90,6 +104,10 @@ class LithicOkHttpClient private constructor() {
 
         fun replaceQueryParams(key: String, values: Iterable<String>) = apply {
             clientOptions.replaceQueryParams(key, values)
+        }
+
+        fun replaceAllQueryParams(queryParams: QueryParams) = apply {
+            clientOptions.replaceAllQueryParams(queryParams)
         }
 
         fun replaceAllQueryParams(queryParams: Map<String, Iterable<String>>) = apply {
