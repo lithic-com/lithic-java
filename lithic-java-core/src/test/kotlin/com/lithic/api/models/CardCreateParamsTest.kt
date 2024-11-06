@@ -21,6 +21,7 @@ class CardCreateParamsTest {
             .memo("New Card")
             .pin("pin")
             .productId("1")
+            .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .shippingAddress(
                 ShippingAddress.builder()
@@ -58,6 +59,7 @@ class CardCreateParamsTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -91,6 +93,7 @@ class CardCreateParamsTest {
         assertThat(body.memo()).isEqualTo("New Card")
         assertThat(body.pin()).isEqualTo("pin")
         assertThat(body.productId()).isEqualTo("1")
+        assertThat(body.replacementAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.replacementFor()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.shippingAddress())
             .isEqualTo(

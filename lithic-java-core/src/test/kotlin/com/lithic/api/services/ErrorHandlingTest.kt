@@ -70,6 +70,7 @@ class ErrorHandlingTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -147,6 +148,7 @@ class ErrorHandlingTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -194,6 +196,7 @@ class ErrorHandlingTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -241,6 +244,7 @@ class ErrorHandlingTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -288,6 +292,7 @@ class ErrorHandlingTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -335,6 +340,7 @@ class ErrorHandlingTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -382,6 +388,7 @@ class ErrorHandlingTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -429,6 +436,7 @@ class ErrorHandlingTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -476,6 +484,7 @@ class ErrorHandlingTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -528,6 +537,7 @@ class ErrorHandlingTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -574,6 +584,7 @@ class ErrorHandlingTest {
                 .memo("New Card")
                 .pin("pin")
                 .productId("1")
+                .replacementAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .replacementFor("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()

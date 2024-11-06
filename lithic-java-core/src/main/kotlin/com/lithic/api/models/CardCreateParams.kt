@@ -32,6 +32,7 @@ constructor(
     private val memo: String?,
     private val pin: String?,
     private val productId: String?,
+    private val replacementAccountToken: String?,
     private val replacementFor: String?,
     private val shippingAddress: ShippingAddress?,
     private val shippingMethod: ShippingMethod?,
@@ -63,6 +64,8 @@ constructor(
 
     fun productId(): Optional<String> = Optional.ofNullable(productId)
 
+    fun replacementAccountToken(): Optional<String> = Optional.ofNullable(replacementAccountToken)
+
     fun replacementFor(): Optional<String> = Optional.ofNullable(replacementFor)
 
     fun shippingAddress(): Optional<ShippingAddress> = Optional.ofNullable(shippingAddress)
@@ -88,6 +91,7 @@ constructor(
             memo,
             pin,
             productId,
+            replacementAccountToken,
             replacementFor,
             shippingAddress,
             shippingMethod,
@@ -116,6 +120,7 @@ constructor(
         private val memo: String?,
         private val pin: String?,
         private val productId: String?,
+        private val replacementAccountToken: String?,
         private val replacementFor: String?,
         private val shippingAddress: ShippingAddress?,
         private val shippingMethod: ShippingMethod?,
@@ -195,6 +200,16 @@ constructor(
         @JsonProperty("product_id") fun productId(): String? = productId
 
         /**
+         * Restricted field limited to select use cases. Lithic will reach out directly if this
+         * field should be used. Globally unique identifier for the replacement card's account. If
+         * this field is specified, `replacement_for` must also be specified. If `replacement_for`
+         * is specified and this field is omitted, the replacement card's account will be inferred
+         * from the card being replaced.
+         */
+        @JsonProperty("replacement_account_token")
+        fun replacementAccountToken(): String? = replacementAccountToken
+
+        /**
          * Only applicable to cards of type `PHYSICAL`. Globally unique identifier for the card that
          * this physical card will replace.
          */
@@ -268,6 +283,7 @@ constructor(
             private var memo: String? = null
             private var pin: String? = null
             private var productId: String? = null
+            private var replacementAccountToken: String? = null
             private var replacementFor: String? = null
             private var shippingAddress: ShippingAddress? = null
             private var shippingMethod: ShippingMethod? = null
@@ -288,6 +304,7 @@ constructor(
                 this.memo = cardCreateBody.memo
                 this.pin = cardCreateBody.pin
                 this.productId = cardCreateBody.productId
+                this.replacementAccountToken = cardCreateBody.replacementAccountToken
                 this.replacementFor = cardCreateBody.replacementFor
                 this.shippingAddress = cardCreateBody.shippingAddress
                 this.shippingMethod = cardCreateBody.shippingMethod
@@ -377,6 +394,18 @@ constructor(
              */
             @JsonProperty("product_id")
             fun productId(productId: String) = apply { this.productId = productId }
+
+            /**
+             * Restricted field limited to select use cases. Lithic will reach out directly if this
+             * field should be used. Globally unique identifier for the replacement card's account.
+             * If this field is specified, `replacement_for` must also be specified. If
+             * `replacement_for` is specified and this field is omitted, the replacement card's
+             * account will be inferred from the card being replaced.
+             */
+            @JsonProperty("replacement_account_token")
+            fun replacementAccountToken(replacementAccountToken: String) = apply {
+                this.replacementAccountToken = replacementAccountToken
+            }
 
             /**
              * Only applicable to cards of type `PHYSICAL`. Globally unique identifier for the card
@@ -470,6 +499,7 @@ constructor(
                     memo,
                     pin,
                     productId,
+                    replacementAccountToken,
                     replacementFor,
                     shippingAddress,
                     shippingMethod,
@@ -485,20 +515,20 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardCreateBody && this.type == other.type && this.accountToken == other.accountToken && this.cardProgramToken == other.cardProgramToken && this.carrier == other.carrier && this.digitalCardArtToken == other.digitalCardArtToken && this.expMonth == other.expMonth && this.expYear == other.expYear && this.memo == other.memo && this.pin == other.pin && this.productId == other.productId && this.replacementFor == other.replacementFor && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CardCreateBody && this.type == other.type && this.accountToken == other.accountToken && this.cardProgramToken == other.cardProgramToken && this.carrier == other.carrier && this.digitalCardArtToken == other.digitalCardArtToken && this.expMonth == other.expMonth && this.expYear == other.expYear && this.memo == other.memo && this.pin == other.pin && this.productId == other.productId && this.replacementAccountToken == other.replacementAccountToken && this.replacementFor == other.replacementFor && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         private var hashCode: Int = 0
 
         override fun hashCode(): Int {
             if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalProperties) /* spotless:on */
+                hashCode = /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalProperties) /* spotless:on */
             }
             return hashCode
         }
 
         override fun toString() =
-            "CardCreateBody{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
+            "CardCreateBody{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
     }
 
     fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
@@ -512,15 +542,15 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardCreateParams && this.type == other.type && this.accountToken == other.accountToken && this.cardProgramToken == other.cardProgramToken && this.carrier == other.carrier && this.digitalCardArtToken == other.digitalCardArtToken && this.expMonth == other.expMonth && this.expYear == other.expYear && this.memo == other.memo && this.pin == other.pin && this.productId == other.productId && this.replacementFor == other.replacementFor && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is CardCreateParams && this.type == other.type && this.accountToken == other.accountToken && this.cardProgramToken == other.cardProgramToken && this.carrier == other.carrier && this.digitalCardArtToken == other.digitalCardArtToken && this.expMonth == other.expMonth && this.expYear == other.expYear && this.memo == other.memo && this.pin == other.pin && this.productId == other.productId && this.replacementAccountToken == other.replacementAccountToken && this.replacementFor == other.replacementFor && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+        return /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
     }
 
     override fun toString() =
-        "CardCreateParams{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "CardCreateParams{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -542,6 +572,7 @@ constructor(
         private var memo: String? = null
         private var pin: String? = null
         private var productId: String? = null
+        private var replacementAccountToken: String? = null
         private var replacementFor: String? = null
         private var shippingAddress: ShippingAddress? = null
         private var shippingMethod: ShippingMethod? = null
@@ -564,6 +595,7 @@ constructor(
             this.memo = cardCreateParams.memo
             this.pin = cardCreateParams.pin
             this.productId = cardCreateParams.productId
+            this.replacementAccountToken = cardCreateParams.replacementAccountToken
             this.replacementFor = cardCreateParams.replacementFor
             this.shippingAddress = cardCreateParams.shippingAddress
             this.shippingMethod = cardCreateParams.shippingMethod
@@ -646,6 +678,17 @@ constructor(
          * manufactured with.
          */
         fun productId(productId: String) = apply { this.productId = productId }
+
+        /**
+         * Restricted field limited to select use cases. Lithic will reach out directly if this
+         * field should be used. Globally unique identifier for the replacement card's account. If
+         * this field is specified, `replacement_for` must also be specified. If `replacement_for`
+         * is specified and this field is omitted, the replacement card's account will be inferred
+         * from the card being replaced.
+         */
+        fun replacementAccountToken(replacementAccountToken: String) = apply {
+            this.replacementAccountToken = replacementAccountToken
+        }
 
         /**
          * Only applicable to cards of type `PHYSICAL`. Globally unique identifier for the card that
@@ -803,6 +846,7 @@ constructor(
                 memo,
                 pin,
                 productId,
+                replacementAccountToken,
                 replacementFor,
                 shippingAddress,
                 shippingMethod,
