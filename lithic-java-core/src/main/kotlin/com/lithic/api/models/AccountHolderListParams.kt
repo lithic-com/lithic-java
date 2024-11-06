@@ -2,10 +2,9 @@
 
 package com.lithic.api.models
 
-import com.google.common.collect.ArrayListMultimap
-import com.google.common.collect.ListMultimap
 import com.lithic.api.core.NoAutoDetect
-import com.lithic.api.core.toImmutable
+import com.lithic.api.core.http.Headers
+import com.lithic.api.core.http.QueryParams
 import com.lithic.api.models.*
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
@@ -25,8 +24,8 @@ constructor(
     private val limit: Long?,
     private val phoneNumber: String?,
     private val startingAfter: String?,
-    private val additionalHeaders: Map<String, List<String>>,
-    private val additionalQueryParams: Map<String, List<String>>,
+    private val additionalHeaders: Headers,
+    private val additionalQueryParams: QueryParams,
 ) {
 
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
@@ -51,33 +50,35 @@ constructor(
 
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
-    @JvmSynthetic internal fun getHeaders(): Map<String, List<String>> = additionalHeaders
+    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
-    internal fun getQueryParams(): Map<String, List<String>> {
-        val params = mutableMapOf<String, List<String>>()
+    internal fun getQueryParams(): QueryParams {
+        val queryParams = QueryParams.builder()
         this.begin?.let {
-            params.put("begin", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
+            queryParams.put("begin", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
         }
-        this.email?.let { params.put("email", listOf(it.toString())) }
+        this.email?.let { queryParams.put("email", listOf(it.toString())) }
         this.end?.let {
-            params.put("end", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
+            queryParams.put("end", listOf(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(it)))
         }
-        this.endingBefore?.let { params.put("ending_before", listOf(it.toString())) }
-        this.externalId?.let { params.put("external_id", listOf(it.toString())) }
-        this.firstName?.let { params.put("first_name", listOf(it.toString())) }
-        this.lastName?.let { params.put("last_name", listOf(it.toString())) }
-        this.legalBusinessName?.let { params.put("legal_business_name", listOf(it.toString())) }
-        this.limit?.let { params.put("limit", listOf(it.toString())) }
-        this.phoneNumber?.let { params.put("phone_number", listOf(it.toString())) }
-        this.startingAfter?.let { params.put("starting_after", listOf(it.toString())) }
-        params.putAll(additionalQueryParams)
-        return params.toImmutable()
+        this.endingBefore?.let { queryParams.put("ending_before", listOf(it.toString())) }
+        this.externalId?.let { queryParams.put("external_id", listOf(it.toString())) }
+        this.firstName?.let { queryParams.put("first_name", listOf(it.toString())) }
+        this.lastName?.let { queryParams.put("last_name", listOf(it.toString())) }
+        this.legalBusinessName?.let {
+            queryParams.put("legal_business_name", listOf(it.toString()))
+        }
+        this.limit?.let { queryParams.put("limit", listOf(it.toString())) }
+        this.phoneNumber?.let { queryParams.put("phone_number", listOf(it.toString())) }
+        this.startingAfter?.let { queryParams.put("starting_after", listOf(it.toString())) }
+        queryParams.putAll(additionalQueryParams)
+        return queryParams.build()
     }
 
-    fun _additionalHeaders(): Map<String, List<String>> = additionalHeaders
+    fun _additionalHeaders(): Headers = additionalHeaders
 
-    fun _additionalQueryParams(): Map<String, List<String>> = additionalQueryParams
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -115,8 +116,8 @@ constructor(
         private var limit: Long? = null
         private var phoneNumber: String? = null
         private var startingAfter: String? = null
-        private var additionalHeaders: ListMultimap<String, String> = ArrayListMultimap.create()
-        private var additionalQueryParams: ListMultimap<String, String> = ArrayListMultimap.create()
+        private var additionalHeaders: Headers.Builder = Headers.builder()
+        private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(accountHolderListParams: AccountHolderListParams) = apply {
@@ -193,6 +194,11 @@ constructor(
          */
         fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
 
+        fun additionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.clear()
+            putAllAdditionalHeaders(additionalHeaders)
+        }
+
         fun additionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
             this.additionalHeaders.clear()
             putAllAdditionalHeaders(additionalHeaders)
@@ -203,29 +209,42 @@ constructor(
         }
 
         fun putAdditionalHeaders(name: String, values: Iterable<String>) = apply {
-            additionalHeaders.putAll(name, values)
+            additionalHeaders.put(name, values)
+        }
+
+        fun putAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.putAll(additionalHeaders)
         }
 
         fun putAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            additionalHeaders.forEach(::putAdditionalHeaders)
+            this.additionalHeaders.putAll(additionalHeaders)
         }
 
         fun replaceAdditionalHeaders(name: String, value: String) = apply {
-            additionalHeaders.replaceValues(name, listOf(value))
+            additionalHeaders.replace(name, value)
         }
 
         fun replaceAdditionalHeaders(name: String, values: Iterable<String>) = apply {
-            additionalHeaders.replaceValues(name, values)
+            additionalHeaders.replace(name, values)
+        }
+
+        fun replaceAllAdditionalHeaders(additionalHeaders: Headers) = apply {
+            this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
         fun replaceAllAdditionalHeaders(additionalHeaders: Map<String, Iterable<String>>) = apply {
-            additionalHeaders.forEach(::replaceAdditionalHeaders)
+            this.additionalHeaders.replaceAll(additionalHeaders)
         }
 
-        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.removeAll(name) }
+        fun removeAdditionalHeaders(name: String) = apply { additionalHeaders.remove(name) }
 
         fun removeAllAdditionalHeaders(names: Set<String>) = apply {
-            names.forEach(::removeAdditionalHeaders)
+            additionalHeaders.removeAll(names)
+        }
+
+        fun additionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.clear()
+            putAllAdditionalQueryParams(additionalQueryParams)
         }
 
         fun additionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) = apply {
@@ -238,33 +257,39 @@ constructor(
         }
 
         fun putAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
-            additionalQueryParams.putAll(key, values)
+            additionalQueryParams.put(key, values)
+        }
+
+        fun putAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.putAll(additionalQueryParams)
         }
 
         fun putAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
             apply {
-                additionalQueryParams.forEach(::putAdditionalQueryParams)
+                this.additionalQueryParams.putAll(additionalQueryParams)
             }
 
         fun replaceAdditionalQueryParams(key: String, value: String) = apply {
-            additionalQueryParams.replaceValues(key, listOf(value))
+            additionalQueryParams.replace(key, value)
         }
 
         fun replaceAdditionalQueryParams(key: String, values: Iterable<String>) = apply {
-            additionalQueryParams.replaceValues(key, values)
+            additionalQueryParams.replace(key, values)
+        }
+
+        fun replaceAllAdditionalQueryParams(additionalQueryParams: QueryParams) = apply {
+            this.additionalQueryParams.replaceAll(additionalQueryParams)
         }
 
         fun replaceAllAdditionalQueryParams(additionalQueryParams: Map<String, Iterable<String>>) =
             apply {
-                additionalQueryParams.forEach(::replaceAdditionalQueryParams)
+                this.additionalQueryParams.replaceAll(additionalQueryParams)
             }
 
-        fun removeAdditionalQueryParams(key: String) = apply {
-            additionalQueryParams.removeAll(key)
-        }
+        fun removeAdditionalQueryParams(key: String) = apply { additionalQueryParams.remove(key) }
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalQueryParams)
+            additionalQueryParams.removeAll(keys)
         }
 
         fun build(): AccountHolderListParams =
@@ -280,14 +305,8 @@ constructor(
                 limit,
                 phoneNumber,
                 startingAfter,
-                additionalHeaders
-                    .asMap()
-                    .mapValues { it.value.toList().toImmutable() }
-                    .toImmutable(),
-                additionalQueryParams
-                    .asMap()
-                    .mapValues { it.value.toList().toImmutable() }
-                    .toImmutable(),
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
             )
     }
 }

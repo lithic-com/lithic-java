@@ -1,10 +1,10 @@
 package com.lithic.api.errors
 
-import com.google.common.collect.ListMultimap
+import com.lithic.api.core.http.Headers
 
 class InternalServerException(
     statusCode: Int,
-    headers: ListMultimap<String, String>,
+    headers: Headers,
     body: String,
     error: LithicError,
 ) : LithicServiceException(statusCode, headers, body, error)

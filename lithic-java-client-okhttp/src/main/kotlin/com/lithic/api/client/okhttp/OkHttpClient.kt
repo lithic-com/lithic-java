@@ -1,8 +1,7 @@
 package com.lithic.api.client.okhttp
 
-import com.google.common.collect.ListMultimap
-import com.google.common.collect.MultimapBuilder
 import com.lithic.api.core.RequestOptions
+import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.HttpClient
 import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
@@ -16,7 +15,6 @@ import java.time.Duration
 import java.util.concurrent.CompletableFuture
 import okhttp3.Call
 import okhttp3.Callback
-import okhttp3.Headers
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType
@@ -95,7 +93,9 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
         }
 
         val builder = Request.Builder().url(toUrl()).method(method.name, body)
-        headers.forEach(builder::header)
+        headers.names().forEach { name ->
+            headers.values(name).forEach { builder.header(name, it) }
+        }
 
         return builder.build()
     }
@@ -107,7 +107,9 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
 
         val builder = baseUrl.newBuilder()
         pathSegments.forEach(builder::addPathSegment)
-        queryParams.forEach(builder::addQueryParameter)
+        queryParams.keys().forEach { key ->
+            queryParams.values(key).forEach { builder.addQueryParameter(key, it) }
+        }
 
         return builder.toString()
     }
@@ -133,7 +135,7 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
         return object : HttpResponse {
             override fun statusCode(): Int = code
 
-            override fun headers(): ListMultimap<String, String> = headers
+            override fun headers(): Headers = headers
 
             override fun body(): InputStream = body!!.byteStream()
 
@@ -141,13 +143,10 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
         }
     }
 
-    private fun Headers.toHeaders(): ListMultimap<String, String> {
-        val headers =
-            MultimapBuilder.treeKeys(String.CASE_INSENSITIVE_ORDER)
-                .arrayListValues()
-                .build<String, String>()
-        forEach { pair -> headers.put(pair.first, pair.second) }
-        return headers
+    private fun okhttp3.Headers.toHeaders(): Headers {
+        val headersBuilder = Headers.builder()
+        forEach { (name, value) -> headersBuilder.put(name, value) }
+        return headersBuilder.build()
     }
 
     companion object {

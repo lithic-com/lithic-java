@@ -3,7 +3,7 @@
 package com.lithic.api.core.handlers
 
 import com.fasterxml.jackson.databind.json.JsonMapper
-import com.google.common.collect.ListMultimap
+import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.HttpResponse
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.BadRequestException
@@ -116,7 +116,7 @@ private fun HttpResponse.buffered(): HttpResponse {
     return object : HttpResponse {
         override fun statusCode(): Int = this@buffered.statusCode()
 
-        override fun headers(): ListMultimap<String, String> = this@buffered.headers()
+        override fun headers(): Headers = this@buffered.headers()
 
         override fun body(): InputStream = ByteArrayInputStream(body)
 

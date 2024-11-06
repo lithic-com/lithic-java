@@ -2,6 +2,7 @@
 
 package com.lithic.api.models
 
+import com.lithic.api.core.http.QueryParams
 import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -29,11 +30,11 @@ class FinancialAccountStatementLineItemListParamsTest {
                 .pageSize(100L)
                 .startingAfter("starting_after")
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        expected.put("ending_before", listOf("ending_before"))
-        expected.put("page_size", listOf("100"))
-        expected.put("starting_after", listOf("starting_after"))
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        expected.put("ending_before", "ending_before")
+        expected.put("page_size", "100")
+        expected.put("starting_after", "starting_after")
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
@@ -43,8 +44,8 @@ class FinancialAccountStatementLineItemListParamsTest {
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .statementToken("statement_token")
                 .build()
-        val expected = mutableMapOf<String, List<String>>()
-        assertThat(params.getQueryParams()).isEqualTo(expected)
+        val expected = QueryParams.builder()
+        assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
 
     @Test
