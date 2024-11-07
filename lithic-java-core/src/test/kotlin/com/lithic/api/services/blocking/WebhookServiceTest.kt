@@ -2,9 +2,9 @@
 
 package com.lithic.api.services.blocking
 
-import com.google.common.collect.ImmutableListMultimap
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
+import com.lithic.api.core.http.Headers
 import com.lithic.api.errors.LithicException
 import com.lithic.api.models.*
 import java.time.Clock
@@ -30,14 +30,11 @@ class WebhookServiceTest {
         val payload =
             "{\"card_token\":\"sit Lorem ipsum, accusantium repellendus possimus\",\"created_at\":\"elit. placeat libero architecto molestias, sit\",\"account_token\":\"elit.\",\"issuer_decision\":\"magnam, libero esse Lorem ipsum magnam, magnam,\",\"tokenization_attempt_id\":\"illum dolor repellendus libero esse accusantium\",\"wallet_decisioning_info\":{\"device_score\":\"placeat architecto\"},\"digital_wallet_token_metadata\":{\"status\":\"reprehenderit dolor\",\"token_requestor_id\":\"possimus\",\"payment_account_info\":{\"account_holder_data\":{\"phone_number\":\"libero\",\"email_address\":\"nobis molestias, veniam culpa! quas elit. quas libero esse architecto placeat\"},\"pan_unique_reference\":\"adipisicing odit magnam, odit\"}}}"
         val headers =
-            ImmutableListMultimap.of(
-                "webhook-id",
-                "msg_2Lh9KRb0pzN4LePd3XiA4v12Axj",
-                "webhook-timestamp",
-                "1676312382",
-                "webhook-signature",
-                "v1,Dwa0AHInLL3XFo2sxcHamOQDrJNi7F654S3L6skMAOI="
-            )
+            Headers.builder()
+                .put("webhook-id", "msg_2Lh9KRb0pzN4LePd3XiA4v12Axj")
+                .put("webhook-timestamp", "1676312382")
+                .put("webhook-signature", "v1,Dwa0AHInLL3XFo2sxcHamOQDrJNi7F654S3L6skMAOI=")
+                .build()
 
         val event = client.webhooks().unwrap(payload, headers, null)
 
@@ -59,28 +56,22 @@ class WebhookServiceTest {
         val webhookTimestamp = "1676312382"
         val webhookSignature = "Dwa0AHInLL3XFo2sxcHamOQDrJNi7F654S3L6skMAOI="
         val headers =
-            ImmutableListMultimap.of(
-                "webhook-id",
-                webhookId,
-                "webhook-timestamp",
-                webhookTimestamp,
-                "webhook-signature",
-                "v1,$webhookSignature"
-            )
+            Headers.builder()
+                .put("webhook-id", webhookId)
+                .put("webhook-timestamp", webhookTimestamp)
+                .put("webhook-signature", "v1,$webhookSignature")
+                .build()
 
         assertThatThrownBy {
                 client
                     .webhooks()
                     .verifySignature(
                         payload,
-                        ImmutableListMultimap.of(
-                            "webhook-id",
-                            webhookId,
-                            "webhook-timestamp",
-                            "1676312022",
-                            "webhook-signature",
-                            "v1,$webhookSignature"
-                        ),
+                        Headers.builder()
+                            .put("webhook-id", webhookId)
+                            .put("webhook-timestamp", "1676312022")
+                            .put("webhook-signature", "v1,$webhookSignature")
+                            .build(),
                         null
                     )
             }
@@ -92,14 +83,11 @@ class WebhookServiceTest {
                     .webhooks()
                     .verifySignature(
                         payload,
-                        ImmutableListMultimap.of(
-                            "webhook-id",
-                            webhookId,
-                            "webhook-timestamp",
-                            "1676312742",
-                            "webhook-signature",
-                            "v1,$webhookSignature"
-                        ),
+                        Headers.builder()
+                            .put("webhook-id", webhookId)
+                            .put("webhook-timestamp", "1676312742")
+                            .put("webhook-signature", "v1,$webhookSignature")
+                            .build(),
                         null
                     )
             }
@@ -119,14 +107,11 @@ class WebhookServiceTest {
                     .webhooks()
                     .verifySignature(
                         payload,
-                        ImmutableListMultimap.of(
-                            "webhook-id",
-                            webhookId,
-                            "webhook-timestamp",
-                            webhookTimestamp,
-                            "webhook-signature",
-                            "v1,$webhookSignature v1,Zm9v",
-                        ),
+                        Headers.builder()
+                            .put("webhook-id", webhookId)
+                            .put("webhook-timestamp", webhookTimestamp)
+                            .put("webhook-signature", "v1,$webhookSignature v1,Zm9v")
+                            .build(),
                         null
                     )
             }
@@ -137,14 +122,14 @@ class WebhookServiceTest {
                     .webhooks()
                     .verifySignature(
                         payload,
-                        ImmutableListMultimap.of(
-                            "webhook-id",
-                            webhookId,
-                            "webhook-timestamp",
-                            webhookTimestamp,
-                            "webhook-signature",
-                            "v2,$webhookSignature",
-                        ),
+                        Headers.builder()
+                            .put("webhook-id", webhookId)
+                            .put("webhook-timestamp", webhookTimestamp)
+                            .put(
+                                "webhook-signature",
+                                "v2,$webhookSignature",
+                            )
+                            .build(),
                         null
                     )
             }
@@ -156,14 +141,14 @@ class WebhookServiceTest {
                     .webhooks()
                     .verifySignature(
                         payload,
-                        ImmutableListMultimap.of(
-                            "webhook-id",
-                            webhookId,
-                            "webhook-timestamp",
-                            webhookTimestamp,
-                            "webhook-signature",
-                            "v1,$webhookSignature v2,$webhookSignature",
-                        ),
+                        Headers.builder()
+                            .put("webhook-id", webhookId)
+                            .put("webhook-timestamp", webhookTimestamp)
+                            .put(
+                                "webhook-signature",
+                                "v1,$webhookSignature v2,$webhookSignature",
+                            )
+                            .build(),
                         null
                     )
             }
@@ -174,14 +159,11 @@ class WebhookServiceTest {
                     .webhooks()
                     .verifySignature(
                         payload,
-                        ImmutableListMultimap.of(
-                            "webhook-id",
-                            webhookId,
-                            "webhook-timestamp",
-                            webhookTimestamp,
-                            "webhook-signature",
-                            webhookSignature,
-                        ),
+                        Headers.builder()
+                            .put("webhook-id", webhookId)
+                            .put("webhook-timestamp", webhookTimestamp)
+                            .put("webhook-signature", webhookSignature)
+                            .build(),
                         null
                     )
             }
