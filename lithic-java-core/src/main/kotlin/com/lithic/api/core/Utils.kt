@@ -2,8 +2,7 @@
 
 package com.lithic.api.core
 
-import com.google.common.collect.ImmutableListMultimap
-import com.google.common.collect.ListMultimap
+import com.lithic.api.core.http.Headers
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Collections
 import java.util.SortedMap
@@ -26,21 +25,7 @@ internal fun <K : Comparable<K>, V> SortedMap<K, V>.toImmutable(): SortedMap<K, 
     else Collections.unmodifiableSortedMap(toSortedMap(comparator()))
 
 @JvmSynthetic
-internal fun <K, V> ListMultimap<K, V>.toImmutable(): ListMultimap<K, V> =
-    ImmutableListMultimap.copyOf(this)
-
-@JvmSynthetic
-internal fun ListMultimap<String, String>.getRequiredHeader(header: String): String {
-    val value =
-        entries()
-            .stream()
-            .filter { entry -> entry.key.equals(header, ignoreCase = true) }
-            .map { entry -> entry.value }
-            .findFirst()
-    if (!value.isPresent) {
-        throw LithicInvalidDataException("Could not find $header header")
-    }
-    return value.get()
-}
+internal fun Headers.getRequiredHeader(name: String): String =
+    values(name).firstOrNull() ?: throw LithicInvalidDataException("Could not find $name header")
 
 internal interface Enum

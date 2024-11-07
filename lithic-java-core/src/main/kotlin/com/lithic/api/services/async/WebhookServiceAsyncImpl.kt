@@ -3,11 +3,11 @@
 package com.lithic.api.services.async
 
 import com.fasterxml.jackson.core.JsonProcessingException
-import com.google.common.collect.ListMultimap
 import com.lithic.api.core.ClientOptions
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.getRequiredHeader
 import com.lithic.api.core.handlers.errorHandler
+import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
 import com.lithic.api.errors.LithicException
@@ -25,11 +25,7 @@ constructor(
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
 
-    override fun unwrap(
-        payload: String,
-        headers: ListMultimap<String, String>,
-        secret: String?
-    ): JsonValue {
+    override fun unwrap(payload: String, headers: Headers, secret: String?): JsonValue {
         verifySignature(payload, headers, secret)
         return try {
             clientOptions.jsonMapper.readValue(payload, JsonValue::class.java)
@@ -38,11 +34,7 @@ constructor(
         }
     }
 
-    override fun verifySignature(
-        payload: String,
-        headers: ListMultimap<String, String>,
-        secret: String?
-    ) {
+    override fun verifySignature(payload: String, headers: Headers, secret: String?) {
         val webhookSecret =
             secret
                 ?: clientOptions.webhookSecret

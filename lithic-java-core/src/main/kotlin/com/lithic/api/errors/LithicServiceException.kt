@@ -1,12 +1,12 @@
 package com.lithic.api.errors
 
-import com.google.common.collect.ListMultimap
+import com.lithic.api.core.http.Headers
 
 abstract class LithicServiceException
 @JvmOverloads
 constructor(
     private val statusCode: Int,
-    private val headers: ListMultimap<String, String>,
+    private val headers: Headers,
     private val body: String,
     private val error: LithicError,
     message: String = "$statusCode: $error",
@@ -15,7 +15,7 @@ constructor(
 
     fun statusCode(): Int = statusCode
 
-    fun headers(): ListMultimap<String, String> = headers
+    fun headers(): Headers = headers
 
     fun body(): String = body
 
