@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.70.0 (2024-11-07)
+
+Full Changelog: [v0.69.0...v0.70.0](https://github.com/lithic-com/lithic-java/compare/v0.69.0...v0.70.0)
+
+### ⚠ BREAKING CHANGES
+
+* **client:** replace multimaps with custom types ([#381](https://github.com/lithic-com/lithic-java/issues/381))
+
+### Features
+
+* **client:** additional builder setters for error class ([142b1f9](https://github.com/lithic-com/lithic-java/commit/142b1f935c0f611b8e8adc4822c0a6d3023a6be7))
+* **client:** more additional body param setters ([#383](https://github.com/lithic-com/lithic-java/issues/383)) ([6f7cd8d](https://github.com/lithic-com/lithic-java/commit/6f7cd8dbfab6cb7e05f3ed09eb743d36efb91b2c))
+* **client:** replace multimaps with custom types ([#381](https://github.com/lithic-com/lithic-java/issues/381)) ([dd6f587](https://github.com/lithic-com/lithic-java/commit/dd6f5871681fa6a2e9f41a00ba37db20335f39b9))
+
+
+### Bug Fixes
+
+* **client:** error class `toBuilder` not copying fields ([#384](https://github.com/lithic-com/lithic-java/issues/384)) ([142b1f9](https://github.com/lithic-com/lithic-java/commit/142b1f935c0f611b8e8adc4822c0a6d3023a6be7))
+
+
+### Chores
+
+* **api:** adds replacement_account_token to Card create parameters ([#379](https://github.com/lithic-com/lithic-java/issues/379)) ([227af0e](https://github.com/lithic-com/lithic-java/commit/227af0e80ac6a01d446b39ffcd1e43b8f8b0fae4))
+
 ## 0.69.0 (2024-11-05)
 
 Full Changelog: [v0.68.0...v0.69.0](https://github.com/lithic-com/lithic-java/compare/v0.68.0...v0.69.0)
