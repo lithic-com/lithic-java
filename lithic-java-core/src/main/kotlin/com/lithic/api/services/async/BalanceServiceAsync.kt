@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture
 
 interface BalanceServiceAsync {
 
-    /** Get the balances for a program or a given end-user account */
+    /** Get the balances for a program, business, or a given end-user account */
     @JvmOverloads
     fun list(
         params: BalanceListParams,

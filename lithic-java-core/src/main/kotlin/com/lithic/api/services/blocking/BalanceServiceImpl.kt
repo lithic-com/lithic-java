@@ -25,7 +25,7 @@ constructor(
         jsonHandler<BalanceListPage.Response>(clientOptions.jsonMapper)
             .withErrorHandler(errorHandler)
 
-    /** Get the balances for a program or a given end-user account */
+    /** Get the balances for a program, business, or a given end-user account */
     override fun list(params: BalanceListParams, requestOptions: RequestOptions): BalanceListPage {
         val request =
             HttpRequest.builder()
