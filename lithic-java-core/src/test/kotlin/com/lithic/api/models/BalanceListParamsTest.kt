@@ -15,6 +15,7 @@ class BalanceListParamsTest {
         BalanceListParams.builder()
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .balanceDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+            .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .financialAccountType(BalanceListParams.FinancialAccountType.ISSUING)
             .build()
     }
@@ -25,11 +26,13 @@ class BalanceListParamsTest {
             BalanceListParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .balanceDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                .businessAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .financialAccountType(BalanceListParams.FinancialAccountType.ISSUING)
                 .build()
         val expected = QueryParams.builder()
         expected.put("account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         expected.put("balance_date", "2019-12-27T18:11:19.117Z")
+        expected.put("business_account_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         expected.put(
             "financial_account_type",
             BalanceListParams.FinancialAccountType.ISSUING.toString()
