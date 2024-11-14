@@ -22,7 +22,7 @@ class ExtendedCreditServiceTest {
         val extendedCredit =
             extendedCreditService.retrieve(
                 CreditProductExtendedCreditRetrieveParams.builder()
-                    .creditProductId("credit_product_id")
+                    .creditProductToken("credit_product_token")
                     .build()
             )
         println(extendedCredit)
