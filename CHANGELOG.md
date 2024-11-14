@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.71.0 (2024-11-14)
+
+Full Changelog: [v0.70.0...v0.71.0](https://github.com/lithic-com/lithic-java/compare/v0.70.0...v0.71.0)
+
+### Features
+
+* **api:** adds PrimeRates API ([#388](https://github.com/lithic-com/lithic-java/issues/388)) ([1809330](https://github.com/lithic-com/lithic-java/commit/18093307feb69bbe69e0b7a09170330d3835d325))
+
+
+### Performance Improvements
+
+* **tests:** remove unused dependencies ([#387](https://github.com/lithic-com/lithic-java/issues/387)) ([f4b8b7d](https://github.com/lithic-com/lithic-java/commit/f4b8b7de2e26b392a70b715898a2fff78be790d8))
+
+
+### Chores
+
+* **api:** add business_account_token param for listing Balances ([#385](https://github.com/lithic-com/lithic-java/issues/385)) ([bf306c6](https://github.com/lithic-com/lithic-java/commit/bf306c6773d687d0abb2665aa9d2734d995b089b))
+
 ## 0.70.0 (2024-11-07)
 
 Full Changelog: [v0.69.0...v0.70.0](https://github.com/lithic-com/lithic-java/compare/v0.69.0...v0.70.0)
