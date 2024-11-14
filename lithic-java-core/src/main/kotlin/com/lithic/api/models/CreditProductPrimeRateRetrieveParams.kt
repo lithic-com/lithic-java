@@ -6,20 +6,35 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.models.*
+import java.time.LocalDate
 import java.util.Objects
+import java.util.Optional
 
-class CreditProductExtendedCreditRetrieveParams
+class CreditProductPrimeRateRetrieveParams
 constructor(
     private val creditProductToken: String,
+    private val endingBefore: LocalDate?,
+    private val startingAfter: LocalDate?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) {
 
     fun creditProductToken(): String = creditProductToken
 
+    fun endingBefore(): Optional<LocalDate> = Optional.ofNullable(endingBefore)
+
+    fun startingAfter(): Optional<LocalDate> = Optional.ofNullable(startingAfter)
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
-    @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
+    @JvmSynthetic
+    internal fun getQueryParams(): QueryParams {
+        val queryParams = QueryParams.builder()
+        this.endingBefore?.let { queryParams.put("ending_before", listOf(it.toString())) }
+        this.startingAfter?.let { queryParams.put("starting_after", listOf(it.toString())) }
+        queryParams.putAll(additionalQueryParams)
+        return queryParams.build()
+    }
 
     fun getPathParam(index: Int): String {
         return when (index) {
@@ -37,15 +52,15 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CreditProductExtendedCreditRetrieveParams && this.creditProductToken == other.creditProductToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is CreditProductPrimeRateRetrieveParams && this.creditProductToken == other.creditProductToken && this.endingBefore == other.endingBefore && this.startingAfter == other.startingAfter && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
     override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(creditProductToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+        return /* spotless:off */ Objects.hash(creditProductToken, endingBefore, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
     }
 
     override fun toString() =
-        "CreditProductExtendedCreditRetrieveParams{creditProductToken=$creditProductToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "CreditProductPrimeRateRetrieveParams{creditProductToken=$creditProductToken, endingBefore=$endingBefore, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -58,21 +73,32 @@ constructor(
     class Builder {
 
         private var creditProductToken: String? = null
+        private var endingBefore: LocalDate? = null
+        private var startingAfter: LocalDate? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(
-            creditProductExtendedCreditRetrieveParams: CreditProductExtendedCreditRetrieveParams
+            creditProductPrimeRateRetrieveParams: CreditProductPrimeRateRetrieveParams
         ) = apply {
-            this.creditProductToken = creditProductExtendedCreditRetrieveParams.creditProductToken
-            additionalHeaders(creditProductExtendedCreditRetrieveParams.additionalHeaders)
-            additionalQueryParams(creditProductExtendedCreditRetrieveParams.additionalQueryParams)
+            this.creditProductToken = creditProductPrimeRateRetrieveParams.creditProductToken
+            this.endingBefore = creditProductPrimeRateRetrieveParams.endingBefore
+            this.startingAfter = creditProductPrimeRateRetrieveParams.startingAfter
+            additionalHeaders(creditProductPrimeRateRetrieveParams.additionalHeaders)
+            additionalQueryParams(creditProductPrimeRateRetrieveParams.additionalQueryParams)
         }
 
+        /** Globally unique identifier for credit products. */
         fun creditProductToken(creditProductToken: String) = apply {
             this.creditProductToken = creditProductToken
         }
+
+        /** The effective date that the prime rates ends before */
+        fun endingBefore(endingBefore: LocalDate) = apply { this.endingBefore = endingBefore }
+
+        /** The effective date that the prime rate starts after */
+        fun startingAfter(startingAfter: LocalDate) = apply { this.startingAfter = startingAfter }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -172,11 +198,13 @@ constructor(
             additionalQueryParams.removeAll(keys)
         }
 
-        fun build(): CreditProductExtendedCreditRetrieveParams =
-            CreditProductExtendedCreditRetrieveParams(
+        fun build(): CreditProductPrimeRateRetrieveParams =
+            CreditProductPrimeRateRetrieveParams(
                 checkNotNull(creditProductToken) {
                     "`creditProductToken` is required but was not set"
                 },
+                endingBefore,
+                startingAfter,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

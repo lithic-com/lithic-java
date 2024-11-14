@@ -773,6 +773,8 @@ private constructor(
                 val BILLING_ERROR_REVERSAL =
                     FinancialEventType(JsonField.of("BILLING_ERROR_REVERSAL"))
 
+                @JvmField val CARD_TO_CARD = FinancialEventType(JsonField.of("CARD_TO_CARD"))
+
                 @JvmField val CASH_BACK = FinancialEventType(JsonField.of("CASH_BACK"))
 
                 @JvmField
@@ -938,6 +940,7 @@ private constructor(
                 BALANCE_INQUIRY,
                 BILLING_ERROR,
                 BILLING_ERROR_REVERSAL,
+                CARD_TO_CARD,
                 CASH_BACK,
                 CASH_BACK_REVERSAL,
                 CLEARING,
@@ -1000,6 +1003,7 @@ private constructor(
                 BALANCE_INQUIRY,
                 BILLING_ERROR,
                 BILLING_ERROR_REVERSAL,
+                CARD_TO_CARD,
                 CASH_BACK,
                 CASH_BACK_REVERSAL,
                 CLEARING,
@@ -1064,6 +1068,7 @@ private constructor(
                     BALANCE_INQUIRY -> Value.BALANCE_INQUIRY
                     BILLING_ERROR -> Value.BILLING_ERROR
                     BILLING_ERROR_REVERSAL -> Value.BILLING_ERROR_REVERSAL
+                    CARD_TO_CARD -> Value.CARD_TO_CARD
                     CASH_BACK -> Value.CASH_BACK
                     CASH_BACK_REVERSAL -> Value.CASH_BACK_REVERSAL
                     CLEARING -> Value.CLEARING
@@ -1128,6 +1133,7 @@ private constructor(
                     BALANCE_INQUIRY -> Known.BALANCE_INQUIRY
                     BILLING_ERROR -> Known.BILLING_ERROR
                     BILLING_ERROR_REVERSAL -> Known.BILLING_ERROR_REVERSAL
+                    CARD_TO_CARD -> Known.CARD_TO_CARD
                     CASH_BACK -> Known.CASH_BACK
                     CASH_BACK_REVERSAL -> Known.CASH_BACK_REVERSAL
                     CLEARING -> Known.CLEARING
