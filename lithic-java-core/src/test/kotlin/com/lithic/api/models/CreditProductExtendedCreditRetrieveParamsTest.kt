@@ -11,7 +11,7 @@ class CreditProductExtendedCreditRetrieveParamsTest {
     @Test
     fun createCreditProductExtendedCreditRetrieveParams() {
         CreditProductExtendedCreditRetrieveParams.builder()
-            .creditProductId("credit_product_id")
+            .creditProductToken("credit_product_token")
             .build()
     }
 
@@ -19,11 +19,11 @@ class CreditProductExtendedCreditRetrieveParamsTest {
     fun getPathParam() {
         val params =
             CreditProductExtendedCreditRetrieveParams.builder()
-                .creditProductId("credit_product_id")
+                .creditProductToken("credit_product_token")
                 .build()
         assertThat(params).isNotNull
-        // path param "creditProductId"
-        assertThat(params.getPathParam(0)).isEqualTo("credit_product_id")
+        // path param "creditProductToken"
+        assertThat(params.getPathParam(0)).isEqualTo("credit_product_token")
         // out-of-bound path param
         assertThat(params.getPathParam(1)).isEqualTo("")
     }
