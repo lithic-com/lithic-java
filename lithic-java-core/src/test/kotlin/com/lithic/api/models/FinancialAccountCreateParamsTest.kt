@@ -15,6 +15,7 @@ class FinancialAccountCreateParamsTest {
             .type(FinancialAccountCreateParams.Type.OPERATING)
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .isForBenefitOf(true)
+            .idempotencyKey("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
 
@@ -26,6 +27,7 @@ class FinancialAccountCreateParamsTest {
                 .type(FinancialAccountCreateParams.Type.OPERATING)
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .isForBenefitOf(true)
+                .idempotencyKey("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
