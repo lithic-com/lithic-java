@@ -515,17 +515,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardCreateBody && this.type == other.type && this.accountToken == other.accountToken && this.cardProgramToken == other.cardProgramToken && this.carrier == other.carrier && this.digitalCardArtToken == other.digitalCardArtToken && this.expMonth == other.expMonth && this.expYear == other.expYear && this.memo == other.memo && this.pin == other.pin && this.productId == other.productId && this.replacementAccountToken == other.replacementAccountToken && this.replacementFor == other.replacementFor && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CardCreateBody && type == other.type && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && carrier == other.carrier && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && memo == other.memo && pin == other.pin && productId == other.productId && replacementAccountToken == other.replacementAccountToken && replacementFor == other.replacementFor && shippingAddress == other.shippingAddress && shippingMethod == other.shippingMethod && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "CardCreateBody{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
@@ -542,12 +539,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardCreateParams && this.type == other.type && this.accountToken == other.accountToken && this.cardProgramToken == other.cardProgramToken && this.carrier == other.carrier && this.digitalCardArtToken == other.digitalCardArtToken && this.expMonth == other.expMonth && this.expYear == other.expYear && this.memo == other.memo && this.pin == other.pin && this.productId == other.productId && this.replacementAccountToken == other.replacementAccountToken && this.replacementFor == other.replacementFor && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is CardCreateParams && type == other.type && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && carrier == other.carrier && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && memo == other.memo && pin == other.pin && productId == other.productId && replacementAccountToken == other.replacementAccountToken && replacementFor == other.replacementFor && shippingAddress == other.shippingAddress && shippingMethod == other.shippingMethod && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "CardCreateParams{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
@@ -904,7 +899,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -973,7 +968,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ShippingMethod && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is ShippingMethod && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1055,7 +1050,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is State && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

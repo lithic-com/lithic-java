@@ -129,17 +129,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ThreeDSDecisioningChallengeResponseBody && this.token == other.token && this.challengeResponse == other.challengeResponse && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ThreeDSDecisioningChallengeResponseBody && token == other.token && challengeResponse == other.challengeResponse && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(token, challengeResponse, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(token, challengeResponse, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "ThreeDSDecisioningChallengeResponseBody{token=$token, challengeResponse=$challengeResponse, additionalProperties=$additionalProperties}"
@@ -156,12 +153,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ThreeDSDecisioningChallengeResponseParams && this.token == other.token && this.challengeResponse == other.challengeResponse && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is ThreeDSDecisioningChallengeResponseParams && token == other.token && challengeResponse == other.challengeResponse && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(token, challengeResponse, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, challengeResponse, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "ThreeDSDecisioningChallengeResponseParams{token=$token, challengeResponse=$challengeResponse, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"

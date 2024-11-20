@@ -738,7 +738,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is PeriodState && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is PeriodState && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -793,17 +793,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountStanding && this.periodState == other.periodState && this.periodNumber == other.periodNumber && this.consecutiveMinimumPaymentsMade == other.consecutiveMinimumPaymentsMade && this.consecutiveMinimumPaymentsMissed == other.consecutiveMinimumPaymentsMissed && this.consecutiveFullPaymentsMade == other.consecutiveFullPaymentsMade && this.daysPastDue == other.daysPastDue && this.hasGrace == other.hasGrace && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountStanding && periodState == other.periodState && periodNumber == other.periodNumber && consecutiveMinimumPaymentsMade == other.consecutiveMinimumPaymentsMade && consecutiveMinimumPaymentsMissed == other.consecutiveMinimumPaymentsMissed && consecutiveFullPaymentsMade == other.consecutiveFullPaymentsMade && daysPastDue == other.daysPastDue && hasGrace == other.hasGrace && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(periodState, periodNumber, consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed, consecutiveFullPaymentsMade, daysPastDue, hasGrace, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(periodState, periodNumber, consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed, consecutiveFullPaymentsMade, daysPastDue, hasGrace, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "AccountStanding{periodState=$periodState, periodNumber=$periodNumber, consecutiveMinimumPaymentsMade=$consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed=$consecutiveMinimumPaymentsMissed, consecutiveFullPaymentsMade=$consecutiveFullPaymentsMade, daysPastDue=$daysPastDue, hasGrace=$hasGrace, additionalProperties=$additionalProperties}"
@@ -927,17 +924,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AmountDue && this.amount == other.amount && this.pastDue == other.pastDue && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AmountDue && amount == other.amount && pastDue == other.pastDue && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(amount, pastDue, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(amount, pastDue, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "AmountDue{amount=$amount, pastDue=$pastDue, additionalProperties=$additionalProperties}"
@@ -1153,17 +1147,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is StatementTotals && this.payments == other.payments && this.purchases == other.purchases && this.fees == other.fees && this.credits == other.credits && this.interest == other.interest && this.cashAdvances == other.cashAdvances && this.balanceTransfers == other.balanceTransfers && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is StatementTotals && payments == other.payments && purchases == other.purchases && fees == other.fees && credits == other.credits && interest == other.interest && cashAdvances == other.cashAdvances && balanceTransfers == other.balanceTransfers && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(payments, purchases, fees, credits, interest, cashAdvances, balanceTransfers, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(payments, purchases, fees, credits, interest, cashAdvances, balanceTransfers, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "StatementTotals{payments=$payments, purchases=$purchases, fees=$fees, credits=$credits, interest=$interest, cashAdvances=$cashAdvances, balanceTransfers=$balanceTransfers, additionalProperties=$additionalProperties}"
@@ -1182,7 +1173,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is StatementType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is StatementType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1533,17 +1524,14 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is CategoryDetails && this.purchases == other.purchases && this.cashAdvances == other.cashAdvances && this.balanceTransfers == other.balanceTransfers && this.additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is CategoryDetails && purchases == other.purchases && cashAdvances == other.cashAdvances && balanceTransfers == other.balanceTransfers && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
-            private var hashCode: Int = 0
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(purchases, cashAdvances, balanceTransfers, additionalProperties) }
+            /* spotless:on */
 
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode = /* spotless:off */ Objects.hash(purchases, cashAdvances, balanceTransfers, additionalProperties) /* spotless:on */
-                }
-                return hashCode
-            }
+            override fun hashCode(): Int = hashCode
 
             override fun toString() =
                 "CategoryDetails{purchases=$purchases, cashAdvances=$cashAdvances, balanceTransfers=$balanceTransfers, additionalProperties=$additionalProperties}"
@@ -1562,7 +1550,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is InterestCalculationMethod && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is InterestCalculationMethod && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1615,17 +1603,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is InterestDetails && this.primeRate == other.primeRate && this.interestCalculationMethod == other.interestCalculationMethod && this.effectiveApr == other.effectiveApr && this.interestForPeriod == other.interestForPeriod && this.dailyBalanceAmounts == other.dailyBalanceAmounts && this.minimumInterestCharged == other.minimumInterestCharged && this.actualInterestCharged == other.actualInterestCharged && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is InterestDetails && primeRate == other.primeRate && interestCalculationMethod == other.interestCalculationMethod && effectiveApr == other.effectiveApr && interestForPeriod == other.interestForPeriod && dailyBalanceAmounts == other.dailyBalanceAmounts && minimumInterestCharged == other.minimumInterestCharged && actualInterestCharged == other.actualInterestCharged && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(primeRate, interestCalculationMethod, effectiveApr, interestForPeriod, dailyBalanceAmounts, minimumInterestCharged, actualInterestCharged, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(primeRate, interestCalculationMethod, effectiveApr, interestForPeriod, dailyBalanceAmounts, minimumInterestCharged, actualInterestCharged, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "InterestDetails{primeRate=$primeRate, interestCalculationMethod=$interestCalculationMethod, effectiveApr=$effectiveApr, interestForPeriod=$interestForPeriod, dailyBalanceAmounts=$dailyBalanceAmounts, minimumInterestCharged=$minimumInterestCharged, actualInterestCharged=$actualInterestCharged, additionalProperties=$additionalProperties}"
@@ -1636,17 +1621,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Statement && this.token == other.token && this.financialAccountToken == other.financialAccountToken && this.statementStartDate == other.statementStartDate && this.statementEndDate == other.statementEndDate && this.nextStatementEndDate == other.nextStatementEndDate && this.paymentDueDate == other.paymentDueDate && this.nextPaymentDueDate == other.nextPaymentDueDate && this.daysInBillingCycle == other.daysInBillingCycle && this.creditLimit == other.creditLimit && this.availableCredit == other.availableCredit && this.startingBalance == other.startingBalance && this.endingBalance == other.endingBalance && this.periodTotals == other.periodTotals && this.ytdTotals == other.ytdTotals && this.created == other.created && this.updated == other.updated && this.creditProductToken == other.creditProductToken && this.accountStanding == other.accountStanding && this.amountDue == other.amountDue && this.interestDetails == other.interestDetails && this.statementType == other.statementType && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Statement && token == other.token && financialAccountToken == other.financialAccountToken && statementStartDate == other.statementStartDate && statementEndDate == other.statementEndDate && nextStatementEndDate == other.nextStatementEndDate && paymentDueDate == other.paymentDueDate && nextPaymentDueDate == other.nextPaymentDueDate && daysInBillingCycle == other.daysInBillingCycle && creditLimit == other.creditLimit && availableCredit == other.availableCredit && startingBalance == other.startingBalance && endingBalance == other.endingBalance && periodTotals == other.periodTotals && ytdTotals == other.ytdTotals && created == other.created && updated == other.updated && creditProductToken == other.creditProductToken && accountStanding == other.accountStanding && amountDue == other.amountDue && interestDetails == other.interestDetails && statementType == other.statementType && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(token, financialAccountToken, statementStartDate, statementEndDate, nextStatementEndDate, paymentDueDate, nextPaymentDueDate, daysInBillingCycle, creditLimit, availableCredit, startingBalance, endingBalance, periodTotals, ytdTotals, created, updated, creditProductToken, accountStanding, amountDue, interestDetails, statementType, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(token, financialAccountToken, statementStartDate, statementEndDate, nextStatementEndDate, paymentDueDate, nextPaymentDueDate, daysInBillingCycle, creditLimit, availableCredit, startingBalance, endingBalance, periodTotals, ytdTotals, created, updated, creditProductToken, accountStanding, amountDue, interestDetails, statementType, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "Statement{token=$token, financialAccountToken=$financialAccountToken, statementStartDate=$statementStartDate, statementEndDate=$statementEndDate, nextStatementEndDate=$nextStatementEndDate, paymentDueDate=$paymentDueDate, nextPaymentDueDate=$nextPaymentDueDate, daysInBillingCycle=$daysInBillingCycle, creditLimit=$creditLimit, availableCredit=$availableCredit, startingBalance=$startingBalance, endingBalance=$endingBalance, periodTotals=$periodTotals, ytdTotals=$ytdTotals, created=$created, updated=$updated, creditProductToken=$creditProductToken, accountStanding=$accountStanding, amountDue=$amountDue, interestDetails=$interestDetails, statementType=$statementType, additionalProperties=$additionalProperties}"

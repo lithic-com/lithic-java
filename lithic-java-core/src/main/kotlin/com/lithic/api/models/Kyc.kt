@@ -454,17 +454,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Individual && this.address == other.address && this.dob == other.dob && this.email == other.email && this.firstName == other.firstName && this.governmentId == other.governmentId && this.lastName == other.lastName && this.phoneNumber == other.phoneNumber && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Individual && address == other.address && dob == other.dob && email == other.email && firstName == other.firstName && governmentId == other.governmentId && lastName == other.lastName && phoneNumber == other.phoneNumber && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(address, dob, email, firstName, governmentId, lastName, phoneNumber, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(address, dob, email, firstName, governmentId, lastName, phoneNumber, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "Individual{address=$address, dob=$dob, email=$email, firstName=$firstName, governmentId=$governmentId, lastName=$lastName, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
@@ -483,7 +480,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Workflow && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Workflow && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -538,17 +535,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Kyc && this.externalId == other.externalId && this.individual == other.individual && this.kycPassedTimestamp == other.kycPassedTimestamp && this.tosTimestamp == other.tosTimestamp && this.workflow == other.workflow && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Kyc && externalId == other.externalId && individual == other.individual && kycPassedTimestamp == other.kycPassedTimestamp && tosTimestamp == other.tosTimestamp && workflow == other.workflow && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(externalId, individual, kycPassedTimestamp, tosTimestamp, workflow, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(externalId, individual, kycPassedTimestamp, tosTimestamp, workflow, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "Kyc{externalId=$externalId, individual=$individual, kycPassedTimestamp=$kycPassedTimestamp, tosTimestamp=$tosTimestamp, workflow=$workflow, additionalProperties=$additionalProperties}"

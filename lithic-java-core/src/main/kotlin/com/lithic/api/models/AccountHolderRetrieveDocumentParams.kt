@@ -41,12 +41,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderRetrieveDocumentParams && this.accountHolderToken == other.accountHolderToken && this.documentToken == other.documentToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is AccountHolderRetrieveDocumentParams && accountHolderToken == other.accountHolderToken && documentToken == other.documentToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountHolderToken, documentToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, documentToken, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "AccountHolderRetrieveDocumentParams{accountHolderToken=$accountHolderToken, documentToken=$documentToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

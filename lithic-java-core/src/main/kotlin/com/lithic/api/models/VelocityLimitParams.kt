@@ -347,17 +347,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Filters && this.includeMccs == other.includeMccs && this.includeCountries == other.includeCountries && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Filters && includeMccs == other.includeMccs && includeCountries == other.includeCountries && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(includeMccs, includeCountries, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(includeMccs, includeCountries, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "Filters{includeMccs=$includeMccs, includeCountries=$includeCountries, additionalProperties=$additionalProperties}"
@@ -422,22 +419,19 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Period && this.number == other.number && this.velocityLimitParamsPeriodWindow == other.velocityLimitParamsPeriodWindow /* spotless:on */
+            return /* spotless:off */ other is Period && number == other.number && velocityLimitParamsPeriodWindow == other.velocityLimitParamsPeriodWindow /* spotless:on */
         }
 
-        override fun hashCode(): Int {
-            return /* spotless:off */ Objects.hash(number, velocityLimitParamsPeriodWindow) /* spotless:on */
-        }
+        override fun hashCode(): Int = /* spotless:off */ Objects.hash(number, velocityLimitParamsPeriodWindow) /* spotless:on */
 
-        override fun toString(): String {
-            return when {
+        override fun toString(): String =
+            when {
                 number != null -> "Period{number=$number}"
                 velocityLimitParamsPeriodWindow != null ->
                     "Period{velocityLimitParamsPeriodWindow=$velocityLimitParamsPeriodWindow}"
                 _json != null -> "Period{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid Period")
             }
-        }
 
         companion object {
 
@@ -509,7 +503,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Scope && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Scope && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -558,17 +552,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is VelocityLimitParams && this.scope == other.scope && this.period == other.period && this.filters == other.filters && this.limitAmount == other.limitAmount && this.limitCount == other.limitCount && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is VelocityLimitParams && scope == other.scope && period == other.period && filters == other.filters && limitAmount == other.limitAmount && limitCount == other.limitCount && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(scope, period, filters, limitAmount, limitCount, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(scope, period, filters, limitAmount, limitCount, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "VelocityLimitParams{scope=$scope, period=$period, filters=$filters, limitAmount=$limitAmount, limitCount=$limitCount, additionalProperties=$additionalProperties}"

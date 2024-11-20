@@ -314,7 +314,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is State && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -363,17 +363,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRule && this.accountTokens == other.accountTokens && this.allowedCountries == other.allowedCountries && this.allowedMcc == other.allowedMcc && this.blockedCountries == other.blockedCountries && this.blockedMcc == other.blockedMcc && this.cardTokens == other.cardTokens && this.programLevel == other.programLevel && this.state == other.state && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is AuthRule && accountTokens == other.accountTokens && allowedCountries == other.allowedCountries && allowedMcc == other.allowedMcc && blockedCountries == other.blockedCountries && blockedMcc == other.blockedMcc && cardTokens == other.cardTokens && programLevel == other.programLevel && state == other.state && token == other.token && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(accountTokens, allowedCountries, allowedMcc, blockedCountries, blockedMcc, cardTokens, programLevel, state, token, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(accountTokens, allowedCountries, allowedMcc, blockedCountries, blockedMcc, cardTokens, programLevel, state, token, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "AuthRule{accountTokens=$accountTokens, allowedCountries=$allowedCountries, allowedMcc=$allowedMcc, blockedCountries=$blockedCountries, blockedMcc=$blockedMcc, cardTokens=$cardTokens, programLevel=$programLevel, state=$state, token=$token, additionalProperties=$additionalProperties}"

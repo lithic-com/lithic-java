@@ -229,7 +229,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Network && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -278,17 +278,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DigitalCardArt && this.cardProgramToken == other.cardProgramToken && this.created == other.created && this.description == other.description && this.isCardProgramDefault == other.isCardProgramDefault && this.isEnabled == other.isEnabled && this.network == other.network && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is DigitalCardArt && cardProgramToken == other.cardProgramToken && created == other.created && description == other.description && isCardProgramDefault == other.isCardProgramDefault && isEnabled == other.isEnabled && network == other.network && token == other.token && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(cardProgramToken, created, description, isCardProgramDefault, isEnabled, network, token, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(cardProgramToken, created, description, isCardProgramDefault, isEnabled, network, token, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "DigitalCardArt{cardProgramToken=$cardProgramToken, created=$created, description=$description, isCardProgramDefault=$isCardProgramDefault, isEnabled=$isEnabled, network=$network, token=$token, additionalProperties=$additionalProperties}"

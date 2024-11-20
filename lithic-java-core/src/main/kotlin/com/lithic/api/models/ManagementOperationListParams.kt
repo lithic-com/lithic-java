@@ -84,12 +84,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ManagementOperationListParams && this.begin == other.begin && this.businessAccountToken == other.businessAccountToken && this.category == other.category && this.end == other.end && this.endingBefore == other.endingBefore && this.financialAccountToken == other.financialAccountToken && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.status == other.status && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is ManagementOperationListParams && begin == other.begin && businessAccountToken == other.businessAccountToken && category == other.category && end == other.end && endingBefore == other.endingBefore && financialAccountToken == other.financialAccountToken && pageSize == other.pageSize && startingAfter == other.startingAfter && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(begin, businessAccountToken, category, end, endingBefore, financialAccountToken, pageSize, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(begin, businessAccountToken, category, end, endingBefore, financialAccountToken, pageSize, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "ManagementOperationListParams{begin=$begin, businessAccountToken=$businessAccountToken, category=$category, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
@@ -303,7 +301,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ManagementOperationCategory && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is ManagementOperationCategory && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -378,7 +376,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionStatus && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is TransactionStatus && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

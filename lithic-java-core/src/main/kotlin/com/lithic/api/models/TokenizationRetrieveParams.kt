@@ -37,12 +37,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TokenizationRetrieveParams && this.tokenizationToken == other.tokenizationToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is TokenizationRetrieveParams && tokenizationToken == other.tokenizationToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(tokenizationToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tokenizationToken, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "TokenizationRetrieveParams{tokenizationToken=$tokenizationToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

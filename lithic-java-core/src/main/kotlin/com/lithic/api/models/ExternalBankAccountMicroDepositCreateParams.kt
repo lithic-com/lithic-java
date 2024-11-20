@@ -110,17 +110,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalBankAccountMicroDepositCreateBody && this.microDeposits == other.microDeposits && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ExternalBankAccountMicroDepositCreateBody && microDeposits == other.microDeposits && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(microDeposits, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(microDeposits, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "ExternalBankAccountMicroDepositCreateBody{microDeposits=$microDeposits, additionalProperties=$additionalProperties}"
@@ -137,12 +134,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalBankAccountMicroDepositCreateParams && this.externalBankAccountToken == other.externalBankAccountToken && this.microDeposits == other.microDeposits && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is ExternalBankAccountMicroDepositCreateParams && externalBankAccountToken == other.externalBankAccountToken && microDeposits == other.microDeposits && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(externalBankAccountToken, microDeposits, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountToken, microDeposits, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "ExternalBankAccountMicroDepositCreateParams{externalBankAccountToken=$externalBankAccountToken, microDeposits=$microDeposits, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"

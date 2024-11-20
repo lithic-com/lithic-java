@@ -37,12 +37,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionEventEnhancedCommercialDataRetrieveParams && this.eventToken == other.eventToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is TransactionEventEnhancedCommercialDataRetrieveParams && eventToken == other.eventToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(eventToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventToken, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "TransactionEventEnhancedCommercialDataRetrieveParams{eventToken=$eventToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

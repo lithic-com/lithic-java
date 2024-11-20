@@ -174,17 +174,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolderSimulateEnrollmentDocumentReviewBody && this.documentUploadToken == other.documentUploadToken && this.status == other.status && this.acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && this.statusReason == other.statusReason && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountHolderSimulateEnrollmentDocumentReviewBody && documentUploadToken == other.documentUploadToken && status == other.status && acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && statusReason == other.statusReason && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(documentUploadToken, status, acceptedEntityStatusReasons, statusReason, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(documentUploadToken, status, acceptedEntityStatusReasons, statusReason, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "AccountHolderSimulateEnrollmentDocumentReviewBody{documentUploadToken=$documentUploadToken, status=$status, acceptedEntityStatusReasons=$acceptedEntityStatusReasons, statusReason=$statusReason, additionalProperties=$additionalProperties}"
@@ -201,12 +198,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderSimulateEnrollmentDocumentReviewParams && this.documentUploadToken == other.documentUploadToken && this.status == other.status && this.acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && this.statusReason == other.statusReason && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is AccountHolderSimulateEnrollmentDocumentReviewParams && documentUploadToken == other.documentUploadToken && status == other.status && acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && statusReason == other.statusReason && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(documentUploadToken, status, acceptedEntityStatusReasons, statusReason, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(documentUploadToken, status, acceptedEntityStatusReasons, statusReason, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "AccountHolderSimulateEnrollmentDocumentReviewParams{documentUploadToken=$documentUploadToken, status=$status, acceptedEntityStatusReasons=$acceptedEntityStatusReasons, statusReason=$statusReason, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
@@ -426,7 +421,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -495,7 +490,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DocumentUploadStatusReasons && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is DocumentUploadStatusReasons && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

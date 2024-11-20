@@ -93,22 +93,19 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolderCreateBody && this.kyb == other.kyb && this.kyc == other.kyc && this.kycExempt == other.kycExempt /* spotless:on */
+            return /* spotless:off */ other is AccountHolderCreateBody && kyb == other.kyb && kyc == other.kyc && kycExempt == other.kycExempt /* spotless:on */
         }
 
-        override fun hashCode(): Int {
-            return /* spotless:off */ Objects.hash(kyb, kyc, kycExempt) /* spotless:on */
-        }
+        override fun hashCode(): Int = /* spotless:off */ Objects.hash(kyb, kyc, kycExempt) /* spotless:on */
 
-        override fun toString(): String {
-            return when {
+        override fun toString(): String =
+            when {
                 kyb != null -> "AccountHolderCreateBody{kyb=$kyb}"
                 kyc != null -> "AccountHolderCreateBody{kyc=$kyc}"
                 kycExempt != null -> "AccountHolderCreateBody{kycExempt=$kycExempt}"
                 _json != null -> "AccountHolderCreateBody{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid AccountHolderCreateBody")
             }
-        }
 
         companion object {
 
@@ -180,12 +177,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderCreateParams && this.kyb == other.kyb && this.kyc == other.kyc && this.kycExempt == other.kycExempt && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is AccountHolderCreateParams && kyb == other.kyb && kyc == other.kyc && kycExempt == other.kycExempt && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(kyb, kyc, kycExempt, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(kyb, kyc, kycExempt, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "AccountHolderCreateParams{kyb=$kyb, kyc=$kyc, kycExempt=$kycExempt, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

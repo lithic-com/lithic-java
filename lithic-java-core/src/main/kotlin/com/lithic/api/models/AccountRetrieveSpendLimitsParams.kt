@@ -37,12 +37,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountRetrieveSpendLimitsParams && this.accountToken == other.accountToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is AccountRetrieveSpendLimitsParams && accountToken == other.accountToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "AccountRetrieveSpendLimitsParams{accountToken=$accountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

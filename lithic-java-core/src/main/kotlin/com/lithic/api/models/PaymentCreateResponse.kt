@@ -522,17 +522,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentCreateResponse && this.category == other.category && this.created == other.created && this.currency == other.currency && this.descriptor == other.descriptor && this.events == other.events && this.pendingAmount == other.pendingAmount && this.result == other.result && this.settledAmount == other.settledAmount && this.status == other.status && this.token == other.token && this.updated == other.updated && this.direction == other.direction && this.financialAccountToken == other.financialAccountToken && this.externalBankAccountToken == other.externalBankAccountToken && this.method == other.method && this.methodAttributes == other.methodAttributes && this.source == other.source && this.userDefinedId == other.userDefinedId && this.balance == other.balance && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is PaymentCreateResponse && category == other.category && created == other.created && currency == other.currency && descriptor == other.descriptor && events == other.events && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && status == other.status && token == other.token && updated == other.updated && direction == other.direction && financialAccountToken == other.financialAccountToken && externalBankAccountToken == other.externalBankAccountToken && method == other.method && methodAttributes == other.methodAttributes && source == other.source && userDefinedId == other.userDefinedId && balance == other.balance && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(category, created, currency, descriptor, events, pendingAmount, result, settledAmount, status, token, updated, direction, financialAccountToken, externalBankAccountToken, method, methodAttributes, source, userDefinedId, balance, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(category, created, currency, descriptor, events, pendingAmount, result, settledAmount, status, token, updated, direction, financialAccountToken, externalBankAccountToken, method, methodAttributes, source, userDefinedId, balance, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "PaymentCreateResponse{category=$category, created=$created, currency=$currency, descriptor=$descriptor, events=$events, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, token=$token, updated=$updated, direction=$direction, financialAccountToken=$financialAccountToken, externalBankAccountToken=$externalBankAccountToken, method=$method, methodAttributes=$methodAttributes, source=$source, userDefinedId=$userDefinedId, balance=$balance, additionalProperties=$additionalProperties}"

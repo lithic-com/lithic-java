@@ -84,12 +84,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalBankAccountListParams && this.accountToken == other.accountToken && this.accountTypes == other.accountTypes && this.countries == other.countries && this.endingBefore == other.endingBefore && this.ownerTypes == other.ownerTypes && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.states == other.states && this.verificationStates == other.verificationStates && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is ExternalBankAccountListParams && accountToken == other.accountToken && accountTypes == other.accountTypes && countries == other.countries && endingBefore == other.endingBefore && ownerTypes == other.ownerTypes && pageSize == other.pageSize && startingAfter == other.startingAfter && states == other.states && verificationStates == other.verificationStates && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountToken, accountTypes, countries, endingBefore, ownerTypes, pageSize, startingAfter, states, verificationStates, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, accountTypes, countries, endingBefore, ownerTypes, pageSize, startingAfter, states, verificationStates, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "ExternalBankAccountListParams{accountToken=$accountToken, accountTypes=$accountTypes, countries=$countries, endingBefore=$endingBefore, ownerTypes=$ownerTypes, pageSize=$pageSize, startingAfter=$startingAfter, states=$states, verificationStates=$verificationStates, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
@@ -312,7 +310,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is AccountType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -369,7 +367,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountState && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is AccountState && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -432,7 +430,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is VerificationState && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is VerificationState && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

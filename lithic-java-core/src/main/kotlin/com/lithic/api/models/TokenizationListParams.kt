@@ -74,12 +74,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TokenizationListParams && this.accountToken == other.accountToken && this.begin == other.begin && this.cardToken == other.cardToken && this.end == other.end && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.tokenizationChannel == other.tokenizationChannel && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is TokenizationListParams && accountToken == other.accountToken && begin == other.begin && cardToken == other.cardToken && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && tokenizationChannel == other.tokenizationChannel && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, startingAfter, tokenizationChannel, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, startingAfter, tokenizationChannel, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "TokenizationListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, tokenizationChannel=$tokenizationChannel, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
@@ -280,7 +278,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TokenizationChannel && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is TokenizationChannel && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

@@ -332,7 +332,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -387,17 +387,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BalanceListResponse && this.availableAmount == other.availableAmount && this.created == other.created && this.currency == other.currency && this.token == other.token && this.type == other.type && this.lastTransactionEventToken == other.lastTransactionEventToken && this.lastTransactionToken == other.lastTransactionToken && this.pendingAmount == other.pendingAmount && this.totalAmount == other.totalAmount && this.updated == other.updated && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is BalanceListResponse && availableAmount == other.availableAmount && created == other.created && currency == other.currency && token == other.token && type == other.type && lastTransactionEventToken == other.lastTransactionEventToken && lastTransactionToken == other.lastTransactionToken && pendingAmount == other.pendingAmount && totalAmount == other.totalAmount && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(availableAmount, created, currency, token, type, lastTransactionEventToken, lastTransactionToken, pendingAmount, totalAmount, updated, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(availableAmount, created, currency, token, type, lastTransactionEventToken, lastTransactionToken, pendingAmount, totalAmount, updated, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "BalanceListResponse{availableAmount=$availableAmount, created=$created, currency=$currency, token=$token, type=$type, lastTransactionEventToken=$lastTransactionEventToken, lastTransactionToken=$lastTransactionToken, pendingAmount=$pendingAmount, totalAmount=$totalAmount, updated=$updated, additionalProperties=$additionalProperties}"

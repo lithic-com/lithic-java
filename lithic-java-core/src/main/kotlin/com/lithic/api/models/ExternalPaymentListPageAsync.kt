@@ -37,12 +37,10 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalPaymentListPageAsync && this.externalPaymentsService == other.externalPaymentsService && this.params == other.params && this.response == other.response /* spotless:on */
+        return /* spotless:off */ other is ExternalPaymentListPageAsync && externalPaymentsService == other.externalPaymentsService && params == other.params && response == other.response /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(externalPaymentsService, params, response) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalPaymentsService, params, response) /* spotless:on */
 
     override fun toString() =
         "ExternalPaymentListPageAsync{externalPaymentsService=$externalPaymentsService, params=$params, response=$response}"
@@ -136,15 +134,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Response && this.data == other.data && this.hasMore == other.hasMore && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Response && data == other.data && hasMore == other.hasMore && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        override fun hashCode(): Int {
-            return /* spotless:off */ Objects.hash(data, hasMore, additionalProperties) /* spotless:on */
-        }
+        override fun hashCode(): Int = /* spotless:off */ Objects.hash(data, hasMore, additionalProperties) /* spotless:on */
 
         override fun toString() =
-            "ExternalPaymentListPageAsync.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+            "Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 

@@ -38,12 +38,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ReportSettlementSummaryParams && this.reportDate == other.reportDate && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is ReportSettlementSummaryParams && reportDate == other.reportDate && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(reportDate, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(reportDate, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "ReportSettlementSummaryParams{reportDate=$reportDate, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

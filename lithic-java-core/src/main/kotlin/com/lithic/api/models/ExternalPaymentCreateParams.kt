@@ -216,17 +216,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentCreateBody && this.amount == other.amount && this.category == other.category && this.effectiveDate == other.effectiveDate && this.financialAccountToken == other.financialAccountToken && this.paymentType == other.paymentType && this.token == other.token && this.memo == other.memo && this.progressTo == other.progressTo && this.userDefinedId == other.userDefinedId && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ExternalPaymentCreateBody && amount == other.amount && category == other.category && effectiveDate == other.effectiveDate && financialAccountToken == other.financialAccountToken && paymentType == other.paymentType && token == other.token && memo == other.memo && progressTo == other.progressTo && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(amount, category, effectiveDate, financialAccountToken, paymentType, token, memo, progressTo, userDefinedId, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(amount, category, effectiveDate, financialAccountToken, paymentType, token, memo, progressTo, userDefinedId, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "ExternalPaymentCreateBody{amount=$amount, category=$category, effectiveDate=$effectiveDate, financialAccountToken=$financialAccountToken, paymentType=$paymentType, token=$token, memo=$memo, progressTo=$progressTo, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
@@ -243,12 +240,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalPaymentCreateParams && this.amount == other.amount && this.category == other.category && this.effectiveDate == other.effectiveDate && this.financialAccountToken == other.financialAccountToken && this.paymentType == other.paymentType && this.token == other.token && this.memo == other.memo && this.progressTo == other.progressTo && this.userDefinedId == other.userDefinedId && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is ExternalPaymentCreateParams && amount == other.amount && category == other.category && effectiveDate == other.effectiveDate && financialAccountToken == other.financialAccountToken && paymentType == other.paymentType && token == other.token && memo == other.memo && progressTo == other.progressTo && userDefinedId == other.userDefinedId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(amount, category, effectiveDate, financialAccountToken, paymentType, token, memo, progressTo, userDefinedId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, category, effectiveDate, financialAccountToken, paymentType, token, memo, progressTo, userDefinedId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "ExternalPaymentCreateParams{amount=$amount, category=$category, effectiveDate=$effectiveDate, financialAccountToken=$financialAccountToken, paymentType=$paymentType, token=$token, memo=$memo, progressTo=$progressTo, userDefinedId=$userDefinedId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
@@ -468,7 +463,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentCategory && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is ExternalPaymentCategory && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -538,7 +533,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentDirection && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is ExternalPaymentDirection && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -595,7 +590,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalPaymentProgressTo && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is ExternalPaymentProgressTo && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

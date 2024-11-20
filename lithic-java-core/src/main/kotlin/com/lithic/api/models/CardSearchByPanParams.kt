@@ -96,17 +96,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardSearchByPanBody && this.pan == other.pan && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CardSearchByPanBody && pan == other.pan && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(pan, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(pan, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "CardSearchByPanBody{pan=$pan, additionalProperties=$additionalProperties}"
@@ -123,12 +120,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardSearchByPanParams && this.pan == other.pan && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is CardSearchByPanParams && pan == other.pan && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(pan, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(pan, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "CardSearchByPanParams{pan=$pan, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"

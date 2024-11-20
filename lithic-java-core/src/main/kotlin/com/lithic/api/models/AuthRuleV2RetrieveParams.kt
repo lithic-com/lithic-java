@@ -37,12 +37,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2RetrieveParams && this.authRuleToken == other.authRuleToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is AuthRuleV2RetrieveParams && authRuleToken == other.authRuleToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(authRuleToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "AuthRuleV2RetrieveParams{authRuleToken=$authRuleToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
