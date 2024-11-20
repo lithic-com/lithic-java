@@ -416,7 +416,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is TransactionCategory && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is TransactionCategory && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -533,7 +533,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is FinancialEventType && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is FinancialEventType && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1013,17 +1013,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is StatementLineItemResponse && this.token == other.token && this.financialAccountToken == other.financialAccountToken && this.cardToken == other.cardToken && this.financialTransactionToken == other.financialTransactionToken && this.financialTransactionEventToken == other.financialTransactionEventToken && this.category == other.category && this.eventType == other.eventType && this.effectiveDate == other.effectiveDate && this.descriptor == other.descriptor && this.amount == other.amount && this.currency == other.currency && this.created == other.created && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is StatementLineItemResponse && token == other.token && financialAccountToken == other.financialAccountToken && cardToken == other.cardToken && financialTransactionToken == other.financialTransactionToken && financialTransactionEventToken == other.financialTransactionEventToken && category == other.category && eventType == other.eventType && effectiveDate == other.effectiveDate && descriptor == other.descriptor && amount == other.amount && currency == other.currency && created == other.created && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(token, financialAccountToken, cardToken, financialTransactionToken, financialTransactionEventToken, category, eventType, effectiveDate, descriptor, amount, currency, created, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(token, financialAccountToken, cardToken, financialTransactionToken, financialTransactionEventToken, category, eventType, effectiveDate, descriptor, amount, currency, created, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "StatementLineItemResponse{token=$token, financialAccountToken=$financialAccountToken, cardToken=$cardToken, financialTransactionToken=$financialTransactionToken, financialTransactionEventToken=$financialTransactionEventToken, category=$category, eventType=$eventType, effectiveDate=$effectiveDate, descriptor=$descriptor, amount=$amount, currency=$currency, created=$created, additionalProperties=$additionalProperties}"
@@ -1034,17 +1031,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StatementLineItems && this.data == other.data && this.hasMore == other.hasMore && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is StatementLineItems && data == other.data && hasMore == other.hasMore && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(data, hasMore, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(data, hasMore, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "StatementLineItems{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"

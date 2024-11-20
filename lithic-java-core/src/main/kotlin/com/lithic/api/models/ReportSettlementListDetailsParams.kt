@@ -56,12 +56,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ReportSettlementListDetailsParams && this.reportDate == other.reportDate && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is ReportSettlementListDetailsParams && reportDate == other.reportDate && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(reportDate, endingBefore, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(reportDate, endingBefore, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "ReportSettlementListDetailsParams{reportDate=$reportDate, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

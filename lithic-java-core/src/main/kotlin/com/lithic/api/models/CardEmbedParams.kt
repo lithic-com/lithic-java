@@ -40,12 +40,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardEmbedParams && this.embedRequest == other.embedRequest && this.hmac == other.hmac && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is CardEmbedParams && embedRequest == other.embedRequest && hmac == other.hmac && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(embedRequest, hmac, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(embedRequest, hmac, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "CardEmbedParams{embedRequest=$embedRequest, hmac=$hmac, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

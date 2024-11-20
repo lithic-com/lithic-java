@@ -177,7 +177,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EventType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is EventType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -497,17 +497,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventSubscription && this.description == other.description && this.disabled == other.disabled && this.eventTypes == other.eventTypes && this.token == other.token && this.url == other.url && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is EventSubscription && description == other.description && disabled == other.disabled && eventTypes == other.eventTypes && token == other.token && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(description, disabled, eventTypes, token, url, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(description, disabled, eventTypes, token, url, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "EventSubscription{description=$description, disabled=$disabled, eventTypes=$eventTypes, token=$token, url=$url, additionalProperties=$additionalProperties}"

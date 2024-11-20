@@ -24,12 +24,10 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is LithicError && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is LithicError && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(additionalProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(additionalProperties) /* spotless:on */
 
     override fun toString() = "LithicError{additionalProperties=$additionalProperties}"
 

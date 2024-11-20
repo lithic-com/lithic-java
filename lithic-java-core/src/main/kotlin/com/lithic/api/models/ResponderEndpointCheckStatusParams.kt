@@ -41,12 +41,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ResponderEndpointCheckStatusParams && this.type == other.type && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is ResponderEndpointCheckStatusParams && type == other.type && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(type, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(type, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "ResponderEndpointCheckStatusParams{type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
@@ -195,7 +193,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

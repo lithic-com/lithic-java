@@ -462,17 +462,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is SpendLimit && this.daily == other.daily && this.lifetime == other.lifetime && this.monthly == other.monthly && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is SpendLimit && daily == other.daily && lifetime == other.lifetime && monthly == other.monthly && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(daily, lifetime, monthly, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(daily, lifetime, monthly, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "SpendLimit{daily=$daily, lifetime=$lifetime, monthly=$monthly, additionalProperties=$additionalProperties}"
@@ -491,7 +488,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is State && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -701,17 +698,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolder && this.businessAccountToken == other.businessAccountToken && this.email == other.email && this.phoneNumber == other.phoneNumber && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountHolder && businessAccountToken == other.businessAccountToken && email == other.email && phoneNumber == other.phoneNumber && token == other.token && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(businessAccountToken, email, phoneNumber, token, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(businessAccountToken, email, phoneNumber, token, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "AccountHolder{businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, token=$token, additionalProperties=$additionalProperties}"
@@ -917,17 +911,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is VerificationAddress && this.address1 == other.address1 && this.address2 == other.address2 && this.city == other.city && this.country == other.country && this.postalCode == other.postalCode && this.state == other.state && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is VerificationAddress && address1 == other.address1 && address2 == other.address2 && city == other.city && country == other.country && postalCode == other.postalCode && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(address1, address2, city, country, postalCode, state, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(address1, address2, city, country, postalCode, state, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "VerificationAddress{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
@@ -938,17 +929,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Account && this.accountHolder == other.accountHolder && this.authRuleTokens == other.authRuleTokens && this.cardholderCurrency == other.cardholderCurrency && this.spendLimit == other.spendLimit && this.state == other.state && this.token == other.token && this.verificationAddress == other.verificationAddress && this.created == other.created && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Account && accountHolder == other.accountHolder && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && spendLimit == other.spendLimit && state == other.state && token == other.token && verificationAddress == other.verificationAddress && created == other.created && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(accountHolder, authRuleTokens, cardholderCurrency, spendLimit, state, token, verificationAddress, created, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(accountHolder, authRuleTokens, cardholderCurrency, spendLimit, state, token, verificationAddress, created, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "Account{accountHolder=$accountHolder, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, spendLimit=$spendLimit, state=$state, token=$token, verificationAddress=$verificationAddress, created=$created, additionalProperties=$additionalProperties}"

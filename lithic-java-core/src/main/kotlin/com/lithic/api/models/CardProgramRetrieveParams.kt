@@ -37,12 +37,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardProgramRetrieveParams && this.cardProgramToken == other.cardProgramToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is CardProgramRetrieveParams && cardProgramToken == other.cardProgramToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(cardProgramToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardProgramToken, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "CardProgramRetrieveParams{cardProgramToken=$cardProgramToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

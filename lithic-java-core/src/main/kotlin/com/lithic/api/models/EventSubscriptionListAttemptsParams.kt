@@ -78,12 +78,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventSubscriptionListAttemptsParams && this.eventSubscriptionToken == other.eventSubscriptionToken && this.begin == other.begin && this.end == other.end && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.status == other.status && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is EventSubscriptionListAttemptsParams && eventSubscriptionToken == other.eventSubscriptionToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(eventSubscriptionToken, begin, end, endingBefore, pageSize, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventSubscriptionToken, begin, end, endingBefore, pageSize, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "EventSubscriptionListAttemptsParams{eventSubscriptionToken=$eventSubscriptionToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
@@ -283,7 +281,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

@@ -264,7 +264,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is UploadStatus && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is UploadStatus && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -331,17 +331,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DisputeEvidence && this.created == other.created && this.disputeToken == other.disputeToken && this.downloadUrl == other.downloadUrl && this.filename == other.filename && this.token == other.token && this.uploadStatus == other.uploadStatus && this.uploadUrl == other.uploadUrl && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is DisputeEvidence && created == other.created && disputeToken == other.disputeToken && downloadUrl == other.downloadUrl && filename == other.filename && token == other.token && uploadStatus == other.uploadStatus && uploadUrl == other.uploadUrl && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(created, disputeToken, downloadUrl, filename, token, uploadStatus, uploadUrl, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(created, disputeToken, downloadUrl, filename, token, uploadStatus, uploadUrl, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "DisputeEvidence{created=$created, disputeToken=$disputeToken, downloadUrl=$downloadUrl, filename=$filename, token=$token, uploadStatus=$uploadStatus, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"

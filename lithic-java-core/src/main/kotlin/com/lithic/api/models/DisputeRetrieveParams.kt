@@ -37,12 +37,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is DisputeRetrieveParams && this.disputeToken == other.disputeToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is DisputeRetrieveParams && disputeToken == other.disputeToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(disputeToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(disputeToken, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "DisputeRetrieveParams{disputeToken=$disputeToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

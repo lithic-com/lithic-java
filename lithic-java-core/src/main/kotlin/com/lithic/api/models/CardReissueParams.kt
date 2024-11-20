@@ -193,17 +193,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardReissueBody && this.carrier == other.carrier && this.productId == other.productId && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CardReissueBody && carrier == other.carrier && productId == other.productId && shippingAddress == other.shippingAddress && shippingMethod == other.shippingMethod && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(carrier, productId, shippingAddress, shippingMethod, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(carrier, productId, shippingAddress, shippingMethod, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "CardReissueBody{carrier=$carrier, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
@@ -220,12 +217,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardReissueParams && this.cardToken == other.cardToken && this.carrier == other.carrier && this.productId == other.productId && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is CardReissueParams && cardToken == other.cardToken && carrier == other.carrier && productId == other.productId && shippingAddress == other.shippingAddress && shippingMethod == other.shippingMethod && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(cardToken, carrier, productId, shippingAddress, shippingMethod, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, carrier, productId, shippingAddress, shippingMethod, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "CardReissueParams{cardToken=$cardToken, carrier=$carrier, productId=$productId, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
@@ -439,7 +434,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ShippingMethod && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is ShippingMethod && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

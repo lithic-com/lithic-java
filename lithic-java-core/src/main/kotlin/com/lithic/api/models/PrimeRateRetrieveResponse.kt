@@ -208,17 +208,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is InterestRate && this.effectiveDate == other.effectiveDate && this.rate == other.rate && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is InterestRate && effectiveDate == other.effectiveDate && rate == other.rate && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(effectiveDate, rate, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(effectiveDate, rate, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "InterestRate{effectiveDate=$effectiveDate, rate=$rate, additionalProperties=$additionalProperties}"
@@ -229,17 +226,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is PrimeRateRetrieveResponse && this.data == other.data && this.hasMore == other.hasMore && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is PrimeRateRetrieveResponse && data == other.data && hasMore == other.hasMore && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(data, hasMore, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(data, hasMore, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "PrimeRateRetrieveResponse{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"

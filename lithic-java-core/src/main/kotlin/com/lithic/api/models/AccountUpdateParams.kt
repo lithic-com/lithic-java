@@ -219,17 +219,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountUpdateBody && this.dailySpendLimit == other.dailySpendLimit && this.lifetimeSpendLimit == other.lifetimeSpendLimit && this.monthlySpendLimit == other.monthlySpendLimit && this.state == other.state && this.verificationAddress == other.verificationAddress && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountUpdateBody && dailySpendLimit == other.dailySpendLimit && lifetimeSpendLimit == other.lifetimeSpendLimit && monthlySpendLimit == other.monthlySpendLimit && state == other.state && verificationAddress == other.verificationAddress && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(dailySpendLimit, lifetimeSpendLimit, monthlySpendLimit, state, verificationAddress, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(dailySpendLimit, lifetimeSpendLimit, monthlySpendLimit, state, verificationAddress, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "AccountUpdateBody{dailySpendLimit=$dailySpendLimit, lifetimeSpendLimit=$lifetimeSpendLimit, monthlySpendLimit=$monthlySpendLimit, state=$state, verificationAddress=$verificationAddress, additionalProperties=$additionalProperties}"
@@ -246,12 +243,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountUpdateParams && this.accountToken == other.accountToken && this.dailySpendLimit == other.dailySpendLimit && this.lifetimeSpendLimit == other.lifetimeSpendLimit && this.monthlySpendLimit == other.monthlySpendLimit && this.state == other.state && this.verificationAddress == other.verificationAddress && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is AccountUpdateParams && accountToken == other.accountToken && dailySpendLimit == other.dailySpendLimit && lifetimeSpendLimit == other.lifetimeSpendLimit && monthlySpendLimit == other.monthlySpendLimit && state == other.state && verificationAddress == other.verificationAddress && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountToken, dailySpendLimit, lifetimeSpendLimit, monthlySpendLimit, state, verificationAddress, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, dailySpendLimit, lifetimeSpendLimit, monthlySpendLimit, state, verificationAddress, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "AccountUpdateParams{accountToken=$accountToken, dailySpendLimit=$dailySpendLimit, lifetimeSpendLimit=$lifetimeSpendLimit, monthlySpendLimit=$monthlySpendLimit, state=$state, verificationAddress=$verificationAddress, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
@@ -478,7 +473,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is State && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -630,17 +625,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is VerificationAddress && this.address1 == other.address1 && this.address2 == other.address2 && this.city == other.city && this.country == other.country && this.postalCode == other.postalCode && this.state == other.state && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is VerificationAddress && address1 == other.address1 && address2 == other.address2 && city == other.city && country == other.country && postalCode == other.postalCode && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(address1, address2, city, country, postalCode, state, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(address1, address2, city, country, postalCode, state, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "VerificationAddress{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"

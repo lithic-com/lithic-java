@@ -135,15 +135,13 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalBankAccountCreateBody && this.bankVerifiedCreateBankAccountApiRequest == other.bankVerifiedCreateBankAccountApiRequest && this.plaidCreateBankAccountApiRequest == other.plaidCreateBankAccountApiRequest && this.externallyVerifiedCreateBankAccountApiRequest == other.externallyVerifiedCreateBankAccountApiRequest /* spotless:on */
+            return /* spotless:off */ other is ExternalBankAccountCreateBody && bankVerifiedCreateBankAccountApiRequest == other.bankVerifiedCreateBankAccountApiRequest && plaidCreateBankAccountApiRequest == other.plaidCreateBankAccountApiRequest && externallyVerifiedCreateBankAccountApiRequest == other.externallyVerifiedCreateBankAccountApiRequest /* spotless:on */
         }
 
-        override fun hashCode(): Int {
-            return /* spotless:off */ Objects.hash(bankVerifiedCreateBankAccountApiRequest, plaidCreateBankAccountApiRequest, externallyVerifiedCreateBankAccountApiRequest) /* spotless:on */
-        }
+        override fun hashCode(): Int = /* spotless:off */ Objects.hash(bankVerifiedCreateBankAccountApiRequest, plaidCreateBankAccountApiRequest, externallyVerifiedCreateBankAccountApiRequest) /* spotless:on */
 
-        override fun toString(): String {
-            return when {
+        override fun toString(): String =
+            when {
                 bankVerifiedCreateBankAccountApiRequest != null ->
                     "ExternalBankAccountCreateBody{bankVerifiedCreateBankAccountApiRequest=$bankVerifiedCreateBankAccountApiRequest}"
                 plaidCreateBankAccountApiRequest != null ->
@@ -153,7 +151,6 @@ constructor(
                 _json != null -> "ExternalBankAccountCreateBody{_unknown=$_json}"
                 else -> throw IllegalStateException("Invalid ExternalBankAccountCreateBody")
             }
-        }
 
         companion object {
 
@@ -275,12 +272,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalBankAccountCreateParams && this.bankVerifiedCreateBankAccountApiRequest == other.bankVerifiedCreateBankAccountApiRequest && this.plaidCreateBankAccountApiRequest == other.plaidCreateBankAccountApiRequest && this.externallyVerifiedCreateBankAccountApiRequest == other.externallyVerifiedCreateBankAccountApiRequest && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is ExternalBankAccountCreateParams && bankVerifiedCreateBankAccountApiRequest == other.bankVerifiedCreateBankAccountApiRequest && plaidCreateBankAccountApiRequest == other.plaidCreateBankAccountApiRequest && externallyVerifiedCreateBankAccountApiRequest == other.externallyVerifiedCreateBankAccountApiRequest && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(bankVerifiedCreateBankAccountApiRequest, plaidCreateBankAccountApiRequest, externallyVerifiedCreateBankAccountApiRequest, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(bankVerifiedCreateBankAccountApiRequest, plaidCreateBankAccountApiRequest, externallyVerifiedCreateBankAccountApiRequest, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "ExternalBankAccountCreateParams{bankVerifiedCreateBankAccountApiRequest=$bankVerifiedCreateBankAccountApiRequest, plaidCreateBankAccountApiRequest=$plaidCreateBankAccountApiRequest, externallyVerifiedCreateBankAccountApiRequest=$externallyVerifiedCreateBankAccountApiRequest, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
@@ -730,7 +725,7 @@ constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is AccountType && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is AccountType && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -779,17 +774,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is BankVerifiedCreateBankAccountApiRequest && this.verificationMethod == other.verificationMethod && this.ownerType == other.ownerType && this.owner == other.owner && this.accountToken == other.accountToken && this.companyId == other.companyId && this.doingBusinessAs == other.doingBusinessAs && this.dob == other.dob && this.userDefinedId == other.userDefinedId && this.type == other.type && this.routingNumber == other.routingNumber && this.accountNumber == other.accountNumber && this.name == other.name && this.country == other.country && this.currency == other.currency && this.verificationEnforcement == other.verificationEnforcement && this.address == other.address && this.financialAccountToken == other.financialAccountToken && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is BankVerifiedCreateBankAccountApiRequest && verificationMethod == other.verificationMethod && ownerType == other.ownerType && owner == other.owner && accountToken == other.accountToken && companyId == other.companyId && doingBusinessAs == other.doingBusinessAs && dob == other.dob && userDefinedId == other.userDefinedId && type == other.type && routingNumber == other.routingNumber && accountNumber == other.accountNumber && name == other.name && country == other.country && currency == other.currency && verificationEnforcement == other.verificationEnforcement && address == other.address && financialAccountToken == other.financialAccountToken && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(verificationMethod, ownerType, owner, accountToken, companyId, doingBusinessAs, dob, userDefinedId, type, routingNumber, accountNumber, name, country, currency, verificationEnforcement, address, financialAccountToken, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(verificationMethod, ownerType, owner, accountToken, companyId, doingBusinessAs, dob, userDefinedId, type, routingNumber, accountNumber, name, country, currency, verificationEnforcement, address, financialAccountToken, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "BankVerifiedCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, type=$type, routingNumber=$routingNumber, accountNumber=$accountNumber, name=$name, country=$country, currency=$currency, verificationEnforcement=$verificationEnforcement, address=$address, financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
@@ -965,17 +957,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is PlaidCreateBankAccountApiRequest && this.verificationMethod == other.verificationMethod && this.ownerType == other.ownerType && this.owner == other.owner && this.accountToken == other.accountToken && this.companyId == other.companyId && this.doingBusinessAs == other.doingBusinessAs && this.dob == other.dob && this.userDefinedId == other.userDefinedId && this.processorToken == other.processorToken && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is PlaidCreateBankAccountApiRequest && verificationMethod == other.verificationMethod && ownerType == other.ownerType && owner == other.owner && accountToken == other.accountToken && companyId == other.companyId && doingBusinessAs == other.doingBusinessAs && dob == other.dob && userDefinedId == other.userDefinedId && processorToken == other.processorToken && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(verificationMethod, ownerType, owner, accountToken, companyId, doingBusinessAs, dob, userDefinedId, processorToken, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(verificationMethod, ownerType, owner, accountToken, companyId, doingBusinessAs, dob, userDefinedId, processorToken, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "PlaidCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, processorToken=$processorToken, additionalProperties=$additionalProperties}"
@@ -1234,7 +1223,7 @@ constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1291,7 +1280,7 @@ constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is ExternallyVerifiedVerificationMethod && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is ExternallyVerifiedVerificationMethod && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1340,17 +1329,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternallyVerifiedCreateBankAccountApiRequest && this.verificationMethod == other.verificationMethod && this.ownerType == other.ownerType && this.owner == other.owner && this.accountToken == other.accountToken && this.companyId == other.companyId && this.doingBusinessAs == other.doingBusinessAs && this.dob == other.dob && this.userDefinedId == other.userDefinedId && this.type == other.type && this.routingNumber == other.routingNumber && this.accountNumber == other.accountNumber && this.name == other.name && this.country == other.country && this.currency == other.currency && this.address == other.address && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ExternallyVerifiedCreateBankAccountApiRequest && verificationMethod == other.verificationMethod && ownerType == other.ownerType && owner == other.owner && accountToken == other.accountToken && companyId == other.companyId && doingBusinessAs == other.doingBusinessAs && dob == other.dob && userDefinedId == other.userDefinedId && type == other.type && routingNumber == other.routingNumber && accountNumber == other.accountNumber && name == other.name && country == other.country && currency == other.currency && address == other.address && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(verificationMethod, ownerType, owner, accountToken, companyId, doingBusinessAs, dob, userDefinedId, type, routingNumber, accountNumber, name, country, currency, address, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(verificationMethod, ownerType, owner, accountToken, companyId, doingBusinessAs, dob, userDefinedId, type, routingNumber, accountNumber, name, country, currency, address, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "ExternallyVerifiedCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, type=$type, routingNumber=$routingNumber, accountNumber=$accountNumber, name=$name, country=$country, currency=$currency, address=$address, additionalProperties=$additionalProperties}"

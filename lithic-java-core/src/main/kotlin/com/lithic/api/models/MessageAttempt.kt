@@ -262,7 +262,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -323,17 +323,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is MessageAttempt && this.created == other.created && this.eventSubscriptionToken == other.eventSubscriptionToken && this.eventToken == other.eventToken && this.response == other.response && this.responseStatusCode == other.responseStatusCode && this.status == other.status && this.token == other.token && this.url == other.url && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is MessageAttempt && created == other.created && eventSubscriptionToken == other.eventSubscriptionToken && eventToken == other.eventToken && response == other.response && responseStatusCode == other.responseStatusCode && status == other.status && token == other.token && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(created, eventSubscriptionToken, eventToken, response, responseStatusCode, status, token, url, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(created, eventSubscriptionToken, eventToken, response, responseStatusCode, status, token, url, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "MessageAttempt{created=$created, eventSubscriptionToken=$eventSubscriptionToken, eventToken=$eventToken, response=$response, responseStatusCode=$responseStatusCode, status=$status, token=$token, url=$url, additionalProperties=$additionalProperties}"

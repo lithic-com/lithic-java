@@ -1060,7 +1060,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is State && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1123,7 +1123,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1172,17 +1172,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FundingAccount && this.accountName == other.accountName && this.created == other.created && this.lastFour == other.lastFour && this.nickname == other.nickname && this.state == other.state && this.token == other.token && this.type == other.type && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is FundingAccount && accountName == other.accountName && created == other.created && lastFour == other.lastFour && nickname == other.nickname && state == other.state && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(accountName, created, lastFour, nickname, state, token, type, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(accountName, created, lastFour, nickname, state, token, type, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "FundingAccount{accountName=$accountName, created=$created, lastFour=$lastFour, nickname=$nickname, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
@@ -1201,7 +1198,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is PinStatus && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is PinStatus && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1264,7 +1261,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is State && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1339,7 +1336,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1400,17 +1397,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Card && this.accountToken == other.accountToken && this.authRuleTokens == other.authRuleTokens && this.cardProgramToken == other.cardProgramToken && this.cardholderCurrency == other.cardholderCurrency && this.created == other.created && this.cvv == other.cvv && this.digitalCardArtToken == other.digitalCardArtToken && this.expMonth == other.expMonth && this.expYear == other.expYear && this.funding == other.funding && this.hostname == other.hostname && this.lastFour == other.lastFour && this.memo == other.memo && this.pan == other.pan && this.pendingCommands == other.pendingCommands && this.pinStatus == other.pinStatus && this.productId == other.productId && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.token == other.token && this.type == other.type && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Card && accountToken == other.accountToken && authRuleTokens == other.authRuleTokens && cardProgramToken == other.cardProgramToken && cardholderCurrency == other.cardholderCurrency && created == other.created && cvv == other.cvv && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && funding == other.funding && hostname == other.hostname && lastFour == other.lastFour && memo == other.memo && pan == other.pan && pendingCommands == other.pendingCommands && pinStatus == other.pinStatus && productId == other.productId && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(accountToken, authRuleTokens, cardProgramToken, cardholderCurrency, created, cvv, digitalCardArtToken, expMonth, expYear, funding, hostname, lastFour, memo, pan, pendingCommands, pinStatus, productId, spendLimit, spendLimitDuration, state, token, type, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(accountToken, authRuleTokens, cardProgramToken, cardholderCurrency, created, cvv, digitalCardArtToken, expMonth, expYear, funding, hostname, lastFour, memo, pan, pendingCommands, pinStatus, productId, spendLimit, spendLimitDuration, state, token, type, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "Card{accountToken=$accountToken, authRuleTokens=$authRuleTokens, cardProgramToken=$cardProgramToken, cardholderCurrency=$cardholderCurrency, created=$created, cvv=$cvv, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, funding=$funding, hostname=$hostname, lastFour=$lastFour, memo=$memo, pan=$pan, pendingCommands=$pendingCommands, pinStatus=$pinStatus, productId=$productId, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"

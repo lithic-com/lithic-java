@@ -85,12 +85,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderListParams && this.begin == other.begin && this.email == other.email && this.end == other.end && this.endingBefore == other.endingBefore && this.externalId == other.externalId && this.firstName == other.firstName && this.lastName == other.lastName && this.legalBusinessName == other.legalBusinessName && this.limit == other.limit && this.phoneNumber == other.phoneNumber && this.startingAfter == other.startingAfter && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is AccountHolderListParams && begin == other.begin && email == other.email && end == other.end && endingBefore == other.endingBefore && externalId == other.externalId && firstName == other.firstName && lastName == other.lastName && legalBusinessName == other.legalBusinessName && limit == other.limit && phoneNumber == other.phoneNumber && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(begin, email, end, endingBefore, externalId, firstName, lastName, legalBusinessName, limit, phoneNumber, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(begin, email, end, endingBefore, externalId, firstName, lastName, legalBusinessName, limit, phoneNumber, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "AccountHolderListParams{begin=$begin, email=$email, end=$end, endingBefore=$endingBefore, externalId=$externalId, firstName=$firstName, lastName=$lastName, legalBusinessName=$legalBusinessName, limit=$limit, phoneNumber=$phoneNumber, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

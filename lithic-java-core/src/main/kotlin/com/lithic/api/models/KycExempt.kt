@@ -294,7 +294,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is KycExemptionType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is KycExemptionType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -351,7 +351,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Workflow && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Workflow && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -394,17 +394,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is KycExempt && this.address == other.address && this.businessAccountToken == other.businessAccountToken && this.email == other.email && this.externalId == other.externalId && this.firstName == other.firstName && this.kycExemptionType == other.kycExemptionType && this.lastName == other.lastName && this.phoneNumber == other.phoneNumber && this.workflow == other.workflow && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is KycExempt && address == other.address && businessAccountToken == other.businessAccountToken && email == other.email && externalId == other.externalId && firstName == other.firstName && kycExemptionType == other.kycExemptionType && lastName == other.lastName && phoneNumber == other.phoneNumber && workflow == other.workflow && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(address, businessAccountToken, email, externalId, firstName, kycExemptionType, lastName, phoneNumber, workflow, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(address, businessAccountToken, email, externalId, firstName, kycExemptionType, lastName, phoneNumber, workflow, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "KycExempt{address=$address, businessAccountToken=$businessAccountToken, email=$email, externalId=$externalId, firstName=$firstName, kycExemptionType=$kycExemptionType, lastName=$lastName, phoneNumber=$phoneNumber, workflow=$workflow, additionalProperties=$additionalProperties}"

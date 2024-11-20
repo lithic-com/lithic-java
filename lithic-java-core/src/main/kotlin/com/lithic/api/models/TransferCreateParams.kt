@@ -180,17 +180,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransferCreateBody && this.amount == other.amount && this.from == other.from && this.to == other.to && this.token == other.token && this.memo == other.memo && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransferCreateBody && amount == other.amount && from == other.from && to == other.to && token == other.token && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(amount, from, to, token, memo, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(amount, from, to, token, memo, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "TransferCreateBody{amount=$amount, from=$from, to=$to, token=$token, memo=$memo, additionalProperties=$additionalProperties}"
@@ -207,12 +204,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransferCreateParams && this.amount == other.amount && this.from == other.from && this.to == other.to && this.token == other.token && this.memo == other.memo && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is TransferCreateParams && amount == other.amount && from == other.from && to == other.to && token == other.token && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(amount, from, to, token, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, from, to, token, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "TransferCreateParams{amount=$amount, from=$from, to=$to, token=$token, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"

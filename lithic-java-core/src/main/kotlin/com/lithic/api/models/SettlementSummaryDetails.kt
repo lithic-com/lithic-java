@@ -293,7 +293,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Network && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -360,17 +360,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SettlementSummaryDetails && this.currency == other.currency && this.disputesGrossAmount == other.disputesGrossAmount && this.institution == other.institution && this.interchangeGrossAmount == other.interchangeGrossAmount && this.network == other.network && this.otherFeesGrossAmount == other.otherFeesGrossAmount && this.settledNetAmount == other.settledNetAmount && this.transactionsGrossAmount == other.transactionsGrossAmount && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is SettlementSummaryDetails && currency == other.currency && disputesGrossAmount == other.disputesGrossAmount && institution == other.institution && interchangeGrossAmount == other.interchangeGrossAmount && network == other.network && otherFeesGrossAmount == other.otherFeesGrossAmount && settledNetAmount == other.settledNetAmount && transactionsGrossAmount == other.transactionsGrossAmount && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(currency, disputesGrossAmount, institution, interchangeGrossAmount, network, otherFeesGrossAmount, settledNetAmount, transactionsGrossAmount, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(currency, disputesGrossAmount, institution, interchangeGrossAmount, network, otherFeesGrossAmount, settledNetAmount, transactionsGrossAmount, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "SettlementSummaryDetails{currency=$currency, disputesGrossAmount=$disputesGrossAmount, institution=$institution, interchangeGrossAmount=$interchangeGrossAmount, network=$network, otherFeesGrossAmount=$otherFeesGrossAmount, settledNetAmount=$settledNetAmount, transactionsGrossAmount=$transactionsGrossAmount, additionalProperties=$additionalProperties}"

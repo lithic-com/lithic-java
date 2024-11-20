@@ -239,17 +239,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is BookTransferCreateBody && this.amount == other.amount && this.category == other.category && this.fromFinancialAccountToken == other.fromFinancialAccountToken && this.subtype == other.subtype && this.toFinancialAccountToken == other.toFinancialAccountToken && this.type == other.type && this.token == other.token && this.memo == other.memo && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is BookTransferCreateBody && amount == other.amount && category == other.category && fromFinancialAccountToken == other.fromFinancialAccountToken && subtype == other.subtype && toFinancialAccountToken == other.toFinancialAccountToken && type == other.type && token == other.token && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(amount, category, fromFinancialAccountToken, subtype, toFinancialAccountToken, type, token, memo, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(amount, category, fromFinancialAccountToken, subtype, toFinancialAccountToken, type, token, memo, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "BookTransferCreateBody{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, memo=$memo, additionalProperties=$additionalProperties}"
@@ -266,12 +263,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is BookTransferCreateParams && this.amount == other.amount && this.category == other.category && this.fromFinancialAccountToken == other.fromFinancialAccountToken && this.subtype == other.subtype && this.toFinancialAccountToken == other.toFinancialAccountToken && this.type == other.type && this.token == other.token && this.memo == other.memo && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is BookTransferCreateParams && amount == other.amount && category == other.category && fromFinancialAccountToken == other.fromFinancialAccountToken && subtype == other.subtype && toFinancialAccountToken == other.toFinancialAccountToken && type == other.type && token == other.token && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(amount, category, fromFinancialAccountToken, subtype, toFinancialAccountToken, type, token, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, category, fromFinancialAccountToken, subtype, toFinancialAccountToken, type, token, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "BookTransferCreateParams{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
@@ -506,7 +501,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Category && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Category && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -593,7 +588,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

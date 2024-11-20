@@ -340,7 +340,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FinancialAccountType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is FinancialAccountType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -395,17 +395,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AggregateBalance && this.availableAmount == other.availableAmount && this.created == other.created && this.currency == other.currency && this.financialAccountType == other.financialAccountType && this.lastFinancialAccountToken == other.lastFinancialAccountToken && this.lastTransactionEventToken == other.lastTransactionEventToken && this.lastTransactionToken == other.lastTransactionToken && this.pendingAmount == other.pendingAmount && this.totalAmount == other.totalAmount && this.updated == other.updated && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is AggregateBalance && availableAmount == other.availableAmount && created == other.created && currency == other.currency && financialAccountType == other.financialAccountType && lastFinancialAccountToken == other.lastFinancialAccountToken && lastTransactionEventToken == other.lastTransactionEventToken && lastTransactionToken == other.lastTransactionToken && pendingAmount == other.pendingAmount && totalAmount == other.totalAmount && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(availableAmount, created, currency, financialAccountType, lastFinancialAccountToken, lastTransactionEventToken, lastTransactionToken, pendingAmount, totalAmount, updated, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(availableAmount, created, currency, financialAccountType, lastFinancialAccountToken, lastTransactionEventToken, lastTransactionToken, pendingAmount, totalAmount, updated, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "AggregateBalance{availableAmount=$availableAmount, created=$created, currency=$currency, financialAccountType=$financialAccountType, lastFinancialAccountToken=$lastFinancialAccountToken, lastTransactionEventToken=$lastTransactionEventToken, lastTransactionToken=$lastTransactionToken, pendingAmount=$pendingAmount, totalAmount=$totalAmount, updated=$updated, additionalProperties=$additionalProperties}"

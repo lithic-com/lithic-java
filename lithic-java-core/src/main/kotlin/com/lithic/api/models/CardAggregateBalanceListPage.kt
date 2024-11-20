@@ -36,12 +36,10 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardAggregateBalanceListPage && this.aggregateBalancesService == other.aggregateBalancesService && this.params == other.params && this.response == other.response /* spotless:on */
+        return /* spotless:off */ other is CardAggregateBalanceListPage && aggregateBalancesService == other.aggregateBalancesService && params == other.params && response == other.response /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(aggregateBalancesService, params, response) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(aggregateBalancesService, params, response) /* spotless:on */
 
     override fun toString() =
         "CardAggregateBalanceListPage{aggregateBalancesService=$aggregateBalancesService, params=$params, response=$response}"
@@ -116,15 +114,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Response && this.data == other.data && this.hasMore == other.hasMore && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Response && data == other.data && hasMore == other.hasMore && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        override fun hashCode(): Int {
-            return /* spotless:off */ Objects.hash(data, hasMore, additionalProperties) /* spotless:on */
-        }
+        override fun hashCode(): Int = /* spotless:off */ Objects.hash(data, hasMore, additionalProperties) /* spotless:on */
 
         override fun toString() =
-            "CardAggregateBalanceListPage.Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
+            "Response{data=$data, hasMore=$hasMore, additionalProperties=$additionalProperties}"
 
         companion object {
 
