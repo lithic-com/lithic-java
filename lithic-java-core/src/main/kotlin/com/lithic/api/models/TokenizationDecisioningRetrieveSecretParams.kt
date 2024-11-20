@@ -27,12 +27,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TokenizationDecisioningRetrieveSecretParams && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is TokenizationDecisioningRetrieveSecretParams && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "TokenizationDecisioningRetrieveSecretParams{additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

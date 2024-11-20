@@ -86,17 +86,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ApiStatus && this.message == other.message && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is ApiStatus && message == other.message && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(message, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(message, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "ApiStatus{message=$message, additionalProperties=$additionalProperties}"

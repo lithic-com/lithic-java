@@ -182,17 +182,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionSimulateCreditAuthorizationBody && this.amount == other.amount && this.descriptor == other.descriptor && this.pan == other.pan && this.mcc == other.mcc && this.merchantAcceptorId == other.merchantAcceptorId && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransactionSimulateCreditAuthorizationBody && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "TransactionSimulateCreditAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, additionalProperties=$additionalProperties}"
@@ -209,12 +206,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionSimulateCreditAuthorizationParams && this.amount == other.amount && this.descriptor == other.descriptor && this.pan == other.pan && this.mcc == other.mcc && this.merchantAcceptorId == other.merchantAcceptorId && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is TransactionSimulateCreditAuthorizationParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "TransactionSimulateCreditAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"

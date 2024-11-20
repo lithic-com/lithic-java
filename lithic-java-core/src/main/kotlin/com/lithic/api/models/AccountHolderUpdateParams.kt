@@ -165,17 +165,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolderUpdateBody && this.businessAccountToken == other.businessAccountToken && this.email == other.email && this.phoneNumber == other.phoneNumber && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountHolderUpdateBody && businessAccountToken == other.businessAccountToken && email == other.email && phoneNumber == other.phoneNumber && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(businessAccountToken, email, phoneNumber, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(businessAccountToken, email, phoneNumber, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "AccountHolderUpdateBody{businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
@@ -192,12 +189,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderUpdateParams && this.accountHolderToken == other.accountHolderToken && this.businessAccountToken == other.businessAccountToken && this.email == other.email && this.phoneNumber == other.phoneNumber && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is AccountHolderUpdateParams && accountHolderToken == other.accountHolderToken && businessAccountToken == other.businessAccountToken && email == other.email && phoneNumber == other.phoneNumber && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountHolderToken, businessAccountToken, email, phoneNumber, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, businessAccountToken, email, phoneNumber, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "AccountHolderUpdateParams{accountHolderToken=$accountHolderToken, businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"

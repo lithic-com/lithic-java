@@ -37,12 +37,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CreditProductExtendedCreditRetrieveParams && this.creditProductToken == other.creditProductToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is CreditProductExtendedCreditRetrieveParams && creditProductToken == other.creditProductToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(creditProductToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(creditProductToken, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "CreditProductExtendedCreditRetrieveParams{creditProductToken=$creditProductToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -76,12 +76,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionListParams && this.accountToken == other.accountToken && this.begin == other.begin && this.cardToken == other.cardToken && this.end == other.end && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.result == other.result && this.startingAfter == other.startingAfter && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is TransactionListParams && accountToken == other.accountToken && begin == other.begin && cardToken == other.cardToken && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && result == other.result && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, result, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, result, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "TransactionListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
@@ -286,7 +284,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Result && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Result && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

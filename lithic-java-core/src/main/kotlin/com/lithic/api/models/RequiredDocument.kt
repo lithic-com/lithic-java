@@ -156,17 +156,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is RequiredDocument && this.entityToken == other.entityToken && this.validDocuments == other.validDocuments && this.statusReasons == other.statusReasons && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is RequiredDocument && entityToken == other.entityToken && validDocuments == other.validDocuments && statusReasons == other.statusReasons && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(entityToken, validDocuments, statusReasons, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(entityToken, validDocuments, statusReasons, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "RequiredDocument{entityToken=$entityToken, validDocuments=$validDocuments, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"

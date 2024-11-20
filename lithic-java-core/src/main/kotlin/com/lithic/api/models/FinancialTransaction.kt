@@ -406,7 +406,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Category && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Category && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -640,7 +640,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Result && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is Result && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -697,7 +697,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is FinancialEventType && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is FinancialEventType && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1177,17 +1177,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FinancialEvent && this.amount == other.amount && this.created == other.created && this.result == other.result && this.token == other.token && this.type == other.type && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is FinancialEvent && amount == other.amount && created == other.created && result == other.result && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(amount, created, result, token, type, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(amount, created, result, token, type, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "FinancialEvent{amount=$amount, created=$created, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
@@ -1206,7 +1203,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Result && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Result && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1263,7 +1260,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1336,17 +1333,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FinancialTransaction && this.category == other.category && this.created == other.created && this.currency == other.currency && this.descriptor == other.descriptor && this.events == other.events && this.pendingAmount == other.pendingAmount && this.result == other.result && this.settledAmount == other.settledAmount && this.status == other.status && this.token == other.token && this.updated == other.updated && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is FinancialTransaction && category == other.category && created == other.created && currency == other.currency && descriptor == other.descriptor && events == other.events && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && status == other.status && token == other.token && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(category, created, currency, descriptor, events, pendingAmount, result, settledAmount, status, token, updated, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(category, created, currency, descriptor, events, pendingAmount, result, settledAmount, status, token, updated, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "FinancialTransaction{category=$category, created=$created, currency=$currency, descriptor=$descriptor, events=$events, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, token=$token, updated=$updated, additionalProperties=$additionalProperties}"

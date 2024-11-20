@@ -37,12 +37,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is BookTransferRetrieveParams && this.bookTransferToken == other.bookTransferToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is BookTransferRetrieveParams && bookTransferToken == other.bookTransferToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(bookTransferToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(bookTransferToken, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "BookTransferRetrieveParams{bookTransferToken=$bookTransferToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

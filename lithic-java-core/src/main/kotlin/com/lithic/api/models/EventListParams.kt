@@ -75,12 +75,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventListParams && this.begin == other.begin && this.end == other.end && this.endingBefore == other.endingBefore && this.eventTypes == other.eventTypes && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.withContent == other.withContent && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is EventListParams && begin == other.begin && end == other.end && endingBefore == other.endingBefore && eventTypes == other.eventTypes && pageSize == other.pageSize && startingAfter == other.startingAfter && withContent == other.withContent && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(begin, end, endingBefore, eventTypes, pageSize, startingAfter, withContent, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(begin, end, endingBefore, eventTypes, pageSize, startingAfter, withContent, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "EventListParams{begin=$begin, end=$end, endingBefore=$endingBefore, eventTypes=$eventTypes, pageSize=$pageSize, startingAfter=$startingAfter, withContent=$withContent, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
@@ -282,7 +280,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EventType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is EventType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()

@@ -52,12 +52,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CreditProductPrimeRateRetrieveParams && this.creditProductToken == other.creditProductToken && this.endingBefore == other.endingBefore && this.startingAfter == other.startingAfter && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is CreditProductPrimeRateRetrieveParams && creditProductToken == other.creditProductToken && endingBefore == other.endingBefore && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(creditProductToken, endingBefore, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(creditProductToken, endingBefore, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "CreditProductPrimeRateRetrieveParams{creditProductToken=$creditProductToken, endingBefore=$endingBefore, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

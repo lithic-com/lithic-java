@@ -98,17 +98,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionSimulateVoidResponse && this.debuggingRequestId == other.debuggingRequestId && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is TransactionSimulateVoidResponse && debuggingRequestId == other.debuggingRequestId && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(debuggingRequestId, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(debuggingRequestId, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "TransactionSimulateVoidResponse{debuggingRequestId=$debuggingRequestId, additionalProperties=$additionalProperties}"

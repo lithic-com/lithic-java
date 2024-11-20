@@ -45,12 +45,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is DigitalCardArtListParams && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is DigitalCardArtListParams && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(endingBefore, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(endingBefore, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
         "DigitalCardArtListParams{endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

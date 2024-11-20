@@ -153,7 +153,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Result && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Result && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -202,17 +202,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentSimulateReceiptResponse && this.result == other.result && this.transactionEventToken == other.transactionEventToken && this.debuggingRequestId == other.debuggingRequestId && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is PaymentSimulateReceiptResponse && result == other.result && transactionEventToken == other.transactionEventToken && debuggingRequestId == other.debuggingRequestId && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(result, transactionEventToken, debuggingRequestId, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(result, transactionEventToken, debuggingRequestId, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "PaymentSimulateReceiptResponse{result=$result, transactionEventToken=$transactionEventToken, debuggingRequestId=$debuggingRequestId, additionalProperties=$additionalProperties}"

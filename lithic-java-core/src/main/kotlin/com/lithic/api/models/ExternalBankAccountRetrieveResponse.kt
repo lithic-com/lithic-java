@@ -626,7 +626,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is OwnerType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is OwnerType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -683,7 +683,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is State && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -746,7 +746,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -803,7 +803,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is VerificationMethod && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is VerificationMethod && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -872,7 +872,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is VerificationState && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is VerificationState && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -934,17 +934,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalBankAccountRetrieveResponse && this.token == other.token && this.owner == other.owner && this.routingNumber == other.routingNumber && this.lastFour == other.lastFour && this.name == other.name && this.currency == other.currency && this.country == other.country && this.accountToken == other.accountToken && this.created == other.created && this.companyId == other.companyId && this.dob == other.dob && this.doingBusinessAs == other.doingBusinessAs && this.userDefinedId == other.userDefinedId && this.verificationFailedReason == other.verificationFailedReason && this.verificationAttempts == other.verificationAttempts && this.financialAccountToken == other.financialAccountToken && this.type == other.type && this.verificationMethod == other.verificationMethod && this.ownerType == other.ownerType && this.state == other.state && this.verificationState == other.verificationState && this.address == other.address && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is ExternalBankAccountRetrieveResponse && token == other.token && owner == other.owner && routingNumber == other.routingNumber && lastFour == other.lastFour && name == other.name && currency == other.currency && country == other.country && accountToken == other.accountToken && created == other.created && companyId == other.companyId && dob == other.dob && doingBusinessAs == other.doingBusinessAs && userDefinedId == other.userDefinedId && verificationFailedReason == other.verificationFailedReason && verificationAttempts == other.verificationAttempts && financialAccountToken == other.financialAccountToken && type == other.type && verificationMethod == other.verificationMethod && ownerType == other.ownerType && state == other.state && verificationState == other.verificationState && address == other.address && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(token, owner, routingNumber, lastFour, name, currency, country, accountToken, created, companyId, dob, doingBusinessAs, userDefinedId, verificationFailedReason, verificationAttempts, financialAccountToken, type, verificationMethod, ownerType, state, verificationState, address, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(token, owner, routingNumber, lastFour, name, currency, country, accountToken, created, companyId, dob, doingBusinessAs, userDefinedId, verificationFailedReason, verificationAttempts, financialAccountToken, type, verificationMethod, ownerType, state, verificationState, address, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "ExternalBankAccountRetrieveResponse{token=$token, owner=$owner, routingNumber=$routingNumber, lastFour=$lastFour, name=$name, currency=$currency, country=$country, accountToken=$accountToken, created=$created, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, userDefinedId=$userDefinedId, verificationFailedReason=$verificationFailedReason, verificationAttempts=$verificationAttempts, financialAccountToken=$financialAccountToken, type=$type, verificationMethod=$verificationMethod, ownerType=$ownerType, state=$state, verificationState=$verificationState, address=$address, additionalProperties=$additionalProperties}"

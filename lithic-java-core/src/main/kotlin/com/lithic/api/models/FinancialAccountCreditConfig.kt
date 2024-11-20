@@ -252,7 +252,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ChargedOffReason && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is ChargedOffReason && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -309,7 +309,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FinancialAccountState && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is FinancialAccountState && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -370,17 +370,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is FinancialAccountCreditConfig && this.accountToken == other.accountToken && this.creditLimit == other.creditLimit && this.externalBankAccountToken == other.externalBankAccountToken && this.creditProductToken == other.creditProductToken && this.tier == other.tier && this.financialAccountState == other.financialAccountState && this.isSpendBlocked == other.isSpendBlocked && this.chargedOffReason == other.chargedOffReason && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is FinancialAccountCreditConfig && accountToken == other.accountToken && creditLimit == other.creditLimit && externalBankAccountToken == other.externalBankAccountToken && creditProductToken == other.creditProductToken && tier == other.tier && financialAccountState == other.financialAccountState && isSpendBlocked == other.isSpendBlocked && chargedOffReason == other.chargedOffReason && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(accountToken, creditLimit, externalBankAccountToken, creditProductToken, tier, financialAccountState, isSpendBlocked, chargedOffReason, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(accountToken, creditLimit, externalBankAccountToken, creditProductToken, tier, financialAccountState, isSpendBlocked, chargedOffReason, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "FinancialAccountCreditConfig{accountToken=$accountToken, creditLimit=$creditLimit, externalBankAccountToken=$externalBankAccountToken, creditProductToken=$creditProductToken, tier=$tier, financialAccountState=$financialAccountState, isSpendBlocked=$isSpendBlocked, chargedOffReason=$chargedOffReason, additionalProperties=$additionalProperties}"

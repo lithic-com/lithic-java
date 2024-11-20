@@ -107,17 +107,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DisputeInitiateEvidenceUploadBody && this.filename == other.filename && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is DisputeInitiateEvidenceUploadBody && filename == other.filename && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(filename, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(filename, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "DisputeInitiateEvidenceUploadBody{filename=$filename, additionalProperties=$additionalProperties}"
@@ -134,12 +131,10 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is DisputeInitiateEvidenceUploadParams && this.disputeToken == other.disputeToken && this.filename == other.filename && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is DisputeInitiateEvidenceUploadParams && disputeToken == other.disputeToken && filename == other.filename && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(disputeToken, filename, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(disputeToken, filename, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
         "DisputeInitiateEvidenceUploadParams{disputeToken=$disputeToken, filename=$filename, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
