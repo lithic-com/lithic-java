@@ -54,6 +54,12 @@ constructor(
 
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): TransactionSimulateAuthorizationBody {
         return TransactionSimulateAuthorizationBody(
@@ -314,25 +320,6 @@ constructor(
             "TransactionSimulateAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, status=$status, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TransactionSimulateAuthorizationParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && merchantAmount == other.merchantAmount && merchantCurrency == other.merchantCurrency && partialApprovalCapable == other.partialApprovalCapable && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, merchantAmount, merchantCurrency, partialApprovalCapable, status, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -360,21 +347,20 @@ constructor(
         internal fun from(
             transactionSimulateAuthorizationParams: TransactionSimulateAuthorizationParams
         ) = apply {
-            this.amount = transactionSimulateAuthorizationParams.amount
-            this.descriptor = transactionSimulateAuthorizationParams.descriptor
-            this.pan = transactionSimulateAuthorizationParams.pan
-            this.mcc = transactionSimulateAuthorizationParams.mcc
-            this.merchantAcceptorId = transactionSimulateAuthorizationParams.merchantAcceptorId
-            this.merchantAmount = transactionSimulateAuthorizationParams.merchantAmount
-            this.merchantCurrency = transactionSimulateAuthorizationParams.merchantCurrency
-            this.partialApprovalCapable =
-                transactionSimulateAuthorizationParams.partialApprovalCapable
-            this.status = transactionSimulateAuthorizationParams.status
-            additionalHeaders(transactionSimulateAuthorizationParams.additionalHeaders)
-            additionalQueryParams(transactionSimulateAuthorizationParams.additionalQueryParams)
-            additionalBodyProperties(
-                transactionSimulateAuthorizationParams.additionalBodyProperties
-            )
+            amount = transactionSimulateAuthorizationParams.amount
+            descriptor = transactionSimulateAuthorizationParams.descriptor
+            pan = transactionSimulateAuthorizationParams.pan
+            mcc = transactionSimulateAuthorizationParams.mcc
+            merchantAcceptorId = transactionSimulateAuthorizationParams.merchantAcceptorId
+            merchantAmount = transactionSimulateAuthorizationParams.merchantAmount
+            merchantCurrency = transactionSimulateAuthorizationParams.merchantCurrency
+            partialApprovalCapable = transactionSimulateAuthorizationParams.partialApprovalCapable
+            status = transactionSimulateAuthorizationParams.status
+            additionalHeaders = transactionSimulateAuthorizationParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                transactionSimulateAuthorizationParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                transactionSimulateAuthorizationParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
@@ -656,4 +642,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TransactionSimulateAuthorizationParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && merchantAmount == other.merchantAmount && merchantCurrency == other.merchantCurrency && partialApprovalCapable == other.partialApprovalCapable && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, merchantAmount, merchantCurrency, partialApprovalCapable, status, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

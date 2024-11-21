@@ -34,6 +34,12 @@ constructor(
     fun activationMethodType(): Optional<ActivationMethodType> =
         Optional.ofNullable(activationMethodType)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): TokenizationResendActivationCodeBody {
         return TokenizationResendActivationCodeBody(activationMethodType, additionalBodyProperties)
@@ -140,25 +146,6 @@ constructor(
             "TokenizationResendActivationCodeBody{activationMethodType=$activationMethodType, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TokenizationResendActivationCodeParams && tokenizationToken == other.tokenizationToken && activationMethodType == other.activationMethodType && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tokenizationToken, activationMethodType, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "TokenizationResendActivationCodeParams{tokenizationToken=$tokenizationToken, activationMethodType=$activationMethodType, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -179,13 +166,13 @@ constructor(
         internal fun from(
             tokenizationResendActivationCodeParams: TokenizationResendActivationCodeParams
         ) = apply {
-            this.tokenizationToken = tokenizationResendActivationCodeParams.tokenizationToken
-            this.activationMethodType = tokenizationResendActivationCodeParams.activationMethodType
-            additionalHeaders(tokenizationResendActivationCodeParams.additionalHeaders)
-            additionalQueryParams(tokenizationResendActivationCodeParams.additionalQueryParams)
-            additionalBodyProperties(
-                tokenizationResendActivationCodeParams.additionalBodyProperties
-            )
+            tokenizationToken = tokenizationResendActivationCodeParams.tokenizationToken
+            activationMethodType = tokenizationResendActivationCodeParams.activationMethodType
+            additionalHeaders = tokenizationResendActivationCodeParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                tokenizationResendActivationCodeParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                tokenizationResendActivationCodeParams.additionalBodyProperties.toMutableMap()
         }
 
         fun tokenizationToken(tokenizationToken: String) = apply {
@@ -393,4 +380,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TokenizationResendActivationCodeParams && tokenizationToken == other.tokenizationToken && activationMethodType == other.activationMethodType && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tokenizationToken, activationMethodType, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TokenizationResendActivationCodeParams{tokenizationToken=$tokenizationToken, activationMethodType=$activationMethodType, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

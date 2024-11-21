@@ -46,6 +46,10 @@ constructor(
     fun tokenizationChannel(): Optional<TokenizationChannel> =
         Optional.ofNullable(tokenizationChannel)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -64,23 +68,6 @@ constructor(
         queryParams.putAll(additionalQueryParams)
         return queryParams.build()
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TokenizationListParams && accountToken == other.accountToken && begin == other.begin && cardToken == other.cardToken && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && tokenizationChannel == other.tokenizationChannel && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, startingAfter, tokenizationChannel, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "TokenizationListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, tokenizationChannel=$tokenizationChannel, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -105,16 +92,16 @@ constructor(
 
         @JvmSynthetic
         internal fun from(tokenizationListParams: TokenizationListParams) = apply {
-            this.accountToken = tokenizationListParams.accountToken
-            this.begin = tokenizationListParams.begin
-            this.cardToken = tokenizationListParams.cardToken
-            this.end = tokenizationListParams.end
-            this.endingBefore = tokenizationListParams.endingBefore
-            this.pageSize = tokenizationListParams.pageSize
-            this.startingAfter = tokenizationListParams.startingAfter
-            this.tokenizationChannel = tokenizationListParams.tokenizationChannel
-            additionalHeaders(tokenizationListParams.additionalHeaders)
-            additionalQueryParams(tokenizationListParams.additionalQueryParams)
+            accountToken = tokenizationListParams.accountToken
+            begin = tokenizationListParams.begin
+            cardToken = tokenizationListParams.cardToken
+            end = tokenizationListParams.end
+            endingBefore = tokenizationListParams.endingBefore
+            pageSize = tokenizationListParams.pageSize
+            startingAfter = tokenizationListParams.startingAfter
+            tokenizationChannel = tokenizationListParams.tokenizationChannel
+            additionalHeaders = tokenizationListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = tokenizationListParams.additionalQueryParams.toBuilder()
         }
 
         /** Filters for tokenizations associated with a specific account. */
@@ -327,4 +314,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TokenizationListParams && accountToken == other.accountToken && begin == other.begin && cardToken == other.cardToken && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && tokenizationChannel == other.tokenizationChannel && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, startingAfter, tokenizationChannel, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "TokenizationListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, tokenizationChannel=$tokenizationChannel, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

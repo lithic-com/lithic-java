@@ -17,6 +17,10 @@ constructor(
 
     fun authRuleToken(): String = authRuleToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
@@ -27,23 +31,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AuthRuleV2RetrieveParams && authRuleToken == other.authRuleToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "AuthRuleV2RetrieveParams{authRuleToken=$authRuleToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -61,9 +48,9 @@ constructor(
 
         @JvmSynthetic
         internal fun from(authRuleV2RetrieveParams: AuthRuleV2RetrieveParams) = apply {
-            this.authRuleToken = authRuleV2RetrieveParams.authRuleToken
-            additionalHeaders(authRuleV2RetrieveParams.additionalHeaders)
-            additionalQueryParams(authRuleV2RetrieveParams.additionalQueryParams)
+            authRuleToken = authRuleV2RetrieveParams.authRuleToken
+            additionalHeaders = authRuleV2RetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams = authRuleV2RetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
@@ -173,4 +160,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AuthRuleV2RetrieveParams && authRuleToken == other.authRuleToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "AuthRuleV2RetrieveParams{authRuleToken=$authRuleToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

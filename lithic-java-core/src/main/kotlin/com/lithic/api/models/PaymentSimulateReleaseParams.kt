@@ -25,6 +25,12 @@ constructor(
 
     fun paymentToken(): String = paymentToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): PaymentSimulateReleaseBody {
         return PaymentSimulateReleaseBody(paymentToken, additionalBodyProperties)
@@ -110,25 +116,6 @@ constructor(
             "PaymentSimulateReleaseBody{paymentToken=$paymentToken, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is PaymentSimulateReleaseParams && paymentToken == other.paymentToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(paymentToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "PaymentSimulateReleaseParams{paymentToken=$paymentToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -146,10 +133,11 @@ constructor(
 
         @JvmSynthetic
         internal fun from(paymentSimulateReleaseParams: PaymentSimulateReleaseParams) = apply {
-            this.paymentToken = paymentSimulateReleaseParams.paymentToken
-            additionalHeaders(paymentSimulateReleaseParams.additionalHeaders)
-            additionalQueryParams(paymentSimulateReleaseParams.additionalQueryParams)
-            additionalBodyProperties(paymentSimulateReleaseParams.additionalBodyProperties)
+            paymentToken = paymentSimulateReleaseParams.paymentToken
+            additionalHeaders = paymentSimulateReleaseParams.additionalHeaders.toBuilder()
+            additionalQueryParams = paymentSimulateReleaseParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                paymentSimulateReleaseParams.additionalBodyProperties.toMutableMap()
         }
 
         /** Payment Token */
@@ -283,4 +271,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is PaymentSimulateReleaseParams && paymentToken == other.paymentToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(paymentToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "PaymentSimulateReleaseParams{paymentToken=$paymentToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

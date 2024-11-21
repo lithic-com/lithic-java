@@ -38,6 +38,12 @@ constructor(
 
     fun workflow(): Workflow = workflow
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): AccountHolderResubmitBody {
         return AccountHolderResubmitBody(
@@ -168,25 +174,6 @@ constructor(
             "AccountHolderResubmitBody{individual=$individual, tosTimestamp=$tosTimestamp, workflow=$workflow, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AccountHolderResubmitParams && accountHolderToken == other.accountHolderToken && individual == other.individual && tosTimestamp == other.tosTimestamp && workflow == other.workflow && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, individual, tosTimestamp, workflow, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "AccountHolderResubmitParams{accountHolderToken=$accountHolderToken, individual=$individual, tosTimestamp=$tosTimestamp, workflow=$workflow, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -207,13 +194,14 @@ constructor(
 
         @JvmSynthetic
         internal fun from(accountHolderResubmitParams: AccountHolderResubmitParams) = apply {
-            this.accountHolderToken = accountHolderResubmitParams.accountHolderToken
-            this.individual = accountHolderResubmitParams.individual
-            this.tosTimestamp = accountHolderResubmitParams.tosTimestamp
-            this.workflow = accountHolderResubmitParams.workflow
-            additionalHeaders(accountHolderResubmitParams.additionalHeaders)
-            additionalQueryParams(accountHolderResubmitParams.additionalQueryParams)
-            additionalBodyProperties(accountHolderResubmitParams.additionalBodyProperties)
+            accountHolderToken = accountHolderResubmitParams.accountHolderToken
+            individual = accountHolderResubmitParams.individual
+            tosTimestamp = accountHolderResubmitParams.tosTimestamp
+            workflow = accountHolderResubmitParams.workflow
+            additionalHeaders = accountHolderResubmitParams.additionalHeaders.toBuilder()
+            additionalQueryParams = accountHolderResubmitParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                accountHolderResubmitParams.additionalBodyProperties.toMutableMap()
         }
 
         fun accountHolderToken(accountHolderToken: String) = apply {
@@ -581,4 +569,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AccountHolderResubmitParams && accountHolderToken == other.accountHolderToken && individual == other.individual && tosTimestamp == other.tosTimestamp && workflow == other.workflow && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, individual, tosTimestamp, workflow, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "AccountHolderResubmitParams{accountHolderToken=$accountHolderToken, individual=$individual, tosTimestamp=$tosTimestamp, workflow=$workflow, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

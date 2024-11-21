@@ -35,6 +35,12 @@ constructor(
 
     fun entityToken(): String = entityToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): AccountHolderUploadDocumentBody {
         return AccountHolderUploadDocumentBody(
@@ -145,25 +151,6 @@ constructor(
             "AccountHolderUploadDocumentBody{documentType=$documentType, entityToken=$entityToken, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AccountHolderUploadDocumentParams && accountHolderToken == other.accountHolderToken && documentType == other.documentType && entityToken == other.entityToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, documentType, entityToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "AccountHolderUploadDocumentParams{accountHolderToken=$accountHolderToken, documentType=$documentType, entityToken=$entityToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -184,12 +171,14 @@ constructor(
         @JvmSynthetic
         internal fun from(accountHolderUploadDocumentParams: AccountHolderUploadDocumentParams) =
             apply {
-                this.accountHolderToken = accountHolderUploadDocumentParams.accountHolderToken
-                this.documentType = accountHolderUploadDocumentParams.documentType
-                this.entityToken = accountHolderUploadDocumentParams.entityToken
-                additionalHeaders(accountHolderUploadDocumentParams.additionalHeaders)
-                additionalQueryParams(accountHolderUploadDocumentParams.additionalQueryParams)
-                additionalBodyProperties(accountHolderUploadDocumentParams.additionalBodyProperties)
+                accountHolderToken = accountHolderUploadDocumentParams.accountHolderToken
+                documentType = accountHolderUploadDocumentParams.documentType
+                entityToken = accountHolderUploadDocumentParams.entityToken
+                additionalHeaders = accountHolderUploadDocumentParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    accountHolderUploadDocumentParams.additionalQueryParams.toBuilder()
+                additionalBodyProperties =
+                    accountHolderUploadDocumentParams.additionalBodyProperties.toMutableMap()
             }
 
         fun accountHolderToken(accountHolderToken: String) = apply {
@@ -496,4 +485,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AccountHolderUploadDocumentParams && accountHolderToken == other.accountHolderToken && documentType == other.documentType && entityToken == other.entityToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, documentType, entityToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "AccountHolderUploadDocumentParams{accountHolderToken=$accountHolderToken, documentType=$documentType, entityToken=$entityToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

@@ -48,6 +48,10 @@ constructor(
     fun createAuthRuleRequestProgramLevel(): Optional<CreateAuthRuleRequestProgramLevel> =
         Optional.ofNullable(createAuthRuleRequestProgramLevel)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic
     internal fun getBody(): AuthRuleV2CreateBody {
         return AuthRuleV2CreateBody(
@@ -229,23 +233,6 @@ constructor(
         }
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AuthRuleV2CreateParams && createAuthRuleRequestAccountTokens == other.createAuthRuleRequestAccountTokens && createAuthRuleRequestCardTokens == other.createAuthRuleRequestCardTokens && createAuthRuleRequestProgramLevel == other.createAuthRuleRequestProgramLevel && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(createAuthRuleRequestAccountTokens, createAuthRuleRequestCardTokens, createAuthRuleRequestProgramLevel, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "AuthRuleV2CreateParams{createAuthRuleRequestAccountTokens=$createAuthRuleRequestAccountTokens, createAuthRuleRequestCardTokens=$createAuthRuleRequestCardTokens, createAuthRuleRequestProgramLevel=$createAuthRuleRequestProgramLevel, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -264,14 +251,13 @@ constructor(
 
         @JvmSynthetic
         internal fun from(authRuleV2CreateParams: AuthRuleV2CreateParams) = apply {
-            this.createAuthRuleRequestAccountTokens =
+            createAuthRuleRequestAccountTokens =
                 authRuleV2CreateParams.createAuthRuleRequestAccountTokens
-            this.createAuthRuleRequestCardTokens =
-                authRuleV2CreateParams.createAuthRuleRequestCardTokens
-            this.createAuthRuleRequestProgramLevel =
+            createAuthRuleRequestCardTokens = authRuleV2CreateParams.createAuthRuleRequestCardTokens
+            createAuthRuleRequestProgramLevel =
                 authRuleV2CreateParams.createAuthRuleRequestProgramLevel
-            additionalHeaders(authRuleV2CreateParams.additionalHeaders)
-            additionalQueryParams(authRuleV2CreateParams.additionalQueryParams)
+            additionalHeaders = authRuleV2CreateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = authRuleV2CreateParams.additionalQueryParams.toBuilder()
         }
 
         fun forCreateAuthRuleRequestAccountTokens(
@@ -3300,4 +3286,17 @@ constructor(
         override fun toString() =
             "CreateAuthRuleRequestProgramLevel{programLevel=$programLevel, type=$type, parameters=$parameters, additionalProperties=$additionalProperties}"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AuthRuleV2CreateParams && createAuthRuleRequestAccountTokens == other.createAuthRuleRequestAccountTokens && createAuthRuleRequestCardTokens == other.createAuthRuleRequestCardTokens && createAuthRuleRequestProgramLevel == other.createAuthRuleRequestProgramLevel && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(createAuthRuleRequestAccountTokens, createAuthRuleRequestCardTokens, createAuthRuleRequestProgramLevel, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "AuthRuleV2CreateParams{createAuthRuleRequestAccountTokens=$createAuthRuleRequestAccountTokens, createAuthRuleRequestCardTokens=$createAuthRuleRequestCardTokens, createAuthRuleRequestProgramLevel=$createAuthRuleRequestProgramLevel, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

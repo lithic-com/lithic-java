@@ -29,6 +29,12 @@ constructor(
 
     fun financialAccountToken(): Optional<String> = Optional.ofNullable(financialAccountToken)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): ExternalBankAccountRetryPrenoteBody {
         return ExternalBankAccountRetryPrenoteBody(financialAccountToken, additionalBodyProperties)
@@ -125,25 +131,6 @@ constructor(
             "ExternalBankAccountRetryPrenoteBody{financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ExternalBankAccountRetryPrenoteParams && externalBankAccountToken == other.externalBankAccountToken && financialAccountToken == other.financialAccountToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountToken, financialAccountToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "ExternalBankAccountRetryPrenoteParams{externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -164,12 +151,14 @@ constructor(
         internal fun from(
             externalBankAccountRetryPrenoteParams: ExternalBankAccountRetryPrenoteParams
         ) = apply {
-            this.externalBankAccountToken =
+            externalBankAccountToken =
                 externalBankAccountRetryPrenoteParams.externalBankAccountToken
-            this.financialAccountToken = externalBankAccountRetryPrenoteParams.financialAccountToken
-            additionalHeaders(externalBankAccountRetryPrenoteParams.additionalHeaders)
-            additionalQueryParams(externalBankAccountRetryPrenoteParams.additionalQueryParams)
-            additionalBodyProperties(externalBankAccountRetryPrenoteParams.additionalBodyProperties)
+            financialAccountToken = externalBankAccountRetryPrenoteParams.financialAccountToken
+            additionalHeaders = externalBankAccountRetryPrenoteParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                externalBankAccountRetryPrenoteParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                externalBankAccountRetryPrenoteParams.additionalBodyProperties.toMutableMap()
         }
 
         fun externalBankAccountToken(externalBankAccountToken: String) = apply {
@@ -311,4 +300,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ExternalBankAccountRetryPrenoteParams && externalBankAccountToken == other.externalBankAccountToken && financialAccountToken == other.financialAccountToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountToken, financialAccountToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "ExternalBankAccountRetryPrenoteParams{externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

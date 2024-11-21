@@ -55,6 +55,10 @@ constructor(
 
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -83,23 +87,6 @@ constructor(
         return queryParams.build()
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is BookTransferListParams && accountToken == other.accountToken && begin == other.begin && businessAccountToken == other.businessAccountToken && category == other.category && end == other.end && endingBefore == other.endingBefore && financialAccountToken == other.financialAccountToken && pageSize == other.pageSize && result == other.result && startingAfter == other.startingAfter && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, businessAccountToken, category, end, endingBefore, financialAccountToken, pageSize, result, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "BookTransferListParams{accountToken=$accountToken, begin=$begin, businessAccountToken=$businessAccountToken, category=$category, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -126,19 +113,19 @@ constructor(
 
         @JvmSynthetic
         internal fun from(bookTransferListParams: BookTransferListParams) = apply {
-            this.accountToken = bookTransferListParams.accountToken
-            this.begin = bookTransferListParams.begin
-            this.businessAccountToken = bookTransferListParams.businessAccountToken
-            this.category = bookTransferListParams.category
-            this.end = bookTransferListParams.end
-            this.endingBefore = bookTransferListParams.endingBefore
-            this.financialAccountToken = bookTransferListParams.financialAccountToken
-            this.pageSize = bookTransferListParams.pageSize
-            this.result = bookTransferListParams.result
-            this.startingAfter = bookTransferListParams.startingAfter
-            this.status = bookTransferListParams.status
-            additionalHeaders(bookTransferListParams.additionalHeaders)
-            additionalQueryParams(bookTransferListParams.additionalQueryParams)
+            accountToken = bookTransferListParams.accountToken
+            begin = bookTransferListParams.begin
+            businessAccountToken = bookTransferListParams.businessAccountToken
+            category = bookTransferListParams.category
+            end = bookTransferListParams.end
+            endingBefore = bookTransferListParams.endingBefore
+            financialAccountToken = bookTransferListParams.financialAccountToken
+            pageSize = bookTransferListParams.pageSize
+            result = bookTransferListParams.result
+            startingAfter = bookTransferListParams.startingAfter
+            status = bookTransferListParams.status
+            additionalHeaders = bookTransferListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = bookTransferListParams.additionalQueryParams.toBuilder()
         }
 
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
@@ -507,4 +494,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is BookTransferListParams && accountToken == other.accountToken && begin == other.begin && businessAccountToken == other.businessAccountToken && category == other.category && end == other.end && endingBefore == other.endingBefore && financialAccountToken == other.financialAccountToken && pageSize == other.pageSize && result == other.result && startingAfter == other.startingAfter && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, businessAccountToken, category, end, endingBefore, financialAccountToken, pageSize, result, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "BookTransferListParams{accountToken=$accountToken, begin=$begin, businessAccountToken=$businessAccountToken, category=$category, end=$end, endingBefore=$endingBefore, financialAccountToken=$financialAccountToken, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

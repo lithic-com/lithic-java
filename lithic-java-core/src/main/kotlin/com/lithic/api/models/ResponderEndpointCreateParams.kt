@@ -33,6 +33,12 @@ constructor(
 
     fun url(): Optional<String> = Optional.ofNullable(url)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): ResponderEndpointCreateBody {
         return ResponderEndpointCreateBody(
@@ -131,25 +137,6 @@ constructor(
             "ResponderEndpointCreateBody{type=$type, url=$url, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ResponderEndpointCreateParams && type == other.type && url == other.url && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(type, url, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "ResponderEndpointCreateParams{type=$type, url=$url, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -168,11 +155,12 @@ constructor(
 
         @JvmSynthetic
         internal fun from(responderEndpointCreateParams: ResponderEndpointCreateParams) = apply {
-            this.type = responderEndpointCreateParams.type
-            this.url = responderEndpointCreateParams.url
-            additionalHeaders(responderEndpointCreateParams.additionalHeaders)
-            additionalQueryParams(responderEndpointCreateParams.additionalQueryParams)
-            additionalBodyProperties(responderEndpointCreateParams.additionalBodyProperties)
+            type = responderEndpointCreateParams.type
+            url = responderEndpointCreateParams.url
+            additionalHeaders = responderEndpointCreateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = responderEndpointCreateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                responderEndpointCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         /** The type of the endpoint. */
@@ -373,4 +361,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ResponderEndpointCreateParams && type == other.type && url == other.url && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(type, url, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "ResponderEndpointCreateParams{type=$type, url=$url, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

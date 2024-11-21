@@ -38,6 +38,12 @@ constructor(
 
     fun memo(): Optional<String> = Optional.ofNullable(memo)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): TransferCreateBody {
         return TransferCreateBody(
@@ -193,25 +199,6 @@ constructor(
             "TransferCreateBody{amount=$amount, from=$from, to=$to, token=$token, memo=$memo, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TransferCreateParams && amount == other.amount && from == other.from && to == other.to && token == other.token && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, from, to, token, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "TransferCreateParams{amount=$amount, from=$from, to=$to, token=$token, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -233,14 +220,14 @@ constructor(
 
         @JvmSynthetic
         internal fun from(transferCreateParams: TransferCreateParams) = apply {
-            this.amount = transferCreateParams.amount
-            this.from = transferCreateParams.from
-            this.to = transferCreateParams.to
-            this.token = transferCreateParams.token
-            this.memo = transferCreateParams.memo
-            additionalHeaders(transferCreateParams.additionalHeaders)
-            additionalQueryParams(transferCreateParams.additionalQueryParams)
-            additionalBodyProperties(transferCreateParams.additionalBodyProperties)
+            amount = transferCreateParams.amount
+            from = transferCreateParams.from
+            to = transferCreateParams.to
+            token = transferCreateParams.token
+            memo = transferCreateParams.memo
+            additionalHeaders = transferCreateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = transferCreateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties = transferCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
@@ -402,4 +389,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TransferCreateParams && amount == other.amount && from == other.from && to == other.to && token == other.token && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, from, to, token, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TransferCreateParams{amount=$amount, from=$from, to=$to, token=$token, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

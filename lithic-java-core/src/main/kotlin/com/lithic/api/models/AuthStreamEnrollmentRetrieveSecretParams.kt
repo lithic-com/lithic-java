@@ -14,26 +14,13 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
-
-    @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
-
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
-        return /* spotless:off */ other is AuthStreamEnrollmentRetrieveSecretParams && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "AuthStreamEnrollmentRetrieveSecretParams{additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+    @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
 
@@ -52,8 +39,10 @@ constructor(
         internal fun from(
             authStreamEnrollmentRetrieveSecretParams: AuthStreamEnrollmentRetrieveSecretParams
         ) = apply {
-            additionalHeaders(authStreamEnrollmentRetrieveSecretParams.additionalHeaders)
-            additionalQueryParams(authStreamEnrollmentRetrieveSecretParams.additionalQueryParams)
+            additionalHeaders =
+                authStreamEnrollmentRetrieveSecretParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                authStreamEnrollmentRetrieveSecretParams.additionalQueryParams.toBuilder()
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -160,4 +149,17 @@ constructor(
                 additionalQueryParams.build()
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AuthStreamEnrollmentRetrieveSecretParams && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "AuthStreamEnrollmentRetrieveSecretParams{additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

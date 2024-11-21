@@ -43,6 +43,12 @@ constructor(
 
     fun reason(): Optional<Reason> = Optional.ofNullable(reason)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): DisputeUpdateBody {
         return DisputeUpdateBody(
@@ -175,25 +181,6 @@ constructor(
             "DisputeUpdateBody{amount=$amount, customerFiledDate=$customerFiledDate, customerNote=$customerNote, reason=$reason, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is DisputeUpdateParams && disputeToken == other.disputeToken && amount == other.amount && customerFiledDate == other.customerFiledDate && customerNote == other.customerNote && reason == other.reason && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(disputeToken, amount, customerFiledDate, customerNote, reason, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "DisputeUpdateParams{disputeToken=$disputeToken, amount=$amount, customerFiledDate=$customerFiledDate, customerNote=$customerNote, reason=$reason, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -215,14 +202,14 @@ constructor(
 
         @JvmSynthetic
         internal fun from(disputeUpdateParams: DisputeUpdateParams) = apply {
-            this.disputeToken = disputeUpdateParams.disputeToken
-            this.amount = disputeUpdateParams.amount
-            this.customerFiledDate = disputeUpdateParams.customerFiledDate
-            this.customerNote = disputeUpdateParams.customerNote
-            this.reason = disputeUpdateParams.reason
-            additionalHeaders(disputeUpdateParams.additionalHeaders)
-            additionalQueryParams(disputeUpdateParams.additionalQueryParams)
-            additionalBodyProperties(disputeUpdateParams.additionalBodyProperties)
+            disputeToken = disputeUpdateParams.disputeToken
+            amount = disputeUpdateParams.amount
+            customerFiledDate = disputeUpdateParams.customerFiledDate
+            customerNote = disputeUpdateParams.customerNote
+            reason = disputeUpdateParams.reason
+            additionalHeaders = disputeUpdateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = disputeUpdateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties = disputeUpdateParams.additionalBodyProperties.toMutableMap()
         }
 
         fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
@@ -507,4 +494,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is DisputeUpdateParams && disputeToken == other.disputeToken && amount == other.amount && customerFiledDate == other.customerFiledDate && customerNote == other.customerNote && reason == other.reason && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(disputeToken, amount, customerFiledDate, customerNote, reason, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "DisputeUpdateParams{disputeToken=$disputeToken, amount=$amount, customerFiledDate=$customerFiledDate, customerNote=$customerNote, reason=$reason, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

@@ -38,6 +38,12 @@ constructor(
 
     fun tier(): Optional<String> = Optional.ofNullable(tier)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): FinancialAccountCreditConfigurationUpdateBody {
         return FinancialAccountCreditConfigurationUpdateBody(
@@ -176,25 +182,6 @@ constructor(
             "FinancialAccountCreditConfigurationUpdateBody{creditLimit=$creditLimit, creditProductToken=$creditProductToken, externalBankAccountToken=$externalBankAccountToken, tier=$tier, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is FinancialAccountCreditConfigurationUpdateParams && financialAccountToken == other.financialAccountToken && creditLimit == other.creditLimit && creditProductToken == other.creditProductToken && externalBankAccountToken == other.externalBankAccountToken && tier == other.tier && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, creditLimit, creditProductToken, externalBankAccountToken, tier, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "FinancialAccountCreditConfigurationUpdateParams{financialAccountToken=$financialAccountToken, creditLimit=$creditLimit, creditProductToken=$creditProductToken, externalBankAccountToken=$externalBankAccountToken, tier=$tier, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -219,21 +206,20 @@ constructor(
             financialAccountCreditConfigurationUpdateParams:
                 FinancialAccountCreditConfigurationUpdateParams
         ) = apply {
-            this.financialAccountToken =
+            financialAccountToken =
                 financialAccountCreditConfigurationUpdateParams.financialAccountToken
-            this.creditLimit = financialAccountCreditConfigurationUpdateParams.creditLimit
-            this.creditProductToken =
-                financialAccountCreditConfigurationUpdateParams.creditProductToken
-            this.externalBankAccountToken =
+            creditLimit = financialAccountCreditConfigurationUpdateParams.creditLimit
+            creditProductToken = financialAccountCreditConfigurationUpdateParams.creditProductToken
+            externalBankAccountToken =
                 financialAccountCreditConfigurationUpdateParams.externalBankAccountToken
-            this.tier = financialAccountCreditConfigurationUpdateParams.tier
-            additionalHeaders(financialAccountCreditConfigurationUpdateParams.additionalHeaders)
-            additionalQueryParams(
-                financialAccountCreditConfigurationUpdateParams.additionalQueryParams
-            )
-            additionalBodyProperties(
+            tier = financialAccountCreditConfigurationUpdateParams.tier
+            additionalHeaders =
+                financialAccountCreditConfigurationUpdateParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                financialAccountCreditConfigurationUpdateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
                 financialAccountCreditConfigurationUpdateParams.additionalBodyProperties
-            )
+                    .toMutableMap()
         }
 
         fun financialAccountToken(financialAccountToken: String) = apply {
@@ -388,4 +374,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is FinancialAccountCreditConfigurationUpdateParams && financialAccountToken == other.financialAccountToken && creditLimit == other.creditLimit && creditProductToken == other.creditProductToken && externalBankAccountToken == other.externalBankAccountToken && tier == other.tier && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, creditLimit, creditProductToken, externalBankAccountToken, tier, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "FinancialAccountCreditConfigurationUpdateParams{financialAccountToken=$financialAccountToken, creditLimit=$creditLimit, creditProductToken=$creditProductToken, externalBankAccountToken=$externalBankAccountToken, tier=$tier, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

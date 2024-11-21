@@ -33,6 +33,12 @@ constructor(
 
     fun memo(): Optional<String> = Optional.ofNullable(memo)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): ExternalPaymentReleaseBody {
         return ExternalPaymentReleaseBody(
@@ -137,25 +143,6 @@ constructor(
             "ExternalPaymentReleaseBody{effectiveDate=$effectiveDate, memo=$memo, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ExternalPaymentReleaseParams && externalPaymentToken == other.externalPaymentToken && effectiveDate == other.effectiveDate && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalPaymentToken, effectiveDate, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "ExternalPaymentReleaseParams{externalPaymentToken=$externalPaymentToken, effectiveDate=$effectiveDate, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -175,12 +162,13 @@ constructor(
 
         @JvmSynthetic
         internal fun from(externalPaymentReleaseParams: ExternalPaymentReleaseParams) = apply {
-            this.externalPaymentToken = externalPaymentReleaseParams.externalPaymentToken
-            this.effectiveDate = externalPaymentReleaseParams.effectiveDate
-            this.memo = externalPaymentReleaseParams.memo
-            additionalHeaders(externalPaymentReleaseParams.additionalHeaders)
-            additionalQueryParams(externalPaymentReleaseParams.additionalQueryParams)
-            additionalBodyProperties(externalPaymentReleaseParams.additionalBodyProperties)
+            externalPaymentToken = externalPaymentReleaseParams.externalPaymentToken
+            effectiveDate = externalPaymentReleaseParams.effectiveDate
+            memo = externalPaymentReleaseParams.memo
+            additionalHeaders = externalPaymentReleaseParams.additionalHeaders.toBuilder()
+            additionalQueryParams = externalPaymentReleaseParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                externalPaymentReleaseParams.additionalBodyProperties.toMutableMap()
         }
 
         fun externalPaymentToken(externalPaymentToken: String) = apply {
@@ -323,4 +311,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ExternalPaymentReleaseParams && externalPaymentToken == other.externalPaymentToken && effectiveDate == other.effectiveDate && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalPaymentToken, effectiveDate, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "ExternalPaymentReleaseParams{externalPaymentToken=$externalPaymentToken, effectiveDate=$effectiveDate, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

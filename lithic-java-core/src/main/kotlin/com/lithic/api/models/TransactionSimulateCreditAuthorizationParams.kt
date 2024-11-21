@@ -38,6 +38,12 @@ constructor(
 
     fun merchantAcceptorId(): Optional<String> = Optional.ofNullable(merchantAcceptorId)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): TransactionSimulateCreditAuthorizationBody {
         return TransactionSimulateCreditAuthorizationBody(
@@ -195,25 +201,6 @@ constructor(
             "TransactionSimulateCreditAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TransactionSimulateCreditAuthorizationParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "TransactionSimulateCreditAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -238,19 +225,17 @@ constructor(
             transactionSimulateCreditAuthorizationParams:
                 TransactionSimulateCreditAuthorizationParams
         ) = apply {
-            this.amount = transactionSimulateCreditAuthorizationParams.amount
-            this.descriptor = transactionSimulateCreditAuthorizationParams.descriptor
-            this.pan = transactionSimulateCreditAuthorizationParams.pan
-            this.mcc = transactionSimulateCreditAuthorizationParams.mcc
-            this.merchantAcceptorId =
-                transactionSimulateCreditAuthorizationParams.merchantAcceptorId
-            additionalHeaders(transactionSimulateCreditAuthorizationParams.additionalHeaders)
-            additionalQueryParams(
-                transactionSimulateCreditAuthorizationParams.additionalQueryParams
-            )
-            additionalBodyProperties(
-                transactionSimulateCreditAuthorizationParams.additionalBodyProperties
-            )
+            amount = transactionSimulateCreditAuthorizationParams.amount
+            descriptor = transactionSimulateCreditAuthorizationParams.descriptor
+            pan = transactionSimulateCreditAuthorizationParams.pan
+            mcc = transactionSimulateCreditAuthorizationParams.mcc
+            merchantAcceptorId = transactionSimulateCreditAuthorizationParams.merchantAcceptorId
+            additionalHeaders =
+                transactionSimulateCreditAuthorizationParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                transactionSimulateCreditAuthorizationParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                transactionSimulateCreditAuthorizationParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
@@ -410,4 +395,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TransactionSimulateCreditAuthorizationParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TransactionSimulateCreditAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

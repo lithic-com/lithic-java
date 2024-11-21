@@ -17,6 +17,10 @@ constructor(
 
     fun creditProductToken(): String = creditProductToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
@@ -27,23 +31,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is CreditProductExtendedCreditRetrieveParams && creditProductToken == other.creditProductToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(creditProductToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "CreditProductExtendedCreditRetrieveParams{creditProductToken=$creditProductToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -63,9 +50,11 @@ constructor(
         internal fun from(
             creditProductExtendedCreditRetrieveParams: CreditProductExtendedCreditRetrieveParams
         ) = apply {
-            this.creditProductToken = creditProductExtendedCreditRetrieveParams.creditProductToken
-            additionalHeaders(creditProductExtendedCreditRetrieveParams.additionalHeaders)
-            additionalQueryParams(creditProductExtendedCreditRetrieveParams.additionalQueryParams)
+            creditProductToken = creditProductExtendedCreditRetrieveParams.creditProductToken
+            additionalHeaders =
+                creditProductExtendedCreditRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                creditProductExtendedCreditRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun creditProductToken(creditProductToken: String) = apply {
@@ -179,4 +168,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is CreditProductExtendedCreditRetrieveParams && creditProductToken == other.creditProductToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(creditProductToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "CreditProductExtendedCreditRetrieveParams{creditProductToken=$creditProductToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
