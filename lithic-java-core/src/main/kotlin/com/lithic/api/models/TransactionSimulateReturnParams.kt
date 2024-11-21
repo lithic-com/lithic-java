@@ -31,6 +31,12 @@ constructor(
 
     fun pan(): String = pan
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): TransactionSimulateReturnBody {
         return TransactionSimulateReturnBody(
@@ -142,25 +148,6 @@ constructor(
             "TransactionSimulateReturnBody{amount=$amount, descriptor=$descriptor, pan=$pan, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TransactionSimulateReturnParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "TransactionSimulateReturnParams{amount=$amount, descriptor=$descriptor, pan=$pan, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -181,12 +168,14 @@ constructor(
         @JvmSynthetic
         internal fun from(transactionSimulateReturnParams: TransactionSimulateReturnParams) =
             apply {
-                this.amount = transactionSimulateReturnParams.amount
-                this.descriptor = transactionSimulateReturnParams.descriptor
-                this.pan = transactionSimulateReturnParams.pan
-                additionalHeaders(transactionSimulateReturnParams.additionalHeaders)
-                additionalQueryParams(transactionSimulateReturnParams.additionalQueryParams)
-                additionalBodyProperties(transactionSimulateReturnParams.additionalBodyProperties)
+                amount = transactionSimulateReturnParams.amount
+                descriptor = transactionSimulateReturnParams.descriptor
+                pan = transactionSimulateReturnParams.pan
+                additionalHeaders = transactionSimulateReturnParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    transactionSimulateReturnParams.additionalQueryParams.toBuilder()
+                additionalBodyProperties =
+                    transactionSimulateReturnParams.additionalBodyProperties.toMutableMap()
             }
 
         /** Amount (in cents) to authorize. */
@@ -328,4 +317,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TransactionSimulateReturnParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TransactionSimulateReturnParams{amount=$amount, descriptor=$descriptor, pan=$pan, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

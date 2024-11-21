@@ -17,6 +17,10 @@ constructor(
 
     fun accountToken(): String = accountToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
@@ -27,23 +31,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AccountRetrieveParams && accountToken == other.accountToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "AccountRetrieveParams{accountToken=$accountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -61,9 +48,9 @@ constructor(
 
         @JvmSynthetic
         internal fun from(accountRetrieveParams: AccountRetrieveParams) = apply {
-            this.accountToken = accountRetrieveParams.accountToken
-            additionalHeaders(accountRetrieveParams.additionalHeaders)
-            additionalQueryParams(accountRetrieveParams.additionalQueryParams)
+            accountToken = accountRetrieveParams.accountToken
+            additionalHeaders = accountRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams = accountRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
@@ -173,4 +160,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AccountRetrieveParams && accountToken == other.accountToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "AccountRetrieveParams{accountToken=$accountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

@@ -28,6 +28,12 @@ constructor(
 
     fun amount(): Long = amount
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): TransactionSimulateAuthorizationAdviceBody {
         return TransactionSimulateAuthorizationAdviceBody(
@@ -137,25 +143,6 @@ constructor(
             "TransactionSimulateAuthorizationAdviceBody{token=$token, amount=$amount, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TransactionSimulateAuthorizationAdviceParams && token == other.token && amount == other.amount && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, amount, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "TransactionSimulateAuthorizationAdviceParams{token=$token, amount=$amount, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -177,15 +164,14 @@ constructor(
             transactionSimulateAuthorizationAdviceParams:
                 TransactionSimulateAuthorizationAdviceParams
         ) = apply {
-            this.token = transactionSimulateAuthorizationAdviceParams.token
-            this.amount = transactionSimulateAuthorizationAdviceParams.amount
-            additionalHeaders(transactionSimulateAuthorizationAdviceParams.additionalHeaders)
-            additionalQueryParams(
-                transactionSimulateAuthorizationAdviceParams.additionalQueryParams
-            )
-            additionalBodyProperties(
-                transactionSimulateAuthorizationAdviceParams.additionalBodyProperties
-            )
+            token = transactionSimulateAuthorizationAdviceParams.token
+            amount = transactionSimulateAuthorizationAdviceParams.amount
+            additionalHeaders =
+                transactionSimulateAuthorizationAdviceParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                transactionSimulateAuthorizationAdviceParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                transactionSimulateAuthorizationAdviceParams.additionalBodyProperties.toMutableMap()
         }
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
@@ -326,4 +312,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TransactionSimulateAuthorizationAdviceParams && token == other.token && amount == other.amount && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, amount, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TransactionSimulateAuthorizationAdviceParams{token=$token, amount=$amount, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

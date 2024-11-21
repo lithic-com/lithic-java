@@ -25,6 +25,12 @@ constructor(
 
     fun pan(): String = pan
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): CardSearchByPanBody {
         return CardSearchByPanBody(pan, additionalBodyProperties)
@@ -109,25 +115,6 @@ constructor(
             "CardSearchByPanBody{pan=$pan, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is CardSearchByPanParams && pan == other.pan && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(pan, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "CardSearchByPanParams{pan=$pan, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -145,10 +132,10 @@ constructor(
 
         @JvmSynthetic
         internal fun from(cardSearchByPanParams: CardSearchByPanParams) = apply {
-            this.pan = cardSearchByPanParams.pan
-            additionalHeaders(cardSearchByPanParams.additionalHeaders)
-            additionalQueryParams(cardSearchByPanParams.additionalQueryParams)
-            additionalBodyProperties(cardSearchByPanParams.additionalBodyProperties)
+            pan = cardSearchByPanParams.pan
+            additionalHeaders = cardSearchByPanParams.additionalHeaders.toBuilder()
+            additionalQueryParams = cardSearchByPanParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties = cardSearchByPanParams.additionalBodyProperties.toMutableMap()
         }
 
         /** The PAN for the card being retrieved. */
@@ -282,4 +269,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is CardSearchByPanParams && pan == other.pan && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(pan, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "CardSearchByPanParams{pan=$pan, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

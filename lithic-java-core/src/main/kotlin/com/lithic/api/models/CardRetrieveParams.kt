@@ -17,6 +17,10 @@ constructor(
 
     fun cardToken(): String = cardToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
@@ -27,23 +31,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is CardRetrieveParams && cardToken == other.cardToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "CardRetrieveParams{cardToken=$cardToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -61,9 +48,9 @@ constructor(
 
         @JvmSynthetic
         internal fun from(cardRetrieveParams: CardRetrieveParams) = apply {
-            this.cardToken = cardRetrieveParams.cardToken
-            additionalHeaders(cardRetrieveParams.additionalHeaders)
-            additionalQueryParams(cardRetrieveParams.additionalQueryParams)
+            cardToken = cardRetrieveParams.cardToken
+            additionalHeaders = cardRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams = cardRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
@@ -173,4 +160,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is CardRetrieveParams && cardToken == other.cardToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "CardRetrieveParams{cardToken=$cardToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

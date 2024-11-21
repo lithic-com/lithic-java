@@ -35,6 +35,10 @@ constructor(
 
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -60,23 +64,6 @@ constructor(
         }
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is DisputeListEvidencesParams && disputeToken == other.disputeToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(disputeToken, begin, end, endingBefore, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "DisputeListEvidencesParams{disputeToken=$disputeToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -98,14 +85,14 @@ constructor(
 
         @JvmSynthetic
         internal fun from(disputeListEvidencesParams: DisputeListEvidencesParams) = apply {
-            this.disputeToken = disputeListEvidencesParams.disputeToken
-            this.begin = disputeListEvidencesParams.begin
-            this.end = disputeListEvidencesParams.end
-            this.endingBefore = disputeListEvidencesParams.endingBefore
-            this.pageSize = disputeListEvidencesParams.pageSize
-            this.startingAfter = disputeListEvidencesParams.startingAfter
-            additionalHeaders(disputeListEvidencesParams.additionalHeaders)
-            additionalQueryParams(disputeListEvidencesParams.additionalQueryParams)
+            disputeToken = disputeListEvidencesParams.disputeToken
+            begin = disputeListEvidencesParams.begin
+            end = disputeListEvidencesParams.end
+            endingBefore = disputeListEvidencesParams.endingBefore
+            pageSize = disputeListEvidencesParams.pageSize
+            startingAfter = disputeListEvidencesParams.startingAfter
+            additionalHeaders = disputeListEvidencesParams.additionalHeaders.toBuilder()
+            additionalQueryParams = disputeListEvidencesParams.additionalQueryParams.toBuilder()
         }
 
         fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
@@ -247,4 +234,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is DisputeListEvidencesParams && disputeToken == other.disputeToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(disputeToken, begin, end, endingBefore, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "DisputeListEvidencesParams{disputeToken=$disputeToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

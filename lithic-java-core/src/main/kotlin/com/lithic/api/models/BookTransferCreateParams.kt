@@ -51,6 +51,12 @@ constructor(
 
     fun memo(): Optional<String> = Optional.ofNullable(memo)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): BookTransferCreateBody {
         return BookTransferCreateBody(
@@ -252,25 +258,6 @@ constructor(
             "BookTransferCreateBody{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, memo=$memo, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is BookTransferCreateParams && amount == other.amount && category == other.category && fromFinancialAccountToken == other.fromFinancialAccountToken && subtype == other.subtype && toFinancialAccountToken == other.toFinancialAccountToken && type == other.type && token == other.token && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, category, fromFinancialAccountToken, subtype, toFinancialAccountToken, type, token, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "BookTransferCreateParams{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -295,17 +282,18 @@ constructor(
 
         @JvmSynthetic
         internal fun from(bookTransferCreateParams: BookTransferCreateParams) = apply {
-            this.amount = bookTransferCreateParams.amount
-            this.category = bookTransferCreateParams.category
-            this.fromFinancialAccountToken = bookTransferCreateParams.fromFinancialAccountToken
-            this.subtype = bookTransferCreateParams.subtype
-            this.toFinancialAccountToken = bookTransferCreateParams.toFinancialAccountToken
-            this.type = bookTransferCreateParams.type
-            this.token = bookTransferCreateParams.token
-            this.memo = bookTransferCreateParams.memo
-            additionalHeaders(bookTransferCreateParams.additionalHeaders)
-            additionalQueryParams(bookTransferCreateParams.additionalQueryParams)
-            additionalBodyProperties(bookTransferCreateParams.additionalBodyProperties)
+            amount = bookTransferCreateParams.amount
+            category = bookTransferCreateParams.category
+            fromFinancialAccountToken = bookTransferCreateParams.fromFinancialAccountToken
+            subtype = bookTransferCreateParams.subtype
+            toFinancialAccountToken = bookTransferCreateParams.toFinancialAccountToken
+            type = bookTransferCreateParams.type
+            token = bookTransferCreateParams.token
+            memo = bookTransferCreateParams.memo
+            additionalHeaders = bookTransferCreateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = bookTransferCreateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                bookTransferCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
@@ -812,4 +800,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is BookTransferCreateParams && amount == other.amount && category == other.category && fromFinancialAccountToken == other.fromFinancialAccountToken && subtype == other.subtype && toFinancialAccountToken == other.toFinancialAccountToken && type == other.type && token == other.token && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, category, fromFinancialAccountToken, subtype, toFinancialAccountToken, type, token, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "BookTransferCreateParams{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

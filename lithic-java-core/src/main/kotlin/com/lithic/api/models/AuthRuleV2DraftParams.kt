@@ -43,6 +43,12 @@ constructor(
 
     fun parameters(): Optional<Parameters> = Optional.ofNullable(parameters)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): AuthRuleV2DraftBody {
         return AuthRuleV2DraftBody(parameters, additionalBodyProperties)
@@ -132,25 +138,6 @@ constructor(
             "AuthRuleV2DraftBody{parameters=$parameters, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AuthRuleV2DraftParams && authRuleToken == other.authRuleToken && parameters == other.parameters && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, parameters, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "AuthRuleV2DraftParams{authRuleToken=$authRuleToken, parameters=$parameters, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -169,11 +156,11 @@ constructor(
 
         @JvmSynthetic
         internal fun from(authRuleV2DraftParams: AuthRuleV2DraftParams) = apply {
-            this.authRuleToken = authRuleV2DraftParams.authRuleToken
-            this.parameters = authRuleV2DraftParams.parameters
-            additionalHeaders(authRuleV2DraftParams.additionalHeaders)
-            additionalQueryParams(authRuleV2DraftParams.additionalQueryParams)
-            additionalBodyProperties(authRuleV2DraftParams.additionalBodyProperties)
+            authRuleToken = authRuleV2DraftParams.authRuleToken
+            parameters = authRuleV2DraftParams.parameters
+            additionalHeaders = authRuleV2DraftParams.additionalHeaders.toBuilder()
+            additionalQueryParams = authRuleV2DraftParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties = authRuleV2DraftParams.additionalBodyProperties.toMutableMap()
         }
 
         fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
@@ -1115,4 +1102,17 @@ constructor(
                 "ConditionalBlockParameters{conditions=$conditions, additionalProperties=$additionalProperties}"
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AuthRuleV2DraftParams && authRuleToken == other.authRuleToken && parameters == other.parameters && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, parameters, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "AuthRuleV2DraftParams{authRuleToken=$authRuleToken, parameters=$parameters, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

@@ -39,6 +39,12 @@ constructor(
 
     fun eventTypes(): Optional<List<EventType>> = Optional.ofNullable(eventTypes)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): EventSubscriptionCreateBody {
         return EventSubscriptionCreateBody(
@@ -168,25 +174,6 @@ constructor(
             "EventSubscriptionCreateBody{url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is EventSubscriptionCreateParams && url == other.url && description == other.description && disabled == other.disabled && eventTypes == other.eventTypes && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(url, description, disabled, eventTypes, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "EventSubscriptionCreateParams{url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -207,13 +194,15 @@ constructor(
 
         @JvmSynthetic
         internal fun from(eventSubscriptionCreateParams: EventSubscriptionCreateParams) = apply {
-            this.url = eventSubscriptionCreateParams.url
-            this.description = eventSubscriptionCreateParams.description
-            this.disabled = eventSubscriptionCreateParams.disabled
-            this.eventTypes(eventSubscriptionCreateParams.eventTypes ?: listOf())
-            additionalHeaders(eventSubscriptionCreateParams.additionalHeaders)
-            additionalQueryParams(eventSubscriptionCreateParams.additionalQueryParams)
-            additionalBodyProperties(eventSubscriptionCreateParams.additionalBodyProperties)
+            url = eventSubscriptionCreateParams.url
+            description = eventSubscriptionCreateParams.description
+            disabled = eventSubscriptionCreateParams.disabled
+            eventTypes =
+                eventSubscriptionCreateParams.eventTypes?.toMutableList() ?: mutableListOf()
+            additionalHeaders = eventSubscriptionCreateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = eventSubscriptionCreateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                eventSubscriptionCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
@@ -365,7 +354,7 @@ constructor(
                 checkNotNull(url) { "`url` is required but was not set" },
                 description,
                 disabled,
-                if (eventTypes.size == 0) null else eventTypes.toImmutable(),
+                eventTypes.toImmutable().ifEmpty { null },
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -699,4 +688,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is EventSubscriptionCreateParams && url == other.url && description == other.description && disabled == other.disabled && eventTypes == other.eventTypes && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(url, description, disabled, eventTypes, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "EventSubscriptionCreateParams{url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }
