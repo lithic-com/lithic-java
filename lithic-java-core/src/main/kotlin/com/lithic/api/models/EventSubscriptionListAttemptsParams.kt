@@ -43,6 +43,10 @@ constructor(
 
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -69,23 +73,6 @@ constructor(
         }
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is EventSubscriptionListAttemptsParams && eventSubscriptionToken == other.eventSubscriptionToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventSubscriptionToken, begin, end, endingBefore, pageSize, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "EventSubscriptionListAttemptsParams{eventSubscriptionToken=$eventSubscriptionToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -110,15 +97,16 @@ constructor(
         internal fun from(
             eventSubscriptionListAttemptsParams: EventSubscriptionListAttemptsParams
         ) = apply {
-            this.eventSubscriptionToken = eventSubscriptionListAttemptsParams.eventSubscriptionToken
-            this.begin = eventSubscriptionListAttemptsParams.begin
-            this.end = eventSubscriptionListAttemptsParams.end
-            this.endingBefore = eventSubscriptionListAttemptsParams.endingBefore
-            this.pageSize = eventSubscriptionListAttemptsParams.pageSize
-            this.startingAfter = eventSubscriptionListAttemptsParams.startingAfter
-            this.status = eventSubscriptionListAttemptsParams.status
-            additionalHeaders(eventSubscriptionListAttemptsParams.additionalHeaders)
-            additionalQueryParams(eventSubscriptionListAttemptsParams.additionalQueryParams)
+            eventSubscriptionToken = eventSubscriptionListAttemptsParams.eventSubscriptionToken
+            begin = eventSubscriptionListAttemptsParams.begin
+            end = eventSubscriptionListAttemptsParams.end
+            endingBefore = eventSubscriptionListAttemptsParams.endingBefore
+            pageSize = eventSubscriptionListAttemptsParams.pageSize
+            startingAfter = eventSubscriptionListAttemptsParams.startingAfter
+            status = eventSubscriptionListAttemptsParams.status
+            additionalHeaders = eventSubscriptionListAttemptsParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                eventSubscriptionListAttemptsParams.additionalQueryParams.toBuilder()
         }
 
         fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
@@ -336,4 +324,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is EventSubscriptionListAttemptsParams && eventSubscriptionToken == other.eventSubscriptionToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventSubscriptionToken, begin, end, endingBefore, pageSize, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "EventSubscriptionListAttemptsParams{eventSubscriptionToken=$eventSubscriptionToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

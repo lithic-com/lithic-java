@@ -32,6 +32,12 @@ constructor(
 
     fun reason(): ChargedOffReason = reason
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): FinancialAccountChargeOffBody {
         return FinancialAccountChargeOffBody(reason, additionalBodyProperties)
@@ -125,25 +131,6 @@ constructor(
             "FinancialAccountChargeOffBody{reason=$reason, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is FinancialAccountChargeOffParams && financialAccountToken == other.financialAccountToken && reason == other.reason && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, reason, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "FinancialAccountChargeOffParams{financialAccountToken=$financialAccountToken, reason=$reason, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -163,11 +150,13 @@ constructor(
         @JvmSynthetic
         internal fun from(financialAccountChargeOffParams: FinancialAccountChargeOffParams) =
             apply {
-                this.financialAccountToken = financialAccountChargeOffParams.financialAccountToken
-                this.reason = financialAccountChargeOffParams.reason
-                additionalHeaders(financialAccountChargeOffParams.additionalHeaders)
-                additionalQueryParams(financialAccountChargeOffParams.additionalQueryParams)
-                additionalBodyProperties(financialAccountChargeOffParams.additionalBodyProperties)
+                financialAccountToken = financialAccountChargeOffParams.financialAccountToken
+                reason = financialAccountChargeOffParams.reason
+                additionalHeaders = financialAccountChargeOffParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    financialAccountChargeOffParams.additionalQueryParams.toBuilder()
+                additionalBodyProperties =
+                    financialAccountChargeOffParams.additionalBodyProperties.toMutableMap()
             }
 
         fun financialAccountToken(financialAccountToken: String) = apply {
@@ -365,4 +354,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is FinancialAccountChargeOffParams && financialAccountToken == other.financialAccountToken && reason == other.reason && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, reason, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "FinancialAccountChargeOffParams{financialAccountToken=$financialAccountToken, reason=$reason, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

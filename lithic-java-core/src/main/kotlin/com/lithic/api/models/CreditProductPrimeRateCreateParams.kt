@@ -32,6 +32,12 @@ constructor(
 
     fun rate(): String = rate
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): CreditProductPrimeRateCreateBody {
         return CreditProductPrimeRateCreateBody(
@@ -141,25 +147,6 @@ constructor(
             "CreditProductPrimeRateCreateBody{effectiveDate=$effectiveDate, rate=$rate, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is CreditProductPrimeRateCreateParams && creditProductToken == other.creditProductToken && effectiveDate == other.effectiveDate && rate == other.rate && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(creditProductToken, effectiveDate, rate, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "CreditProductPrimeRateCreateParams{creditProductToken=$creditProductToken, effectiveDate=$effectiveDate, rate=$rate, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -180,14 +167,14 @@ constructor(
         @JvmSynthetic
         internal fun from(creditProductPrimeRateCreateParams: CreditProductPrimeRateCreateParams) =
             apply {
-                this.creditProductToken = creditProductPrimeRateCreateParams.creditProductToken
-                this.effectiveDate = creditProductPrimeRateCreateParams.effectiveDate
-                this.rate = creditProductPrimeRateCreateParams.rate
-                additionalHeaders(creditProductPrimeRateCreateParams.additionalHeaders)
-                additionalQueryParams(creditProductPrimeRateCreateParams.additionalQueryParams)
-                additionalBodyProperties(
-                    creditProductPrimeRateCreateParams.additionalBodyProperties
-                )
+                creditProductToken = creditProductPrimeRateCreateParams.creditProductToken
+                effectiveDate = creditProductPrimeRateCreateParams.effectiveDate
+                rate = creditProductPrimeRateCreateParams.rate
+                additionalHeaders = creditProductPrimeRateCreateParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    creditProductPrimeRateCreateParams.additionalQueryParams.toBuilder()
+                additionalBodyProperties =
+                    creditProductPrimeRateCreateParams.additionalBodyProperties.toMutableMap()
             }
 
         /** Globally unique identifier for credit products. */
@@ -333,4 +320,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is CreditProductPrimeRateCreateParams && creditProductToken == other.creditProductToken && effectiveDate == other.effectiveDate && rate == other.rate && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(creditProductToken, effectiveDate, rate, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "CreditProductPrimeRateCreateParams{creditProductToken=$creditProductToken, effectiveDate=$effectiveDate, rate=$rate, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

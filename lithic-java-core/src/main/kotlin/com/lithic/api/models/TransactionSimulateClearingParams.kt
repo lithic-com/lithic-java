@@ -29,6 +29,12 @@ constructor(
 
     fun amount(): Optional<Long> = Optional.ofNullable(amount)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): TransactionSimulateClearingBody {
         return TransactionSimulateClearingBody(
@@ -142,25 +148,6 @@ constructor(
             "TransactionSimulateClearingBody{token=$token, amount=$amount, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TransactionSimulateClearingParams && token == other.token && amount == other.amount && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, amount, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "TransactionSimulateClearingParams{token=$token, amount=$amount, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -180,11 +167,13 @@ constructor(
         @JvmSynthetic
         internal fun from(transactionSimulateClearingParams: TransactionSimulateClearingParams) =
             apply {
-                this.token = transactionSimulateClearingParams.token
-                this.amount = transactionSimulateClearingParams.amount
-                additionalHeaders(transactionSimulateClearingParams.additionalHeaders)
-                additionalQueryParams(transactionSimulateClearingParams.additionalQueryParams)
-                additionalBodyProperties(transactionSimulateClearingParams.additionalBodyProperties)
+                token = transactionSimulateClearingParams.token
+                amount = transactionSimulateClearingParams.amount
+                additionalHeaders = transactionSimulateClearingParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    transactionSimulateClearingParams.additionalQueryParams.toBuilder()
+                additionalBodyProperties =
+                    transactionSimulateClearingParams.additionalBodyProperties.toMutableMap()
             }
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
@@ -329,4 +318,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TransactionSimulateClearingParams && token == other.token && amount == other.amount && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, amount, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TransactionSimulateClearingParams{token=$token, amount=$amount, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

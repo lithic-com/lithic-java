@@ -52,6 +52,12 @@ constructor(
     fun walletRecommendedDecision(): Optional<WalletRecommendedDecision> =
         Optional.ofNullable(walletRecommendedDecision)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): TokenizationSimulateBody {
         return TokenizationSimulateBody(
@@ -250,25 +256,6 @@ constructor(
             "TokenizationSimulateBody{cvv=$cvv, expirationDate=$expirationDate, pan=$pan, tokenizationSource=$tokenizationSource, accountScore=$accountScore, deviceScore=$deviceScore, entity=$entity, walletRecommendedDecision=$walletRecommendedDecision, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TokenizationSimulateParams && cvv == other.cvv && expirationDate == other.expirationDate && pan == other.pan && tokenizationSource == other.tokenizationSource && accountScore == other.accountScore && deviceScore == other.deviceScore && entity == other.entity && walletRecommendedDecision == other.walletRecommendedDecision && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cvv, expirationDate, pan, tokenizationSource, accountScore, deviceScore, entity, walletRecommendedDecision, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "TokenizationSimulateParams{cvv=$cvv, expirationDate=$expirationDate, pan=$pan, tokenizationSource=$tokenizationSource, accountScore=$accountScore, deviceScore=$deviceScore, entity=$entity, walletRecommendedDecision=$walletRecommendedDecision, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -293,17 +280,18 @@ constructor(
 
         @JvmSynthetic
         internal fun from(tokenizationSimulateParams: TokenizationSimulateParams) = apply {
-            this.cvv = tokenizationSimulateParams.cvv
-            this.expirationDate = tokenizationSimulateParams.expirationDate
-            this.pan = tokenizationSimulateParams.pan
-            this.tokenizationSource = tokenizationSimulateParams.tokenizationSource
-            this.accountScore = tokenizationSimulateParams.accountScore
-            this.deviceScore = tokenizationSimulateParams.deviceScore
-            this.entity = tokenizationSimulateParams.entity
-            this.walletRecommendedDecision = tokenizationSimulateParams.walletRecommendedDecision
-            additionalHeaders(tokenizationSimulateParams.additionalHeaders)
-            additionalQueryParams(tokenizationSimulateParams.additionalQueryParams)
-            additionalBodyProperties(tokenizationSimulateParams.additionalBodyProperties)
+            cvv = tokenizationSimulateParams.cvv
+            expirationDate = tokenizationSimulateParams.expirationDate
+            pan = tokenizationSimulateParams.pan
+            tokenizationSource = tokenizationSimulateParams.tokenizationSource
+            accountScore = tokenizationSimulateParams.accountScore
+            deviceScore = tokenizationSimulateParams.deviceScore
+            entity = tokenizationSimulateParams.entity
+            walletRecommendedDecision = tokenizationSimulateParams.walletRecommendedDecision
+            additionalHeaders = tokenizationSimulateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = tokenizationSimulateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                tokenizationSimulateParams.additionalBodyProperties.toMutableMap()
         }
 
         /** The three digit cvv for the card. */
@@ -616,4 +604,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TokenizationSimulateParams && cvv == other.cvv && expirationDate == other.expirationDate && pan == other.pan && tokenizationSource == other.tokenizationSource && accountScore == other.accountScore && deviceScore == other.deviceScore && entity == other.entity && walletRecommendedDecision == other.walletRecommendedDecision && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cvv, expirationDate, pan, tokenizationSource, accountScore, deviceScore, entity, walletRecommendedDecision, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TokenizationSimulateParams{cvv=$cvv, expirationDate=$expirationDate, pan=$pan, tokenizationSource=$tokenizationSource, accountScore=$accountScore, deviceScore=$deviceScore, entity=$entity, walletRecommendedDecision=$walletRecommendedDecision, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

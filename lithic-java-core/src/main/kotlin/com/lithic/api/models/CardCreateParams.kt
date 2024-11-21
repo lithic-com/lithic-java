@@ -78,6 +78,12 @@ constructor(
 
     fun state(): Optional<State> = Optional.ofNullable(state)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): CardCreateBody {
         return CardCreateBody(
@@ -528,25 +534,6 @@ constructor(
             "CardCreateBody{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is CardCreateParams && type == other.type && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && carrier == other.carrier && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && memo == other.memo && pin == other.pin && productId == other.productId && replacementAccountToken == other.replacementAccountToken && replacementFor == other.replacementFor && shippingAddress == other.shippingAddress && shippingMethod == other.shippingMethod && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "CardCreateParams{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -580,26 +567,26 @@ constructor(
 
         @JvmSynthetic
         internal fun from(cardCreateParams: CardCreateParams) = apply {
-            this.type = cardCreateParams.type
-            this.accountToken = cardCreateParams.accountToken
-            this.cardProgramToken = cardCreateParams.cardProgramToken
-            this.carrier = cardCreateParams.carrier
-            this.digitalCardArtToken = cardCreateParams.digitalCardArtToken
-            this.expMonth = cardCreateParams.expMonth
-            this.expYear = cardCreateParams.expYear
-            this.memo = cardCreateParams.memo
-            this.pin = cardCreateParams.pin
-            this.productId = cardCreateParams.productId
-            this.replacementAccountToken = cardCreateParams.replacementAccountToken
-            this.replacementFor = cardCreateParams.replacementFor
-            this.shippingAddress = cardCreateParams.shippingAddress
-            this.shippingMethod = cardCreateParams.shippingMethod
-            this.spendLimit = cardCreateParams.spendLimit
-            this.spendLimitDuration = cardCreateParams.spendLimitDuration
-            this.state = cardCreateParams.state
-            additionalHeaders(cardCreateParams.additionalHeaders)
-            additionalQueryParams(cardCreateParams.additionalQueryParams)
-            additionalBodyProperties(cardCreateParams.additionalBodyProperties)
+            type = cardCreateParams.type
+            accountToken = cardCreateParams.accountToken
+            cardProgramToken = cardCreateParams.cardProgramToken
+            carrier = cardCreateParams.carrier
+            digitalCardArtToken = cardCreateParams.digitalCardArtToken
+            expMonth = cardCreateParams.expMonth
+            expYear = cardCreateParams.expYear
+            memo = cardCreateParams.memo
+            pin = cardCreateParams.pin
+            productId = cardCreateParams.productId
+            replacementAccountToken = cardCreateParams.replacementAccountToken
+            replacementFor = cardCreateParams.replacementFor
+            shippingAddress = cardCreateParams.shippingAddress
+            shippingMethod = cardCreateParams.shippingMethod
+            spendLimit = cardCreateParams.spendLimit
+            spendLimitDuration = cardCreateParams.spendLimitDuration
+            state = cardCreateParams.state
+            additionalHeaders = cardCreateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = cardCreateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties = cardCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
@@ -1093,4 +1080,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is CardCreateParams && type == other.type && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && carrier == other.carrier && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && memo == other.memo && pin == other.pin && productId == other.productId && replacementAccountToken == other.replacementAccountToken && replacementFor == other.replacementFor && shippingAddress == other.shippingAddress && shippingMethod == other.shippingMethod && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "CardCreateParams{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

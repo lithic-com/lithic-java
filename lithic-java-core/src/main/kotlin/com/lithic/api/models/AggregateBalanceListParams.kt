@@ -24,6 +24,10 @@ constructor(
     fun financialAccountType(): Optional<FinancialAccountType> =
         Optional.ofNullable(financialAccountType)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -35,23 +39,6 @@ constructor(
         queryParams.putAll(additionalQueryParams)
         return queryParams.build()
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AggregateBalanceListParams && financialAccountType == other.financialAccountType && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountType, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "AggregateBalanceListParams{financialAccountType=$financialAccountType, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -69,9 +56,9 @@ constructor(
 
         @JvmSynthetic
         internal fun from(aggregateBalanceListParams: AggregateBalanceListParams) = apply {
-            this.financialAccountType = aggregateBalanceListParams.financialAccountType
-            additionalHeaders(aggregateBalanceListParams.additionalHeaders)
-            additionalQueryParams(aggregateBalanceListParams.additionalQueryParams)
+            financialAccountType = aggregateBalanceListParams.financialAccountType
+            additionalHeaders = aggregateBalanceListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = aggregateBalanceListParams.additionalQueryParams.toBuilder()
         }
 
         /** Get the aggregate balance for a given Financial Account type. */
@@ -247,4 +234,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AggregateBalanceListParams && financialAccountType == other.financialAccountType && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountType, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "AggregateBalanceListParams{financialAccountType=$financialAccountType, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

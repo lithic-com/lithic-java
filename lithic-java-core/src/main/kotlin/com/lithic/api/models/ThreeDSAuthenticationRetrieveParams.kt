@@ -17,6 +17,10 @@ constructor(
 
     fun threeDSAuthenticationToken(): String = threeDSAuthenticationToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
@@ -27,23 +31,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ThreeDSAuthenticationRetrieveParams && threeDSAuthenticationToken == other.threeDSAuthenticationToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(threeDSAuthenticationToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "ThreeDSAuthenticationRetrieveParams{threeDSAuthenticationToken=$threeDSAuthenticationToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -63,10 +50,11 @@ constructor(
         internal fun from(
             threeDSAuthenticationRetrieveParams: ThreeDSAuthenticationRetrieveParams
         ) = apply {
-            this.threeDSAuthenticationToken =
+            threeDSAuthenticationToken =
                 threeDSAuthenticationRetrieveParams.threeDSAuthenticationToken
-            additionalHeaders(threeDSAuthenticationRetrieveParams.additionalHeaders)
-            additionalQueryParams(threeDSAuthenticationRetrieveParams.additionalQueryParams)
+            additionalHeaders = threeDSAuthenticationRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                threeDSAuthenticationRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun threeDSAuthenticationToken(threeDSAuthenticationToken: String) = apply {
@@ -180,4 +168,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ThreeDSAuthenticationRetrieveParams && threeDSAuthenticationToken == other.threeDSAuthenticationToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(threeDSAuthenticationToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ThreeDSAuthenticationRetrieveParams{threeDSAuthenticationToken=$threeDSAuthenticationToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

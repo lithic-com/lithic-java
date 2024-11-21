@@ -38,6 +38,10 @@ constructor(
 
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -61,23 +65,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is FinancialAccountStatementListParams && financialAccountToken == other.financialAccountToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && includeInitialStatements == other.includeInitialStatements && pageSize == other.pageSize && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, begin, end, endingBefore, includeInitialStatements, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
-
-    override fun toString() =
-        "FinancialAccountStatementListParams{financialAccountToken=$financialAccountToken, begin=$begin, end=$end, endingBefore=$endingBefore, includeInitialStatements=$includeInitialStatements, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -103,16 +90,16 @@ constructor(
         internal fun from(
             financialAccountStatementListParams: FinancialAccountStatementListParams
         ) = apply {
-            this.financialAccountToken = financialAccountStatementListParams.financialAccountToken
-            this.begin = financialAccountStatementListParams.begin
-            this.end = financialAccountStatementListParams.end
-            this.endingBefore = financialAccountStatementListParams.endingBefore
-            this.includeInitialStatements =
-                financialAccountStatementListParams.includeInitialStatements
-            this.pageSize = financialAccountStatementListParams.pageSize
-            this.startingAfter = financialAccountStatementListParams.startingAfter
-            additionalHeaders(financialAccountStatementListParams.additionalHeaders)
-            additionalQueryParams(financialAccountStatementListParams.additionalQueryParams)
+            financialAccountToken = financialAccountStatementListParams.financialAccountToken
+            begin = financialAccountStatementListParams.begin
+            end = financialAccountStatementListParams.end
+            endingBefore = financialAccountStatementListParams.endingBefore
+            includeInitialStatements = financialAccountStatementListParams.includeInitialStatements
+            pageSize = financialAccountStatementListParams.pageSize
+            startingAfter = financialAccountStatementListParams.startingAfter
+            additionalHeaders = financialAccountStatementListParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                financialAccountStatementListParams.additionalQueryParams.toBuilder()
         }
 
         /** Globally unique identifier for financial account. */
@@ -265,4 +252,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is FinancialAccountStatementListParams && financialAccountToken == other.financialAccountToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && includeInitialStatements == other.includeInitialStatements && pageSize == other.pageSize && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, begin, end, endingBefore, includeInitialStatements, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "FinancialAccountStatementListParams{financialAccountToken=$financialAccountToken, begin=$begin, end=$end, endingBefore=$endingBefore, includeInitialStatements=$includeInitialStatements, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

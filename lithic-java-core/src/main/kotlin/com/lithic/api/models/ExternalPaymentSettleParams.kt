@@ -40,6 +40,12 @@ constructor(
 
     fun progressTo(): Optional<ExternalPaymentProgressTo> = Optional.ofNullable(progressTo)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): ExternalPaymentSettleBody {
         return ExternalPaymentSettleBody(
@@ -156,25 +162,6 @@ constructor(
             "ExternalPaymentSettleBody{effectiveDate=$effectiveDate, memo=$memo, progressTo=$progressTo, additionalProperties=$additionalProperties}"
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ExternalPaymentSettleParams && externalPaymentToken == other.externalPaymentToken && effectiveDate == other.effectiveDate && memo == other.memo && progressTo == other.progressTo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalPaymentToken, effectiveDate, memo, progressTo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-
-    override fun toString() =
-        "ExternalPaymentSettleParams{externalPaymentToken=$externalPaymentToken, effectiveDate=$effectiveDate, memo=$memo, progressTo=$progressTo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -195,13 +182,14 @@ constructor(
 
         @JvmSynthetic
         internal fun from(externalPaymentSettleParams: ExternalPaymentSettleParams) = apply {
-            this.externalPaymentToken = externalPaymentSettleParams.externalPaymentToken
-            this.effectiveDate = externalPaymentSettleParams.effectiveDate
-            this.memo = externalPaymentSettleParams.memo
-            this.progressTo = externalPaymentSettleParams.progressTo
-            additionalHeaders(externalPaymentSettleParams.additionalHeaders)
-            additionalQueryParams(externalPaymentSettleParams.additionalQueryParams)
-            additionalBodyProperties(externalPaymentSettleParams.additionalBodyProperties)
+            externalPaymentToken = externalPaymentSettleParams.externalPaymentToken
+            effectiveDate = externalPaymentSettleParams.effectiveDate
+            memo = externalPaymentSettleParams.memo
+            progressTo = externalPaymentSettleParams.progressTo
+            additionalHeaders = externalPaymentSettleParams.additionalHeaders.toBuilder()
+            additionalQueryParams = externalPaymentSettleParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                externalPaymentSettleParams.additionalBodyProperties.toMutableMap()
         }
 
         fun externalPaymentToken(externalPaymentToken: String) = apply {
@@ -407,4 +395,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ExternalPaymentSettleParams && externalPaymentToken == other.externalPaymentToken && effectiveDate == other.effectiveDate && memo == other.memo && progressTo == other.progressTo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalPaymentToken, effectiveDate, memo, progressTo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "ExternalPaymentSettleParams{externalPaymentToken=$externalPaymentToken, effectiveDate=$effectiveDate, memo=$memo, progressTo=$progressTo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }
