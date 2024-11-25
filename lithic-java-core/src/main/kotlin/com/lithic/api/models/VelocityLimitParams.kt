@@ -34,8 +34,8 @@ private constructor(
     private val scope: JsonField<Scope>,
     private val period: JsonField<Period>,
     private val filters: JsonField<Filters>,
-    private val limitAmount: JsonField<Double>,
-    private val limitCount: JsonField<Double>,
+    private val limitAmount: JsonField<Long>,
+    private val limitCount: JsonField<Long>,
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
@@ -55,8 +55,7 @@ private constructor(
      * The maximum amount of spend velocity allowed in the period in minor units (the smallest unit
      * of a currency, e.g. cents for USD). Transactions exceeding this limit will be declined.
      */
-    fun limitAmount(): Optional<Double> =
-        Optional.ofNullable(limitAmount.getNullable("limit_amount"))
+    fun limitAmount(): Optional<Long> = Optional.ofNullable(limitAmount.getNullable("limit_amount"))
 
     /**
      * The number of spend velocity impacting transactions may not exceed this limit in the period.
@@ -64,7 +63,7 @@ private constructor(
      * a transaction that has been authorized, and optionally settled, or a force post (a
      * transaction that settled without prior authorization).
      */
-    fun limitCount(): Optional<Double> = Optional.ofNullable(limitCount.getNullable("limit_count"))
+    fun limitCount(): Optional<Long> = Optional.ofNullable(limitCount.getNullable("limit_count"))
 
     @JsonProperty("scope") @ExcludeMissing fun _scope() = scope
 
@@ -117,8 +116,8 @@ private constructor(
         private var scope: JsonField<Scope> = JsonMissing.of()
         private var period: JsonField<Period> = JsonMissing.of()
         private var filters: JsonField<Filters> = JsonMissing.of()
-        private var limitAmount: JsonField<Double> = JsonMissing.of()
-        private var limitCount: JsonField<Double> = JsonMissing.of()
+        private var limitAmount: JsonField<Long> = JsonMissing.of()
+        private var limitCount: JsonField<Long> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -162,7 +161,7 @@ private constructor(
          * unit of a currency, e.g. cents for USD). Transactions exceeding this limit will be
          * declined.
          */
-        fun limitAmount(limitAmount: Double) = limitAmount(JsonField.of(limitAmount))
+        fun limitAmount(limitAmount: Long) = limitAmount(JsonField.of(limitAmount))
 
         /**
          * The maximum amount of spend velocity allowed in the period in minor units (the smallest
@@ -171,7 +170,7 @@ private constructor(
          */
         @JsonProperty("limit_amount")
         @ExcludeMissing
-        fun limitAmount(limitAmount: JsonField<Double>) = apply { this.limitAmount = limitAmount }
+        fun limitAmount(limitAmount: JsonField<Long>) = apply { this.limitAmount = limitAmount }
 
         /**
          * The number of spend velocity impacting transactions may not exceed this limit in the
@@ -179,7 +178,7 @@ private constructor(
          * transaction is a transaction that has been authorized, and optionally settled, or a force
          * post (a transaction that settled without prior authorization).
          */
-        fun limitCount(limitCount: Double) = limitCount(JsonField.of(limitCount))
+        fun limitCount(limitCount: Long) = limitCount(JsonField.of(limitCount))
 
         /**
          * The number of spend velocity impacting transactions may not exceed this limit in the
@@ -189,7 +188,7 @@ private constructor(
          */
         @JsonProperty("limit_count")
         @ExcludeMissing
-        fun limitCount(limitCount: JsonField<Double>) = apply { this.limitCount = limitCount }
+        fun limitCount(limitCount: JsonField<Long>) = apply { this.limitCount = limitCount }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -364,7 +363,7 @@ private constructor(
     @JsonSerialize(using = Period.Serializer::class)
     class Period
     private constructor(
-        private val number: Double? = null,
+        private val integer: Long? = null,
         private val velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow? = null,
         private val _json: JsonValue? = null,
     ) {
@@ -375,7 +374,7 @@ private constructor(
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
          * value is 10 seconds, and the maximum value is 2678400 seconds.
          */
-        fun number(): Optional<Double> = Optional.ofNullable(number)
+        fun integer(): Optional<Long> = Optional.ofNullable(integer)
         /**
          * The window of time to calculate Spend Velocity over.
          * - `DAY`: Velocity over the current day since midnight Eastern Time.
@@ -385,11 +384,11 @@ private constructor(
         fun velocityLimitParamsPeriodWindow(): Optional<VelocityLimitParamsPeriodWindow> =
             Optional.ofNullable(velocityLimitParamsPeriodWindow)
 
-        fun isNumber(): Boolean = number != null
+        fun isInteger(): Boolean = integer != null
 
         fun isVelocityLimitParamsPeriodWindow(): Boolean = velocityLimitParamsPeriodWindow != null
 
-        fun asNumber(): Double = number.getOrThrow("number")
+        fun asInteger(): Long = integer.getOrThrow("integer")
 
         fun asVelocityLimitParamsPeriodWindow(): VelocityLimitParamsPeriodWindow =
             velocityLimitParamsPeriodWindow.getOrThrow("velocityLimitParamsPeriodWindow")
@@ -398,7 +397,7 @@ private constructor(
 
         fun <T> accept(visitor: Visitor<T>): T {
             return when {
-                number != null -> visitor.visitNumber(number)
+                integer != null -> visitor.visitInteger(integer)
                 velocityLimitParamsPeriodWindow != null ->
                     visitor.visitVelocityLimitParamsPeriodWindow(velocityLimitParamsPeriodWindow)
                 else -> visitor.unknown(_json)
@@ -407,7 +406,7 @@ private constructor(
 
         fun validate(): Period = apply {
             if (!validated) {
-                if (number == null && velocityLimitParamsPeriodWindow == null) {
+                if (integer == null && velocityLimitParamsPeriodWindow == null) {
                     throw LithicInvalidDataException("Unknown Period: $_json")
                 }
                 validated = true
@@ -419,14 +418,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Period && number == other.number && velocityLimitParamsPeriodWindow == other.velocityLimitParamsPeriodWindow /* spotless:on */
+            return /* spotless:off */ other is Period && integer == other.integer && velocityLimitParamsPeriodWindow == other.velocityLimitParamsPeriodWindow /* spotless:on */
         }
 
-        override fun hashCode(): Int = /* spotless:off */ Objects.hash(number, velocityLimitParamsPeriodWindow) /* spotless:on */
+        override fun hashCode(): Int = /* spotless:off */ Objects.hash(integer, velocityLimitParamsPeriodWindow) /* spotless:on */
 
         override fun toString(): String =
             when {
-                number != null -> "Period{number=$number}"
+                integer != null -> "Period{integer=$integer}"
                 velocityLimitParamsPeriodWindow != null ->
                     "Period{velocityLimitParamsPeriodWindow=$velocityLimitParamsPeriodWindow}"
                 _json != null -> "Period{_unknown=$_json}"
@@ -435,7 +434,7 @@ private constructor(
 
         companion object {
 
-            @JvmStatic fun ofNumber(number: Double) = Period(number = number)
+            @JvmStatic fun ofInteger(integer: Long) = Period(integer = integer)
 
             @JvmStatic
             fun ofVelocityLimitParamsPeriodWindow(
@@ -445,7 +444,7 @@ private constructor(
 
         interface Visitor<out T> {
 
-            fun visitNumber(number: Double): T
+            fun visitInteger(integer: Long): T
 
             fun visitVelocityLimitParamsPeriodWindow(
                 velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow
@@ -461,8 +460,8 @@ private constructor(
             override fun ObjectCodec.deserialize(node: JsonNode): Period {
                 val json = JsonValue.fromJsonNode(node)
 
-                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                    return Period(number = it, _json = json)
+                tryDeserialize(node, jacksonTypeRef<Long>())?.let {
+                    return Period(integer = it, _json = json)
                 }
                 tryDeserialize(node, jacksonTypeRef<VelocityLimitParamsPeriodWindow>())?.let {
                     return Period(velocityLimitParamsPeriodWindow = it, _json = json)
@@ -480,7 +479,7 @@ private constructor(
                 provider: SerializerProvider
             ) {
                 when {
-                    value.number != null -> generator.writeObject(value.number)
+                    value.integer != null -> generator.writeObject(value.integer)
                     value.velocityLimitParamsPeriodWindow != null ->
                         generator.writeObject(value.velocityLimitParamsPeriodWindow)
                     value._json != null -> generator.writeObject(value._json)

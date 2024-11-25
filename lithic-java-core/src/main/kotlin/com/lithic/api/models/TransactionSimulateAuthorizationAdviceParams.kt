@@ -56,7 +56,7 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        /** The transaction token returned from the /v1/simulate/authorize response. */
+        /** The transaction token returned from the /v1/simulate/authorize. response. */
         @JsonProperty("token") fun token(): String? = token
 
         /**
@@ -94,7 +94,7 @@ constructor(
                 )
             }
 
-            /** The transaction token returned from the /v1/simulate/authorize response. */
+            /** The transaction token returned from the /v1/simulate/authorize. response. */
             @JsonProperty("token") fun token(token: String) = apply { this.token = token }
 
             /**
@@ -174,7 +174,7 @@ constructor(
                 transactionSimulateAuthorizationAdviceParams.additionalBodyProperties.toMutableMap()
         }
 
-        /** The transaction token returned from the /v1/simulate/authorize response. */
+        /** The transaction token returned from the /v1/simulate/authorize. response. */
         fun token(token: String) = apply { this.token = token }
 
         /**
