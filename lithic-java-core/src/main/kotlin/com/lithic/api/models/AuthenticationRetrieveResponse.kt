@@ -1616,8 +1616,8 @@ private constructor(
         private constructor(
             private val deliveryEmailAddress: JsonField<String>,
             private val deliveryTimeFrame: JsonField<DeliveryTimeFrame>,
-            private val giftCardAmount: JsonField<Double>,
-            private val giftCardCount: JsonField<Double>,
+            private val giftCardAmount: JsonField<Long>,
+            private val giftCardCount: JsonField<Long>,
             private val giftCardCurrency: JsonField<String>,
             private val orderAvailability: JsonField<OrderAvailability>,
             private val preOrderAvailableDate: JsonField<OffsetDateTime>,
@@ -1645,14 +1645,14 @@ private constructor(
              * In prepaid or gift card purchase transactions, purchase amount total in major units
              * (e.g., a purchase of USD $205.10 would be 205). Maps to EMV 3DS field giftCardAmount.
              */
-            fun giftCardAmount(): Optional<Double> =
+            fun giftCardAmount(): Optional<Long> =
                 Optional.ofNullable(giftCardAmount.getNullable("gift_card_amount"))
 
             /**
              * In prepaid or gift card purchase transactions, count of individual prepaid or gift
              * cards/codes purchased. Maps to EMV 3DS field giftCardCount.
              */
-            fun giftCardCount(): Optional<Double> =
+            fun giftCardCount(): Optional<Long> =
                 Optional.ofNullable(giftCardCount.getNullable("gift_card_count"))
 
             /**
@@ -1787,8 +1787,8 @@ private constructor(
 
                 private var deliveryEmailAddress: JsonField<String> = JsonMissing.of()
                 private var deliveryTimeFrame: JsonField<DeliveryTimeFrame> = JsonMissing.of()
-                private var giftCardAmount: JsonField<Double> = JsonMissing.of()
-                private var giftCardCount: JsonField<Double> = JsonMissing.of()
+                private var giftCardAmount: JsonField<Long> = JsonMissing.of()
+                private var giftCardCount: JsonField<Long> = JsonMissing.of()
                 private var giftCardCurrency: JsonField<String> = JsonMissing.of()
                 private var orderAvailability: JsonField<OrderAvailability> = JsonMissing.of()
                 private var preOrderAvailableDate: JsonField<OffsetDateTime> = JsonMissing.of()
@@ -1849,7 +1849,7 @@ private constructor(
                  * units (e.g., a purchase of USD $205.10 would be 205). Maps to EMV 3DS field
                  * giftCardAmount.
                  */
-                fun giftCardAmount(giftCardAmount: Double) =
+                fun giftCardAmount(giftCardAmount: Long) =
                     giftCardAmount(JsonField.of(giftCardAmount))
 
                 /**
@@ -1859,7 +1859,7 @@ private constructor(
                  */
                 @JsonProperty("gift_card_amount")
                 @ExcludeMissing
-                fun giftCardAmount(giftCardAmount: JsonField<Double>) = apply {
+                fun giftCardAmount(giftCardAmount: JsonField<Long>) = apply {
                     this.giftCardAmount = giftCardAmount
                 }
 
@@ -1867,8 +1867,7 @@ private constructor(
                  * In prepaid or gift card purchase transactions, count of individual prepaid or
                  * gift cards/codes purchased. Maps to EMV 3DS field giftCardCount.
                  */
-                fun giftCardCount(giftCardCount: Double) =
-                    giftCardCount(JsonField.of(giftCardCount))
+                fun giftCardCount(giftCardCount: Long) = giftCardCount(JsonField.of(giftCardCount))
 
                 /**
                  * In prepaid or gift card purchase transactions, count of individual prepaid or
@@ -1876,7 +1875,7 @@ private constructor(
                  */
                 @JsonProperty("gift_card_count")
                 @ExcludeMissing
-                fun giftCardCount(giftCardCount: JsonField<Double>) = apply {
+                fun giftCardCount(giftCardCount: JsonField<Long>) = apply {
                     this.giftCardCount = giftCardCount
                 }
 
@@ -2409,7 +2408,7 @@ private constructor(
     class AdditionalData
     private constructor(
         private val networkDecision: JsonField<NetworkDecision>,
-        private val networkRiskScore: JsonField<Double>,
+        private val networkRiskScore: JsonField<Long>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -2426,7 +2425,7 @@ private constructor(
          * Mastercard only: Assessment by the network of the authentication risk level, with a
          * higher value indicating a higher amount of risk.
          */
-        fun networkRiskScore(): Optional<Double> =
+        fun networkRiskScore(): Optional<Long> =
             Optional.ofNullable(networkRiskScore.getNullable("network_risk_score"))
 
         /**
@@ -2465,7 +2464,7 @@ private constructor(
         class Builder {
 
             private var networkDecision: JsonField<NetworkDecision> = JsonMissing.of()
-            private var networkRiskScore: JsonField<Double> = JsonMissing.of()
+            private var networkRiskScore: JsonField<Long> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -2496,7 +2495,7 @@ private constructor(
              * Mastercard only: Assessment by the network of the authentication risk level, with a
              * higher value indicating a higher amount of risk.
              */
-            fun networkRiskScore(networkRiskScore: Double) =
+            fun networkRiskScore(networkRiskScore: Long) =
                 networkRiskScore(JsonField.of(networkRiskScore))
 
             /**
@@ -2505,7 +2504,7 @@ private constructor(
              */
             @JsonProperty("network_risk_score")
             @ExcludeMissing
-            fun networkRiskScore(networkRiskScore: JsonField<Double>) = apply {
+            fun networkRiskScore(networkRiskScore: JsonField<Long>) = apply {
                 this.networkRiskScore = networkRiskScore
             }
 

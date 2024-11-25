@@ -70,8 +70,8 @@ constructor(
         @JsonProperty("token") fun token(): String? = token
 
         /**
-         * Amount (in cents) to void. Typically this will match the original authorization, but may
-         * be less.
+         * Amount (in cents) to void. Typically this will match the amount in the original
+         * authorization, but can be less.
          */
         @JsonProperty("amount") fun amount(): Long? = amount
 
@@ -112,8 +112,8 @@ constructor(
             @JsonProperty("token") fun token(token: String) = apply { this.token = token }
 
             /**
-             * Amount (in cents) to void. Typically this will match the original authorization, but
-             * may be less.
+             * Amount (in cents) to void. Typically this will match the amount in the original
+             * authorization, but can be less.
              */
             @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
 
@@ -198,8 +198,8 @@ constructor(
         fun token(token: String) = apply { this.token = token }
 
         /**
-         * Amount (in cents) to void. Typically this will match the original authorization, but may
-         * be less.
+         * Amount (in cents) to void. Typically this will match the amount in the original
+         * authorization, but can be less.
          */
         fun amount(amount: Long) = apply { this.amount = amount }
 

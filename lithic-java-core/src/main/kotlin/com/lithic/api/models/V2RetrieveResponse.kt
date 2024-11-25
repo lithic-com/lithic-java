@@ -44,6 +44,7 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /** Auth Rule Token */
     fun token(): String = token.getRequired("token")
 
     /** The state of the Auth Rule */
@@ -67,6 +68,7 @@ private constructor(
     fun draftVersion(): Optional<DraftVersion> =
         Optional.ofNullable(draftVersion.getNullable("draft_version"))
 
+    /** Auth Rule Token */
     @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /** The state of the Auth Rule */
@@ -138,8 +140,10 @@ private constructor(
             additionalProperties(v2RetrieveResponse.additionalProperties)
         }
 
+        /** Auth Rule Token */
         fun token(token: String) = token(JsonField.of(token))
 
+        /** Auth Rule Token */
         @JsonProperty("token")
         @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
@@ -978,7 +982,7 @@ private constructor(
                     class Value
                     private constructor(
                         private val string: String? = null,
-                        private val number: Double? = null,
+                        private val integer: Long? = null,
                         private val strings: List<String>? = null,
                         private val _json: JsonValue? = null,
                     ) {
@@ -988,19 +992,19 @@ private constructor(
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                         fun string(): Optional<String> = Optional.ofNullable(string)
                         /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
-                        fun number(): Optional<Double> = Optional.ofNullable(number)
+                        fun integer(): Optional<Long> = Optional.ofNullable(integer)
                         /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
                         fun strings(): Optional<List<String>> = Optional.ofNullable(strings)
 
                         fun isString(): Boolean = string != null
 
-                        fun isNumber(): Boolean = number != null
+                        fun isInteger(): Boolean = integer != null
 
                         fun isStrings(): Boolean = strings != null
 
                         fun asString(): String = string.getOrThrow("string")
 
-                        fun asNumber(): Double = number.getOrThrow("number")
+                        fun asInteger(): Long = integer.getOrThrow("integer")
 
                         fun asStrings(): List<String> = strings.getOrThrow("strings")
 
@@ -1009,7 +1013,7 @@ private constructor(
                         fun <T> accept(visitor: Visitor<T>): T {
                             return when {
                                 string != null -> visitor.visitString(string)
-                                number != null -> visitor.visitNumber(number)
+                                integer != null -> visitor.visitInteger(integer)
                                 strings != null -> visitor.visitStrings(strings)
                                 else -> visitor.unknown(_json)
                             }
@@ -1017,7 +1021,7 @@ private constructor(
 
                         fun validate(): Value = apply {
                             if (!validated) {
-                                if (string == null && number == null && strings == null) {
+                                if (string == null && integer == null && strings == null) {
                                     throw LithicInvalidDataException("Unknown Value: $_json")
                                 }
                                 validated = true
@@ -1029,15 +1033,15 @@ private constructor(
                                 return true
                             }
 
-                            return /* spotless:off */ other is Value && string == other.string && number == other.number && strings == other.strings /* spotless:on */
+                            return /* spotless:off */ other is Value && string == other.string && integer == other.integer && strings == other.strings /* spotless:on */
                         }
 
-                        override fun hashCode(): Int = /* spotless:off */ Objects.hash(string, number, strings) /* spotless:on */
+                        override fun hashCode(): Int = /* spotless:off */ Objects.hash(string, integer, strings) /* spotless:on */
 
                         override fun toString(): String =
                             when {
                                 string != null -> "Value{string=$string}"
-                                number != null -> "Value{number=$number}"
+                                integer != null -> "Value{integer=$integer}"
                                 strings != null -> "Value{strings=$strings}"
                                 _json != null -> "Value{_unknown=$_json}"
                                 else -> throw IllegalStateException("Invalid Value")
@@ -1047,7 +1051,7 @@ private constructor(
 
                             @JvmStatic fun ofString(string: String) = Value(string = string)
 
-                            @JvmStatic fun ofNumber(number: Double) = Value(number = number)
+                            @JvmStatic fun ofInteger(integer: Long) = Value(integer = integer)
 
                             @JvmStatic
                             fun ofStrings(strings: List<String>) = Value(strings = strings)
@@ -1057,7 +1061,7 @@ private constructor(
 
                             fun visitString(string: String): T
 
-                            fun visitNumber(number: Double): T
+                            fun visitInteger(integer: Long): T
 
                             fun visitStrings(strings: List<String>): T
 
@@ -1074,8 +1078,8 @@ private constructor(
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     return Value(string = it, _json = json)
                                 }
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    return Value(number = it, _json = json)
+                                tryDeserialize(node, jacksonTypeRef<Long>())?.let {
+                                    return Value(integer = it, _json = json)
                                 }
                                 tryDeserialize(node, jacksonTypeRef<List<String>>())?.let {
                                     return Value(strings = it, _json = json)
@@ -1094,7 +1098,7 @@ private constructor(
                             ) {
                                 when {
                                     value.string != null -> generator.writeObject(value.string)
-                                    value.number != null -> generator.writeObject(value.number)
+                                    value.integer != null -> generator.writeObject(value.integer)
                                     value.strings != null -> generator.writeObject(value.strings)
                                     value._json != null -> generator.writeObject(value._json)
                                     else -> throw IllegalStateException("Invalid Value")
@@ -1903,7 +1907,7 @@ private constructor(
                     class Value
                     private constructor(
                         private val string: String? = null,
-                        private val number: Double? = null,
+                        private val integer: Long? = null,
                         private val strings: List<String>? = null,
                         private val _json: JsonValue? = null,
                     ) {
@@ -1913,19 +1917,19 @@ private constructor(
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                         fun string(): Optional<String> = Optional.ofNullable(string)
                         /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
-                        fun number(): Optional<Double> = Optional.ofNullable(number)
+                        fun integer(): Optional<Long> = Optional.ofNullable(integer)
                         /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
                         fun strings(): Optional<List<String>> = Optional.ofNullable(strings)
 
                         fun isString(): Boolean = string != null
 
-                        fun isNumber(): Boolean = number != null
+                        fun isInteger(): Boolean = integer != null
 
                         fun isStrings(): Boolean = strings != null
 
                         fun asString(): String = string.getOrThrow("string")
 
-                        fun asNumber(): Double = number.getOrThrow("number")
+                        fun asInteger(): Long = integer.getOrThrow("integer")
 
                         fun asStrings(): List<String> = strings.getOrThrow("strings")
 
@@ -1934,7 +1938,7 @@ private constructor(
                         fun <T> accept(visitor: Visitor<T>): T {
                             return when {
                                 string != null -> visitor.visitString(string)
-                                number != null -> visitor.visitNumber(number)
+                                integer != null -> visitor.visitInteger(integer)
                                 strings != null -> visitor.visitStrings(strings)
                                 else -> visitor.unknown(_json)
                             }
@@ -1942,7 +1946,7 @@ private constructor(
 
                         fun validate(): Value = apply {
                             if (!validated) {
-                                if (string == null && number == null && strings == null) {
+                                if (string == null && integer == null && strings == null) {
                                     throw LithicInvalidDataException("Unknown Value: $_json")
                                 }
                                 validated = true
@@ -1954,15 +1958,15 @@ private constructor(
                                 return true
                             }
 
-                            return /* spotless:off */ other is Value && string == other.string && number == other.number && strings == other.strings /* spotless:on */
+                            return /* spotless:off */ other is Value && string == other.string && integer == other.integer && strings == other.strings /* spotless:on */
                         }
 
-                        override fun hashCode(): Int = /* spotless:off */ Objects.hash(string, number, strings) /* spotless:on */
+                        override fun hashCode(): Int = /* spotless:off */ Objects.hash(string, integer, strings) /* spotless:on */
 
                         override fun toString(): String =
                             when {
                                 string != null -> "Value{string=$string}"
-                                number != null -> "Value{number=$number}"
+                                integer != null -> "Value{integer=$integer}"
                                 strings != null -> "Value{strings=$strings}"
                                 _json != null -> "Value{_unknown=$_json}"
                                 else -> throw IllegalStateException("Invalid Value")
@@ -1972,7 +1976,7 @@ private constructor(
 
                             @JvmStatic fun ofString(string: String) = Value(string = string)
 
-                            @JvmStatic fun ofNumber(number: Double) = Value(number = number)
+                            @JvmStatic fun ofInteger(integer: Long) = Value(integer = integer)
 
                             @JvmStatic
                             fun ofStrings(strings: List<String>) = Value(strings = strings)
@@ -1982,7 +1986,7 @@ private constructor(
 
                             fun visitString(string: String): T
 
-                            fun visitNumber(number: Double): T
+                            fun visitInteger(integer: Long): T
 
                             fun visitStrings(strings: List<String>): T
 
@@ -1999,8 +2003,8 @@ private constructor(
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     return Value(string = it, _json = json)
                                 }
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    return Value(number = it, _json = json)
+                                tryDeserialize(node, jacksonTypeRef<Long>())?.let {
+                                    return Value(integer = it, _json = json)
                                 }
                                 tryDeserialize(node, jacksonTypeRef<List<String>>())?.let {
                                     return Value(strings = it, _json = json)
@@ -2019,7 +2023,7 @@ private constructor(
                             ) {
                                 when {
                                     value.string != null -> generator.writeObject(value.string)
-                                    value.number != null -> generator.writeObject(value.number)
+                                    value.integer != null -> generator.writeObject(value.integer)
                                     value.strings != null -> generator.writeObject(value.strings)
                                     value._json != null -> generator.writeObject(value._json)
                                     else -> throw IllegalStateException("Invalid Value")
