@@ -22,7 +22,7 @@ class ManagementOperationTransactionTest {
                     listOf(
                         ManagementOperationTransaction.ManagementOperationEvent.builder()
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .amount(123L)
+                            .amount(0L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .detailedResults(
                                 listOf(
@@ -48,9 +48,9 @@ class ManagementOperationTransactionTest {
                     )
                 )
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .pendingAmount(123L)
+                .pendingAmount(0L)
                 .result(ManagementOperationTransaction.TransactionResult.APPROVED)
-                .settledAmount(123L)
+                .settledAmount(0L)
                 .status(ManagementOperationTransaction.TransactionStatus.PENDING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
@@ -69,7 +69,7 @@ class ManagementOperationTransactionTest {
             .containsExactly(
                 ManagementOperationTransaction.ManagementOperationEvent.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .amount(123L)
+                    .amount(0L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .detailedResults(
                         listOf(
@@ -93,10 +93,10 @@ class ManagementOperationTransactionTest {
             )
         assertThat(managementOperationTransaction.financialAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(managementOperationTransaction.pendingAmount()).isEqualTo(123L)
+        assertThat(managementOperationTransaction.pendingAmount()).isEqualTo(0L)
         assertThat(managementOperationTransaction.result())
             .isEqualTo(ManagementOperationTransaction.TransactionResult.APPROVED)
-        assertThat(managementOperationTransaction.settledAmount()).isEqualTo(123L)
+        assertThat(managementOperationTransaction.settledAmount()).isEqualTo(0L)
         assertThat(managementOperationTransaction.status())
             .isEqualTo(ManagementOperationTransaction.TransactionStatus.PENDING)
         assertThat(managementOperationTransaction.updated())

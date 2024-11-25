@@ -11,7 +11,7 @@ class BookTransferCreateParamsTest {
     @Test
     fun createBookTransferCreateParams() {
         BookTransferCreateParams.builder()
-            .amount(123L)
+            .amount(1L)
             .category(BookTransferCreateParams.Category.ADJUSTMENT)
             .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .subtype("subtype")
@@ -26,7 +26,7 @@ class BookTransferCreateParamsTest {
     fun getBody() {
         val params =
             BookTransferCreateParams.builder()
-                .amount(123L)
+                .amount(1L)
                 .category(BookTransferCreateParams.Category.ADJUSTMENT)
                 .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .subtype("subtype")
@@ -37,7 +37,7 @@ class BookTransferCreateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.category()).isEqualTo(BookTransferCreateParams.Category.ADJUSTMENT)
         assertThat(body.fromFinancialAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -52,7 +52,7 @@ class BookTransferCreateParamsTest {
     fun getBodyWithoutOptionalFields() {
         val params =
             BookTransferCreateParams.builder()
-                .amount(123L)
+                .amount(1L)
                 .category(BookTransferCreateParams.Category.ADJUSTMENT)
                 .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .subtype("subtype")
@@ -61,7 +61,7 @@ class BookTransferCreateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.category()).isEqualTo(BookTransferCreateParams.Category.ADJUSTMENT)
         assertThat(body.fromFinancialAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

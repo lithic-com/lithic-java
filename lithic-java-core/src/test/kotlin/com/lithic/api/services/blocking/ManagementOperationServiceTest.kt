@@ -24,7 +24,7 @@ class ManagementOperationServiceTest {
         val managementOperationTransaction =
             managementOperationService.create(
                 ManagementOperationCreateParams.builder()
-                    .amount(123L)
+                    .amount(0L)
                     .category(
                         ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE
                     )

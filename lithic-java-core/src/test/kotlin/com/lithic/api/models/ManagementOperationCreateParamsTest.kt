@@ -12,7 +12,7 @@ class ManagementOperationCreateParamsTest {
     @Test
     fun createManagementOperationCreateParams() {
         ManagementOperationCreateParams.builder()
-            .amount(123L)
+            .amount(0L)
             .category(ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE)
             .direction(ManagementOperationCreateParams.ManagementOperationDirection.CREDIT)
             .effectiveDate(LocalDate.parse("2019-12-27"))
@@ -29,7 +29,7 @@ class ManagementOperationCreateParamsTest {
     fun getBody() {
         val params =
             ManagementOperationCreateParams.builder()
-                .amount(123L)
+                .amount(0L)
                 .category(
                     ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE
                 )
@@ -44,7 +44,7 @@ class ManagementOperationCreateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.category())
             .isEqualTo(ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE)
         assertThat(body.direction())
@@ -63,7 +63,7 @@ class ManagementOperationCreateParamsTest {
     fun getBodyWithoutOptionalFields() {
         val params =
             ManagementOperationCreateParams.builder()
-                .amount(123L)
+                .amount(0L)
                 .category(
                     ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE
                 )
@@ -74,7 +74,7 @@ class ManagementOperationCreateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.category())
             .isEqualTo(ManagementOperationCreateParams.ManagementOperationCategory.MANAGEMENT_FEE)
         assertThat(body.direction())

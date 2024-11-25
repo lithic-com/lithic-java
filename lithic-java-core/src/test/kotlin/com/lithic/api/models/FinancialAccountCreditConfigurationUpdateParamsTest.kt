@@ -12,7 +12,7 @@ class FinancialAccountCreditConfigurationUpdateParamsTest {
     fun createFinancialAccountCreditConfigurationUpdateParams() {
         FinancialAccountCreditConfigurationUpdateParams.builder()
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .creditLimit(123L)
+            .creditLimit(0L)
             .creditProductToken("credit_product_token")
             .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .tier("x")
@@ -24,14 +24,14 @@ class FinancialAccountCreditConfigurationUpdateParamsTest {
         val params =
             FinancialAccountCreditConfigurationUpdateParams.builder()
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .creditLimit(123L)
+                .creditLimit(0L)
                 .creditProductToken("credit_product_token")
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .tier("x")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.creditLimit()).isEqualTo(123L)
+        assertThat(body.creditLimit()).isEqualTo(0L)
         assertThat(body.creditProductToken()).isEqualTo("credit_product_token")
         assertThat(body.externalBankAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

@@ -12,7 +12,7 @@ class PaymentSimulateReceiptParamsTest {
     fun createPaymentSimulateReceiptParams() {
         PaymentSimulateReceiptParams.builder()
             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .amount(123L)
+            .amount(0L)
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .receiptType(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
             .memo("memo")
@@ -24,7 +24,7 @@ class PaymentSimulateReceiptParamsTest {
         val params =
             PaymentSimulateReceiptParams.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .amount(123L)
+                .amount(0L)
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .receiptType(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
                 .memo("memo")
@@ -32,7 +32,7 @@ class PaymentSimulateReceiptParamsTest {
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.financialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.receiptType())
             .isEqualTo(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
@@ -44,14 +44,14 @@ class PaymentSimulateReceiptParamsTest {
         val params =
             PaymentSimulateReceiptParams.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .amount(123L)
+                .amount(0L)
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .receiptType(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.financialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.receiptType())
             .isEqualTo(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)

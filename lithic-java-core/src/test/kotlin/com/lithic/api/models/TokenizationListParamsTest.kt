@@ -18,7 +18,7 @@ class TokenizationListParamsTest {
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .end(LocalDate.parse("2019-12-27"))
             .endingBefore("ending_before")
-            .pageSize(100L)
+            .pageSize(1L)
             .startingAfter("starting_after")
             .tokenizationChannel(TokenizationListParams.TokenizationChannel.DIGITAL_WALLET)
             .build()
@@ -33,7 +33,7 @@ class TokenizationListParamsTest {
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .end(LocalDate.parse("2019-12-27"))
                 .endingBefore("ending_before")
-                .pageSize(100L)
+                .pageSize(1L)
                 .startingAfter("starting_after")
                 .tokenizationChannel(TokenizationListParams.TokenizationChannel.DIGITAL_WALLET)
                 .build()
@@ -43,7 +43,7 @@ class TokenizationListParamsTest {
         expected.put("card_token", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         expected.put("end", "2019-12-27")
         expected.put("ending_before", "ending_before")
-        expected.put("page_size", "100")
+        expected.put("page_size", "1")
         expected.put("starting_after", "starting_after")
         expected.put(
             "tokenization_channel",

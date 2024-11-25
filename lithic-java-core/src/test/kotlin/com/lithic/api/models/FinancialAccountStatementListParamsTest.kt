@@ -18,7 +18,7 @@ class FinancialAccountStatementListParamsTest {
             .end(LocalDate.parse("2019-12-27"))
             .endingBefore("ending_before")
             .includeInitialStatements(true)
-            .pageSize(100L)
+            .pageSize(1L)
             .startingAfter("starting_after")
             .build()
     }
@@ -32,7 +32,7 @@ class FinancialAccountStatementListParamsTest {
                 .end(LocalDate.parse("2019-12-27"))
                 .endingBefore("ending_before")
                 .includeInitialStatements(true)
-                .pageSize(100L)
+                .pageSize(1L)
                 .startingAfter("starting_after")
                 .build()
         val expected = QueryParams.builder()
@@ -40,7 +40,7 @@ class FinancialAccountStatementListParamsTest {
         expected.put("end", "2019-12-27")
         expected.put("ending_before", "ending_before")
         expected.put("include_initial_statements", "true")
-        expected.put("page_size", "100")
+        expected.put("page_size", "1")
         expected.put("starting_after", "starting_after")
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }

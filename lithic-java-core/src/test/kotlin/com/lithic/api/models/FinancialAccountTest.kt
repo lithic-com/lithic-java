@@ -21,7 +21,7 @@ class FinancialAccountTest {
                             FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason
                                 .DELINQUENT
                         )
-                        .creditLimit(123L)
+                        .creditLimit(0L)
                         .creditProductToken("credit_product_token")
                         .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .financialAccountState(
@@ -50,7 +50,7 @@ class FinancialAccountTest {
                     .chargedOffReason(
                         FinancialAccount.FinancialAccountCreditConfig.ChargedOffReason.DELINQUENT
                     )
-                    .creditLimit(123L)
+                    .creditLimit(0L)
                     .creditProductToken("credit_product_token")
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .financialAccountState(

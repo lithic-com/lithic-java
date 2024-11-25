@@ -23,7 +23,7 @@ class BookTransferServiceTest {
         val bookTransferResponse =
             bookTransferService.create(
                 BookTransferCreateParams.builder()
-                    .amount(123L)
+                    .amount(1L)
                     .category(BookTransferCreateParams.Category.ADJUSTMENT)
                     .fromFinancialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .subtype("subtype")

@@ -23,7 +23,7 @@ class PaymentServiceTest {
         val paymentCreateResponse =
             paymentService.create(
                 PaymentCreateParams.builder()
-                    .amount(123L)
+                    .amount(1L)
                     .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .method(PaymentCreateParams.Method.ACH_NEXT_DAY)
@@ -128,7 +128,7 @@ class PaymentServiceTest {
             paymentService.simulateReceipt(
                 PaymentSimulateReceiptParams.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .amount(123L)
+                    .amount(0L)
                     .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .receiptType(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
                     .memo("memo")
