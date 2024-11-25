@@ -15,7 +15,11 @@ class AccountTest {
                 .token("b68b7424-aa69-4cbc-a946-30d90181b621")
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .spendLimit(
-                    Account.SpendLimit.builder().daily(123L).lifetime(123L).monthly(123L).build()
+                    Account.SpendLimit.builder()
+                        .daily(10000L)
+                        .lifetime(100000L)
+                        .monthly(40000L)
+                        .build()
                 )
                 .state(Account.State.ACTIVE)
                 .accountHolder(
@@ -44,7 +48,7 @@ class AccountTest {
         assertThat(account.created()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(account.spendLimit())
             .isEqualTo(
-                Account.SpendLimit.builder().daily(123L).lifetime(123L).monthly(123L).build()
+                Account.SpendLimit.builder().daily(10000L).lifetime(100000L).monthly(40000L).build()
             )
         assertThat(account.state()).isEqualTo(Account.State.ACTIVE)
         assertThat(account.accountHolder())

@@ -122,8 +122,8 @@ class TokenizationServiceTest {
                     .expirationDate("xxxxx")
                     .pan("4111111289144142")
                     .tokenizationSource(TokenizationSimulateParams.TokenizationSource.APPLE_PAY)
-                    .accountScore(123L)
-                    .deviceScore(123L)
+                    .accountScore(0L)
+                    .deviceScore(0L)
                     .entity("entity")
                     .walletRecommendedDecision(
                         TokenizationSimulateParams.WalletRecommendedDecision.APPROVED

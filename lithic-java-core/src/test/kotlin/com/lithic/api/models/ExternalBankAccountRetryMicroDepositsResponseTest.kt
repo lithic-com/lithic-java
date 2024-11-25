@@ -23,7 +23,7 @@ class ExternalBankAccountRetryMicroDepositsResponseTest {
                 .routingNumber("routing_number")
                 .state(ExternalBankAccountRetryMicroDepositsResponse.State.ENABLED)
                 .type(ExternalBankAccountRetryMicroDepositsResponse.Type.CHECKING)
-                .verificationAttempts(123L)
+                .verificationAttempts(0L)
                 .verificationMethod(
                     ExternalBankAccountRetryMicroDepositsResponse.VerificationMethod.MANUAL
                 )
@@ -67,7 +67,7 @@ class ExternalBankAccountRetryMicroDepositsResponseTest {
         assertThat(externalBankAccountRetryMicroDepositsResponse.type())
             .isEqualTo(ExternalBankAccountRetryMicroDepositsResponse.Type.CHECKING)
         assertThat(externalBankAccountRetryMicroDepositsResponse.verificationAttempts())
-            .isEqualTo(123L)
+            .isEqualTo(0L)
         assertThat(externalBankAccountRetryMicroDepositsResponse.verificationMethod())
             .isEqualTo(ExternalBankAccountRetryMicroDepositsResponse.VerificationMethod.MANUAL)
         assertThat(externalBankAccountRetryMicroDepositsResponse.verificationState())

@@ -11,7 +11,7 @@ class TransferCreateParamsTest {
     @Test
     fun createTransferCreateParams() {
         TransferCreateParams.builder()
-            .amount(123L)
+            .amount(0L)
             .from("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .to("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -23,7 +23,7 @@ class TransferCreateParamsTest {
     fun getBody() {
         val params =
             TransferCreateParams.builder()
-                .amount(123L)
+                .amount(0L)
                 .from("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .to("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -31,7 +31,7 @@ class TransferCreateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.from()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.to()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -42,13 +42,13 @@ class TransferCreateParamsTest {
     fun getBodyWithoutOptionalFields() {
         val params =
             TransferCreateParams.builder()
-                .amount(123L)
+                .amount(0L)
                 .from("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .to("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.from()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.to()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }

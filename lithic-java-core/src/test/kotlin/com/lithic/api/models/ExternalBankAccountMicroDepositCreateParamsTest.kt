@@ -12,7 +12,7 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
     fun createExternalBankAccountMicroDepositCreateParams() {
         ExternalBankAccountMicroDepositCreateParams.builder()
             .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .microDeposits(listOf(123L, 123L))
+            .microDeposits(listOf(0L, 0L))
             .build()
     }
 
@@ -21,11 +21,11 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
         val params =
             ExternalBankAccountMicroDepositCreateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .microDeposits(listOf(123L, 123L))
+                .microDeposits(listOf(0L, 0L))
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.microDeposits()).isEqualTo(listOf(123L, 123L))
+        assertThat(body.microDeposits()).isEqualTo(listOf(0L, 0L))
     }
 
     @Test
@@ -33,11 +33,11 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
         val params =
             ExternalBankAccountMicroDepositCreateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .microDeposits(listOf(123L, 123L))
+                .microDeposits(listOf(0L, 0L))
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.microDeposits()).isEqualTo(listOf(123L, 123L))
+        assertThat(body.microDeposits()).isEqualTo(listOf(0L, 0L))
     }
 
     @Test
@@ -45,7 +45,7 @@ class ExternalBankAccountMicroDepositCreateParamsTest {
         val params =
             ExternalBankAccountMicroDepositCreateParams.builder()
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .microDeposits(listOf(123L, 123L))
+                .microDeposits(listOf(0L, 0L))
                 .build()
         assertThat(params).isNotNull
         // path param "externalBankAccountToken"

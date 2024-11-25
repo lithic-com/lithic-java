@@ -14,7 +14,7 @@ class LineItemListResponseTest {
         val lineItemListResponse =
             LineItemListResponse.builder()
                 .token("token")
-                .amount(123L)
+                .amount(0L)
                 .category(LineItemListResponse.TransactionCategory.ACH)
                 .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .currency("currency")
@@ -28,7 +28,7 @@ class LineItemListResponseTest {
                 .build()
         assertThat(lineItemListResponse).isNotNull
         assertThat(lineItemListResponse.token()).isEqualTo("token")
-        assertThat(lineItemListResponse.amount()).isEqualTo(123L)
+        assertThat(lineItemListResponse.amount()).isEqualTo(0L)
         assertThat(lineItemListResponse.category())
             .isEqualTo(LineItemListResponse.TransactionCategory.ACH)
         assertThat(lineItemListResponse.created())

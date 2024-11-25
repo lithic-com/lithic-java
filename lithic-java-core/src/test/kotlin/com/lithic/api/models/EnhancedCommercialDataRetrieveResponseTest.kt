@@ -21,16 +21,16 @@ class EnhancedCommercialDataRetrieveResponseTest {
                                     .lineItems(
                                         listOf(
                                             EnhancedData.CommonData.LineItem.builder()
-                                                .amount(42.23)
+                                                .amount(0.0)
                                                 .description("description")
                                                 .productCode("product_code")
-                                                .quantity(42.23)
+                                                .quantity(0.0)
                                                 .build()
                                         )
                                     )
                                     .tax(
                                         EnhancedData.CommonData.TaxData.builder()
-                                            .amount(123L)
+                                            .amount(0L)
                                             .exempt(
                                                 EnhancedData.CommonData.TaxData.TaxExemptIndicator
                                                     .TAX_INCLUDED
@@ -49,24 +49,24 @@ class EnhancedCommercialDataRetrieveResponseTest {
                                     EnhancedData.Fleet.builder()
                                         .amountTotals(
                                             EnhancedData.Fleet.AmountTotals.builder()
-                                                .discount(123L)
-                                                .grossSale(123L)
-                                                .netSale(123L)
+                                                .discount(0L)
+                                                .grossSale(0L)
+                                                .netSale(0L)
                                                 .build()
                                         )
                                         .fuel(
                                             EnhancedData.Fleet.FuelData.builder()
-                                                .quantity(42.23)
+                                                .quantity(0.0)
                                                 .type(EnhancedData.Fleet.FuelData.FuelType.UNKNOWN)
                                                 .unitOfMeasure(
                                                     EnhancedData.Fleet.FuelData.FuelUnitOfMeasure
                                                         .GALLONS
                                                 )
-                                                .unitPrice(123L)
+                                                .unitPrice(0L)
                                                 .build()
                                         )
                                         .driverNumber("driver_number")
-                                        .odometer(123L)
+                                        .odometer(0L)
                                         .serviceType(EnhancedData.Fleet.ServiceType.UNKNOWN)
                                         .vehicleNumber("vehicle_number")
                                         .build()
@@ -87,16 +87,16 @@ class EnhancedCommercialDataRetrieveResponseTest {
                             .lineItems(
                                 listOf(
                                     EnhancedData.CommonData.LineItem.builder()
-                                        .amount(42.23)
+                                        .amount(0.0)
                                         .description("description")
                                         .productCode("product_code")
-                                        .quantity(42.23)
+                                        .quantity(0.0)
                                         .build()
                                 )
                             )
                             .tax(
                                 EnhancedData.CommonData.TaxData.builder()
-                                    .amount(123L)
+                                    .amount(0L)
                                     .exempt(
                                         EnhancedData.CommonData.TaxData.TaxExemptIndicator
                                             .TAX_INCLUDED
@@ -115,23 +115,23 @@ class EnhancedCommercialDataRetrieveResponseTest {
                             EnhancedData.Fleet.builder()
                                 .amountTotals(
                                     EnhancedData.Fleet.AmountTotals.builder()
-                                        .discount(123L)
-                                        .grossSale(123L)
-                                        .netSale(123L)
+                                        .discount(0L)
+                                        .grossSale(0L)
+                                        .netSale(0L)
                                         .build()
                                 )
                                 .fuel(
                                     EnhancedData.Fleet.FuelData.builder()
-                                        .quantity(42.23)
+                                        .quantity(0.0)
                                         .type(EnhancedData.Fleet.FuelData.FuelType.UNKNOWN)
                                         .unitOfMeasure(
                                             EnhancedData.Fleet.FuelData.FuelUnitOfMeasure.GALLONS
                                         )
-                                        .unitPrice(123L)
+                                        .unitPrice(0L)
                                         .build()
                                 )
                                 .driverNumber("driver_number")
-                                .odometer(123L)
+                                .odometer(0L)
                                 .serviceType(EnhancedData.Fleet.ServiceType.UNKNOWN)
                                 .vehicleNumber("vehicle_number")
                                 .build()

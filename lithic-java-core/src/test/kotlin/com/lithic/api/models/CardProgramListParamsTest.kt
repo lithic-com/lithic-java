@@ -13,7 +13,7 @@ class CardProgramListParamsTest {
     fun createCardProgramListParams() {
         CardProgramListParams.builder()
             .endingBefore("ending_before")
-            .pageSize(100L)
+            .pageSize(1L)
             .startingAfter("starting_after")
             .build()
     }
@@ -23,12 +23,12 @@ class CardProgramListParamsTest {
         val params =
             CardProgramListParams.builder()
                 .endingBefore("ending_before")
-                .pageSize(100L)
+                .pageSize(1L)
                 .startingAfter("starting_after")
                 .build()
         val expected = QueryParams.builder()
         expected.put("ending_before", "ending_before")
-        expected.put("page_size", "100")
+        expected.put("page_size", "1")
         expected.put("starting_after", "starting_after")
         assertThat(params.getQueryParams()).isEqualTo(expected.build())
     }
