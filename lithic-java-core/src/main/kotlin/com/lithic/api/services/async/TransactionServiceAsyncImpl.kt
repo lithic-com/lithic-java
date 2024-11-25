@@ -125,12 +125,12 @@ constructor(
             .withErrorHandler(errorHandler)
 
     /**
-     * Simulates an authorization request from the payment network as if it came from a merchant
-     * acquirer. If you're configured for ASA, simulating auths requires your ASA client to be set
-     * up properly (respond with a valid JSON to the ASA request). For users that are not configured
-     * for ASA, a daily transaction limit of $5000 USD is applied by default. This limit can be
-     * modified via the [update account](https://docs.lithic.com/reference/patchaccountbytoken)
-     * endpoint.
+     * Simulates an authorization request from the card network as if it came from a merchant
+     * acquirer. If you are configured for ASA, simulating authorizations requires your ASA client
+     * to be set up properly, i.e. be able to respond to the ASA request with a valid JSON. For
+     * users that are not configured for ASA, a daily transaction limit of $5000 USD is applied by
+     * default. You can update this limit via the
+     * [update account](https://docs.lithic.com/reference/patchaccountbytoken) endpoint.
      */
     override fun simulateAuthorization(
         params: TransactionSimulateAuthorizationParams,
@@ -164,8 +164,8 @@ constructor(
             .withErrorHandler(errorHandler)
 
     /**
-     * Simulates an authorization advice request from the payment network as if it came from a
-     * merchant acquirer. An authorization advice request changes the amount of the transaction.
+     * Simulates an authorization advice from the card network as if it came from a merchant
+     * acquirer. An authorization advice changes the pending amount of the transaction.
      */
     override fun simulateAuthorizationAdvice(
         params: TransactionSimulateAuthorizationAdviceParams,
@@ -198,10 +198,11 @@ constructor(
             .withErrorHandler(errorHandler)
 
     /**
-     * Clears an existing authorization. After this event, the transaction is no longer pending.
+     * Clears an existing authorization, either debit or credit. After this event, the transaction
+     * transitions from `PENDING` to `SETTLED` status.
      *
-     * If no `amount` is supplied to this endpoint, the amount of the transaction will be captured.
-     * Any transaction that has any amount completed at all do not have access to this behavior.
+     * If `amount` is not set, the full amount of the transaction will be cleared. Transactions that
+     * have already cleared, either partially or fully, cannot be cleared again using this endpoint.
      */
     override fun simulateClearing(
         params: TransactionSimulateClearingParams,
@@ -235,8 +236,8 @@ constructor(
             .withErrorHandler(errorHandler)
 
     /**
-     * Simulates a credit authorization advice message from the payment network. This message
-     * indicates that a credit authorization was approved on your behalf by the network.
+     * Simulates a credit authorization advice from the card network. This message indicates that
+     * the network approved a credit authorization on your behalf.
      */
     override fun simulateCreditAuthorization(
         params: TransactionSimulateCreditAuthorizationParams,
@@ -269,8 +270,8 @@ constructor(
             .withErrorHandler(errorHandler)
 
     /**
-     * Returns (aka refunds) an amount back to a card. Returns are cleared immediately and do not
-     * spend time in a `PENDING` state.
+     * Returns, or refunds, an amount back to a card. Returns simulated via this endpoint clear
+     * immediately, without prior authorization, and result in a `SETTLED` transaction status.
      */
     override fun simulateReturn(
         params: TransactionSimulateReturnParams,
@@ -303,9 +304,8 @@ constructor(
             .withErrorHandler(errorHandler)
 
     /**
-     * Voids a settled credit transaction – i.e., a transaction with a negative amount and `SETTLED`
-     * status. These can be credit authorizations that have already cleared or financial credit
-     * authorizations.
+     * Reverses a return, i.e. a credit transaction with a `SETTLED` status. Returns can be
+     * financial credit authorizations, or credit authorizations that have cleared.
      */
     override fun simulateReturnReversal(
         params: TransactionSimulateReturnReversalParams,
@@ -338,11 +338,10 @@ constructor(
             .withErrorHandler(errorHandler)
 
     /**
-     * Voids an existing, uncleared (aka pending) authorization. If amount is not sent the full
-     * amount will be voided. Cannot be used on partially completed transactions, but can be used on
-     * partially voided transactions. _Note that simulating an authorization expiry on credit
-     * authorizations or credit authorization advice is not currently supported but will be added
-     * soon._
+     * Voids a pending authorization. If `amount` is not set, the full amount will be voided. Can be
+     * used on partially voided transactions but not partially cleared transactions. _Simulating an
+     * authorization expiry on credit authorizations or credit authorization advice is not currently
+     * supported but will be added soon._
      */
     override fun simulateVoid(
         params: TransactionSimulateVoidParams,

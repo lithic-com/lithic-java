@@ -128,6 +128,7 @@ class ServiceParamsTest {
                 .pan("4111111289144142")
                 .pendingCommands(listOf("string"))
                 .productId("1")
+                .replacementFor("5e9483eb-8103-4e16-9794-2106111b2eca")
                 .build()
 
         stubFor(

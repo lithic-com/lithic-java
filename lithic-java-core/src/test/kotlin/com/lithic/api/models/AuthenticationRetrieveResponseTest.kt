@@ -64,8 +64,8 @@ class AuthenticationRetrieveResponseTest {
                                         .DeliveryTimeFrame
                                         .ELECTRONIC_DELIVERY
                                 )
-                                .giftCardAmount(0.0)
-                                .giftCardCount(0.0)
+                                .giftCardAmount(0L)
+                                .giftCardCount(0L)
                                 .giftCardCurrency("xxx")
                                 .orderAvailability(
                                     AuthenticationRetrieveResponse.Merchant.RiskIndicator
@@ -97,7 +97,7 @@ class AuthenticationRetrieveResponseTest {
                         .networkDecision(
                             AuthenticationRetrieveResponse.AdditionalData.NetworkDecision.LOW_RISK
                         )
-                        .networkRiskScore(0.0)
+                        .networkRiskScore(0L)
                         .build()
                 )
                 .app(
@@ -195,8 +195,8 @@ class AuthenticationRetrieveResponseTest {
                                     .DeliveryTimeFrame
                                     .ELECTRONIC_DELIVERY
                             )
-                            .giftCardAmount(0.0)
-                            .giftCardCount(0.0)
+                            .giftCardAmount(0L)
+                            .giftCardCount(0L)
                             .giftCardCurrency("xxx")
                             .orderAvailability(
                                 AuthenticationRetrieveResponse.Merchant.RiskIndicator
@@ -224,7 +224,7 @@ class AuthenticationRetrieveResponseTest {
                     .networkDecision(
                         AuthenticationRetrieveResponse.AdditionalData.NetworkDecision.LOW_RISK
                     )
-                    .networkRiskScore(0.0)
+                    .networkRiskScore(0L)
                     .build()
             )
         assertThat(authenticationRetrieveResponse.app())
