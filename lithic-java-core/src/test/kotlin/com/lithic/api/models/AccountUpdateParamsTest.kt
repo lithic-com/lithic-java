@@ -12,9 +12,9 @@ class AccountUpdateParamsTest {
     fun createAccountUpdateParams() {
         AccountUpdateParams.builder()
             .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .dailySpendLimit(123L)
-            .lifetimeSpendLimit(123L)
-            .monthlySpendLimit(123L)
+            .dailySpendLimit(0L)
+            .lifetimeSpendLimit(0L)
+            .monthlySpendLimit(0L)
             .state(AccountUpdateParams.State.ACTIVE)
             .verificationAddress(
                 AccountUpdateParams.VerificationAddress.builder()
@@ -34,9 +34,9 @@ class AccountUpdateParamsTest {
         val params =
             AccountUpdateParams.builder()
                 .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .dailySpendLimit(123L)
-                .lifetimeSpendLimit(123L)
-                .monthlySpendLimit(123L)
+                .dailySpendLimit(0L)
+                .lifetimeSpendLimit(0L)
+                .monthlySpendLimit(0L)
                 .state(AccountUpdateParams.State.ACTIVE)
                 .verificationAddress(
                     AccountUpdateParams.VerificationAddress.builder()
@@ -51,9 +51,9 @@ class AccountUpdateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.dailySpendLimit()).isEqualTo(123L)
-        assertThat(body.lifetimeSpendLimit()).isEqualTo(123L)
-        assertThat(body.monthlySpendLimit()).isEqualTo(123L)
+        assertThat(body.dailySpendLimit()).isEqualTo(0L)
+        assertThat(body.lifetimeSpendLimit()).isEqualTo(0L)
+        assertThat(body.monthlySpendLimit()).isEqualTo(0L)
         assertThat(body.state()).isEqualTo(AccountUpdateParams.State.ACTIVE)
         assertThat(body.verificationAddress())
             .isEqualTo(

@@ -17,7 +17,7 @@ class StatementLineItemsTest {
                     listOf(
                         StatementLineItems.StatementLineItemResponse.builder()
                             .token("token")
-                            .amount(123L)
+                            .amount(0L)
                             .category(
                                 StatementLineItems.StatementLineItemResponse.TransactionCategory.ACH
                             )
@@ -43,7 +43,7 @@ class StatementLineItemsTest {
             .containsExactly(
                 StatementLineItems.StatementLineItemResponse.builder()
                     .token("token")
-                    .amount(123L)
+                    .amount(0L)
                     .category(StatementLineItems.StatementLineItemResponse.TransactionCategory.ACH)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .currency("currency")

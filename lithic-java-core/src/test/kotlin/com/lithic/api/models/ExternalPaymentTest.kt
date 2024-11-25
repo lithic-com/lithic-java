@@ -21,7 +21,7 @@ class ExternalPaymentTest {
                     listOf(
                         ExternalPayment.ExternalPaymentEvent.builder()
                             .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .amount(123L)
+                            .amount(0L)
                             .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                             .detailedResults(
                                 listOf(
@@ -40,9 +40,9 @@ class ExternalPaymentTest {
                 )
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentType(ExternalPayment.ExternalPaymentDirection.DEPOSIT)
-                .pendingAmount(123L)
+                .pendingAmount(0L)
                 .result(ExternalPayment.TransactionResult.APPROVED)
-                .settledAmount(123L)
+                .settledAmount(0L)
                 .status(ExternalPayment.TransactionStatus.PENDING)
                 .updated(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .userDefinedId("user_defined_id")
@@ -58,7 +58,7 @@ class ExternalPaymentTest {
             .containsExactly(
                 ExternalPayment.ExternalPaymentEvent.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .amount(123L)
+                    .amount(0L)
                     .created(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .detailedResults(
                         listOf(ExternalPayment.ExternalPaymentEvent.DetailedResults.APPROVED)
@@ -76,9 +76,9 @@ class ExternalPaymentTest {
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(externalPayment.paymentType())
             .isEqualTo(ExternalPayment.ExternalPaymentDirection.DEPOSIT)
-        assertThat(externalPayment.pendingAmount()).isEqualTo(123L)
+        assertThat(externalPayment.pendingAmount()).isEqualTo(0L)
         assertThat(externalPayment.result()).isEqualTo(ExternalPayment.TransactionResult.APPROVED)
-        assertThat(externalPayment.settledAmount()).isEqualTo(123L)
+        assertThat(externalPayment.settledAmount()).isEqualTo(0L)
         assertThat(externalPayment.status()).isEqualTo(ExternalPayment.TransactionStatus.PENDING)
         assertThat(externalPayment.updated())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))

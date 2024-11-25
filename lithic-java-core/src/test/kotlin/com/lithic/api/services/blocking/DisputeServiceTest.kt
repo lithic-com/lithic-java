@@ -25,7 +25,7 @@ class DisputeServiceTest {
         val dispute =
             disputeService.create(
                 DisputeCreateParams.builder()
-                    .amount(123L)
+                    .amount(0L)
                     .reason(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)
                     .transactionToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -66,7 +66,7 @@ class DisputeServiceTest {
             disputeService.update(
                 DisputeUpdateParams.builder()
                     .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .amount(123L)
+                    .amount(0L)
                     .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .customerNote("customer_note")
                     .reason(DisputeUpdateParams.Reason.ATM_CASH_MISDISPENSE)

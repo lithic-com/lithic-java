@@ -64,8 +64,8 @@ class AuthenticationRetrieveResponseTest {
                                         .DeliveryTimeFrame
                                         .ELECTRONIC_DELIVERY
                                 )
-                                .giftCardAmount(42.23)
-                                .giftCardCount(42.23)
+                                .giftCardAmount(0.0)
+                                .giftCardCount(0.0)
                                 .giftCardCurrency("xxx")
                                 .orderAvailability(
                                     AuthenticationRetrieveResponse.Merchant.RiskIndicator
@@ -97,7 +97,7 @@ class AuthenticationRetrieveResponseTest {
                         .networkDecision(
                             AuthenticationRetrieveResponse.AdditionalData.NetworkDecision.LOW_RISK
                         )
-                        .networkRiskScore(42.23)
+                        .networkRiskScore(0.0)
                         .build()
                 )
                 .app(
@@ -124,9 +124,9 @@ class AuthenticationRetrieveResponseTest {
                 )
                 .transaction(
                     AuthenticationRetrieveResponse.Transaction.builder()
-                        .amount(42.23)
+                        .amount(0.0)
                         .currency("xxx")
-                        .currencyExponent(42.23)
+                        .currencyExponent(0.0)
                         .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .type(AuthenticationRetrieveResponse.Transaction.Type.ACCOUNT_FUNDING)
                         .build()
@@ -195,8 +195,8 @@ class AuthenticationRetrieveResponseTest {
                                     .DeliveryTimeFrame
                                     .ELECTRONIC_DELIVERY
                             )
-                            .giftCardAmount(42.23)
-                            .giftCardCount(42.23)
+                            .giftCardAmount(0.0)
+                            .giftCardCount(0.0)
                             .giftCardCurrency("xxx")
                             .orderAvailability(
                                 AuthenticationRetrieveResponse.Merchant.RiskIndicator
@@ -224,7 +224,7 @@ class AuthenticationRetrieveResponseTest {
                     .networkDecision(
                         AuthenticationRetrieveResponse.AdditionalData.NetworkDecision.LOW_RISK
                     )
-                    .networkRiskScore(42.23)
+                    .networkRiskScore(0.0)
                     .build()
             )
         assertThat(authenticationRetrieveResponse.app())
@@ -252,9 +252,9 @@ class AuthenticationRetrieveResponseTest {
         assertThat(authenticationRetrieveResponse.transaction())
             .contains(
                 AuthenticationRetrieveResponse.Transaction.builder()
-                    .amount(42.23)
+                    .amount(0.0)
                     .currency("xxx")
-                    .currencyExponent(42.23)
+                    .currencyExponent(0.0)
                     .dateTime(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .type(AuthenticationRetrieveResponse.Transaction.Type.ACCOUNT_FUNDING)
                     .build()

@@ -13,7 +13,7 @@ class DisputeUpdateParamsTest {
     fun createDisputeUpdateParams() {
         DisputeUpdateParams.builder()
             .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .amount(123L)
+            .amount(0L)
             .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .customerNote("customer_note")
             .reason(DisputeUpdateParams.Reason.ATM_CASH_MISDISPENSE)
@@ -25,14 +25,14 @@ class DisputeUpdateParamsTest {
         val params =
             DisputeUpdateParams.builder()
                 .disputeToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .amount(123L)
+                .amount(0L)
                 .customerFiledDate(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .customerNote("customer_note")
                 .reason(DisputeUpdateParams.Reason.ATM_CASH_MISDISPENSE)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.customerFiledDate())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(body.customerNote()).isEqualTo("customer_note")

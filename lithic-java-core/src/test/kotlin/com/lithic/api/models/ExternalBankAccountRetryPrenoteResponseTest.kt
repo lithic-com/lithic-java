@@ -23,7 +23,7 @@ class ExternalBankAccountRetryPrenoteResponseTest {
                 .routingNumber("routing_number")
                 .state(ExternalBankAccountRetryPrenoteResponse.State.ENABLED)
                 .type(ExternalBankAccountRetryPrenoteResponse.Type.CHECKING)
-                .verificationAttempts(123L)
+                .verificationAttempts(0L)
                 .verificationMethod(VerificationMethod.MANUAL)
                 .verificationState(
                     ExternalBankAccountRetryPrenoteResponse.VerificationState.PENDING
@@ -64,7 +64,7 @@ class ExternalBankAccountRetryPrenoteResponseTest {
             .isEqualTo(ExternalBankAccountRetryPrenoteResponse.State.ENABLED)
         assertThat(externalBankAccountRetryPrenoteResponse.type())
             .isEqualTo(ExternalBankAccountRetryPrenoteResponse.Type.CHECKING)
-        assertThat(externalBankAccountRetryPrenoteResponse.verificationAttempts()).isEqualTo(123L)
+        assertThat(externalBankAccountRetryPrenoteResponse.verificationAttempts()).isEqualTo(0L)
         assertThat(externalBankAccountRetryPrenoteResponse.verificationMethod())
             .isEqualTo(VerificationMethod.MANUAL)
         assertThat(externalBankAccountRetryPrenoteResponse.verificationState())

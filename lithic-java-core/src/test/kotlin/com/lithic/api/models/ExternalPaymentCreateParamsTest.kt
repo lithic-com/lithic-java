@@ -12,7 +12,7 @@ class ExternalPaymentCreateParamsTest {
     @Test
     fun createExternalPaymentCreateParams() {
         ExternalPaymentCreateParams.builder()
-            .amount(123L)
+            .amount(0L)
             .category(ExternalPaymentCreateParams.ExternalPaymentCategory.EXTERNAL_WIRE)
             .effectiveDate(LocalDate.parse("2019-12-27"))
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -28,7 +28,7 @@ class ExternalPaymentCreateParamsTest {
     fun getBody() {
         val params =
             ExternalPaymentCreateParams.builder()
-                .amount(123L)
+                .amount(0L)
                 .category(ExternalPaymentCreateParams.ExternalPaymentCategory.EXTERNAL_WIRE)
                 .effectiveDate(LocalDate.parse("2019-12-27"))
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -40,7 +40,7 @@ class ExternalPaymentCreateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.category())
             .isEqualTo(ExternalPaymentCreateParams.ExternalPaymentCategory.EXTERNAL_WIRE)
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))
@@ -58,7 +58,7 @@ class ExternalPaymentCreateParamsTest {
     fun getBodyWithoutOptionalFields() {
         val params =
             ExternalPaymentCreateParams.builder()
-                .amount(123L)
+                .amount(0L)
                 .category(ExternalPaymentCreateParams.ExternalPaymentCategory.EXTERNAL_WIRE)
                 .effectiveDate(LocalDate.parse("2019-12-27"))
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -66,7 +66,7 @@ class ExternalPaymentCreateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.category())
             .isEqualTo(ExternalPaymentCreateParams.ExternalPaymentCategory.EXTERNAL_WIRE)
         assertThat(body.effectiveDate()).isEqualTo(LocalDate.parse("2019-12-27"))

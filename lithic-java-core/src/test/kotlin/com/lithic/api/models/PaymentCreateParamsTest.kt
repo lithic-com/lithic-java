@@ -11,7 +11,7 @@ class PaymentCreateParamsTest {
     @Test
     fun createPaymentCreateParams() {
         PaymentCreateParams.builder()
-            .amount(123L)
+            .amount(1L)
             .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .method(PaymentCreateParams.Method.ACH_NEXT_DAY)
@@ -31,7 +31,7 @@ class PaymentCreateParamsTest {
     fun getBody() {
         val params =
             PaymentCreateParams.builder()
-                .amount(123L)
+                .amount(1L)
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .method(PaymentCreateParams.Method.ACH_NEXT_DAY)
@@ -47,7 +47,7 @@ class PaymentCreateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.externalBankAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.financialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -68,7 +68,7 @@ class PaymentCreateParamsTest {
     fun getBodyWithoutOptionalFields() {
         val params =
             PaymentCreateParams.builder()
-                .amount(123L)
+                .amount(1L)
                 .externalBankAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .financialAccountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .method(PaymentCreateParams.Method.ACH_NEXT_DAY)
@@ -81,7 +81,7 @@ class PaymentCreateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(1L)
         assertThat(body.externalBankAccountToken())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.financialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
