@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.72.0 (2024-11-26)
+
+Full Changelog: [v0.71.0...v0.72.0](https://github.com/lithic-com/lithic-java/compare/v0.71.0...v0.72.0)
+
+### Features
+
+* **api:** updates to Auth Rules numeric types, new Card Types and Authorization Rule Backtests ([#400](https://github.com/lithic-com/lithic-java/issues/400)) ([03b0b21](https://github.com/lithic-com/lithic-java/commit/03b0b2120ee6f609f3c4603298100c59f90b8136))
+* **client:** add logging when debug env is set ([#396](https://github.com/lithic-com/lithic-java/issues/396)) ([7699d3b](https://github.com/lithic-com/lithic-java/commit/7699d3b5744928055afd3d8e4d40c7c56d7926cf))
+* **client:** add methods for header params ([#392](https://github.com/lithic-com/lithic-java/issues/392)) ([2c6e356](https://github.com/lithic-com/lithic-java/commit/2c6e3560a21bf578ca704d19a8628af64681732e))
+* derive gpg release key's id via gpg itself ([#402](https://github.com/lithic-com/lithic-java/issues/402)) ([35b7ae5](https://github.com/lithic-com/lithic-java/commit/35b7ae5879764d03c1527f6cf973236f999c6ebe))
+
+
+### Bug Fixes
+
+* **internal:** use correct example string for test ([#398](https://github.com/lithic-com/lithic-java/issues/398)) ([56a9735](https://github.com/lithic-com/lithic-java/commit/56a97358ecb75bf9c7bc0265b65ede0355509c8a))
+
+
+### Chores
+
+* **api:** add backtest methods to AuthRules ([#401](https://github.com/lithic-com/lithic-java/issues/401)) ([5ab850e](https://github.com/lithic-com/lithic-java/commit/5ab850e42f48053fe9c418500c87752568b48451))
+* **deps:** bump jackson to 2.18.1 ([#391](https://github.com/lithic-com/lithic-java/issues/391)) ([496b520](https://github.com/lithic-com/lithic-java/commit/496b520959f77f66798866a444f64198b97eb848))
+* **internal:** update example values ([#399](https://github.com/lithic-com/lithic-java/issues/399)) ([fa0a7d7](https://github.com/lithic-com/lithic-java/commit/fa0a7d79e8da9423c19486f1143082726ea80fa3))
+* publish to maven central portal ([#403](https://github.com/lithic-com/lithic-java/issues/403)) ([2fcca5a](https://github.com/lithic-com/lithic-java/commit/2fcca5ae525a9304982fa4ef8daa882d029ee5fa))
+
+
+### Styles
+
+* **internal:** move identity methods to bottom of error class ([#394](https://github.com/lithic-com/lithic-java/issues/394)) ([5f5d384](https://github.com/lithic-com/lithic-java/commit/5f5d384cf4d00fd68237f71163406c2b9fdb428d))
+* **internal:** reduce verbosity of identity methods ([#393](https://github.com/lithic-com/lithic-java/issues/393)) ([54eb3bc](https://github.com/lithic-com/lithic-java/commit/54eb3bc04b57cc0a5f6b83fc8a1d1ec4c6898640))
+* **internal:** reorder some params methods and improve consistency of implementations ([#395](https://github.com/lithic-com/lithic-java/issues/395)) ([01f6477](https://github.com/lithic-com/lithic-java/commit/01f64777f999906265478f87145cee97393b87ac))
+
+
+### Refactors
+
+* **internal:** split `closeWhenPhantomReachable` function ([#389](https://github.com/lithic-com/lithic-java/issues/389)) ([953fe96](https://github.com/lithic-com/lithic-java/commit/953fe9642218c8fa6b7539f122c055a52e06fae8))
+
 ## 0.71.0 (2024-11-14)
 
 Full Changelog: [v0.70.0...v0.71.0](https://github.com/lithic-com/lithic-java/compare/v0.70.0...v0.71.0)

@@ -48,6 +48,12 @@ constructor(
 
     fun nonceSignature(): Optional<String> = Optional.ofNullable(nonceSignature)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): CardProvisionBody {
         return CardProvisionBody(
@@ -234,42 +240,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardProvisionBody && this.certificate == other.certificate && this.clientDeviceId == other.clientDeviceId && this.clientWalletAccountId == other.clientWalletAccountId && this.digitalWallet == other.digitalWallet && this.nonce == other.nonce && this.nonceSignature == other.nonceSignature && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CardProvisionBody && certificate == other.certificate && clientDeviceId == other.clientDeviceId && clientWalletAccountId == other.clientWalletAccountId && digitalWallet == other.digitalWallet && nonce == other.nonce && nonceSignature == other.nonceSignature && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(certificate, clientDeviceId, clientWalletAccountId, digitalWallet, nonce, nonceSignature, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(certificate, clientDeviceId, clientWalletAccountId, digitalWallet, nonce, nonceSignature, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "CardProvisionBody{certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is CardProvisionParams && this.cardToken == other.cardToken && this.certificate == other.certificate && this.clientDeviceId == other.clientDeviceId && this.clientWalletAccountId == other.clientWalletAccountId && this.digitalWallet == other.digitalWallet && this.nonce == other.nonce && this.nonceSignature == other.nonceSignature && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(cardToken, certificate, clientDeviceId, clientWalletAccountId, digitalWallet, nonce, nonceSignature, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "CardProvisionParams{cardToken=$cardToken, certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -294,16 +276,16 @@ constructor(
 
         @JvmSynthetic
         internal fun from(cardProvisionParams: CardProvisionParams) = apply {
-            this.cardToken = cardProvisionParams.cardToken
-            this.certificate = cardProvisionParams.certificate
-            this.clientDeviceId = cardProvisionParams.clientDeviceId
-            this.clientWalletAccountId = cardProvisionParams.clientWalletAccountId
-            this.digitalWallet = cardProvisionParams.digitalWallet
-            this.nonce = cardProvisionParams.nonce
-            this.nonceSignature = cardProvisionParams.nonceSignature
-            additionalHeaders(cardProvisionParams.additionalHeaders)
-            additionalQueryParams(cardProvisionParams.additionalQueryParams)
-            additionalBodyProperties(cardProvisionParams.additionalBodyProperties)
+            cardToken = cardProvisionParams.cardToken
+            certificate = cardProvisionParams.certificate
+            clientDeviceId = cardProvisionParams.clientDeviceId
+            clientWalletAccountId = cardProvisionParams.clientWalletAccountId
+            digitalWallet = cardProvisionParams.digitalWallet
+            nonce = cardProvisionParams.nonce
+            nonceSignature = cardProvisionParams.nonceSignature
+            additionalHeaders = cardProvisionParams.additionalHeaders.toBuilder()
+            additionalQueryParams = cardProvisionParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties = cardProvisionParams.additionalBodyProperties.toMutableMap()
         }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
@@ -495,7 +477,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DigitalWallet && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is DigitalWallet && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -544,4 +526,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is CardProvisionParams && cardToken == other.cardToken && certificate == other.certificate && clientDeviceId == other.clientDeviceId && clientWalletAccountId == other.clientWalletAccountId && digitalWallet == other.digitalWallet && nonce == other.nonce && nonceSignature == other.nonceSignature && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, certificate, clientDeviceId, clientWalletAccountId, digitalWallet, nonce, nonceSignature, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "CardProvisionParams{cardToken=$cardToken, certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

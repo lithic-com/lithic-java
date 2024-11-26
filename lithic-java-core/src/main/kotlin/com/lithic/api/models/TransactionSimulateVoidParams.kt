@@ -36,6 +36,12 @@ constructor(
 
     fun type(): Optional<Type> = Optional.ofNullable(type)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): TransactionSimulateVoidBody {
         return TransactionSimulateVoidBody(
@@ -64,8 +70,8 @@ constructor(
         @JsonProperty("token") fun token(): String? = token
 
         /**
-         * Amount (in cents) to void. Typically this will match the original authorization, but may
-         * be less.
+         * Amount (in cents) to void. Typically this will match the amount in the original
+         * authorization, but can be less.
          */
         @JsonProperty("amount") fun amount(): Long? = amount
 
@@ -106,8 +112,8 @@ constructor(
             @JsonProperty("token") fun token(token: String) = apply { this.token = token }
 
             /**
-             * Amount (in cents) to void. Typically this will match the original authorization, but
-             * may be less.
+             * Amount (in cents) to void. Typically this will match the amount in the original
+             * authorization, but can be less.
              */
             @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
 
@@ -147,42 +153,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionSimulateVoidBody && this.token == other.token && this.amount == other.amount && this.type == other.type && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransactionSimulateVoidBody && token == other.token && amount == other.amount && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(token, amount, type, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(token, amount, type, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "TransactionSimulateVoidBody{token=$token, amount=$amount, type=$type, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TransactionSimulateVoidParams && this.token == other.token && this.amount == other.amount && this.type == other.type && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(token, amount, type, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "TransactionSimulateVoidParams{token=$token, amount=$amount, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -203,20 +185,21 @@ constructor(
 
         @JvmSynthetic
         internal fun from(transactionSimulateVoidParams: TransactionSimulateVoidParams) = apply {
-            this.token = transactionSimulateVoidParams.token
-            this.amount = transactionSimulateVoidParams.amount
-            this.type = transactionSimulateVoidParams.type
-            additionalHeaders(transactionSimulateVoidParams.additionalHeaders)
-            additionalQueryParams(transactionSimulateVoidParams.additionalQueryParams)
-            additionalBodyProperties(transactionSimulateVoidParams.additionalBodyProperties)
+            token = transactionSimulateVoidParams.token
+            amount = transactionSimulateVoidParams.amount
+            type = transactionSimulateVoidParams.type
+            additionalHeaders = transactionSimulateVoidParams.additionalHeaders.toBuilder()
+            additionalQueryParams = transactionSimulateVoidParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                transactionSimulateVoidParams.additionalBodyProperties.toMutableMap()
         }
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
         fun token(token: String) = apply { this.token = token }
 
         /**
-         * Amount (in cents) to void. Typically this will match the original authorization, but may
-         * be less.
+         * Amount (in cents) to void. Typically this will match the amount in the original
+         * authorization, but can be less.
          */
         fun amount(amount: Long) = apply { this.amount = amount }
 
@@ -371,7 +354,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -414,4 +397,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TransactionSimulateVoidParams && token == other.token && amount == other.amount && type == other.type && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, amount, type, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TransactionSimulateVoidParams{token=$token, amount=$amount, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

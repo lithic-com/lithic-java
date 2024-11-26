@@ -29,6 +29,12 @@ constructor(
 
     fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): TokenizationUpdateDigitalCardArtBody {
         return TokenizationUpdateDigitalCardArtBody(digitalCardArtToken, additionalBodyProperties)
@@ -123,42 +129,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TokenizationUpdateDigitalCardArtBody && this.digitalCardArtToken == other.digitalCardArtToken && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TokenizationUpdateDigitalCardArtBody && digitalCardArtToken == other.digitalCardArtToken && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(digitalCardArtToken, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(digitalCardArtToken, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "TokenizationUpdateDigitalCardArtBody{digitalCardArtToken=$digitalCardArtToken, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TokenizationUpdateDigitalCardArtParams && this.tokenizationToken == other.tokenizationToken && this.digitalCardArtToken == other.digitalCardArtToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(tokenizationToken, digitalCardArtToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "TokenizationUpdateDigitalCardArtParams{tokenizationToken=$tokenizationToken, digitalCardArtToken=$digitalCardArtToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -180,13 +162,13 @@ constructor(
         internal fun from(
             tokenizationUpdateDigitalCardArtParams: TokenizationUpdateDigitalCardArtParams
         ) = apply {
-            this.tokenizationToken = tokenizationUpdateDigitalCardArtParams.tokenizationToken
-            this.digitalCardArtToken = tokenizationUpdateDigitalCardArtParams.digitalCardArtToken
-            additionalHeaders(tokenizationUpdateDigitalCardArtParams.additionalHeaders)
-            additionalQueryParams(tokenizationUpdateDigitalCardArtParams.additionalQueryParams)
-            additionalBodyProperties(
-                tokenizationUpdateDigitalCardArtParams.additionalBodyProperties
-            )
+            tokenizationToken = tokenizationUpdateDigitalCardArtParams.tokenizationToken
+            digitalCardArtToken = tokenizationUpdateDigitalCardArtParams.digitalCardArtToken
+            additionalHeaders = tokenizationUpdateDigitalCardArtParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                tokenizationUpdateDigitalCardArtParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                tokenizationUpdateDigitalCardArtParams.additionalBodyProperties.toMutableMap()
         }
 
         fun tokenizationToken(tokenizationToken: String) = apply {
@@ -334,4 +316,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TokenizationUpdateDigitalCardArtParams && tokenizationToken == other.tokenizationToken && digitalCardArtToken == other.digitalCardArtToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tokenizationToken, digitalCardArtToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TokenizationUpdateDigitalCardArtParams{tokenizationToken=$tokenizationToken, digitalCardArtToken=$digitalCardArtToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

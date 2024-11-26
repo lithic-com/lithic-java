@@ -28,6 +28,8 @@ import com.lithic.api.models.V2PromoteResponse
 import com.lithic.api.models.V2ReportResponse
 import com.lithic.api.models.V2RetrieveResponse
 import com.lithic.api.models.V2UpdateResponse
+import com.lithic.api.services.blocking.authRules.v2.BacktestService
+import com.lithic.api.services.blocking.authRules.v2.BacktestServiceImpl
 
 class V2ServiceImpl
 constructor(
@@ -35,6 +37,10 @@ constructor(
 ) : V2Service {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+    private val backtests: BacktestService by lazy { BacktestServiceImpl(clientOptions) }
+
+    override fun backtests(): BacktestService = backtests
 
     private val createHandler: Handler<V2CreateResponse> =
         jsonHandler<V2CreateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

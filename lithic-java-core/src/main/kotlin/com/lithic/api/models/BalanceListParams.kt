@@ -35,6 +35,10 @@ constructor(
     fun financialAccountType(): Optional<FinancialAccountType> =
         Optional.ofNullable(financialAccountType)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -57,25 +61,6 @@ constructor(
         return queryParams.build()
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is BalanceListParams && this.accountToken == other.accountToken && this.balanceDate == other.balanceDate && this.businessAccountToken == other.businessAccountToken && this.financialAccountType == other.financialAccountType && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountToken, balanceDate, businessAccountToken, financialAccountType, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "BalanceListParams{accountToken=$accountToken, balanceDate=$balanceDate, businessAccountToken=$businessAccountToken, financialAccountType=$financialAccountType, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -95,12 +80,12 @@ constructor(
 
         @JvmSynthetic
         internal fun from(balanceListParams: BalanceListParams) = apply {
-            this.accountToken = balanceListParams.accountToken
-            this.balanceDate = balanceListParams.balanceDate
-            this.businessAccountToken = balanceListParams.businessAccountToken
-            this.financialAccountType = balanceListParams.financialAccountType
-            additionalHeaders(balanceListParams.additionalHeaders)
-            additionalQueryParams(balanceListParams.additionalQueryParams)
+            accountToken = balanceListParams.accountToken
+            balanceDate = balanceListParams.balanceDate
+            businessAccountToken = balanceListParams.businessAccountToken
+            financialAccountType = balanceListParams.financialAccountType
+            additionalHeaders = balanceListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = balanceListParams.additionalQueryParams.toBuilder()
         }
 
         /** List balances for all financial accounts of a given account_token. */
@@ -241,7 +226,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FinancialAccountType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is FinancialAccountType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -290,4 +275,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is BalanceListParams && accountToken == other.accountToken && balanceDate == other.balanceDate && businessAccountToken == other.businessAccountToken && financialAccountType == other.financialAccountType && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, balanceDate, businessAccountToken, financialAccountType, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "BalanceListParams{accountToken=$accountToken, balanceDate=$balanceDate, businessAccountToken=$businessAccountToken, financialAccountType=$financialAccountType, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

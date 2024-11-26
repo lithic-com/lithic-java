@@ -42,6 +42,12 @@ constructor(
 
     fun eventTypes(): Optional<List<EventType>> = Optional.ofNullable(eventTypes)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): EventSubscriptionUpdateBody {
         return EventSubscriptionUpdateBody(
@@ -165,42 +171,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EventSubscriptionUpdateBody && this.url == other.url && this.description == other.description && this.disabled == other.disabled && this.eventTypes == other.eventTypes && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is EventSubscriptionUpdateBody && url == other.url && description == other.description && disabled == other.disabled && eventTypes == other.eventTypes && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(url, description, disabled, eventTypes, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(url, description, disabled, eventTypes, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "EventSubscriptionUpdateBody{url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is EventSubscriptionUpdateParams && this.eventSubscriptionToken == other.eventSubscriptionToken && this.url == other.url && this.description == other.description && this.disabled == other.disabled && this.eventTypes == other.eventTypes && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(eventSubscriptionToken, url, description, disabled, eventTypes, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "EventSubscriptionUpdateParams{eventSubscriptionToken=$eventSubscriptionToken, url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -223,14 +205,16 @@ constructor(
 
         @JvmSynthetic
         internal fun from(eventSubscriptionUpdateParams: EventSubscriptionUpdateParams) = apply {
-            this.eventSubscriptionToken = eventSubscriptionUpdateParams.eventSubscriptionToken
-            this.url = eventSubscriptionUpdateParams.url
-            this.description = eventSubscriptionUpdateParams.description
-            this.disabled = eventSubscriptionUpdateParams.disabled
-            this.eventTypes(eventSubscriptionUpdateParams.eventTypes ?: listOf())
-            additionalHeaders(eventSubscriptionUpdateParams.additionalHeaders)
-            additionalQueryParams(eventSubscriptionUpdateParams.additionalQueryParams)
-            additionalBodyProperties(eventSubscriptionUpdateParams.additionalBodyProperties)
+            eventSubscriptionToken = eventSubscriptionUpdateParams.eventSubscriptionToken
+            url = eventSubscriptionUpdateParams.url
+            description = eventSubscriptionUpdateParams.description
+            disabled = eventSubscriptionUpdateParams.disabled
+            eventTypes =
+                eventSubscriptionUpdateParams.eventTypes?.toMutableList() ?: mutableListOf()
+            additionalHeaders = eventSubscriptionUpdateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = eventSubscriptionUpdateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                eventSubscriptionUpdateParams.additionalBodyProperties.toMutableMap()
         }
 
         fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
@@ -389,7 +373,7 @@ constructor(
                 checkNotNull(url) { "`url` is required but was not set" },
                 description,
                 disabled,
-                if (eventTypes.size == 0) null else eventTypes.toImmutable(),
+                eventTypes.toImmutable().ifEmpty { null },
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -409,7 +393,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EventType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is EventType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -723,4 +707,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is EventSubscriptionUpdateParams && eventSubscriptionToken == other.eventSubscriptionToken && url == other.url && description == other.description && disabled == other.disabled && eventTypes == other.eventTypes && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventSubscriptionToken, url, description, disabled, eventTypes, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "EventSubscriptionUpdateParams{eventSubscriptionToken=$eventSubscriptionToken, url=$url, description=$description, disabled=$disabled, eventTypes=$eventTypes, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

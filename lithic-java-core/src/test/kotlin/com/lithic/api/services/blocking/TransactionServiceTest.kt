@@ -55,12 +55,12 @@ class TransactionServiceTest {
         val transactionSimulateAuthorizationResponse =
             transactionService.simulateAuthorization(
                 TransactionSimulateAuthorizationParams.builder()
-                    .amount(123L)
+                    .amount(0L)
                     .descriptor("COFFEE SHOP")
                     .pan("4111111289144142")
                     .mcc("5812")
                     .merchantAcceptorId("OODKZAPJVN4YS7O")
-                    .merchantAmount(123L)
+                    .merchantAmount(0L)
                     .merchantCurrency("GBP")
                     .partialApprovalCapable(true)
                     .status(TransactionSimulateAuthorizationParams.Status.AUTHORIZATION)
@@ -82,7 +82,7 @@ class TransactionServiceTest {
             transactionService.simulateAuthorizationAdvice(
                 TransactionSimulateAuthorizationAdviceParams.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .amount(123L)
+                    .amount(0L)
                     .build()
             )
         println(transactionSimulateAuthorizationAdviceResponse)
@@ -101,7 +101,7 @@ class TransactionServiceTest {
             transactionService.simulateClearing(
                 TransactionSimulateClearingParams.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .amount(123L)
+                    .amount(0L)
                     .build()
             )
         println(transactionSimulateClearingResponse)
@@ -119,7 +119,7 @@ class TransactionServiceTest {
         val transactionSimulateCreditAuthorizationResponse =
             transactionService.simulateCreditAuthorization(
                 TransactionSimulateCreditAuthorizationParams.builder()
-                    .amount(123L)
+                    .amount(0L)
                     .descriptor("COFFEE SHOP")
                     .pan("4111111289144142")
                     .mcc("5812")
@@ -141,7 +141,7 @@ class TransactionServiceTest {
         val transactionSimulateReturnResponse =
             transactionService.simulateReturn(
                 TransactionSimulateReturnParams.builder()
-                    .amount(123L)
+                    .amount(0L)
                     .descriptor("COFFEE SHOP")
                     .pan("4111111289144142")
                     .build()
@@ -180,7 +180,7 @@ class TransactionServiceTest {
             transactionService.simulateVoid(
                 TransactionSimulateVoidParams.builder()
                     .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .amount(123L)
+                    .amount(0L)
                     .type(TransactionSimulateVoidParams.Type.AUTHORIZATION_EXPIRY)
                     .build()
             )

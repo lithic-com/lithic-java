@@ -14,28 +14,13 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
-    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
-
-    @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
-
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
+    @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
-        return /* spotless:off */ other is ClientApiStatusParams && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "ClientApiStatusParams{additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+    @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
 
@@ -52,8 +37,8 @@ constructor(
 
         @JvmSynthetic
         internal fun from(clientApiStatusParams: ClientApiStatusParams) = apply {
-            additionalHeaders(clientApiStatusParams.additionalHeaders)
-            additionalQueryParams(clientApiStatusParams.additionalQueryParams)
+            additionalHeaders = clientApiStatusParams.additionalHeaders.toBuilder()
+            additionalQueryParams = clientApiStatusParams.additionalQueryParams.toBuilder()
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -157,4 +142,17 @@ constructor(
         fun build(): ClientApiStatusParams =
             ClientApiStatusParams(additionalHeaders.build(), additionalQueryParams.build())
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ClientApiStatusParams && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ClientApiStatusParams{additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

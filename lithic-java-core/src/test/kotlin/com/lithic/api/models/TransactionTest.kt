@@ -14,39 +14,39 @@ class TransactionTest {
             Transaction.builder()
                 .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountToken("bd5e5649-1be8-4117-9bc5-3268258d1417")
-                .acquirerFee(123L)
+                .acquirerFee(0L)
                 .acquirerReferenceNumber("12345678987654321234567")
-                .amount(123L)
+                .amount(1000L)
                 .amounts(
                     Transaction.TransactionAmounts.builder()
                         .cardholder(
                             Transaction.TransactionAmounts.Cardholder.builder()
-                                .amount(123L)
+                                .amount(-1000L)
                                 .conversionRate("1.000000")
                                 .currency(Currency.AED)
                                 .build()
                         )
                         .hold(
                             Transaction.TransactionAmounts.Hold.builder()
-                                .amount(123L)
+                                .amount(0L)
                                 .currency(Currency.AED)
                                 .build()
                         )
                         .merchant(
                             Transaction.TransactionAmounts.Merchant.builder()
-                                .amount(123L)
+                                .amount(-1000L)
                                 .currency(Currency.AED)
                                 .build()
                         )
                         .settlement(
                             Transaction.TransactionAmounts.Settlement.builder()
-                                .amount(123L)
+                                .amount(-1000L)
                                 .currency(Currency.AED)
                                 .build()
                         )
                         .build()
                 )
-                .authorizationAmount(123L)
+                .authorizationAmount(1000L)
                 .authorizationCode("123456")
                 .avs(Transaction.Avs.builder().address("address").zipcode("zipcode").build())
                 .cardToken("19c22c47-7a75-43ee-9891-595419830f7e")
@@ -87,11 +87,11 @@ class TransactionTest {
                         .state("NY")
                         .build()
                 )
-                .merchantAmount(123L)
-                .merchantAuthorizationAmount(123L)
-                .merchantCurrency("merchant_currency")
+                .merchantAmount(1000L)
+                .merchantAuthorizationAmount(1000L)
+                .merchantCurrency("USD")
                 .network(Transaction.Network.INTERLINK)
-                .networkRiskScore(123L)
+                .networkRiskScore(0L)
                 .pos(
                     Transaction.Pos.builder()
                         .entryMode(
@@ -118,7 +118,7 @@ class TransactionTest {
                         .build()
                 )
                 .result(Transaction.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL)
-                .settledAmount(123L)
+                .settledAmount(1000L)
                 .status(Transaction.Status.DECLINED)
                 .tokenInfo(
                     Transaction.TokenInfo.builder()
@@ -130,14 +130,14 @@ class TransactionTest {
                     listOf(
                         Transaction.TransactionEvent.builder()
                             .token("0c2adae9-f535-4505-8c35-421dad9bd0b6")
-                            .amount(123L)
+                            .amount(1000L)
                             .amounts(
                                 Transaction.TransactionEvent.TransactionEventAmounts.builder()
                                     .cardholder(
                                         Transaction.TransactionEvent.TransactionEventAmounts
                                             .Cardholder
                                             .builder()
-                                            .amount(123L)
+                                            .amount(1000L)
                                             .conversionRate("1.000000")
                                             .currency(Currency.AED)
                                             .build()
@@ -146,7 +146,7 @@ class TransactionTest {
                                         Transaction.TransactionEvent.TransactionEventAmounts
                                             .Merchant
                                             .builder()
-                                            .amount(123L)
+                                            .amount(1000L)
                                             .currency(Currency.AED)
                                             .build()
                                     )
@@ -154,7 +154,7 @@ class TransactionTest {
                                         Transaction.TransactionEvent.TransactionEventAmounts
                                             .Settlement
                                             .builder()
-                                            .amount(123L)
+                                            .amount(1000L)
                                             .conversionRate("1.000000")
                                             .currency(Currency.AED)
                                             .build()
@@ -183,40 +183,40 @@ class TransactionTest {
         assertThat(transaction).isNotNull
         assertThat(transaction.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(transaction.accountToken()).isEqualTo("bd5e5649-1be8-4117-9bc5-3268258d1417")
-        assertThat(transaction.acquirerFee()).contains(123L)
+        assertThat(transaction.acquirerFee()).contains(0L)
         assertThat(transaction.acquirerReferenceNumber()).contains("12345678987654321234567")
-        assertThat(transaction.amount()).isEqualTo(123L)
+        assertThat(transaction.amount()).isEqualTo(1000L)
         assertThat(transaction.amounts())
             .isEqualTo(
                 Transaction.TransactionAmounts.builder()
                     .cardholder(
                         Transaction.TransactionAmounts.Cardholder.builder()
-                            .amount(123L)
+                            .amount(-1000L)
                             .conversionRate("1.000000")
                             .currency(Currency.AED)
                             .build()
                     )
                     .hold(
                         Transaction.TransactionAmounts.Hold.builder()
-                            .amount(123L)
+                            .amount(0L)
                             .currency(Currency.AED)
                             .build()
                     )
                     .merchant(
                         Transaction.TransactionAmounts.Merchant.builder()
-                            .amount(123L)
+                            .amount(-1000L)
                             .currency(Currency.AED)
                             .build()
                     )
                     .settlement(
                         Transaction.TransactionAmounts.Settlement.builder()
-                            .amount(123L)
+                            .amount(-1000L)
                             .currency(Currency.AED)
                             .build()
                     )
                     .build()
             )
-        assertThat(transaction.authorizationAmount()).contains(123L)
+        assertThat(transaction.authorizationAmount()).contains(1000L)
         assertThat(transaction.authorizationCode()).contains("123456")
         assertThat(transaction.avs())
             .contains(Transaction.Avs.builder().address("address").zipcode("zipcode").build())
@@ -261,11 +261,11 @@ class TransactionTest {
                     .state("NY")
                     .build()
             )
-        assertThat(transaction.merchantAmount()).contains(123L)
-        assertThat(transaction.merchantAuthorizationAmount()).contains(123L)
-        assertThat(transaction.merchantCurrency()).isEqualTo("merchant_currency")
+        assertThat(transaction.merchantAmount()).contains(1000L)
+        assertThat(transaction.merchantAuthorizationAmount()).contains(1000L)
+        assertThat(transaction.merchantCurrency()).isEqualTo("USD")
         assertThat(transaction.network()).contains(Transaction.Network.INTERLINK)
-        assertThat(transaction.networkRiskScore()).contains(123L)
+        assertThat(transaction.networkRiskScore()).contains(0L)
         assertThat(transaction.pos())
             .isEqualTo(
                 Transaction.Pos.builder()
@@ -292,7 +292,7 @@ class TransactionTest {
             )
         assertThat(transaction.result())
             .isEqualTo(Transaction.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL)
-        assertThat(transaction.settledAmount()).isEqualTo(123L)
+        assertThat(transaction.settledAmount()).isEqualTo(1000L)
         assertThat(transaction.status()).isEqualTo(Transaction.Status.DECLINED)
         assertThat(transaction.tokenInfo())
             .contains(
@@ -306,13 +306,13 @@ class TransactionTest {
             .containsExactly(
                 Transaction.TransactionEvent.builder()
                     .token("0c2adae9-f535-4505-8c35-421dad9bd0b6")
-                    .amount(123L)
+                    .amount(1000L)
                     .amounts(
                         Transaction.TransactionEvent.TransactionEventAmounts.builder()
                             .cardholder(
                                 Transaction.TransactionEvent.TransactionEventAmounts.Cardholder
                                     .builder()
-                                    .amount(123L)
+                                    .amount(1000L)
                                     .conversionRate("1.000000")
                                     .currency(Currency.AED)
                                     .build()
@@ -320,14 +320,14 @@ class TransactionTest {
                             .merchant(
                                 Transaction.TransactionEvent.TransactionEventAmounts.Merchant
                                     .builder()
-                                    .amount(123L)
+                                    .amount(1000L)
                                     .currency(Currency.AED)
                                     .build()
                             )
                             .settlement(
                                 Transaction.TransactionEvent.TransactionEventAmounts.Settlement
                                     .builder()
-                                    .amount(123L)
+                                    .amount(1000L)
                                     .conversionRate("1.000000")
                                     .currency(Currency.AED)
                                     .build()

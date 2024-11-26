@@ -78,6 +78,12 @@ constructor(
 
     fun state(): Optional<State> = Optional.ofNullable(state)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): CardCreateBody {
         return CardCreateBody(
@@ -140,6 +146,10 @@ constructor(
          * - `SINGLE_USE` - Card is closed upon first successful authorization.
          * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
          *   successfully authorizes the card.
+         * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         *   instead.
+         * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         *   instead.
          */
         @JsonProperty("type") fun type(): Type? = type
 
@@ -325,6 +335,10 @@ constructor(
              * - `SINGLE_USE` - Card is closed upon first successful authorization.
              * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
              *   successfully authorizes the card.
+             * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+             *   instead.
+             * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use
+             *   VIRTUAL instead.
              */
             @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
 
@@ -515,42 +529,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardCreateBody && this.type == other.type && this.accountToken == other.accountToken && this.cardProgramToken == other.cardProgramToken && this.carrier == other.carrier && this.digitalCardArtToken == other.digitalCardArtToken && this.expMonth == other.expMonth && this.expYear == other.expYear && this.memo == other.memo && this.pin == other.pin && this.productId == other.productId && this.replacementAccountToken == other.replacementAccountToken && this.replacementFor == other.replacementFor && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CardCreateBody && type == other.type && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && carrier == other.carrier && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && memo == other.memo && pin == other.pin && productId == other.productId && replacementAccountToken == other.replacementAccountToken && replacementFor == other.replacementFor && shippingAddress == other.shippingAddress && shippingMethod == other.shippingMethod && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "CardCreateBody{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is CardCreateParams && this.type == other.type && this.accountToken == other.accountToken && this.cardProgramToken == other.cardProgramToken && this.carrier == other.carrier && this.digitalCardArtToken == other.digitalCardArtToken && this.expMonth == other.expMonth && this.expYear == other.expYear && this.memo == other.memo && this.pin == other.pin && this.productId == other.productId && this.replacementAccountToken == other.replacementAccountToken && this.replacementFor == other.replacementFor && this.shippingAddress == other.shippingAddress && this.shippingMethod == other.shippingMethod && this.spendLimit == other.spendLimit && this.spendLimitDuration == other.spendLimitDuration && this.state == other.state && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "CardCreateParams{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -585,26 +575,26 @@ constructor(
 
         @JvmSynthetic
         internal fun from(cardCreateParams: CardCreateParams) = apply {
-            this.type = cardCreateParams.type
-            this.accountToken = cardCreateParams.accountToken
-            this.cardProgramToken = cardCreateParams.cardProgramToken
-            this.carrier = cardCreateParams.carrier
-            this.digitalCardArtToken = cardCreateParams.digitalCardArtToken
-            this.expMonth = cardCreateParams.expMonth
-            this.expYear = cardCreateParams.expYear
-            this.memo = cardCreateParams.memo
-            this.pin = cardCreateParams.pin
-            this.productId = cardCreateParams.productId
-            this.replacementAccountToken = cardCreateParams.replacementAccountToken
-            this.replacementFor = cardCreateParams.replacementFor
-            this.shippingAddress = cardCreateParams.shippingAddress
-            this.shippingMethod = cardCreateParams.shippingMethod
-            this.spendLimit = cardCreateParams.spendLimit
-            this.spendLimitDuration = cardCreateParams.spendLimitDuration
-            this.state = cardCreateParams.state
-            additionalHeaders(cardCreateParams.additionalHeaders)
-            additionalQueryParams(cardCreateParams.additionalQueryParams)
-            additionalBodyProperties(cardCreateParams.additionalBodyProperties)
+            type = cardCreateParams.type
+            accountToken = cardCreateParams.accountToken
+            cardProgramToken = cardCreateParams.cardProgramToken
+            carrier = cardCreateParams.carrier
+            digitalCardArtToken = cardCreateParams.digitalCardArtToken
+            expMonth = cardCreateParams.expMonth
+            expYear = cardCreateParams.expYear
+            memo = cardCreateParams.memo
+            pin = cardCreateParams.pin
+            productId = cardCreateParams.productId
+            replacementAccountToken = cardCreateParams.replacementAccountToken
+            replacementFor = cardCreateParams.replacementFor
+            shippingAddress = cardCreateParams.shippingAddress
+            shippingMethod = cardCreateParams.shippingMethod
+            spendLimit = cardCreateParams.spendLimit
+            spendLimitDuration = cardCreateParams.spendLimitDuration
+            state = cardCreateParams.state
+            additionalHeaders = cardCreateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = cardCreateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties = cardCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
@@ -617,6 +607,10 @@ constructor(
          * - `SINGLE_USE` - Card is closed upon first successful authorization.
          * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
          *   successfully authorizes the card.
+         * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         *   instead.
+         * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         *   instead.
          */
         fun type(type: Type) = apply { this.type = type }
 
@@ -904,7 +898,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -921,6 +915,10 @@ constructor(
 
             @JvmField val VIRTUAL = Type(JsonField.of("VIRTUAL"))
 
+            @JvmField val UNLOCKED = Type(JsonField.of("UNLOCKED"))
+
+            @JvmField val DIGITAL_WALLET = Type(JsonField.of("DIGITAL_WALLET"))
+
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
 
@@ -929,6 +927,8 @@ constructor(
             PHYSICAL,
             SINGLE_USE,
             VIRTUAL,
+            UNLOCKED,
+            DIGITAL_WALLET,
         }
 
         enum class Value {
@@ -936,6 +936,8 @@ constructor(
             PHYSICAL,
             SINGLE_USE,
             VIRTUAL,
+            UNLOCKED,
+            DIGITAL_WALLET,
             _UNKNOWN,
         }
 
@@ -945,6 +947,8 @@ constructor(
                 PHYSICAL -> Value.PHYSICAL
                 SINGLE_USE -> Value.SINGLE_USE
                 VIRTUAL -> Value.VIRTUAL
+                UNLOCKED -> Value.UNLOCKED
+                DIGITAL_WALLET -> Value.DIGITAL_WALLET
                 else -> Value._UNKNOWN
             }
 
@@ -954,6 +958,8 @@ constructor(
                 PHYSICAL -> Known.PHYSICAL
                 SINGLE_USE -> Known.SINGLE_USE
                 VIRTUAL -> Known.VIRTUAL
+                UNLOCKED -> Known.UNLOCKED
+                DIGITAL_WALLET -> Known.DIGITAL_WALLET
                 else -> throw LithicInvalidDataException("Unknown Type: $value")
             }
 
@@ -973,7 +979,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ShippingMethod && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is ShippingMethod && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1055,7 +1061,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is State && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -1098,4 +1104,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is CardCreateParams && type == other.type && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && carrier == other.carrier && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && memo == other.memo && pin == other.pin && productId == other.productId && replacementAccountToken == other.replacementAccountToken && replacementFor == other.replacementFor && shippingAddress == other.shippingAddress && shippingMethod == other.shippingMethod && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "CardCreateParams{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

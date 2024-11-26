@@ -21,8 +21,11 @@ import com.lithic.api.models.V2PromoteResponse
 import com.lithic.api.models.V2ReportResponse
 import com.lithic.api.models.V2RetrieveResponse
 import com.lithic.api.models.V2UpdateResponse
+import com.lithic.api.services.blocking.authRules.v2.BacktestService
 
 interface V2Service {
+
+    fun backtests(): BacktestService
 
     /** Creates a new V2 authorization rule in draft mode */
     @JvmOverloads

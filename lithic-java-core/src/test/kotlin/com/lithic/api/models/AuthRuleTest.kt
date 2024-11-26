@@ -19,7 +19,7 @@ class AuthRuleTest {
                 .blockedCountries(listOf("string"))
                 .blockedMcc(listOf("string"))
                 .cardTokens(listOf("string"))
-                .programLevel(true)
+                .programLevel(false)
                 .build()
         assertThat(authRule).isNotNull
         assertThat(authRule.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -30,6 +30,6 @@ class AuthRuleTest {
         assertThat(authRule.blockedCountries().get()).containsExactly("string")
         assertThat(authRule.blockedMcc().get()).containsExactly("string")
         assertThat(authRule.cardTokens().get()).containsExactly("string")
-        assertThat(authRule.programLevel()).contains(true)
+        assertThat(authRule.programLevel()).contains(false)
     }
 }

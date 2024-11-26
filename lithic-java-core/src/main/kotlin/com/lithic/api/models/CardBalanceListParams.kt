@@ -27,6 +27,10 @@ constructor(
     fun lastTransactionEventToken(): Optional<String> =
         Optional.ofNullable(lastTransactionEventToken)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -52,25 +56,6 @@ constructor(
         }
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is CardBalanceListParams && this.cardToken == other.cardToken && this.balanceDate == other.balanceDate && this.lastTransactionEventToken == other.lastTransactionEventToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(cardToken, balanceDate, lastTransactionEventToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "CardBalanceListParams{cardToken=$cardToken, balanceDate=$balanceDate, lastTransactionEventToken=$lastTransactionEventToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -89,11 +74,11 @@ constructor(
 
         @JvmSynthetic
         internal fun from(cardBalanceListParams: CardBalanceListParams) = apply {
-            this.cardToken = cardBalanceListParams.cardToken
-            this.balanceDate = cardBalanceListParams.balanceDate
-            this.lastTransactionEventToken = cardBalanceListParams.lastTransactionEventToken
-            additionalHeaders(cardBalanceListParams.additionalHeaders)
-            additionalQueryParams(cardBalanceListParams.additionalQueryParams)
+            cardToken = cardBalanceListParams.cardToken
+            balanceDate = cardBalanceListParams.balanceDate
+            lastTransactionEventToken = cardBalanceListParams.lastTransactionEventToken
+            additionalHeaders = cardBalanceListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = cardBalanceListParams.additionalQueryParams.toBuilder()
         }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
@@ -216,4 +201,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is CardBalanceListParams && cardToken == other.cardToken && balanceDate == other.balanceDate && lastTransactionEventToken == other.lastTransactionEventToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, balanceDate, lastTransactionEventToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "CardBalanceListParams{cardToken=$cardToken, balanceDate=$balanceDate, lastTransactionEventToken=$lastTransactionEventToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

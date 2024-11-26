@@ -27,6 +27,10 @@ constructor(
     fun lastTransactionEventToken(): Optional<String> =
         Optional.ofNullable(lastTransactionEventToken)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -52,25 +56,6 @@ constructor(
         }
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is FinancialAccountBalanceListParams && this.financialAccountToken == other.financialAccountToken && this.balanceDate == other.balanceDate && this.lastTransactionEventToken == other.lastTransactionEventToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(financialAccountToken, balanceDate, lastTransactionEventToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "FinancialAccountBalanceListParams{financialAccountToken=$financialAccountToken, balanceDate=$balanceDate, lastTransactionEventToken=$lastTransactionEventToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -90,12 +75,13 @@ constructor(
         @JvmSynthetic
         internal fun from(financialAccountBalanceListParams: FinancialAccountBalanceListParams) =
             apply {
-                this.financialAccountToken = financialAccountBalanceListParams.financialAccountToken
-                this.balanceDate = financialAccountBalanceListParams.balanceDate
-                this.lastTransactionEventToken =
+                financialAccountToken = financialAccountBalanceListParams.financialAccountToken
+                balanceDate = financialAccountBalanceListParams.balanceDate
+                lastTransactionEventToken =
                     financialAccountBalanceListParams.lastTransactionEventToken
-                additionalHeaders(financialAccountBalanceListParams.additionalHeaders)
-                additionalQueryParams(financialAccountBalanceListParams.additionalQueryParams)
+                additionalHeaders = financialAccountBalanceListParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    financialAccountBalanceListParams.additionalQueryParams.toBuilder()
             }
 
         fun financialAccountToken(financialAccountToken: String) = apply {
@@ -222,4 +208,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is FinancialAccountBalanceListParams && financialAccountToken == other.financialAccountToken && balanceDate == other.balanceDate && lastTransactionEventToken == other.lastTransactionEventToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, balanceDate, lastTransactionEventToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "FinancialAccountBalanceListParams{financialAccountToken=$financialAccountToken, balanceDate=$balanceDate, lastTransactionEventToken=$lastTransactionEventToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

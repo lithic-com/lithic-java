@@ -29,7 +29,7 @@ class CardTest {
                 )
                 .lastFour("xxxx")
                 .pinStatus(Card.PinStatus.OK)
-                .spendLimit(123L)
+                .spendLimit(1000L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(Card.State.CLOSED)
                 .type(Card.Type.MERCHANT_LOCKED)
@@ -44,6 +44,7 @@ class CardTest {
                 .pan("4111111289144142")
                 .pendingCommands(listOf("string"))
                 .productId("1")
+                .replacementFor("5e9483eb-8103-4e16-9794-2106111b2eca")
                 .build()
         assertThat(card).isNotNull
         assertThat(card.token()).isEqualTo("7ef7d65c-9023-4da3-b113-3b8583fd7951")
@@ -64,7 +65,7 @@ class CardTest {
             )
         assertThat(card.lastFour()).isEqualTo("xxxx")
         assertThat(card.pinStatus()).isEqualTo(Card.PinStatus.OK)
-        assertThat(card.spendLimit()).isEqualTo(123L)
+        assertThat(card.spendLimit()).isEqualTo(1000L)
         assertThat(card.spendLimitDuration()).isEqualTo(SpendLimitDuration.ANNUALLY)
         assertThat(card.state()).isEqualTo(Card.State.CLOSED)
         assertThat(card.type()).isEqualTo(Card.Type.MERCHANT_LOCKED)
@@ -79,5 +80,6 @@ class CardTest {
         assertThat(card.pan()).contains("4111111289144142")
         assertThat(card.pendingCommands().get()).containsExactly("string")
         assertThat(card.productId()).contains("1")
+        assertThat(card.replacementFor()).contains("5e9483eb-8103-4e16-9794-2106111b2eca")
     }
 }

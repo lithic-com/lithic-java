@@ -51,7 +51,7 @@ class AuthenticationServiceTest {
                     .pan("4111111289144142")
                     .transaction(
                         ThreeDSAuthenticationSimulateParams.Transaction.builder()
-                            .amount(123L)
+                            .amount(0L)
                             .currency("GBP")
                             .build()
                     )

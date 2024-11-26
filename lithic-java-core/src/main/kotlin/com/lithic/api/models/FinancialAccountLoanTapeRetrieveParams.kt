@@ -20,6 +20,10 @@ constructor(
 
     fun loanTapeToken(): String = loanTapeToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
@@ -31,25 +35,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is FinancialAccountLoanTapeRetrieveParams && this.financialAccountToken == other.financialAccountToken && this.loanTapeToken == other.loanTapeToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(financialAccountToken, loanTapeToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "FinancialAccountLoanTapeRetrieveParams{financialAccountToken=$financialAccountToken, loanTapeToken=$loanTapeToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -70,11 +55,11 @@ constructor(
         internal fun from(
             financialAccountLoanTapeRetrieveParams: FinancialAccountLoanTapeRetrieveParams
         ) = apply {
-            this.financialAccountToken =
-                financialAccountLoanTapeRetrieveParams.financialAccountToken
-            this.loanTapeToken = financialAccountLoanTapeRetrieveParams.loanTapeToken
-            additionalHeaders(financialAccountLoanTapeRetrieveParams.additionalHeaders)
-            additionalQueryParams(financialAccountLoanTapeRetrieveParams.additionalQueryParams)
+            financialAccountToken = financialAccountLoanTapeRetrieveParams.financialAccountToken
+            loanTapeToken = financialAccountLoanTapeRetrieveParams.loanTapeToken
+            additionalHeaders = financialAccountLoanTapeRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                financialAccountLoanTapeRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         /** Globally unique identifier for financial account. */
@@ -193,4 +178,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is FinancialAccountLoanTapeRetrieveParams && financialAccountToken == other.financialAccountToken && loanTapeToken == other.loanTapeToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, loanTapeToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "FinancialAccountLoanTapeRetrieveParams{financialAccountToken=$financialAccountToken, loanTapeToken=$loanTapeToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

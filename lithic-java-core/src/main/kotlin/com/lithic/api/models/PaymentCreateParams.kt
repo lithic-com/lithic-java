@@ -54,6 +54,12 @@ constructor(
 
     fun userDefinedId(): Optional<String> = Optional.ofNullable(userDefinedId)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): PaymentCreateBody {
         return PaymentCreateBody(
@@ -225,42 +231,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is PaymentCreateBody && this.amount == other.amount && this.externalBankAccountToken == other.externalBankAccountToken && this.financialAccountToken == other.financialAccountToken && this.method == other.method && this.methodAttributes == other.methodAttributes && this.type == other.type && this.token == other.token && this.memo == other.memo && this.userDefinedId == other.userDefinedId && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is PaymentCreateBody && amount == other.amount && externalBankAccountToken == other.externalBankAccountToken && financialAccountToken == other.financialAccountToken && method == other.method && methodAttributes == other.methodAttributes && type == other.type && token == other.token && memo == other.memo && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(amount, externalBankAccountToken, financialAccountToken, method, methodAttributes, type, token, memo, userDefinedId, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(amount, externalBankAccountToken, financialAccountToken, method, methodAttributes, type, token, memo, userDefinedId, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "PaymentCreateBody{amount=$amount, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, type=$type, token=$token, memo=$memo, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is PaymentCreateParams && this.amount == other.amount && this.externalBankAccountToken == other.externalBankAccountToken && this.financialAccountToken == other.financialAccountToken && this.method == other.method && this.methodAttributes == other.methodAttributes && this.type == other.type && this.token == other.token && this.memo == other.memo && this.userDefinedId == other.userDefinedId && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(amount, externalBankAccountToken, financialAccountToken, method, methodAttributes, type, token, memo, userDefinedId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "PaymentCreateParams{amount=$amount, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, type=$type, token=$token, memo=$memo, userDefinedId=$userDefinedId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -287,18 +269,18 @@ constructor(
 
         @JvmSynthetic
         internal fun from(paymentCreateParams: PaymentCreateParams) = apply {
-            this.amount = paymentCreateParams.amount
-            this.externalBankAccountToken = paymentCreateParams.externalBankAccountToken
-            this.financialAccountToken = paymentCreateParams.financialAccountToken
-            this.method = paymentCreateParams.method
-            this.methodAttributes = paymentCreateParams.methodAttributes
-            this.type = paymentCreateParams.type
-            this.token = paymentCreateParams.token
-            this.memo = paymentCreateParams.memo
-            this.userDefinedId = paymentCreateParams.userDefinedId
-            additionalHeaders(paymentCreateParams.additionalHeaders)
-            additionalQueryParams(paymentCreateParams.additionalQueryParams)
-            additionalBodyProperties(paymentCreateParams.additionalBodyProperties)
+            amount = paymentCreateParams.amount
+            externalBankAccountToken = paymentCreateParams.externalBankAccountToken
+            financialAccountToken = paymentCreateParams.financialAccountToken
+            method = paymentCreateParams.method
+            methodAttributes = paymentCreateParams.methodAttributes
+            type = paymentCreateParams.type
+            token = paymentCreateParams.token
+            memo = paymentCreateParams.memo
+            userDefinedId = paymentCreateParams.userDefinedId
+            additionalHeaders = paymentCreateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = paymentCreateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties = paymentCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         fun amount(amount: Long) = apply { this.amount = amount }
@@ -483,7 +465,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Method && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Method && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -597,7 +579,7 @@ constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is SecCode && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is SecCode && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -652,17 +634,14 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is PaymentMethodRequestAttributes && this.secCode == other.secCode && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is PaymentMethodRequestAttributes && secCode == other.secCode && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(secCode, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(secCode, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "PaymentMethodRequestAttributes{secCode=$secCode, additionalProperties=$additionalProperties}"
@@ -681,7 +660,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -724,4 +703,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is PaymentCreateParams && amount == other.amount && externalBankAccountToken == other.externalBankAccountToken && financialAccountToken == other.financialAccountToken && method == other.method && methodAttributes == other.methodAttributes && type == other.type && token == other.token && memo == other.memo && userDefinedId == other.userDefinedId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, externalBankAccountToken, financialAccountToken, method, methodAttributes, type, token, memo, userDefinedId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "PaymentCreateParams{amount=$amount, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, type=$type, token=$token, memo=$memo, userDefinedId=$userDefinedId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

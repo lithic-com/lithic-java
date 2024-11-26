@@ -49,6 +49,10 @@ constructor(
     fun verificationStates(): Optional<List<VerificationState>> =
         Optional.ofNullable(verificationStates)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -75,25 +79,6 @@ constructor(
         return queryParams.build()
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ExternalBankAccountListParams && this.accountToken == other.accountToken && this.accountTypes == other.accountTypes && this.countries == other.countries && this.endingBefore == other.endingBefore && this.ownerTypes == other.ownerTypes && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.states == other.states && this.verificationStates == other.verificationStates && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountToken, accountTypes, countries, endingBefore, ownerTypes, pageSize, startingAfter, states, verificationStates, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "ExternalBankAccountListParams{accountToken=$accountToken, accountTypes=$accountTypes, countries=$countries, endingBefore=$endingBefore, ownerTypes=$ownerTypes, pageSize=$pageSize, startingAfter=$startingAfter, states=$states, verificationStates=$verificationStates, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -118,17 +103,20 @@ constructor(
 
         @JvmSynthetic
         internal fun from(externalBankAccountListParams: ExternalBankAccountListParams) = apply {
-            this.accountToken = externalBankAccountListParams.accountToken
-            this.accountTypes(externalBankAccountListParams.accountTypes ?: listOf())
-            this.countries(externalBankAccountListParams.countries ?: listOf())
-            this.endingBefore = externalBankAccountListParams.endingBefore
-            this.ownerTypes(externalBankAccountListParams.ownerTypes ?: listOf())
-            this.pageSize = externalBankAccountListParams.pageSize
-            this.startingAfter = externalBankAccountListParams.startingAfter
-            this.states(externalBankAccountListParams.states ?: listOf())
-            this.verificationStates(externalBankAccountListParams.verificationStates ?: listOf())
-            additionalHeaders(externalBankAccountListParams.additionalHeaders)
-            additionalQueryParams(externalBankAccountListParams.additionalQueryParams)
+            accountToken = externalBankAccountListParams.accountToken
+            accountTypes =
+                externalBankAccountListParams.accountTypes?.toMutableList() ?: mutableListOf()
+            countries = externalBankAccountListParams.countries?.toMutableList() ?: mutableListOf()
+            endingBefore = externalBankAccountListParams.endingBefore
+            ownerTypes =
+                externalBankAccountListParams.ownerTypes?.toMutableList() ?: mutableListOf()
+            pageSize = externalBankAccountListParams.pageSize
+            startingAfter = externalBankAccountListParams.startingAfter
+            states = externalBankAccountListParams.states?.toMutableList() ?: mutableListOf()
+            verificationStates =
+                externalBankAccountListParams.verificationStates?.toMutableList() ?: mutableListOf()
+            additionalHeaders = externalBankAccountListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = externalBankAccountListParams.additionalQueryParams.toBuilder()
         }
 
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
@@ -286,14 +274,14 @@ constructor(
         fun build(): ExternalBankAccountListParams =
             ExternalBankAccountListParams(
                 accountToken,
-                if (accountTypes.size == 0) null else accountTypes.toImmutable(),
-                if (countries.size == 0) null else countries.toImmutable(),
+                accountTypes.toImmutable().ifEmpty { null },
+                countries.toImmutable().ifEmpty { null },
                 endingBefore,
-                if (ownerTypes.size == 0) null else ownerTypes.toImmutable(),
+                ownerTypes.toImmutable().ifEmpty { null },
                 pageSize,
                 startingAfter,
-                if (states.size == 0) null else states.toImmutable(),
-                if (verificationStates.size == 0) null else verificationStates.toImmutable(),
+                states.toImmutable().ifEmpty { null },
+                verificationStates.toImmutable().ifEmpty { null },
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -312,7 +300,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is AccountType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -369,7 +357,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountState && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is AccountState && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -432,7 +420,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is VerificationState && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is VerificationState && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -488,4 +476,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ExternalBankAccountListParams && accountToken == other.accountToken && accountTypes == other.accountTypes && countries == other.countries && endingBefore == other.endingBefore && ownerTypes == other.ownerTypes && pageSize == other.pageSize && startingAfter == other.startingAfter && states == other.states && verificationStates == other.verificationStates && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, accountTypes, countries, endingBefore, ownerTypes, pageSize, startingAfter, states, verificationStates, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ExternalBankAccountListParams{accountToken=$accountToken, accountTypes=$accountTypes, countries=$countries, endingBefore=$endingBefore, ownerTypes=$ownerTypes, pageSize=$pageSize, startingAfter=$startingAfter, states=$states, verificationStates=$verificationStates, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

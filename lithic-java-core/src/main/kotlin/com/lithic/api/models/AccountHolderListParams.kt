@@ -50,6 +50,10 @@ constructor(
 
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -75,25 +79,6 @@ constructor(
         queryParams.putAll(additionalQueryParams)
         return queryParams.build()
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AccountHolderListParams && this.begin == other.begin && this.email == other.email && this.end == other.end && this.endingBefore == other.endingBefore && this.externalId == other.externalId && this.firstName == other.firstName && this.lastName == other.lastName && this.legalBusinessName == other.legalBusinessName && this.limit == other.limit && this.phoneNumber == other.phoneNumber && this.startingAfter == other.startingAfter && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(begin, email, end, endingBefore, externalId, firstName, lastName, legalBusinessName, limit, phoneNumber, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "AccountHolderListParams{begin=$begin, email=$email, end=$end, endingBefore=$endingBefore, externalId=$externalId, firstName=$firstName, lastName=$lastName, legalBusinessName=$legalBusinessName, limit=$limit, phoneNumber=$phoneNumber, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -121,19 +106,19 @@ constructor(
 
         @JvmSynthetic
         internal fun from(accountHolderListParams: AccountHolderListParams) = apply {
-            this.begin = accountHolderListParams.begin
-            this.email = accountHolderListParams.email
-            this.end = accountHolderListParams.end
-            this.endingBefore = accountHolderListParams.endingBefore
-            this.externalId = accountHolderListParams.externalId
-            this.firstName = accountHolderListParams.firstName
-            this.lastName = accountHolderListParams.lastName
-            this.legalBusinessName = accountHolderListParams.legalBusinessName
-            this.limit = accountHolderListParams.limit
-            this.phoneNumber = accountHolderListParams.phoneNumber
-            this.startingAfter = accountHolderListParams.startingAfter
-            additionalHeaders(accountHolderListParams.additionalHeaders)
-            additionalQueryParams(accountHolderListParams.additionalQueryParams)
+            begin = accountHolderListParams.begin
+            email = accountHolderListParams.email
+            end = accountHolderListParams.end
+            endingBefore = accountHolderListParams.endingBefore
+            externalId = accountHolderListParams.externalId
+            firstName = accountHolderListParams.firstName
+            lastName = accountHolderListParams.lastName
+            legalBusinessName = accountHolderListParams.legalBusinessName
+            limit = accountHolderListParams.limit
+            phoneNumber = accountHolderListParams.phoneNumber
+            startingAfter = accountHolderListParams.startingAfter
+            additionalHeaders = accountHolderListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = accountHolderListParams.additionalQueryParams.toBuilder()
         }
 
         /**
@@ -309,4 +294,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AccountHolderListParams && begin == other.begin && email == other.email && end == other.end && endingBefore == other.endingBefore && externalId == other.externalId && firstName == other.firstName && lastName == other.lastName && legalBusinessName == other.legalBusinessName && limit == other.limit && phoneNumber == other.phoneNumber && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(begin, email, end, endingBefore, externalId, firstName, lastName, legalBusinessName, limit, phoneNumber, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "AccountHolderListParams{begin=$begin, email=$email, end=$end, endingBefore=$endingBefore, externalId=$externalId, firstName=$firstName, lastName=$lastName, legalBusinessName=$legalBusinessName, limit=$limit, phoneNumber=$phoneNumber, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

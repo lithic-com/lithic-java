@@ -21,6 +21,12 @@ constructor(
 
     fun tokenizationToken(): String = tokenizationToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): Optional<Map<String, JsonValue>> {
         return Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
@@ -36,27 +42,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TokenizationDeactivateParams && this.tokenizationToken == other.tokenizationToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(tokenizationToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "TokenizationDeactivateParams{tokenizationToken=$tokenizationToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -75,10 +60,11 @@ constructor(
 
         @JvmSynthetic
         internal fun from(tokenizationDeactivateParams: TokenizationDeactivateParams) = apply {
-            this.tokenizationToken = tokenizationDeactivateParams.tokenizationToken
-            additionalHeaders(tokenizationDeactivateParams.additionalHeaders)
-            additionalQueryParams(tokenizationDeactivateParams.additionalQueryParams)
-            additionalBodyProperties(tokenizationDeactivateParams.additionalBodyProperties)
+            tokenizationToken = tokenizationDeactivateParams.tokenizationToken
+            additionalHeaders = tokenizationDeactivateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = tokenizationDeactivateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                tokenizationDeactivateParams.additionalBodyProperties.toMutableMap()
         }
 
         fun tokenizationToken(tokenizationToken: String) = apply {
@@ -215,4 +201,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TokenizationDeactivateParams && tokenizationToken == other.tokenizationToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tokenizationToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TokenizationDeactivateParams{tokenizationToken=$tokenizationToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

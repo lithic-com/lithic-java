@@ -51,6 +51,12 @@ constructor(
 
     fun userDefinedId(): Optional<String> = Optional.ofNullable(userDefinedId)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): ExternalBankAccountUpdateBody {
         return ExternalBankAccountUpdateBody(
@@ -223,42 +229,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalBankAccountUpdateBody && this.address == other.address && this.companyId == other.companyId && this.dob == other.dob && this.doingBusinessAs == other.doingBusinessAs && this.name == other.name && this.owner == other.owner && this.ownerType == other.ownerType && this.userDefinedId == other.userDefinedId && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ExternalBankAccountUpdateBody && address == other.address && companyId == other.companyId && dob == other.dob && doingBusinessAs == other.doingBusinessAs && name == other.name && owner == other.owner && ownerType == other.ownerType && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(address, companyId, dob, doingBusinessAs, name, owner, ownerType, userDefinedId, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(address, companyId, dob, doingBusinessAs, name, owner, ownerType, userDefinedId, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "ExternalBankAccountUpdateBody{address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, name=$name, owner=$owner, ownerType=$ownerType, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ExternalBankAccountUpdateParams && this.externalBankAccountToken == other.externalBankAccountToken && this.address == other.address && this.companyId == other.companyId && this.dob == other.dob && this.doingBusinessAs == other.doingBusinessAs && this.name == other.name && this.owner == other.owner && this.ownerType == other.ownerType && this.userDefinedId == other.userDefinedId && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(externalBankAccountToken, address, companyId, dob, doingBusinessAs, name, owner, ownerType, userDefinedId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "ExternalBankAccountUpdateParams{externalBankAccountToken=$externalBankAccountToken, address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, name=$name, owner=$owner, ownerType=$ownerType, userDefinedId=$userDefinedId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -286,19 +268,20 @@ constructor(
         @JvmSynthetic
         internal fun from(externalBankAccountUpdateParams: ExternalBankAccountUpdateParams) =
             apply {
-                this.externalBankAccountToken =
-                    externalBankAccountUpdateParams.externalBankAccountToken
-                this.address = externalBankAccountUpdateParams.address
-                this.companyId = externalBankAccountUpdateParams.companyId
-                this.dob = externalBankAccountUpdateParams.dob
-                this.doingBusinessAs = externalBankAccountUpdateParams.doingBusinessAs
-                this.name = externalBankAccountUpdateParams.name
-                this.owner = externalBankAccountUpdateParams.owner
-                this.ownerType = externalBankAccountUpdateParams.ownerType
-                this.userDefinedId = externalBankAccountUpdateParams.userDefinedId
-                additionalHeaders(externalBankAccountUpdateParams.additionalHeaders)
-                additionalQueryParams(externalBankAccountUpdateParams.additionalQueryParams)
-                additionalBodyProperties(externalBankAccountUpdateParams.additionalBodyProperties)
+                externalBankAccountToken = externalBankAccountUpdateParams.externalBankAccountToken
+                address = externalBankAccountUpdateParams.address
+                companyId = externalBankAccountUpdateParams.companyId
+                dob = externalBankAccountUpdateParams.dob
+                doingBusinessAs = externalBankAccountUpdateParams.doingBusinessAs
+                name = externalBankAccountUpdateParams.name
+                owner = externalBankAccountUpdateParams.owner
+                ownerType = externalBankAccountUpdateParams.ownerType
+                userDefinedId = externalBankAccountUpdateParams.userDefinedId
+                additionalHeaders = externalBankAccountUpdateParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    externalBankAccountUpdateParams.additionalQueryParams.toBuilder()
+                additionalBodyProperties =
+                    externalBankAccountUpdateParams.additionalBodyProperties.toMutableMap()
             }
 
         fun externalBankAccountToken(externalBankAccountToken: String) = apply {
@@ -472,4 +455,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ExternalBankAccountUpdateParams && externalBankAccountToken == other.externalBankAccountToken && address == other.address && companyId == other.companyId && dob == other.dob && doingBusinessAs == other.doingBusinessAs && name == other.name && owner == other.owner && ownerType == other.ownerType && userDefinedId == other.userDefinedId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountToken, address, companyId, dob, doingBusinessAs, name, owner, ownerType, userDefinedId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "ExternalBankAccountUpdateParams{externalBankAccountToken=$externalBankAccountToken, address=$address, companyId=$companyId, dob=$dob, doingBusinessAs=$doingBusinessAs, name=$name, owner=$owner, ownerType=$ownerType, userDefinedId=$userDefinedId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

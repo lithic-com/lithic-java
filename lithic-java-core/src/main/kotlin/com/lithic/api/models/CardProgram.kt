@@ -235,17 +235,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardProgram && this.cardholderCurrency == other.cardholderCurrency && this.created == other.created && this.name == other.name && this.panRangeEnd == other.panRangeEnd && this.panRangeStart == other.panRangeStart && this.settlementCurrencies == other.settlementCurrencies && this.token == other.token && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is CardProgram && cardholderCurrency == other.cardholderCurrency && created == other.created && name == other.name && panRangeEnd == other.panRangeEnd && panRangeStart == other.panRangeStart && settlementCurrencies == other.settlementCurrencies && token == other.token && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(cardholderCurrency, created, name, panRangeEnd, panRangeStart, settlementCurrencies, token, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(cardholderCurrency, created, name, panRangeEnd, panRangeStart, settlementCurrencies, token, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "CardProgram{cardholderCurrency=$cardholderCurrency, created=$created, name=$name, panRangeEnd=$panRangeEnd, panRangeStart=$panRangeStart, settlementCurrencies=$settlementCurrencies, token=$token, additionalProperties=$additionalProperties}"

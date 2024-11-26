@@ -34,6 +34,10 @@ constructor(
 
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -54,25 +58,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is FinancialAccountLoanTapeListParams && this.financialAccountToken == other.financialAccountToken && this.begin == other.begin && this.end == other.end && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(financialAccountToken, begin, end, endingBefore, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "FinancialAccountLoanTapeListParams{financialAccountToken=$financialAccountToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -96,15 +81,15 @@ constructor(
         @JvmSynthetic
         internal fun from(financialAccountLoanTapeListParams: FinancialAccountLoanTapeListParams) =
             apply {
-                this.financialAccountToken =
-                    financialAccountLoanTapeListParams.financialAccountToken
-                this.begin = financialAccountLoanTapeListParams.begin
-                this.end = financialAccountLoanTapeListParams.end
-                this.endingBefore = financialAccountLoanTapeListParams.endingBefore
-                this.pageSize = financialAccountLoanTapeListParams.pageSize
-                this.startingAfter = financialAccountLoanTapeListParams.startingAfter
-                additionalHeaders(financialAccountLoanTapeListParams.additionalHeaders)
-                additionalQueryParams(financialAccountLoanTapeListParams.additionalQueryParams)
+                financialAccountToken = financialAccountLoanTapeListParams.financialAccountToken
+                begin = financialAccountLoanTapeListParams.begin
+                end = financialAccountLoanTapeListParams.end
+                endingBefore = financialAccountLoanTapeListParams.endingBefore
+                pageSize = financialAccountLoanTapeListParams.pageSize
+                startingAfter = financialAccountLoanTapeListParams.startingAfter
+                additionalHeaders = financialAccountLoanTapeListParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    financialAccountLoanTapeListParams.additionalQueryParams.toBuilder()
             }
 
         /** Globally unique identifier for financial account. */
@@ -251,4 +236,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is FinancialAccountLoanTapeListParams && financialAccountToken == other.financialAccountToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, begin, end, endingBefore, pageSize, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "FinancialAccountLoanTapeListParams{financialAccountToken=$financialAccountToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

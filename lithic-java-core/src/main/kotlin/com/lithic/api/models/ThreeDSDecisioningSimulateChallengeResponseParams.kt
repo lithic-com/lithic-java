@@ -28,6 +28,12 @@ constructor(
 
     fun challengeResponse(): ChallengeResult = challengeResponse
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): ThreeDSDecisioningSimulateChallengeResponseBody {
         return ThreeDSDecisioningSimulateChallengeResponseBody(
@@ -133,42 +139,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ThreeDSDecisioningSimulateChallengeResponseBody && this.token == other.token && this.challengeResponse == other.challengeResponse && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ThreeDSDecisioningSimulateChallengeResponseBody && token == other.token && challengeResponse == other.challengeResponse && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(token, challengeResponse, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(token, challengeResponse, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "ThreeDSDecisioningSimulateChallengeResponseBody{token=$token, challengeResponse=$challengeResponse, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ThreeDSDecisioningSimulateChallengeResponseParams && this.token == other.token && this.challengeResponse == other.challengeResponse && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(token, challengeResponse, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "ThreeDSDecisioningSimulateChallengeResponseParams{token=$token, challengeResponse=$challengeResponse, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -191,16 +173,15 @@ constructor(
             threeDSDecisioningSimulateChallengeResponseParams:
                 ThreeDSDecisioningSimulateChallengeResponseParams
         ) = apply {
-            this.token = threeDSDecisioningSimulateChallengeResponseParams.token
-            this.challengeResponse =
-                threeDSDecisioningSimulateChallengeResponseParams.challengeResponse
-            additionalHeaders(threeDSDecisioningSimulateChallengeResponseParams.additionalHeaders)
-            additionalQueryParams(
-                threeDSDecisioningSimulateChallengeResponseParams.additionalQueryParams
-            )
-            additionalBodyProperties(
+            token = threeDSDecisioningSimulateChallengeResponseParams.token
+            challengeResponse = threeDSDecisioningSimulateChallengeResponseParams.challengeResponse
+            additionalHeaders =
+                threeDSDecisioningSimulateChallengeResponseParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                threeDSDecisioningSimulateChallengeResponseParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
                 threeDSDecisioningSimulateChallengeResponseParams.additionalBodyProperties
-            )
+                    .toMutableMap()
         }
 
         /**
@@ -346,4 +327,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ThreeDSDecisioningSimulateChallengeResponseParams && token == other.token && challengeResponse == other.challengeResponse && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, challengeResponse, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "ThreeDSDecisioningSimulateChallengeResponseParams{token=$token, challengeResponse=$challengeResponse, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

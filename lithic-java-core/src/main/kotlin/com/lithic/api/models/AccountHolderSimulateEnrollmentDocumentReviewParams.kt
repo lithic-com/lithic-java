@@ -40,6 +40,12 @@ constructor(
 
     fun statusReason(): Optional<DocumentUploadStatusReasons> = Optional.ofNullable(statusReason)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): AccountHolderSimulateEnrollmentDocumentReviewBody {
         return AccountHolderSimulateEnrollmentDocumentReviewBody(
@@ -174,42 +180,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolderSimulateEnrollmentDocumentReviewBody && this.documentUploadToken == other.documentUploadToken && this.status == other.status && this.acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && this.statusReason == other.statusReason && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountHolderSimulateEnrollmentDocumentReviewBody && documentUploadToken == other.documentUploadToken && status == other.status && acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && statusReason == other.statusReason && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(documentUploadToken, status, acceptedEntityStatusReasons, statusReason, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(documentUploadToken, status, acceptedEntityStatusReasons, statusReason, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "AccountHolderSimulateEnrollmentDocumentReviewBody{documentUploadToken=$documentUploadToken, status=$status, acceptedEntityStatusReasons=$acceptedEntityStatusReasons, statusReason=$statusReason, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AccountHolderSimulateEnrollmentDocumentReviewParams && this.documentUploadToken == other.documentUploadToken && this.status == other.status && this.acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && this.statusReason == other.statusReason && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(documentUploadToken, status, acceptedEntityStatusReasons, statusReason, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "AccountHolderSimulateEnrollmentDocumentReviewParams{documentUploadToken=$documentUploadToken, status=$status, acceptedEntityStatusReasons=$acceptedEntityStatusReasons, statusReason=$statusReason, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -234,21 +216,21 @@ constructor(
             accountHolderSimulateEnrollmentDocumentReviewParams:
                 AccountHolderSimulateEnrollmentDocumentReviewParams
         ) = apply {
-            this.documentUploadToken =
+            documentUploadToken =
                 accountHolderSimulateEnrollmentDocumentReviewParams.documentUploadToken
-            this.status = accountHolderSimulateEnrollmentDocumentReviewParams.status
-            this.acceptedEntityStatusReasons(
+            status = accountHolderSimulateEnrollmentDocumentReviewParams.status
+            acceptedEntityStatusReasons =
                 accountHolderSimulateEnrollmentDocumentReviewParams.acceptedEntityStatusReasons
-                    ?: listOf()
-            )
-            this.statusReason = accountHolderSimulateEnrollmentDocumentReviewParams.statusReason
-            additionalHeaders(accountHolderSimulateEnrollmentDocumentReviewParams.additionalHeaders)
-            additionalQueryParams(
+                    ?.toMutableList() ?: mutableListOf()
+            statusReason = accountHolderSimulateEnrollmentDocumentReviewParams.statusReason
+            additionalHeaders =
+                accountHolderSimulateEnrollmentDocumentReviewParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
                 accountHolderSimulateEnrollmentDocumentReviewParams.additionalQueryParams
-            )
-            additionalBodyProperties(
+                    .toBuilder()
+            additionalBodyProperties =
                 accountHolderSimulateEnrollmentDocumentReviewParams.additionalBodyProperties
-            )
+                    .toMutableMap()
         }
 
         /** The account holder document upload which to perform the simulation upon. */
@@ -404,8 +386,7 @@ constructor(
                     "`documentUploadToken` is required but was not set"
                 },
                 checkNotNull(status) { "`status` is required but was not set" },
-                if (acceptedEntityStatusReasons.size == 0) null
-                else acceptedEntityStatusReasons.toImmutable(),
+                acceptedEntityStatusReasons.toImmutable().ifEmpty { null },
                 statusReason,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -426,7 +407,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -495,7 +476,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DocumentUploadStatusReasons && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is DocumentUploadStatusReasons && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -611,4 +592,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AccountHolderSimulateEnrollmentDocumentReviewParams && documentUploadToken == other.documentUploadToken && status == other.status && acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && statusReason == other.statusReason && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(documentUploadToken, status, acceptedEntityStatusReasons, statusReason, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "AccountHolderSimulateEnrollmentDocumentReviewParams{documentUploadToken=$documentUploadToken, status=$status, acceptedEntityStatusReasons=$acceptedEntityStatusReasons, statusReason=$statusReason, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

@@ -35,6 +35,12 @@ constructor(
 
     fun entityToken(): String = entityToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): AccountHolderUploadDocumentBody {
         return AccountHolderUploadDocumentBody(
@@ -132,42 +138,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolderUploadDocumentBody && this.documentType == other.documentType && this.entityToken == other.entityToken && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountHolderUploadDocumentBody && documentType == other.documentType && entityToken == other.entityToken && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(documentType, entityToken, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(documentType, entityToken, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "AccountHolderUploadDocumentBody{documentType=$documentType, entityToken=$entityToken, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AccountHolderUploadDocumentParams && this.accountHolderToken == other.accountHolderToken && this.documentType == other.documentType && this.entityToken == other.entityToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountHolderToken, documentType, entityToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "AccountHolderUploadDocumentParams{accountHolderToken=$accountHolderToken, documentType=$documentType, entityToken=$entityToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -189,12 +171,14 @@ constructor(
         @JvmSynthetic
         internal fun from(accountHolderUploadDocumentParams: AccountHolderUploadDocumentParams) =
             apply {
-                this.accountHolderToken = accountHolderUploadDocumentParams.accountHolderToken
-                this.documentType = accountHolderUploadDocumentParams.documentType
-                this.entityToken = accountHolderUploadDocumentParams.entityToken
-                additionalHeaders(accountHolderUploadDocumentParams.additionalHeaders)
-                additionalQueryParams(accountHolderUploadDocumentParams.additionalQueryParams)
-                additionalBodyProperties(accountHolderUploadDocumentParams.additionalBodyProperties)
+                accountHolderToken = accountHolderUploadDocumentParams.accountHolderToken
+                documentType = accountHolderUploadDocumentParams.documentType
+                entityToken = accountHolderUploadDocumentParams.entityToken
+                additionalHeaders = accountHolderUploadDocumentParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    accountHolderUploadDocumentParams.additionalQueryParams.toBuilder()
+                additionalBodyProperties =
+                    accountHolderUploadDocumentParams.additionalBodyProperties.toMutableMap()
             }
 
         fun accountHolderToken(accountHolderToken: String) = apply {
@@ -353,7 +337,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DocumentType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is DocumentType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -501,4 +485,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AccountHolderUploadDocumentParams && accountHolderToken == other.accountHolderToken && documentType == other.documentType && entityToken == other.entityToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, documentType, entityToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "AccountHolderUploadDocumentParams{accountHolderToken=$accountHolderToken, documentType=$documentType, entityToken=$entityToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

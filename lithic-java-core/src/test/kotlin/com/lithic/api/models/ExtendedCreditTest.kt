@@ -9,8 +9,8 @@ class ExtendedCreditTest {
 
     @Test
     fun createExtendedCredit() {
-        val extendedCredit = ExtendedCredit.builder().creditExtended(123L).build()
+        val extendedCredit = ExtendedCredit.builder().creditExtended(0L).build()
         assertThat(extendedCredit).isNotNull
-        assertThat(extendedCredit.creditExtended()).isEqualTo(123L)
+        assertThat(extendedCredit.creditExtended()).isEqualTo(0L)
     }
 }

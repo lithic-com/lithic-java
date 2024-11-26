@@ -17,6 +17,10 @@ constructor(
 
     fun financialAccountToken(): String = financialAccountToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
@@ -27,25 +31,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is FinancialAccountCreditConfigurationRetrieveParams && this.financialAccountToken == other.financialAccountToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(financialAccountToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "FinancialAccountCreditConfigurationRetrieveParams{financialAccountToken=$financialAccountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -66,12 +51,12 @@ constructor(
             financialAccountCreditConfigurationRetrieveParams:
                 FinancialAccountCreditConfigurationRetrieveParams
         ) = apply {
-            this.financialAccountToken =
+            financialAccountToken =
                 financialAccountCreditConfigurationRetrieveParams.financialAccountToken
-            additionalHeaders(financialAccountCreditConfigurationRetrieveParams.additionalHeaders)
-            additionalQueryParams(
-                financialAccountCreditConfigurationRetrieveParams.additionalQueryParams
-            )
+            additionalHeaders =
+                financialAccountCreditConfigurationRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                financialAccountCreditConfigurationRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun financialAccountToken(financialAccountToken: String) = apply {
@@ -185,4 +170,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is FinancialAccountCreditConfigurationRetrieveParams && financialAccountToken == other.financialAccountToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(financialAccountToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "FinancialAccountCreditConfigurationRetrieveParams{financialAccountToken=$financialAccountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

@@ -54,6 +54,12 @@ constructor(
 
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): TransactionSimulateAuthorizationBody {
         return TransactionSimulateAuthorizationBody(
@@ -93,7 +99,7 @@ constructor(
         /**
          * Amount (in cents) to authorize. For credit authorizations and financial credit
          * authorizations, any value entered will be converted into a negative amount in the
-         * simulated transaction. For example, entering 100 in this field will appear as a -100
+         * simulated transaction. For example, entering 100 in this field will result in a -100
          * amount in the transaction. For balance inquiries, this field must be set to 0.
          */
         @JsonProperty("amount") fun amount(): Long? = amount
@@ -138,11 +144,10 @@ constructor(
          * Type of event to simulate.
          * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
          *   step is required to settle the transaction.
-         * - `BALANCE_INQUIRY` is a $0 authorization that includes a request for the balance held on
-         *   the card, and is most typically seen when a cardholder requests to view a card's
-         *   balance at an ATM.
-         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund
-         *   or credit, meaning a subsequent clearing step is required to settle the transaction.
+         * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
+         *   most often observed when a cardholder requests to view a card's balance at an ATM.
+         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
+         *   meaning a subsequent clearing step is required to settle the transaction.
          * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
          *   immediately (such as an ATM withdrawal), and no subsequent clearing is required to
          *   settle the transaction.
@@ -195,7 +200,7 @@ constructor(
             /**
              * Amount (in cents) to authorize. For credit authorizations and financial credit
              * authorizations, any value entered will be converted into a negative amount in the
-             * simulated transaction. For example, entering 100 in this field will appear as a -100
+             * simulated transaction. For example, entering 100 in this field will result in a -100
              * amount in the transaction. For balance inquiries, this field must be set to 0.
              */
             @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
@@ -252,12 +257,11 @@ constructor(
              * Type of event to simulate.
              * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent
              *   clearing step is required to settle the transaction.
-             * - `BALANCE_INQUIRY` is a $0 authorization that includes a request for the balance
-             *   held on the card, and is most typically seen when a cardholder requests to view a
-             *   card's balance at an ATM.
+             * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card,
+             *   and is most often observed when a cardholder requests to view a card's balance at
+             *   an ATM.
              * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a
-             *   refund or credit, meaning a subsequent clearing step is required to settle the
-             *   transaction.
+             *   refund, meaning a subsequent clearing step is required to settle the transaction.
              * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit
              *   funds immediately (such as an ATM withdrawal), and no subsequent clearing is
              *   required to settle the transaction.
@@ -301,42 +305,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionSimulateAuthorizationBody && this.amount == other.amount && this.descriptor == other.descriptor && this.pan == other.pan && this.mcc == other.mcc && this.merchantAcceptorId == other.merchantAcceptorId && this.merchantAmount == other.merchantAmount && this.merchantCurrency == other.merchantCurrency && this.partialApprovalCapable == other.partialApprovalCapable && this.status == other.status && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransactionSimulateAuthorizationBody && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && merchantAmount == other.merchantAmount && merchantCurrency == other.merchantCurrency && partialApprovalCapable == other.partialApprovalCapable && status == other.status && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, merchantAmount, merchantCurrency, partialApprovalCapable, status, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, merchantAmount, merchantCurrency, partialApprovalCapable, status, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "TransactionSimulateAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, status=$status, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is TransactionSimulateAuthorizationParams && this.amount == other.amount && this.descriptor == other.descriptor && this.pan == other.pan && this.mcc == other.mcc && this.merchantAcceptorId == other.merchantAcceptorId && this.merchantAmount == other.merchantAmount && this.merchantCurrency == other.merchantCurrency && this.partialApprovalCapable == other.partialApprovalCapable && this.status == other.status && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, merchantAmount, merchantCurrency, partialApprovalCapable, status, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -365,27 +345,26 @@ constructor(
         internal fun from(
             transactionSimulateAuthorizationParams: TransactionSimulateAuthorizationParams
         ) = apply {
-            this.amount = transactionSimulateAuthorizationParams.amount
-            this.descriptor = transactionSimulateAuthorizationParams.descriptor
-            this.pan = transactionSimulateAuthorizationParams.pan
-            this.mcc = transactionSimulateAuthorizationParams.mcc
-            this.merchantAcceptorId = transactionSimulateAuthorizationParams.merchantAcceptorId
-            this.merchantAmount = transactionSimulateAuthorizationParams.merchantAmount
-            this.merchantCurrency = transactionSimulateAuthorizationParams.merchantCurrency
-            this.partialApprovalCapable =
-                transactionSimulateAuthorizationParams.partialApprovalCapable
-            this.status = transactionSimulateAuthorizationParams.status
-            additionalHeaders(transactionSimulateAuthorizationParams.additionalHeaders)
-            additionalQueryParams(transactionSimulateAuthorizationParams.additionalQueryParams)
-            additionalBodyProperties(
-                transactionSimulateAuthorizationParams.additionalBodyProperties
-            )
+            amount = transactionSimulateAuthorizationParams.amount
+            descriptor = transactionSimulateAuthorizationParams.descriptor
+            pan = transactionSimulateAuthorizationParams.pan
+            mcc = transactionSimulateAuthorizationParams.mcc
+            merchantAcceptorId = transactionSimulateAuthorizationParams.merchantAcceptorId
+            merchantAmount = transactionSimulateAuthorizationParams.merchantAmount
+            merchantCurrency = transactionSimulateAuthorizationParams.merchantCurrency
+            partialApprovalCapable = transactionSimulateAuthorizationParams.partialApprovalCapable
+            status = transactionSimulateAuthorizationParams.status
+            additionalHeaders = transactionSimulateAuthorizationParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                transactionSimulateAuthorizationParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                transactionSimulateAuthorizationParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
          * Amount (in cents) to authorize. For credit authorizations and financial credit
          * authorizations, any value entered will be converted into a negative amount in the
-         * simulated transaction. For example, entering 100 in this field will appear as a -100
+         * simulated transaction. For example, entering 100 in this field will result in a -100
          * amount in the transaction. For balance inquiries, this field must be set to 0.
          */
         fun amount(amount: Long) = apply { this.amount = amount }
@@ -435,11 +414,10 @@ constructor(
          * Type of event to simulate.
          * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
          *   step is required to settle the transaction.
-         * - `BALANCE_INQUIRY` is a $0 authorization that includes a request for the balance held on
-         *   the card, and is most typically seen when a cardholder requests to view a card's
-         *   balance at an ATM.
-         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund
-         *   or credit, meaning a subsequent clearing step is required to settle the transaction.
+         * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
+         *   most often observed when a cardholder requests to view a card's balance at an ATM.
+         * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
+         *   meaning a subsequent clearing step is required to settle the transaction.
          * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
          *   immediately (such as an ATM withdrawal), and no subsequent clearing is required to
          *   settle the transaction.
@@ -598,7 +576,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -661,4 +639,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is TransactionSimulateAuthorizationParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && merchantAmount == other.merchantAmount && merchantCurrency == other.merchantCurrency && partialApprovalCapable == other.partialApprovalCapable && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, merchantAmount, merchantCurrency, partialApprovalCapable, status, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

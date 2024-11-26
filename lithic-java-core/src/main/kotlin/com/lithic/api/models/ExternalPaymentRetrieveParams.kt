@@ -17,6 +17,10 @@ constructor(
 
     fun externalPaymentToken(): String = externalPaymentToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
@@ -27,25 +31,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ExternalPaymentRetrieveParams && this.externalPaymentToken == other.externalPaymentToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(externalPaymentToken, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "ExternalPaymentRetrieveParams{externalPaymentToken=$externalPaymentToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -63,9 +48,9 @@ constructor(
 
         @JvmSynthetic
         internal fun from(externalPaymentRetrieveParams: ExternalPaymentRetrieveParams) = apply {
-            this.externalPaymentToken = externalPaymentRetrieveParams.externalPaymentToken
-            additionalHeaders(externalPaymentRetrieveParams.additionalHeaders)
-            additionalQueryParams(externalPaymentRetrieveParams.additionalQueryParams)
+            externalPaymentToken = externalPaymentRetrieveParams.externalPaymentToken
+            additionalHeaders = externalPaymentRetrieveParams.additionalHeaders.toBuilder()
+            additionalQueryParams = externalPaymentRetrieveParams.additionalQueryParams.toBuilder()
         }
 
         fun externalPaymentToken(externalPaymentToken: String) = apply {
@@ -179,4 +164,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ExternalPaymentRetrieveParams && externalPaymentToken == other.externalPaymentToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalPaymentToken, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "ExternalPaymentRetrieveParams{externalPaymentToken=$externalPaymentToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

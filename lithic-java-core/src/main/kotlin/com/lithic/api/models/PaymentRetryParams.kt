@@ -21,6 +21,12 @@ constructor(
 
     fun paymentToken(): String = paymentToken
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): Optional<Map<String, JsonValue>> {
         return Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
@@ -36,27 +42,6 @@ constructor(
             else -> ""
         }
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is PaymentRetryParams && this.paymentToken == other.paymentToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(paymentToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "PaymentRetryParams{paymentToken=$paymentToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -75,10 +60,10 @@ constructor(
 
         @JvmSynthetic
         internal fun from(paymentRetryParams: PaymentRetryParams) = apply {
-            this.paymentToken = paymentRetryParams.paymentToken
-            additionalHeaders(paymentRetryParams.additionalHeaders)
-            additionalQueryParams(paymentRetryParams.additionalQueryParams)
-            additionalBodyProperties(paymentRetryParams.additionalBodyProperties)
+            paymentToken = paymentRetryParams.paymentToken
+            additionalHeaders = paymentRetryParams.additionalHeaders.toBuilder()
+            additionalQueryParams = paymentRetryParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties = paymentRetryParams.additionalBodyProperties.toMutableMap()
         }
 
         fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
@@ -211,4 +196,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is PaymentRetryParams && paymentToken == other.paymentToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(paymentToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "PaymentRetryParams{paymentToken=$paymentToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

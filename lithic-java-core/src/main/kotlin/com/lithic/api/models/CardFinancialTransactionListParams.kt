@@ -46,6 +46,10 @@ constructor(
 
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -73,25 +77,6 @@ constructor(
         }
     }
 
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is CardFinancialTransactionListParams && this.cardToken == other.cardToken && this.begin == other.begin && this.category == other.category && this.end == other.end && this.endingBefore == other.endingBefore && this.result == other.result && this.startingAfter == other.startingAfter && this.status == other.status && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(cardToken, begin, category, end, endingBefore, result, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "CardFinancialTransactionListParams{cardToken=$cardToken, begin=$begin, category=$category, end=$end, endingBefore=$endingBefore, result=$result, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
-
     fun toBuilder() = Builder().from(this)
 
     companion object {
@@ -116,16 +101,17 @@ constructor(
         @JvmSynthetic
         internal fun from(cardFinancialTransactionListParams: CardFinancialTransactionListParams) =
             apply {
-                this.cardToken = cardFinancialTransactionListParams.cardToken
-                this.begin = cardFinancialTransactionListParams.begin
-                this.category = cardFinancialTransactionListParams.category
-                this.end = cardFinancialTransactionListParams.end
-                this.endingBefore = cardFinancialTransactionListParams.endingBefore
-                this.result = cardFinancialTransactionListParams.result
-                this.startingAfter = cardFinancialTransactionListParams.startingAfter
-                this.status = cardFinancialTransactionListParams.status
-                additionalHeaders(cardFinancialTransactionListParams.additionalHeaders)
-                additionalQueryParams(cardFinancialTransactionListParams.additionalQueryParams)
+                cardToken = cardFinancialTransactionListParams.cardToken
+                begin = cardFinancialTransactionListParams.begin
+                category = cardFinancialTransactionListParams.category
+                end = cardFinancialTransactionListParams.end
+                endingBefore = cardFinancialTransactionListParams.endingBefore
+                result = cardFinancialTransactionListParams.result
+                startingAfter = cardFinancialTransactionListParams.startingAfter
+                status = cardFinancialTransactionListParams.status
+                additionalHeaders = cardFinancialTransactionListParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    cardFinancialTransactionListParams.additionalQueryParams.toBuilder()
             }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
@@ -289,7 +275,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Category && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Category && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -346,7 +332,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Result && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Result && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -403,7 +389,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -470,4 +456,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is CardFinancialTransactionListParams && cardToken == other.cardToken && begin == other.begin && category == other.category && end == other.end && endingBefore == other.endingBefore && result == other.result && startingAfter == other.startingAfter && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, begin, category, end, endingBefore, result, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "CardFinancialTransactionListParams{cardToken=$cardToken, begin=$begin, category=$category, end=$end, endingBefore=$endingBefore, result=$result, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

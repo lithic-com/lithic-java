@@ -36,6 +36,12 @@ constructor(
 
     fun statusReasons(): Optional<List<StatusReason>> = Optional.ofNullable(statusReasons)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): AccountHolderSimulateEnrollmentReviewBody {
         return AccountHolderSimulateEnrollmentReviewBody(
@@ -147,42 +153,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolderSimulateEnrollmentReviewBody && this.accountHolderToken == other.accountHolderToken && this.status == other.status && this.statusReasons == other.statusReasons && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountHolderSimulateEnrollmentReviewBody && accountHolderToken == other.accountHolderToken && status == other.status && statusReasons == other.statusReasons && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(accountHolderToken, status, statusReasons, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(accountHolderToken, status, statusReasons, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "AccountHolderSimulateEnrollmentReviewBody{accountHolderToken=$accountHolderToken, status=$status, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AccountHolderSimulateEnrollmentReviewParams && this.accountHolderToken == other.accountHolderToken && this.status == other.status && this.statusReasons == other.statusReasons && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountHolderToken, status, statusReasons, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "AccountHolderSimulateEnrollmentReviewParams{accountHolderToken=$accountHolderToken, status=$status, statusReasons=$statusReasons, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -205,16 +187,17 @@ constructor(
         internal fun from(
             accountHolderSimulateEnrollmentReviewParams: AccountHolderSimulateEnrollmentReviewParams
         ) = apply {
-            this.accountHolderToken = accountHolderSimulateEnrollmentReviewParams.accountHolderToken
-            this.status = accountHolderSimulateEnrollmentReviewParams.status
-            this.statusReasons(
-                accountHolderSimulateEnrollmentReviewParams.statusReasons ?: listOf()
-            )
-            additionalHeaders(accountHolderSimulateEnrollmentReviewParams.additionalHeaders)
-            additionalQueryParams(accountHolderSimulateEnrollmentReviewParams.additionalQueryParams)
-            additionalBodyProperties(
-                accountHolderSimulateEnrollmentReviewParams.additionalBodyProperties
-            )
+            accountHolderToken = accountHolderSimulateEnrollmentReviewParams.accountHolderToken
+            status = accountHolderSimulateEnrollmentReviewParams.status
+            statusReasons =
+                accountHolderSimulateEnrollmentReviewParams.statusReasons?.toMutableList()
+                    ?: mutableListOf()
+            additionalHeaders =
+                accountHolderSimulateEnrollmentReviewParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                accountHolderSimulateEnrollmentReviewParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                accountHolderSimulateEnrollmentReviewParams.additionalBodyProperties.toMutableMap()
         }
 
         /** The account holder which to perform the simulation upon. */
@@ -366,7 +349,7 @@ constructor(
             AccountHolderSimulateEnrollmentReviewParams(
                 accountHolderToken,
                 status,
-                if (statusReasons.size == 0) null else statusReasons.toImmutable(),
+                statusReasons.toImmutable().ifEmpty { null },
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -386,7 +369,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -443,7 +426,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is StatusReason && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is StatusReason && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -642,4 +625,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AccountHolderSimulateEnrollmentReviewParams && accountHolderToken == other.accountHolderToken && status == other.status && statusReasons == other.statusReasons && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, status, statusReasons, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "AccountHolderSimulateEnrollmentReviewParams{accountHolderToken=$accountHolderToken, status=$status, statusReasons=$statusReasons, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

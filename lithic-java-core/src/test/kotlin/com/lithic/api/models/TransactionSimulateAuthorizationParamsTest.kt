@@ -11,12 +11,12 @@ class TransactionSimulateAuthorizationParamsTest {
     @Test
     fun createTransactionSimulateAuthorizationParams() {
         TransactionSimulateAuthorizationParams.builder()
-            .amount(123L)
+            .amount(0L)
             .descriptor("COFFEE SHOP")
             .pan("4111111289144142")
             .mcc("5812")
             .merchantAcceptorId("OODKZAPJVN4YS7O")
-            .merchantAmount(123L)
+            .merchantAmount(0L)
             .merchantCurrency("GBP")
             .partialApprovalCapable(true)
             .status(TransactionSimulateAuthorizationParams.Status.AUTHORIZATION)
@@ -27,24 +27,24 @@ class TransactionSimulateAuthorizationParamsTest {
     fun getBody() {
         val params =
             TransactionSimulateAuthorizationParams.builder()
-                .amount(123L)
+                .amount(0L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .mcc("5812")
                 .merchantAcceptorId("OODKZAPJVN4YS7O")
-                .merchantAmount(123L)
+                .merchantAmount(0L)
                 .merchantCurrency("GBP")
                 .partialApprovalCapable(true)
                 .status(TransactionSimulateAuthorizationParams.Status.AUTHORIZATION)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
         assertThat(body.mcc()).isEqualTo("5812")
         assertThat(body.merchantAcceptorId()).isEqualTo("OODKZAPJVN4YS7O")
-        assertThat(body.merchantAmount()).isEqualTo(123L)
+        assertThat(body.merchantAmount()).isEqualTo(0L)
         assertThat(body.merchantCurrency()).isEqualTo("GBP")
         assertThat(body.partialApprovalCapable()).isEqualTo(true)
         assertThat(body.status())
@@ -55,13 +55,13 @@ class TransactionSimulateAuthorizationParamsTest {
     fun getBodyWithoutOptionalFields() {
         val params =
             TransactionSimulateAuthorizationParams.builder()
-                .amount(123L)
+                .amount(0L)
                 .descriptor("COFFEE SHOP")
                 .pan("4111111289144142")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(123L)
+        assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
     }

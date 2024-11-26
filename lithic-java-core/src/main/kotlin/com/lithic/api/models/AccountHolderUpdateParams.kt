@@ -35,6 +35,12 @@ constructor(
 
     fun phoneNumber(): Optional<String> = Optional.ofNullable(phoneNumber)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): AccountHolderUpdateBody {
         return AccountHolderUpdateBody(
@@ -165,42 +171,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolderUpdateBody && this.businessAccountToken == other.businessAccountToken && this.email == other.email && this.phoneNumber == other.phoneNumber && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountHolderUpdateBody && businessAccountToken == other.businessAccountToken && email == other.email && phoneNumber == other.phoneNumber && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(businessAccountToken, email, phoneNumber, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(businessAccountToken, email, phoneNumber, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "AccountHolderUpdateBody{businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AccountHolderUpdateParams && this.accountHolderToken == other.accountHolderToken && this.businessAccountToken == other.businessAccountToken && this.email == other.email && this.phoneNumber == other.phoneNumber && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountHolderToken, businessAccountToken, email, phoneNumber, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "AccountHolderUpdateParams{accountHolderToken=$accountHolderToken, businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -222,13 +204,14 @@ constructor(
 
         @JvmSynthetic
         internal fun from(accountHolderUpdateParams: AccountHolderUpdateParams) = apply {
-            this.accountHolderToken = accountHolderUpdateParams.accountHolderToken
-            this.businessAccountToken = accountHolderUpdateParams.businessAccountToken
-            this.email = accountHolderUpdateParams.email
-            this.phoneNumber = accountHolderUpdateParams.phoneNumber
-            additionalHeaders(accountHolderUpdateParams.additionalHeaders)
-            additionalQueryParams(accountHolderUpdateParams.additionalQueryParams)
-            additionalBodyProperties(accountHolderUpdateParams.additionalBodyProperties)
+            accountHolderToken = accountHolderUpdateParams.accountHolderToken
+            businessAccountToken = accountHolderUpdateParams.businessAccountToken
+            email = accountHolderUpdateParams.email
+            phoneNumber = accountHolderUpdateParams.phoneNumber
+            additionalHeaders = accountHolderUpdateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = accountHolderUpdateParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                accountHolderUpdateParams.additionalBodyProperties.toMutableMap()
         }
 
         fun accountHolderToken(accountHolderToken: String) = apply {
@@ -390,4 +373,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AccountHolderUpdateParams && accountHolderToken == other.accountHolderToken && businessAccountToken == other.businessAccountToken && email == other.email && phoneNumber == other.phoneNumber && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, businessAccountToken, email, phoneNumber, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "AccountHolderUpdateParams{accountHolderToken=$accountHolderToken, businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

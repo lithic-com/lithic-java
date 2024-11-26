@@ -33,6 +33,12 @@ constructor(
 
     fun memo(): Optional<String> = Optional.ofNullable(memo)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): ManagementOperationReverseBody {
         return ManagementOperationReverseBody(
@@ -125,42 +131,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ManagementOperationReverseBody && this.effectiveDate == other.effectiveDate && this.memo == other.memo && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ManagementOperationReverseBody && effectiveDate == other.effectiveDate && memo == other.memo && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(effectiveDate, memo, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(effectiveDate, memo, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "ManagementOperationReverseBody{effectiveDate=$effectiveDate, memo=$memo, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ManagementOperationReverseParams && this.managementOperationToken == other.managementOperationToken && this.effectiveDate == other.effectiveDate && this.memo == other.memo && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(managementOperationToken, effectiveDate, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "ManagementOperationReverseParams{managementOperationToken=$managementOperationToken, effectiveDate=$effectiveDate, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -182,13 +164,14 @@ constructor(
         @JvmSynthetic
         internal fun from(managementOperationReverseParams: ManagementOperationReverseParams) =
             apply {
-                this.managementOperationToken =
-                    managementOperationReverseParams.managementOperationToken
-                this.effectiveDate = managementOperationReverseParams.effectiveDate
-                this.memo = managementOperationReverseParams.memo
-                additionalHeaders(managementOperationReverseParams.additionalHeaders)
-                additionalQueryParams(managementOperationReverseParams.additionalQueryParams)
-                additionalBodyProperties(managementOperationReverseParams.additionalBodyProperties)
+                managementOperationToken = managementOperationReverseParams.managementOperationToken
+                effectiveDate = managementOperationReverseParams.effectiveDate
+                memo = managementOperationReverseParams.memo
+                additionalHeaders = managementOperationReverseParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    managementOperationReverseParams.additionalQueryParams.toBuilder()
+                additionalBodyProperties =
+                    managementOperationReverseParams.additionalBodyProperties.toMutableMap()
             }
 
         fun managementOperationToken(managementOperationToken: String) = apply {
@@ -331,4 +314,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ManagementOperationReverseParams && managementOperationToken == other.managementOperationToken && effectiveDate == other.effectiveDate && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(managementOperationToken, effectiveDate, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "ManagementOperationReverseParams{managementOperationToken=$managementOperationToken, effectiveDate=$effectiveDate, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

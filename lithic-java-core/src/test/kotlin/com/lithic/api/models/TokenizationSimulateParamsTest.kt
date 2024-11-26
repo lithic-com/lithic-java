@@ -15,8 +15,8 @@ class TokenizationSimulateParamsTest {
             .expirationDate("xxxxx")
             .pan("4111111289144142")
             .tokenizationSource(TokenizationSimulateParams.TokenizationSource.APPLE_PAY)
-            .accountScore(123L)
-            .deviceScore(123L)
+            .accountScore(0L)
+            .deviceScore(0L)
             .entity("entity")
             .walletRecommendedDecision(
                 TokenizationSimulateParams.WalletRecommendedDecision.APPROVED
@@ -32,8 +32,8 @@ class TokenizationSimulateParamsTest {
                 .expirationDate("xxxxx")
                 .pan("4111111289144142")
                 .tokenizationSource(TokenizationSimulateParams.TokenizationSource.APPLE_PAY)
-                .accountScore(123L)
-                .deviceScore(123L)
+                .accountScore(0L)
+                .deviceScore(0L)
                 .entity("entity")
                 .walletRecommendedDecision(
                     TokenizationSimulateParams.WalletRecommendedDecision.APPROVED
@@ -46,8 +46,8 @@ class TokenizationSimulateParamsTest {
         assertThat(body.pan()).isEqualTo("4111111289144142")
         assertThat(body.tokenizationSource())
             .isEqualTo(TokenizationSimulateParams.TokenizationSource.APPLE_PAY)
-        assertThat(body.accountScore()).isEqualTo(123L)
-        assertThat(body.deviceScore()).isEqualTo(123L)
+        assertThat(body.accountScore()).isEqualTo(0L)
+        assertThat(body.deviceScore()).isEqualTo(0L)
         assertThat(body.entity()).isEqualTo("entity")
         assertThat(body.walletRecommendedDecision())
             .isEqualTo(TokenizationSimulateParams.WalletRecommendedDecision.APPROVED)

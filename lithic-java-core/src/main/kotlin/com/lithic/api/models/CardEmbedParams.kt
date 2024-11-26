@@ -20,6 +20,10 @@ constructor(
 
     fun hmac(): String = hmac
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -30,25 +34,6 @@ constructor(
         queryParams.putAll(additionalQueryParams)
         return queryParams.build()
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is CardEmbedParams && this.embedRequest == other.embedRequest && this.hmac == other.hmac && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(embedRequest, hmac, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "CardEmbedParams{embedRequest=$embedRequest, hmac=$hmac, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -67,10 +52,10 @@ constructor(
 
         @JvmSynthetic
         internal fun from(cardEmbedParams: CardEmbedParams) = apply {
-            this.embedRequest = cardEmbedParams.embedRequest
-            this.hmac = cardEmbedParams.hmac
-            additionalHeaders(cardEmbedParams.additionalHeaders)
-            additionalQueryParams(cardEmbedParams.additionalQueryParams)
+            embedRequest = cardEmbedParams.embedRequest
+            hmac = cardEmbedParams.hmac
+            additionalHeaders = cardEmbedParams.additionalHeaders.toBuilder()
+            additionalQueryParams = cardEmbedParams.additionalQueryParams.toBuilder()
         }
 
         /** A base64 encoded JSON string of an EmbedRequest to specify which card to load. */
@@ -185,4 +170,17 @@ constructor(
                 additionalQueryParams.build(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is CardEmbedParams && embedRequest == other.embedRequest && hmac == other.hmac && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(embedRequest, hmac, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "CardEmbedParams{embedRequest=$embedRequest, hmac=$hmac, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

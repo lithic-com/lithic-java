@@ -86,7 +86,7 @@ class ServiceParamsTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
-                .spendLimit(123L)
+                .spendLimit(0L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(CardCreateParams.State.OPEN)
                 .additionalHeaders(additionalHeaders)
@@ -113,7 +113,7 @@ class ServiceParamsTest {
                 )
                 .lastFour("xxxx")
                 .pinStatus(Card.PinStatus.OK)
-                .spendLimit(123L)
+                .spendLimit(1000L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(Card.State.CLOSED)
                 .type(Card.Type.MERCHANT_LOCKED)
@@ -128,6 +128,7 @@ class ServiceParamsTest {
                 .pan("4111111289144142")
                 .pendingCommands(listOf("string"))
                 .productId("1")
+                .replacementFor("5e9483eb-8103-4e16-9794-2106111b2eca")
                 .build()
 
         stubFor(

@@ -29,6 +29,12 @@ constructor(
 
     fun financialAccountToken(): Optional<String> = Optional.ofNullable(financialAccountToken)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): ExternalBankAccountRetryMicroDepositsBody {
         return ExternalBankAccountRetryMicroDepositsBody(
@@ -115,42 +121,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ExternalBankAccountRetryMicroDepositsBody && this.financialAccountToken == other.financialAccountToken && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ExternalBankAccountRetryMicroDepositsBody && financialAccountToken == other.financialAccountToken && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(financialAccountToken, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(financialAccountToken, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "ExternalBankAccountRetryMicroDepositsBody{financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ExternalBankAccountRetryMicroDepositsParams && this.externalBankAccountToken == other.externalBankAccountToken && this.financialAccountToken == other.financialAccountToken && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(externalBankAccountToken, financialAccountToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "ExternalBankAccountRetryMicroDepositsParams{externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -172,15 +154,16 @@ constructor(
         internal fun from(
             externalBankAccountRetryMicroDepositsParams: ExternalBankAccountRetryMicroDepositsParams
         ) = apply {
-            this.externalBankAccountToken =
+            externalBankAccountToken =
                 externalBankAccountRetryMicroDepositsParams.externalBankAccountToken
-            this.financialAccountToken =
+            financialAccountToken =
                 externalBankAccountRetryMicroDepositsParams.financialAccountToken
-            additionalHeaders(externalBankAccountRetryMicroDepositsParams.additionalHeaders)
-            additionalQueryParams(externalBankAccountRetryMicroDepositsParams.additionalQueryParams)
-            additionalBodyProperties(
-                externalBankAccountRetryMicroDepositsParams.additionalBodyProperties
-            )
+            additionalHeaders =
+                externalBankAccountRetryMicroDepositsParams.additionalHeaders.toBuilder()
+            additionalQueryParams =
+                externalBankAccountRetryMicroDepositsParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                externalBankAccountRetryMicroDepositsParams.additionalBodyProperties.toMutableMap()
         }
 
         fun externalBankAccountToken(externalBankAccountToken: String) = apply {
@@ -322,4 +305,17 @@ constructor(
                 additionalBodyProperties.toImmutable(),
             )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ExternalBankAccountRetryMicroDepositsParams && externalBankAccountToken == other.externalBankAccountToken && financialAccountToken == other.financialAccountToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountToken, financialAccountToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "ExternalBankAccountRetryMicroDepositsParams{externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

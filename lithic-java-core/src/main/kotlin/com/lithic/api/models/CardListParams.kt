@@ -43,6 +43,10 @@ constructor(
 
     fun state(): Optional<State> = Optional.ofNullable(state)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
     @JvmSynthetic
@@ -62,25 +66,6 @@ constructor(
         queryParams.putAll(additionalQueryParams)
         return queryParams.build()
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is CardListParams && this.accountToken == other.accountToken && this.begin == other.begin && this.end == other.end && this.endingBefore == other.endingBefore && this.pageSize == other.pageSize && this.startingAfter == other.startingAfter && this.state == other.state && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(accountToken, begin, end, endingBefore, pageSize, startingAfter, state, additionalHeaders, additionalQueryParams) /* spotless:on */
-    }
-
-    override fun toString() =
-        "CardListParams{accountToken=$accountToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -104,15 +89,15 @@ constructor(
 
         @JvmSynthetic
         internal fun from(cardListParams: CardListParams) = apply {
-            this.accountToken = cardListParams.accountToken
-            this.begin = cardListParams.begin
-            this.end = cardListParams.end
-            this.endingBefore = cardListParams.endingBefore
-            this.pageSize = cardListParams.pageSize
-            this.startingAfter = cardListParams.startingAfter
-            this.state = cardListParams.state
-            additionalHeaders(cardListParams.additionalHeaders)
-            additionalQueryParams(cardListParams.additionalQueryParams)
+            accountToken = cardListParams.accountToken
+            begin = cardListParams.begin
+            end = cardListParams.end
+            endingBefore = cardListParams.endingBefore
+            pageSize = cardListParams.pageSize
+            startingAfter = cardListParams.startingAfter
+            state = cardListParams.state
+            additionalHeaders = cardListParams.additionalHeaders.toBuilder()
+            additionalQueryParams = cardListParams.additionalQueryParams.toBuilder()
         }
 
         /** Returns cards associated with the specified account. */
@@ -273,7 +258,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is State && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is State && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -334,4 +319,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is CardListParams && accountToken == other.accountToken && begin == other.begin && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && startingAfter == other.startingAfter && state == other.state && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, end, endingBefore, pageSize, startingAfter, state, additionalHeaders, additionalQueryParams) /* spotless:on */
+
+    override fun toString() =
+        "CardListParams{accountToken=$accountToken, begin=$begin, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, startingAfter=$startingAfter, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

@@ -407,17 +407,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SettlementReport && this.created == other.created && this.currency == other.currency && this.details == other.details && this.disputesGrossAmount == other.disputesGrossAmount && this.interchangeGrossAmount == other.interchangeGrossAmount && this.isComplete == other.isComplete && this.otherFeesGrossAmount == other.otherFeesGrossAmount && this.reportDate == other.reportDate && this.settledNetAmount == other.settledNetAmount && this.transactionsGrossAmount == other.transactionsGrossAmount && this.updated == other.updated && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is SettlementReport && created == other.created && currency == other.currency && details == other.details && disputesGrossAmount == other.disputesGrossAmount && interchangeGrossAmount == other.interchangeGrossAmount && isComplete == other.isComplete && otherFeesGrossAmount == other.otherFeesGrossAmount && reportDate == other.reportDate && settledNetAmount == other.settledNetAmount && transactionsGrossAmount == other.transactionsGrossAmount && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(created, currency, details, disputesGrossAmount, interchangeGrossAmount, isComplete, otherFeesGrossAmount, reportDate, settledNetAmount, transactionsGrossAmount, updated, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(created, currency, details, disputesGrossAmount, interchangeGrossAmount, isComplete, otherFeesGrossAmount, reportDate, settledNetAmount, transactionsGrossAmount, updated, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "SettlementReport{created=$created, currency=$currency, details=$details, disputesGrossAmount=$disputesGrossAmount, interchangeGrossAmount=$interchangeGrossAmount, isComplete=$isComplete, otherFeesGrossAmount=$otherFeesGrossAmount, reportDate=$reportDate, settledNetAmount=$settledNetAmount, transactionsGrossAmount=$transactionsGrossAmount, updated=$updated, additionalProperties=$additionalProperties}"

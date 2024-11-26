@@ -781,11 +781,13 @@ private constructor(
 
             private var validated: Boolean = false
 
-            /** The aggregate settled amount in the cardholder billing currency. */
+            /**
+             * The estimated settled amount of the transaction in the cardholder billing currency.
+             */
             fun amount(): Long = amount.getRequired("amount")
 
             /**
-             * The conversion rate used to convert the merchant amount to the cardholder billing
+             * The exchange rate used to convert the merchant amount to the cardholder billing
              * amount.
              */
             fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
@@ -797,11 +799,13 @@ private constructor(
              */
             fun currency(): Currency = currency.getRequired("currency")
 
-            /** The aggregate settled amount in the cardholder billing currency. */
+            /**
+             * The estimated settled amount of the transaction in the cardholder billing currency.
+             */
             @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
             /**
-             * The conversion rate used to convert the merchant amount to the cardholder billing
+             * The exchange rate used to convert the merchant amount to the cardholder billing
              * amount.
              */
             @JsonProperty("conversion_rate") @ExcludeMissing fun _conversionRate() = conversionRate
@@ -848,23 +852,29 @@ private constructor(
                     additionalProperties(cardholder.additionalProperties)
                 }
 
-                /** The aggregate settled amount in the cardholder billing currency. */
+                /**
+                 * The estimated settled amount of the transaction in the cardholder billing
+                 * currency.
+                 */
                 fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                /** The aggregate settled amount in the cardholder billing currency. */
+                /**
+                 * The estimated settled amount of the transaction in the cardholder billing
+                 * currency.
+                 */
                 @JsonProperty("amount")
                 @ExcludeMissing
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                 /**
-                 * The conversion rate used to convert the merchant amount to the cardholder billing
+                 * The exchange rate used to convert the merchant amount to the cardholder billing
                  * amount.
                  */
                 fun conversionRate(conversionRate: String) =
                     conversionRate(JsonField.of(conversionRate))
 
                 /**
-                 * The conversion rate used to convert the merchant amount to the cardholder billing
+                 * The exchange rate used to convert the merchant amount to the cardholder billing
                  * amount.
                  */
                 @JsonProperty("conversion_rate")
@@ -918,17 +928,14 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Cardholder && this.amount == other.amount && this.conversionRate == other.conversionRate && this.currency == other.currency && this.additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Cardholder && amount == other.amount && conversionRate == other.conversionRate && currency == other.currency && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
-            private var hashCode: Int = 0
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(amount, conversionRate, currency, additionalProperties) }
+            /* spotless:on */
 
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode = /* spotless:off */ Objects.hash(amount, conversionRate, currency, additionalProperties) /* spotless:on */
-                }
-                return hashCode
-            }
+            override fun hashCode(): Int = hashCode
 
             override fun toString() =
                 "Cardholder{amount=$amount, conversionRate=$conversionRate, currency=$currency, additionalProperties=$additionalProperties}"
@@ -945,10 +952,7 @@ private constructor(
 
             private var validated: Boolean = false
 
-            /**
-             * The aggregate authorization amount of the transaction in the anticipated settlement
-             * currency.
-             */
+            /** The pending amount of the transaction in the anticipated settlement currency. */
             fun amount(): Long = amount.getRequired("amount")
 
             /**
@@ -958,10 +962,7 @@ private constructor(
              */
             fun currency(): Currency = currency.getRequired("currency")
 
-            /**
-             * The aggregate authorization amount of the transaction in the anticipated settlement
-             * currency.
-             */
+            /** The pending amount of the transaction in the anticipated settlement currency. */
             @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
             /**
@@ -1003,16 +1004,10 @@ private constructor(
                     additionalProperties(hold.additionalProperties)
                 }
 
-                /**
-                 * The aggregate authorization amount of the transaction in the anticipated
-                 * settlement currency.
-                 */
+                /** The pending amount of the transaction in the anticipated settlement currency. */
                 fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                /**
-                 * The aggregate authorization amount of the transaction in the anticipated
-                 * settlement currency.
-                 */
+                /** The pending amount of the transaction in the anticipated settlement currency. */
                 @JsonProperty("amount")
                 @ExcludeMissing
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
@@ -1061,17 +1056,14 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Hold && this.amount == other.amount && this.currency == other.currency && this.additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Hold && amount == other.amount && currency == other.currency && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
-            private var hashCode: Int = 0
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(amount, currency, additionalProperties) }
+            /* spotless:on */
 
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode = /* spotless:off */ Objects.hash(amount, currency, additionalProperties) /* spotless:on */
-                }
-                return hashCode
-            }
+            override fun hashCode(): Int = hashCode
 
             override fun toString() =
                 "Hold{amount=$amount, currency=$currency, additionalProperties=$additionalProperties}"
@@ -1088,7 +1080,7 @@ private constructor(
 
             private var validated: Boolean = false
 
-            /** The aggregate settled amount in the merchant currency. */
+            /** The settled amount of the transaction in the merchant currency. */
             fun amount(): Long = amount.getRequired("amount")
 
             /**
@@ -1098,7 +1090,7 @@ private constructor(
              */
             fun currency(): Currency = currency.getRequired("currency")
 
-            /** The aggregate settled amount in the merchant currency. */
+            /** The settled amount of the transaction in the merchant currency. */
             @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
             /**
@@ -1140,10 +1132,10 @@ private constructor(
                     additionalProperties(merchant.additionalProperties)
                 }
 
-                /** The aggregate settled amount in the merchant currency. */
+                /** The settled amount of the transaction in the merchant currency. */
                 fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                /** The aggregate settled amount in the merchant currency. */
+                /** The settled amount of the transaction in the merchant currency. */
                 @JsonProperty("amount")
                 @ExcludeMissing
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
@@ -1192,17 +1184,14 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Merchant && this.amount == other.amount && this.currency == other.currency && this.additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Merchant && amount == other.amount && currency == other.currency && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
-            private var hashCode: Int = 0
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(amount, currency, additionalProperties) }
+            /* spotless:on */
 
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode = /* spotless:off */ Objects.hash(amount, currency, additionalProperties) /* spotless:on */
-                }
-                return hashCode
-            }
+            override fun hashCode(): Int = hashCode
 
             override fun toString() =
                 "Merchant{amount=$amount, currency=$currency, additionalProperties=$additionalProperties}"
@@ -1219,7 +1208,7 @@ private constructor(
 
             private var validated: Boolean = false
 
-            /** The aggregate settled amount in the settlement currency. */
+            /** The settled amount of the transaction in the settlement currency. */
             fun amount(): Long = amount.getRequired("amount")
 
             /**
@@ -1229,7 +1218,7 @@ private constructor(
              */
             fun currency(): Currency = currency.getRequired("currency")
 
-            /** The aggregate settled amount in the settlement currency. */
+            /** The settled amount of the transaction in the settlement currency. */
             @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
             /**
@@ -1271,10 +1260,10 @@ private constructor(
                     additionalProperties(settlement.additionalProperties)
                 }
 
-                /** The aggregate settled amount in the settlement currency. */
+                /** The settled amount of the transaction in the settlement currency. */
                 fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                /** The aggregate settled amount in the settlement currency. */
+                /** The settled amount of the transaction in the settlement currency. */
                 @JsonProperty("amount")
                 @ExcludeMissing
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
@@ -1323,17 +1312,14 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Settlement && this.amount == other.amount && this.currency == other.currency && this.additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is Settlement && amount == other.amount && currency == other.currency && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
-            private var hashCode: Int = 0
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(amount, currency, additionalProperties) }
+            /* spotless:on */
 
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode = /* spotless:off */ Objects.hash(amount, currency, additionalProperties) /* spotless:on */
-                }
-                return hashCode
-            }
+            override fun hashCode(): Int = hashCode
 
             override fun toString() =
                 "Settlement{amount=$amount, currency=$currency, additionalProperties=$additionalProperties}"
@@ -1344,17 +1330,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionAmounts && this.cardholder == other.cardholder && this.hold == other.hold && this.merchant == other.merchant && this.settlement == other.settlement && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransactionAmounts && cardholder == other.cardholder && hold == other.hold && merchant == other.merchant && settlement == other.settlement && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(cardholder, hold, merchant, settlement, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(cardholder, hold, merchant, settlement, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "TransactionAmounts{cardholder=$cardholder, hold=$hold, merchant=$merchant, settlement=$settlement, additionalProperties=$additionalProperties}"
@@ -1458,17 +1441,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Avs && this.address == other.address && this.zipcode == other.zipcode && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Avs && address == other.address && zipcode == other.zipcode && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(address, zipcode, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(address, zipcode, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "Avs{address=$address, zipcode=$zipcode, additionalProperties=$additionalProperties}"
@@ -1818,7 +1798,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is AcquirerExemption && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is AcquirerExemption && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1924,7 +1904,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is AuthenticationResult && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is AuthenticationResult && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -1993,7 +1973,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is DecisionMadeBy && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is DecisionMadeBy && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -2068,7 +2048,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is LiabilityShift && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is LiabilityShift && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -2139,7 +2119,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is VerificationAttempted && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is VerificationAttempted && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -2197,7 +2177,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is VerificationResult && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is VerificationResult && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -2270,17 +2250,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardholderAuthentication && this._3dsVersion == other._3dsVersion && this.acquirerExemption == other.acquirerExemption && this.authenticationResult == other.authenticationResult && this.decisionMadeBy == other.decisionMadeBy && this.liabilityShift == other.liabilityShift && this.threeDSAuthenticationToken == other.threeDSAuthenticationToken && this.verificationAttempted == other.verificationAttempted && this.verificationResult == other.verificationResult && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CardholderAuthentication && _3dsVersion == other._3dsVersion && acquirerExemption == other.acquirerExemption && authenticationResult == other.authenticationResult && decisionMadeBy == other.decisionMadeBy && liabilityShift == other.liabilityShift && threeDSAuthenticationToken == other.threeDSAuthenticationToken && verificationAttempted == other.verificationAttempted && verificationResult == other.verificationResult && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(_3dsVersion, acquirerExemption, authenticationResult, decisionMadeBy, liabilityShift, threeDSAuthenticationToken, verificationAttempted, verificationResult, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(_3dsVersion, acquirerExemption, authenticationResult, decisionMadeBy, liabilityShift, threeDSAuthenticationToken, verificationAttempted, verificationResult, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "CardholderAuthentication{_3dsVersion=$_3dsVersion, acquirerExemption=$acquirerExemption, authenticationResult=$authenticationResult, decisionMadeBy=$decisionMadeBy, liabilityShift=$liabilityShift, threeDSAuthenticationToken=$threeDSAuthenticationToken, verificationAttempted=$verificationAttempted, verificationResult=$verificationResult, additionalProperties=$additionalProperties}"
@@ -2521,17 +2498,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Merchant && this.acceptorId == other.acceptorId && this.acquiringInstitutionId == other.acquiringInstitutionId && this.city == other.city && this.country == other.country && this.descriptor == other.descriptor && this.mcc == other.mcc && this.state == other.state && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Merchant && acceptorId == other.acceptorId && acquiringInstitutionId == other.acquiringInstitutionId && city == other.city && country == other.country && descriptor == other.descriptor && mcc == other.mcc && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(acceptorId, acquiringInstitutionId, city, country, descriptor, mcc, state, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(acceptorId, acquiringInstitutionId, city, country, descriptor, mcc, state, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "Merchant{acceptorId=$acceptorId, acquiringInstitutionId=$acquiringInstitutionId, city=$city, country=$country, descriptor=$descriptor, mcc=$mcc, state=$state, additionalProperties=$additionalProperties}"
@@ -2550,7 +2524,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Network && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -2850,7 +2824,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Card && this.value == other.value /* spotless:on */
+                    return /* spotless:off */ other is Card && value == other.value /* spotless:on */
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -2919,7 +2893,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Cardholder && this.value == other.value /* spotless:on */
+                    return /* spotless:off */ other is Cardholder && value == other.value /* spotless:on */
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -3024,7 +2998,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Pan && this.value == other.value /* spotless:on */
+                    return /* spotless:off */ other is Pan && value == other.value /* spotless:on */
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -3151,17 +3125,14 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is PosEntryMode && this.card == other.card && this.cardholder == other.cardholder && this.pan == other.pan && this.pinEntered == other.pinEntered && this.additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is PosEntryMode && card == other.card && cardholder == other.cardholder && pan == other.pan && pinEntered == other.pinEntered && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
-            private var hashCode: Int = 0
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(card, cardholder, pan, pinEntered, additionalProperties) }
+            /* spotless:on */
 
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode = /* spotless:off */ Objects.hash(card, cardholder, pan, pinEntered, additionalProperties) /* spotless:on */
-                }
-                return hashCode
-            }
+            override fun hashCode(): Int = hashCode
 
             override fun toString() =
                 "PosEntryMode{card=$card, cardholder=$cardholder, pan=$pan, pinEntered=$pinEntered, additionalProperties=$additionalProperties}"
@@ -3408,7 +3379,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Operator && this.value == other.value /* spotless:on */
+                    return /* spotless:off */ other is Operator && value == other.value /* spotless:on */
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -3477,7 +3448,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is PinCapability && this.value == other.value /* spotless:on */
+                    return /* spotless:off */ other is PinCapability && value == other.value /* spotless:on */
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -3546,7 +3517,7 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+                    return /* spotless:off */ other is Type && value == other.value /* spotless:on */
                 }
 
                 override fun hashCode() = value.hashCode()
@@ -3728,17 +3699,14 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is PosTerminal && this.attended == other.attended && this.cardRetentionCapable == other.cardRetentionCapable && this.onPremise == other.onPremise && this.operator == other.operator && this.partialApprovalCapable == other.partialApprovalCapable && this.pinCapability == other.pinCapability && this.type == other.type && this.additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is PosTerminal && attended == other.attended && cardRetentionCapable == other.cardRetentionCapable && onPremise == other.onPremise && operator == other.operator && partialApprovalCapable == other.partialApprovalCapable && pinCapability == other.pinCapability && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
-            private var hashCode: Int = 0
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(attended, cardRetentionCapable, onPremise, operator, partialApprovalCapable, pinCapability, type, additionalProperties) }
+            /* spotless:on */
 
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode = /* spotless:off */ Objects.hash(attended, cardRetentionCapable, onPremise, operator, partialApprovalCapable, pinCapability, type, additionalProperties) /* spotless:on */
-                }
-                return hashCode
-            }
+            override fun hashCode(): Int = hashCode
 
             override fun toString() =
                 "PosTerminal{attended=$attended, cardRetentionCapable=$cardRetentionCapable, onPremise=$onPremise, operator=$operator, partialApprovalCapable=$partialApprovalCapable, pinCapability=$pinCapability, type=$type, additionalProperties=$additionalProperties}"
@@ -3749,17 +3717,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Pos && this.entryMode == other.entryMode && this.terminal == other.terminal && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Pos && entryMode == other.entryMode && terminal == other.terminal && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(entryMode, terminal, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(entryMode, terminal, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "Pos{entryMode=$entryMode, terminal=$terminal, additionalProperties=$additionalProperties}"
@@ -3778,7 +3743,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is DeclineResult && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is DeclineResult && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -3969,7 +3934,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -4136,7 +4101,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is WalletType && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is WalletType && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -4209,17 +4174,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TokenInfo && this.walletType == other.walletType && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TokenInfo && walletType == other.walletType && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(walletType, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(walletType, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "TokenInfo{walletType=$walletType, additionalProperties=$additionalProperties}"
@@ -4550,11 +4512,11 @@ private constructor(
 
                 private var validated: Boolean = false
 
-                /** The amount in the cardholder billing currency. */
+                /** Amount of the event in the cardholder billing currency. */
                 fun amount(): Long = amount.getRequired("amount")
 
                 /**
-                 * The conversion rate used to convert the merchant amount to the cardholder billing
+                 * Exchange rate used to convert the merchant amount to the cardholder billing
                  * amount.
                  */
                 fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
@@ -4566,11 +4528,11 @@ private constructor(
                  */
                 fun currency(): Currency = currency.getRequired("currency")
 
-                /** The amount in the cardholder billing currency. */
+                /** Amount of the event in the cardholder billing currency. */
                 @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
                 /**
-                 * The conversion rate used to convert the merchant amount to the cardholder billing
+                 * Exchange rate used to convert the merchant amount to the cardholder billing
                  * amount.
                  */
                 @JsonProperty("conversion_rate")
@@ -4619,24 +4581,24 @@ private constructor(
                         additionalProperties(cardholder.additionalProperties)
                     }
 
-                    /** The amount in the cardholder billing currency. */
+                    /** Amount of the event in the cardholder billing currency. */
                     fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                    /** The amount in the cardholder billing currency. */
+                    /** Amount of the event in the cardholder billing currency. */
                     @JsonProperty("amount")
                     @ExcludeMissing
                     fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                     /**
-                     * The conversion rate used to convert the merchant amount to the cardholder
-                     * billing amount.
+                     * Exchange rate used to convert the merchant amount to the cardholder billing
+                     * amount.
                      */
                     fun conversionRate(conversionRate: String) =
                         conversionRate(JsonField.of(conversionRate))
 
                     /**
-                     * The conversion rate used to convert the merchant amount to the cardholder
-                     * billing amount.
+                     * Exchange rate used to convert the merchant amount to the cardholder billing
+                     * amount.
                      */
                     @JsonProperty("conversion_rate")
                     @ExcludeMissing
@@ -4689,17 +4651,14 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Cardholder && this.amount == other.amount && this.conversionRate == other.conversionRate && this.currency == other.currency && this.additionalProperties == other.additionalProperties /* spotless:on */
+                    return /* spotless:off */ other is Cardholder && amount == other.amount && conversionRate == other.conversionRate && currency == other.currency && additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
-                private var hashCode: Int = 0
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(amount, conversionRate, currency, additionalProperties) }
+                /* spotless:on */
 
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode = /* spotless:off */ Objects.hash(amount, conversionRate, currency, additionalProperties) /* spotless:on */
-                    }
-                    return hashCode
-                }
+                override fun hashCode(): Int = hashCode
 
                 override fun toString() =
                     "Cardholder{amount=$amount, conversionRate=$conversionRate, currency=$currency, additionalProperties=$additionalProperties}"
@@ -4716,7 +4675,7 @@ private constructor(
 
                 private var validated: Boolean = false
 
-                /** The amount in the merchant currency. */
+                /** Amount of the event in the merchant currency. */
                 fun amount(): Long = amount.getRequired("amount")
 
                 /**
@@ -4726,7 +4685,7 @@ private constructor(
                  */
                 fun currency(): Currency = currency.getRequired("currency")
 
-                /** The amount in the merchant currency. */
+                /** Amount of the event in the merchant currency. */
                 @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
                 /**
@@ -4768,10 +4727,10 @@ private constructor(
                         additionalProperties(merchant.additionalProperties)
                     }
 
-                    /** The amount in the merchant currency. */
+                    /** Amount of the event in the merchant currency. */
                     fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                    /** The amount in the merchant currency. */
+                    /** Amount of the event in the merchant currency. */
                     @JsonProperty("amount")
                     @ExcludeMissing
                     fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
@@ -4820,17 +4779,14 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Merchant && this.amount == other.amount && this.currency == other.currency && this.additionalProperties == other.additionalProperties /* spotless:on */
+                    return /* spotless:off */ other is Merchant && amount == other.amount && currency == other.currency && additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
-                private var hashCode: Int = 0
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(amount, currency, additionalProperties) }
+                /* spotless:on */
 
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode = /* spotless:off */ Objects.hash(amount, currency, additionalProperties) /* spotless:on */
-                    }
-                    return hashCode
-                }
+                override fun hashCode(): Int = hashCode
 
                 override fun toString() =
                     "Merchant{amount=$amount, currency=$currency, additionalProperties=$additionalProperties}"
@@ -4848,10 +4804,13 @@ private constructor(
 
                 private var validated: Boolean = false
 
-                /** Amount of the event, if it is financial, in the settlement currency. */
+                /**
+                 * Amount of the event, if it is financial, in the settlement currency.
+                 * Non-financial events do not contain this amount because they do not move funds.
+                 */
                 fun amount(): Long = amount.getRequired("amount")
 
-                /** Conversion rate used to convert the merchant amount to the settlement amount. */
+                /** Exchange rate used to convert the merchant amount to the settlement amount. */
                 fun conversionRate(): String = conversionRate.getRequired("conversion_rate")
 
                 /**
@@ -4861,10 +4820,13 @@ private constructor(
                  */
                 fun currency(): Currency = currency.getRequired("currency")
 
-                /** Amount of the event, if it is financial, in the settlement currency. */
+                /**
+                 * Amount of the event, if it is financial, in the settlement currency.
+                 * Non-financial events do not contain this amount because they do not move funds.
+                 */
                 @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
-                /** Conversion rate used to convert the merchant amount to the settlement amount. */
+                /** Exchange rate used to convert the merchant amount to the settlement amount. */
                 @JsonProperty("conversion_rate")
                 @ExcludeMissing
                 fun _conversionRate() = conversionRate
@@ -4911,22 +4873,30 @@ private constructor(
                         additionalProperties(settlement.additionalProperties)
                     }
 
-                    /** Amount of the event, if it is financial, in the settlement currency. */
+                    /**
+                     * Amount of the event, if it is financial, in the settlement currency.
+                     * Non-financial events do not contain this amount because they do not move
+                     * funds.
+                     */
                     fun amount(amount: Long) = amount(JsonField.of(amount))
 
-                    /** Amount of the event, if it is financial, in the settlement currency. */
+                    /**
+                     * Amount of the event, if it is financial, in the settlement currency.
+                     * Non-financial events do not contain this amount because they do not move
+                     * funds.
+                     */
                     @JsonProperty("amount")
                     @ExcludeMissing
                     fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                     /**
-                     * Conversion rate used to convert the merchant amount to the settlement amount.
+                     * Exchange rate used to convert the merchant amount to the settlement amount.
                      */
                     fun conversionRate(conversionRate: String) =
                         conversionRate(JsonField.of(conversionRate))
 
                     /**
-                     * Conversion rate used to convert the merchant amount to the settlement amount.
+                     * Exchange rate used to convert the merchant amount to the settlement amount.
                      */
                     @JsonProperty("conversion_rate")
                     @ExcludeMissing
@@ -4979,17 +4949,14 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Settlement && this.amount == other.amount && this.conversionRate == other.conversionRate && this.currency == other.currency && this.additionalProperties == other.additionalProperties /* spotless:on */
+                    return /* spotless:off */ other is Settlement && amount == other.amount && conversionRate == other.conversionRate && currency == other.currency && additionalProperties == other.additionalProperties /* spotless:on */
                 }
 
-                private var hashCode: Int = 0
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(amount, conversionRate, currency, additionalProperties) }
+                /* spotless:on */
 
-                override fun hashCode(): Int {
-                    if (hashCode == 0) {
-                        hashCode = /* spotless:off */ Objects.hash(amount, conversionRate, currency, additionalProperties) /* spotless:on */
-                    }
-                    return hashCode
-                }
+                override fun hashCode(): Int = hashCode
 
                 override fun toString() =
                     "Settlement{amount=$amount, conversionRate=$conversionRate, currency=$currency, additionalProperties=$additionalProperties}"
@@ -5000,17 +4967,14 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is TransactionEventAmounts && this.cardholder == other.cardholder && this.merchant == other.merchant && this.settlement == other.settlement && this.additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is TransactionEventAmounts && cardholder == other.cardholder && merchant == other.merchant && settlement == other.settlement && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
-            private var hashCode: Int = 0
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(cardholder, merchant, settlement, additionalProperties) }
+            /* spotless:on */
 
-            override fun hashCode(): Int {
-                if (hashCode == 0) {
-                    hashCode = /* spotless:off */ Objects.hash(cardholder, merchant, settlement, additionalProperties) /* spotless:on */
-                }
-                return hashCode
-            }
+            override fun hashCode(): Int = hashCode
 
             override fun toString() =
                 "TransactionEventAmounts{cardholder=$cardholder, merchant=$merchant, settlement=$settlement, additionalProperties=$additionalProperties}"
@@ -5029,7 +4993,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is DetailedResult && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is DetailedResult && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -5456,7 +5420,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is EffectivePolarity && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is EffectivePolarity && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -5513,7 +5477,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is DeclineResult && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is DeclineResult && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -5710,7 +5674,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Type && this.value == other.value /* spotless:on */
+                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
             }
 
             override fun hashCode() = value.hashCode()
@@ -5835,17 +5799,14 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionEvent && this.amount == other.amount && this.amounts == other.amounts && this.created == other.created && this.detailedResults == other.detailedResults && this.effectivePolarity == other.effectivePolarity && this.result == other.result && this.token == other.token && this.type == other.type && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransactionEvent && amount == other.amount && amounts == other.amounts && created == other.created && detailedResults == other.detailedResults && effectivePolarity == other.effectivePolarity && result == other.result && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(amount, amounts, created, detailedResults, effectivePolarity, result, token, type, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(amount, amounts, created, detailedResults, effectivePolarity, result, token, type, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "TransactionEvent{amount=$amount, amounts=$amounts, created=$created, detailedResults=$detailedResults, effectivePolarity=$effectivePolarity, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
@@ -5856,17 +5817,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Transaction && this.acquirerFee == other.acquirerFee && this.acquirerReferenceNumber == other.acquirerReferenceNumber && this.accountToken == other.accountToken && this.amount == other.amount && this.amounts == other.amounts && this.authorizationAmount == other.authorizationAmount && this.authorizationCode == other.authorizationCode && this.avs == other.avs && this.cardToken == other.cardToken && this.cardholderAuthentication == other.cardholderAuthentication && this.created == other.created && this.events == other.events && this.merchant == other.merchant && this.merchantAmount == other.merchantAmount && this.merchantAuthorizationAmount == other.merchantAuthorizationAmount && this.merchantCurrency == other.merchantCurrency && this.network == other.network && this.networkRiskScore == other.networkRiskScore && this.result == other.result && this.pos == other.pos && this.settledAmount == other.settledAmount && this.status == other.status && this.token == other.token && this.tokenInfo == other.tokenInfo && this.updated == other.updated && this.additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Transaction && acquirerFee == other.acquirerFee && acquirerReferenceNumber == other.acquirerReferenceNumber && accountToken == other.accountToken && amount == other.amount && amounts == other.amounts && authorizationAmount == other.authorizationAmount && authorizationCode == other.authorizationCode && avs == other.avs && cardToken == other.cardToken && cardholderAuthentication == other.cardholderAuthentication && created == other.created && events == other.events && merchant == other.merchant && merchantAmount == other.merchantAmount && merchantAuthorizationAmount == other.merchantAuthorizationAmount && merchantCurrency == other.merchantCurrency && network == other.network && networkRiskScore == other.networkRiskScore && result == other.result && pos == other.pos && settledAmount == other.settledAmount && status == other.status && token == other.token && tokenInfo == other.tokenInfo && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
-    private var hashCode: Int = 0
+    /* spotless:off */
+    private val hashCode: Int by lazy { Objects.hash(acquirerFee, acquirerReferenceNumber, accountToken, amount, amounts, authorizationAmount, authorizationCode, avs, cardToken, cardholderAuthentication, created, events, merchant, merchantAmount, merchantAuthorizationAmount, merchantCurrency, network, networkRiskScore, result, pos, settledAmount, status, token, tokenInfo, updated, additionalProperties) }
+    /* spotless:on */
 
-    override fun hashCode(): Int {
-        if (hashCode == 0) {
-            hashCode = /* spotless:off */ Objects.hash(acquirerFee, acquirerReferenceNumber, accountToken, amount, amounts, authorizationAmount, authorizationCode, avs, cardToken, cardholderAuthentication, created, events, merchant, merchantAmount, merchantAuthorizationAmount, merchantCurrency, network, networkRiskScore, result, pos, settledAmount, status, token, tokenInfo, updated, additionalProperties) /* spotless:on */
-        }
-        return hashCode
-    }
+    override fun hashCode(): Int = hashCode
 
     override fun toString() =
         "Transaction{acquirerFee=$acquirerFee, acquirerReferenceNumber=$acquirerReferenceNumber, accountToken=$accountToken, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, authorizationCode=$authorizationCode, avs=$avs, cardToken=$cardToken, cardholderAuthentication=$cardholderAuthentication, created=$created, events=$events, merchant=$merchant, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, network=$network, networkRiskScore=$networkRiskScore, result=$result, pos=$pos, settledAmount=$settledAmount, status=$status, token=$token, tokenInfo=$tokenInfo, updated=$updated, additionalProperties=$additionalProperties}"

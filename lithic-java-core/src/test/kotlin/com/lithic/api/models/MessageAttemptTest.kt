@@ -17,7 +17,7 @@ class MessageAttemptTest {
                 .eventSubscriptionToken("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
                 .eventToken("msg_1srOrx2ZWZBpBUvZwXKQmoEYga1")
                 .response("response")
-                .responseStatusCode(123L)
+                .responseStatusCode(0L)
                 .status(MessageAttempt.Status.FAILED)
                 .url("https://example.com")
                 .build()
@@ -29,7 +29,7 @@ class MessageAttemptTest {
             .isEqualTo("ep_1srOrx2ZWZBpBUvZwXKQmoEYga1")
         assertThat(messageAttempt.eventToken()).isEqualTo("msg_1srOrx2ZWZBpBUvZwXKQmoEYga1")
         assertThat(messageAttempt.response()).isEqualTo("response")
-        assertThat(messageAttempt.responseStatusCode()).isEqualTo(123L)
+        assertThat(messageAttempt.responseStatusCode()).isEqualTo(0L)
         assertThat(messageAttempt.status()).isEqualTo(MessageAttempt.Status.FAILED)
         assertThat(messageAttempt.url()).isEqualTo("https://example.com")
     }

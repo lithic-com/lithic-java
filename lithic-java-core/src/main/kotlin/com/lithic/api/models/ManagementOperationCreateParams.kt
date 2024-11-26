@@ -58,6 +58,12 @@ constructor(
 
     fun userDefinedId(): Optional<String> = Optional.ofNullable(userDefinedId)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): ManagementOperationCreateBody {
         return ManagementOperationCreateBody(
@@ -229,42 +235,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ManagementOperationCreateBody && this.amount == other.amount && this.category == other.category && this.direction == other.direction && this.effectiveDate == other.effectiveDate && this.eventType == other.eventType && this.financialAccountToken == other.financialAccountToken && this.token == other.token && this.memo == other.memo && this.subtype == other.subtype && this.userDefinedId == other.userDefinedId && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ManagementOperationCreateBody && amount == other.amount && category == other.category && direction == other.direction && effectiveDate == other.effectiveDate && eventType == other.eventType && financialAccountToken == other.financialAccountToken && token == other.token && memo == other.memo && subtype == other.subtype && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(amount, category, direction, effectiveDate, eventType, financialAccountToken, token, memo, subtype, userDefinedId, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(amount, category, direction, effectiveDate, eventType, financialAccountToken, token, memo, subtype, userDefinedId, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "ManagementOperationCreateBody{amount=$amount, category=$category, direction=$direction, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, token=$token, memo=$memo, subtype=$subtype, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is ManagementOperationCreateParams && this.amount == other.amount && this.category == other.category && this.direction == other.direction && this.effectiveDate == other.effectiveDate && this.eventType == other.eventType && this.financialAccountToken == other.financialAccountToken && this.token == other.token && this.memo == other.memo && this.subtype == other.subtype && this.userDefinedId == other.userDefinedId && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(amount, category, direction, effectiveDate, eventType, financialAccountToken, token, memo, subtype, userDefinedId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "ManagementOperationCreateParams{amount=$amount, category=$category, direction=$direction, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, token=$token, memo=$memo, subtype=$subtype, userDefinedId=$userDefinedId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -293,19 +275,21 @@ constructor(
         @JvmSynthetic
         internal fun from(managementOperationCreateParams: ManagementOperationCreateParams) =
             apply {
-                this.amount = managementOperationCreateParams.amount
-                this.category = managementOperationCreateParams.category
-                this.direction = managementOperationCreateParams.direction
-                this.effectiveDate = managementOperationCreateParams.effectiveDate
-                this.eventType = managementOperationCreateParams.eventType
-                this.financialAccountToken = managementOperationCreateParams.financialAccountToken
-                this.token = managementOperationCreateParams.token
-                this.memo = managementOperationCreateParams.memo
-                this.subtype = managementOperationCreateParams.subtype
-                this.userDefinedId = managementOperationCreateParams.userDefinedId
-                additionalHeaders(managementOperationCreateParams.additionalHeaders)
-                additionalQueryParams(managementOperationCreateParams.additionalQueryParams)
-                additionalBodyProperties(managementOperationCreateParams.additionalBodyProperties)
+                amount = managementOperationCreateParams.amount
+                category = managementOperationCreateParams.category
+                direction = managementOperationCreateParams.direction
+                effectiveDate = managementOperationCreateParams.effectiveDate
+                eventType = managementOperationCreateParams.eventType
+                financialAccountToken = managementOperationCreateParams.financialAccountToken
+                token = managementOperationCreateParams.token
+                memo = managementOperationCreateParams.memo
+                subtype = managementOperationCreateParams.subtype
+                userDefinedId = managementOperationCreateParams.userDefinedId
+                additionalHeaders = managementOperationCreateParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    managementOperationCreateParams.additionalQueryParams.toBuilder()
+                additionalBodyProperties =
+                    managementOperationCreateParams.additionalBodyProperties.toMutableMap()
             }
 
         fun amount(amount: Long) = apply { this.amount = amount }
@@ -487,7 +471,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ManagementOperationCategory && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is ManagementOperationCategory && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -562,7 +546,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ManagementOperationDirection && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is ManagementOperationDirection && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -620,7 +604,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ManagementOperationEventType && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is ManagementOperationEventType && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -740,4 +724,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ManagementOperationCreateParams && amount == other.amount && category == other.category && direction == other.direction && effectiveDate == other.effectiveDate && eventType == other.eventType && financialAccountToken == other.financialAccountToken && token == other.token && memo == other.memo && subtype == other.subtype && userDefinedId == other.userDefinedId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, category, direction, effectiveDate, eventType, financialAccountToken, token, memo, subtype, userDefinedId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "ManagementOperationCreateParams{amount=$amount, category=$category, direction=$direction, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, token=$token, memo=$memo, subtype=$subtype, userDefinedId=$userDefinedId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

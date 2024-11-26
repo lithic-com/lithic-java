@@ -21,9 +21,12 @@ import com.lithic.api.models.V2PromoteResponse
 import com.lithic.api.models.V2ReportResponse
 import com.lithic.api.models.V2RetrieveResponse
 import com.lithic.api.models.V2UpdateResponse
+import com.lithic.api.services.async.authRules.v2.BacktestServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface V2ServiceAsync {
+
+    fun backtests(): BacktestServiceAsync
 
     /** Creates a new V2 authorization rule in draft mode */
     @JvmOverloads

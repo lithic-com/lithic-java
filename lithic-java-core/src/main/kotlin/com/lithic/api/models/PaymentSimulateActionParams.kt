@@ -40,6 +40,12 @@ constructor(
 
     fun returnReasonCode(): Optional<String> = Optional.ofNullable(returnReasonCode)
 
+    fun _additionalHeaders(): Headers = additionalHeaders
+
+    fun _additionalQueryParams(): QueryParams = additionalQueryParams
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+
     @JvmSynthetic
     internal fun getBody(): PaymentSimulateActionBody {
         return PaymentSimulateActionBody(
@@ -153,42 +159,18 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is PaymentSimulateActionBody && this.eventType == other.eventType && this.declineReason == other.declineReason && this.returnReasonCode == other.returnReasonCode && this.additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is PaymentSimulateActionBody && eventType == other.eventType && declineReason == other.declineReason && returnReasonCode == other.returnReasonCode && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
-        private var hashCode: Int = 0
+        /* spotless:off */
+        private val hashCode: Int by lazy { Objects.hash(eventType, declineReason, returnReasonCode, additionalProperties) }
+        /* spotless:on */
 
-        override fun hashCode(): Int {
-            if (hashCode == 0) {
-                hashCode = /* spotless:off */ Objects.hash(eventType, declineReason, returnReasonCode, additionalProperties) /* spotless:on */
-            }
-            return hashCode
-        }
+        override fun hashCode(): Int = hashCode
 
         override fun toString() =
             "PaymentSimulateActionBody{eventType=$eventType, declineReason=$declineReason, returnReasonCode=$returnReasonCode, additionalProperties=$additionalProperties}"
     }
-
-    fun _additionalHeaders(): Headers = additionalHeaders
-
-    fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is PaymentSimulateActionParams && this.paymentToken == other.paymentToken && this.eventType == other.eventType && this.declineReason == other.declineReason && this.returnReasonCode == other.returnReasonCode && this.additionalHeaders == other.additionalHeaders && this.additionalQueryParams == other.additionalQueryParams && this.additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
-    }
-
-    override fun hashCode(): Int {
-        return /* spotless:off */ Objects.hash(paymentToken, eventType, declineReason, returnReasonCode, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
-    }
-
-    override fun toString() =
-        "PaymentSimulateActionParams{paymentToken=$paymentToken, eventType=$eventType, declineReason=$declineReason, returnReasonCode=$returnReasonCode, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 
     fun toBuilder() = Builder().from(this)
 
@@ -210,13 +192,14 @@ constructor(
 
         @JvmSynthetic
         internal fun from(paymentSimulateActionParams: PaymentSimulateActionParams) = apply {
-            this.paymentToken = paymentSimulateActionParams.paymentToken
-            this.eventType = paymentSimulateActionParams.eventType
-            this.declineReason = paymentSimulateActionParams.declineReason
-            this.returnReasonCode = paymentSimulateActionParams.returnReasonCode
-            additionalHeaders(paymentSimulateActionParams.additionalHeaders)
-            additionalQueryParams(paymentSimulateActionParams.additionalQueryParams)
-            additionalBodyProperties(paymentSimulateActionParams.additionalBodyProperties)
+            paymentToken = paymentSimulateActionParams.paymentToken
+            eventType = paymentSimulateActionParams.eventType
+            declineReason = paymentSimulateActionParams.declineReason
+            returnReasonCode = paymentSimulateActionParams.returnReasonCode
+            additionalHeaders = paymentSimulateActionParams.additionalHeaders.toBuilder()
+            additionalQueryParams = paymentSimulateActionParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                paymentSimulateActionParams.additionalBodyProperties.toMutableMap()
         }
 
         fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
@@ -379,7 +362,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is SupportedSimulationTypes && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is SupportedSimulationTypes && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -479,7 +462,7 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is SupportedSimulationDeclineReasons && this.value == other.value /* spotless:on */
+            return /* spotless:off */ other is SupportedSimulationDeclineReasons && value == other.value /* spotless:on */
         }
 
         override fun hashCode() = value.hashCode()
@@ -540,4 +523,17 @@ constructor(
 
         fun asString(): String = _value().asStringOrThrow()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is PaymentSimulateActionParams && paymentToken == other.paymentToken && eventType == other.eventType && declineReason == other.declineReason && returnReasonCode == other.returnReasonCode && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+    }
+
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(paymentToken, eventType, declineReason, returnReasonCode, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+
+    override fun toString() =
+        "PaymentSimulateActionParams{paymentToken=$paymentToken, eventType=$eventType, declineReason=$declineReason, returnReasonCode=$returnReasonCode, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }
