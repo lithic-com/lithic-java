@@ -28,6 +28,8 @@ import com.lithic.api.models.V2PromoteResponse
 import com.lithic.api.models.V2ReportResponse
 import com.lithic.api.models.V2RetrieveResponse
 import com.lithic.api.models.V2UpdateResponse
+import com.lithic.api.services.async.authRules.v2.BacktestServiceAsync
+import com.lithic.api.services.async.authRules.v2.BacktestServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
 class V2ServiceAsyncImpl
@@ -36,6 +38,10 @@ constructor(
 ) : V2ServiceAsync {
 
     private val errorHandler: Handler<LithicError> = errorHandler(clientOptions.jsonMapper)
+
+    private val backtests: BacktestServiceAsync by lazy { BacktestServiceAsyncImpl(clientOptions) }
+
+    override fun backtests(): BacktestServiceAsync = backtests
 
     private val createHandler: Handler<V2CreateResponse> =
         jsonHandler<V2CreateResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
