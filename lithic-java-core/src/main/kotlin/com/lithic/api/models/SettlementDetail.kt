@@ -30,6 +30,7 @@ private constructor(
     private val currency: JsonField<String>,
     private val disputesGrossAmount: JsonField<Long>,
     private val eventTokens: JsonField<List<String>>,
+    private val feeDescription: JsonField<String>,
     private val institution: JsonField<String>,
     private val interchangeFeeExtendedPrecision: JsonField<Long>,
     private val interchangeGrossAmount: JsonField<Long>,
@@ -71,6 +72,10 @@ private constructor(
 
     /** Globally unique identifiers denoting the Events associated with this settlement. */
     fun eventTokens(): List<String> = eventTokens.getRequired("event_tokens")
+
+    /** Network's description of a fee, only present on records with type `FEE`. */
+    fun feeDescription(): Optional<String> =
+        Optional.ofNullable(feeDescription.getNullable("fee_description"))
 
     /** The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa). */
     fun institution(): String = institution.getRequired("institution")
@@ -143,6 +148,9 @@ private constructor(
     /** Globally unique identifiers denoting the Events associated with this settlement. */
     @JsonProperty("event_tokens") @ExcludeMissing fun _eventTokens() = eventTokens
 
+    /** Network's description of a fee, only present on records with type `FEE`. */
+    @JsonProperty("fee_description") @ExcludeMissing fun _feeDescription() = feeDescription
+
     /** The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa). */
     @JsonProperty("institution") @ExcludeMissing fun _institution() = institution
 
@@ -206,6 +214,7 @@ private constructor(
             currency()
             disputesGrossAmount()
             eventTokens()
+            feeDescription()
             institution()
             interchangeFeeExtendedPrecision()
             interchangeGrossAmount()
@@ -239,6 +248,7 @@ private constructor(
         private var currency: JsonField<String> = JsonMissing.of()
         private var disputesGrossAmount: JsonField<Long> = JsonMissing.of()
         private var eventTokens: JsonField<List<String>> = JsonMissing.of()
+        private var feeDescription: JsonField<String> = JsonMissing.of()
         private var institution: JsonField<String> = JsonMissing.of()
         private var interchangeFeeExtendedPrecision: JsonField<Long> = JsonMissing.of()
         private var interchangeGrossAmount: JsonField<Long> = JsonMissing.of()
@@ -263,6 +273,7 @@ private constructor(
             this.currency = settlementDetail.currency
             this.disputesGrossAmount = settlementDetail.disputesGrossAmount
             this.eventTokens = settlementDetail.eventTokens
+            this.feeDescription = settlementDetail.feeDescription
             this.institution = settlementDetail.institution
             this.interchangeFeeExtendedPrecision = settlementDetail.interchangeFeeExtendedPrecision
             this.interchangeGrossAmount = settlementDetail.interchangeGrossAmount
@@ -357,6 +368,16 @@ private constructor(
         @ExcludeMissing
         fun eventTokens(eventTokens: JsonField<List<String>>) = apply {
             this.eventTokens = eventTokens
+        }
+
+        /** Network's description of a fee, only present on records with type `FEE`. */
+        fun feeDescription(feeDescription: String) = feeDescription(JsonField.of(feeDescription))
+
+        /** Network's description of a fee, only present on records with type `FEE`. */
+        @JsonProperty("fee_description")
+        @ExcludeMissing
+        fun feeDescription(feeDescription: JsonField<String>) = apply {
+            this.feeDescription = feeDescription
         }
 
         /**
@@ -517,6 +538,7 @@ private constructor(
                 currency,
                 disputesGrossAmount,
                 eventTokens.map { it.toImmutable() },
+                feeDescription,
                 institution,
                 interchangeFeeExtendedPrecision,
                 interchangeGrossAmount,
@@ -799,15 +821,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SettlementDetail && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && cardToken == other.cardToken && created == other.created && currency == other.currency && disputesGrossAmount == other.disputesGrossAmount && eventTokens == other.eventTokens && institution == other.institution && interchangeFeeExtendedPrecision == other.interchangeFeeExtendedPrecision && interchangeGrossAmount == other.interchangeGrossAmount && network == other.network && otherFeesDetails == other.otherFeesDetails && otherFeesGrossAmount == other.otherFeesGrossAmount && reportDate == other.reportDate && settlementDate == other.settlementDate && token == other.token && transactionToken == other.transactionToken && transactionsGrossAmount == other.transactionsGrossAmount && type == other.type && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is SettlementDetail && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && cardToken == other.cardToken && created == other.created && currency == other.currency && disputesGrossAmount == other.disputesGrossAmount && eventTokens == other.eventTokens && feeDescription == other.feeDescription && institution == other.institution && interchangeFeeExtendedPrecision == other.interchangeFeeExtendedPrecision && interchangeGrossAmount == other.interchangeGrossAmount && network == other.network && otherFeesDetails == other.otherFeesDetails && otherFeesGrossAmount == other.otherFeesGrossAmount && reportDate == other.reportDate && settlementDate == other.settlementDate && token == other.token && transactionToken == other.transactionToken && transactionsGrossAmount == other.transactionsGrossAmount && type == other.type && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(accountToken, cardProgramToken, cardToken, created, currency, disputesGrossAmount, eventTokens, institution, interchangeFeeExtendedPrecision, interchangeGrossAmount, network, otherFeesDetails, otherFeesGrossAmount, reportDate, settlementDate, token, transactionToken, transactionsGrossAmount, type, updated, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(accountToken, cardProgramToken, cardToken, created, currency, disputesGrossAmount, eventTokens, feeDescription, institution, interchangeFeeExtendedPrecision, interchangeGrossAmount, network, otherFeesDetails, otherFeesGrossAmount, reportDate, settlementDate, token, transactionToken, transactionsGrossAmount, type, updated, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "SettlementDetail{accountToken=$accountToken, cardProgramToken=$cardProgramToken, cardToken=$cardToken, created=$created, currency=$currency, disputesGrossAmount=$disputesGrossAmount, eventTokens=$eventTokens, institution=$institution, interchangeFeeExtendedPrecision=$interchangeFeeExtendedPrecision, interchangeGrossAmount=$interchangeGrossAmount, network=$network, otherFeesDetails=$otherFeesDetails, otherFeesGrossAmount=$otherFeesGrossAmount, reportDate=$reportDate, settlementDate=$settlementDate, token=$token, transactionToken=$transactionToken, transactionsGrossAmount=$transactionsGrossAmount, type=$type, updated=$updated, additionalProperties=$additionalProperties}"
+        "SettlementDetail{accountToken=$accountToken, cardProgramToken=$cardProgramToken, cardToken=$cardToken, created=$created, currency=$currency, disputesGrossAmount=$disputesGrossAmount, eventTokens=$eventTokens, feeDescription=$feeDescription, institution=$institution, interchangeFeeExtendedPrecision=$interchangeFeeExtendedPrecision, interchangeGrossAmount=$interchangeGrossAmount, network=$network, otherFeesDetails=$otherFeesDetails, otherFeesGrossAmount=$otherFeesGrossAmount, reportDate=$reportDate, settlementDate=$settlementDate, token=$token, transactionToken=$transactionToken, transactionsGrossAmount=$transactionsGrossAmount, type=$type, updated=$updated, additionalProperties=$additionalProperties}"
 }
