@@ -176,6 +176,19 @@ class TransactionTest {
                                     .ACCOUNT_STATE_TRANSACTION_FAIL
                             )
                             .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
+                            .ruleResults(
+                                listOf(
+                                    Transaction.TransactionEvent.RuleResult.builder()
+                                        .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                        .explanation("explanation")
+                                        .name("name")
+                                        .result(
+                                            Transaction.TransactionEvent.RuleResult.DetailedResult
+                                                .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                                        )
+                                        .build()
+                                )
+                            )
                             .build()
                     )
                 )
@@ -346,6 +359,19 @@ class TransactionTest {
                         Transaction.TransactionEvent.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL
                     )
                     .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
+                    .ruleResults(
+                        listOf(
+                            Transaction.TransactionEvent.RuleResult.builder()
+                                .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                                .explanation("explanation")
+                                .name("name")
+                                .result(
+                                    Transaction.TransactionEvent.RuleResult.DetailedResult
+                                        .ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                                )
+                                .build()
+                        )
+                    )
                     .build()
             )
     }

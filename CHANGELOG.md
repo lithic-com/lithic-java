@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.73.0 (2024-12-09)
+
+Full Changelog: [v0.72.0...v0.73.0](https://github.com/lithic-com/lithic-java/compare/v0.72.0...v0.73.0)
+
+### Features
+
+* **api:** adds EventRuleResult to Transaction Events ([#404](https://github.com/lithic-com/lithic-java/issues/404)) ([ec1ae4b](https://github.com/lithic-com/lithic-java/commit/ec1ae4bddb855ee78b4a39e15aaf4a611d7bd015))
+
 ## 0.72.0 (2024-11-26)
 
 Full Changelog: [v0.71.0...v0.72.0](https://github.com/lithic-com/lithic-java/compare/v0.71.0...v0.72.0)
