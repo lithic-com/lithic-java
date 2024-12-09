@@ -4195,6 +4195,7 @@ private constructor(
         private val amounts: JsonField<TransactionEventAmounts>,
         private val created: JsonField<OffsetDateTime>,
         private val detailedResults: JsonField<List<DetailedResult>>,
+        private val ruleResults: JsonField<List<RuleResult>>,
         private val effectivePolarity: JsonField<EffectivePolarity>,
         private val result: JsonField<DeclineResult>,
         private val token: JsonField<String>,
@@ -4214,6 +4215,9 @@ private constructor(
 
         fun detailedResults(): List<DetailedResult> =
             detailedResults.getRequired("detailed_results")
+
+        fun ruleResults(): Optional<List<RuleResult>> =
+            Optional.ofNullable(ruleResults.getNullable("rule_results"))
 
         /** Indicates whether the transaction event is a credit or debit to the account. */
         fun effectivePolarity(): EffectivePolarity =
@@ -4236,6 +4240,8 @@ private constructor(
         @JsonProperty("created") @ExcludeMissing fun _created() = created
 
         @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
+
+        @JsonProperty("rule_results") @ExcludeMissing fun _ruleResults() = ruleResults
 
         /** Indicates whether the transaction event is a credit or debit to the account. */
         @JsonProperty("effective_polarity")
@@ -4260,6 +4266,7 @@ private constructor(
                 amounts().validate()
                 created()
                 detailedResults()
+                ruleResults().map { it.forEach { it.validate() } }
                 effectivePolarity()
                 result()
                 token()
@@ -4281,6 +4288,7 @@ private constructor(
             private var amounts: JsonField<TransactionEventAmounts> = JsonMissing.of()
             private var created: JsonField<OffsetDateTime> = JsonMissing.of()
             private var detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of()
+            private var ruleResults: JsonField<List<RuleResult>> = JsonMissing.of()
             private var effectivePolarity: JsonField<EffectivePolarity> = JsonMissing.of()
             private var result: JsonField<DeclineResult> = JsonMissing.of()
             private var token: JsonField<String> = JsonMissing.of()
@@ -4293,6 +4301,7 @@ private constructor(
                 this.amounts = transactionEvent.amounts
                 this.created = transactionEvent.created
                 this.detailedResults = transactionEvent.detailedResults
+                this.ruleResults = transactionEvent.ruleResults
                 this.effectivePolarity = transactionEvent.effectivePolarity
                 this.result = transactionEvent.result
                 this.token = transactionEvent.token
@@ -4331,6 +4340,14 @@ private constructor(
             @ExcludeMissing
             fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
                 this.detailedResults = detailedResults
+            }
+
+            fun ruleResults(ruleResults: List<RuleResult>) = ruleResults(JsonField.of(ruleResults))
+
+            @JsonProperty("rule_results")
+            @ExcludeMissing
+            fun ruleResults(ruleResults: JsonField<List<RuleResult>>) = apply {
+                this.ruleResults = ruleResults
             }
 
             /** Indicates whether the transaction event is a credit or debit to the account. */
@@ -4386,6 +4403,7 @@ private constructor(
                     amounts,
                     created,
                     detailedResults.map { it.toImmutable() },
+                    ruleResults.map { it.toImmutable() },
                     effectivePolarity,
                     result,
                     token,
@@ -5794,22 +5812,640 @@ private constructor(
             fun asString(): String = _value().asStringOrThrow()
         }
 
+        @JsonDeserialize(builder = RuleResult.Builder::class)
+        @NoAutoDetect
+        class RuleResult
+        private constructor(
+            private val authRuleToken: JsonField<String>,
+            private val result: JsonField<DetailedResult>,
+            private val name: JsonField<String>,
+            private val explanation: JsonField<String>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
+
+            private var validated: Boolean = false
+
+            /**
+             * The Auth Rule Token associated with the rule from which the decline originated. If
+             * this is set to null, then the decline was not associated with a customer-configured
+             * Auth Rule. This may happen in cases where a transaction is declined due to a
+             * Lithic-configured security or compliance rule, for example.
+             */
+            fun authRuleToken(): Optional<String> =
+                Optional.ofNullable(authRuleToken.getNullable("auth_rule_token"))
+
+            fun result(): DetailedResult = result.getRequired("result")
+
+            /** The name for the rule, if any was configured. */
+            fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
+
+            /** A human-readable explanation outlining the motivation for the rule's decline. */
+            fun explanation(): Optional<String> =
+                Optional.ofNullable(explanation.getNullable("explanation"))
+
+            /**
+             * The Auth Rule Token associated with the rule from which the decline originated. If
+             * this is set to null, then the decline was not associated with a customer-configured
+             * Auth Rule. This may happen in cases where a transaction is declined due to a
+             * Lithic-configured security or compliance rule, for example.
+             */
+            @JsonProperty("auth_rule_token") @ExcludeMissing fun _authRuleToken() = authRuleToken
+
+            @JsonProperty("result") @ExcludeMissing fun _result() = result
+
+            /** The name for the rule, if any was configured. */
+            @JsonProperty("name") @ExcludeMissing fun _name() = name
+
+            /** A human-readable explanation outlining the motivation for the rule's decline. */
+            @JsonProperty("explanation") @ExcludeMissing fun _explanation() = explanation
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun validate(): RuleResult = apply {
+                if (!validated) {
+                    authRuleToken()
+                    result()
+                    name()
+                    explanation()
+                    validated = true
+                }
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            class Builder {
+
+                private var authRuleToken: JsonField<String> = JsonMissing.of()
+                private var result: JsonField<DetailedResult> = JsonMissing.of()
+                private var name: JsonField<String> = JsonMissing.of()
+                private var explanation: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(ruleResult: RuleResult) = apply {
+                    this.authRuleToken = ruleResult.authRuleToken
+                    this.result = ruleResult.result
+                    this.name = ruleResult.name
+                    this.explanation = ruleResult.explanation
+                    additionalProperties(ruleResult.additionalProperties)
+                }
+
+                /**
+                 * The Auth Rule Token associated with the rule from which the decline originated.
+                 * If this is set to null, then the decline was not associated with a
+                 * customer-configured Auth Rule. This may happen in cases where a transaction is
+                 * declined due to a Lithic-configured security or compliance rule, for example.
+                 */
+                fun authRuleToken(authRuleToken: String) =
+                    authRuleToken(JsonField.of(authRuleToken))
+
+                /**
+                 * The Auth Rule Token associated with the rule from which the decline originated.
+                 * If this is set to null, then the decline was not associated with a
+                 * customer-configured Auth Rule. This may happen in cases where a transaction is
+                 * declined due to a Lithic-configured security or compliance rule, for example.
+                 */
+                @JsonProperty("auth_rule_token")
+                @ExcludeMissing
+                fun authRuleToken(authRuleToken: JsonField<String>) = apply {
+                    this.authRuleToken = authRuleToken
+                }
+
+                fun result(result: DetailedResult) = result(JsonField.of(result))
+
+                @JsonProperty("result")
+                @ExcludeMissing
+                fun result(result: JsonField<DetailedResult>) = apply { this.result = result }
+
+                /** The name for the rule, if any was configured. */
+                fun name(name: String) = name(JsonField.of(name))
+
+                /** The name for the rule, if any was configured. */
+                @JsonProperty("name")
+                @ExcludeMissing
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                /** A human-readable explanation outlining the motivation for the rule's decline. */
+                fun explanation(explanation: String) = explanation(JsonField.of(explanation))
+
+                /** A human-readable explanation outlining the motivation for the rule's decline. */
+                @JsonProperty("explanation")
+                @ExcludeMissing
+                fun explanation(explanation: JsonField<String>) = apply {
+                    this.explanation = explanation
+                }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    this.additionalProperties.putAll(additionalProperties)
+                }
+
+                @JsonAnySetter
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    this.additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun build(): RuleResult =
+                    RuleResult(
+                        authRuleToken,
+                        result,
+                        name,
+                        explanation,
+                        additionalProperties.toImmutable(),
+                    )
+            }
+
+            class DetailedResult
+            @JsonCreator
+            private constructor(
+                private val value: JsonField<String>,
+            ) : Enum {
+
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is DetailedResult && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+
+                companion object {
+
+                    @JvmField
+                    val ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED =
+                        DetailedResult(JsonField.of("ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED"))
+
+                    @JvmField
+                    val ACCOUNT_DELINQUENT = DetailedResult(JsonField.of("ACCOUNT_DELINQUENT"))
+
+                    @JvmField
+                    val ACCOUNT_INACTIVE = DetailedResult(JsonField.of("ACCOUNT_INACTIVE"))
+
+                    @JvmField
+                    val ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED =
+                        DetailedResult(JsonField.of("ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED"))
+
+                    @JvmField
+                    val ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED =
+                        DetailedResult(JsonField.of("ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED"))
+
+                    @JvmField
+                    val ACCOUNT_UNDER_REVIEW = DetailedResult(JsonField.of("ACCOUNT_UNDER_REVIEW"))
+
+                    @JvmField
+                    val ADDRESS_INCORRECT = DetailedResult(JsonField.of("ADDRESS_INCORRECT"))
+
+                    @JvmField val APPROVED = DetailedResult(JsonField.of("APPROVED"))
+
+                    @JvmField
+                    val AUTH_RULE_ALLOWED_COUNTRY =
+                        DetailedResult(JsonField.of("AUTH_RULE_ALLOWED_COUNTRY"))
+
+                    @JvmField
+                    val AUTH_RULE_ALLOWED_MCC =
+                        DetailedResult(JsonField.of("AUTH_RULE_ALLOWED_MCC"))
+
+                    @JvmField
+                    val AUTH_RULE_BLOCKED_COUNTRY =
+                        DetailedResult(JsonField.of("AUTH_RULE_BLOCKED_COUNTRY"))
+
+                    @JvmField
+                    val AUTH_RULE_BLOCKED_MCC =
+                        DetailedResult(JsonField.of("AUTH_RULE_BLOCKED_MCC"))
+
+                    @JvmField val CARD_CLOSED = DetailedResult(JsonField.of("CARD_CLOSED"))
+
+                    @JvmField
+                    val CARD_CRYPTOGRAM_VALIDATION_FAILURE =
+                        DetailedResult(JsonField.of("CARD_CRYPTOGRAM_VALIDATION_FAILURE"))
+
+                    @JvmField val CARD_EXPIRED = DetailedResult(JsonField.of("CARD_EXPIRED"))
+
+                    @JvmField
+                    val CARD_EXPIRY_DATE_INCORRECT =
+                        DetailedResult(JsonField.of("CARD_EXPIRY_DATE_INCORRECT"))
+
+                    @JvmField val CARD_INVALID = DetailedResult(JsonField.of("CARD_INVALID"))
+
+                    @JvmField
+                    val CARD_NOT_ACTIVATED = DetailedResult(JsonField.of("CARD_NOT_ACTIVATED"))
+
+                    @JvmField val CARD_PAUSED = DetailedResult(JsonField.of("CARD_PAUSED"))
+
+                    @JvmField
+                    val CARD_PIN_INCORRECT = DetailedResult(JsonField.of("CARD_PIN_INCORRECT"))
+
+                    @JvmField val CARD_RESTRICTED = DetailedResult(JsonField.of("CARD_RESTRICTED"))
+
+                    @JvmField
+                    val CARD_SECURITY_CODE_INCORRECT =
+                        DetailedResult(JsonField.of("CARD_SECURITY_CODE_INCORRECT"))
+
+                    @JvmField
+                    val CARD_SPEND_LIMIT_EXCEEDED =
+                        DetailedResult(JsonField.of("CARD_SPEND_LIMIT_EXCEEDED"))
+
+                    @JvmField
+                    val CONTACT_CARD_ISSUER = DetailedResult(JsonField.of("CONTACT_CARD_ISSUER"))
+
+                    @JvmField
+                    val CUSTOMER_ASA_TIMEOUT = DetailedResult(JsonField.of("CUSTOMER_ASA_TIMEOUT"))
+
+                    @JvmField
+                    val CUSTOM_ASA_RESULT = DetailedResult(JsonField.of("CUSTOM_ASA_RESULT"))
+
+                    @JvmField val DECLINED = DetailedResult(JsonField.of("DECLINED"))
+
+                    @JvmField val DO_NOT_HONOR = DetailedResult(JsonField.of("DO_NOT_HONOR"))
+
+                    @JvmField
+                    val DRIVER_NUMBER_INVALID =
+                        DetailedResult(JsonField.of("DRIVER_NUMBER_INVALID"))
+
+                    @JvmField val FORMAT_ERROR = DetailedResult(JsonField.of("FORMAT_ERROR"))
+
+                    @JvmField
+                    val INSUFFICIENT_FUNDING_SOURCE_BALANCE =
+                        DetailedResult(JsonField.of("INSUFFICIENT_FUNDING_SOURCE_BALANCE"))
+
+                    @JvmField
+                    val INSUFFICIENT_FUNDS = DetailedResult(JsonField.of("INSUFFICIENT_FUNDS"))
+
+                    @JvmField
+                    val LITHIC_SYSTEM_ERROR = DetailedResult(JsonField.of("LITHIC_SYSTEM_ERROR"))
+
+                    @JvmField
+                    val LITHIC_SYSTEM_RATE_LIMIT =
+                        DetailedResult(JsonField.of("LITHIC_SYSTEM_RATE_LIMIT"))
+
+                    @JvmField
+                    val MALFORMED_ASA_RESPONSE =
+                        DetailedResult(JsonField.of("MALFORMED_ASA_RESPONSE"))
+
+                    @JvmField
+                    val MERCHANT_INVALID = DetailedResult(JsonField.of("MERCHANT_INVALID"))
+
+                    @JvmField
+                    val MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE =
+                        DetailedResult(JsonField.of("MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE"))
+
+                    @JvmField
+                    val MERCHANT_NOT_PERMITTED =
+                        DetailedResult(JsonField.of("MERCHANT_NOT_PERMITTED"))
+
+                    @JvmField
+                    val OVER_REVERSAL_ATTEMPTED =
+                        DetailedResult(JsonField.of("OVER_REVERSAL_ATTEMPTED"))
+
+                    @JvmField val PIN_BLOCKED = DetailedResult(JsonField.of("PIN_BLOCKED"))
+
+                    @JvmField
+                    val PROGRAM_CARD_SPEND_LIMIT_EXCEEDED =
+                        DetailedResult(JsonField.of("PROGRAM_CARD_SPEND_LIMIT_EXCEEDED"))
+
+                    @JvmField
+                    val PROGRAM_SUSPENDED = DetailedResult(JsonField.of("PROGRAM_SUSPENDED"))
+
+                    @JvmField
+                    val PROGRAM_USAGE_RESTRICTION =
+                        DetailedResult(JsonField.of("PROGRAM_USAGE_RESTRICTION"))
+
+                    @JvmField
+                    val REVERSAL_UNMATCHED = DetailedResult(JsonField.of("REVERSAL_UNMATCHED"))
+
+                    @JvmField
+                    val SECURITY_VIOLATION = DetailedResult(JsonField.of("SECURITY_VIOLATION"))
+
+                    @JvmField
+                    val SINGLE_USE_CARD_REATTEMPTED =
+                        DetailedResult(JsonField.of("SINGLE_USE_CARD_REATTEMPTED"))
+
+                    @JvmField
+                    val TRANSACTION_INVALID = DetailedResult(JsonField.of("TRANSACTION_INVALID"))
+
+                    @JvmField
+                    val TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL =
+                        DetailedResult(
+                            JsonField.of("TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL")
+                        )
+
+                    @JvmField
+                    val TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER =
+                        DetailedResult(
+                            JsonField.of("TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER")
+                        )
+
+                    @JvmField
+                    val TRANSACTION_PREVIOUSLY_COMPLETED =
+                        DetailedResult(JsonField.of("TRANSACTION_PREVIOUSLY_COMPLETED"))
+
+                    @JvmField
+                    val UNAUTHORIZED_MERCHANT =
+                        DetailedResult(JsonField.of("UNAUTHORIZED_MERCHANT"))
+
+                    @JvmField
+                    val VEHICLE_NUMBER_INVALID =
+                        DetailedResult(JsonField.of("VEHICLE_NUMBER_INVALID"))
+
+                    @JvmStatic fun of(value: String) = DetailedResult(JsonField.of(value))
+                }
+
+                enum class Known {
+                    ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_DELINQUENT,
+                    ACCOUNT_INACTIVE,
+                    ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_UNDER_REVIEW,
+                    ADDRESS_INCORRECT,
+                    APPROVED,
+                    AUTH_RULE_ALLOWED_COUNTRY,
+                    AUTH_RULE_ALLOWED_MCC,
+                    AUTH_RULE_BLOCKED_COUNTRY,
+                    AUTH_RULE_BLOCKED_MCC,
+                    CARD_CLOSED,
+                    CARD_CRYPTOGRAM_VALIDATION_FAILURE,
+                    CARD_EXPIRED,
+                    CARD_EXPIRY_DATE_INCORRECT,
+                    CARD_INVALID,
+                    CARD_NOT_ACTIVATED,
+                    CARD_PAUSED,
+                    CARD_PIN_INCORRECT,
+                    CARD_RESTRICTED,
+                    CARD_SECURITY_CODE_INCORRECT,
+                    CARD_SPEND_LIMIT_EXCEEDED,
+                    CONTACT_CARD_ISSUER,
+                    CUSTOMER_ASA_TIMEOUT,
+                    CUSTOM_ASA_RESULT,
+                    DECLINED,
+                    DO_NOT_HONOR,
+                    DRIVER_NUMBER_INVALID,
+                    FORMAT_ERROR,
+                    INSUFFICIENT_FUNDING_SOURCE_BALANCE,
+                    INSUFFICIENT_FUNDS,
+                    LITHIC_SYSTEM_ERROR,
+                    LITHIC_SYSTEM_RATE_LIMIT,
+                    MALFORMED_ASA_RESPONSE,
+                    MERCHANT_INVALID,
+                    MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE,
+                    MERCHANT_NOT_PERMITTED,
+                    OVER_REVERSAL_ATTEMPTED,
+                    PIN_BLOCKED,
+                    PROGRAM_CARD_SPEND_LIMIT_EXCEEDED,
+                    PROGRAM_SUSPENDED,
+                    PROGRAM_USAGE_RESTRICTION,
+                    REVERSAL_UNMATCHED,
+                    SECURITY_VIOLATION,
+                    SINGLE_USE_CARD_REATTEMPTED,
+                    TRANSACTION_INVALID,
+                    TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL,
+                    TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER,
+                    TRANSACTION_PREVIOUSLY_COMPLETED,
+                    UNAUTHORIZED_MERCHANT,
+                    VEHICLE_NUMBER_INVALID,
+                }
+
+                enum class Value {
+                    ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_DELINQUENT,
+                    ACCOUNT_INACTIVE,
+                    ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_UNDER_REVIEW,
+                    ADDRESS_INCORRECT,
+                    APPROVED,
+                    AUTH_RULE_ALLOWED_COUNTRY,
+                    AUTH_RULE_ALLOWED_MCC,
+                    AUTH_RULE_BLOCKED_COUNTRY,
+                    AUTH_RULE_BLOCKED_MCC,
+                    CARD_CLOSED,
+                    CARD_CRYPTOGRAM_VALIDATION_FAILURE,
+                    CARD_EXPIRED,
+                    CARD_EXPIRY_DATE_INCORRECT,
+                    CARD_INVALID,
+                    CARD_NOT_ACTIVATED,
+                    CARD_PAUSED,
+                    CARD_PIN_INCORRECT,
+                    CARD_RESTRICTED,
+                    CARD_SECURITY_CODE_INCORRECT,
+                    CARD_SPEND_LIMIT_EXCEEDED,
+                    CONTACT_CARD_ISSUER,
+                    CUSTOMER_ASA_TIMEOUT,
+                    CUSTOM_ASA_RESULT,
+                    DECLINED,
+                    DO_NOT_HONOR,
+                    DRIVER_NUMBER_INVALID,
+                    FORMAT_ERROR,
+                    INSUFFICIENT_FUNDING_SOURCE_BALANCE,
+                    INSUFFICIENT_FUNDS,
+                    LITHIC_SYSTEM_ERROR,
+                    LITHIC_SYSTEM_RATE_LIMIT,
+                    MALFORMED_ASA_RESPONSE,
+                    MERCHANT_INVALID,
+                    MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE,
+                    MERCHANT_NOT_PERMITTED,
+                    OVER_REVERSAL_ATTEMPTED,
+                    PIN_BLOCKED,
+                    PROGRAM_CARD_SPEND_LIMIT_EXCEEDED,
+                    PROGRAM_SUSPENDED,
+                    PROGRAM_USAGE_RESTRICTION,
+                    REVERSAL_UNMATCHED,
+                    SECURITY_VIOLATION,
+                    SINGLE_USE_CARD_REATTEMPTED,
+                    TRANSACTION_INVALID,
+                    TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL,
+                    TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER,
+                    TRANSACTION_PREVIOUSLY_COMPLETED,
+                    UNAUTHORIZED_MERCHANT,
+                    VEHICLE_NUMBER_INVALID,
+                    _UNKNOWN,
+                }
+
+                fun value(): Value =
+                    when (this) {
+                        ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED ->
+                            Value.ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_DELINQUENT -> Value.ACCOUNT_DELINQUENT
+                        ACCOUNT_INACTIVE -> Value.ACCOUNT_INACTIVE
+                        ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED ->
+                            Value.ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED ->
+                            Value.ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_UNDER_REVIEW -> Value.ACCOUNT_UNDER_REVIEW
+                        ADDRESS_INCORRECT -> Value.ADDRESS_INCORRECT
+                        APPROVED -> Value.APPROVED
+                        AUTH_RULE_ALLOWED_COUNTRY -> Value.AUTH_RULE_ALLOWED_COUNTRY
+                        AUTH_RULE_ALLOWED_MCC -> Value.AUTH_RULE_ALLOWED_MCC
+                        AUTH_RULE_BLOCKED_COUNTRY -> Value.AUTH_RULE_BLOCKED_COUNTRY
+                        AUTH_RULE_BLOCKED_MCC -> Value.AUTH_RULE_BLOCKED_MCC
+                        CARD_CLOSED -> Value.CARD_CLOSED
+                        CARD_CRYPTOGRAM_VALIDATION_FAILURE ->
+                            Value.CARD_CRYPTOGRAM_VALIDATION_FAILURE
+                        CARD_EXPIRED -> Value.CARD_EXPIRED
+                        CARD_EXPIRY_DATE_INCORRECT -> Value.CARD_EXPIRY_DATE_INCORRECT
+                        CARD_INVALID -> Value.CARD_INVALID
+                        CARD_NOT_ACTIVATED -> Value.CARD_NOT_ACTIVATED
+                        CARD_PAUSED -> Value.CARD_PAUSED
+                        CARD_PIN_INCORRECT -> Value.CARD_PIN_INCORRECT
+                        CARD_RESTRICTED -> Value.CARD_RESTRICTED
+                        CARD_SECURITY_CODE_INCORRECT -> Value.CARD_SECURITY_CODE_INCORRECT
+                        CARD_SPEND_LIMIT_EXCEEDED -> Value.CARD_SPEND_LIMIT_EXCEEDED
+                        CONTACT_CARD_ISSUER -> Value.CONTACT_CARD_ISSUER
+                        CUSTOMER_ASA_TIMEOUT -> Value.CUSTOMER_ASA_TIMEOUT
+                        CUSTOM_ASA_RESULT -> Value.CUSTOM_ASA_RESULT
+                        DECLINED -> Value.DECLINED
+                        DO_NOT_HONOR -> Value.DO_NOT_HONOR
+                        DRIVER_NUMBER_INVALID -> Value.DRIVER_NUMBER_INVALID
+                        FORMAT_ERROR -> Value.FORMAT_ERROR
+                        INSUFFICIENT_FUNDING_SOURCE_BALANCE ->
+                            Value.INSUFFICIENT_FUNDING_SOURCE_BALANCE
+                        INSUFFICIENT_FUNDS -> Value.INSUFFICIENT_FUNDS
+                        LITHIC_SYSTEM_ERROR -> Value.LITHIC_SYSTEM_ERROR
+                        LITHIC_SYSTEM_RATE_LIMIT -> Value.LITHIC_SYSTEM_RATE_LIMIT
+                        MALFORMED_ASA_RESPONSE -> Value.MALFORMED_ASA_RESPONSE
+                        MERCHANT_INVALID -> Value.MERCHANT_INVALID
+                        MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE ->
+                            Value.MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE
+                        MERCHANT_NOT_PERMITTED -> Value.MERCHANT_NOT_PERMITTED
+                        OVER_REVERSAL_ATTEMPTED -> Value.OVER_REVERSAL_ATTEMPTED
+                        PIN_BLOCKED -> Value.PIN_BLOCKED
+                        PROGRAM_CARD_SPEND_LIMIT_EXCEEDED -> Value.PROGRAM_CARD_SPEND_LIMIT_EXCEEDED
+                        PROGRAM_SUSPENDED -> Value.PROGRAM_SUSPENDED
+                        PROGRAM_USAGE_RESTRICTION -> Value.PROGRAM_USAGE_RESTRICTION
+                        REVERSAL_UNMATCHED -> Value.REVERSAL_UNMATCHED
+                        SECURITY_VIOLATION -> Value.SECURITY_VIOLATION
+                        SINGLE_USE_CARD_REATTEMPTED -> Value.SINGLE_USE_CARD_REATTEMPTED
+                        TRANSACTION_INVALID -> Value.TRANSACTION_INVALID
+                        TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL ->
+                            Value.TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL
+                        TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER ->
+                            Value.TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER
+                        TRANSACTION_PREVIOUSLY_COMPLETED -> Value.TRANSACTION_PREVIOUSLY_COMPLETED
+                        UNAUTHORIZED_MERCHANT -> Value.UNAUTHORIZED_MERCHANT
+                        VEHICLE_NUMBER_INVALID -> Value.VEHICLE_NUMBER_INVALID
+                        else -> Value._UNKNOWN
+                    }
+
+                fun known(): Known =
+                    when (this) {
+                        ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED ->
+                            Known.ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_DELINQUENT -> Known.ACCOUNT_DELINQUENT
+                        ACCOUNT_INACTIVE -> Known.ACCOUNT_INACTIVE
+                        ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED ->
+                            Known.ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED ->
+                            Known.ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_UNDER_REVIEW -> Known.ACCOUNT_UNDER_REVIEW
+                        ADDRESS_INCORRECT -> Known.ADDRESS_INCORRECT
+                        APPROVED -> Known.APPROVED
+                        AUTH_RULE_ALLOWED_COUNTRY -> Known.AUTH_RULE_ALLOWED_COUNTRY
+                        AUTH_RULE_ALLOWED_MCC -> Known.AUTH_RULE_ALLOWED_MCC
+                        AUTH_RULE_BLOCKED_COUNTRY -> Known.AUTH_RULE_BLOCKED_COUNTRY
+                        AUTH_RULE_BLOCKED_MCC -> Known.AUTH_RULE_BLOCKED_MCC
+                        CARD_CLOSED -> Known.CARD_CLOSED
+                        CARD_CRYPTOGRAM_VALIDATION_FAILURE ->
+                            Known.CARD_CRYPTOGRAM_VALIDATION_FAILURE
+                        CARD_EXPIRED -> Known.CARD_EXPIRED
+                        CARD_EXPIRY_DATE_INCORRECT -> Known.CARD_EXPIRY_DATE_INCORRECT
+                        CARD_INVALID -> Known.CARD_INVALID
+                        CARD_NOT_ACTIVATED -> Known.CARD_NOT_ACTIVATED
+                        CARD_PAUSED -> Known.CARD_PAUSED
+                        CARD_PIN_INCORRECT -> Known.CARD_PIN_INCORRECT
+                        CARD_RESTRICTED -> Known.CARD_RESTRICTED
+                        CARD_SECURITY_CODE_INCORRECT -> Known.CARD_SECURITY_CODE_INCORRECT
+                        CARD_SPEND_LIMIT_EXCEEDED -> Known.CARD_SPEND_LIMIT_EXCEEDED
+                        CONTACT_CARD_ISSUER -> Known.CONTACT_CARD_ISSUER
+                        CUSTOMER_ASA_TIMEOUT -> Known.CUSTOMER_ASA_TIMEOUT
+                        CUSTOM_ASA_RESULT -> Known.CUSTOM_ASA_RESULT
+                        DECLINED -> Known.DECLINED
+                        DO_NOT_HONOR -> Known.DO_NOT_HONOR
+                        DRIVER_NUMBER_INVALID -> Known.DRIVER_NUMBER_INVALID
+                        FORMAT_ERROR -> Known.FORMAT_ERROR
+                        INSUFFICIENT_FUNDING_SOURCE_BALANCE ->
+                            Known.INSUFFICIENT_FUNDING_SOURCE_BALANCE
+                        INSUFFICIENT_FUNDS -> Known.INSUFFICIENT_FUNDS
+                        LITHIC_SYSTEM_ERROR -> Known.LITHIC_SYSTEM_ERROR
+                        LITHIC_SYSTEM_RATE_LIMIT -> Known.LITHIC_SYSTEM_RATE_LIMIT
+                        MALFORMED_ASA_RESPONSE -> Known.MALFORMED_ASA_RESPONSE
+                        MERCHANT_INVALID -> Known.MERCHANT_INVALID
+                        MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE ->
+                            Known.MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE
+                        MERCHANT_NOT_PERMITTED -> Known.MERCHANT_NOT_PERMITTED
+                        OVER_REVERSAL_ATTEMPTED -> Known.OVER_REVERSAL_ATTEMPTED
+                        PIN_BLOCKED -> Known.PIN_BLOCKED
+                        PROGRAM_CARD_SPEND_LIMIT_EXCEEDED -> Known.PROGRAM_CARD_SPEND_LIMIT_EXCEEDED
+                        PROGRAM_SUSPENDED -> Known.PROGRAM_SUSPENDED
+                        PROGRAM_USAGE_RESTRICTION -> Known.PROGRAM_USAGE_RESTRICTION
+                        REVERSAL_UNMATCHED -> Known.REVERSAL_UNMATCHED
+                        SECURITY_VIOLATION -> Known.SECURITY_VIOLATION
+                        SINGLE_USE_CARD_REATTEMPTED -> Known.SINGLE_USE_CARD_REATTEMPTED
+                        TRANSACTION_INVALID -> Known.TRANSACTION_INVALID
+                        TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL ->
+                            Known.TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL
+                        TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER ->
+                            Known.TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER
+                        TRANSACTION_PREVIOUSLY_COMPLETED -> Known.TRANSACTION_PREVIOUSLY_COMPLETED
+                        UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
+                        VEHICLE_NUMBER_INVALID -> Known.VEHICLE_NUMBER_INVALID
+                        else -> throw LithicInvalidDataException("Unknown DetailedResult: $value")
+                    }
+
+                fun asString(): String = _value().asStringOrThrow()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is RuleResult && authRuleToken == other.authRuleToken && result == other.result && name == other.name && explanation == other.explanation && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(authRuleToken, result, name, explanation, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "RuleResult{authRuleToken=$authRuleToken, result=$result, name=$name, explanation=$explanation, additionalProperties=$additionalProperties}"
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is TransactionEvent && amount == other.amount && amounts == other.amounts && created == other.created && detailedResults == other.detailedResults && effectivePolarity == other.effectivePolarity && result == other.result && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransactionEvent && amount == other.amount && amounts == other.amounts && created == other.created && detailedResults == other.detailedResults && ruleResults == other.ruleResults && effectivePolarity == other.effectivePolarity && result == other.result && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, amounts, created, detailedResults, effectivePolarity, result, token, type, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(amount, amounts, created, detailedResults, ruleResults, effectivePolarity, result, token, type, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TransactionEvent{amount=$amount, amounts=$amounts, created=$created, detailedResults=$detailedResults, effectivePolarity=$effectivePolarity, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
+            "TransactionEvent{amount=$amount, amounts=$amounts, created=$created, detailedResults=$detailedResults, ruleResults=$ruleResults, effectivePolarity=$effectivePolarity, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
