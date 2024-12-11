@@ -392,9 +392,9 @@ constructor(
 
         companion object {
 
-            @JvmField val RECEIPT_CREDIT = ReceiptType(JsonField.of("RECEIPT_CREDIT"))
+            @JvmField val RECEIPT_CREDIT = of("RECEIPT_CREDIT")
 
-            @JvmField val RECEIPT_DEBIT = ReceiptType(JsonField.of("RECEIPT_DEBIT"))
+            @JvmField val RECEIPT_DEBIT = of("RECEIPT_DEBIT")
 
             @JvmStatic fun of(value: String) = ReceiptType(JsonField.of(value))
         }

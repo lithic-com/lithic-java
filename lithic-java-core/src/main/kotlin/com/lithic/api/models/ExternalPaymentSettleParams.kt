@@ -360,9 +360,9 @@ constructor(
 
         companion object {
 
-            @JvmField val SETTLED = ExternalPaymentProgressTo(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
-            @JvmField val RELEASED = ExternalPaymentProgressTo(JsonField.of("RELEASED"))
+            @JvmField val RELEASED = of("RELEASED")
 
             @JvmStatic fun of(value: String) = ExternalPaymentProgressTo(JsonField.of(value))
         }

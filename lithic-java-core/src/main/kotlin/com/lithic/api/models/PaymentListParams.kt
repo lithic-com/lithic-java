@@ -309,7 +309,7 @@ constructor(
 
         companion object {
 
-            @JvmField val ACH = Category(JsonField.of("ACH"))
+            @JvmField val ACH = of("ACH")
 
             @JvmStatic fun of(value: String) = Category(JsonField.of(value))
         }
@@ -360,9 +360,9 @@ constructor(
 
         companion object {
 
-            @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
             @JvmStatic fun of(value: String) = Result(JsonField.of(value))
         }
@@ -417,13 +417,13 @@ constructor(
 
         companion object {
 
-            @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val PENDING = Status(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val RETURNED = Status(JsonField.of("RETURNED"))
+            @JvmField val RETURNED = of("RETURNED")
 
-            @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }

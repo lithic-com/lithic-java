@@ -581,11 +581,11 @@ private constructor(
 
         companion object {
 
-            @JvmField val CREDIT = AccountType(JsonField.of("CREDIT"))
+            @JvmField val CREDIT = of("CREDIT")
 
-            @JvmField val DEBIT = AccountType(JsonField.of("DEBIT"))
+            @JvmField val DEBIT = of("DEBIT")
 
-            @JvmField val NOT_APPLICABLE = AccountType(JsonField.of("NOT_APPLICABLE"))
+            @JvmField val NOT_APPLICABLE = of("NOT_APPLICABLE")
 
             @JvmStatic fun of(value: String) = AccountType(JsonField.of(value))
         }
@@ -644,9 +644,9 @@ private constructor(
 
         companion object {
 
-            @JvmField val DECLINE = AuthenticationResult(JsonField.of("DECLINE"))
+            @JvmField val DECLINE = of("DECLINE")
 
-            @JvmField val SUCCESS = AuthenticationResult(JsonField.of("SUCCESS"))
+            @JvmField val SUCCESS = of("SUCCESS")
 
             @JvmStatic fun of(value: String) = AuthenticationResult(JsonField.of(value))
         }
@@ -701,11 +701,11 @@ private constructor(
 
         companion object {
 
-            @JvmField val MATCH = CardExpiryCheck(JsonField.of("MATCH"))
+            @JvmField val MATCH = of("MATCH")
 
-            @JvmField val MISMATCH = CardExpiryCheck(JsonField.of("MISMATCH"))
+            @JvmField val MISMATCH = of("MISMATCH")
 
-            @JvmField val NOT_PRESENT = CardExpiryCheck(JsonField.of("NOT_PRESENT"))
+            @JvmField val NOT_PRESENT = of("NOT_PRESENT")
 
             @JvmStatic fun of(value: String) = CardExpiryCheck(JsonField.of(value))
         }
@@ -1287,12 +1287,11 @@ private constructor(
 
         companion object {
 
-            @JvmField val APP_BASED = Channel(JsonField.of("APP_BASED"))
+            @JvmField val APP_BASED = of("APP_BASED")
 
-            @JvmField val BROWSER = Channel(JsonField.of("BROWSER"))
+            @JvmField val BROWSER = of("BROWSER")
 
-            @JvmField
-            val THREE_DS_REQUESTOR_INITIATED = Channel(JsonField.of("THREE_DS_REQUESTOR_INITIATED"))
+            @JvmField val THREE_DS_REQUESTOR_INITIATED = of("THREE_DS_REQUESTOR_INITIATED")
 
             @JvmStatic fun of(value: String) = Channel(JsonField.of(value))
         }
@@ -1351,15 +1350,15 @@ private constructor(
 
         companion object {
 
-            @JvmField val CUSTOMER_ENDPOINT = DecisionMadeBy(JsonField.of("CUSTOMER_ENDPOINT"))
+            @JvmField val CUSTOMER_ENDPOINT = of("CUSTOMER_ENDPOINT")
 
-            @JvmField val LITHIC_DEFAULT = DecisionMadeBy(JsonField.of("LITHIC_DEFAULT"))
+            @JvmField val LITHIC_DEFAULT = of("LITHIC_DEFAULT")
 
-            @JvmField val LITHIC_RULES = DecisionMadeBy(JsonField.of("LITHIC_RULES"))
+            @JvmField val LITHIC_RULES = of("LITHIC_RULES")
 
-            @JvmField val NETWORK = DecisionMadeBy(JsonField.of("NETWORK"))
+            @JvmField val NETWORK = of("NETWORK")
 
-            @JvmField val UNKNOWN = DecisionMadeBy(JsonField.of("UNKNOWN"))
+            @JvmField val UNKNOWN = of("UNKNOWN")
 
             @JvmStatic fun of(value: String) = DecisionMadeBy(JsonField.of(value))
         }
@@ -2021,18 +2020,13 @@ private constructor(
 
                 companion object {
 
-                    @JvmField
-                    val ELECTRONIC_DELIVERY = DeliveryTimeFrame(JsonField.of("ELECTRONIC_DELIVERY"))
+                    @JvmField val ELECTRONIC_DELIVERY = of("ELECTRONIC_DELIVERY")
 
-                    @JvmField
-                    val OVERNIGHT_SHIPPING = DeliveryTimeFrame(JsonField.of("OVERNIGHT_SHIPPING"))
+                    @JvmField val OVERNIGHT_SHIPPING = of("OVERNIGHT_SHIPPING")
 
-                    @JvmField
-                    val SAME_DAY_SHIPPING = DeliveryTimeFrame(JsonField.of("SAME_DAY_SHIPPING"))
+                    @JvmField val SAME_DAY_SHIPPING = of("SAME_DAY_SHIPPING")
 
-                    @JvmField
-                    val TWO_DAY_OR_MORE_SHIPPING =
-                        DeliveryTimeFrame(JsonField.of("TWO_DAY_OR_MORE_SHIPPING"))
+                    @JvmField val TWO_DAY_OR_MORE_SHIPPING = of("TWO_DAY_OR_MORE_SHIPPING")
 
                     @JvmStatic fun of(value: String) = DeliveryTimeFrame(JsonField.of(value))
                 }
@@ -2096,12 +2090,9 @@ private constructor(
 
                 companion object {
 
-                    @JvmField
-                    val FUTURE_AVAILABILITY = OrderAvailability(JsonField.of("FUTURE_AVAILABILITY"))
+                    @JvmField val FUTURE_AVAILABILITY = of("FUTURE_AVAILABILITY")
 
-                    @JvmField
-                    val MERCHANDISE_AVAILABLE =
-                        OrderAvailability(JsonField.of("MERCHANDISE_AVAILABLE"))
+                    @JvmField val MERCHANDISE_AVAILABLE = of("MERCHANDISE_AVAILABLE")
 
                     @JvmStatic fun of(value: String) = OrderAvailability(JsonField.of(value))
                 }
@@ -2157,10 +2148,9 @@ private constructor(
 
                 companion object {
 
-                    @JvmField
-                    val FIRST_TIME_ORDERED = ReorderItems(JsonField.of("FIRST_TIME_ORDERED"))
+                    @JvmField val FIRST_TIME_ORDERED = of("FIRST_TIME_ORDERED")
 
-                    @JvmField val REORDERED = ReorderItems(JsonField.of("REORDERED"))
+                    @JvmField val REORDERED = of("REORDERED")
 
                     @JvmStatic fun of(value: String) = ReorderItems(JsonField.of(value))
                 }
@@ -2215,33 +2205,24 @@ private constructor(
 
                 companion object {
 
-                    @JvmField val DIGITAL_GOODS = ShippingMethod(JsonField.of("DIGITAL_GOODS"))
+                    @JvmField val DIGITAL_GOODS = of("DIGITAL_GOODS")
 
-                    @JvmField val LOCKER_DELIVERY = ShippingMethod(JsonField.of("LOCKER_DELIVERY"))
+                    @JvmField val LOCKER_DELIVERY = of("LOCKER_DELIVERY")
 
-                    @JvmField val OTHER = ShippingMethod(JsonField.of("OTHER"))
+                    @JvmField val OTHER = of("OTHER")
 
-                    @JvmField
-                    val PICK_UP_AND_GO_DELIVERY =
-                        ShippingMethod(JsonField.of("PICK_UP_AND_GO_DELIVERY"))
+                    @JvmField val PICK_UP_AND_GO_DELIVERY = of("PICK_UP_AND_GO_DELIVERY")
 
-                    @JvmField
-                    val SHIP_TO_BILLING_ADDRESS =
-                        ShippingMethod(JsonField.of("SHIP_TO_BILLING_ADDRESS"))
+                    @JvmField val SHIP_TO_BILLING_ADDRESS = of("SHIP_TO_BILLING_ADDRESS")
+
+                    @JvmField val SHIP_TO_NON_BILLING_ADDRESS = of("SHIP_TO_NON_BILLING_ADDRESS")
 
                     @JvmField
-                    val SHIP_TO_NON_BILLING_ADDRESS =
-                        ShippingMethod(JsonField.of("SHIP_TO_NON_BILLING_ADDRESS"))
+                    val SHIP_TO_OTHER_VERIFIED_ADDRESS = of("SHIP_TO_OTHER_VERIFIED_ADDRESS")
 
-                    @JvmField
-                    val SHIP_TO_OTHER_VERIFIED_ADDRESS =
-                        ShippingMethod(JsonField.of("SHIP_TO_OTHER_VERIFIED_ADDRESS"))
+                    @JvmField val SHIP_TO_STORE = of("SHIP_TO_STORE")
 
-                    @JvmField val SHIP_TO_STORE = ShippingMethod(JsonField.of("SHIP_TO_STORE"))
-
-                    @JvmField
-                    val TRAVEL_AND_EVENT_TICKETS =
-                        ShippingMethod(JsonField.of("TRAVEL_AND_EVENT_TICKETS"))
+                    @JvmField val TRAVEL_AND_EVENT_TICKETS = of("TRAVEL_AND_EVENT_TICKETS")
 
                     @JvmStatic fun of(value: String) = ShippingMethod(JsonField.of(value))
                 }
@@ -2360,12 +2341,9 @@ private constructor(
 
         companion object {
 
-            @JvmField
-            val NON_PAYMENT_AUTHENTICATION =
-                MessageCategory(JsonField.of("NON_PAYMENT_AUTHENTICATION"))
+            @JvmField val NON_PAYMENT_AUTHENTICATION = of("NON_PAYMENT_AUTHENTICATION")
 
-            @JvmField
-            val PAYMENT_AUTHENTICATION = MessageCategory(JsonField.of("PAYMENT_AUTHENTICATION"))
+            @JvmField val PAYMENT_AUTHENTICATION = of("PAYMENT_AUTHENTICATION")
 
             @JvmStatic fun of(value: String) = MessageCategory(JsonField.of(value))
         }
@@ -2552,9 +2530,9 @@ private constructor(
 
             companion object {
 
-                @JvmField val LOW_RISK = NetworkDecision(JsonField.of("LOW_RISK"))
+                @JvmField val LOW_RISK = of("LOW_RISK")
 
-                @JvmField val NOT_LOW_RISK = NetworkDecision(JsonField.of("NOT_LOW_RISK"))
+                @JvmField val NOT_LOW_RISK = of("NOT_LOW_RISK")
 
                 @JvmStatic fun of(value: String) = NetworkDecision(JsonField.of(value))
             }
@@ -2767,34 +2745,26 @@ private constructor(
 
         companion object {
 
-            @JvmField val ADD_CARD = AuthenticationRequestType(JsonField.of("ADD_CARD"))
+            @JvmField val ADD_CARD = of("ADD_CARD")
+
+            @JvmField val BILLING_AGREEMENT = of("BILLING_AGREEMENT")
+
+            @JvmField val DELAYED_SHIPMENT = of("DELAYED_SHIPMENT")
 
             @JvmField
-            val BILLING_AGREEMENT = AuthenticationRequestType(JsonField.of("BILLING_AGREEMENT"))
+            val EMV_TOKEN_CARDHOLDER_VERIFICATION = of("EMV_TOKEN_CARDHOLDER_VERIFICATION")
 
-            @JvmField
-            val DELAYED_SHIPMENT = AuthenticationRequestType(JsonField.of("DELAYED_SHIPMENT"))
+            @JvmField val INSTALLMENT_TRANSACTION = of("INSTALLMENT_TRANSACTION")
 
-            @JvmField
-            val EMV_TOKEN_CARDHOLDER_VERIFICATION =
-                AuthenticationRequestType(JsonField.of("EMV_TOKEN_CARDHOLDER_VERIFICATION"))
+            @JvmField val MAINTAIN_CARD = of("MAINTAIN_CARD")
 
-            @JvmField
-            val INSTALLMENT_TRANSACTION =
-                AuthenticationRequestType(JsonField.of("INSTALLMENT_TRANSACTION"))
+            @JvmField val PAYMENT_TRANSACTION = of("PAYMENT_TRANSACTION")
 
-            @JvmField val MAINTAIN_CARD = AuthenticationRequestType(JsonField.of("MAINTAIN_CARD"))
+            @JvmField val RECURRING_TRANSACTION = of("RECURRING_TRANSACTION")
 
-            @JvmField
-            val PAYMENT_TRANSACTION = AuthenticationRequestType(JsonField.of("PAYMENT_TRANSACTION"))
+            @JvmField val SPLIT_PAYMENT = of("SPLIT_PAYMENT")
 
-            @JvmField
-            val RECURRING_TRANSACTION =
-                AuthenticationRequestType(JsonField.of("RECURRING_TRANSACTION"))
-
-            @JvmField val SPLIT_PAYMENT = AuthenticationRequestType(JsonField.of("SPLIT_PAYMENT"))
-
-            @JvmField val SPLIT_SHIPMENT = AuthenticationRequestType(JsonField.of("SPLIT_SHIPMENT"))
+            @JvmField val SPLIT_SHIPMENT = of("SPLIT_SHIPMENT")
 
             @JvmStatic fun of(value: String) = AuthenticationRequestType(JsonField.of(value))
         }
@@ -3146,48 +3116,37 @@ private constructor(
 
         companion object {
 
-            @JvmField
-            val ACCOUNT_VERIFICATION = ThreeRiRequestType(JsonField.of("ACCOUNT_VERIFICATION"))
+            @JvmField val ACCOUNT_VERIFICATION = of("ACCOUNT_VERIFICATION")
 
-            @JvmField val ADD_CARD = ThreeRiRequestType(JsonField.of("ADD_CARD"))
+            @JvmField val ADD_CARD = of("ADD_CARD")
 
-            @JvmField val BILLING_AGREEMENT = ThreeRiRequestType(JsonField.of("BILLING_AGREEMENT"))
+            @JvmField val BILLING_AGREEMENT = of("BILLING_AGREEMENT")
 
-            @JvmField
-            val CARD_SECURITY_CODE_STATUS_CHECK =
-                ThreeRiRequestType(JsonField.of("CARD_SECURITY_CODE_STATUS_CHECK"))
+            @JvmField val CARD_SECURITY_CODE_STATUS_CHECK = of("CARD_SECURITY_CODE_STATUS_CHECK")
 
-            @JvmField val DELAYED_SHIPMENT = ThreeRiRequestType(JsonField.of("DELAYED_SHIPMENT"))
+            @JvmField val DELAYED_SHIPMENT = of("DELAYED_SHIPMENT")
 
-            @JvmField
-            val DEVICE_BINDING_STATUS_CHECK =
-                ThreeRiRequestType(JsonField.of("DEVICE_BINDING_STATUS_CHECK"))
+            @JvmField val DEVICE_BINDING_STATUS_CHECK = of("DEVICE_BINDING_STATUS_CHECK")
 
-            @JvmField
-            val INSTALLMENT_TRANSACTION =
-                ThreeRiRequestType(JsonField.of("INSTALLMENT_TRANSACTION"))
+            @JvmField val INSTALLMENT_TRANSACTION = of("INSTALLMENT_TRANSACTION")
 
-            @JvmField val MAIL_ORDER = ThreeRiRequestType(JsonField.of("MAIL_ORDER"))
+            @JvmField val MAIL_ORDER = of("MAIL_ORDER")
 
-            @JvmField
-            val MAINTAIN_CARD_INFO = ThreeRiRequestType(JsonField.of("MAINTAIN_CARD_INFO"))
+            @JvmField val MAINTAIN_CARD_INFO = of("MAINTAIN_CARD_INFO")
 
-            @JvmField val OTHER_PAYMENT = ThreeRiRequestType(JsonField.of("OTHER_PAYMENT"))
+            @JvmField val OTHER_PAYMENT = of("OTHER_PAYMENT")
 
-            @JvmField
-            val RECURRING_TRANSACTION = ThreeRiRequestType(JsonField.of("RECURRING_TRANSACTION"))
+            @JvmField val RECURRING_TRANSACTION = of("RECURRING_TRANSACTION")
 
-            @JvmField val SPLIT_PAYMENT = ThreeRiRequestType(JsonField.of("SPLIT_PAYMENT"))
+            @JvmField val SPLIT_PAYMENT = of("SPLIT_PAYMENT")
 
-            @JvmField val SPLIT_SHIPMENT = ThreeRiRequestType(JsonField.of("SPLIT_SHIPMENT"))
+            @JvmField val SPLIT_SHIPMENT = of("SPLIT_SHIPMENT")
 
-            @JvmField val TELEPHONE_ORDER = ThreeRiRequestType(JsonField.of("TELEPHONE_ORDER"))
+            @JvmField val TELEPHONE_ORDER = of("TELEPHONE_ORDER")
 
-            @JvmField val TOP_UP = ThreeRiRequestType(JsonField.of("TOP_UP"))
+            @JvmField val TOP_UP = of("TOP_UP")
 
-            @JvmField
-            val TRUST_LIST_STATUS_CHECK =
-                ThreeRiRequestType(JsonField.of("TRUST_LIST_STATUS_CHECK"))
+            @JvmField val TRUST_LIST_STATUS_CHECK = of("TRUST_LIST_STATUS_CHECK")
 
             @JvmStatic fun of(value: String) = ThreeRiRequestType(JsonField.of(value))
         }
@@ -3505,16 +3464,15 @@ private constructor(
 
             companion object {
 
-                @JvmField val ACCOUNT_FUNDING = Type(JsonField.of("ACCOUNT_FUNDING"))
+                @JvmField val ACCOUNT_FUNDING = of("ACCOUNT_FUNDING")
 
-                @JvmField val CHECK_ACCEPTANCE = Type(JsonField.of("CHECK_ACCEPTANCE"))
+                @JvmField val CHECK_ACCEPTANCE = of("CHECK_ACCEPTANCE")
 
-                @JvmField val GOODS_SERVICE_PURCHASE = Type(JsonField.of("GOODS_SERVICE_PURCHASE"))
+                @JvmField val GOODS_SERVICE_PURCHASE = of("GOODS_SERVICE_PURCHASE")
 
-                @JvmField
-                val PREPAID_ACTIVATION_AND_LOAD = Type(JsonField.of("PREPAID_ACTIVATION_AND_LOAD"))
+                @JvmField val PREPAID_ACTIVATION_AND_LOAD = of("PREPAID_ACTIVATION_AND_LOAD")
 
-                @JvmField val QUASI_CASH_TRANSACTION = Type(JsonField.of("QUASI_CASH_TRANSACTION"))
+                @JvmField val QUASI_CASH_TRANSACTION = of("QUASI_CASH_TRANSACTION")
 
                 @JvmStatic fun of(value: String) = Type(JsonField.of(value))
             }

@@ -474,9 +474,9 @@ constructor(
 
         companion object {
 
-            @JvmField val ACH_NEXT_DAY = Method(JsonField.of("ACH_NEXT_DAY"))
+            @JvmField val ACH_NEXT_DAY = of("ACH_NEXT_DAY")
 
-            @JvmField val ACH_SAME_DAY = Method(JsonField.of("ACH_SAME_DAY"))
+            @JvmField val ACH_SAME_DAY = of("ACH_SAME_DAY")
 
             @JvmStatic fun of(value: String) = Method(JsonField.of(value))
         }
@@ -588,11 +588,11 @@ constructor(
 
             companion object {
 
-                @JvmField val CCD = SecCode(JsonField.of("CCD"))
+                @JvmField val CCD = of("CCD")
 
-                @JvmField val PPD = SecCode(JsonField.of("PPD"))
+                @JvmField val PPD = of("PPD")
 
-                @JvmField val WEB = SecCode(JsonField.of("WEB"))
+                @JvmField val WEB = of("WEB")
 
                 @JvmStatic fun of(value: String) = SecCode(JsonField.of(value))
             }
@@ -669,9 +669,9 @@ constructor(
 
         companion object {
 
-            @JvmField val COLLECTION = Type(JsonField.of("COLLECTION"))
+            @JvmField val COLLECTION = of("COLLECTION")
 
-            @JvmField val PAYMENT = Type(JsonField.of("PAYMENT"))
+            @JvmField val PAYMENT = of("PAYMENT")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }

@@ -30,13 +30,13 @@ private constructor(
 
     companion object {
 
-        @JvmField val ANNUALLY = SpendLimitDuration(JsonField.of("ANNUALLY"))
+        @JvmField val ANNUALLY = of("ANNUALLY")
 
-        @JvmField val FOREVER = SpendLimitDuration(JsonField.of("FOREVER"))
+        @JvmField val FOREVER = of("FOREVER")
 
-        @JvmField val MONTHLY = SpendLimitDuration(JsonField.of("MONTHLY"))
+        @JvmField val MONTHLY = of("MONTHLY")
 
-        @JvmField val TRANSACTION = SpendLimitDuration(JsonField.of("TRANSACTION"))
+        @JvmField val TRANSACTION = of("TRANSACTION")
 
         @JvmStatic fun of(value: String) = SpendLimitDuration(JsonField.of(value))
     }

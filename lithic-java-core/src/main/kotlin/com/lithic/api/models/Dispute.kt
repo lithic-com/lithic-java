@@ -722,38 +722,34 @@ private constructor(
 
         companion object {
 
-            @JvmField val ATM_CASH_MISDISPENSE = Reason(JsonField.of("ATM_CASH_MISDISPENSE"))
+            @JvmField val ATM_CASH_MISDISPENSE = of("ATM_CASH_MISDISPENSE")
 
-            @JvmField val CANCELLED = Reason(JsonField.of("CANCELLED"))
+            @JvmField val CANCELLED = of("CANCELLED")
 
-            @JvmField val DUPLICATED = Reason(JsonField.of("DUPLICATED"))
+            @JvmField val DUPLICATED = of("DUPLICATED")
 
-            @JvmField val FRAUD_CARD_NOT_PRESENT = Reason(JsonField.of("FRAUD_CARD_NOT_PRESENT"))
+            @JvmField val FRAUD_CARD_NOT_PRESENT = of("FRAUD_CARD_NOT_PRESENT")
 
-            @JvmField val FRAUD_CARD_PRESENT = Reason(JsonField.of("FRAUD_CARD_PRESENT"))
+            @JvmField val FRAUD_CARD_PRESENT = of("FRAUD_CARD_PRESENT")
 
-            @JvmField val FRAUD_OTHER = Reason(JsonField.of("FRAUD_OTHER"))
+            @JvmField val FRAUD_OTHER = of("FRAUD_OTHER")
 
-            @JvmField
-            val GOODS_SERVICES_NOT_AS_DESCRIBED =
-                Reason(JsonField.of("GOODS_SERVICES_NOT_AS_DESCRIBED"))
+            @JvmField val GOODS_SERVICES_NOT_AS_DESCRIBED = of("GOODS_SERVICES_NOT_AS_DESCRIBED")
 
-            @JvmField
-            val GOODS_SERVICES_NOT_RECEIVED = Reason(JsonField.of("GOODS_SERVICES_NOT_RECEIVED"))
+            @JvmField val GOODS_SERVICES_NOT_RECEIVED = of("GOODS_SERVICES_NOT_RECEIVED")
 
-            @JvmField val INCORRECT_AMOUNT = Reason(JsonField.of("INCORRECT_AMOUNT"))
+            @JvmField val INCORRECT_AMOUNT = of("INCORRECT_AMOUNT")
 
-            @JvmField val MISSING_AUTH = Reason(JsonField.of("MISSING_AUTH"))
+            @JvmField val MISSING_AUTH = of("MISSING_AUTH")
 
-            @JvmField val OTHER = Reason(JsonField.of("OTHER"))
+            @JvmField val OTHER = of("OTHER")
 
-            @JvmField val PROCESSING_ERROR = Reason(JsonField.of("PROCESSING_ERROR"))
+            @JvmField val PROCESSING_ERROR = of("PROCESSING_ERROR")
 
             @JvmField
-            val RECURRING_TRANSACTION_NOT_CANCELLED =
-                Reason(JsonField.of("RECURRING_TRANSACTION_NOT_CANCELLED"))
+            val RECURRING_TRANSACTION_NOT_CANCELLED = of("RECURRING_TRANSACTION_NOT_CANCELLED")
 
-            @JvmField val REFUND_NOT_PROCESSED = Reason(JsonField.of("REFUND_NOT_PROCESSED"))
+            @JvmField val REFUND_NOT_PROCESSED = of("REFUND_NOT_PROCESSED")
 
             @JvmStatic fun of(value: String) = Reason(JsonField.of(value))
         }
@@ -856,55 +852,41 @@ private constructor(
 
         companion object {
 
-            @JvmField val CASE_LOST = ResolutionReason(JsonField.of("CASE_LOST"))
+            @JvmField val CASE_LOST = of("CASE_LOST")
 
-            @JvmField val NETWORK_REJECTED = ResolutionReason(JsonField.of("NETWORK_REJECTED"))
+            @JvmField val NETWORK_REJECTED = of("NETWORK_REJECTED")
 
-            @JvmField
-            val NO_DISPUTE_RIGHTS_3DS = ResolutionReason(JsonField.of("NO_DISPUTE_RIGHTS_3DS"))
-
-            @JvmField
-            val NO_DISPUTE_RIGHTS_BELOW_THRESHOLD =
-                ResolutionReason(JsonField.of("NO_DISPUTE_RIGHTS_BELOW_THRESHOLD"))
+            @JvmField val NO_DISPUTE_RIGHTS_3DS = of("NO_DISPUTE_RIGHTS_3DS")
 
             @JvmField
-            val NO_DISPUTE_RIGHTS_CONTACTLESS =
-                ResolutionReason(JsonField.of("NO_DISPUTE_RIGHTS_CONTACTLESS"))
+            val NO_DISPUTE_RIGHTS_BELOW_THRESHOLD = of("NO_DISPUTE_RIGHTS_BELOW_THRESHOLD")
+
+            @JvmField val NO_DISPUTE_RIGHTS_CONTACTLESS = of("NO_DISPUTE_RIGHTS_CONTACTLESS")
+
+            @JvmField val NO_DISPUTE_RIGHTS_HYBRID = of("NO_DISPUTE_RIGHTS_HYBRID")
 
             @JvmField
-            val NO_DISPUTE_RIGHTS_HYBRID =
-                ResolutionReason(JsonField.of("NO_DISPUTE_RIGHTS_HYBRID"))
+            val NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS = of("NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS")
 
-            @JvmField
-            val NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS =
-                ResolutionReason(JsonField.of("NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS"))
+            @JvmField val NO_DISPUTE_RIGHTS_OTHER = of("NO_DISPUTE_RIGHTS_OTHER")
 
-            @JvmField
-            val NO_DISPUTE_RIGHTS_OTHER = ResolutionReason(JsonField.of("NO_DISPUTE_RIGHTS_OTHER"))
+            @JvmField val PAST_FILING_DATE = of("PAST_FILING_DATE")
 
-            @JvmField val PAST_FILING_DATE = ResolutionReason(JsonField.of("PAST_FILING_DATE"))
+            @JvmField val PREARBITRATION_REJECTED = of("PREARBITRATION_REJECTED")
 
-            @JvmField
-            val PREARBITRATION_REJECTED = ResolutionReason(JsonField.of("PREARBITRATION_REJECTED"))
+            @JvmField val PROCESSOR_REJECTED_OTHER = of("PROCESSOR_REJECTED_OTHER")
 
-            @JvmField
-            val PROCESSOR_REJECTED_OTHER =
-                ResolutionReason(JsonField.of("PROCESSOR_REJECTED_OTHER"))
+            @JvmField val REFUNDED = of("REFUNDED")
 
-            @JvmField val REFUNDED = ResolutionReason(JsonField.of("REFUNDED"))
+            @JvmField val REFUNDED_AFTER_CHARGEBACK = of("REFUNDED_AFTER_CHARGEBACK")
 
-            @JvmField
-            val REFUNDED_AFTER_CHARGEBACK =
-                ResolutionReason(JsonField.of("REFUNDED_AFTER_CHARGEBACK"))
+            @JvmField val WITHDRAWN = of("WITHDRAWN")
 
-            @JvmField val WITHDRAWN = ResolutionReason(JsonField.of("WITHDRAWN"))
+            @JvmField val WON_ARBITRATION = of("WON_ARBITRATION")
 
-            @JvmField val WON_ARBITRATION = ResolutionReason(JsonField.of("WON_ARBITRATION"))
+            @JvmField val WON_FIRST_CHARGEBACK = of("WON_FIRST_CHARGEBACK")
 
-            @JvmField
-            val WON_FIRST_CHARGEBACK = ResolutionReason(JsonField.of("WON_FIRST_CHARGEBACK"))
-
-            @JvmField val WON_PREARBITRATION = ResolutionReason(JsonField.of("WON_PREARBITRATION"))
+            @JvmField val WON_PREARBITRATION = of("WON_PREARBITRATION")
 
             @JvmStatic fun of(value: String) = ResolutionReason(JsonField.of(value))
         }
@@ -1019,21 +1001,21 @@ private constructor(
 
         companion object {
 
-            @JvmField val ARBITRATION = Status(JsonField.of("ARBITRATION"))
+            @JvmField val ARBITRATION = of("ARBITRATION")
 
-            @JvmField val CASE_CLOSED = Status(JsonField.of("CASE_CLOSED"))
+            @JvmField val CASE_CLOSED = of("CASE_CLOSED")
 
-            @JvmField val CASE_WON = Status(JsonField.of("CASE_WON"))
+            @JvmField val CASE_WON = of("CASE_WON")
 
-            @JvmField val NEW = Status(JsonField.of("NEW"))
+            @JvmField val NEW = of("NEW")
 
-            @JvmField val PENDING_CUSTOMER = Status(JsonField.of("PENDING_CUSTOMER"))
+            @JvmField val PENDING_CUSTOMER = of("PENDING_CUSTOMER")
 
-            @JvmField val PREARBITRATION = Status(JsonField.of("PREARBITRATION"))
+            @JvmField val PREARBITRATION = of("PREARBITRATION")
 
-            @JvmField val REPRESENTMENT = Status(JsonField.of("REPRESENTMENT"))
+            @JvmField val REPRESENTMENT = of("REPRESENTMENT")
 
-            @JvmField val SUBMITTED = Status(JsonField.of("SUBMITTED"))
+            @JvmField val SUBMITTED = of("SUBMITTED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }

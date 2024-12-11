@@ -722,9 +722,9 @@ constructor(
 
             companion object {
 
-                @JvmField val CHECKING = AccountType(JsonField.of("CHECKING"))
+                @JvmField val CHECKING = of("CHECKING")
 
-                @JvmField val SAVINGS = AccountType(JsonField.of("SAVINGS"))
+                @JvmField val SAVINGS = of("SAVINGS")
 
                 @JvmStatic fun of(value: String) = AccountType(JsonField.of(value))
             }
@@ -1220,9 +1220,9 @@ constructor(
 
             companion object {
 
-                @JvmField val CHECKING = Type(JsonField.of("CHECKING"))
+                @JvmField val CHECKING = of("CHECKING")
 
-                @JvmField val SAVINGS = Type(JsonField.of("SAVINGS"))
+                @JvmField val SAVINGS = of("SAVINGS")
 
                 @JvmStatic fun of(value: String) = Type(JsonField.of(value))
             }
@@ -1277,9 +1277,7 @@ constructor(
 
             companion object {
 
-                @JvmField
-                val EXTERNALLY_VERIFIED =
-                    ExternallyVerifiedVerificationMethod(JsonField.of("EXTERNALLY_VERIFIED"))
+                @JvmField val EXTERNALLY_VERIFIED = of("EXTERNALLY_VERIFIED")
 
                 @JvmStatic
                 fun of(value: String) = ExternallyVerifiedVerificationMethod(JsonField.of(value))

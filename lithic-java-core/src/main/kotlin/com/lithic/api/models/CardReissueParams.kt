@@ -430,18 +430,17 @@ constructor(
 
         companion object {
 
-            @JvmField val _2_DAY = ShippingMethod(JsonField.of("2-DAY"))
+            @JvmField val _2_DAY = of("2-DAY")
 
-            @JvmField val EXPEDITED = ShippingMethod(JsonField.of("EXPEDITED"))
+            @JvmField val EXPEDITED = of("EXPEDITED")
 
-            @JvmField val EXPRESS = ShippingMethod(JsonField.of("EXPRESS"))
+            @JvmField val EXPRESS = of("EXPRESS")
 
-            @JvmField val PRIORITY = ShippingMethod(JsonField.of("PRIORITY"))
+            @JvmField val PRIORITY = of("PRIORITY")
 
-            @JvmField val STANDARD = ShippingMethod(JsonField.of("STANDARD"))
+            @JvmField val STANDARD = of("STANDARD")
 
-            @JvmField
-            val STANDARD_WITH_TRACKING = ShippingMethod(JsonField.of("STANDARD_WITH_TRACKING"))
+            @JvmField val STANDARD_WITH_TRACKING = of("STANDARD_WITH_TRACKING")
 
             @JvmStatic fun of(value: String) = ShippingMethod(JsonField.of(value))
         }

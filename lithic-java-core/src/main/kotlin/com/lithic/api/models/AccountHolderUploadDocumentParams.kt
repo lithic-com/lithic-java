@@ -346,50 +346,41 @@ constructor(
 
         companion object {
 
-            @JvmField val EIN_LETTER = DocumentType(JsonField.of("EIN_LETTER"))
+            @JvmField val EIN_LETTER = of("EIN_LETTER")
 
-            @JvmField val TAX_RETURN = DocumentType(JsonField.of("TAX_RETURN"))
+            @JvmField val TAX_RETURN = of("TAX_RETURN")
 
-            @JvmField val OPERATING_AGREEMENT = DocumentType(JsonField.of("OPERATING_AGREEMENT"))
+            @JvmField val OPERATING_AGREEMENT = of("OPERATING_AGREEMENT")
 
-            @JvmField
-            val CERTIFICATE_OF_FORMATION = DocumentType(JsonField.of("CERTIFICATE_OF_FORMATION"))
+            @JvmField val CERTIFICATE_OF_FORMATION = of("CERTIFICATE_OF_FORMATION")
 
-            @JvmField val DRIVERS_LICENSE = DocumentType(JsonField.of("DRIVERS_LICENSE"))
+            @JvmField val DRIVERS_LICENSE = of("DRIVERS_LICENSE")
 
-            @JvmField val PASSPORT = DocumentType(JsonField.of("PASSPORT"))
+            @JvmField val PASSPORT = of("PASSPORT")
 
-            @JvmField val PASSPORT_CARD = DocumentType(JsonField.of("PASSPORT_CARD"))
+            @JvmField val PASSPORT_CARD = of("PASSPORT_CARD")
 
-            @JvmField
-            val CERTIFICATE_OF_GOOD_STANDING =
-                DocumentType(JsonField.of("CERTIFICATE_OF_GOOD_STANDING"))
+            @JvmField val CERTIFICATE_OF_GOOD_STANDING = of("CERTIFICATE_OF_GOOD_STANDING")
 
-            @JvmField
-            val ARTICLES_OF_INCORPORATION = DocumentType(JsonField.of("ARTICLES_OF_INCORPORATION"))
+            @JvmField val ARTICLES_OF_INCORPORATION = of("ARTICLES_OF_INCORPORATION")
 
-            @JvmField
-            val ARTICLES_OF_ORGANIZATION = DocumentType(JsonField.of("ARTICLES_OF_ORGANIZATION"))
+            @JvmField val ARTICLES_OF_ORGANIZATION = of("ARTICLES_OF_ORGANIZATION")
 
-            @JvmField val BYLAWS = DocumentType(JsonField.of("BYLAWS"))
+            @JvmField val BYLAWS = of("BYLAWS")
 
-            @JvmField
-            val GOVERNMENT_BUSINESS_LICENSE =
-                DocumentType(JsonField.of("GOVERNMENT_BUSINESS_LICENSE"))
+            @JvmField val GOVERNMENT_BUSINESS_LICENSE = of("GOVERNMENT_BUSINESS_LICENSE")
 
-            @JvmField
-            val PARTNERSHIP_AGREEMENT = DocumentType(JsonField.of("PARTNERSHIP_AGREEMENT"))
+            @JvmField val PARTNERSHIP_AGREEMENT = of("PARTNERSHIP_AGREEMENT")
 
-            @JvmField val SS4_FORM = DocumentType(JsonField.of("SS4_FORM"))
+            @JvmField val SS4_FORM = of("SS4_FORM")
 
-            @JvmField val BANK_STATEMENT = DocumentType(JsonField.of("BANK_STATEMENT"))
+            @JvmField val BANK_STATEMENT = of("BANK_STATEMENT")
 
-            @JvmField
-            val UTILITY_BILL_STATEMENT = DocumentType(JsonField.of("UTILITY_BILL_STATEMENT"))
+            @JvmField val UTILITY_BILL_STATEMENT = of("UTILITY_BILL_STATEMENT")
 
-            @JvmField val SSN_CARD = DocumentType(JsonField.of("SSN_CARD"))
+            @JvmField val SSN_CARD = of("SSN_CARD")
 
-            @JvmField val ITIN_LETTER = DocumentType(JsonField.of("ITIN_LETTER"))
+            @JvmField val ITIN_LETTER = of("ITIN_LETTER")
 
             @JvmStatic fun of(value: String) = DocumentType(JsonField.of(value))
         }
