@@ -274,11 +274,11 @@ constructor(
 
         companion object {
 
-            @JvmField val DIGITAL_WALLET = TokenizationChannel(JsonField.of("DIGITAL_WALLET"))
+            @JvmField val DIGITAL_WALLET = of("DIGITAL_WALLET")
 
-            @JvmField val MERCHANT = TokenizationChannel(JsonField.of("MERCHANT"))
+            @JvmField val MERCHANT = of("MERCHANT")
 
-            @JvmField val ALL = TokenizationChannel(JsonField.of("ALL"))
+            @JvmField val ALL = of("ALL")
 
             @JvmStatic fun of(value: String) = TokenizationChannel(JsonField.of(value))
         }

@@ -280,9 +280,9 @@ constructor(
 
         companion object {
 
-            @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
             @JvmStatic fun of(value: String) = Result(JsonField.of(value))
         }

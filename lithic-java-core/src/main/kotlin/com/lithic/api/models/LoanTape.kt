@@ -758,11 +758,11 @@ private constructor(
 
             companion object {
 
-                @JvmField val STANDARD = PeriodState(JsonField.of("STANDARD"))
+                @JvmField val STANDARD = of("STANDARD")
 
-                @JvmField val PROMO = PeriodState(JsonField.of("PROMO"))
+                @JvmField val PROMO = of("PROMO")
 
-                @JvmField val PENALTY = PeriodState(JsonField.of("PENALTY"))
+                @JvmField val PENALTY = of("PENALTY")
 
                 @JvmStatic fun of(value: String) = PeriodState(JsonField.of(value))
             }
@@ -1690,10 +1690,9 @@ private constructor(
 
             companion object {
 
-                @JvmField val DAILY = InterestCalculationMethod(JsonField.of("DAILY"))
+                @JvmField val DAILY = of("DAILY")
 
-                @JvmField
-                val AVERAGE_DAILY = InterestCalculationMethod(JsonField.of("AVERAGE_DAILY"))
+                @JvmField val AVERAGE_DAILY = of("AVERAGE_DAILY")
 
                 @JvmStatic fun of(value: String) = InterestCalculationMethod(JsonField.of(value))
             }

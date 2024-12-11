@@ -30,9 +30,9 @@ private constructor(
 
     companion object {
 
-        @JvmField val INDIVIDUAL = OwnerType(JsonField.of("INDIVIDUAL"))
+        @JvmField val INDIVIDUAL = of("INDIVIDUAL")
 
-        @JvmField val BUSINESS = OwnerType(JsonField.of("BUSINESS"))
+        @JvmField val BUSINESS = of("BUSINESS")
 
         @JvmStatic fun of(value: String) = OwnerType(JsonField.of(value))
     }

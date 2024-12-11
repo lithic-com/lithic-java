@@ -273,15 +273,15 @@ private constructor(
 
         companion object {
 
-            @JvmField val DELETED = UploadStatus(JsonField.of("DELETED"))
+            @JvmField val DELETED = of("DELETED")
 
-            @JvmField val ERROR = UploadStatus(JsonField.of("ERROR"))
+            @JvmField val ERROR = of("ERROR")
 
-            @JvmField val PENDING = UploadStatus(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val REJECTED = UploadStatus(JsonField.of("REJECTED"))
+            @JvmField val REJECTED = of("REJECTED")
 
-            @JvmField val UPLOADED = UploadStatus(JsonField.of("UPLOADED"))
+            @JvmField val UPLOADED = of("UPLOADED")
 
             @JvmStatic fun of(value: String) = UploadStatus(JsonField.of(value))
         }

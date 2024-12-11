@@ -279,21 +279,21 @@ constructor(
 
         companion object {
 
-            @JvmField val ARBITRATION = Status(JsonField.of("ARBITRATION"))
+            @JvmField val ARBITRATION = of("ARBITRATION")
 
-            @JvmField val CASE_CLOSED = Status(JsonField.of("CASE_CLOSED"))
+            @JvmField val CASE_CLOSED = of("CASE_CLOSED")
 
-            @JvmField val CASE_WON = Status(JsonField.of("CASE_WON"))
+            @JvmField val CASE_WON = of("CASE_WON")
 
-            @JvmField val NEW = Status(JsonField.of("NEW"))
+            @JvmField val NEW = of("NEW")
 
-            @JvmField val PENDING_CUSTOMER = Status(JsonField.of("PENDING_CUSTOMER"))
+            @JvmField val PENDING_CUSTOMER = of("PENDING_CUSTOMER")
 
-            @JvmField val PREARBITRATION = Status(JsonField.of("PREARBITRATION"))
+            @JvmField val PREARBITRATION = of("PREARBITRATION")
 
-            @JvmField val REPRESENTMENT = Status(JsonField.of("REPRESENTMENT"))
+            @JvmField val REPRESENTMENT = of("REPRESENTMENT")
 
-            @JvmField val SUBMITTED = Status(JsonField.of("SUBMITTED"))
+            @JvmField val SUBMITTED = of("SUBMITTED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }

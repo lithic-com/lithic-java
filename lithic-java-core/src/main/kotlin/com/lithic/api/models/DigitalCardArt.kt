@@ -238,9 +238,9 @@ private constructor(
 
         companion object {
 
-            @JvmField val MASTERCARD = Network(JsonField.of("MASTERCARD"))
+            @JvmField val MASTERCARD = of("MASTERCARD")
 
-            @JvmField val VISA = Network(JsonField.of("VISA"))
+            @JvmField val VISA = of("VISA")
 
             @JvmStatic fun of(value: String) = Network(JsonField.of(value))
         }

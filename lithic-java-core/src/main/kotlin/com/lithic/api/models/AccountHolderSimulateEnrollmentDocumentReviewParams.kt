@@ -416,13 +416,13 @@ constructor(
 
         companion object {
 
-            @JvmField val UPLOADED = Status(JsonField.of("UPLOADED"))
+            @JvmField val UPLOADED = of("UPLOADED")
 
-            @JvmField val ACCEPTED = Status(JsonField.of("ACCEPTED"))
+            @JvmField val ACCEPTED = of("ACCEPTED")
 
-            @JvmField val REJECTED = Status(JsonField.of("REJECTED"))
+            @JvmField val REJECTED = of("REJECTED")
 
-            @JvmField val PARTIAL_APPROVAL = Status(JsonField.of("PARTIAL_APPROVAL"))
+            @JvmField val PARTIAL_APPROVAL = of("PARTIAL_APPROVAL")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
@@ -485,45 +485,28 @@ constructor(
 
         companion object {
 
-            @JvmField
-            val DOCUMENT_MISSING_REQUIRED_DATA =
-                DocumentUploadStatusReasons(JsonField.of("DOCUMENT_MISSING_REQUIRED_DATA"))
+            @JvmField val DOCUMENT_MISSING_REQUIRED_DATA = of("DOCUMENT_MISSING_REQUIRED_DATA")
+
+            @JvmField val DOCUMENT_UPLOAD_TOO_BLURRY = of("DOCUMENT_UPLOAD_TOO_BLURRY")
+
+            @JvmField val FILE_SIZE_TOO_LARGE = of("FILE_SIZE_TOO_LARGE")
+
+            @JvmField val INVALID_DOCUMENT_TYPE = of("INVALID_DOCUMENT_TYPE")
+
+            @JvmField val INVALID_DOCUMENT_UPLOAD = of("INVALID_DOCUMENT_UPLOAD")
+
+            @JvmField val INVALID_ENTITY = of("INVALID_ENTITY")
+
+            @JvmField val DOCUMENT_EXPIRED = of("DOCUMENT_EXPIRED")
 
             @JvmField
-            val DOCUMENT_UPLOAD_TOO_BLURRY =
-                DocumentUploadStatusReasons(JsonField.of("DOCUMENT_UPLOAD_TOO_BLURRY"))
+            val DOCUMENT_ISSUED_GREATER_THAN_30_DAYS = of("DOCUMENT_ISSUED_GREATER_THAN_30_DAYS")
 
-            @JvmField
-            val FILE_SIZE_TOO_LARGE =
-                DocumentUploadStatusReasons(JsonField.of("FILE_SIZE_TOO_LARGE"))
+            @JvmField val DOCUMENT_TYPE_NOT_SUPPORTED = of("DOCUMENT_TYPE_NOT_SUPPORTED")
 
-            @JvmField
-            val INVALID_DOCUMENT_TYPE =
-                DocumentUploadStatusReasons(JsonField.of("INVALID_DOCUMENT_TYPE"))
+            @JvmField val UNKNOWN_FAILURE_REASON = of("UNKNOWN_FAILURE_REASON")
 
-            @JvmField
-            val INVALID_DOCUMENT_UPLOAD =
-                DocumentUploadStatusReasons(JsonField.of("INVALID_DOCUMENT_UPLOAD"))
-
-            @JvmField
-            val INVALID_ENTITY = DocumentUploadStatusReasons(JsonField.of("INVALID_ENTITY"))
-
-            @JvmField
-            val DOCUMENT_EXPIRED = DocumentUploadStatusReasons(JsonField.of("DOCUMENT_EXPIRED"))
-
-            @JvmField
-            val DOCUMENT_ISSUED_GREATER_THAN_30_DAYS =
-                DocumentUploadStatusReasons(JsonField.of("DOCUMENT_ISSUED_GREATER_THAN_30_DAYS"))
-
-            @JvmField
-            val DOCUMENT_TYPE_NOT_SUPPORTED =
-                DocumentUploadStatusReasons(JsonField.of("DOCUMENT_TYPE_NOT_SUPPORTED"))
-
-            @JvmField
-            val UNKNOWN_FAILURE_REASON =
-                DocumentUploadStatusReasons(JsonField.of("UNKNOWN_FAILURE_REASON"))
-
-            @JvmField val UNKNOWN_ERROR = DocumentUploadStatusReasons(JsonField.of("UNKNOWN_ERROR"))
+            @JvmField val UNKNOWN_ERROR = of("UNKNOWN_ERROR")
 
             @JvmStatic fun of(value: String) = DocumentUploadStatusReasons(JsonField.of(value))
         }

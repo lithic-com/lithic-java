@@ -480,18 +480,13 @@ constructor(
 
         companion object {
 
-            @JvmField
-            val MANAGEMENT_FEE = ManagementOperationCategory(JsonField.of("MANAGEMENT_FEE"))
+            @JvmField val MANAGEMENT_FEE = of("MANAGEMENT_FEE")
 
-            @JvmField
-            val MANAGEMENT_DISPUTE = ManagementOperationCategory(JsonField.of("MANAGEMENT_DISPUTE"))
+            @JvmField val MANAGEMENT_DISPUTE = of("MANAGEMENT_DISPUTE")
 
-            @JvmField
-            val MANAGEMENT_REWARD = ManagementOperationCategory(JsonField.of("MANAGEMENT_REWARD"))
+            @JvmField val MANAGEMENT_REWARD = of("MANAGEMENT_REWARD")
 
-            @JvmField
-            val MANAGEMENT_ADJUSTMENT =
-                ManagementOperationCategory(JsonField.of("MANAGEMENT_ADJUSTMENT"))
+            @JvmField val MANAGEMENT_ADJUSTMENT = of("MANAGEMENT_ADJUSTMENT")
 
             @JvmStatic fun of(value: String) = ManagementOperationCategory(JsonField.of(value))
         }
@@ -555,9 +550,9 @@ constructor(
 
         companion object {
 
-            @JvmField val CREDIT = ManagementOperationDirection(JsonField.of("CREDIT"))
+            @JvmField val CREDIT = of("CREDIT")
 
-            @JvmField val DEBIT = ManagementOperationDirection(JsonField.of("DEBIT"))
+            @JvmField val DEBIT = of("DEBIT")
 
             @JvmStatic fun of(value: String) = ManagementOperationDirection(JsonField.of(value))
         }
@@ -613,45 +608,29 @@ constructor(
 
         companion object {
 
-            @JvmField val CASH_BACK = ManagementOperationEventType(JsonField.of("CASH_BACK"))
+            @JvmField val CASH_BACK = of("CASH_BACK")
 
-            @JvmField
-            val CURRENCY_CONVERSION =
-                ManagementOperationEventType(JsonField.of("CURRENCY_CONVERSION"))
+            @JvmField val CURRENCY_CONVERSION = of("CURRENCY_CONVERSION")
 
-            @JvmField val INTEREST = ManagementOperationEventType(JsonField.of("INTEREST"))
+            @JvmField val INTEREST = of("INTEREST")
 
-            @JvmField val LATE_PAYMENT = ManagementOperationEventType(JsonField.of("LATE_PAYMENT"))
+            @JvmField val LATE_PAYMENT = of("LATE_PAYMENT")
 
-            @JvmField
-            val BILLING_ERROR = ManagementOperationEventType(JsonField.of("BILLING_ERROR"))
+            @JvmField val BILLING_ERROR = of("BILLING_ERROR")
 
-            @JvmField
-            val PROVISIONAL_CREDIT =
-                ManagementOperationEventType(JsonField.of("PROVISIONAL_CREDIT"))
+            @JvmField val PROVISIONAL_CREDIT = of("PROVISIONAL_CREDIT")
 
-            @JvmField
-            val CASH_BACK_REVERSAL =
-                ManagementOperationEventType(JsonField.of("CASH_BACK_REVERSAL"))
+            @JvmField val CASH_BACK_REVERSAL = of("CASH_BACK_REVERSAL")
 
-            @JvmField
-            val CURRENCY_CONVERSION_REVERSAL =
-                ManagementOperationEventType(JsonField.of("CURRENCY_CONVERSION_REVERSAL"))
+            @JvmField val CURRENCY_CONVERSION_REVERSAL = of("CURRENCY_CONVERSION_REVERSAL")
 
-            @JvmField
-            val INTEREST_REVERSAL = ManagementOperationEventType(JsonField.of("INTEREST_REVERSAL"))
+            @JvmField val INTEREST_REVERSAL = of("INTEREST_REVERSAL")
 
-            @JvmField
-            val LATE_PAYMENT_REVERSAL =
-                ManagementOperationEventType(JsonField.of("LATE_PAYMENT_REVERSAL"))
+            @JvmField val LATE_PAYMENT_REVERSAL = of("LATE_PAYMENT_REVERSAL")
 
-            @JvmField
-            val BILLING_ERROR_REVERSAL =
-                ManagementOperationEventType(JsonField.of("BILLING_ERROR_REVERSAL"))
+            @JvmField val BILLING_ERROR_REVERSAL = of("BILLING_ERROR_REVERSAL")
 
-            @JvmField
-            val PROVISIONAL_CREDIT_REVERSAL =
-                ManagementOperationEventType(JsonField.of("PROVISIONAL_CREDIT_REVERSAL"))
+            @JvmField val PROVISIONAL_CREDIT_REVERSAL = of("PROVISIONAL_CREDIT_REVERSAL")
 
             @JvmStatic fun of(value: String) = ManagementOperationEventType(JsonField.of(value))
         }

@@ -492,13 +492,13 @@ constructor(
 
         companion object {
 
-            @JvmField val APPLE_PAY = TokenizationSource(JsonField.of("APPLE_PAY"))
+            @JvmField val APPLE_PAY = of("APPLE_PAY")
 
-            @JvmField val GOOGLE = TokenizationSource(JsonField.of("GOOGLE"))
+            @JvmField val GOOGLE = of("GOOGLE")
 
-            @JvmField val SAMSUNG_PAY = TokenizationSource(JsonField.of("SAMSUNG_PAY"))
+            @JvmField val SAMSUNG_PAY = of("SAMSUNG_PAY")
 
-            @JvmField val MERCHANT = TokenizationSource(JsonField.of("MERCHANT"))
+            @JvmField val MERCHANT = of("MERCHANT")
 
             @JvmStatic fun of(value: String) = TokenizationSource(JsonField.of(value))
         }
@@ -561,13 +561,12 @@ constructor(
 
         companion object {
 
-            @JvmField val APPROVED = WalletRecommendedDecision(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField val DECLINED = WalletRecommendedDecision(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
             @JvmField
-            val REQUIRE_ADDITIONAL_AUTHENTICATION =
-                WalletRecommendedDecision(JsonField.of("REQUIRE_ADDITIONAL_AUTHENTICATION"))
+            val REQUIRE_ADDITIONAL_AUTHENTICATION = of("REQUIRE_ADDITIONAL_AUTHENTICATION")
 
             @JvmStatic fun of(value: String) = WalletRecommendedDecision(JsonField.of(value))
         }

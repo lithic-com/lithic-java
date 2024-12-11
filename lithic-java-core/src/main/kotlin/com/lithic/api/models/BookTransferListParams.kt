@@ -316,19 +316,19 @@ constructor(
 
         companion object {
 
-            @JvmField val BALANCE_OR_FUNDING = Category(JsonField.of("BALANCE_OR_FUNDING"))
+            @JvmField val BALANCE_OR_FUNDING = of("BALANCE_OR_FUNDING")
 
-            @JvmField val FEE = Category(JsonField.of("FEE"))
+            @JvmField val FEE = of("FEE")
 
-            @JvmField val REWARD = Category(JsonField.of("REWARD"))
+            @JvmField val REWARD = of("REWARD")
 
-            @JvmField val ADJUSTMENT = Category(JsonField.of("ADJUSTMENT"))
+            @JvmField val ADJUSTMENT = of("ADJUSTMENT")
 
-            @JvmField val DERECOGNITION = Category(JsonField.of("DERECOGNITION"))
+            @JvmField val DERECOGNITION = of("DERECOGNITION")
 
-            @JvmField val DISPUTE = Category(JsonField.of("DISPUTE"))
+            @JvmField val DISPUTE = of("DISPUTE")
 
-            @JvmField val INTERNAL = Category(JsonField.of("INTERNAL"))
+            @JvmField val INTERNAL = of("INTERNAL")
 
             @JvmStatic fun of(value: String) = Category(JsonField.of(value))
         }
@@ -403,9 +403,9 @@ constructor(
 
         companion object {
 
-            @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
             @JvmStatic fun of(value: String) = Result(JsonField.of(value))
         }
@@ -460,9 +460,9 @@ constructor(
 
         companion object {
 
-            @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
