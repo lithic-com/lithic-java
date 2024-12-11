@@ -30,367 +30,367 @@ private constructor(
 
     companion object {
 
-        @JvmField val AED = Currency(JsonField.of("AED"))
+        @JvmField val AED = of("AED")
 
-        @JvmField val AFN = Currency(JsonField.of("AFN"))
+        @JvmField val AFN = of("AFN")
 
-        @JvmField val ALL = Currency(JsonField.of("ALL"))
+        @JvmField val ALL = of("ALL")
 
-        @JvmField val AMD = Currency(JsonField.of("AMD"))
+        @JvmField val AMD = of("AMD")
 
-        @JvmField val ANG = Currency(JsonField.of("ANG"))
+        @JvmField val ANG = of("ANG")
 
-        @JvmField val AOA = Currency(JsonField.of("AOA"))
+        @JvmField val AOA = of("AOA")
 
-        @JvmField val ARS = Currency(JsonField.of("ARS"))
+        @JvmField val ARS = of("ARS")
 
-        @JvmField val AUD = Currency(JsonField.of("AUD"))
+        @JvmField val AUD = of("AUD")
 
-        @JvmField val AWG = Currency(JsonField.of("AWG"))
+        @JvmField val AWG = of("AWG")
 
-        @JvmField val AZN = Currency(JsonField.of("AZN"))
+        @JvmField val AZN = of("AZN")
 
-        @JvmField val BAM = Currency(JsonField.of("BAM"))
+        @JvmField val BAM = of("BAM")
 
-        @JvmField val BBD = Currency(JsonField.of("BBD"))
+        @JvmField val BBD = of("BBD")
 
-        @JvmField val BDT = Currency(JsonField.of("BDT"))
+        @JvmField val BDT = of("BDT")
 
-        @JvmField val BGN = Currency(JsonField.of("BGN"))
+        @JvmField val BGN = of("BGN")
 
-        @JvmField val BHD = Currency(JsonField.of("BHD"))
+        @JvmField val BHD = of("BHD")
 
-        @JvmField val BIF = Currency(JsonField.of("BIF"))
+        @JvmField val BIF = of("BIF")
 
-        @JvmField val BMD = Currency(JsonField.of("BMD"))
+        @JvmField val BMD = of("BMD")
 
-        @JvmField val BND = Currency(JsonField.of("BND"))
+        @JvmField val BND = of("BND")
 
-        @JvmField val BOB = Currency(JsonField.of("BOB"))
+        @JvmField val BOB = of("BOB")
 
-        @JvmField val BOV = Currency(JsonField.of("BOV"))
+        @JvmField val BOV = of("BOV")
 
-        @JvmField val BRL = Currency(JsonField.of("BRL"))
+        @JvmField val BRL = of("BRL")
 
-        @JvmField val BSD = Currency(JsonField.of("BSD"))
+        @JvmField val BSD = of("BSD")
 
-        @JvmField val BTN = Currency(JsonField.of("BTN"))
+        @JvmField val BTN = of("BTN")
 
-        @JvmField val BWP = Currency(JsonField.of("BWP"))
+        @JvmField val BWP = of("BWP")
 
-        @JvmField val BYN = Currency(JsonField.of("BYN"))
+        @JvmField val BYN = of("BYN")
 
-        @JvmField val BZD = Currency(JsonField.of("BZD"))
+        @JvmField val BZD = of("BZD")
 
-        @JvmField val CAD = Currency(JsonField.of("CAD"))
+        @JvmField val CAD = of("CAD")
 
-        @JvmField val CDF = Currency(JsonField.of("CDF"))
+        @JvmField val CDF = of("CDF")
 
-        @JvmField val CHE = Currency(JsonField.of("CHE"))
+        @JvmField val CHE = of("CHE")
 
-        @JvmField val CHF = Currency(JsonField.of("CHF"))
+        @JvmField val CHF = of("CHF")
 
-        @JvmField val CHW = Currency(JsonField.of("CHW"))
+        @JvmField val CHW = of("CHW")
 
-        @JvmField val CLF = Currency(JsonField.of("CLF"))
+        @JvmField val CLF = of("CLF")
 
-        @JvmField val CLP = Currency(JsonField.of("CLP"))
+        @JvmField val CLP = of("CLP")
 
-        @JvmField val CNY = Currency(JsonField.of("CNY"))
+        @JvmField val CNY = of("CNY")
 
-        @JvmField val COP = Currency(JsonField.of("COP"))
+        @JvmField val COP = of("COP")
 
-        @JvmField val COU = Currency(JsonField.of("COU"))
+        @JvmField val COU = of("COU")
 
-        @JvmField val CRC = Currency(JsonField.of("CRC"))
+        @JvmField val CRC = of("CRC")
 
-        @JvmField val CUC = Currency(JsonField.of("CUC"))
+        @JvmField val CUC = of("CUC")
 
-        @JvmField val CUP = Currency(JsonField.of("CUP"))
+        @JvmField val CUP = of("CUP")
 
-        @JvmField val CVE = Currency(JsonField.of("CVE"))
+        @JvmField val CVE = of("CVE")
 
-        @JvmField val CZK = Currency(JsonField.of("CZK"))
+        @JvmField val CZK = of("CZK")
 
-        @JvmField val DJF = Currency(JsonField.of("DJF"))
+        @JvmField val DJF = of("DJF")
 
-        @JvmField val DKK = Currency(JsonField.of("DKK"))
+        @JvmField val DKK = of("DKK")
 
-        @JvmField val DOP = Currency(JsonField.of("DOP"))
+        @JvmField val DOP = of("DOP")
 
-        @JvmField val DZD = Currency(JsonField.of("DZD"))
+        @JvmField val DZD = of("DZD")
 
-        @JvmField val EGP = Currency(JsonField.of("EGP"))
+        @JvmField val EGP = of("EGP")
 
-        @JvmField val ERN = Currency(JsonField.of("ERN"))
+        @JvmField val ERN = of("ERN")
 
-        @JvmField val ETB = Currency(JsonField.of("ETB"))
+        @JvmField val ETB = of("ETB")
 
-        @JvmField val EUR = Currency(JsonField.of("EUR"))
+        @JvmField val EUR = of("EUR")
 
-        @JvmField val FJD = Currency(JsonField.of("FJD"))
+        @JvmField val FJD = of("FJD")
 
-        @JvmField val FKP = Currency(JsonField.of("FKP"))
+        @JvmField val FKP = of("FKP")
 
-        @JvmField val GBP = Currency(JsonField.of("GBP"))
+        @JvmField val GBP = of("GBP")
 
-        @JvmField val GEL = Currency(JsonField.of("GEL"))
+        @JvmField val GEL = of("GEL")
 
-        @JvmField val GHS = Currency(JsonField.of("GHS"))
+        @JvmField val GHS = of("GHS")
 
-        @JvmField val GIP = Currency(JsonField.of("GIP"))
+        @JvmField val GIP = of("GIP")
 
-        @JvmField val GMD = Currency(JsonField.of("GMD"))
+        @JvmField val GMD = of("GMD")
 
-        @JvmField val GNF = Currency(JsonField.of("GNF"))
+        @JvmField val GNF = of("GNF")
 
-        @JvmField val GTQ = Currency(JsonField.of("GTQ"))
+        @JvmField val GTQ = of("GTQ")
 
-        @JvmField val GYD = Currency(JsonField.of("GYD"))
+        @JvmField val GYD = of("GYD")
 
-        @JvmField val HKD = Currency(JsonField.of("HKD"))
+        @JvmField val HKD = of("HKD")
 
-        @JvmField val HNL = Currency(JsonField.of("HNL"))
+        @JvmField val HNL = of("HNL")
 
-        @JvmField val HRK = Currency(JsonField.of("HRK"))
+        @JvmField val HRK = of("HRK")
 
-        @JvmField val HTG = Currency(JsonField.of("HTG"))
+        @JvmField val HTG = of("HTG")
 
-        @JvmField val HUF = Currency(JsonField.of("HUF"))
+        @JvmField val HUF = of("HUF")
 
-        @JvmField val IDR = Currency(JsonField.of("IDR"))
+        @JvmField val IDR = of("IDR")
 
-        @JvmField val ILS = Currency(JsonField.of("ILS"))
+        @JvmField val ILS = of("ILS")
 
-        @JvmField val INR = Currency(JsonField.of("INR"))
+        @JvmField val INR = of("INR")
 
-        @JvmField val IQD = Currency(JsonField.of("IQD"))
+        @JvmField val IQD = of("IQD")
 
-        @JvmField val IRR = Currency(JsonField.of("IRR"))
+        @JvmField val IRR = of("IRR")
 
-        @JvmField val ISK = Currency(JsonField.of("ISK"))
+        @JvmField val ISK = of("ISK")
 
-        @JvmField val JMD = Currency(JsonField.of("JMD"))
+        @JvmField val JMD = of("JMD")
 
-        @JvmField val JOD = Currency(JsonField.of("JOD"))
+        @JvmField val JOD = of("JOD")
 
-        @JvmField val JPY = Currency(JsonField.of("JPY"))
+        @JvmField val JPY = of("JPY")
 
-        @JvmField val KES = Currency(JsonField.of("KES"))
+        @JvmField val KES = of("KES")
 
-        @JvmField val KGS = Currency(JsonField.of("KGS"))
+        @JvmField val KGS = of("KGS")
 
-        @JvmField val KHR = Currency(JsonField.of("KHR"))
+        @JvmField val KHR = of("KHR")
 
-        @JvmField val KMF = Currency(JsonField.of("KMF"))
+        @JvmField val KMF = of("KMF")
 
-        @JvmField val KPW = Currency(JsonField.of("KPW"))
+        @JvmField val KPW = of("KPW")
 
-        @JvmField val KRW = Currency(JsonField.of("KRW"))
+        @JvmField val KRW = of("KRW")
 
-        @JvmField val KWD = Currency(JsonField.of("KWD"))
+        @JvmField val KWD = of("KWD")
 
-        @JvmField val KYD = Currency(JsonField.of("KYD"))
+        @JvmField val KYD = of("KYD")
 
-        @JvmField val KZT = Currency(JsonField.of("KZT"))
+        @JvmField val KZT = of("KZT")
 
-        @JvmField val LAK = Currency(JsonField.of("LAK"))
+        @JvmField val LAK = of("LAK")
 
-        @JvmField val LBP = Currency(JsonField.of("LBP"))
+        @JvmField val LBP = of("LBP")
 
-        @JvmField val LKR = Currency(JsonField.of("LKR"))
+        @JvmField val LKR = of("LKR")
 
-        @JvmField val LRD = Currency(JsonField.of("LRD"))
+        @JvmField val LRD = of("LRD")
 
-        @JvmField val LSL = Currency(JsonField.of("LSL"))
+        @JvmField val LSL = of("LSL")
 
-        @JvmField val LYD = Currency(JsonField.of("LYD"))
+        @JvmField val LYD = of("LYD")
 
-        @JvmField val MAD = Currency(JsonField.of("MAD"))
+        @JvmField val MAD = of("MAD")
 
-        @JvmField val MDL = Currency(JsonField.of("MDL"))
+        @JvmField val MDL = of("MDL")
 
-        @JvmField val MGA = Currency(JsonField.of("MGA"))
+        @JvmField val MGA = of("MGA")
 
-        @JvmField val MKD = Currency(JsonField.of("MKD"))
+        @JvmField val MKD = of("MKD")
 
-        @JvmField val MMK = Currency(JsonField.of("MMK"))
+        @JvmField val MMK = of("MMK")
 
-        @JvmField val MNT = Currency(JsonField.of("MNT"))
+        @JvmField val MNT = of("MNT")
 
-        @JvmField val MOP = Currency(JsonField.of("MOP"))
+        @JvmField val MOP = of("MOP")
 
-        @JvmField val MRU = Currency(JsonField.of("MRU"))
+        @JvmField val MRU = of("MRU")
 
-        @JvmField val MUR = Currency(JsonField.of("MUR"))
+        @JvmField val MUR = of("MUR")
 
-        @JvmField val MVR = Currency(JsonField.of("MVR"))
+        @JvmField val MVR = of("MVR")
 
-        @JvmField val MWK = Currency(JsonField.of("MWK"))
+        @JvmField val MWK = of("MWK")
 
-        @JvmField val MXN = Currency(JsonField.of("MXN"))
+        @JvmField val MXN = of("MXN")
 
-        @JvmField val MXV = Currency(JsonField.of("MXV"))
+        @JvmField val MXV = of("MXV")
 
-        @JvmField val MYR = Currency(JsonField.of("MYR"))
+        @JvmField val MYR = of("MYR")
 
-        @JvmField val MZN = Currency(JsonField.of("MZN"))
+        @JvmField val MZN = of("MZN")
 
-        @JvmField val NAD = Currency(JsonField.of("NAD"))
+        @JvmField val NAD = of("NAD")
 
-        @JvmField val NGN = Currency(JsonField.of("NGN"))
+        @JvmField val NGN = of("NGN")
 
-        @JvmField val NIO = Currency(JsonField.of("NIO"))
+        @JvmField val NIO = of("NIO")
 
-        @JvmField val NOK = Currency(JsonField.of("NOK"))
+        @JvmField val NOK = of("NOK")
 
-        @JvmField val NPR = Currency(JsonField.of("NPR"))
+        @JvmField val NPR = of("NPR")
 
-        @JvmField val NZD = Currency(JsonField.of("NZD"))
+        @JvmField val NZD = of("NZD")
 
-        @JvmField val OMR = Currency(JsonField.of("OMR"))
+        @JvmField val OMR = of("OMR")
 
-        @JvmField val PAB = Currency(JsonField.of("PAB"))
+        @JvmField val PAB = of("PAB")
 
-        @JvmField val PEN = Currency(JsonField.of("PEN"))
+        @JvmField val PEN = of("PEN")
 
-        @JvmField val PGK = Currency(JsonField.of("PGK"))
+        @JvmField val PGK = of("PGK")
 
-        @JvmField val PHP = Currency(JsonField.of("PHP"))
+        @JvmField val PHP = of("PHP")
 
-        @JvmField val PKR = Currency(JsonField.of("PKR"))
+        @JvmField val PKR = of("PKR")
 
-        @JvmField val PLN = Currency(JsonField.of("PLN"))
+        @JvmField val PLN = of("PLN")
 
-        @JvmField val PYG = Currency(JsonField.of("PYG"))
+        @JvmField val PYG = of("PYG")
 
-        @JvmField val QAR = Currency(JsonField.of("QAR"))
+        @JvmField val QAR = of("QAR")
 
-        @JvmField val RON = Currency(JsonField.of("RON"))
+        @JvmField val RON = of("RON")
 
-        @JvmField val RSD = Currency(JsonField.of("RSD"))
+        @JvmField val RSD = of("RSD")
 
-        @JvmField val RUB = Currency(JsonField.of("RUB"))
+        @JvmField val RUB = of("RUB")
 
-        @JvmField val RWF = Currency(JsonField.of("RWF"))
+        @JvmField val RWF = of("RWF")
 
-        @JvmField val SAR = Currency(JsonField.of("SAR"))
+        @JvmField val SAR = of("SAR")
 
-        @JvmField val SBD = Currency(JsonField.of("SBD"))
+        @JvmField val SBD = of("SBD")
 
-        @JvmField val SCR = Currency(JsonField.of("SCR"))
+        @JvmField val SCR = of("SCR")
 
-        @JvmField val SDG = Currency(JsonField.of("SDG"))
+        @JvmField val SDG = of("SDG")
 
-        @JvmField val SEK = Currency(JsonField.of("SEK"))
+        @JvmField val SEK = of("SEK")
 
-        @JvmField val SGD = Currency(JsonField.of("SGD"))
+        @JvmField val SGD = of("SGD")
 
-        @JvmField val SHP = Currency(JsonField.of("SHP"))
+        @JvmField val SHP = of("SHP")
 
-        @JvmField val SLE = Currency(JsonField.of("SLE"))
+        @JvmField val SLE = of("SLE")
 
-        @JvmField val SLL = Currency(JsonField.of("SLL"))
+        @JvmField val SLL = of("SLL")
 
-        @JvmField val SOS = Currency(JsonField.of("SOS"))
+        @JvmField val SOS = of("SOS")
 
-        @JvmField val SRD = Currency(JsonField.of("SRD"))
+        @JvmField val SRD = of("SRD")
 
-        @JvmField val SSP = Currency(JsonField.of("SSP"))
+        @JvmField val SSP = of("SSP")
 
-        @JvmField val STN = Currency(JsonField.of("STN"))
+        @JvmField val STN = of("STN")
 
-        @JvmField val SVC = Currency(JsonField.of("SVC"))
+        @JvmField val SVC = of("SVC")
 
-        @JvmField val SYP = Currency(JsonField.of("SYP"))
+        @JvmField val SYP = of("SYP")
 
-        @JvmField val SZL = Currency(JsonField.of("SZL"))
+        @JvmField val SZL = of("SZL")
 
-        @JvmField val THB = Currency(JsonField.of("THB"))
+        @JvmField val THB = of("THB")
 
-        @JvmField val TJS = Currency(JsonField.of("TJS"))
+        @JvmField val TJS = of("TJS")
 
-        @JvmField val TMT = Currency(JsonField.of("TMT"))
+        @JvmField val TMT = of("TMT")
 
-        @JvmField val TND = Currency(JsonField.of("TND"))
+        @JvmField val TND = of("TND")
 
-        @JvmField val TOP = Currency(JsonField.of("TOP"))
+        @JvmField val TOP = of("TOP")
 
-        @JvmField val TRY = Currency(JsonField.of("TRY"))
+        @JvmField val TRY = of("TRY")
 
-        @JvmField val TTD = Currency(JsonField.of("TTD"))
+        @JvmField val TTD = of("TTD")
 
-        @JvmField val TWD = Currency(JsonField.of("TWD"))
+        @JvmField val TWD = of("TWD")
 
-        @JvmField val TZS = Currency(JsonField.of("TZS"))
+        @JvmField val TZS = of("TZS")
 
-        @JvmField val UAH = Currency(JsonField.of("UAH"))
+        @JvmField val UAH = of("UAH")
 
-        @JvmField val UGX = Currency(JsonField.of("UGX"))
+        @JvmField val UGX = of("UGX")
 
-        @JvmField val USD = Currency(JsonField.of("USD"))
+        @JvmField val USD = of("USD")
 
-        @JvmField val USN = Currency(JsonField.of("USN"))
+        @JvmField val USN = of("USN")
 
-        @JvmField val UYI = Currency(JsonField.of("UYI"))
+        @JvmField val UYI = of("UYI")
 
-        @JvmField val UYU = Currency(JsonField.of("UYU"))
+        @JvmField val UYU = of("UYU")
 
-        @JvmField val UYW = Currency(JsonField.of("UYW"))
+        @JvmField val UYW = of("UYW")
 
-        @JvmField val UZS = Currency(JsonField.of("UZS"))
+        @JvmField val UZS = of("UZS")
 
-        @JvmField val VED = Currency(JsonField.of("VED"))
+        @JvmField val VED = of("VED")
 
-        @JvmField val VES = Currency(JsonField.of("VES"))
+        @JvmField val VES = of("VES")
 
-        @JvmField val VND = Currency(JsonField.of("VND"))
+        @JvmField val VND = of("VND")
 
-        @JvmField val VUV = Currency(JsonField.of("VUV"))
+        @JvmField val VUV = of("VUV")
 
-        @JvmField val WST = Currency(JsonField.of("WST"))
+        @JvmField val WST = of("WST")
 
-        @JvmField val XAF = Currency(JsonField.of("XAF"))
+        @JvmField val XAF = of("XAF")
 
-        @JvmField val XAG = Currency(JsonField.of("XAG"))
+        @JvmField val XAG = of("XAG")
 
-        @JvmField val XAU = Currency(JsonField.of("XAU"))
+        @JvmField val XAU = of("XAU")
 
-        @JvmField val XBA = Currency(JsonField.of("XBA"))
+        @JvmField val XBA = of("XBA")
 
-        @JvmField val XBB = Currency(JsonField.of("XBB"))
+        @JvmField val XBB = of("XBB")
 
-        @JvmField val XBC = Currency(JsonField.of("XBC"))
+        @JvmField val XBC = of("XBC")
 
-        @JvmField val XBD = Currency(JsonField.of("XBD"))
+        @JvmField val XBD = of("XBD")
 
-        @JvmField val XCD = Currency(JsonField.of("XCD"))
+        @JvmField val XCD = of("XCD")
 
-        @JvmField val XDR = Currency(JsonField.of("XDR"))
+        @JvmField val XDR = of("XDR")
 
-        @JvmField val XOF = Currency(JsonField.of("XOF"))
+        @JvmField val XOF = of("XOF")
 
-        @JvmField val XPD = Currency(JsonField.of("XPD"))
+        @JvmField val XPD = of("XPD")
 
-        @JvmField val XPF = Currency(JsonField.of("XPF"))
+        @JvmField val XPF = of("XPF")
 
-        @JvmField val XPT = Currency(JsonField.of("XPT"))
+        @JvmField val XPT = of("XPT")
 
-        @JvmField val XSU = Currency(JsonField.of("XSU"))
+        @JvmField val XSU = of("XSU")
 
-        @JvmField val XTS = Currency(JsonField.of("XTS"))
+        @JvmField val XTS = of("XTS")
 
-        @JvmField val XUA = Currency(JsonField.of("XUA"))
+        @JvmField val XUA = of("XUA")
 
-        @JvmField val XXX = Currency(JsonField.of("XXX"))
+        @JvmField val XXX = of("XXX")
 
-        @JvmField val YER = Currency(JsonField.of("YER"))
+        @JvmField val YER = of("YER")
 
-        @JvmField val ZAR = Currency(JsonField.of("ZAR"))
+        @JvmField val ZAR = of("ZAR")
 
-        @JvmField val ZMW = Currency(JsonField.of("ZMW"))
+        @JvmField val ZMW = of("ZMW")
 
-        @JvmField val ZWL = Currency(JsonField.of("ZWL"))
+        @JvmField val ZWL = of("ZWL")
 
         @JvmStatic fun of(value: String) = Currency(JsonField.of(value))
     }

@@ -310,14 +310,13 @@ private constructor(
 
         companion object {
 
-            @JvmField val EXTERNAL_WIRE = ExternalPaymentCategory(JsonField.of("EXTERNAL_WIRE"))
+            @JvmField val EXTERNAL_WIRE = of("EXTERNAL_WIRE")
 
-            @JvmField val EXTERNAL_ACH = ExternalPaymentCategory(JsonField.of("EXTERNAL_ACH"))
+            @JvmField val EXTERNAL_ACH = of("EXTERNAL_ACH")
 
-            @JvmField val EXTERNAL_CHECK = ExternalPaymentCategory(JsonField.of("EXTERNAL_CHECK"))
+            @JvmField val EXTERNAL_CHECK = of("EXTERNAL_CHECK")
 
-            @JvmField
-            val EXTERNAL_TRANSFER = ExternalPaymentCategory(JsonField.of("EXTERNAL_TRANSFER"))
+            @JvmField val EXTERNAL_TRANSFER = of("EXTERNAL_TRANSFER")
 
             @JvmStatic fun of(value: String) = ExternalPaymentCategory(JsonField.of(value))
         }
@@ -561,7 +560,7 @@ private constructor(
 
             companion object {
 
-                @JvmField val APPROVED = DetailedResults(JsonField.of("APPROVED"))
+                @JvmField val APPROVED = of("APPROVED")
 
                 @JvmStatic fun of(value: String) = DetailedResults(JsonField.of(value))
             }
@@ -612,9 +611,9 @@ private constructor(
 
             companion object {
 
-                @JvmField val APPROVED = TransactionResult(JsonField.of("APPROVED"))
+                @JvmField val APPROVED = of("APPROVED")
 
-                @JvmField val DECLINED = TransactionResult(JsonField.of("DECLINED"))
+                @JvmField val DECLINED = of("DECLINED")
 
                 @JvmStatic fun of(value: String) = TransactionResult(JsonField.of(value))
             }
@@ -669,85 +668,45 @@ private constructor(
 
             companion object {
 
-                @JvmField
-                val EXTERNAL_WIRE_INITIATED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_WIRE_INITIATED"))
+                @JvmField val EXTERNAL_WIRE_INITIATED = of("EXTERNAL_WIRE_INITIATED")
 
-                @JvmField
-                val EXTERNAL_WIRE_CANCELED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_WIRE_CANCELED"))
+                @JvmField val EXTERNAL_WIRE_CANCELED = of("EXTERNAL_WIRE_CANCELED")
 
-                @JvmField
-                val EXTERNAL_WIRE_SETTLED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_WIRE_SETTLED"))
+                @JvmField val EXTERNAL_WIRE_SETTLED = of("EXTERNAL_WIRE_SETTLED")
 
-                @JvmField
-                val EXTERNAL_WIRE_REVERSED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_WIRE_REVERSED"))
+                @JvmField val EXTERNAL_WIRE_REVERSED = of("EXTERNAL_WIRE_REVERSED")
 
-                @JvmField
-                val EXTERNAL_WIRE_RELEASED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_WIRE_RELEASED"))
+                @JvmField val EXTERNAL_WIRE_RELEASED = of("EXTERNAL_WIRE_RELEASED")
 
-                @JvmField
-                val EXTERNAL_ACH_INITIATED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_ACH_INITIATED"))
+                @JvmField val EXTERNAL_ACH_INITIATED = of("EXTERNAL_ACH_INITIATED")
 
-                @JvmField
-                val EXTERNAL_ACH_CANCELED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_ACH_CANCELED"))
+                @JvmField val EXTERNAL_ACH_CANCELED = of("EXTERNAL_ACH_CANCELED")
 
-                @JvmField
-                val EXTERNAL_ACH_SETTLED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_ACH_SETTLED"))
+                @JvmField val EXTERNAL_ACH_SETTLED = of("EXTERNAL_ACH_SETTLED")
 
-                @JvmField
-                val EXTERNAL_ACH_REVERSED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_ACH_REVERSED"))
+                @JvmField val EXTERNAL_ACH_REVERSED = of("EXTERNAL_ACH_REVERSED")
 
-                @JvmField
-                val EXTERNAL_ACH_RELEASED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_ACH_RELEASED"))
+                @JvmField val EXTERNAL_ACH_RELEASED = of("EXTERNAL_ACH_RELEASED")
 
-                @JvmField
-                val EXTERNAL_TRANSFER_INITIATED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_TRANSFER_INITIATED"))
+                @JvmField val EXTERNAL_TRANSFER_INITIATED = of("EXTERNAL_TRANSFER_INITIATED")
 
-                @JvmField
-                val EXTERNAL_TRANSFER_CANCELED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_TRANSFER_CANCELED"))
+                @JvmField val EXTERNAL_TRANSFER_CANCELED = of("EXTERNAL_TRANSFER_CANCELED")
 
-                @JvmField
-                val EXTERNAL_TRANSFER_SETTLED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_TRANSFER_SETTLED"))
+                @JvmField val EXTERNAL_TRANSFER_SETTLED = of("EXTERNAL_TRANSFER_SETTLED")
 
-                @JvmField
-                val EXTERNAL_TRANSFER_REVERSED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_TRANSFER_REVERSED"))
+                @JvmField val EXTERNAL_TRANSFER_REVERSED = of("EXTERNAL_TRANSFER_REVERSED")
 
-                @JvmField
-                val EXTERNAL_TRANSFER_RELEASED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_TRANSFER_RELEASED"))
+                @JvmField val EXTERNAL_TRANSFER_RELEASED = of("EXTERNAL_TRANSFER_RELEASED")
 
-                @JvmField
-                val EXTERNAL_CHECK_INITIATED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_CHECK_INITIATED"))
+                @JvmField val EXTERNAL_CHECK_INITIATED = of("EXTERNAL_CHECK_INITIATED")
 
-                @JvmField
-                val EXTERNAL_CHECK_CANCELED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_CHECK_CANCELED"))
+                @JvmField val EXTERNAL_CHECK_CANCELED = of("EXTERNAL_CHECK_CANCELED")
 
-                @JvmField
-                val EXTERNAL_CHECK_SETTLED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_CHECK_SETTLED"))
+                @JvmField val EXTERNAL_CHECK_SETTLED = of("EXTERNAL_CHECK_SETTLED")
 
-                @JvmField
-                val EXTERNAL_CHECK_REVERSED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_CHECK_REVERSED"))
+                @JvmField val EXTERNAL_CHECK_REVERSED = of("EXTERNAL_CHECK_REVERSED")
 
-                @JvmField
-                val EXTERNAL_CHECK_RELEASED =
-                    ExternalPaymentEventType(JsonField.of("EXTERNAL_CHECK_RELEASED"))
+                @JvmField val EXTERNAL_CHECK_RELEASED = of("EXTERNAL_CHECK_RELEASED")
 
                 @JvmStatic fun of(value: String) = ExternalPaymentEventType(JsonField.of(value))
             }
@@ -893,9 +852,9 @@ private constructor(
 
         companion object {
 
-            @JvmField val DEPOSIT = ExternalPaymentDirection(JsonField.of("DEPOSIT"))
+            @JvmField val DEPOSIT = of("DEPOSIT")
 
-            @JvmField val WITHDRAWAL = ExternalPaymentDirection(JsonField.of("WITHDRAWAL"))
+            @JvmField val WITHDRAWAL = of("WITHDRAWAL")
 
             @JvmStatic fun of(value: String) = ExternalPaymentDirection(JsonField.of(value))
         }
@@ -950,9 +909,9 @@ private constructor(
 
         companion object {
 
-            @JvmField val APPROVED = TransactionResult(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField val DECLINED = TransactionResult(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
             @JvmStatic fun of(value: String) = TransactionResult(JsonField.of(value))
         }
@@ -1007,15 +966,15 @@ private constructor(
 
         companion object {
 
-            @JvmField val PENDING = TransactionStatus(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val SETTLED = TransactionStatus(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
-            @JvmField val DECLINED = TransactionStatus(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val REVERSED = TransactionStatus(JsonField.of("REVERSED"))
+            @JvmField val REVERSED = of("REVERSED")
 
-            @JvmField val CANCELED = TransactionStatus(JsonField.of("CANCELED"))
+            @JvmField val CANCELED = of("CANCELED")
 
             @JvmStatic fun of(value: String) = TransactionStatus(JsonField.of(value))
         }

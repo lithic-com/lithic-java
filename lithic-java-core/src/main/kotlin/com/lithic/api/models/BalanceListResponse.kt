@@ -341,11 +341,11 @@ private constructor(
 
         companion object {
 
-            @JvmField val ISSUING = Type(JsonField.of("ISSUING"))
+            @JvmField val ISSUING = of("ISSUING")
 
-            @JvmField val OPERATING = Type(JsonField.of("OPERATING"))
+            @JvmField val OPERATING = of("OPERATING")
 
-            @JvmField val RESERVE = Type(JsonField.of("RESERVE"))
+            @JvmField val RESERVE = of("RESERVE")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }

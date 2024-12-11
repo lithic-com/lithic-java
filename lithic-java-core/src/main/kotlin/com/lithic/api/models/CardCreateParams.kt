@@ -907,17 +907,17 @@ constructor(
 
         companion object {
 
-            @JvmField val MERCHANT_LOCKED = Type(JsonField.of("MERCHANT_LOCKED"))
+            @JvmField val MERCHANT_LOCKED = of("MERCHANT_LOCKED")
 
-            @JvmField val PHYSICAL = Type(JsonField.of("PHYSICAL"))
+            @JvmField val PHYSICAL = of("PHYSICAL")
 
-            @JvmField val SINGLE_USE = Type(JsonField.of("SINGLE_USE"))
+            @JvmField val SINGLE_USE = of("SINGLE_USE")
 
-            @JvmField val VIRTUAL = Type(JsonField.of("VIRTUAL"))
+            @JvmField val VIRTUAL = of("VIRTUAL")
 
-            @JvmField val UNLOCKED = Type(JsonField.of("UNLOCKED"))
+            @JvmField val UNLOCKED = of("UNLOCKED")
 
-            @JvmField val DIGITAL_WALLET = Type(JsonField.of("DIGITAL_WALLET"))
+            @JvmField val DIGITAL_WALLET = of("DIGITAL_WALLET")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
@@ -988,18 +988,17 @@ constructor(
 
         companion object {
 
-            @JvmField val _2_DAY = ShippingMethod(JsonField.of("2_DAY"))
+            @JvmField val _2_DAY = of("2_DAY")
 
-            @JvmField val EXPEDITED = ShippingMethod(JsonField.of("EXPEDITED"))
+            @JvmField val EXPEDITED = of("EXPEDITED")
 
-            @JvmField val EXPRESS = ShippingMethod(JsonField.of("EXPRESS"))
+            @JvmField val EXPRESS = of("EXPRESS")
 
-            @JvmField val PRIORITY = ShippingMethod(JsonField.of("PRIORITY"))
+            @JvmField val PRIORITY = of("PRIORITY")
 
-            @JvmField val STANDARD = ShippingMethod(JsonField.of("STANDARD"))
+            @JvmField val STANDARD = of("STANDARD")
 
-            @JvmField
-            val STANDARD_WITH_TRACKING = ShippingMethod(JsonField.of("STANDARD_WITH_TRACKING"))
+            @JvmField val STANDARD_WITH_TRACKING = of("STANDARD_WITH_TRACKING")
 
             @JvmStatic fun of(value: String) = ShippingMethod(JsonField.of(value))
         }
@@ -1070,9 +1069,9 @@ constructor(
 
         companion object {
 
-            @JvmField val OPEN = State(JsonField.of("OPEN"))
+            @JvmField val OPEN = of("OPEN")
 
-            @JvmField val PAUSED = State(JsonField.of("PAUSED"))
+            @JvmField val PAUSED = of("PAUSED")
 
             @JvmStatic fun of(value: String) = State(JsonField.of(value))
         }

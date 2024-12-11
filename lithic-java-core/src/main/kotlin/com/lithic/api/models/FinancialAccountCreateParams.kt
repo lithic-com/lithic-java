@@ -368,7 +368,7 @@ constructor(
 
         companion object {
 
-            @JvmField val OPERATING = Type(JsonField.of("OPERATING"))
+            @JvmField val OPERATING = of("OPERATING")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }

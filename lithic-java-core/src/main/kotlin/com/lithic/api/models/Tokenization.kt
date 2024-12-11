@@ -349,19 +349,19 @@ private constructor(
 
         companion object {
 
-            @JvmField val ACTIVE = Status(JsonField.of("ACTIVE"))
+            @JvmField val ACTIVE = of("ACTIVE")
 
-            @JvmField val DEACTIVATED = Status(JsonField.of("DEACTIVATED"))
+            @JvmField val DEACTIVATED = of("DEACTIVATED")
 
-            @JvmField val INACTIVE = Status(JsonField.of("INACTIVE"))
+            @JvmField val INACTIVE = of("INACTIVE")
 
-            @JvmField val PAUSED = Status(JsonField.of("PAUSED"))
+            @JvmField val PAUSED = of("PAUSED")
 
-            @JvmField val PENDING_2_FA = Status(JsonField.of("PENDING_2FA"))
+            @JvmField val PENDING_2_FA = of("PENDING_2FA")
 
-            @JvmField val PENDING_ACTIVATION = Status(JsonField.of("PENDING_ACTIVATION"))
+            @JvmField val PENDING_ACTIVATION = of("PENDING_ACTIVATION")
 
-            @JvmField val UNKNOWN = Status(JsonField.of("UNKNOWN"))
+            @JvmField val UNKNOWN = of("UNKNOWN")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
@@ -436,27 +436,27 @@ private constructor(
 
         companion object {
 
-            @JvmField val AMAZON_ONE = TokenRequestorName(JsonField.of("AMAZON_ONE"))
+            @JvmField val AMAZON_ONE = of("AMAZON_ONE")
 
-            @JvmField val ANDROID_PAY = TokenRequestorName(JsonField.of("ANDROID_PAY"))
+            @JvmField val ANDROID_PAY = of("ANDROID_PAY")
 
-            @JvmField val APPLE_PAY = TokenRequestorName(JsonField.of("APPLE_PAY"))
+            @JvmField val APPLE_PAY = of("APPLE_PAY")
 
-            @JvmField val FACEBOOK = TokenRequestorName(JsonField.of("FACEBOOK"))
+            @JvmField val FACEBOOK = of("FACEBOOK")
 
-            @JvmField val FITBIT_PAY = TokenRequestorName(JsonField.of("FITBIT_PAY"))
+            @JvmField val FITBIT_PAY = of("FITBIT_PAY")
 
-            @JvmField val GARMIN_PAY = TokenRequestorName(JsonField.of("GARMIN_PAY"))
+            @JvmField val GARMIN_PAY = of("GARMIN_PAY")
 
-            @JvmField val MICROSOFT_PAY = TokenRequestorName(JsonField.of("MICROSOFT_PAY"))
+            @JvmField val MICROSOFT_PAY = of("MICROSOFT_PAY")
 
-            @JvmField val NETFLIX = TokenRequestorName(JsonField.of("NETFLIX"))
+            @JvmField val NETFLIX = of("NETFLIX")
 
-            @JvmField val SAMSUNG_PAY = TokenRequestorName(JsonField.of("SAMSUNG_PAY"))
+            @JvmField val SAMSUNG_PAY = of("SAMSUNG_PAY")
 
-            @JvmField val UNKNOWN = TokenRequestorName(JsonField.of("UNKNOWN"))
+            @JvmField val UNKNOWN = of("UNKNOWN")
 
-            @JvmField val VISA_CHECKOUT = TokenRequestorName(JsonField.of("VISA_CHECKOUT"))
+            @JvmField val VISA_CHECKOUT = of("VISA_CHECKOUT")
 
             @JvmStatic fun of(value: String) = TokenRequestorName(JsonField.of(value))
         }
@@ -547,9 +547,9 @@ private constructor(
 
         companion object {
 
-            @JvmField val DIGITAL_WALLET = TokenizationChannel(JsonField.of("DIGITAL_WALLET"))
+            @JvmField val DIGITAL_WALLET = of("DIGITAL_WALLET")
 
-            @JvmField val MERCHANT = TokenizationChannel(JsonField.of("MERCHANT"))
+            @JvmField val MERCHANT = of("MERCHANT")
 
             @JvmStatic fun of(value: String) = TokenizationChannel(JsonField.of(value))
         }
@@ -738,30 +738,28 @@ private constructor(
 
             companion object {
 
-                @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+                @JvmField val APPROVED = of("APPROVED")
 
-                @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+                @JvmField val DECLINED = of("DECLINED")
+
+                @JvmField val NOTIFICATION_DELIVERED = of("NOTIFICATION_DELIVERED")
 
                 @JvmField
-                val NOTIFICATION_DELIVERED = Result(JsonField.of("NOTIFICATION_DELIVERED"))
+                val REQUIRE_ADDITIONAL_AUTHENTICATION = of("REQUIRE_ADDITIONAL_AUTHENTICATION")
 
-                @JvmField
-                val REQUIRE_ADDITIONAL_AUTHENTICATION =
-                    Result(JsonField.of("REQUIRE_ADDITIONAL_AUTHENTICATION"))
+                @JvmField val TOKEN_ACTIVATED = of("TOKEN_ACTIVATED")
 
-                @JvmField val TOKEN_ACTIVATED = Result(JsonField.of("TOKEN_ACTIVATED"))
+                @JvmField val TOKEN_CREATED = of("TOKEN_CREATED")
 
-                @JvmField val TOKEN_CREATED = Result(JsonField.of("TOKEN_CREATED"))
+                @JvmField val TOKEN_DEACTIVATED = of("TOKEN_DEACTIVATED")
 
-                @JvmField val TOKEN_DEACTIVATED = Result(JsonField.of("TOKEN_DEACTIVATED"))
+                @JvmField val TOKEN_INACTIVE = of("TOKEN_INACTIVE")
 
-                @JvmField val TOKEN_INACTIVE = Result(JsonField.of("TOKEN_INACTIVE"))
+                @JvmField val TOKEN_STATE_UNKNOWN = of("TOKEN_STATE_UNKNOWN")
 
-                @JvmField val TOKEN_STATE_UNKNOWN = Result(JsonField.of("TOKEN_STATE_UNKNOWN"))
+                @JvmField val TOKEN_SUSPENDED = of("TOKEN_SUSPENDED")
 
-                @JvmField val TOKEN_SUSPENDED = Result(JsonField.of("TOKEN_SUSPENDED"))
-
-                @JvmField val TOKEN_UPDATED = Result(JsonField.of("TOKEN_UPDATED"))
+                @JvmField val TOKEN_UPDATED = of("TOKEN_UPDATED")
 
                 @JvmStatic fun of(value: String) = Result(JsonField.of(value))
             }
@@ -852,19 +850,15 @@ private constructor(
 
             companion object {
 
-                @JvmField val TOKENIZATION_2_FA = Type(JsonField.of("TOKENIZATION_2FA"))
+                @JvmField val TOKENIZATION_2_FA = of("TOKENIZATION_2FA")
 
-                @JvmField
-                val TOKENIZATION_AUTHORIZATION = Type(JsonField.of("TOKENIZATION_AUTHORIZATION"))
+                @JvmField val TOKENIZATION_AUTHORIZATION = of("TOKENIZATION_AUTHORIZATION")
 
-                @JvmField
-                val TOKENIZATION_DECISIONING = Type(JsonField.of("TOKENIZATION_DECISIONING"))
+                @JvmField val TOKENIZATION_DECISIONING = of("TOKENIZATION_DECISIONING")
 
-                @JvmField
-                val TOKENIZATION_ELIGIBILITY_CHECK =
-                    Type(JsonField.of("TOKENIZATION_ELIGIBILITY_CHECK"))
+                @JvmField val TOKENIZATION_ELIGIBILITY_CHECK = of("TOKENIZATION_ELIGIBILITY_CHECK")
 
-                @JvmField val TOKENIZATION_UPDATED = Type(JsonField.of("TOKENIZATION_UPDATED"))
+                @JvmField val TOKENIZATION_UPDATED = of("TOKENIZATION_UPDATED")
 
                 @JvmStatic fun of(value: String) = Type(JsonField.of(value))
             }

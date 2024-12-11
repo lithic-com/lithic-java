@@ -30,11 +30,11 @@ private constructor(
 
     companion object {
 
-        @JvmField val ISSUING = InstanceFinancialAccountType(JsonField.of("ISSUING"))
+        @JvmField val ISSUING = of("ISSUING")
 
-        @JvmField val RESERVE = InstanceFinancialAccountType(JsonField.of("RESERVE"))
+        @JvmField val RESERVE = of("RESERVE")
 
-        @JvmField val OPERATING = InstanceFinancialAccountType(JsonField.of("OPERATING"))
+        @JvmField val OPERATING = of("OPERATING")
 
         @JvmStatic fun of(value: String) = InstanceFinancialAccountType(JsonField.of(value))
     }

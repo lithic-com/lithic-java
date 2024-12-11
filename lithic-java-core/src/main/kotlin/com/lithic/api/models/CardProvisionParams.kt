@@ -486,11 +486,11 @@ constructor(
 
         companion object {
 
-            @JvmField val APPLE_PAY = DigitalWallet(JsonField.of("APPLE_PAY"))
+            @JvmField val APPLE_PAY = of("APPLE_PAY")
 
-            @JvmField val GOOGLE_PAY = DigitalWallet(JsonField.of("GOOGLE_PAY"))
+            @JvmField val GOOGLE_PAY = of("GOOGLE_PAY")
 
-            @JvmField val SAMSUNG_PAY = DigitalWallet(JsonField.of("SAMSUNG_PAY"))
+            @JvmField val SAMSUNG_PAY = of("SAMSUNG_PAY")
 
             @JvmStatic fun of(value: String) = DigitalWallet(JsonField.of(value))
         }

@@ -328,7 +328,7 @@ constructor(
 
         companion object {
 
-            @JvmField val INACTIVE = State(JsonField.of("INACTIVE"))
+            @JvmField val INACTIVE = of("INACTIVE")
 
             @JvmStatic fun of(value: String) = State(JsonField.of(value))
         }

@@ -363,9 +363,9 @@ constructor(
 
         companion object {
 
-            @JvmField val AUTHORIZATION_EXPIRY = Type(JsonField.of("AUTHORIZATION_EXPIRY"))
+            @JvmField val AUTHORIZATION_EXPIRY = of("AUTHORIZATION_EXPIRY")
 
-            @JvmField val AUTHORIZATION_REVERSAL = Type(JsonField.of("AUTHORIZATION_REVERSAL"))
+            @JvmField val AUTHORIZATION_REVERSAL = of("AUTHORIZATION_REVERSAL")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }

@@ -412,19 +412,19 @@ private constructor(
 
         companion object {
 
-            @JvmField val ADJUSTMENT = Category(JsonField.of("ADJUSTMENT"))
+            @JvmField val ADJUSTMENT = of("ADJUSTMENT")
 
-            @JvmField val BALANCE_OR_FUNDING = Category(JsonField.of("BALANCE_OR_FUNDING"))
+            @JvmField val BALANCE_OR_FUNDING = of("BALANCE_OR_FUNDING")
 
-            @JvmField val DERECOGNITION = Category(JsonField.of("DERECOGNITION"))
+            @JvmField val DERECOGNITION = of("DERECOGNITION")
 
-            @JvmField val DISPUTE = Category(JsonField.of("DISPUTE"))
+            @JvmField val DISPUTE = of("DISPUTE")
 
-            @JvmField val FEE = Category(JsonField.of("FEE"))
+            @JvmField val FEE = of("FEE")
 
-            @JvmField val REWARD = Category(JsonField.of("REWARD"))
+            @JvmField val REWARD = of("REWARD")
 
-            @JvmField val TRANSFER = Category(JsonField.of("TRANSFER"))
+            @JvmField val TRANSFER = of("TRANSFER")
 
             @JvmStatic fun of(value: String) = Category(JsonField.of(value))
         }
@@ -734,10 +734,9 @@ private constructor(
 
             companion object {
 
-                @JvmField val APPROVED = DetailedResult(JsonField.of("APPROVED"))
+                @JvmField val APPROVED = of("APPROVED")
 
-                @JvmField
-                val FUNDS_INSUFFICIENT = DetailedResult(JsonField.of("FUNDS_INSUFFICIENT"))
+                @JvmField val FUNDS_INSUFFICIENT = of("FUNDS_INSUFFICIENT")
 
                 @JvmStatic fun of(value: String) = DetailedResult(JsonField.of(value))
             }
@@ -792,9 +791,9 @@ private constructor(
 
             companion object {
 
-                @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+                @JvmField val APPROVED = of("APPROVED")
 
-                @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+                @JvmField val DECLINED = of("DECLINED")
 
                 @JvmStatic fun of(value: String) = Result(JsonField.of(value))
             }
@@ -867,9 +866,9 @@ private constructor(
 
         companion object {
 
-            @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
             @JvmStatic fun of(value: String) = Result(JsonField.of(value))
         }
@@ -924,11 +923,11 @@ private constructor(
 
         companion object {
 
-            @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val REVERSED = Status(JsonField.of("REVERSED"))
+            @JvmField val REVERSED = of("REVERSED")
 
-            @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }

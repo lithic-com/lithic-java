@@ -1808,31 +1808,23 @@ private constructor(
             companion object {
 
                 @JvmField
-                val AUTHENTICATION_OUTAGE_EXCEPTION =
-                    AcquirerExemption(JsonField.of("AUTHENTICATION_OUTAGE_EXCEPTION"))
+                val AUTHENTICATION_OUTAGE_EXCEPTION = of("AUTHENTICATION_OUTAGE_EXCEPTION")
 
-                @JvmField val LOW_VALUE = AcquirerExemption(JsonField.of("LOW_VALUE"))
+                @JvmField val LOW_VALUE = of("LOW_VALUE")
 
-                @JvmField
-                val MERCHANT_INITIATED_TRANSACTION =
-                    AcquirerExemption(JsonField.of("MERCHANT_INITIATED_TRANSACTION"))
+                @JvmField val MERCHANT_INITIATED_TRANSACTION = of("MERCHANT_INITIATED_TRANSACTION")
 
-                @JvmField val NONE = AcquirerExemption(JsonField.of("NONE"))
+                @JvmField val NONE = of("NONE")
 
-                @JvmField
-                val RECURRING_PAYMENT = AcquirerExemption(JsonField.of("RECURRING_PAYMENT"))
+                @JvmField val RECURRING_PAYMENT = of("RECURRING_PAYMENT")
 
-                @JvmField
-                val SECURE_CORPORATE_PAYMENT =
-                    AcquirerExemption(JsonField.of("SECURE_CORPORATE_PAYMENT"))
+                @JvmField val SECURE_CORPORATE_PAYMENT = of("SECURE_CORPORATE_PAYMENT")
 
                 @JvmField
                 val STRONG_CUSTOMER_AUTHENTICATION_DELEGATION =
-                    AcquirerExemption(JsonField.of("STRONG_CUSTOMER_AUTHENTICATION_DELEGATION"))
+                    of("STRONG_CUSTOMER_AUTHENTICATION_DELEGATION")
 
-                @JvmField
-                val TRANSACTION_RISK_ANALYSIS =
-                    AcquirerExemption(JsonField.of("TRANSACTION_RISK_ANALYSIS"))
+                @JvmField val TRANSACTION_RISK_ANALYSIS = of("TRANSACTION_RISK_ANALYSIS")
 
                 @JvmStatic fun of(value: String) = AcquirerExemption(JsonField.of(value))
             }
@@ -1913,13 +1905,13 @@ private constructor(
 
             companion object {
 
-                @JvmField val ATTEMPTS = AuthenticationResult(JsonField.of("ATTEMPTS"))
+                @JvmField val ATTEMPTS = of("ATTEMPTS")
 
-                @JvmField val DECLINE = AuthenticationResult(JsonField.of("DECLINE"))
+                @JvmField val DECLINE = of("DECLINE")
 
-                @JvmField val NONE = AuthenticationResult(JsonField.of("NONE"))
+                @JvmField val NONE = of("NONE")
 
-                @JvmField val SUCCESS = AuthenticationResult(JsonField.of("SUCCESS"))
+                @JvmField val SUCCESS = of("SUCCESS")
 
                 @JvmStatic fun of(value: String) = AuthenticationResult(JsonField.of(value))
             }
@@ -1982,15 +1974,15 @@ private constructor(
 
             companion object {
 
-                @JvmField val CUSTOMER_ENDPOINT = DecisionMadeBy(JsonField.of("CUSTOMER_ENDPOINT"))
+                @JvmField val CUSTOMER_ENDPOINT = of("CUSTOMER_ENDPOINT")
 
-                @JvmField val LITHIC_DEFAULT = DecisionMadeBy(JsonField.of("LITHIC_DEFAULT"))
+                @JvmField val LITHIC_DEFAULT = of("LITHIC_DEFAULT")
 
-                @JvmField val LITHIC_RULES = DecisionMadeBy(JsonField.of("LITHIC_RULES"))
+                @JvmField val LITHIC_RULES = of("LITHIC_RULES")
 
-                @JvmField val NETWORK = DecisionMadeBy(JsonField.of("NETWORK"))
+                @JvmField val NETWORK = of("NETWORK")
 
-                @JvmField val UNKNOWN = DecisionMadeBy(JsonField.of("UNKNOWN"))
+                @JvmField val UNKNOWN = of("UNKNOWN")
 
                 @JvmStatic fun of(value: String) = DecisionMadeBy(JsonField.of(value))
             }
@@ -2057,15 +2049,13 @@ private constructor(
 
             companion object {
 
-                @JvmField val _3DS_AUTHENTICATED = LiabilityShift(JsonField.of("3DS_AUTHENTICATED"))
+                @JvmField val _3DS_AUTHENTICATED = of("3DS_AUTHENTICATED")
 
-                @JvmField
-                val ACQUIRER_EXEMPTION = LiabilityShift(JsonField.of("ACQUIRER_EXEMPTION"))
+                @JvmField val ACQUIRER_EXEMPTION = of("ACQUIRER_EXEMPTION")
 
-                @JvmField val NONE = LiabilityShift(JsonField.of("NONE"))
+                @JvmField val NONE = of("NONE")
 
-                @JvmField
-                val TOKEN_AUTHENTICATED = LiabilityShift(JsonField.of("TOKEN_AUTHENTICATED"))
+                @JvmField val TOKEN_AUTHENTICATED = of("TOKEN_AUTHENTICATED")
 
                 @JvmStatic fun of(value: String) = LiabilityShift(JsonField.of(value))
             }
@@ -2128,9 +2118,9 @@ private constructor(
 
             companion object {
 
-                @JvmField val NONE = VerificationAttempted(JsonField.of("NONE"))
+                @JvmField val NONE = of("NONE")
 
-                @JvmField val OTHER = VerificationAttempted(JsonField.of("OTHER"))
+                @JvmField val OTHER = of("OTHER")
 
                 @JvmStatic fun of(value: String) = VerificationAttempted(JsonField.of(value))
             }
@@ -2186,17 +2176,17 @@ private constructor(
 
             companion object {
 
-                @JvmField val CANCELLED = VerificationResult(JsonField.of("CANCELLED"))
+                @JvmField val CANCELLED = of("CANCELLED")
 
-                @JvmField val FAILED = VerificationResult(JsonField.of("FAILED"))
+                @JvmField val FAILED = of("FAILED")
 
-                @JvmField val FRICTIONLESS = VerificationResult(JsonField.of("FRICTIONLESS"))
+                @JvmField val FRICTIONLESS = of("FRICTIONLESS")
 
-                @JvmField val NOT_ATTEMPTED = VerificationResult(JsonField.of("NOT_ATTEMPTED"))
+                @JvmField val NOT_ATTEMPTED = of("NOT_ATTEMPTED")
 
-                @JvmField val REJECTED = VerificationResult(JsonField.of("REJECTED"))
+                @JvmField val REJECTED = of("REJECTED")
 
-                @JvmField val SUCCESS = VerificationResult(JsonField.of("SUCCESS"))
+                @JvmField val SUCCESS = of("SUCCESS")
 
                 @JvmStatic fun of(value: String) = VerificationResult(JsonField.of(value))
             }
@@ -2533,15 +2523,15 @@ private constructor(
 
         companion object {
 
-            @JvmField val INTERLINK = Network(JsonField.of("INTERLINK"))
+            @JvmField val INTERLINK = of("INTERLINK")
 
-            @JvmField val MAESTRO = Network(JsonField.of("MAESTRO"))
+            @JvmField val MAESTRO = of("MAESTRO")
 
-            @JvmField val MASTERCARD = Network(JsonField.of("MASTERCARD"))
+            @JvmField val MASTERCARD = of("MASTERCARD")
 
-            @JvmField val UNKNOWN = Network(JsonField.of("UNKNOWN"))
+            @JvmField val UNKNOWN = of("UNKNOWN")
 
-            @JvmField val VISA = Network(JsonField.of("VISA"))
+            @JvmField val VISA = of("VISA")
 
             @JvmStatic fun of(value: String) = Network(JsonField.of(value))
         }
@@ -2833,13 +2823,13 @@ private constructor(
 
                 companion object {
 
-                    @JvmField val NOT_PRESENT = Card(JsonField.of("NOT_PRESENT"))
+                    @JvmField val NOT_PRESENT = of("NOT_PRESENT")
 
-                    @JvmField val PREAUTHORIZED = Card(JsonField.of("PREAUTHORIZED"))
+                    @JvmField val PREAUTHORIZED = of("PREAUTHORIZED")
 
-                    @JvmField val PRESENT = Card(JsonField.of("PRESENT"))
+                    @JvmField val PRESENT = of("PRESENT")
 
-                    @JvmField val UNKNOWN = Card(JsonField.of("UNKNOWN"))
+                    @JvmField val UNKNOWN = of("UNKNOWN")
 
                     @JvmStatic fun of(value: String) = Card(JsonField.of(value))
                 }
@@ -2902,25 +2892,25 @@ private constructor(
 
                 companion object {
 
-                    @JvmField val DEFERRED_BILLING = Cardholder(JsonField.of("DEFERRED_BILLING"))
+                    @JvmField val DEFERRED_BILLING = of("DEFERRED_BILLING")
 
-                    @JvmField val ELECTRONIC_ORDER = Cardholder(JsonField.of("ELECTRONIC_ORDER"))
+                    @JvmField val ELECTRONIC_ORDER = of("ELECTRONIC_ORDER")
 
-                    @JvmField val INSTALLMENT = Cardholder(JsonField.of("INSTALLMENT"))
+                    @JvmField val INSTALLMENT = of("INSTALLMENT")
 
-                    @JvmField val MAIL_ORDER = Cardholder(JsonField.of("MAIL_ORDER"))
+                    @JvmField val MAIL_ORDER = of("MAIL_ORDER")
 
-                    @JvmField val NOT_PRESENT = Cardholder(JsonField.of("NOT_PRESENT"))
+                    @JvmField val NOT_PRESENT = of("NOT_PRESENT")
 
-                    @JvmField val PREAUTHORIZED = Cardholder(JsonField.of("PREAUTHORIZED"))
+                    @JvmField val PREAUTHORIZED = of("PREAUTHORIZED")
 
-                    @JvmField val PRESENT = Cardholder(JsonField.of("PRESENT"))
+                    @JvmField val PRESENT = of("PRESENT")
 
-                    @JvmField val REOCCURRING = Cardholder(JsonField.of("REOCCURRING"))
+                    @JvmField val REOCCURRING = of("REOCCURRING")
 
-                    @JvmField val TELEPHONE_ORDER = Cardholder(JsonField.of("TELEPHONE_ORDER"))
+                    @JvmField val TELEPHONE_ORDER = of("TELEPHONE_ORDER")
 
-                    @JvmField val UNKNOWN = Cardholder(JsonField.of("UNKNOWN"))
+                    @JvmField val UNKNOWN = of("UNKNOWN")
 
                     @JvmStatic fun of(value: String) = Cardholder(JsonField.of(value))
                 }
@@ -3007,35 +2997,35 @@ private constructor(
 
                 companion object {
 
-                    @JvmField val AUTO_ENTRY = Pan(JsonField.of("AUTO_ENTRY"))
+                    @JvmField val AUTO_ENTRY = of("AUTO_ENTRY")
 
-                    @JvmField val BAR_CODE = Pan(JsonField.of("BAR_CODE"))
+                    @JvmField val BAR_CODE = of("BAR_CODE")
 
-                    @JvmField val CONTACTLESS = Pan(JsonField.of("CONTACTLESS"))
+                    @JvmField val CONTACTLESS = of("CONTACTLESS")
 
-                    @JvmField val CREDENTIAL_ON_FILE = Pan(JsonField.of("CREDENTIAL_ON_FILE"))
+                    @JvmField val CREDENTIAL_ON_FILE = of("CREDENTIAL_ON_FILE")
 
-                    @JvmField val ECOMMERCE = Pan(JsonField.of("ECOMMERCE"))
+                    @JvmField val ECOMMERCE = of("ECOMMERCE")
 
-                    @JvmField val ERROR_KEYED = Pan(JsonField.of("ERROR_KEYED"))
+                    @JvmField val ERROR_KEYED = of("ERROR_KEYED")
 
-                    @JvmField val ERROR_MAGNETIC_STRIPE = Pan(JsonField.of("ERROR_MAGNETIC_STRIPE"))
+                    @JvmField val ERROR_MAGNETIC_STRIPE = of("ERROR_MAGNETIC_STRIPE")
 
-                    @JvmField val ICC = Pan(JsonField.of("ICC"))
+                    @JvmField val ICC = of("ICC")
 
-                    @JvmField val KEY_ENTERED = Pan(JsonField.of("KEY_ENTERED"))
+                    @JvmField val KEY_ENTERED = of("KEY_ENTERED")
 
-                    @JvmField val MAGNETIC_STRIPE = Pan(JsonField.of("MAGNETIC_STRIPE"))
+                    @JvmField val MAGNETIC_STRIPE = of("MAGNETIC_STRIPE")
 
-                    @JvmField val MANUAL = Pan(JsonField.of("MANUAL"))
+                    @JvmField val MANUAL = of("MANUAL")
 
-                    @JvmField val OCR = Pan(JsonField.of("OCR"))
+                    @JvmField val OCR = of("OCR")
 
-                    @JvmField val SECURE_CARDLESS = Pan(JsonField.of("SECURE_CARDLESS"))
+                    @JvmField val SECURE_CARDLESS = of("SECURE_CARDLESS")
 
-                    @JvmField val UNKNOWN = Pan(JsonField.of("UNKNOWN"))
+                    @JvmField val UNKNOWN = of("UNKNOWN")
 
-                    @JvmField val UNSPECIFIED = Pan(JsonField.of("UNSPECIFIED"))
+                    @JvmField val UNSPECIFIED = of("UNSPECIFIED")
 
                     @JvmStatic fun of(value: String) = Pan(JsonField.of(value))
                 }
@@ -3388,13 +3378,13 @@ private constructor(
 
                 companion object {
 
-                    @JvmField val ADMINISTRATIVE = Operator(JsonField.of("ADMINISTRATIVE"))
+                    @JvmField val ADMINISTRATIVE = of("ADMINISTRATIVE")
 
-                    @JvmField val CARDHOLDER = Operator(JsonField.of("CARDHOLDER"))
+                    @JvmField val CARDHOLDER = of("CARDHOLDER")
 
-                    @JvmField val CARD_ACCEPTOR = Operator(JsonField.of("CARD_ACCEPTOR"))
+                    @JvmField val CARD_ACCEPTOR = of("CARD_ACCEPTOR")
 
-                    @JvmField val UNKNOWN = Operator(JsonField.of("UNKNOWN"))
+                    @JvmField val UNKNOWN = of("UNKNOWN")
 
                     @JvmStatic fun of(value: String) = Operator(JsonField.of(value))
                 }
@@ -3457,13 +3447,13 @@ private constructor(
 
                 companion object {
 
-                    @JvmField val CAPABLE = PinCapability(JsonField.of("CAPABLE"))
+                    @JvmField val CAPABLE = of("CAPABLE")
 
-                    @JvmField val INOPERATIVE = PinCapability(JsonField.of("INOPERATIVE"))
+                    @JvmField val INOPERATIVE = of("INOPERATIVE")
 
-                    @JvmField val NOT_CAPABLE = PinCapability(JsonField.of("NOT_CAPABLE"))
+                    @JvmField val NOT_CAPABLE = of("NOT_CAPABLE")
 
-                    @JvmField val UNSPECIFIED = PinCapability(JsonField.of("UNSPECIFIED"))
+                    @JvmField val UNSPECIFIED = of("UNSPECIFIED")
 
                     @JvmStatic fun of(value: String) = PinCapability(JsonField.of(value))
                 }
@@ -3526,54 +3516,53 @@ private constructor(
 
                 companion object {
 
-                    @JvmField val ADMINISTRATIVE = Type(JsonField.of("ADMINISTRATIVE"))
+                    @JvmField val ADMINISTRATIVE = of("ADMINISTRATIVE")
 
-                    @JvmField val ATM = Type(JsonField.of("ATM"))
+                    @JvmField val ATM = of("ATM")
 
-                    @JvmField val AUTHORIZATION = Type(JsonField.of("AUTHORIZATION"))
+                    @JvmField val AUTHORIZATION = of("AUTHORIZATION")
 
-                    @JvmField val COUPON_MACHINE = Type(JsonField.of("COUPON_MACHINE"))
+                    @JvmField val COUPON_MACHINE = of("COUPON_MACHINE")
 
-                    @JvmField val DIAL_TERMINAL = Type(JsonField.of("DIAL_TERMINAL"))
+                    @JvmField val DIAL_TERMINAL = of("DIAL_TERMINAL")
 
-                    @JvmField val ECOMMERCE = Type(JsonField.of("ECOMMERCE"))
+                    @JvmField val ECOMMERCE = of("ECOMMERCE")
 
-                    @JvmField val ECR = Type(JsonField.of("ECR"))
+                    @JvmField val ECR = of("ECR")
 
-                    @JvmField val FUEL_MACHINE = Type(JsonField.of("FUEL_MACHINE"))
+                    @JvmField val FUEL_MACHINE = of("FUEL_MACHINE")
 
-                    @JvmField val HOME_TERMINAL = Type(JsonField.of("HOME_TERMINAL"))
+                    @JvmField val HOME_TERMINAL = of("HOME_TERMINAL")
 
-                    @JvmField val MICR = Type(JsonField.of("MICR"))
+                    @JvmField val MICR = of("MICR")
 
-                    @JvmField val OFF_PREMISE = Type(JsonField.of("OFF_PREMISE"))
+                    @JvmField val OFF_PREMISE = of("OFF_PREMISE")
 
-                    @JvmField val PAYMENT = Type(JsonField.of("PAYMENT"))
+                    @JvmField val PAYMENT = of("PAYMENT")
 
-                    @JvmField val PDA = Type(JsonField.of("PDA"))
+                    @JvmField val PDA = of("PDA")
 
-                    @JvmField val PHONE = Type(JsonField.of("PHONE"))
+                    @JvmField val PHONE = of("PHONE")
 
-                    @JvmField val POINT = Type(JsonField.of("POINT"))
+                    @JvmField val POINT = of("POINT")
 
-                    @JvmField val POS_TERMINAL = Type(JsonField.of("POS_TERMINAL"))
+                    @JvmField val POS_TERMINAL = of("POS_TERMINAL")
 
-                    @JvmField val PUBLIC_UTILITY = Type(JsonField.of("PUBLIC_UTILITY"))
+                    @JvmField val PUBLIC_UTILITY = of("PUBLIC_UTILITY")
 
-                    @JvmField val SELF_SERVICE = Type(JsonField.of("SELF_SERVICE"))
+                    @JvmField val SELF_SERVICE = of("SELF_SERVICE")
 
-                    @JvmField val TELEVISION = Type(JsonField.of("TELEVISION"))
+                    @JvmField val TELEVISION = of("TELEVISION")
 
-                    @JvmField val TELLER = Type(JsonField.of("TELLER"))
+                    @JvmField val TELLER = of("TELLER")
 
-                    @JvmField
-                    val TRAVELERS_CHECK_MACHINE = Type(JsonField.of("TRAVELERS_CHECK_MACHINE"))
+                    @JvmField val TRAVELERS_CHECK_MACHINE = of("TRAVELERS_CHECK_MACHINE")
 
-                    @JvmField val VENDING = Type(JsonField.of("VENDING"))
+                    @JvmField val VENDING = of("VENDING")
 
-                    @JvmField val VOICE = Type(JsonField.of("VOICE"))
+                    @JvmField val VOICE = of("VOICE")
 
-                    @JvmField val UNKNOWN = Type(JsonField.of("UNKNOWN"))
+                    @JvmField val UNKNOWN = of("UNKNOWN")
 
                     @JvmStatic fun of(value: String) = Type(JsonField.of(value))
                 }
@@ -3752,59 +3741,51 @@ private constructor(
 
         companion object {
 
-            @JvmField
-            val ACCOUNT_STATE_TRANSACTION_FAIL =
-                DeclineResult(JsonField.of("ACCOUNT_STATE_TRANSACTION_FAIL"))
+            @JvmField val ACCOUNT_STATE_TRANSACTION_FAIL = of("ACCOUNT_STATE_TRANSACTION_FAIL")
 
-            @JvmField val APPROVED = DeclineResult(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField
-            val BANK_CONNECTION_ERROR = DeclineResult(JsonField.of("BANK_CONNECTION_ERROR"))
+            @JvmField val BANK_CONNECTION_ERROR = of("BANK_CONNECTION_ERROR")
 
-            @JvmField val BANK_NOT_VERIFIED = DeclineResult(JsonField.of("BANK_NOT_VERIFIED"))
+            @JvmField val BANK_NOT_VERIFIED = of("BANK_NOT_VERIFIED")
 
-            @JvmField val CARD_CLOSED = DeclineResult(JsonField.of("CARD_CLOSED"))
+            @JvmField val CARD_CLOSED = of("CARD_CLOSED")
 
-            @JvmField val CARD_PAUSED = DeclineResult(JsonField.of("CARD_PAUSED"))
+            @JvmField val CARD_PAUSED = of("CARD_PAUSED")
 
-            @JvmField val DECLINED = DeclineResult(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val FRAUD_ADVICE = DeclineResult(JsonField.of("FRAUD_ADVICE"))
+            @JvmField val FRAUD_ADVICE = of("FRAUD_ADVICE")
 
-            @JvmField val IGNORED_TTL_EXPIRY = DeclineResult(JsonField.of("IGNORED_TTL_EXPIRY"))
+            @JvmField val IGNORED_TTL_EXPIRY = of("IGNORED_TTL_EXPIRY")
 
-            @JvmField val INACTIVE_ACCOUNT = DeclineResult(JsonField.of("INACTIVE_ACCOUNT"))
+            @JvmField val INACTIVE_ACCOUNT = of("INACTIVE_ACCOUNT")
 
-            @JvmField val INCORRECT_PIN = DeclineResult(JsonField.of("INCORRECT_PIN"))
+            @JvmField val INCORRECT_PIN = of("INCORRECT_PIN")
 
-            @JvmField val INVALID_CARD_DETAILS = DeclineResult(JsonField.of("INVALID_CARD_DETAILS"))
+            @JvmField val INVALID_CARD_DETAILS = of("INVALID_CARD_DETAILS")
 
-            @JvmField val INSUFFICIENT_FUNDS = DeclineResult(JsonField.of("INSUFFICIENT_FUNDS"))
+            @JvmField val INSUFFICIENT_FUNDS = of("INSUFFICIENT_FUNDS")
 
-            @JvmField
-            val INSUFFICIENT_FUNDS_PRELOAD =
-                DeclineResult(JsonField.of("INSUFFICIENT_FUNDS_PRELOAD"))
+            @JvmField val INSUFFICIENT_FUNDS_PRELOAD = of("INSUFFICIENT_FUNDS_PRELOAD")
 
-            @JvmField val INVALID_TRANSACTION = DeclineResult(JsonField.of("INVALID_TRANSACTION"))
+            @JvmField val INVALID_TRANSACTION = of("INVALID_TRANSACTION")
 
-            @JvmField val MERCHANT_BLACKLIST = DeclineResult(JsonField.of("MERCHANT_BLACKLIST"))
+            @JvmField val MERCHANT_BLACKLIST = of("MERCHANT_BLACKLIST")
 
-            @JvmField val ORIGINAL_NOT_FOUND = DeclineResult(JsonField.of("ORIGINAL_NOT_FOUND"))
+            @JvmField val ORIGINAL_NOT_FOUND = of("ORIGINAL_NOT_FOUND")
 
-            @JvmField val PREVIOUSLY_COMPLETED = DeclineResult(JsonField.of("PREVIOUSLY_COMPLETED"))
+            @JvmField val PREVIOUSLY_COMPLETED = of("PREVIOUSLY_COMPLETED")
 
-            @JvmField val SINGLE_USE_RECHARGED = DeclineResult(JsonField.of("SINGLE_USE_RECHARGED"))
+            @JvmField val SINGLE_USE_RECHARGED = of("SINGLE_USE_RECHARGED")
 
-            @JvmField
-            val SWITCH_INOPERATIVE_ADVICE = DeclineResult(JsonField.of("SWITCH_INOPERATIVE_ADVICE"))
+            @JvmField val SWITCH_INOPERATIVE_ADVICE = of("SWITCH_INOPERATIVE_ADVICE")
 
-            @JvmField
-            val UNAUTHORIZED_MERCHANT = DeclineResult(JsonField.of("UNAUTHORIZED_MERCHANT"))
+            @JvmField val UNAUTHORIZED_MERCHANT = of("UNAUTHORIZED_MERCHANT")
 
-            @JvmField val UNKNOWN_HOST_TIMEOUT = DeclineResult(JsonField.of("UNKNOWN_HOST_TIMEOUT"))
+            @JvmField val UNKNOWN_HOST_TIMEOUT = of("UNKNOWN_HOST_TIMEOUT")
 
-            @JvmField
-            val USER_TRANSACTION_LIMIT = DeclineResult(JsonField.of("USER_TRANSACTION_LIMIT"))
+            @JvmField val USER_TRANSACTION_LIMIT = of("USER_TRANSACTION_LIMIT")
 
             @JvmStatic fun of(value: String) = DeclineResult(JsonField.of(value))
         }
@@ -3943,15 +3924,15 @@ private constructor(
 
         companion object {
 
-            @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val EXPIRED = Status(JsonField.of("EXPIRED"))
+            @JvmField val EXPIRED = of("EXPIRED")
 
-            @JvmField val PENDING = Status(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
-            @JvmField val VOIDED = Status(JsonField.of("VOIDED"))
+            @JvmField val VOIDED = of("VOIDED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
@@ -4110,17 +4091,17 @@ private constructor(
 
             companion object {
 
-                @JvmField val APPLE_PAY = WalletType(JsonField.of("APPLE_PAY"))
+                @JvmField val APPLE_PAY = of("APPLE_PAY")
 
-                @JvmField val GOOGLE_PAY = WalletType(JsonField.of("GOOGLE_PAY"))
+                @JvmField val GOOGLE_PAY = of("GOOGLE_PAY")
 
-                @JvmField val MASTERPASS = WalletType(JsonField.of("MASTERPASS"))
+                @JvmField val MASTERPASS = of("MASTERPASS")
 
-                @JvmField val MERCHANT = WalletType(JsonField.of("MERCHANT"))
+                @JvmField val MERCHANT = of("MERCHANT")
 
-                @JvmField val OTHER = WalletType(JsonField.of("OTHER"))
+                @JvmField val OTHER = of("OTHER")
 
-                @JvmField val SAMSUNG_PAY = WalletType(JsonField.of("SAMSUNG_PAY"))
+                @JvmField val SAMSUNG_PAY = of("SAMSUNG_PAY")
 
                 @JvmStatic fun of(value: String) = WalletType(JsonField.of(value))
             }
@@ -5021,168 +5002,123 @@ private constructor(
             companion object {
 
                 @JvmField
-                val ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED =
-                    DetailedResult(JsonField.of("ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED"))
+                val ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED = of("ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED")
 
-                @JvmField
-                val ACCOUNT_DELINQUENT = DetailedResult(JsonField.of("ACCOUNT_DELINQUENT"))
+                @JvmField val ACCOUNT_DELINQUENT = of("ACCOUNT_DELINQUENT")
 
-                @JvmField val ACCOUNT_INACTIVE = DetailedResult(JsonField.of("ACCOUNT_INACTIVE"))
+                @JvmField val ACCOUNT_INACTIVE = of("ACCOUNT_INACTIVE")
 
                 @JvmField
                 val ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED =
-                    DetailedResult(JsonField.of("ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED"))
+                    of("ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED")
 
                 @JvmField
                 val ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED =
-                    DetailedResult(JsonField.of("ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED"))
+                    of("ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED")
+
+                @JvmField val ACCOUNT_UNDER_REVIEW = of("ACCOUNT_UNDER_REVIEW")
+
+                @JvmField val ADDRESS_INCORRECT = of("ADDRESS_INCORRECT")
+
+                @JvmField val APPROVED = of("APPROVED")
+
+                @JvmField val AUTH_RULE_ALLOWED_COUNTRY = of("AUTH_RULE_ALLOWED_COUNTRY")
+
+                @JvmField val AUTH_RULE_ALLOWED_MCC = of("AUTH_RULE_ALLOWED_MCC")
+
+                @JvmField val AUTH_RULE_BLOCKED_COUNTRY = of("AUTH_RULE_BLOCKED_COUNTRY")
+
+                @JvmField val AUTH_RULE_BLOCKED_MCC = of("AUTH_RULE_BLOCKED_MCC")
+
+                @JvmField val CARD_CLOSED = of("CARD_CLOSED")
 
                 @JvmField
-                val ACCOUNT_UNDER_REVIEW = DetailedResult(JsonField.of("ACCOUNT_UNDER_REVIEW"))
+                val CARD_CRYPTOGRAM_VALIDATION_FAILURE = of("CARD_CRYPTOGRAM_VALIDATION_FAILURE")
 
-                @JvmField val ADDRESS_INCORRECT = DetailedResult(JsonField.of("ADDRESS_INCORRECT"))
+                @JvmField val CARD_EXPIRED = of("CARD_EXPIRED")
 
-                @JvmField val APPROVED = DetailedResult(JsonField.of("APPROVED"))
+                @JvmField val CARD_EXPIRY_DATE_INCORRECT = of("CARD_EXPIRY_DATE_INCORRECT")
 
-                @JvmField
-                val AUTH_RULE_ALLOWED_COUNTRY =
-                    DetailedResult(JsonField.of("AUTH_RULE_ALLOWED_COUNTRY"))
+                @JvmField val CARD_INVALID = of("CARD_INVALID")
 
-                @JvmField
-                val AUTH_RULE_ALLOWED_MCC = DetailedResult(JsonField.of("AUTH_RULE_ALLOWED_MCC"))
+                @JvmField val CARD_NOT_ACTIVATED = of("CARD_NOT_ACTIVATED")
 
-                @JvmField
-                val AUTH_RULE_BLOCKED_COUNTRY =
-                    DetailedResult(JsonField.of("AUTH_RULE_BLOCKED_COUNTRY"))
+                @JvmField val CARD_PAUSED = of("CARD_PAUSED")
 
-                @JvmField
-                val AUTH_RULE_BLOCKED_MCC = DetailedResult(JsonField.of("AUTH_RULE_BLOCKED_MCC"))
+                @JvmField val CARD_PIN_INCORRECT = of("CARD_PIN_INCORRECT")
 
-                @JvmField val CARD_CLOSED = DetailedResult(JsonField.of("CARD_CLOSED"))
+                @JvmField val CARD_RESTRICTED = of("CARD_RESTRICTED")
 
-                @JvmField
-                val CARD_CRYPTOGRAM_VALIDATION_FAILURE =
-                    DetailedResult(JsonField.of("CARD_CRYPTOGRAM_VALIDATION_FAILURE"))
+                @JvmField val CARD_SECURITY_CODE_INCORRECT = of("CARD_SECURITY_CODE_INCORRECT")
 
-                @JvmField val CARD_EXPIRED = DetailedResult(JsonField.of("CARD_EXPIRED"))
+                @JvmField val CARD_SPEND_LIMIT_EXCEEDED = of("CARD_SPEND_LIMIT_EXCEEDED")
 
-                @JvmField
-                val CARD_EXPIRY_DATE_INCORRECT =
-                    DetailedResult(JsonField.of("CARD_EXPIRY_DATE_INCORRECT"))
+                @JvmField val CONTACT_CARD_ISSUER = of("CONTACT_CARD_ISSUER")
 
-                @JvmField val CARD_INVALID = DetailedResult(JsonField.of("CARD_INVALID"))
+                @JvmField val CUSTOMER_ASA_TIMEOUT = of("CUSTOMER_ASA_TIMEOUT")
 
-                @JvmField
-                val CARD_NOT_ACTIVATED = DetailedResult(JsonField.of("CARD_NOT_ACTIVATED"))
+                @JvmField val CUSTOM_ASA_RESULT = of("CUSTOM_ASA_RESULT")
 
-                @JvmField val CARD_PAUSED = DetailedResult(JsonField.of("CARD_PAUSED"))
+                @JvmField val DECLINED = of("DECLINED")
+
+                @JvmField val DO_NOT_HONOR = of("DO_NOT_HONOR")
+
+                @JvmField val DRIVER_NUMBER_INVALID = of("DRIVER_NUMBER_INVALID")
+
+                @JvmField val FORMAT_ERROR = of("FORMAT_ERROR")
 
                 @JvmField
-                val CARD_PIN_INCORRECT = DetailedResult(JsonField.of("CARD_PIN_INCORRECT"))
+                val INSUFFICIENT_FUNDING_SOURCE_BALANCE = of("INSUFFICIENT_FUNDING_SOURCE_BALANCE")
 
-                @JvmField val CARD_RESTRICTED = DetailedResult(JsonField.of("CARD_RESTRICTED"))
+                @JvmField val INSUFFICIENT_FUNDS = of("INSUFFICIENT_FUNDS")
 
-                @JvmField
-                val CARD_SECURITY_CODE_INCORRECT =
-                    DetailedResult(JsonField.of("CARD_SECURITY_CODE_INCORRECT"))
+                @JvmField val LITHIC_SYSTEM_ERROR = of("LITHIC_SYSTEM_ERROR")
 
-                @JvmField
-                val CARD_SPEND_LIMIT_EXCEEDED =
-                    DetailedResult(JsonField.of("CARD_SPEND_LIMIT_EXCEEDED"))
+                @JvmField val LITHIC_SYSTEM_RATE_LIMIT = of("LITHIC_SYSTEM_RATE_LIMIT")
 
-                @JvmField
-                val CONTACT_CARD_ISSUER = DetailedResult(JsonField.of("CONTACT_CARD_ISSUER"))
+                @JvmField val MALFORMED_ASA_RESPONSE = of("MALFORMED_ASA_RESPONSE")
 
-                @JvmField
-                val CUSTOMER_ASA_TIMEOUT = DetailedResult(JsonField.of("CUSTOMER_ASA_TIMEOUT"))
-
-                @JvmField val CUSTOM_ASA_RESULT = DetailedResult(JsonField.of("CUSTOM_ASA_RESULT"))
-
-                @JvmField val DECLINED = DetailedResult(JsonField.of("DECLINED"))
-
-                @JvmField val DO_NOT_HONOR = DetailedResult(JsonField.of("DO_NOT_HONOR"))
-
-                @JvmField
-                val DRIVER_NUMBER_INVALID = DetailedResult(JsonField.of("DRIVER_NUMBER_INVALID"))
-
-                @JvmField val FORMAT_ERROR = DetailedResult(JsonField.of("FORMAT_ERROR"))
-
-                @JvmField
-                val INSUFFICIENT_FUNDING_SOURCE_BALANCE =
-                    DetailedResult(JsonField.of("INSUFFICIENT_FUNDING_SOURCE_BALANCE"))
-
-                @JvmField
-                val INSUFFICIENT_FUNDS = DetailedResult(JsonField.of("INSUFFICIENT_FUNDS"))
-
-                @JvmField
-                val LITHIC_SYSTEM_ERROR = DetailedResult(JsonField.of("LITHIC_SYSTEM_ERROR"))
-
-                @JvmField
-                val LITHIC_SYSTEM_RATE_LIMIT =
-                    DetailedResult(JsonField.of("LITHIC_SYSTEM_RATE_LIMIT"))
-
-                @JvmField
-                val MALFORMED_ASA_RESPONSE = DetailedResult(JsonField.of("MALFORMED_ASA_RESPONSE"))
-
-                @JvmField val MERCHANT_INVALID = DetailedResult(JsonField.of("MERCHANT_INVALID"))
+                @JvmField val MERCHANT_INVALID = of("MERCHANT_INVALID")
 
                 @JvmField
                 val MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE =
-                    DetailedResult(JsonField.of("MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE"))
+                    of("MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE")
+
+                @JvmField val MERCHANT_NOT_PERMITTED = of("MERCHANT_NOT_PERMITTED")
+
+                @JvmField val OVER_REVERSAL_ATTEMPTED = of("OVER_REVERSAL_ATTEMPTED")
+
+                @JvmField val PIN_BLOCKED = of("PIN_BLOCKED")
 
                 @JvmField
-                val MERCHANT_NOT_PERMITTED = DetailedResult(JsonField.of("MERCHANT_NOT_PERMITTED"))
+                val PROGRAM_CARD_SPEND_LIMIT_EXCEEDED = of("PROGRAM_CARD_SPEND_LIMIT_EXCEEDED")
 
-                @JvmField
-                val OVER_REVERSAL_ATTEMPTED =
-                    DetailedResult(JsonField.of("OVER_REVERSAL_ATTEMPTED"))
+                @JvmField val PROGRAM_SUSPENDED = of("PROGRAM_SUSPENDED")
 
-                @JvmField val PIN_BLOCKED = DetailedResult(JsonField.of("PIN_BLOCKED"))
+                @JvmField val PROGRAM_USAGE_RESTRICTION = of("PROGRAM_USAGE_RESTRICTION")
 
-                @JvmField
-                val PROGRAM_CARD_SPEND_LIMIT_EXCEEDED =
-                    DetailedResult(JsonField.of("PROGRAM_CARD_SPEND_LIMIT_EXCEEDED"))
+                @JvmField val REVERSAL_UNMATCHED = of("REVERSAL_UNMATCHED")
 
-                @JvmField val PROGRAM_SUSPENDED = DetailedResult(JsonField.of("PROGRAM_SUSPENDED"))
+                @JvmField val SECURITY_VIOLATION = of("SECURITY_VIOLATION")
 
-                @JvmField
-                val PROGRAM_USAGE_RESTRICTION =
-                    DetailedResult(JsonField.of("PROGRAM_USAGE_RESTRICTION"))
+                @JvmField val SINGLE_USE_CARD_REATTEMPTED = of("SINGLE_USE_CARD_REATTEMPTED")
 
-                @JvmField
-                val REVERSAL_UNMATCHED = DetailedResult(JsonField.of("REVERSAL_UNMATCHED"))
-
-                @JvmField
-                val SECURITY_VIOLATION = DetailedResult(JsonField.of("SECURITY_VIOLATION"))
-
-                @JvmField
-                val SINGLE_USE_CARD_REATTEMPTED =
-                    DetailedResult(JsonField.of("SINGLE_USE_CARD_REATTEMPTED"))
-
-                @JvmField
-                val TRANSACTION_INVALID = DetailedResult(JsonField.of("TRANSACTION_INVALID"))
+                @JvmField val TRANSACTION_INVALID = of("TRANSACTION_INVALID")
 
                 @JvmField
                 val TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL =
-                    DetailedResult(
-                        JsonField.of("TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL")
-                    )
+                    of("TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL")
 
                 @JvmField
                 val TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER =
-                    DetailedResult(
-                        JsonField.of("TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER")
-                    )
+                    of("TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER")
 
                 @JvmField
-                val TRANSACTION_PREVIOUSLY_COMPLETED =
-                    DetailedResult(JsonField.of("TRANSACTION_PREVIOUSLY_COMPLETED"))
+                val TRANSACTION_PREVIOUSLY_COMPLETED = of("TRANSACTION_PREVIOUSLY_COMPLETED")
 
-                @JvmField
-                val UNAUTHORIZED_MERCHANT = DetailedResult(JsonField.of("UNAUTHORIZED_MERCHANT"))
+                @JvmField val UNAUTHORIZED_MERCHANT = of("UNAUTHORIZED_MERCHANT")
 
-                @JvmField
-                val VEHICLE_NUMBER_INVALID = DetailedResult(JsonField.of("VEHICLE_NUMBER_INVALID"))
+                @JvmField val VEHICLE_NUMBER_INVALID = of("VEHICLE_NUMBER_INVALID")
 
                 @JvmStatic fun of(value: String) = DetailedResult(JsonField.of(value))
             }
@@ -5447,9 +5383,9 @@ private constructor(
 
             companion object {
 
-                @JvmField val CREDIT = EffectivePolarity(JsonField.of("CREDIT"))
+                @JvmField val CREDIT = of("CREDIT")
 
-                @JvmField val DEBIT = EffectivePolarity(JsonField.of("DEBIT"))
+                @JvmField val DEBIT = of("DEBIT")
 
                 @JvmStatic fun of(value: String) = EffectivePolarity(JsonField.of(value))
             }
@@ -5504,65 +5440,51 @@ private constructor(
 
             companion object {
 
-                @JvmField
-                val ACCOUNT_STATE_TRANSACTION_FAIL =
-                    DeclineResult(JsonField.of("ACCOUNT_STATE_TRANSACTION_FAIL"))
+                @JvmField val ACCOUNT_STATE_TRANSACTION_FAIL = of("ACCOUNT_STATE_TRANSACTION_FAIL")
 
-                @JvmField val APPROVED = DeclineResult(JsonField.of("APPROVED"))
+                @JvmField val APPROVED = of("APPROVED")
 
-                @JvmField
-                val BANK_CONNECTION_ERROR = DeclineResult(JsonField.of("BANK_CONNECTION_ERROR"))
+                @JvmField val BANK_CONNECTION_ERROR = of("BANK_CONNECTION_ERROR")
 
-                @JvmField val BANK_NOT_VERIFIED = DeclineResult(JsonField.of("BANK_NOT_VERIFIED"))
+                @JvmField val BANK_NOT_VERIFIED = of("BANK_NOT_VERIFIED")
 
-                @JvmField val CARD_CLOSED = DeclineResult(JsonField.of("CARD_CLOSED"))
+                @JvmField val CARD_CLOSED = of("CARD_CLOSED")
 
-                @JvmField val CARD_PAUSED = DeclineResult(JsonField.of("CARD_PAUSED"))
+                @JvmField val CARD_PAUSED = of("CARD_PAUSED")
 
-                @JvmField val DECLINED = DeclineResult(JsonField.of("DECLINED"))
+                @JvmField val DECLINED = of("DECLINED")
 
-                @JvmField val FRAUD_ADVICE = DeclineResult(JsonField.of("FRAUD_ADVICE"))
+                @JvmField val FRAUD_ADVICE = of("FRAUD_ADVICE")
 
-                @JvmField val IGNORED_TTL_EXPIRY = DeclineResult(JsonField.of("IGNORED_TTL_EXPIRY"))
+                @JvmField val IGNORED_TTL_EXPIRY = of("IGNORED_TTL_EXPIRY")
 
-                @JvmField val INACTIVE_ACCOUNT = DeclineResult(JsonField.of("INACTIVE_ACCOUNT"))
+                @JvmField val INACTIVE_ACCOUNT = of("INACTIVE_ACCOUNT")
 
-                @JvmField val INCORRECT_PIN = DeclineResult(JsonField.of("INCORRECT_PIN"))
+                @JvmField val INCORRECT_PIN = of("INCORRECT_PIN")
 
-                @JvmField
-                val INVALID_CARD_DETAILS = DeclineResult(JsonField.of("INVALID_CARD_DETAILS"))
+                @JvmField val INVALID_CARD_DETAILS = of("INVALID_CARD_DETAILS")
 
-                @JvmField val INSUFFICIENT_FUNDS = DeclineResult(JsonField.of("INSUFFICIENT_FUNDS"))
+                @JvmField val INSUFFICIENT_FUNDS = of("INSUFFICIENT_FUNDS")
 
-                @JvmField
-                val INSUFFICIENT_FUNDS_PRELOAD =
-                    DeclineResult(JsonField.of("INSUFFICIENT_FUNDS_PRELOAD"))
+                @JvmField val INSUFFICIENT_FUNDS_PRELOAD = of("INSUFFICIENT_FUNDS_PRELOAD")
 
-                @JvmField
-                val INVALID_TRANSACTION = DeclineResult(JsonField.of("INVALID_TRANSACTION"))
+                @JvmField val INVALID_TRANSACTION = of("INVALID_TRANSACTION")
 
-                @JvmField val MERCHANT_BLACKLIST = DeclineResult(JsonField.of("MERCHANT_BLACKLIST"))
+                @JvmField val MERCHANT_BLACKLIST = of("MERCHANT_BLACKLIST")
 
-                @JvmField val ORIGINAL_NOT_FOUND = DeclineResult(JsonField.of("ORIGINAL_NOT_FOUND"))
+                @JvmField val ORIGINAL_NOT_FOUND = of("ORIGINAL_NOT_FOUND")
 
-                @JvmField
-                val PREVIOUSLY_COMPLETED = DeclineResult(JsonField.of("PREVIOUSLY_COMPLETED"))
+                @JvmField val PREVIOUSLY_COMPLETED = of("PREVIOUSLY_COMPLETED")
 
-                @JvmField
-                val SINGLE_USE_RECHARGED = DeclineResult(JsonField.of("SINGLE_USE_RECHARGED"))
+                @JvmField val SINGLE_USE_RECHARGED = of("SINGLE_USE_RECHARGED")
 
-                @JvmField
-                val SWITCH_INOPERATIVE_ADVICE =
-                    DeclineResult(JsonField.of("SWITCH_INOPERATIVE_ADVICE"))
+                @JvmField val SWITCH_INOPERATIVE_ADVICE = of("SWITCH_INOPERATIVE_ADVICE")
 
-                @JvmField
-                val UNAUTHORIZED_MERCHANT = DeclineResult(JsonField.of("UNAUTHORIZED_MERCHANT"))
+                @JvmField val UNAUTHORIZED_MERCHANT = of("UNAUTHORIZED_MERCHANT")
 
-                @JvmField
-                val UNKNOWN_HOST_TIMEOUT = DeclineResult(JsonField.of("UNKNOWN_HOST_TIMEOUT"))
+                @JvmField val UNKNOWN_HOST_TIMEOUT = of("UNKNOWN_HOST_TIMEOUT")
 
-                @JvmField
-                val USER_TRANSACTION_LIMIT = DeclineResult(JsonField.of("USER_TRANSACTION_LIMIT"))
+                @JvmField val USER_TRANSACTION_LIMIT = of("USER_TRANSACTION_LIMIT")
 
                 @JvmStatic fun of(value: String) = DeclineResult(JsonField.of(value))
             }
@@ -5701,37 +5623,33 @@ private constructor(
 
             companion object {
 
-                @JvmField val AUTHORIZATION = Type(JsonField.of("AUTHORIZATION"))
+                @JvmField val AUTHORIZATION = of("AUTHORIZATION")
 
-                @JvmField val AUTHORIZATION_ADVICE = Type(JsonField.of("AUTHORIZATION_ADVICE"))
+                @JvmField val AUTHORIZATION_ADVICE = of("AUTHORIZATION_ADVICE")
 
-                @JvmField val AUTHORIZATION_EXPIRY = Type(JsonField.of("AUTHORIZATION_EXPIRY"))
+                @JvmField val AUTHORIZATION_EXPIRY = of("AUTHORIZATION_EXPIRY")
 
-                @JvmField val AUTHORIZATION_REVERSAL = Type(JsonField.of("AUTHORIZATION_REVERSAL"))
+                @JvmField val AUTHORIZATION_REVERSAL = of("AUTHORIZATION_REVERSAL")
 
-                @JvmField val BALANCE_INQUIRY = Type(JsonField.of("BALANCE_INQUIRY"))
+                @JvmField val BALANCE_INQUIRY = of("BALANCE_INQUIRY")
 
-                @JvmField val CLEARING = Type(JsonField.of("CLEARING"))
+                @JvmField val CLEARING = of("CLEARING")
 
-                @JvmField val CORRECTION_CREDIT = Type(JsonField.of("CORRECTION_CREDIT"))
+                @JvmField val CORRECTION_CREDIT = of("CORRECTION_CREDIT")
 
-                @JvmField val CORRECTION_DEBIT = Type(JsonField.of("CORRECTION_DEBIT"))
+                @JvmField val CORRECTION_DEBIT = of("CORRECTION_DEBIT")
 
-                @JvmField val CREDIT_AUTHORIZATION = Type(JsonField.of("CREDIT_AUTHORIZATION"))
+                @JvmField val CREDIT_AUTHORIZATION = of("CREDIT_AUTHORIZATION")
 
-                @JvmField
-                val CREDIT_AUTHORIZATION_ADVICE = Type(JsonField.of("CREDIT_AUTHORIZATION_ADVICE"))
+                @JvmField val CREDIT_AUTHORIZATION_ADVICE = of("CREDIT_AUTHORIZATION_ADVICE")
 
-                @JvmField
-                val FINANCIAL_AUTHORIZATION = Type(JsonField.of("FINANCIAL_AUTHORIZATION"))
+                @JvmField val FINANCIAL_AUTHORIZATION = of("FINANCIAL_AUTHORIZATION")
 
-                @JvmField
-                val FINANCIAL_CREDIT_AUTHORIZATION =
-                    Type(JsonField.of("FINANCIAL_CREDIT_AUTHORIZATION"))
+                @JvmField val FINANCIAL_CREDIT_AUTHORIZATION = of("FINANCIAL_CREDIT_AUTHORIZATION")
 
-                @JvmField val RETURN = Type(JsonField.of("RETURN"))
+                @JvmField val RETURN = of("RETURN")
 
-                @JvmField val RETURN_REVERSAL = Type(JsonField.of("RETURN_REVERSAL"))
+                @JvmField val RETURN_REVERSAL = of("RETURN_REVERSAL")
 
                 @JvmStatic fun of(value: String) = Type(JsonField.of(value))
             }
@@ -5991,179 +5909,125 @@ private constructor(
 
                     @JvmField
                     val ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED =
-                        DetailedResult(JsonField.of("ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED"))
+                        of("ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED")
 
-                    @JvmField
-                    val ACCOUNT_DELINQUENT = DetailedResult(JsonField.of("ACCOUNT_DELINQUENT"))
+                    @JvmField val ACCOUNT_DELINQUENT = of("ACCOUNT_DELINQUENT")
 
-                    @JvmField
-                    val ACCOUNT_INACTIVE = DetailedResult(JsonField.of("ACCOUNT_INACTIVE"))
+                    @JvmField val ACCOUNT_INACTIVE = of("ACCOUNT_INACTIVE")
 
                     @JvmField
                     val ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED =
-                        DetailedResult(JsonField.of("ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED"))
+                        of("ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED")
 
                     @JvmField
                     val ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED =
-                        DetailedResult(JsonField.of("ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED"))
+                        of("ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED")
 
-                    @JvmField
-                    val ACCOUNT_UNDER_REVIEW = DetailedResult(JsonField.of("ACCOUNT_UNDER_REVIEW"))
+                    @JvmField val ACCOUNT_UNDER_REVIEW = of("ACCOUNT_UNDER_REVIEW")
 
-                    @JvmField
-                    val ADDRESS_INCORRECT = DetailedResult(JsonField.of("ADDRESS_INCORRECT"))
+                    @JvmField val ADDRESS_INCORRECT = of("ADDRESS_INCORRECT")
 
-                    @JvmField val APPROVED = DetailedResult(JsonField.of("APPROVED"))
+                    @JvmField val APPROVED = of("APPROVED")
 
-                    @JvmField
-                    val AUTH_RULE_ALLOWED_COUNTRY =
-                        DetailedResult(JsonField.of("AUTH_RULE_ALLOWED_COUNTRY"))
+                    @JvmField val AUTH_RULE_ALLOWED_COUNTRY = of("AUTH_RULE_ALLOWED_COUNTRY")
 
-                    @JvmField
-                    val AUTH_RULE_ALLOWED_MCC =
-                        DetailedResult(JsonField.of("AUTH_RULE_ALLOWED_MCC"))
+                    @JvmField val AUTH_RULE_ALLOWED_MCC = of("AUTH_RULE_ALLOWED_MCC")
 
-                    @JvmField
-                    val AUTH_RULE_BLOCKED_COUNTRY =
-                        DetailedResult(JsonField.of("AUTH_RULE_BLOCKED_COUNTRY"))
+                    @JvmField val AUTH_RULE_BLOCKED_COUNTRY = of("AUTH_RULE_BLOCKED_COUNTRY")
 
-                    @JvmField
-                    val AUTH_RULE_BLOCKED_MCC =
-                        DetailedResult(JsonField.of("AUTH_RULE_BLOCKED_MCC"))
+                    @JvmField val AUTH_RULE_BLOCKED_MCC = of("AUTH_RULE_BLOCKED_MCC")
 
-                    @JvmField val CARD_CLOSED = DetailedResult(JsonField.of("CARD_CLOSED"))
+                    @JvmField val CARD_CLOSED = of("CARD_CLOSED")
 
                     @JvmField
                     val CARD_CRYPTOGRAM_VALIDATION_FAILURE =
-                        DetailedResult(JsonField.of("CARD_CRYPTOGRAM_VALIDATION_FAILURE"))
+                        of("CARD_CRYPTOGRAM_VALIDATION_FAILURE")
 
-                    @JvmField val CARD_EXPIRED = DetailedResult(JsonField.of("CARD_EXPIRED"))
+                    @JvmField val CARD_EXPIRED = of("CARD_EXPIRED")
 
-                    @JvmField
-                    val CARD_EXPIRY_DATE_INCORRECT =
-                        DetailedResult(JsonField.of("CARD_EXPIRY_DATE_INCORRECT"))
+                    @JvmField val CARD_EXPIRY_DATE_INCORRECT = of("CARD_EXPIRY_DATE_INCORRECT")
 
-                    @JvmField val CARD_INVALID = DetailedResult(JsonField.of("CARD_INVALID"))
+                    @JvmField val CARD_INVALID = of("CARD_INVALID")
 
-                    @JvmField
-                    val CARD_NOT_ACTIVATED = DetailedResult(JsonField.of("CARD_NOT_ACTIVATED"))
+                    @JvmField val CARD_NOT_ACTIVATED = of("CARD_NOT_ACTIVATED")
 
-                    @JvmField val CARD_PAUSED = DetailedResult(JsonField.of("CARD_PAUSED"))
+                    @JvmField val CARD_PAUSED = of("CARD_PAUSED")
 
-                    @JvmField
-                    val CARD_PIN_INCORRECT = DetailedResult(JsonField.of("CARD_PIN_INCORRECT"))
+                    @JvmField val CARD_PIN_INCORRECT = of("CARD_PIN_INCORRECT")
 
-                    @JvmField val CARD_RESTRICTED = DetailedResult(JsonField.of("CARD_RESTRICTED"))
+                    @JvmField val CARD_RESTRICTED = of("CARD_RESTRICTED")
 
-                    @JvmField
-                    val CARD_SECURITY_CODE_INCORRECT =
-                        DetailedResult(JsonField.of("CARD_SECURITY_CODE_INCORRECT"))
+                    @JvmField val CARD_SECURITY_CODE_INCORRECT = of("CARD_SECURITY_CODE_INCORRECT")
 
-                    @JvmField
-                    val CARD_SPEND_LIMIT_EXCEEDED =
-                        DetailedResult(JsonField.of("CARD_SPEND_LIMIT_EXCEEDED"))
+                    @JvmField val CARD_SPEND_LIMIT_EXCEEDED = of("CARD_SPEND_LIMIT_EXCEEDED")
 
-                    @JvmField
-                    val CONTACT_CARD_ISSUER = DetailedResult(JsonField.of("CONTACT_CARD_ISSUER"))
+                    @JvmField val CONTACT_CARD_ISSUER = of("CONTACT_CARD_ISSUER")
 
-                    @JvmField
-                    val CUSTOMER_ASA_TIMEOUT = DetailedResult(JsonField.of("CUSTOMER_ASA_TIMEOUT"))
+                    @JvmField val CUSTOMER_ASA_TIMEOUT = of("CUSTOMER_ASA_TIMEOUT")
 
-                    @JvmField
-                    val CUSTOM_ASA_RESULT = DetailedResult(JsonField.of("CUSTOM_ASA_RESULT"))
+                    @JvmField val CUSTOM_ASA_RESULT = of("CUSTOM_ASA_RESULT")
 
-                    @JvmField val DECLINED = DetailedResult(JsonField.of("DECLINED"))
+                    @JvmField val DECLINED = of("DECLINED")
 
-                    @JvmField val DO_NOT_HONOR = DetailedResult(JsonField.of("DO_NOT_HONOR"))
+                    @JvmField val DO_NOT_HONOR = of("DO_NOT_HONOR")
 
-                    @JvmField
-                    val DRIVER_NUMBER_INVALID =
-                        DetailedResult(JsonField.of("DRIVER_NUMBER_INVALID"))
+                    @JvmField val DRIVER_NUMBER_INVALID = of("DRIVER_NUMBER_INVALID")
 
-                    @JvmField val FORMAT_ERROR = DetailedResult(JsonField.of("FORMAT_ERROR"))
+                    @JvmField val FORMAT_ERROR = of("FORMAT_ERROR")
 
                     @JvmField
                     val INSUFFICIENT_FUNDING_SOURCE_BALANCE =
-                        DetailedResult(JsonField.of("INSUFFICIENT_FUNDING_SOURCE_BALANCE"))
+                        of("INSUFFICIENT_FUNDING_SOURCE_BALANCE")
 
-                    @JvmField
-                    val INSUFFICIENT_FUNDS = DetailedResult(JsonField.of("INSUFFICIENT_FUNDS"))
+                    @JvmField val INSUFFICIENT_FUNDS = of("INSUFFICIENT_FUNDS")
 
-                    @JvmField
-                    val LITHIC_SYSTEM_ERROR = DetailedResult(JsonField.of("LITHIC_SYSTEM_ERROR"))
+                    @JvmField val LITHIC_SYSTEM_ERROR = of("LITHIC_SYSTEM_ERROR")
 
-                    @JvmField
-                    val LITHIC_SYSTEM_RATE_LIMIT =
-                        DetailedResult(JsonField.of("LITHIC_SYSTEM_RATE_LIMIT"))
+                    @JvmField val LITHIC_SYSTEM_RATE_LIMIT = of("LITHIC_SYSTEM_RATE_LIMIT")
 
-                    @JvmField
-                    val MALFORMED_ASA_RESPONSE =
-                        DetailedResult(JsonField.of("MALFORMED_ASA_RESPONSE"))
+                    @JvmField val MALFORMED_ASA_RESPONSE = of("MALFORMED_ASA_RESPONSE")
 
-                    @JvmField
-                    val MERCHANT_INVALID = DetailedResult(JsonField.of("MERCHANT_INVALID"))
+                    @JvmField val MERCHANT_INVALID = of("MERCHANT_INVALID")
 
                     @JvmField
                     val MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE =
-                        DetailedResult(JsonField.of("MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE"))
+                        of("MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE")
+
+                    @JvmField val MERCHANT_NOT_PERMITTED = of("MERCHANT_NOT_PERMITTED")
+
+                    @JvmField val OVER_REVERSAL_ATTEMPTED = of("OVER_REVERSAL_ATTEMPTED")
+
+                    @JvmField val PIN_BLOCKED = of("PIN_BLOCKED")
 
                     @JvmField
-                    val MERCHANT_NOT_PERMITTED =
-                        DetailedResult(JsonField.of("MERCHANT_NOT_PERMITTED"))
+                    val PROGRAM_CARD_SPEND_LIMIT_EXCEEDED = of("PROGRAM_CARD_SPEND_LIMIT_EXCEEDED")
 
-                    @JvmField
-                    val OVER_REVERSAL_ATTEMPTED =
-                        DetailedResult(JsonField.of("OVER_REVERSAL_ATTEMPTED"))
+                    @JvmField val PROGRAM_SUSPENDED = of("PROGRAM_SUSPENDED")
 
-                    @JvmField val PIN_BLOCKED = DetailedResult(JsonField.of("PIN_BLOCKED"))
+                    @JvmField val PROGRAM_USAGE_RESTRICTION = of("PROGRAM_USAGE_RESTRICTION")
 
-                    @JvmField
-                    val PROGRAM_CARD_SPEND_LIMIT_EXCEEDED =
-                        DetailedResult(JsonField.of("PROGRAM_CARD_SPEND_LIMIT_EXCEEDED"))
+                    @JvmField val REVERSAL_UNMATCHED = of("REVERSAL_UNMATCHED")
 
-                    @JvmField
-                    val PROGRAM_SUSPENDED = DetailedResult(JsonField.of("PROGRAM_SUSPENDED"))
+                    @JvmField val SECURITY_VIOLATION = of("SECURITY_VIOLATION")
 
-                    @JvmField
-                    val PROGRAM_USAGE_RESTRICTION =
-                        DetailedResult(JsonField.of("PROGRAM_USAGE_RESTRICTION"))
+                    @JvmField val SINGLE_USE_CARD_REATTEMPTED = of("SINGLE_USE_CARD_REATTEMPTED")
 
-                    @JvmField
-                    val REVERSAL_UNMATCHED = DetailedResult(JsonField.of("REVERSAL_UNMATCHED"))
-
-                    @JvmField
-                    val SECURITY_VIOLATION = DetailedResult(JsonField.of("SECURITY_VIOLATION"))
-
-                    @JvmField
-                    val SINGLE_USE_CARD_REATTEMPTED =
-                        DetailedResult(JsonField.of("SINGLE_USE_CARD_REATTEMPTED"))
-
-                    @JvmField
-                    val TRANSACTION_INVALID = DetailedResult(JsonField.of("TRANSACTION_INVALID"))
+                    @JvmField val TRANSACTION_INVALID = of("TRANSACTION_INVALID")
 
                     @JvmField
                     val TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL =
-                        DetailedResult(
-                            JsonField.of("TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL")
-                        )
+                        of("TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL")
 
                     @JvmField
                     val TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER =
-                        DetailedResult(
-                            JsonField.of("TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER")
-                        )
+                        of("TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER")
 
                     @JvmField
-                    val TRANSACTION_PREVIOUSLY_COMPLETED =
-                        DetailedResult(JsonField.of("TRANSACTION_PREVIOUSLY_COMPLETED"))
+                    val TRANSACTION_PREVIOUSLY_COMPLETED = of("TRANSACTION_PREVIOUSLY_COMPLETED")
 
-                    @JvmField
-                    val UNAUTHORIZED_MERCHANT =
-                        DetailedResult(JsonField.of("UNAUTHORIZED_MERCHANT"))
+                    @JvmField val UNAUTHORIZED_MERCHANT = of("UNAUTHORIZED_MERCHANT")
 
-                    @JvmField
-                    val VEHICLE_NUMBER_INVALID =
-                        DetailedResult(JsonField.of("VEHICLE_NUMBER_INVALID"))
+                    @JvmField val VEHICLE_NUMBER_INVALID = of("VEHICLE_NUMBER_INVALID")
 
                     @JvmStatic fun of(value: String) = DetailedResult(JsonField.of(value))
                 }

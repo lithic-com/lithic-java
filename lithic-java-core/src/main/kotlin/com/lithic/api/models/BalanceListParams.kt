@@ -235,11 +235,11 @@ constructor(
 
         companion object {
 
-            @JvmField val ISSUING = FinancialAccountType(JsonField.of("ISSUING"))
+            @JvmField val ISSUING = of("ISSUING")
 
-            @JvmField val OPERATING = FinancialAccountType(JsonField.of("OPERATING"))
+            @JvmField val OPERATING = of("OPERATING")
 
-            @JvmField val RESERVE = FinancialAccountType(JsonField.of("RESERVE"))
+            @JvmField val RESERVE = of("RESERVE")
 
             @JvmStatic fun of(value: String) = FinancialAccountType(JsonField.of(value))
         }

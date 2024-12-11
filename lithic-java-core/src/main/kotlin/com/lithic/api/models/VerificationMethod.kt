@@ -30,15 +30,15 @@ private constructor(
 
     companion object {
 
-        @JvmField val MANUAL = VerificationMethod(JsonField.of("MANUAL"))
+        @JvmField val MANUAL = of("MANUAL")
 
-        @JvmField val MICRO_DEPOSIT = VerificationMethod(JsonField.of("MICRO_DEPOSIT"))
+        @JvmField val MICRO_DEPOSIT = of("MICRO_DEPOSIT")
 
-        @JvmField val PLAID = VerificationMethod(JsonField.of("PLAID"))
+        @JvmField val PLAID = of("PLAID")
 
-        @JvmField val PRENOTE = VerificationMethod(JsonField.of("PRENOTE"))
+        @JvmField val PRENOTE = of("PRENOTE")
 
-        @JvmField val EXTERNALLY_VERIFIED = VerificationMethod(JsonField.of("EXTERNALLY_VERIFIED"))
+        @JvmField val EXTERNALLY_VERIFIED = of("EXTERNALLY_VERIFIED")
 
         @JvmStatic fun of(value: String) = VerificationMethod(JsonField.of(value))
     }

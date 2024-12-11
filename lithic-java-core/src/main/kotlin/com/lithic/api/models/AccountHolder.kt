@@ -1228,9 +1228,9 @@ private constructor(
 
         companion object {
 
-            @JvmField val AUTHORIZED_USER = ExemptionType(JsonField.of("AUTHORIZED_USER"))
+            @JvmField val AUTHORIZED_USER = of("AUTHORIZED_USER")
 
-            @JvmField val PREPAID_CARD_USER = ExemptionType(JsonField.of("PREPAID_CARD_USER"))
+            @JvmField val PREPAID_CARD_USER = of("PREPAID_CARD_USER")
 
             @JvmStatic fun of(value: String) = ExemptionType(JsonField.of(value))
         }
@@ -1285,15 +1285,15 @@ private constructor(
 
         companion object {
 
-            @JvmField val ACCEPTED = Status(JsonField.of("ACCEPTED"))
+            @JvmField val ACCEPTED = of("ACCEPTED")
 
-            @JvmField val PENDING_REVIEW = Status(JsonField.of("PENDING_REVIEW"))
+            @JvmField val PENDING_REVIEW = of("PENDING_REVIEW")
 
-            @JvmField val PENDING_DOCUMENT = Status(JsonField.of("PENDING_DOCUMENT"))
+            @JvmField val PENDING_DOCUMENT = of("PENDING_DOCUMENT")
 
-            @JvmField val PENDING_RESUBMIT = Status(JsonField.of("PENDING_RESUBMIT"))
+            @JvmField val PENDING_RESUBMIT = of("PENDING_RESUBMIT")
 
-            @JvmField val REJECTED = Status(JsonField.of("REJECTED"))
+            @JvmField val REJECTED = of("REJECTED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
@@ -1360,41 +1360,27 @@ private constructor(
 
         companion object {
 
-            @JvmField
-            val ADDRESS_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("ADDRESS_VERIFICATION_FAILURE"))
+            @JvmField val ADDRESS_VERIFICATION_FAILURE = of("ADDRESS_VERIFICATION_FAILURE")
 
-            @JvmField
-            val AGE_THRESHOLD_FAILURE = StatusReason(JsonField.of("AGE_THRESHOLD_FAILURE"))
+            @JvmField val AGE_THRESHOLD_FAILURE = of("AGE_THRESHOLD_FAILURE")
 
-            @JvmField
-            val COMPLETE_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("COMPLETE_VERIFICATION_FAILURE"))
+            @JvmField val COMPLETE_VERIFICATION_FAILURE = of("COMPLETE_VERIFICATION_FAILURE")
 
-            @JvmField
-            val DOB_VERIFICATION_FAILURE = StatusReason(JsonField.of("DOB_VERIFICATION_FAILURE"))
+            @JvmField val DOB_VERIFICATION_FAILURE = of("DOB_VERIFICATION_FAILURE")
 
-            @JvmField
-            val ID_VERIFICATION_FAILURE = StatusReason(JsonField.of("ID_VERIFICATION_FAILURE"))
+            @JvmField val ID_VERIFICATION_FAILURE = of("ID_VERIFICATION_FAILURE")
 
-            @JvmField
-            val MAX_DOCUMENT_ATTEMPTS = StatusReason(JsonField.of("MAX_DOCUMENT_ATTEMPTS"))
+            @JvmField val MAX_DOCUMENT_ATTEMPTS = of("MAX_DOCUMENT_ATTEMPTS")
 
-            @JvmField
-            val MAX_RESUBMISSION_ATTEMPTS = StatusReason(JsonField.of("MAX_RESUBMISSION_ATTEMPTS"))
+            @JvmField val MAX_RESUBMISSION_ATTEMPTS = of("MAX_RESUBMISSION_ATTEMPTS")
 
-            @JvmField
-            val NAME_VERIFICATION_FAILURE = StatusReason(JsonField.of("NAME_VERIFICATION_FAILURE"))
+            @JvmField val NAME_VERIFICATION_FAILURE = of("NAME_VERIFICATION_FAILURE")
 
-            @JvmField
-            val OTHER_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("OTHER_VERIFICATION_FAILURE"))
+            @JvmField val OTHER_VERIFICATION_FAILURE = of("OTHER_VERIFICATION_FAILURE")
 
-            @JvmField
-            val RISK_THRESHOLD_FAILURE = StatusReason(JsonField.of("RISK_THRESHOLD_FAILURE"))
+            @JvmField val RISK_THRESHOLD_FAILURE = of("RISK_THRESHOLD_FAILURE")
 
-            @JvmField
-            val WATCHLIST_ALERT_FAILURE = StatusReason(JsonField.of("WATCHLIST_ALERT_FAILURE"))
+            @JvmField val WATCHLIST_ALERT_FAILURE = of("WATCHLIST_ALERT_FAILURE")
 
             @JvmStatic fun of(value: String) = StatusReason(JsonField.of(value))
         }
@@ -1485,9 +1471,9 @@ private constructor(
 
         companion object {
 
-            @JvmField val BUSINESS = UserType(JsonField.of("BUSINESS"))
+            @JvmField val BUSINESS = of("BUSINESS")
 
-            @JvmField val INDIVIDUAL = UserType(JsonField.of("INDIVIDUAL"))
+            @JvmField val INDIVIDUAL = of("INDIVIDUAL")
 
             @JvmStatic fun of(value: String) = UserType(JsonField.of(value))
         }
@@ -1710,15 +1696,15 @@ private constructor(
 
             companion object {
 
-                @JvmField val ACCEPTED = Status(JsonField.of("ACCEPTED"))
+                @JvmField val ACCEPTED = of("ACCEPTED")
 
-                @JvmField val PENDING_REVIEW = Status(JsonField.of("PENDING_REVIEW"))
+                @JvmField val PENDING_REVIEW = of("PENDING_REVIEW")
 
-                @JvmField val PENDING_DOCUMENT = Status(JsonField.of("PENDING_DOCUMENT"))
+                @JvmField val PENDING_DOCUMENT = of("PENDING_DOCUMENT")
 
-                @JvmField val PENDING_RESUBMIT = Status(JsonField.of("PENDING_RESUBMIT"))
+                @JvmField val PENDING_RESUBMIT = of("PENDING_RESUBMIT")
 
-                @JvmField val REJECTED = Status(JsonField.of("REJECTED"))
+                @JvmField val REJECTED = of("REJECTED")
 
                 @JvmStatic fun of(value: String) = Status(JsonField.of(value))
             }
@@ -1785,44 +1771,27 @@ private constructor(
 
             companion object {
 
-                @JvmField
-                val ADDRESS_VERIFICATION_FAILURE =
-                    StatusReason(JsonField.of("ADDRESS_VERIFICATION_FAILURE"))
+                @JvmField val ADDRESS_VERIFICATION_FAILURE = of("ADDRESS_VERIFICATION_FAILURE")
 
-                @JvmField
-                val AGE_THRESHOLD_FAILURE = StatusReason(JsonField.of("AGE_THRESHOLD_FAILURE"))
+                @JvmField val AGE_THRESHOLD_FAILURE = of("AGE_THRESHOLD_FAILURE")
 
-                @JvmField
-                val COMPLETE_VERIFICATION_FAILURE =
-                    StatusReason(JsonField.of("COMPLETE_VERIFICATION_FAILURE"))
+                @JvmField val COMPLETE_VERIFICATION_FAILURE = of("COMPLETE_VERIFICATION_FAILURE")
 
-                @JvmField
-                val DOB_VERIFICATION_FAILURE =
-                    StatusReason(JsonField.of("DOB_VERIFICATION_FAILURE"))
+                @JvmField val DOB_VERIFICATION_FAILURE = of("DOB_VERIFICATION_FAILURE")
 
-                @JvmField
-                val ID_VERIFICATION_FAILURE = StatusReason(JsonField.of("ID_VERIFICATION_FAILURE"))
+                @JvmField val ID_VERIFICATION_FAILURE = of("ID_VERIFICATION_FAILURE")
 
-                @JvmField
-                val MAX_DOCUMENT_ATTEMPTS = StatusReason(JsonField.of("MAX_DOCUMENT_ATTEMPTS"))
+                @JvmField val MAX_DOCUMENT_ATTEMPTS = of("MAX_DOCUMENT_ATTEMPTS")
 
-                @JvmField
-                val MAX_RESUBMISSION_ATTEMPTS =
-                    StatusReason(JsonField.of("MAX_RESUBMISSION_ATTEMPTS"))
+                @JvmField val MAX_RESUBMISSION_ATTEMPTS = of("MAX_RESUBMISSION_ATTEMPTS")
 
-                @JvmField
-                val NAME_VERIFICATION_FAILURE =
-                    StatusReason(JsonField.of("NAME_VERIFICATION_FAILURE"))
+                @JvmField val NAME_VERIFICATION_FAILURE = of("NAME_VERIFICATION_FAILURE")
 
-                @JvmField
-                val OTHER_VERIFICATION_FAILURE =
-                    StatusReason(JsonField.of("OTHER_VERIFICATION_FAILURE"))
+                @JvmField val OTHER_VERIFICATION_FAILURE = of("OTHER_VERIFICATION_FAILURE")
 
-                @JvmField
-                val RISK_THRESHOLD_FAILURE = StatusReason(JsonField.of("RISK_THRESHOLD_FAILURE"))
+                @JvmField val RISK_THRESHOLD_FAILURE = of("RISK_THRESHOLD_FAILURE")
 
-                @JvmField
-                val WATCHLIST_ALERT_FAILURE = StatusReason(JsonField.of("WATCHLIST_ALERT_FAILURE"))
+                @JvmField val WATCHLIST_ALERT_FAILURE = of("WATCHLIST_ALERT_FAILURE")
 
                 @JvmStatic fun of(value: String) = StatusReason(JsonField.of(value))
             }

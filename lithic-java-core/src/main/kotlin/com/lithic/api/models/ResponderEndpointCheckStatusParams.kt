@@ -190,11 +190,11 @@ constructor(
 
         companion object {
 
-            @JvmField val AUTH_STREAM_ACCESS = Type(JsonField.of("AUTH_STREAM_ACCESS"))
+            @JvmField val AUTH_STREAM_ACCESS = of("AUTH_STREAM_ACCESS")
 
-            @JvmField val THREE_DS_DECISIONING = Type(JsonField.of("THREE_DS_DECISIONING"))
+            @JvmField val THREE_DS_DECISIONING = of("THREE_DS_DECISIONING")
 
-            @JvmField val TOKENIZATION_DECISIONING = Type(JsonField.of("TOKENIZATION_DECISIONING"))
+            @JvmField val TOKENIZATION_DECISIONING = of("TOKENIZATION_DECISIONING")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }

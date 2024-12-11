@@ -551,7 +551,7 @@ constructor(
 
         companion object {
 
-            @JvmField val OK = PinStatus(JsonField.of("OK"))
+            @JvmField val OK = of("OK")
 
             @JvmStatic fun of(value: String) = PinStatus(JsonField.of(value))
         }
@@ -602,11 +602,11 @@ constructor(
 
         companion object {
 
-            @JvmField val CLOSED = State(JsonField.of("CLOSED"))
+            @JvmField val CLOSED = of("CLOSED")
 
-            @JvmField val OPEN = State(JsonField.of("OPEN"))
+            @JvmField val OPEN = of("OPEN")
 
-            @JvmField val PAUSED = State(JsonField.of("PAUSED"))
+            @JvmField val PAUSED = of("PAUSED")
 
             @JvmStatic fun of(value: String) = State(JsonField.of(value))
         }

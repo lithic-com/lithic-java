@@ -286,11 +286,11 @@ constructor(
 
         companion object {
 
-            @JvmField val ACH = Category(JsonField.of("ACH"))
+            @JvmField val ACH = of("ACH")
 
-            @JvmField val CARD = Category(JsonField.of("CARD"))
+            @JvmField val CARD = of("CARD")
 
-            @JvmField val TRANSFER = Category(JsonField.of("TRANSFER"))
+            @JvmField val TRANSFER = of("TRANSFER")
 
             @JvmStatic fun of(value: String) = Category(JsonField.of(value))
         }
@@ -349,9 +349,9 @@ constructor(
 
         companion object {
 
-            @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
             @JvmStatic fun of(value: String) = Result(JsonField.of(value))
         }
@@ -406,17 +406,17 @@ constructor(
 
         companion object {
 
-            @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val EXPIRED = Status(JsonField.of("EXPIRED"))
+            @JvmField val EXPIRED = of("EXPIRED")
 
-            @JvmField val PENDING = Status(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val RETURNED = Status(JsonField.of("RETURNED"))
+            @JvmField val RETURNED = of("RETURNED")
 
-            @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
-            @JvmField val VOIDED = Status(JsonField.of("VOIDED"))
+            @JvmField val VOIDED = of("VOIDED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
