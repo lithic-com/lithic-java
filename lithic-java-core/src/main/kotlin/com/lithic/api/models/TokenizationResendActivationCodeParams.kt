@@ -342,13 +342,9 @@ constructor(
 
         companion object {
 
-            @JvmField
-            val EMAIL_TO_CARDHOLDER_ADDRESS =
-                ActivationMethodType(JsonField.of("EMAIL_TO_CARDHOLDER_ADDRESS"))
+            @JvmField val EMAIL_TO_CARDHOLDER_ADDRESS = of("EMAIL_TO_CARDHOLDER_ADDRESS")
 
-            @JvmField
-            val TEXT_TO_CARDHOLDER_NUMBER =
-                ActivationMethodType(JsonField.of("TEXT_TO_CARDHOLDER_NUMBER"))
+            @JvmField val TEXT_TO_CARDHOLDER_NUMBER = of("TEXT_TO_CARDHOLDER_NUMBER")
 
             @JvmStatic fun of(value: String) = ActivationMethodType(JsonField.of(value))
         }

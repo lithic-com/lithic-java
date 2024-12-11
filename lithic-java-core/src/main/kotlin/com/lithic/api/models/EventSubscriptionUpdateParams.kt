@@ -402,126 +402,95 @@ constructor(
 
         companion object {
 
-            @JvmField val ACCOUNT_HOLDER_CREATED = EventType(JsonField.of("account_holder.created"))
+            @JvmField val ACCOUNT_HOLDER_CREATED = of("account_holder.created")
 
-            @JvmField val ACCOUNT_HOLDER_UPDATED = EventType(JsonField.of("account_holder.updated"))
+            @JvmField val ACCOUNT_HOLDER_UPDATED = of("account_holder.updated")
 
-            @JvmField
-            val ACCOUNT_HOLDER_VERIFICATION = EventType(JsonField.of("account_holder.verification"))
-
-            @JvmField
-            val AUTH_RULES_PERFORMANCE_REPORT_CREATED =
-                EventType(JsonField.of("auth_rules.performance_report.created"))
-
-            @JvmField val BALANCE_UPDATED = EventType(JsonField.of("balance.updated"))
+            @JvmField val ACCOUNT_HOLDER_VERIFICATION = of("account_holder.verification")
 
             @JvmField
-            val BOOK_TRANSFER_TRANSACTION_CREATED =
-                EventType(JsonField.of("book_transfer_transaction.created"))
+            val AUTH_RULES_PERFORMANCE_REPORT_CREATED = of("auth_rules.performance_report.created")
 
-            @JvmField val CARD_CREATED = EventType(JsonField.of("card.created"))
-
-            @JvmField val CARD_RENEWED = EventType(JsonField.of("card.renewed"))
-
-            @JvmField val CARD_REISSUED = EventType(JsonField.of("card.reissued"))
-
-            @JvmField val CARD_SHIPPED = EventType(JsonField.of("card.shipped"))
+            @JvmField val BALANCE_UPDATED = of("balance.updated")
 
             @JvmField
-            val CARD_TRANSACTION_UPDATED = EventType(JsonField.of("card_transaction.updated"))
+            val BOOK_TRANSFER_TRANSACTION_CREATED = of("book_transfer_transaction.created")
+
+            @JvmField val CARD_CREATED = of("card.created")
+
+            @JvmField val CARD_RENEWED = of("card.renewed")
+
+            @JvmField val CARD_REISSUED = of("card.reissued")
+
+            @JvmField val CARD_SHIPPED = of("card.shipped")
+
+            @JvmField val CARD_TRANSACTION_UPDATED = of("card_transaction.updated")
 
             @JvmField
             val DIGITAL_WALLET_TOKENIZATION_APPROVAL_REQUEST =
-                EventType(JsonField.of("digital_wallet.tokenization_approval_request"))
+                of("digital_wallet.tokenization_approval_request")
 
             @JvmField
-            val DIGITAL_WALLET_TOKENIZATION_RESULT =
-                EventType(JsonField.of("digital_wallet.tokenization_result"))
+            val DIGITAL_WALLET_TOKENIZATION_RESULT = of("digital_wallet.tokenization_result")
 
             @JvmField
             val DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE =
-                EventType(
-                    JsonField.of("digital_wallet.tokenization_two_factor_authentication_code")
-                )
+                of("digital_wallet.tokenization_two_factor_authentication_code")
 
             @JvmField
             val DIGITAL_WALLET_TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT =
-                EventType(
-                    JsonField.of("digital_wallet.tokenization_two_factor_authentication_code_sent")
-                )
+                of("digital_wallet.tokenization_two_factor_authentication_code_sent")
 
             @JvmField
-            val DIGITAL_WALLET_TOKENIZATION_UPDATED =
-                EventType(JsonField.of("digital_wallet.tokenization_updated"))
+            val DIGITAL_WALLET_TOKENIZATION_UPDATED = of("digital_wallet.tokenization_updated")
 
-            @JvmField val DISPUTE_UPDATED = EventType(JsonField.of("dispute.updated"))
+            @JvmField val DISPUTE_UPDATED = of("dispute.updated")
 
-            @JvmField
-            val DISPUTE_EVIDENCE_UPLOAD_FAILED =
-                EventType(JsonField.of("dispute_evidence.upload_failed"))
+            @JvmField val DISPUTE_EVIDENCE_UPLOAD_FAILED = of("dispute_evidence.upload_failed")
 
-            @JvmField
-            val EXTERNAL_BANK_ACCOUNT_CREATED =
-                EventType(JsonField.of("external_bank_account.created"))
+            @JvmField val EXTERNAL_BANK_ACCOUNT_CREATED = of("external_bank_account.created")
 
-            @JvmField
-            val EXTERNAL_BANK_ACCOUNT_UPDATED =
-                EventType(JsonField.of("external_bank_account.updated"))
+            @JvmField val EXTERNAL_BANK_ACCOUNT_UPDATED = of("external_bank_account.updated")
 
-            @JvmField
-            val EXTERNAL_PAYMENT_CREATED = EventType(JsonField.of("external_payment.created"))
+            @JvmField val EXTERNAL_PAYMENT_CREATED = of("external_payment.created")
 
-            @JvmField
-            val EXTERNAL_PAYMENT_UPDATED = EventType(JsonField.of("external_payment.updated"))
+            @JvmField val EXTERNAL_PAYMENT_UPDATED = of("external_payment.updated")
 
-            @JvmField
-            val FINANCIAL_ACCOUNT_CREATED = EventType(JsonField.of("financial_account.created"))
+            @JvmField val FINANCIAL_ACCOUNT_CREATED = of("financial_account.created")
 
-            @JvmField
-            val FINANCIAL_ACCOUNT_UPDATED = EventType(JsonField.of("financial_account.updated"))
+            @JvmField val FINANCIAL_ACCOUNT_UPDATED = of("financial_account.updated")
 
-            @JvmField val LOAN_TAPE_CREATED = EventType(JsonField.of("loan_tape.created"))
+            @JvmField val LOAN_TAPE_CREATED = of("loan_tape.created")
 
-            @JvmField val LOAN_TAPE_UPDATED = EventType(JsonField.of("loan_tape.updated"))
+            @JvmField val LOAN_TAPE_UPDATED = of("loan_tape.updated")
 
-            @JvmField
-            val MANAGEMENT_OPERATION_CREATED =
-                EventType(JsonField.of("management_operation.created"))
+            @JvmField val MANAGEMENT_OPERATION_CREATED = of("management_operation.created")
 
-            @JvmField
-            val MANAGEMENT_OPERATION_UPDATED =
-                EventType(JsonField.of("management_operation.updated"))
+            @JvmField val MANAGEMENT_OPERATION_UPDATED = of("management_operation.updated")
 
-            @JvmField
-            val PAYMENT_TRANSACTION_CREATED = EventType(JsonField.of("payment_transaction.created"))
+            @JvmField val PAYMENT_TRANSACTION_CREATED = of("payment_transaction.created")
 
-            @JvmField
-            val PAYMENT_TRANSACTION_UPDATED = EventType(JsonField.of("payment_transaction.updated"))
+            @JvmField val PAYMENT_TRANSACTION_UPDATED = of("payment_transaction.updated")
 
-            @JvmField
-            val SETTLEMENT_REPORT_UPDATED = EventType(JsonField.of("settlement_report.updated"))
+            @JvmField val SETTLEMENT_REPORT_UPDATED = of("settlement_report.updated")
 
-            @JvmField val STATEMENTS_CREATED = EventType(JsonField.of("statements.created"))
+            @JvmField val STATEMENTS_CREATED = of("statements.created")
 
-            @JvmField
-            val THREE_DS_AUTHENTICATION_CREATED =
-                EventType(JsonField.of("three_ds_authentication.created"))
+            @JvmField val THREE_DS_AUTHENTICATION_CREATED = of("three_ds_authentication.created")
 
-            @JvmField
-            val TOKENIZATION_APPROVAL_REQUEST =
-                EventType(JsonField.of("tokenization.approval_request"))
+            @JvmField val TOKENIZATION_APPROVAL_REQUEST = of("tokenization.approval_request")
 
-            @JvmField val TOKENIZATION_RESULT = EventType(JsonField.of("tokenization.result"))
+            @JvmField val TOKENIZATION_RESULT = of("tokenization.result")
 
             @JvmField
             val TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE =
-                EventType(JsonField.of("tokenization.two_factor_authentication_code"))
+                of("tokenization.two_factor_authentication_code")
 
             @JvmField
             val TOKENIZATION_TWO_FACTOR_AUTHENTICATION_CODE_SENT =
-                EventType(JsonField.of("tokenization.two_factor_authentication_code_sent"))
+                of("tokenization.two_factor_authentication_code_sent")
 
-            @JvmField val TOKENIZATION_UPDATED = EventType(JsonField.of("tokenization.updated"))
+            @JvmField val TOKENIZATION_UPDATED = of("tokenization.updated")
 
             @JvmStatic fun of(value: String) = EventType(JsonField.of(value))
         }

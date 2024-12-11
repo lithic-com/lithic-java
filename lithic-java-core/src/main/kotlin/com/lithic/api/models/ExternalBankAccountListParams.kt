@@ -309,9 +309,9 @@ constructor(
 
         companion object {
 
-            @JvmField val CHECKING = AccountType(JsonField.of("CHECKING"))
+            @JvmField val CHECKING = of("CHECKING")
 
-            @JvmField val SAVINGS = AccountType(JsonField.of("SAVINGS"))
+            @JvmField val SAVINGS = of("SAVINGS")
 
             @JvmStatic fun of(value: String) = AccountType(JsonField.of(value))
         }
@@ -366,11 +366,11 @@ constructor(
 
         companion object {
 
-            @JvmField val ENABLED = AccountState(JsonField.of("ENABLED"))
+            @JvmField val ENABLED = of("ENABLED")
 
-            @JvmField val CLOSED = AccountState(JsonField.of("CLOSED"))
+            @JvmField val CLOSED = of("CLOSED")
 
-            @JvmField val PAUSED = AccountState(JsonField.of("PAUSED"))
+            @JvmField val PAUSED = of("PAUSED")
 
             @JvmStatic fun of(value: String) = AccountState(JsonField.of(value))
         }
@@ -429,14 +429,13 @@ constructor(
 
         companion object {
 
-            @JvmField val PENDING = VerificationState(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val ENABLED = VerificationState(JsonField.of("ENABLED"))
+            @JvmField val ENABLED = of("ENABLED")
 
-            @JvmField
-            val FAILED_VERIFICATION = VerificationState(JsonField.of("FAILED_VERIFICATION"))
+            @JvmField val FAILED_VERIFICATION = of("FAILED_VERIFICATION")
 
-            @JvmField val INSUFFICIENT_FUNDS = VerificationState(JsonField.of("INSUFFICIENT_FUNDS"))
+            @JvmField val INSUFFICIENT_FUNDS = of("INSUFFICIENT_FUNDS")
 
             @JvmStatic fun of(value: String) = VerificationState(JsonField.of(value))
         }

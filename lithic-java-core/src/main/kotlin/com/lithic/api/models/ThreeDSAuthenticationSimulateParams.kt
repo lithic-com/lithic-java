@@ -586,11 +586,11 @@ constructor(
 
         companion object {
 
-            @JvmField val MATCH = CardExpiryCheck(JsonField.of("MATCH"))
+            @JvmField val MATCH = of("MATCH")
 
-            @JvmField val MISMATCH = CardExpiryCheck(JsonField.of("MISMATCH"))
+            @JvmField val MISMATCH = of("MISMATCH")
 
-            @JvmField val NOT_PRESENT = CardExpiryCheck(JsonField.of("NOT_PRESENT"))
+            @JvmField val NOT_PRESENT = of("NOT_PRESENT")
 
             @JvmStatic fun of(value: String) = CardExpiryCheck(JsonField.of(value))
         }

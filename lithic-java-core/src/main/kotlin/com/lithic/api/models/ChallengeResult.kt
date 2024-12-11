@@ -30,9 +30,9 @@ private constructor(
 
     companion object {
 
-        @JvmField val APPROVE = ChallengeResult(JsonField.of("APPROVE"))
+        @JvmField val APPROVE = of("APPROVE")
 
-        @JvmField val DECLINE_BY_CUSTOMER = ChallengeResult(JsonField.of("DECLINE_BY_CUSTOMER"))
+        @JvmField val DECLINE_BY_CUSTOMER = of("DECLINE_BY_CUSTOMER")
 
         @JvmStatic fun of(value: String) = ChallengeResult(JsonField.of(value))
     }

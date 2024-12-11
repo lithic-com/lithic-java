@@ -261,9 +261,9 @@ private constructor(
 
         companion object {
 
-            @JvmField val DELINQUENT = ChargedOffReason(JsonField.of("DELINQUENT"))
+            @JvmField val DELINQUENT = of("DELINQUENT")
 
-            @JvmField val FRAUD = ChargedOffReason(JsonField.of("FRAUD"))
+            @JvmField val FRAUD = of("FRAUD")
 
             @JvmStatic fun of(value: String) = ChargedOffReason(JsonField.of(value))
         }
@@ -318,13 +318,13 @@ private constructor(
 
         companion object {
 
-            @JvmField val PENDING = FinancialAccountState(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val CURRENT = FinancialAccountState(JsonField.of("CURRENT"))
+            @JvmField val CURRENT = of("CURRENT")
 
-            @JvmField val DELINQUENT = FinancialAccountState(JsonField.of("DELINQUENT"))
+            @JvmField val DELINQUENT = of("DELINQUENT")
 
-            @JvmField val CHARGED_OFF = FinancialAccountState(JsonField.of("CHARGED_OFF"))
+            @JvmField val CHARGED_OFF = of("CHARGED_OFF")
 
             @JvmStatic fun of(value: String) = FinancialAccountState(JsonField.of(value))
         }

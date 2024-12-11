@@ -271,13 +271,13 @@ constructor(
 
         companion object {
 
-            @JvmField val FAILED = Status(JsonField.of("FAILED"))
+            @JvmField val FAILED = of("FAILED")
 
-            @JvmField val PENDING = Status(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val SENDING = Status(JsonField.of("SENDING"))
+            @JvmField val SENDING = of("SENDING")
 
-            @JvmField val SUCCESS = Status(JsonField.of("SUCCESS"))
+            @JvmField val SUCCESS = of("SUCCESS")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }

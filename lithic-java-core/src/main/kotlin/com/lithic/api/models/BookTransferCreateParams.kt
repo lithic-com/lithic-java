@@ -498,19 +498,19 @@ constructor(
 
         companion object {
 
-            @JvmField val ADJUSTMENT = Category(JsonField.of("ADJUSTMENT"))
+            @JvmField val ADJUSTMENT = of("ADJUSTMENT")
 
-            @JvmField val BALANCE_OR_FUNDING = Category(JsonField.of("BALANCE_OR_FUNDING"))
+            @JvmField val BALANCE_OR_FUNDING = of("BALANCE_OR_FUNDING")
 
-            @JvmField val DERECOGNITION = Category(JsonField.of("DERECOGNITION"))
+            @JvmField val DERECOGNITION = of("DERECOGNITION")
 
-            @JvmField val DISPUTE = Category(JsonField.of("DISPUTE"))
+            @JvmField val DISPUTE = of("DISPUTE")
 
-            @JvmField val FEE = Category(JsonField.of("FEE"))
+            @JvmField val FEE = of("FEE")
 
-            @JvmField val REWARD = Category(JsonField.of("REWARD"))
+            @JvmField val REWARD = of("REWARD")
 
-            @JvmField val TRANSFER = Category(JsonField.of("TRANSFER"))
+            @JvmField val TRANSFER = of("TRANSFER")
 
             @JvmStatic fun of(value: String) = Category(JsonField.of(value))
         }
@@ -585,70 +585,69 @@ constructor(
 
         companion object {
 
-            @JvmField val ATM_WITHDRAWAL = Type(JsonField.of("ATM_WITHDRAWAL"))
+            @JvmField val ATM_WITHDRAWAL = of("ATM_WITHDRAWAL")
 
-            @JvmField val ATM_DECLINE = Type(JsonField.of("ATM_DECLINE"))
+            @JvmField val ATM_DECLINE = of("ATM_DECLINE")
 
-            @JvmField
-            val INTERNATIONAL_ATM_WITHDRAWAL = Type(JsonField.of("INTERNATIONAL_ATM_WITHDRAWAL"))
+            @JvmField val INTERNATIONAL_ATM_WITHDRAWAL = of("INTERNATIONAL_ATM_WITHDRAWAL")
 
-            @JvmField val INACTIVITY = Type(JsonField.of("INACTIVITY"))
+            @JvmField val INACTIVITY = of("INACTIVITY")
 
-            @JvmField val STATEMENT = Type(JsonField.of("STATEMENT"))
+            @JvmField val STATEMENT = of("STATEMENT")
 
-            @JvmField val MONTHLY = Type(JsonField.of("MONTHLY"))
+            @JvmField val MONTHLY = of("MONTHLY")
 
-            @JvmField val QUARTERLY = Type(JsonField.of("QUARTERLY"))
+            @JvmField val QUARTERLY = of("QUARTERLY")
 
-            @JvmField val ANNUAL = Type(JsonField.of("ANNUAL"))
+            @JvmField val ANNUAL = of("ANNUAL")
 
-            @JvmField val CUSTOMER_SERVICE = Type(JsonField.of("CUSTOMER_SERVICE"))
+            @JvmField val CUSTOMER_SERVICE = of("CUSTOMER_SERVICE")
 
-            @JvmField val ACCOUNT_MAINTENANCE = Type(JsonField.of("ACCOUNT_MAINTENANCE"))
+            @JvmField val ACCOUNT_MAINTENANCE = of("ACCOUNT_MAINTENANCE")
 
-            @JvmField val ACCOUNT_ACTIVATION = Type(JsonField.of("ACCOUNT_ACTIVATION"))
+            @JvmField val ACCOUNT_ACTIVATION = of("ACCOUNT_ACTIVATION")
 
-            @JvmField val ACCOUNT_CLOSURE = Type(JsonField.of("ACCOUNT_CLOSURE"))
+            @JvmField val ACCOUNT_CLOSURE = of("ACCOUNT_CLOSURE")
 
-            @JvmField val CARD_REPLACEMENT = Type(JsonField.of("CARD_REPLACEMENT"))
+            @JvmField val CARD_REPLACEMENT = of("CARD_REPLACEMENT")
 
-            @JvmField val CARD_DELIVERY = Type(JsonField.of("CARD_DELIVERY"))
+            @JvmField val CARD_DELIVERY = of("CARD_DELIVERY")
 
-            @JvmField val CARD_CREATE = Type(JsonField.of("CARD_CREATE"))
+            @JvmField val CARD_CREATE = of("CARD_CREATE")
 
-            @JvmField val CURRENCY_CONVERSION = Type(JsonField.of("CURRENCY_CONVERSION"))
+            @JvmField val CURRENCY_CONVERSION = of("CURRENCY_CONVERSION")
 
-            @JvmField val INTEREST = Type(JsonField.of("INTEREST"))
+            @JvmField val INTEREST = of("INTEREST")
 
-            @JvmField val LATE_PAYMENT = Type(JsonField.of("LATE_PAYMENT"))
+            @JvmField val LATE_PAYMENT = of("LATE_PAYMENT")
 
-            @JvmField val BILL_PAYMENT = Type(JsonField.of("BILL_PAYMENT"))
+            @JvmField val BILL_PAYMENT = of("BILL_PAYMENT")
 
-            @JvmField val CASH_BACK = Type(JsonField.of("CASH_BACK"))
+            @JvmField val CASH_BACK = of("CASH_BACK")
 
-            @JvmField val ACCOUNT_TO_ACCOUNT = Type(JsonField.of("ACCOUNT_TO_ACCOUNT"))
+            @JvmField val ACCOUNT_TO_ACCOUNT = of("ACCOUNT_TO_ACCOUNT")
 
-            @JvmField val CARD_TO_CARD = Type(JsonField.of("CARD_TO_CARD"))
+            @JvmField val CARD_TO_CARD = of("CARD_TO_CARD")
 
-            @JvmField val DISBURSE = Type(JsonField.of("DISBURSE"))
+            @JvmField val DISBURSE = of("DISBURSE")
 
-            @JvmField val BILLING_ERROR = Type(JsonField.of("BILLING_ERROR"))
+            @JvmField val BILLING_ERROR = of("BILLING_ERROR")
 
-            @JvmField val LOSS_WRITE_OFF = Type(JsonField.of("LOSS_WRITE_OFF"))
+            @JvmField val LOSS_WRITE_OFF = of("LOSS_WRITE_OFF")
 
-            @JvmField val EXPIRED_CARD = Type(JsonField.of("EXPIRED_CARD"))
+            @JvmField val EXPIRED_CARD = of("EXPIRED_CARD")
 
-            @JvmField val EARLY_DERECOGNITION = Type(JsonField.of("EARLY_DERECOGNITION"))
+            @JvmField val EARLY_DERECOGNITION = of("EARLY_DERECOGNITION")
 
-            @JvmField val ESCHEATMENT = Type(JsonField.of("ESCHEATMENT"))
+            @JvmField val ESCHEATMENT = of("ESCHEATMENT")
 
-            @JvmField val INACTIVITY_FEE_DOWN = Type(JsonField.of("INACTIVITY_FEE_DOWN"))
+            @JvmField val INACTIVITY_FEE_DOWN = of("INACTIVITY_FEE_DOWN")
 
-            @JvmField val PROVISIONAL_CREDIT = Type(JsonField.of("PROVISIONAL_CREDIT"))
+            @JvmField val PROVISIONAL_CREDIT = of("PROVISIONAL_CREDIT")
 
-            @JvmField val DISPUTE_WON = Type(JsonField.of("DISPUTE_WON"))
+            @JvmField val DISPUTE_WON = of("DISPUTE_WON")
 
-            @JvmField val TRANSFER = Type(JsonField.of("TRANSFER"))
+            @JvmField val TRANSFER = of("TRANSFER")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }

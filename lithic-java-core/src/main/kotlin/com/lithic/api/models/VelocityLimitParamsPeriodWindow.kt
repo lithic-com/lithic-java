@@ -30,9 +30,9 @@ private constructor(
 
     companion object {
 
-        @JvmField val DAY = VelocityLimitParamsPeriodWindow(JsonField.of("DAY"))
+        @JvmField val DAY = of("DAY")
 
-        @JvmField val MONTH = VelocityLimitParamsPeriodWindow(JsonField.of("MONTH"))
+        @JvmField val MONTH = of("MONTH")
 
         @JvmStatic fun of(value: String) = VelocityLimitParamsPeriodWindow(JsonField.of(value))
     }

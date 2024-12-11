@@ -307,14 +307,13 @@ constructor(
 
         companion object {
 
-            @JvmField val EXTERNAL_WIRE = ExternalPaymentCategory(JsonField.of("EXTERNAL_WIRE"))
+            @JvmField val EXTERNAL_WIRE = of("EXTERNAL_WIRE")
 
-            @JvmField val EXTERNAL_ACH = ExternalPaymentCategory(JsonField.of("EXTERNAL_ACH"))
+            @JvmField val EXTERNAL_ACH = of("EXTERNAL_ACH")
 
-            @JvmField val EXTERNAL_CHECK = ExternalPaymentCategory(JsonField.of("EXTERNAL_CHECK"))
+            @JvmField val EXTERNAL_CHECK = of("EXTERNAL_CHECK")
 
-            @JvmField
-            val EXTERNAL_TRANSFER = ExternalPaymentCategory(JsonField.of("EXTERNAL_TRANSFER"))
+            @JvmField val EXTERNAL_TRANSFER = of("EXTERNAL_TRANSFER")
 
             @JvmStatic fun of(value: String) = ExternalPaymentCategory(JsonField.of(value))
         }
@@ -377,9 +376,9 @@ constructor(
 
         companion object {
 
-            @JvmField val APPROVED = TransactionResult(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField val DECLINED = TransactionResult(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
             @JvmStatic fun of(value: String) = TransactionResult(JsonField.of(value))
         }
@@ -434,15 +433,15 @@ constructor(
 
         companion object {
 
-            @JvmField val PENDING = TransactionStatus(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val SETTLED = TransactionStatus(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
-            @JvmField val DECLINED = TransactionStatus(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val REVERSED = TransactionStatus(JsonField.of("REVERSED"))
+            @JvmField val REVERSED = of("REVERSED")
 
-            @JvmField val CANCELED = TransactionStatus(JsonField.of("CANCELED"))
+            @JvmField val CANCELED = of("CANCELED")
 
             @JvmStatic fun of(value: String) = TransactionStatus(JsonField.of(value))
         }

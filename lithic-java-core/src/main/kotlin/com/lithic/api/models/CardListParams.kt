@@ -267,15 +267,15 @@ constructor(
 
         companion object {
 
-            @JvmField val CLOSED = State(JsonField.of("CLOSED"))
+            @JvmField val CLOSED = of("CLOSED")
 
-            @JvmField val OPEN = State(JsonField.of("OPEN"))
+            @JvmField val OPEN = of("OPEN")
 
-            @JvmField val PAUSED = State(JsonField.of("PAUSED"))
+            @JvmField val PAUSED = of("PAUSED")
 
-            @JvmField val PENDING_ACTIVATION = State(JsonField.of("PENDING_ACTIVATION"))
+            @JvmField val PENDING_ACTIVATION = of("PENDING_ACTIVATION")
 
-            @JvmField val PENDING_FULFILLMENT = State(JsonField.of("PENDING_FULFILLMENT"))
+            @JvmField val PENDING_FULFILLMENT = of("PENDING_FULFILLMENT")
 
             @JvmStatic fun of(value: String) = State(JsonField.of(value))
         }

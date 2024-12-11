@@ -320,9 +320,9 @@ constructor(
 
         companion object {
 
-            @JvmField val DELINQUENT = ChargedOffReason(JsonField.of("DELINQUENT"))
+            @JvmField val DELINQUENT = of("DELINQUENT")
 
-            @JvmField val FRAUD = ChargedOffReason(JsonField.of("FRAUD"))
+            @JvmField val FRAUD = of("FRAUD")
 
             @JvmStatic fun of(value: String) = ChargedOffReason(JsonField.of(value))
         }

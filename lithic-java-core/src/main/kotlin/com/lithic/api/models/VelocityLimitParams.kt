@@ -511,9 +511,9 @@ private constructor(
 
         companion object {
 
-            @JvmField val CARD = Scope(JsonField.of("CARD"))
+            @JvmField val CARD = of("CARD")
 
-            @JvmField val ACCOUNT = Scope(JsonField.of("ACCOUNT"))
+            @JvmField val ACCOUNT = of("ACCOUNT")
 
             @JvmStatic fun of(value: String) = Scope(JsonField.of(value))
         }
