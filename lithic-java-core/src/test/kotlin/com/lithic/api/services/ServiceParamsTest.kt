@@ -15,7 +15,6 @@ import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import com.lithic.api.client.LithicClient
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.core.JsonString
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
 import com.lithic.api.models.*
@@ -52,7 +51,7 @@ class ServiceParamsTest {
 
         val additionalBodyProperties = mutableMapOf<String, JsonValue>()
 
-        additionalBodyProperties.put("testBodyProperty", JsonString.of("ghi890"))
+        additionalBodyProperties.put("testBodyProperty", JsonValue.from("ghi890"))
 
         val params =
             CardCreateParams.builder()
