@@ -12,7 +12,7 @@ import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import com.lithic.api.client.LithicClient
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.core.JsonString
+import com.lithic.api.core.JsonValue
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.jsonMapper
 import com.lithic.api.errors.BadRequestException
@@ -39,7 +39,7 @@ class ErrorHandlingTest {
     private val JSON_MAPPER: JsonMapper = jsonMapper()
 
     private val LITHIC_ERROR: LithicError =
-        LithicError.builder().putAdditionalProperty("key", JsonString.of("value")).build()
+        LithicError.builder().putAdditionalProperty("key", JsonValue.from("value")).build()
 
     private lateinit var client: LithicClient
 
