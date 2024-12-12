@@ -7,7 +7,31 @@ package com.lithic.api.client
 import com.lithic.api.core.RequestOptions
 import com.lithic.api.models.ApiStatus
 import com.lithic.api.models.ClientApiStatusParams
-import com.lithic.api.services.blocking.*
+import com.lithic.api.services.blocking.AccountHolderService
+import com.lithic.api.services.blocking.AccountService
+import com.lithic.api.services.blocking.AggregateBalanceService
+import com.lithic.api.services.blocking.AuthRuleService
+import com.lithic.api.services.blocking.AuthStreamEnrollmentService
+import com.lithic.api.services.blocking.BalanceService
+import com.lithic.api.services.blocking.BookTransferService
+import com.lithic.api.services.blocking.CardProgramService
+import com.lithic.api.services.blocking.CardService
+import com.lithic.api.services.blocking.CreditProductService
+import com.lithic.api.services.blocking.DigitalCardArtService
+import com.lithic.api.services.blocking.DisputeService
+import com.lithic.api.services.blocking.EventService
+import com.lithic.api.services.blocking.ExternalBankAccountService
+import com.lithic.api.services.blocking.ExternalPaymentService
+import com.lithic.api.services.blocking.FinancialAccountService
+import com.lithic.api.services.blocking.ManagementOperationService
+import com.lithic.api.services.blocking.PaymentService
+import com.lithic.api.services.blocking.ReportService
+import com.lithic.api.services.blocking.ResponderEndpointService
+import com.lithic.api.services.blocking.ThreeDSService
+import com.lithic.api.services.blocking.TokenizationDecisioningService
+import com.lithic.api.services.blocking.TokenizationService
+import com.lithic.api.services.blocking.TransactionService
+import com.lithic.api.services.blocking.TransferService
 
 interface LithicClient {
 
