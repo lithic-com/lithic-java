@@ -3,7 +3,6 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.http.QueryParams
-import com.lithic.api.models.*
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

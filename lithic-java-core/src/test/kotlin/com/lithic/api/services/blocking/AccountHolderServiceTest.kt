@@ -4,8 +4,18 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.*
+import com.lithic.api.models.AccountHolderCreateParams
+import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListParams
+import com.lithic.api.models.AccountHolderResubmitParams
+import com.lithic.api.models.AccountHolderRetrieveDocumentParams
+import com.lithic.api.models.AccountHolderRetrieveParams
+import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
+import com.lithic.api.models.AccountHolderSimulateEnrollmentReviewParams
+import com.lithic.api.models.AccountHolderUpdateParams
+import com.lithic.api.models.AccountHolderUploadDocumentParams
+import com.lithic.api.models.Address
+import com.lithic.api.models.Kyb
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 

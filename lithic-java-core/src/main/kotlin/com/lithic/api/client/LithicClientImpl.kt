@@ -12,7 +12,8 @@ import com.lithic.api.core.http.HttpMethod
 import com.lithic.api.core.http.HttpRequest
 import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.errors.LithicError
-import com.lithic.api.models.*
+import com.lithic.api.models.ApiStatus
+import com.lithic.api.models.ClientApiStatusParams
 import com.lithic.api.services.blocking.*
 
 class LithicClientImpl
