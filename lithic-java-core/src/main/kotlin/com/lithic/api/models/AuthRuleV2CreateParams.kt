@@ -398,6 +398,7 @@ constructor(
         private val accountTokens: List<String>?,
         private val type: AuthRuleType?,
         private val parameters: Parameters?,
+        private val name: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -409,6 +410,9 @@ constructor(
 
         /** Parameters for the current version of the Auth Rule */
         @JsonProperty("parameters") fun parameters(): Parameters? = parameters
+
+        /** Auth Rule Name */
+        @JsonProperty("name") fun name(): String? = name
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -426,6 +430,7 @@ constructor(
             private var accountTokens: List<String>? = null
             private var type: AuthRuleType? = null
             private var parameters: Parameters? = null
+            private var name: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -435,6 +440,7 @@ constructor(
                 this.accountTokens = createAuthRuleRequestAccountTokens.accountTokens
                 this.type = createAuthRuleRequestAccountTokens.type
                 this.parameters = createAuthRuleRequestAccountTokens.parameters
+                this.name = createAuthRuleRequestAccountTokens.name
                 additionalProperties(createAuthRuleRequestAccountTokens.additionalProperties)
             }
 
@@ -450,6 +456,9 @@ constructor(
             /** Parameters for the current version of the Auth Rule */
             @JsonProperty("parameters")
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
+
+            /** Auth Rule Name */
+            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -471,6 +480,7 @@ constructor(
                         .toImmutable(),
                     type,
                     parameters,
+                    name,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -726,6 +736,10 @@ constructor(
                      *   the lowest risk and 999 representing the highest risk. For Visa
                      *   transactions, where the raw score has a range of 0-99, Lithic will
                      *   normalize the score by multiplying the raw score by 10x.
+                     * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in the
+                     *   trailing hour up and until the authorization.
+                     * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the
+                     *   trailing 24 hours up and until the authorization.
                      */
                     fun attribute(): Optional<Attribute> =
                         Optional.ofNullable(attribute.getNullable("attribute"))
@@ -768,6 +782,10 @@ constructor(
                      *   the lowest risk and 999 representing the highest risk. For Visa
                      *   transactions, where the raw score has a range of 0-99, Lithic will
                      *   normalize the score by multiplying the raw score by 10x.
+                     * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in the
+                     *   trailing hour up and until the authorization.
+                     * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the
+                     *   trailing 24 hours up and until the authorization.
                      */
                     @JsonProperty("attribute") @ExcludeMissing fun _attribute() = attribute
 
@@ -845,6 +863,10 @@ constructor(
                          *   representing the lowest risk and 999 representing the highest risk. For
                          *   Visa transactions, where the raw score has a range of 0-99, Lithic will
                          *   normalize the score by multiplying the raw score by 10x.
+                         * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
+                         *   the trailing hour up and until the authorization.
+                         * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
+                         *   the trailing 24 hours up and until the authorization.
                          */
                         fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
@@ -880,6 +902,10 @@ constructor(
                          *   representing the lowest risk and 999 representing the highest risk. For
                          *   Visa transactions, where the raw score has a range of 0-99, Lithic will
                          *   normalize the score by multiplying the raw score by 10x.
+                         * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
+                         *   the trailing hour up and until the authorization.
+                         * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
+                         *   the trailing 24 hours up and until the authorization.
                          */
                         @JsonProperty("attribute")
                         @ExcludeMissing
@@ -958,6 +984,12 @@ constructor(
 
                             @JvmField val RISK_SCORE = of("RISK_SCORE")
 
+                            @JvmField
+                            val CARD_TRANSACTION_COUNT_1_H = of("CARD_TRANSACTION_COUNT_1H")
+
+                            @JvmField
+                            val CARD_TRANSACTION_COUNT_24_H = of("CARD_TRANSACTION_COUNT_24H")
+
                             @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
                         }
 
@@ -971,6 +1003,8 @@ constructor(
                             PAN_ENTRY_MODE,
                             TRANSACTION_AMOUNT,
                             RISK_SCORE,
+                            CARD_TRANSACTION_COUNT_1_H,
+                            CARD_TRANSACTION_COUNT_24_H,
                         }
 
                         enum class Value {
@@ -983,6 +1017,8 @@ constructor(
                             PAN_ENTRY_MODE,
                             TRANSACTION_AMOUNT,
                             RISK_SCORE,
+                            CARD_TRANSACTION_COUNT_1_H,
+                            CARD_TRANSACTION_COUNT_24_H,
                             _UNKNOWN,
                         }
 
@@ -997,6 +1033,8 @@ constructor(
                                 PAN_ENTRY_MODE -> Value.PAN_ENTRY_MODE
                                 TRANSACTION_AMOUNT -> Value.TRANSACTION_AMOUNT
                                 RISK_SCORE -> Value.RISK_SCORE
+                                CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
+                                CARD_TRANSACTION_COUNT_24_H -> Value.CARD_TRANSACTION_COUNT_24_H
                                 else -> Value._UNKNOWN
                             }
 
@@ -1011,6 +1049,8 @@ constructor(
                                 PAN_ENTRY_MODE -> Known.PAN_ENTRY_MODE
                                 TRANSACTION_AMOUNT -> Known.TRANSACTION_AMOUNT
                                 RISK_SCORE -> Known.RISK_SCORE
+                                CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
+                                CARD_TRANSACTION_COUNT_24_H -> Known.CARD_TRANSACTION_COUNT_24_H
                                 else ->
                                     throw LithicInvalidDataException("Unknown Attribute: $value")
                             }
@@ -1342,17 +1382,17 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CreateAuthRuleRequestAccountTokens && accountTokens == other.accountTokens && type == other.type && parameters == other.parameters && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CreateAuthRuleRequestAccountTokens && accountTokens == other.accountTokens && type == other.type && parameters == other.parameters && name == other.name && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(accountTokens, type, parameters, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(accountTokens, type, parameters, name, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CreateAuthRuleRequestAccountTokens{accountTokens=$accountTokens, type=$type, parameters=$parameters, additionalProperties=$additionalProperties}"
+            "CreateAuthRuleRequestAccountTokens{accountTokens=$accountTokens, type=$type, parameters=$parameters, name=$name, additionalProperties=$additionalProperties}"
     }
 
     @JsonDeserialize(builder = CreateAuthRuleRequestCardTokens.Builder::class)
@@ -1362,6 +1402,7 @@ constructor(
         private val cardTokens: List<String>?,
         private val type: AuthRuleType?,
         private val parameters: Parameters?,
+        private val name: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
@@ -1373,6 +1414,9 @@ constructor(
 
         /** Parameters for the current version of the Auth Rule */
         @JsonProperty("parameters") fun parameters(): Parameters? = parameters
+
+        /** Auth Rule Name */
+        @JsonProperty("name") fun name(): String? = name
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -1390,6 +1434,7 @@ constructor(
             private var cardTokens: List<String>? = null
             private var type: AuthRuleType? = null
             private var parameters: Parameters? = null
+            private var name: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -1398,6 +1443,7 @@ constructor(
                     this.cardTokens = createAuthRuleRequestCardTokens.cardTokens
                     this.type = createAuthRuleRequestCardTokens.type
                     this.parameters = createAuthRuleRequestCardTokens.parameters
+                    this.name = createAuthRuleRequestCardTokens.name
                     additionalProperties(createAuthRuleRequestCardTokens.additionalProperties)
                 }
 
@@ -1411,6 +1457,9 @@ constructor(
             /** Parameters for the current version of the Auth Rule */
             @JsonProperty("parameters")
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
+
+            /** Auth Rule Name */
+            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1432,6 +1481,7 @@ constructor(
                         .toImmutable(),
                     type,
                     parameters,
+                    name,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -1687,6 +1737,10 @@ constructor(
                      *   the lowest risk and 999 representing the highest risk. For Visa
                      *   transactions, where the raw score has a range of 0-99, Lithic will
                      *   normalize the score by multiplying the raw score by 10x.
+                     * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in the
+                     *   trailing hour up and until the authorization.
+                     * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the
+                     *   trailing 24 hours up and until the authorization.
                      */
                     fun attribute(): Optional<Attribute> =
                         Optional.ofNullable(attribute.getNullable("attribute"))
@@ -1729,6 +1783,10 @@ constructor(
                      *   the lowest risk and 999 representing the highest risk. For Visa
                      *   transactions, where the raw score has a range of 0-99, Lithic will
                      *   normalize the score by multiplying the raw score by 10x.
+                     * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in the
+                     *   trailing hour up and until the authorization.
+                     * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the
+                     *   trailing 24 hours up and until the authorization.
                      */
                     @JsonProperty("attribute") @ExcludeMissing fun _attribute() = attribute
 
@@ -1806,6 +1864,10 @@ constructor(
                          *   representing the lowest risk and 999 representing the highest risk. For
                          *   Visa transactions, where the raw score has a range of 0-99, Lithic will
                          *   normalize the score by multiplying the raw score by 10x.
+                         * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
+                         *   the trailing hour up and until the authorization.
+                         * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
+                         *   the trailing 24 hours up and until the authorization.
                          */
                         fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
@@ -1841,6 +1903,10 @@ constructor(
                          *   representing the lowest risk and 999 representing the highest risk. For
                          *   Visa transactions, where the raw score has a range of 0-99, Lithic will
                          *   normalize the score by multiplying the raw score by 10x.
+                         * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
+                         *   the trailing hour up and until the authorization.
+                         * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
+                         *   the trailing 24 hours up and until the authorization.
                          */
                         @JsonProperty("attribute")
                         @ExcludeMissing
@@ -1919,6 +1985,12 @@ constructor(
 
                             @JvmField val RISK_SCORE = of("RISK_SCORE")
 
+                            @JvmField
+                            val CARD_TRANSACTION_COUNT_1_H = of("CARD_TRANSACTION_COUNT_1H")
+
+                            @JvmField
+                            val CARD_TRANSACTION_COUNT_24_H = of("CARD_TRANSACTION_COUNT_24H")
+
                             @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
                         }
 
@@ -1932,6 +2004,8 @@ constructor(
                             PAN_ENTRY_MODE,
                             TRANSACTION_AMOUNT,
                             RISK_SCORE,
+                            CARD_TRANSACTION_COUNT_1_H,
+                            CARD_TRANSACTION_COUNT_24_H,
                         }
 
                         enum class Value {
@@ -1944,6 +2018,8 @@ constructor(
                             PAN_ENTRY_MODE,
                             TRANSACTION_AMOUNT,
                             RISK_SCORE,
+                            CARD_TRANSACTION_COUNT_1_H,
+                            CARD_TRANSACTION_COUNT_24_H,
                             _UNKNOWN,
                         }
 
@@ -1958,6 +2034,8 @@ constructor(
                                 PAN_ENTRY_MODE -> Value.PAN_ENTRY_MODE
                                 TRANSACTION_AMOUNT -> Value.TRANSACTION_AMOUNT
                                 RISK_SCORE -> Value.RISK_SCORE
+                                CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
+                                CARD_TRANSACTION_COUNT_24_H -> Value.CARD_TRANSACTION_COUNT_24_H
                                 else -> Value._UNKNOWN
                             }
 
@@ -1972,6 +2050,8 @@ constructor(
                                 PAN_ENTRY_MODE -> Known.PAN_ENTRY_MODE
                                 TRANSACTION_AMOUNT -> Known.TRANSACTION_AMOUNT
                                 RISK_SCORE -> Known.RISK_SCORE
+                                CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
+                                CARD_TRANSACTION_COUNT_24_H -> Known.CARD_TRANSACTION_COUNT_24_H
                                 else ->
                                     throw LithicInvalidDataException("Unknown Attribute: $value")
                             }
@@ -2303,17 +2383,17 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CreateAuthRuleRequestCardTokens && cardTokens == other.cardTokens && type == other.type && parameters == other.parameters && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CreateAuthRuleRequestCardTokens && cardTokens == other.cardTokens && type == other.type && parameters == other.parameters && name == other.name && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(cardTokens, type, parameters, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(cardTokens, type, parameters, name, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CreateAuthRuleRequestCardTokens{cardTokens=$cardTokens, type=$type, parameters=$parameters, additionalProperties=$additionalProperties}"
+            "CreateAuthRuleRequestCardTokens{cardTokens=$cardTokens, type=$type, parameters=$parameters, name=$name, additionalProperties=$additionalProperties}"
     }
 
     @JsonDeserialize(builder = CreateAuthRuleRequestProgramLevel.Builder::class)
@@ -2321,19 +2401,28 @@ constructor(
     class CreateAuthRuleRequestProgramLevel
     private constructor(
         private val programLevel: Boolean?,
+        private val excludedCardTokens: List<String>?,
         private val type: AuthRuleType?,
         private val parameters: Parameters?,
+        private val name: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** Whether the Auth Rule applies to all authorizations on the card program. */
         @JsonProperty("program_level") fun programLevel(): Boolean? = programLevel
 
+        /** Card tokens to which the Auth Rule does not apply. */
+        @JsonProperty("excluded_card_tokens")
+        fun excludedCardTokens(): List<String>? = excludedCardTokens
+
         /** The type of Auth Rule */
         @JsonProperty("type") fun type(): AuthRuleType? = type
 
         /** Parameters for the current version of the Auth Rule */
         @JsonProperty("parameters") fun parameters(): Parameters? = parameters
+
+        /** Auth Rule Name */
+        @JsonProperty("name") fun name(): String? = name
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -2349,8 +2438,10 @@ constructor(
         class Builder {
 
             private var programLevel: Boolean? = null
+            private var excludedCardTokens: List<String>? = null
             private var type: AuthRuleType? = null
             private var parameters: Parameters? = null
+            private var name: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -2358,8 +2449,10 @@ constructor(
                 createAuthRuleRequestProgramLevel: CreateAuthRuleRequestProgramLevel
             ) = apply {
                 this.programLevel = createAuthRuleRequestProgramLevel.programLevel
+                this.excludedCardTokens = createAuthRuleRequestProgramLevel.excludedCardTokens
                 this.type = createAuthRuleRequestProgramLevel.type
                 this.parameters = createAuthRuleRequestProgramLevel.parameters
+                this.name = createAuthRuleRequestProgramLevel.name
                 additionalProperties(createAuthRuleRequestProgramLevel.additionalProperties)
             }
 
@@ -2367,12 +2460,21 @@ constructor(
             @JsonProperty("program_level")
             fun programLevel(programLevel: Boolean) = apply { this.programLevel = programLevel }
 
+            /** Card tokens to which the Auth Rule does not apply. */
+            @JsonProperty("excluded_card_tokens")
+            fun excludedCardTokens(excludedCardTokens: List<String>) = apply {
+                this.excludedCardTokens = excludedCardTokens
+            }
+
             /** The type of Auth Rule */
             @JsonProperty("type") fun type(type: AuthRuleType) = apply { this.type = type }
 
             /** Parameters for the current version of the Auth Rule */
             @JsonProperty("parameters")
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
+
+            /** Auth Rule Name */
+            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -2391,8 +2493,10 @@ constructor(
             fun build(): CreateAuthRuleRequestProgramLevel =
                 CreateAuthRuleRequestProgramLevel(
                     checkNotNull(programLevel) { "`programLevel` is required but was not set" },
+                    excludedCardTokens?.toImmutable(),
                     type,
                     parameters,
+                    name,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -2648,6 +2752,10 @@ constructor(
                      *   the lowest risk and 999 representing the highest risk. For Visa
                      *   transactions, where the raw score has a range of 0-99, Lithic will
                      *   normalize the score by multiplying the raw score by 10x.
+                     * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in the
+                     *   trailing hour up and until the authorization.
+                     * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the
+                     *   trailing 24 hours up and until the authorization.
                      */
                     fun attribute(): Optional<Attribute> =
                         Optional.ofNullable(attribute.getNullable("attribute"))
@@ -2690,6 +2798,10 @@ constructor(
                      *   the lowest risk and 999 representing the highest risk. For Visa
                      *   transactions, where the raw score has a range of 0-99, Lithic will
                      *   normalize the score by multiplying the raw score by 10x.
+                     * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in the
+                     *   trailing hour up and until the authorization.
+                     * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the
+                     *   trailing 24 hours up and until the authorization.
                      */
                     @JsonProperty("attribute") @ExcludeMissing fun _attribute() = attribute
 
@@ -2767,6 +2879,10 @@ constructor(
                          *   representing the lowest risk and 999 representing the highest risk. For
                          *   Visa transactions, where the raw score has a range of 0-99, Lithic will
                          *   normalize the score by multiplying the raw score by 10x.
+                         * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
+                         *   the trailing hour up and until the authorization.
+                         * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
+                         *   the trailing 24 hours up and until the authorization.
                          */
                         fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
@@ -2802,6 +2918,10 @@ constructor(
                          *   representing the lowest risk and 999 representing the highest risk. For
                          *   Visa transactions, where the raw score has a range of 0-99, Lithic will
                          *   normalize the score by multiplying the raw score by 10x.
+                         * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in
+                         *   the trailing hour up and until the authorization.
+                         * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
+                         *   the trailing 24 hours up and until the authorization.
                          */
                         @JsonProperty("attribute")
                         @ExcludeMissing
@@ -2880,6 +3000,12 @@ constructor(
 
                             @JvmField val RISK_SCORE = of("RISK_SCORE")
 
+                            @JvmField
+                            val CARD_TRANSACTION_COUNT_1_H = of("CARD_TRANSACTION_COUNT_1H")
+
+                            @JvmField
+                            val CARD_TRANSACTION_COUNT_24_H = of("CARD_TRANSACTION_COUNT_24H")
+
                             @JvmStatic fun of(value: String) = Attribute(JsonField.of(value))
                         }
 
@@ -2893,6 +3019,8 @@ constructor(
                             PAN_ENTRY_MODE,
                             TRANSACTION_AMOUNT,
                             RISK_SCORE,
+                            CARD_TRANSACTION_COUNT_1_H,
+                            CARD_TRANSACTION_COUNT_24_H,
                         }
 
                         enum class Value {
@@ -2905,6 +3033,8 @@ constructor(
                             PAN_ENTRY_MODE,
                             TRANSACTION_AMOUNT,
                             RISK_SCORE,
+                            CARD_TRANSACTION_COUNT_1_H,
+                            CARD_TRANSACTION_COUNT_24_H,
                             _UNKNOWN,
                         }
 
@@ -2919,6 +3049,8 @@ constructor(
                                 PAN_ENTRY_MODE -> Value.PAN_ENTRY_MODE
                                 TRANSACTION_AMOUNT -> Value.TRANSACTION_AMOUNT
                                 RISK_SCORE -> Value.RISK_SCORE
+                                CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
+                                CARD_TRANSACTION_COUNT_24_H -> Value.CARD_TRANSACTION_COUNT_24_H
                                 else -> Value._UNKNOWN
                             }
 
@@ -2933,6 +3065,8 @@ constructor(
                                 PAN_ENTRY_MODE -> Known.PAN_ENTRY_MODE
                                 TRANSACTION_AMOUNT -> Known.TRANSACTION_AMOUNT
                                 RISK_SCORE -> Known.RISK_SCORE
+                                CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
+                                CARD_TRANSACTION_COUNT_24_H -> Known.CARD_TRANSACTION_COUNT_24_H
                                 else ->
                                     throw LithicInvalidDataException("Unknown Attribute: $value")
                             }
@@ -3264,17 +3398,17 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CreateAuthRuleRequestProgramLevel && programLevel == other.programLevel && type == other.type && parameters == other.parameters && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CreateAuthRuleRequestProgramLevel && programLevel == other.programLevel && excludedCardTokens == other.excludedCardTokens && type == other.type && parameters == other.parameters && name == other.name && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(programLevel, type, parameters, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(programLevel, excludedCardTokens, type, parameters, name, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CreateAuthRuleRequestProgramLevel{programLevel=$programLevel, type=$type, parameters=$parameters, additionalProperties=$additionalProperties}"
+            "CreateAuthRuleRequestProgramLevel{programLevel=$programLevel, excludedCardTokens=$excludedCardTokens, type=$type, parameters=$parameters, name=$name, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

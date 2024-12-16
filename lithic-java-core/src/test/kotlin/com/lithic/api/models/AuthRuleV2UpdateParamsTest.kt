@@ -11,6 +11,7 @@ class AuthRuleV2UpdateParamsTest {
     fun createAuthRuleV2UpdateParams() {
         AuthRuleV2UpdateParams.builder()
             .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .name("name")
             .state(AuthRuleV2UpdateParams.State.INACTIVE)
             .build()
     }
@@ -20,10 +21,12 @@ class AuthRuleV2UpdateParamsTest {
         val params =
             AuthRuleV2UpdateParams.builder()
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .name("name")
                 .state(AuthRuleV2UpdateParams.State.INACTIVE)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
+        assertThat(body.name()).isEqualTo("name")
         assertThat(body.state()).isEqualTo(AuthRuleV2UpdateParams.State.INACTIVE)
     }
 

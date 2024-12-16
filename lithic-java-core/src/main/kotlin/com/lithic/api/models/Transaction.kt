@@ -4175,6 +4175,7 @@ private constructor(
         private val amount: JsonField<Long>,
         private val amounts: JsonField<TransactionEventAmounts>,
         private val created: JsonField<OffsetDateTime>,
+        private val networkInfo: JsonField<NetworkInfo>,
         private val detailedResults: JsonField<List<DetailedResult>>,
         private val ruleResults: JsonField<List<RuleResult>>,
         private val effectivePolarity: JsonField<EffectivePolarity>,
@@ -4193,6 +4194,19 @@ private constructor(
 
         /** RFC 3339 date and time this event entered the system. UTC time zone. */
         fun created(): OffsetDateTime = created.getRequired("created")
+
+        /**
+         * Information provided by the card network in each event. This includes common identifiers
+         * shared between you, Lithic, the card network and in some cases the acquirer. These
+         * identifiers often link together events within the same transaction lifecycle and can be
+         * used to locate a particular transaction, such as during processing of disputes. Not all
+         * fields are available in all events, and the presence of these fields is dependent on the
+         * card network and the event type.
+         *
+         * Now available in sandbox, and available in production on December 17th, 2024.
+         */
+        fun networkInfo(): Optional<NetworkInfo> =
+            Optional.ofNullable(networkInfo.getNullable("network_info"))
 
         fun detailedResults(): List<DetailedResult> =
             detailedResults.getRequired("detailed_results")
@@ -4220,6 +4234,18 @@ private constructor(
         /** RFC 3339 date and time this event entered the system. UTC time zone. */
         @JsonProperty("created") @ExcludeMissing fun _created() = created
 
+        /**
+         * Information provided by the card network in each event. This includes common identifiers
+         * shared between you, Lithic, the card network and in some cases the acquirer. These
+         * identifiers often link together events within the same transaction lifecycle and can be
+         * used to locate a particular transaction, such as during processing of disputes. Not all
+         * fields are available in all events, and the presence of these fields is dependent on the
+         * card network and the event type.
+         *
+         * Now available in sandbox, and available in production on December 17th, 2024.
+         */
+        @JsonProperty("network_info") @ExcludeMissing fun _networkInfo() = networkInfo
+
         @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
 
         @JsonProperty("rule_results") @ExcludeMissing fun _ruleResults() = ruleResults
@@ -4246,6 +4272,7 @@ private constructor(
                 amount()
                 amounts().validate()
                 created()
+                networkInfo().map { it.validate() }
                 detailedResults()
                 ruleResults().map { it.forEach { it.validate() } }
                 effectivePolarity()
@@ -4268,6 +4295,7 @@ private constructor(
             private var amount: JsonField<Long> = JsonMissing.of()
             private var amounts: JsonField<TransactionEventAmounts> = JsonMissing.of()
             private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var networkInfo: JsonField<NetworkInfo> = JsonMissing.of()
             private var detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of()
             private var ruleResults: JsonField<List<RuleResult>> = JsonMissing.of()
             private var effectivePolarity: JsonField<EffectivePolarity> = JsonMissing.of()
@@ -4281,6 +4309,7 @@ private constructor(
                 this.amount = transactionEvent.amount
                 this.amounts = transactionEvent.amounts
                 this.created = transactionEvent.created
+                this.networkInfo = transactionEvent.networkInfo
                 this.detailedResults = transactionEvent.detailedResults
                 this.ruleResults = transactionEvent.ruleResults
                 this.effectivePolarity = transactionEvent.effectivePolarity
@@ -4313,6 +4342,34 @@ private constructor(
             @JsonProperty("created")
             @ExcludeMissing
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+            /**
+             * Information provided by the card network in each event. This includes common
+             * identifiers shared between you, Lithic, the card network and in some cases the
+             * acquirer. These identifiers often link together events within the same transaction
+             * lifecycle and can be used to locate a particular transaction, such as during
+             * processing of disputes. Not all fields are available in all events, and the presence
+             * of these fields is dependent on the card network and the event type.
+             *
+             * Now available in sandbox, and available in production on December 17th, 2024.
+             */
+            fun networkInfo(networkInfo: NetworkInfo) = networkInfo(JsonField.of(networkInfo))
+
+            /**
+             * Information provided by the card network in each event. This includes common
+             * identifiers shared between you, Lithic, the card network and in some cases the
+             * acquirer. These identifiers often link together events within the same transaction
+             * lifecycle and can be used to locate a particular transaction, such as during
+             * processing of disputes. Not all fields are available in all events, and the presence
+             * of these fields is dependent on the card network and the event type.
+             *
+             * Now available in sandbox, and available in production on December 17th, 2024.
+             */
+            @JsonProperty("network_info")
+            @ExcludeMissing
+            fun networkInfo(networkInfo: JsonField<NetworkInfo>) = apply {
+                this.networkInfo = networkInfo
+            }
 
             fun detailedResults(detailedResults: List<DetailedResult>) =
                 detailedResults(JsonField.of(detailedResults))
@@ -4383,6 +4440,7 @@ private constructor(
                     amount,
                     amounts,
                     created,
+                    networkInfo,
                     detailedResults.map { it.toImmutable() },
                     ruleResults.map { it.toImmutable() },
                     effectivePolarity,
@@ -5730,6 +5788,525 @@ private constructor(
             override fun toString() = value.toString()
         }
 
+        /**
+         * Information provided by the card network in each event. This includes common identifiers
+         * shared between you, Lithic, the card network and in some cases the acquirer. These
+         * identifiers often link together events within the same transaction lifecycle and can be
+         * used to locate a particular transaction, such as during processing of disputes. Not all
+         * fields are available in all events, and the presence of these fields is dependent on the
+         * card network and the event type.
+         *
+         * Now available in sandbox, and available in production on December 17th, 2024.
+         */
+        @JsonDeserialize(builder = NetworkInfo.Builder::class)
+        @NoAutoDetect
+        class NetworkInfo
+        private constructor(
+            private val acquirer: JsonField<Acquirer>,
+            private val mastercard: JsonField<Mastercard>,
+            private val visa: JsonField<Visa>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
+
+            private var validated: Boolean = false
+
+            fun acquirer(): Optional<Acquirer> =
+                Optional.ofNullable(acquirer.getNullable("acquirer"))
+
+            fun mastercard(): Optional<Mastercard> =
+                Optional.ofNullable(mastercard.getNullable("mastercard"))
+
+            fun visa(): Optional<Visa> = Optional.ofNullable(visa.getNullable("visa"))
+
+            @JsonProperty("acquirer") @ExcludeMissing fun _acquirer() = acquirer
+
+            @JsonProperty("mastercard") @ExcludeMissing fun _mastercard() = mastercard
+
+            @JsonProperty("visa") @ExcludeMissing fun _visa() = visa
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun validate(): NetworkInfo = apply {
+                if (!validated) {
+                    acquirer().map { it.validate() }
+                    mastercard().map { it.validate() }
+                    visa().map { it.validate() }
+                    validated = true
+                }
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            class Builder {
+
+                private var acquirer: JsonField<Acquirer> = JsonMissing.of()
+                private var mastercard: JsonField<Mastercard> = JsonMissing.of()
+                private var visa: JsonField<Visa> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(networkInfo: NetworkInfo) = apply {
+                    this.acquirer = networkInfo.acquirer
+                    this.mastercard = networkInfo.mastercard
+                    this.visa = networkInfo.visa
+                    additionalProperties(networkInfo.additionalProperties)
+                }
+
+                fun acquirer(acquirer: Acquirer) = acquirer(JsonField.of(acquirer))
+
+                @JsonProperty("acquirer")
+                @ExcludeMissing
+                fun acquirer(acquirer: JsonField<Acquirer>) = apply { this.acquirer = acquirer }
+
+                fun mastercard(mastercard: Mastercard) = mastercard(JsonField.of(mastercard))
+
+                @JsonProperty("mastercard")
+                @ExcludeMissing
+                fun mastercard(mastercard: JsonField<Mastercard>) = apply {
+                    this.mastercard = mastercard
+                }
+
+                fun visa(visa: Visa) = visa(JsonField.of(visa))
+
+                @JsonProperty("visa")
+                @ExcludeMissing
+                fun visa(visa: JsonField<Visa>) = apply { this.visa = visa }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    this.additionalProperties.putAll(additionalProperties)
+                }
+
+                @JsonAnySetter
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    this.additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun build(): NetworkInfo =
+                    NetworkInfo(
+                        acquirer,
+                        mastercard,
+                        visa,
+                        additionalProperties.toImmutable(),
+                    )
+            }
+
+            @JsonDeserialize(builder = Acquirer.Builder::class)
+            @NoAutoDetect
+            class Acquirer
+            private constructor(
+                private val acquirerReferenceNumber: JsonField<String>,
+                private val retrievalReferenceNumber: JsonField<String>,
+                private val additionalProperties: Map<String, JsonValue>,
+            ) {
+
+                private var validated: Boolean = false
+
+                /**
+                 * Identifier assigned by the acquirer, applicable to dual-message transactions
+                 * only. The acquirer reference number (ARN) is only populated once a transaction
+                 * has been cleared, and it is not available in all transactions (such as automated
+                 * fuel dispenser transactions). A single transaction can contain multiple ARNs if
+                 * the merchant sends multiple clearings.
+                 */
+                fun acquirerReferenceNumber(): Optional<String> =
+                    Optional.ofNullable(
+                        acquirerReferenceNumber.getNullable("acquirer_reference_number")
+                    )
+
+                /** Identifier assigned by the acquirer. */
+                fun retrievalReferenceNumber(): Optional<String> =
+                    Optional.ofNullable(
+                        retrievalReferenceNumber.getNullable("retrieval_reference_number")
+                    )
+
+                /**
+                 * Identifier assigned by the acquirer, applicable to dual-message transactions
+                 * only. The acquirer reference number (ARN) is only populated once a transaction
+                 * has been cleared, and it is not available in all transactions (such as automated
+                 * fuel dispenser transactions). A single transaction can contain multiple ARNs if
+                 * the merchant sends multiple clearings.
+                 */
+                @JsonProperty("acquirer_reference_number")
+                @ExcludeMissing
+                fun _acquirerReferenceNumber() = acquirerReferenceNumber
+
+                /** Identifier assigned by the acquirer. */
+                @JsonProperty("retrieval_reference_number")
+                @ExcludeMissing
+                fun _retrievalReferenceNumber() = retrievalReferenceNumber
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                fun validate(): Acquirer = apply {
+                    if (!validated) {
+                        acquirerReferenceNumber()
+                        retrievalReferenceNumber()
+                        validated = true
+                    }
+                }
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                class Builder {
+
+                    private var acquirerReferenceNumber: JsonField<String> = JsonMissing.of()
+                    private var retrievalReferenceNumber: JsonField<String> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(acquirer: Acquirer) = apply {
+                        this.acquirerReferenceNumber = acquirer.acquirerReferenceNumber
+                        this.retrievalReferenceNumber = acquirer.retrievalReferenceNumber
+                        additionalProperties(acquirer.additionalProperties)
+                    }
+
+                    /**
+                     * Identifier assigned by the acquirer, applicable to dual-message transactions
+                     * only. The acquirer reference number (ARN) is only populated once a
+                     * transaction has been cleared, and it is not available in all transactions
+                     * (such as automated fuel dispenser transactions). A single transaction can
+                     * contain multiple ARNs if the merchant sends multiple clearings.
+                     */
+                    fun acquirerReferenceNumber(acquirerReferenceNumber: String) =
+                        acquirerReferenceNumber(JsonField.of(acquirerReferenceNumber))
+
+                    /**
+                     * Identifier assigned by the acquirer, applicable to dual-message transactions
+                     * only. The acquirer reference number (ARN) is only populated once a
+                     * transaction has been cleared, and it is not available in all transactions
+                     * (such as automated fuel dispenser transactions). A single transaction can
+                     * contain multiple ARNs if the merchant sends multiple clearings.
+                     */
+                    @JsonProperty("acquirer_reference_number")
+                    @ExcludeMissing
+                    fun acquirerReferenceNumber(acquirerReferenceNumber: JsonField<String>) =
+                        apply {
+                            this.acquirerReferenceNumber = acquirerReferenceNumber
+                        }
+
+                    /** Identifier assigned by the acquirer. */
+                    fun retrievalReferenceNumber(retrievalReferenceNumber: String) =
+                        retrievalReferenceNumber(JsonField.of(retrievalReferenceNumber))
+
+                    /** Identifier assigned by the acquirer. */
+                    @JsonProperty("retrieval_reference_number")
+                    @ExcludeMissing
+                    fun retrievalReferenceNumber(retrievalReferenceNumber: JsonField<String>) =
+                        apply {
+                            this.retrievalReferenceNumber = retrievalReferenceNumber
+                        }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                    @JsonAnySetter
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        this.additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun build(): Acquirer =
+                        Acquirer(
+                            acquirerReferenceNumber,
+                            retrievalReferenceNumber,
+                            additionalProperties.toImmutable(),
+                        )
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Acquirer && acquirerReferenceNumber == other.acquirerReferenceNumber && retrievalReferenceNumber == other.retrievalReferenceNumber && additionalProperties == other.additionalProperties /* spotless:on */
+                }
+
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(acquirerReferenceNumber, retrievalReferenceNumber, additionalProperties) }
+                /* spotless:on */
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "Acquirer{acquirerReferenceNumber=$acquirerReferenceNumber, retrievalReferenceNumber=$retrievalReferenceNumber, additionalProperties=$additionalProperties}"
+            }
+
+            @JsonDeserialize(builder = Mastercard.Builder::class)
+            @NoAutoDetect
+            class Mastercard
+            private constructor(
+                private val banknetReferenceNumber: JsonField<String>,
+                private val switchSerialNumber: JsonField<String>,
+                private val additionalProperties: Map<String, JsonValue>,
+            ) {
+
+                private var validated: Boolean = false
+
+                /** Identifier assigned by Mastercard. */
+                fun banknetReferenceNumber(): Optional<String> =
+                    Optional.ofNullable(
+                        banknetReferenceNumber.getNullable("banknet_reference_number")
+                    )
+
+                /**
+                 * Identifier assigned by Mastercard, applicable to single-message transactions
+                 * only.
+                 */
+                fun switchSerialNumber(): Optional<String> =
+                    Optional.ofNullable(switchSerialNumber.getNullable("switch_serial_number"))
+
+                /** Identifier assigned by Mastercard. */
+                @JsonProperty("banknet_reference_number")
+                @ExcludeMissing
+                fun _banknetReferenceNumber() = banknetReferenceNumber
+
+                /**
+                 * Identifier assigned by Mastercard, applicable to single-message transactions
+                 * only.
+                 */
+                @JsonProperty("switch_serial_number")
+                @ExcludeMissing
+                fun _switchSerialNumber() = switchSerialNumber
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                fun validate(): Mastercard = apply {
+                    if (!validated) {
+                        banknetReferenceNumber()
+                        switchSerialNumber()
+                        validated = true
+                    }
+                }
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                class Builder {
+
+                    private var banknetReferenceNumber: JsonField<String> = JsonMissing.of()
+                    private var switchSerialNumber: JsonField<String> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(mastercard: Mastercard) = apply {
+                        this.banknetReferenceNumber = mastercard.banknetReferenceNumber
+                        this.switchSerialNumber = mastercard.switchSerialNumber
+                        additionalProperties(mastercard.additionalProperties)
+                    }
+
+                    /** Identifier assigned by Mastercard. */
+                    fun banknetReferenceNumber(banknetReferenceNumber: String) =
+                        banknetReferenceNumber(JsonField.of(banknetReferenceNumber))
+
+                    /** Identifier assigned by Mastercard. */
+                    @JsonProperty("banknet_reference_number")
+                    @ExcludeMissing
+                    fun banknetReferenceNumber(banknetReferenceNumber: JsonField<String>) = apply {
+                        this.banknetReferenceNumber = banknetReferenceNumber
+                    }
+
+                    /**
+                     * Identifier assigned by Mastercard, applicable to single-message transactions
+                     * only.
+                     */
+                    fun switchSerialNumber(switchSerialNumber: String) =
+                        switchSerialNumber(JsonField.of(switchSerialNumber))
+
+                    /**
+                     * Identifier assigned by Mastercard, applicable to single-message transactions
+                     * only.
+                     */
+                    @JsonProperty("switch_serial_number")
+                    @ExcludeMissing
+                    fun switchSerialNumber(switchSerialNumber: JsonField<String>) = apply {
+                        this.switchSerialNumber = switchSerialNumber
+                    }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                    @JsonAnySetter
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        this.additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun build(): Mastercard =
+                        Mastercard(
+                            banknetReferenceNumber,
+                            switchSerialNumber,
+                            additionalProperties.toImmutable(),
+                        )
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Mastercard && banknetReferenceNumber == other.banknetReferenceNumber && switchSerialNumber == other.switchSerialNumber && additionalProperties == other.additionalProperties /* spotless:on */
+                }
+
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(banknetReferenceNumber, switchSerialNumber, additionalProperties) }
+                /* spotless:on */
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "Mastercard{banknetReferenceNumber=$banknetReferenceNumber, switchSerialNumber=$switchSerialNumber, additionalProperties=$additionalProperties}"
+            }
+
+            @JsonDeserialize(builder = Visa.Builder::class)
+            @NoAutoDetect
+            class Visa
+            private constructor(
+                private val transactionId: JsonField<String>,
+                private val additionalProperties: Map<String, JsonValue>,
+            ) {
+
+                private var validated: Boolean = false
+
+                /** Identifier assigned by Visa. */
+                fun transactionId(): Optional<String> =
+                    Optional.ofNullable(transactionId.getNullable("transaction_id"))
+
+                /** Identifier assigned by Visa. */
+                @JsonProperty("transaction_id") @ExcludeMissing fun _transactionId() = transactionId
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                fun validate(): Visa = apply {
+                    if (!validated) {
+                        transactionId()
+                        validated = true
+                    }
+                }
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                class Builder {
+
+                    private var transactionId: JsonField<String> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(visa: Visa) = apply {
+                        this.transactionId = visa.transactionId
+                        additionalProperties(visa.additionalProperties)
+                    }
+
+                    /** Identifier assigned by Visa. */
+                    fun transactionId(transactionId: String) =
+                        transactionId(JsonField.of(transactionId))
+
+                    /** Identifier assigned by Visa. */
+                    @JsonProperty("transaction_id")
+                    @ExcludeMissing
+                    fun transactionId(transactionId: JsonField<String>) = apply {
+                        this.transactionId = transactionId
+                    }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                    @JsonAnySetter
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        this.additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun build(): Visa = Visa(transactionId, additionalProperties.toImmutable())
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Visa && transactionId == other.transactionId && additionalProperties == other.additionalProperties /* spotless:on */
+                }
+
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(transactionId, additionalProperties) }
+                /* spotless:on */
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "Visa{transactionId=$transactionId, additionalProperties=$additionalProperties}"
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is NetworkInfo && acquirer == other.acquirer && mastercard == other.mastercard && visa == other.visa && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(acquirer, mastercard, visa, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "NetworkInfo{acquirer=$acquirer, mastercard=$mastercard, visa=$visa, additionalProperties=$additionalProperties}"
+        }
+
+        /** Available in production on December 17th, 2024. */
         @JsonDeserialize(builder = RuleResult.Builder::class)
         @NoAutoDetect
         class RuleResult
@@ -6299,17 +6876,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionEvent && amount == other.amount && amounts == other.amounts && created == other.created && detailedResults == other.detailedResults && ruleResults == other.ruleResults && effectivePolarity == other.effectivePolarity && result == other.result && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransactionEvent && amount == other.amount && amounts == other.amounts && created == other.created && networkInfo == other.networkInfo && detailedResults == other.detailedResults && ruleResults == other.ruleResults && effectivePolarity == other.effectivePolarity && result == other.result && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, amounts, created, detailedResults, ruleResults, effectivePolarity, result, token, type, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(amount, amounts, created, networkInfo, detailedResults, ruleResults, effectivePolarity, result, token, type, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TransactionEvent{amount=$amount, amounts=$amounts, created=$created, detailedResults=$detailedResults, ruleResults=$ruleResults, effectivePolarity=$effectivePolarity, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
+            "TransactionEvent{amount=$amount, amounts=$amounts, created=$created, networkInfo=$networkInfo, detailedResults=$detailedResults, ruleResults=$ruleResults, effectivePolarity=$effectivePolarity, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

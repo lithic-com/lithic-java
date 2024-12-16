@@ -169,8 +169,8 @@ private constructor(
      * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
      *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
      *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be used
-     *   for e-commerce transactions. API clients should update the card's state to `OPEN` only
-     *   after the cardholder confirms receipt of the card.
+     *   for e-commerce transactions or can be added to mobile wallets. API clients should update
+     *   the card's state to `OPEN` only after the cardholder confirms receipt of the card.
      *
      * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
      */
@@ -313,8 +313,8 @@ private constructor(
      * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
      *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
      *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be used
-     *   for e-commerce transactions. API clients should update the card's state to `OPEN` only
-     *   after the cardholder confirms receipt of the card.
+     *   for e-commerce transactions or can be added to mobile wallets. API clients should update
+     *   the card's state to `OPEN` only after the cardholder confirms receipt of the card.
      *
      * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
      */
@@ -712,8 +712,9 @@ private constructor(
          * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
          *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
          *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be
-         *   used for e-commerce transactions. API clients should update the card's state to `OPEN`
-         *   only after the cardholder confirms receipt of the card.
+         *   used for e-commerce transactions or can be added to mobile wallets. API clients should
+         *   update the card's state to `OPEN` only after the cardholder confirms receipt of the
+         *   card.
          *
          * In sandbox, the same daily batch fulfillment occurs, but no cards are actually
          * manufactured.
@@ -732,8 +733,9 @@ private constructor(
          * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
          *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
          *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be
-         *   used for e-commerce transactions. API clients should update the card's state to `OPEN`
-         *   only after the cardholder confirms receipt of the card.
+         *   used for e-commerce transactions or can be added to mobile wallets. API clients should
+         *   update the card's state to `OPEN` only after the cardholder confirms receipt of the
+         *   card.
          *
          * In sandbox, the same daily batch fulfillment occurs, but no cards are actually
          * manufactured.

@@ -70,6 +70,7 @@ class TransactionServiceTest {
                     .merchantAmount(0L)
                     .merchantCurrency("GBP")
                     .partialApprovalCapable(true)
+                    .pin("1234")
                     .status(TransactionSimulateAuthorizationParams.Status.AUTHORIZATION)
                     .build()
             )

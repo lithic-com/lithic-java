@@ -196,8 +196,8 @@ constructor(
         @JsonProperty("memo") fun memo(): String? = memo
 
         /**
-         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
-         * See [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+         * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
+         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
         @JsonProperty("pin") fun pin(): String? = pin
 
@@ -219,8 +219,9 @@ constructor(
         fun replacementAccountToken(): String? = replacementAccountToken
 
         /**
-         * Only applicable to cards of type `PHYSICAL`. Globally unique identifier for the card that
-         * this physical card will replace.
+         * Globally unique identifier for the card that this card will replace. If the card type is
+         * `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL` it
+         * will be replaced by a `VIRTUAL` card.
          */
         @JsonProperty("replacement_for") fun replacementFor(): String? = replacementFor
 
@@ -394,9 +395,8 @@ constructor(
             @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
 
             /**
-             * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
-             * `VIRTUAL`. See
-             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+             * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`.
+             * See [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
              */
             @JsonProperty("pin") fun pin(pin: String) = apply { this.pin = pin }
 
@@ -421,8 +421,9 @@ constructor(
             }
 
             /**
-             * Only applicable to cards of type `PHYSICAL`. Globally unique identifier for the card
-             * that this physical card will replace.
+             * Globally unique identifier for the card that this card will replace. If the card type
+             * is `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL`
+             * it will be replaced by a `VIRTUAL` card.
              */
             @JsonProperty("replacement_for")
             fun replacementFor(replacementFor: String) = apply {
@@ -660,8 +661,8 @@ constructor(
         fun memo(memo: String) = apply { this.memo = memo }
 
         /**
-         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
-         * See [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+         * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
+         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
         fun pin(pin: String) = apply { this.pin = pin }
 
@@ -684,8 +685,9 @@ constructor(
         }
 
         /**
-         * Only applicable to cards of type `PHYSICAL`. Globally unique identifier for the card that
-         * this physical card will replace.
+         * Globally unique identifier for the card that this card will replace. If the card type is
+         * `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL` it
+         * will be replaced by a `VIRTUAL` card.
          */
         fun replacementFor(replacementFor: String) = apply { this.replacementFor = replacementFor }
 

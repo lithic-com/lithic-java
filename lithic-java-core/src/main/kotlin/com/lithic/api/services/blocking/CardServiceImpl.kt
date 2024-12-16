@@ -14,6 +14,7 @@ import com.lithic.api.core.http.HttpResponse.Handler
 import com.lithic.api.core.json
 import com.lithic.api.errors.LithicError
 import com.lithic.api.models.Card
+import com.lithic.api.models.CardConvertPhysicalParams
 import com.lithic.api.models.CardCreateParams
 import com.lithic.api.models.CardEmbedParams
 import com.lithic.api.models.CardListPage
@@ -61,8 +62,8 @@ constructor(
         jsonHandler<Card>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
-     * Create a new virtual or physical card. Parameters `pin`, `shipping_address`, and `product_id`
-     * only apply to physical cards.
+     * Create a new virtual or physical card. Parameters `shipping_address` and `product_id` only
+     * apply to physical cards.
      */
     override fun create(params: CardCreateParams, requestOptions: RequestOptions): Card {
         val request =
@@ -116,7 +117,6 @@ constructor(
 
     /**
      * Update the specified properties of the card. Unsupplied properties will remain unchanged.
-     * `pin` parameter only applies to physical cards.
      *
      * _Note: setting a card to a `CLOSED` state is a final action that cannot be undone._
      */
@@ -168,6 +168,44 @@ constructor(
         }
     }
 
+    private val convertPhysicalHandler: Handler<Card> =
+        jsonHandler<Card>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+    /**
+     * Convert a virtual card into a physical card and manufacture it. Customer must supply relevant
+     * fields for physical card creation including `product_id`, `carrier`, `shipping_method`, and
+     * `shipping_address`. The card token will be unchanged. The card's type will be altered to
+     * `PHYSICAL`. The card will be set to state `PENDING_FULFILLMENT` and fulfilled at next
+     * fulfillment cycle. Virtual cards created on card programs which do not support physical cards
+     * cannot be converted. The card program cannot be changed as part of the conversion. Cards must
+     * be in a state of either `OPEN` or `PAUSED` to be converted. Only applies to cards of type
+     * `VIRTUAL` (or existing cards with deprecated types of `DIGITAL_WALLET` and `UNLOCKED`).
+     */
+    override fun convertPhysical(
+        params: CardConvertPhysicalParams,
+        requestOptions: RequestOptions
+    ): Card {
+        val request =
+            HttpRequest.builder()
+                .method(HttpMethod.POST)
+                .addPathSegments("v1", "cards", params.getPathParam(0), "convert_physical")
+                .putAllQueryParams(clientOptions.queryParams)
+                .replaceAllQueryParams(params.getQueryParams())
+                .putAllHeaders(clientOptions.headers)
+                .replaceAllHeaders(params.getHeaders())
+                .body(json(clientOptions.jsonMapper, params.getBody()))
+                .build()
+        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
+            response
+                .use { convertPhysicalHandler.handle(it) }
+                .apply {
+                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
+                        validate()
+                    }
+                }
+        }
+    }
+
     private val embedHandler: Handler<String> = stringHandler().withErrorHandler(errorHandler)
 
     /**
@@ -179,8 +217,9 @@ constructor(
      * provide, optionally styled in the customer's branding using a specified css stylesheet. A
      * user's browser makes the request directly to api.lithic.com, so card PANs and CVVs never
      * touch the API customer's servers while full card data is displayed to their end-users. The
-     * response contains an HTML document. This means that the url for the request can be inserted
-     * straight into the `src` attribute of an iframe.
+     * response contains an HTML document (see Embedded Card UI or Changelog for upcoming changes in
+     * January). This means that the url for the request can be inserted straight into the `src`
+     * attribute of an iframe.
      *
      * ```html
      * <iframe
@@ -250,9 +289,10 @@ constructor(
         jsonHandler<Card>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
-     * Initiate print and shipment of a duplicate physical card.
-     *
-     * Only applies to cards of type `PHYSICAL`.
+     * Initiate print and shipment of a duplicate physical card (e.g. card is physically damaged).
+     * The PAN, expiry, and CVC2 will remain the same and the original card can continue to be used
+     * until the new card is activated. A card can be reissued a maximum of 8 times. Only applies to
+     * cards of type `PHYSICAL`.
      */
     override fun reissue(params: CardReissueParams, requestOptions: RequestOptions): Card {
         val request =
@@ -280,9 +320,11 @@ constructor(
         jsonHandler<Card>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
     /**
-     * Initiate print and shipment of a renewed physical card.
-     *
-     * Only applies to cards of type `PHYSICAL`.
+     * Creates a new card with the same card token and PAN, but updated expiry and CVC2 code. The
+     * original card will keep working for card-present transactions until the new card is
+     * activated. For card-not-present transactions, the original card details (expiry, CVC2) will
+     * also keep working until the new card is activated. Applies to card types `PHYSICAL` and
+     * `VIRTUAL`.
      */
     override fun renew(params: CardRenewParams, requestOptions: RequestOptions): Card {
         val request =
