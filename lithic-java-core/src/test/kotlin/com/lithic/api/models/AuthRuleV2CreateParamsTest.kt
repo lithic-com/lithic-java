@@ -12,6 +12,7 @@ class AuthRuleV2CreateParamsTest {
             .forCreateAuthRuleRequestAccountTokens(
                 AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.builder()
                     .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+                    .name("name")
                     .parameters(
                         AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.Parameters
                             .ofConditionalBlockParameters(
