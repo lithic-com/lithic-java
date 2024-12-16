@@ -179,6 +179,26 @@ class TransactionTest {
                                     .ACCOUNT_STATE_TRANSACTION_FAIL
                             )
                             .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
+                            .networkInfo(
+                                Transaction.TransactionEvent.NetworkInfo.builder()
+                                    .acquirer(
+                                        Transaction.TransactionEvent.NetworkInfo.Acquirer.builder()
+                                            .retrievalReferenceNumber("064386558597")
+                                            .build()
+                                    )
+                                    .mastercard(
+                                        Transaction.TransactionEvent.NetworkInfo.Mastercard
+                                            .builder()
+                                            .banknetReferenceNumber("U1HSCJ")
+                                            .build()
+                                    )
+                                    .visa(
+                                        Transaction.TransactionEvent.NetworkInfo.Visa.builder()
+                                            .transactionId("transaction_id")
+                                            .build()
+                                    )
+                                    .build()
+                            )
                             .ruleResults(
                                 listOf(
                                     Transaction.TransactionEvent.RuleResult.builder()
@@ -360,6 +380,25 @@ class TransactionTest {
                         Transaction.TransactionEvent.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL
                     )
                     .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
+                    .networkInfo(
+                        Transaction.TransactionEvent.NetworkInfo.builder()
+                            .acquirer(
+                                Transaction.TransactionEvent.NetworkInfo.Acquirer.builder()
+                                    .retrievalReferenceNumber("064386558597")
+                                    .build()
+                            )
+                            .mastercard(
+                                Transaction.TransactionEvent.NetworkInfo.Mastercard.builder()
+                                    .banknetReferenceNumber("U1HSCJ")
+                                    .build()
+                            )
+                            .visa(
+                                Transaction.TransactionEvent.NetworkInfo.Visa.builder()
+                                    .transactionId("transaction_id")
+                                    .build()
+                            )
+                            .build()
+                    )
                     .ruleResults(
                         listOf(
                             Transaction.TransactionEvent.RuleResult.builder()

@@ -755,6 +755,10 @@ private constructor(
 
                 @JvmField val PROVISIONAL_CREDIT_REVERSAL = of("PROVISIONAL_CREDIT_REVERSAL")
 
+                @JvmField val RETURNED_PAYMENT = of("RETURNED_PAYMENT")
+
+                @JvmField val RETURNED_PAYMENT_REVERSAL = of("RETURNED_PAYMENT_REVERSAL")
+
                 @JvmStatic fun of(value: String) = ManagementOperationEventType(JsonField.of(value))
             }
 
@@ -771,6 +775,8 @@ private constructor(
                 LATE_PAYMENT_REVERSAL,
                 BILLING_ERROR_REVERSAL,
                 PROVISIONAL_CREDIT_REVERSAL,
+                RETURNED_PAYMENT,
+                RETURNED_PAYMENT_REVERSAL,
             }
 
             enum class Value {
@@ -786,6 +792,8 @@ private constructor(
                 LATE_PAYMENT_REVERSAL,
                 BILLING_ERROR_REVERSAL,
                 PROVISIONAL_CREDIT_REVERSAL,
+                RETURNED_PAYMENT,
+                RETURNED_PAYMENT_REVERSAL,
                 _UNKNOWN,
             }
 
@@ -803,6 +811,8 @@ private constructor(
                     LATE_PAYMENT_REVERSAL -> Value.LATE_PAYMENT_REVERSAL
                     BILLING_ERROR_REVERSAL -> Value.BILLING_ERROR_REVERSAL
                     PROVISIONAL_CREDIT_REVERSAL -> Value.PROVISIONAL_CREDIT_REVERSAL
+                    RETURNED_PAYMENT -> Value.RETURNED_PAYMENT
+                    RETURNED_PAYMENT_REVERSAL -> Value.RETURNED_PAYMENT_REVERSAL
                     else -> Value._UNKNOWN
                 }
 
@@ -820,6 +830,8 @@ private constructor(
                     LATE_PAYMENT_REVERSAL -> Known.LATE_PAYMENT_REVERSAL
                     BILLING_ERROR_REVERSAL -> Known.BILLING_ERROR_REVERSAL
                     PROVISIONAL_CREDIT_REVERSAL -> Known.PROVISIONAL_CREDIT_REVERSAL
+                    RETURNED_PAYMENT -> Known.RETURNED_PAYMENT
+                    RETURNED_PAYMENT_REVERSAL -> Known.RETURNED_PAYMENT_REVERSAL
                     else ->
                         throw LithicInvalidDataException(
                             "Unknown ManagementOperationEventType: $value"

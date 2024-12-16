@@ -29,6 +29,7 @@ constructor(
     private val merchantAmount: Long?,
     private val merchantCurrency: String?,
     private val partialApprovalCapable: Boolean?,
+    private val pin: String?,
     private val status: Status?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -51,6 +52,8 @@ constructor(
 
     fun partialApprovalCapable(): Optional<Boolean> = Optional.ofNullable(partialApprovalCapable)
 
+    fun pin(): Optional<String> = Optional.ofNullable(pin)
+
     fun status(): Optional<Status> = Optional.ofNullable(status)
 
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -70,6 +73,7 @@ constructor(
             merchantAmount,
             merchantCurrency,
             partialApprovalCapable,
+            pin,
             status,
             additionalBodyProperties,
         )
@@ -91,6 +95,7 @@ constructor(
         private val merchantAmount: Long?,
         private val merchantCurrency: String?,
         private val partialApprovalCapable: Boolean?,
+        private val pin: String?,
         private val status: Status?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
@@ -139,6 +144,9 @@ constructor(
         @JsonProperty("partial_approval_capable")
         fun partialApprovalCapable(): Boolean? = partialApprovalCapable
 
+        /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
+        @JsonProperty("pin") fun pin(): String? = pin
+
         /**
          * Type of event to simulate.
          * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
@@ -176,6 +184,7 @@ constructor(
             private var merchantAmount: Long? = null
             private var merchantCurrency: String? = null
             private var partialApprovalCapable: Boolean? = null
+            private var pin: String? = null
             private var status: Status? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -192,6 +201,7 @@ constructor(
                 this.merchantCurrency = transactionSimulateAuthorizationBody.merchantCurrency
                 this.partialApprovalCapable =
                     transactionSimulateAuthorizationBody.partialApprovalCapable
+                this.pin = transactionSimulateAuthorizationBody.pin
                 this.status = transactionSimulateAuthorizationBody.status
                 additionalProperties(transactionSimulateAuthorizationBody.additionalProperties)
             }
@@ -252,6 +262,9 @@ constructor(
                 this.partialApprovalCapable = partialApprovalCapable
             }
 
+            /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
+            @JsonProperty("pin") fun pin(pin: String) = apply { this.pin = pin }
+
             /**
              * Type of event to simulate.
              * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent
@@ -294,6 +307,7 @@ constructor(
                     merchantAmount,
                     merchantCurrency,
                     partialApprovalCapable,
+                    pin,
                     status,
                     additionalProperties.toImmutable(),
                 )
@@ -304,17 +318,17 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionSimulateAuthorizationBody && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && merchantAmount == other.merchantAmount && merchantCurrency == other.merchantCurrency && partialApprovalCapable == other.partialApprovalCapable && status == other.status && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransactionSimulateAuthorizationBody && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && merchantAmount == other.merchantAmount && merchantCurrency == other.merchantCurrency && partialApprovalCapable == other.partialApprovalCapable && pin == other.pin && status == other.status && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, merchantAmount, merchantCurrency, partialApprovalCapable, status, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, merchantAmount, merchantCurrency, partialApprovalCapable, pin, status, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TransactionSimulateAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, status=$status, additionalProperties=$additionalProperties}"
+            "TransactionSimulateAuthorizationBody{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, pin=$pin, status=$status, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -335,6 +349,7 @@ constructor(
         private var merchantAmount: Long? = null
         private var merchantCurrency: String? = null
         private var partialApprovalCapable: Boolean? = null
+        private var pin: String? = null
         private var status: Status? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -352,6 +367,7 @@ constructor(
             merchantAmount = transactionSimulateAuthorizationParams.merchantAmount
             merchantCurrency = transactionSimulateAuthorizationParams.merchantCurrency
             partialApprovalCapable = transactionSimulateAuthorizationParams.partialApprovalCapable
+            pin = transactionSimulateAuthorizationParams.pin
             status = transactionSimulateAuthorizationParams.status
             additionalHeaders = transactionSimulateAuthorizationParams.additionalHeaders.toBuilder()
             additionalQueryParams =
@@ -408,6 +424,9 @@ constructor(
         fun partialApprovalCapable(partialApprovalCapable: Boolean) = apply {
             this.partialApprovalCapable = partialApprovalCapable
         }
+
+        /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
+        fun pin(pin: String) = apply { this.pin = pin }
 
         /**
          * Type of event to simulate.
@@ -555,6 +574,7 @@ constructor(
                 merchantAmount,
                 merchantCurrency,
                 partialApprovalCapable,
+                pin,
                 status,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -642,11 +662,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionSimulateAuthorizationParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && merchantAmount == other.merchantAmount && merchantCurrency == other.merchantCurrency && partialApprovalCapable == other.partialApprovalCapable && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is TransactionSimulateAuthorizationParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && merchantAmount == other.merchantAmount && merchantCurrency == other.merchantCurrency && partialApprovalCapable == other.partialApprovalCapable && pin == other.pin && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, merchantAmount, merchantCurrency, partialApprovalCapable, status, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, merchantAmount, merchantCurrency, partialApprovalCapable, pin, status, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
-        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, pin=$pin, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }
