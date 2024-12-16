@@ -554,11 +554,16 @@ constructor(
     class ApplyAuthRuleRequestProgramLevel
     private constructor(
         private val programLevel: Boolean?,
+        private val excludedCardTokens: List<String>?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** Whether the Auth Rule applies to all authorizations on the card program. */
         @JsonProperty("program_level") fun programLevel(): Boolean? = programLevel
+
+        /** Card tokens to which the Auth Rule does not apply. */
+        @JsonProperty("excluded_card_tokens")
+        fun excludedCardTokens(): List<String>? = excludedCardTokens
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -574,18 +579,26 @@ constructor(
         class Builder {
 
             private var programLevel: Boolean? = null
+            private var excludedCardTokens: List<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(applyAuthRuleRequestProgramLevel: ApplyAuthRuleRequestProgramLevel) =
                 apply {
                     this.programLevel = applyAuthRuleRequestProgramLevel.programLevel
+                    this.excludedCardTokens = applyAuthRuleRequestProgramLevel.excludedCardTokens
                     additionalProperties(applyAuthRuleRequestProgramLevel.additionalProperties)
                 }
 
             /** Whether the Auth Rule applies to all authorizations on the card program. */
             @JsonProperty("program_level")
             fun programLevel(programLevel: Boolean) = apply { this.programLevel = programLevel }
+
+            /** Card tokens to which the Auth Rule does not apply. */
+            @JsonProperty("excluded_card_tokens")
+            fun excludedCardTokens(excludedCardTokens: List<String>) = apply {
+                this.excludedCardTokens = excludedCardTokens
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -604,7 +617,8 @@ constructor(
             fun build(): ApplyAuthRuleRequestProgramLevel =
                 ApplyAuthRuleRequestProgramLevel(
                     checkNotNull(programLevel) { "`programLevel` is required but was not set" },
-                    additionalProperties.toImmutable()
+                    excludedCardTokens?.toImmutable(),
+                    additionalProperties.toImmutable(),
                 )
         }
 
@@ -613,17 +627,17 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ApplyAuthRuleRequestProgramLevel && programLevel == other.programLevel && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ApplyAuthRuleRequestProgramLevel && programLevel == other.programLevel && excludedCardTokens == other.excludedCardTokens && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(programLevel, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(programLevel, excludedCardTokens, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ApplyAuthRuleRequestProgramLevel{programLevel=$programLevel, additionalProperties=$additionalProperties}"
+            "ApplyAuthRuleRequestProgramLevel{programLevel=$programLevel, excludedCardTokens=$excludedCardTokens, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

@@ -5,11 +5,11 @@ package com.lithic.api.models
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class CardRenewParamsTest {
+class CardConvertPhysicalParamsTest {
 
     @Test
-    fun createCardRenewParams() {
-        CardRenewParams.builder()
+    fun createCardConvertPhysicalParams() {
+        CardConvertPhysicalParams.builder()
             .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .shippingAddress(
                 ShippingAddress.builder()
@@ -27,17 +27,15 @@ class CardRenewParamsTest {
                     .build()
             )
             .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
-            .expMonth("06")
-            .expYear("2027")
             .productId("product_id")
-            .shippingMethod(CardRenewParams.ShippingMethod._2_DAY)
+            .shippingMethod(CardConvertPhysicalParams.ShippingMethod._2_DAY)
             .build()
     }
 
     @Test
     fun getBody() {
         val params =
-            CardRenewParams.builder()
+            CardConvertPhysicalParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -55,10 +53,8 @@ class CardRenewParamsTest {
                         .build()
                 )
                 .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
-                .expMonth("06")
-                .expYear("2027")
                 .productId("product_id")
-                .shippingMethod(CardRenewParams.ShippingMethod._2_DAY)
+                .shippingMethod(CardConvertPhysicalParams.ShippingMethod._2_DAY)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
@@ -79,16 +75,14 @@ class CardRenewParamsTest {
                     .build()
             )
         assertThat(body.carrier()).isEqualTo(Carrier.builder().qrCodeUrl("qr_code_url").build())
-        assertThat(body.expMonth()).isEqualTo("06")
-        assertThat(body.expYear()).isEqualTo("2027")
         assertThat(body.productId()).isEqualTo("product_id")
-        assertThat(body.shippingMethod()).isEqualTo(CardRenewParams.ShippingMethod._2_DAY)
+        assertThat(body.shippingMethod()).isEqualTo(CardConvertPhysicalParams.ShippingMethod._2_DAY)
     }
 
     @Test
     fun getBodyWithoutOptionalFields() {
         val params =
-            CardRenewParams.builder()
+            CardConvertPhysicalParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()
@@ -121,7 +115,7 @@ class CardRenewParamsTest {
     @Test
     fun getPathParam() {
         val params =
-            CardRenewParams.builder()
+            CardConvertPhysicalParams.builder()
                 .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .shippingAddress(
                     ShippingAddress.builder()

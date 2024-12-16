@@ -4,6 +4,7 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
+import com.lithic.api.models.CardConvertPhysicalParams
 import com.lithic.api.models.CardCreateParams
 import com.lithic.api.models.CardEmbedParams
 import com.lithic.api.models.CardListParams
@@ -59,7 +60,7 @@ class CardServiceTest {
                             .address2("Unit 25A")
                             .email("johnny@appleseed.com")
                             .line2Text("The Bluth Company")
-                            .phoneNumber("+12124007676")
+                            .phoneNumber("+15555555555")
                             .build()
                     )
                     .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
@@ -129,6 +130,42 @@ class CardServiceTest {
     }
 
     @Test
+    fun callConvertPhysical() {
+        val client =
+            LithicOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My Lithic API Key")
+                .build()
+        val cardService = client.cards()
+        val card =
+            cardService.convertPhysical(
+                CardConvertPhysicalParams.builder()
+                    .cardToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .shippingAddress(
+                        ShippingAddress.builder()
+                            .address1("5 Broad Street")
+                            .city("NEW YORK")
+                            .country("USA")
+                            .firstName("Michael")
+                            .lastName("Bluth")
+                            .postalCode("10001-1809")
+                            .state("NY")
+                            .address2("Unit 25A")
+                            .email("johnny@appleseed.com")
+                            .line2Text("The Bluth Company")
+                            .phoneNumber("+15555555555")
+                            .build()
+                    )
+                    .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
+                    .productId("product_id")
+                    .shippingMethod(CardConvertPhysicalParams.ShippingMethod._2_DAY)
+                    .build()
+            )
+        println(card)
+        card.validate()
+    }
+
+    @Test
     fun callEmbed() {
         val client =
             LithicOkHttpClient.builder()
@@ -194,7 +231,7 @@ class CardServiceTest {
                             .address2("Unit 25A")
                             .email("johnny@appleseed.com")
                             .line2Text("The Bluth Company")
-                            .phoneNumber("+12124007676")
+                            .phoneNumber("+15555555555")
                             .build()
                     )
                     .shippingMethod(CardReissueParams.ShippingMethod._2_DAY)
@@ -228,7 +265,7 @@ class CardServiceTest {
                             .address2("Unit 25A")
                             .email("johnny@appleseed.com")
                             .line2Text("The Bluth Company")
-                            .phoneNumber("+12124007676")
+                            .phoneNumber("+15555555555")
                             .build()
                     )
                     .carrier(Carrier.builder().qrCodeUrl("qr_code_url").build())
