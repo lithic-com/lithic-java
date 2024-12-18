@@ -64,6 +64,8 @@ import com.lithic.api.services.blocking.TransactionService
 import com.lithic.api.services.blocking.TransactionServiceImpl
 import com.lithic.api.services.blocking.TransferService
 import com.lithic.api.services.blocking.TransferServiceImpl
+import com.lithic.api.services.blocking.WebhookService
+import com.lithic.api.services.blocking.WebhookServiceImpl
 
 class LithicClientImpl
 constructor(
