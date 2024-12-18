@@ -4,8 +4,8 @@ package com.lithic.api.services.blocking.cards
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.*
 import com.lithic.api.models.CardFinancialTransactionListParams
+import com.lithic.api.models.CardFinancialTransactionRetrieveParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 

@@ -17,7 +17,11 @@ import com.lithic.api.client.LithicClient
 import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
-import com.lithic.api.models.*
+import com.lithic.api.models.Card
+import com.lithic.api.models.CardCreateParams
+import com.lithic.api.models.Carrier
+import com.lithic.api.models.ShippingAddress
+import com.lithic.api.models.SpendLimitDuration
 import java.time.OffsetDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

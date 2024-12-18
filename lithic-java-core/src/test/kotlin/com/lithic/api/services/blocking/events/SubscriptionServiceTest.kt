@@ -4,9 +4,17 @@ package com.lithic.api.services.blocking.events
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.*
+import com.lithic.api.models.EventSubscriptionCreateParams
+import com.lithic.api.models.EventSubscriptionDeleteParams
 import com.lithic.api.models.EventSubscriptionListAttemptsParams
 import com.lithic.api.models.EventSubscriptionListParams
+import com.lithic.api.models.EventSubscriptionRecoverParams
+import com.lithic.api.models.EventSubscriptionReplayMissingParams
+import com.lithic.api.models.EventSubscriptionRetrieveParams
+import com.lithic.api.models.EventSubscriptionRetrieveSecretParams
+import com.lithic.api.models.EventSubscriptionRotateSecretParams
+import com.lithic.api.models.EventSubscriptionSendSimulatedExampleParams
+import com.lithic.api.models.EventSubscriptionUpdateParams
 import java.time.OffsetDateTime
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test

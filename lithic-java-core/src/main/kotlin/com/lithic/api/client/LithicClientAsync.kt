@@ -5,7 +5,8 @@
 package com.lithic.api.client
 
 import com.lithic.api.core.RequestOptions
-import com.lithic.api.models.*
+import com.lithic.api.models.ApiStatus
+import com.lithic.api.models.ClientApiStatusParams
 import com.lithic.api.services.async.*
 import java.util.concurrent.CompletableFuture
 
