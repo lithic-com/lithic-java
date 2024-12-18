@@ -174,11 +174,6 @@ class TransactionTest {
                             .effectivePolarity(
                                 Transaction.TransactionEvent.EffectivePolarity.CREDIT
                             )
-                            .result(
-                                Transaction.TransactionEvent.DeclineResult
-                                    .ACCOUNT_STATE_TRANSACTION_FAIL
-                            )
-                            .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                             .networkInfo(
                                 Transaction.TransactionEvent.NetworkInfo.builder()
                                     .acquirer(
@@ -199,6 +194,10 @@ class TransactionTest {
                                     )
                                     .build()
                             )
+                            .result(
+                                Transaction.TransactionEvent.DeclineResult
+                                    .ACCOUNT_STATE_TRANSACTION_FAIL
+                            )
                             .ruleResults(
                                 listOf(
                                     Transaction.TransactionEvent.RuleResult.builder()
@@ -212,6 +211,7 @@ class TransactionTest {
                                         .build()
                                 )
                             )
+                            .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                             .build()
                     )
                 )
@@ -376,10 +376,6 @@ class TransactionTest {
                         )
                     )
                     .effectivePolarity(Transaction.TransactionEvent.EffectivePolarity.CREDIT)
-                    .result(
-                        Transaction.TransactionEvent.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL
-                    )
-                    .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                     .networkInfo(
                         Transaction.TransactionEvent.NetworkInfo.builder()
                             .acquirer(
@@ -399,6 +395,9 @@ class TransactionTest {
                             )
                             .build()
                     )
+                    .result(
+                        Transaction.TransactionEvent.DeclineResult.ACCOUNT_STATE_TRANSACTION_FAIL
+                    )
                     .ruleResults(
                         listOf(
                             Transaction.TransactionEvent.RuleResult.builder()
@@ -412,6 +411,7 @@ class TransactionTest {
                                 .build()
                         )
                     )
+                    .type(Transaction.TransactionEvent.Type.AUTHORIZATION)
                     .build()
             )
     }
