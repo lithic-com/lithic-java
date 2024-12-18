@@ -64,6 +64,8 @@ import com.lithic.api.services.async.TransactionServiceAsync
 import com.lithic.api.services.async.TransactionServiceAsyncImpl
 import com.lithic.api.services.async.TransferServiceAsync
 import com.lithic.api.services.async.TransferServiceAsyncImpl
+import com.lithic.api.services.async.WebhookServiceAsync
+import com.lithic.api.services.async.WebhookServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 
 class LithicClientAsyncImpl
