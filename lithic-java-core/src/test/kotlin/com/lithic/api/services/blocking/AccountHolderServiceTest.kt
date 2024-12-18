@@ -7,7 +7,6 @@ import com.lithic.api.client.okhttp.LithicOkHttpClient
 import com.lithic.api.models.AccountHolderCreateParams
 import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListParams
-import com.lithic.api.models.AccountHolderResubmitParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
 import com.lithic.api.models.AccountHolderRetrieveParams
 import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
@@ -201,46 +200,6 @@ class AccountHolderServiceTest {
             )
         println(accountHolderListDocumentsResponse)
         accountHolderListDocumentsResponse.validate()
-    }
-
-    @Test
-    fun callResubmit() {
-        val client =
-            LithicOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My Lithic API Key")
-                .build()
-        val accountHolderService = client.accountHolders()
-        val accountHolder =
-            accountHolderService.resubmit(
-                AccountHolderResubmitParams.builder()
-                    .accountHolderToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .individual(
-                        AccountHolderResubmitParams.Individual.builder()
-                            .address(
-                                Address.builder()
-                                    .address1("123 Old Forest Way")
-                                    .city("Omaha")
-                                    .country("USA")
-                                    .postalCode("68022")
-                                    .state("NE")
-                                    .address2("address2")
-                                    .build()
-                            )
-                            .dob("1991-03-08 08:00:00")
-                            .email("tom@middle-earth.com")
-                            .firstName("Tom")
-                            .governmentId("111-23-1412")
-                            .lastName("Bombadil")
-                            .phoneNumber("+15555555555")
-                            .build()
-                    )
-                    .tosTimestamp("2018-05-29T21:16:05Z")
-                    .workflow(AccountHolderResubmitParams.Workflow.KYC_ADVANCED)
-                    .build()
-            )
-        println(accountHolder)
-        accountHolder.validate()
     }
 
     @Test

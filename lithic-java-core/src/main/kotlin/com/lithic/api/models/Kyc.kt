@@ -477,8 +477,6 @@ private constructor(
 
         companion object {
 
-            @JvmField val KYC_ADVANCED = of("KYC_ADVANCED")
-
             @JvmField val KYC_BASIC = of("KYC_BASIC")
 
             @JvmField val KYC_BYO = of("KYC_BYO")
@@ -487,13 +485,11 @@ private constructor(
         }
 
         enum class Known {
-            KYC_ADVANCED,
             KYC_BASIC,
             KYC_BYO,
         }
 
         enum class Value {
-            KYC_ADVANCED,
             KYC_BASIC,
             KYC_BYO,
             _UNKNOWN,
@@ -501,7 +497,6 @@ private constructor(
 
         fun value(): Value =
             when (this) {
-                KYC_ADVANCED -> Value.KYC_ADVANCED
                 KYC_BASIC -> Value.KYC_BASIC
                 KYC_BYO -> Value.KYC_BYO
                 else -> Value._UNKNOWN
@@ -509,7 +504,6 @@ private constructor(
 
         fun known(): Known =
             when (this) {
-                KYC_ADVANCED -> Known.KYC_ADVANCED
                 KYC_BASIC -> Known.KYC_BASIC
                 KYC_BYO -> Known.KYC_BYO
                 else -> throw LithicInvalidDataException("Unknown Workflow: $value")

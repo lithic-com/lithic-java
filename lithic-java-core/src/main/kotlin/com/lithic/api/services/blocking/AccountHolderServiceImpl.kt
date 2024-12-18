@@ -19,7 +19,6 @@ import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListDocumentsResponse
 import com.lithic.api.models.AccountHolderListPage
 import com.lithic.api.models.AccountHolderListParams
-import com.lithic.api.models.AccountHolderResubmitParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
 import com.lithic.api.models.AccountHolderRetrieveParams
 import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
@@ -214,43 +213,6 @@ constructor(
         }
     }
 
-    private val resubmitHandler: Handler<AccountHolder> =
-        jsonHandler<AccountHolder>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-    /**
-     * Resubmit a KYC submission. This endpoint should be used in cases where a KYC submission
-     * returned a `PENDING_RESUBMIT` result, meaning one or more critical KYC fields may have been
-     * mis-entered and the individual's identity has not yet been successfully verified. This step
-     * must be completed in order to proceed with the KYC evaluation.
-     *
-     * Two resubmission attempts are permitted via this endpoint before a `REJECTED` status is
-     * returned and the account creation process is ended.
-     */
-    override fun resubmit(
-        params: AccountHolderResubmitParams,
-        requestOptions: RequestOptions
-    ): AccountHolder {
-        val request =
-            HttpRequest.builder()
-                .method(HttpMethod.POST)
-                .addPathSegments("v1", "account_holders", params.getPathParam(0), "resubmit")
-                .putAllQueryParams(clientOptions.queryParams)
-                .replaceAllQueryParams(params.getQueryParams())
-                .putAllHeaders(clientOptions.headers)
-                .replaceAllHeaders(params.getHeaders())
-                .body(json(clientOptions.jsonMapper, params.getBody()))
-                .build()
-        return clientOptions.httpClient.execute(request, requestOptions).let { response ->
-            response
-                .use { resubmitHandler.handle(it) }
-                .apply {
-                    if (requestOptions.responseValidation ?: clientOptions.responseValidation) {
-                        validate()
-                    }
-                }
-        }
-    }
-
     private val retrieveDocumentHandler: Handler<Document> =
         jsonHandler<Document>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
@@ -335,7 +297,7 @@ constructor(
 
     /**
      * Simulates an enrollment review for an account holder. This endpoint is only applicable for
-     * workflows that may required intervention such as `KYB_BASIC` or `KYC_ADVANCED`.
+     * workflows that may required intervention such as `KYB_BASIC`.
      */
     override fun simulateEnrollmentReview(
         params: AccountHolderSimulateEnrollmentReviewParams,
