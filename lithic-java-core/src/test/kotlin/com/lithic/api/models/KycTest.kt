@@ -32,7 +32,7 @@ class KycTest {
                         .build()
                 )
                 .tosTimestamp("tos_timestamp")
-                .workflow(Kyc.Workflow.KYC_ADVANCED)
+                .workflow(Kyc.Workflow.KYC_BASIC)
                 .externalId("external_id")
                 .kycPassedTimestamp("kyc_passed_timestamp")
                 .build()
@@ -59,7 +59,7 @@ class KycTest {
                     .build()
             )
         assertThat(kyc.tosTimestamp()).isEqualTo("tos_timestamp")
-        assertThat(kyc.workflow()).isEqualTo(Kyc.Workflow.KYC_ADVANCED)
+        assertThat(kyc.workflow()).isEqualTo(Kyc.Workflow.KYC_BASIC)
         assertThat(kyc.externalId()).contains("external_id")
         assertThat(kyc.kycPassedTimestamp()).contains("kyc_passed_timestamp")
     }
