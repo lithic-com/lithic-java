@@ -18,7 +18,7 @@ class CardProgramTest {
                 .panRangeEnd("52304803")
                 .panRangeStart("52304803")
                 .cardholderCurrency("USD")
-                .settlementCurrencies(listOf("string"))
+                .settlementCurrencies(listOf("USD", "CAD"))
                 .build()
         assertThat(cardProgram).isNotNull
         assertThat(cardProgram.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -28,6 +28,6 @@ class CardProgramTest {
         assertThat(cardProgram.panRangeEnd()).isEqualTo("52304803")
         assertThat(cardProgram.panRangeStart()).isEqualTo("52304803")
         assertThat(cardProgram.cardholderCurrency()).contains("USD")
-        assertThat(cardProgram.settlementCurrencies().get()).containsExactly("string")
+        assertThat(cardProgram.settlementCurrencies().get()).containsExactly("USD", "CAD")
     }
 }

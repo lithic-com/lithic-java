@@ -8,6 +8,7 @@ import com.lithic.api.core.JsonString
 import com.lithic.api.models.*
 import com.lithic.api.models.EventListAttemptsParams
 import com.lithic.api.models.EventListParams
+import com.lithic.api.models.EventRetrieveParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 

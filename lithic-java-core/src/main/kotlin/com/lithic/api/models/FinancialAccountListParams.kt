@@ -5,12 +5,10 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
 
@@ -199,25 +197,13 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val ISSUING = Type(JsonField.of("ISSUING"))
+            @JvmField val ISSUING = of("ISSUING")
 
-            @JvmField val OPERATING = Type(JsonField.of("OPERATING"))
+            @JvmField val OPERATING = of("OPERATING")
 
-            @JvmField val RESERVE = Type(JsonField.of("RESERVE"))
+            @JvmField val RESERVE = of("RESERVE")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
@@ -252,6 +238,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

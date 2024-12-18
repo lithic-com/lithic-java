@@ -16,7 +16,6 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
 
@@ -364,23 +363,11 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val ACCEPTED = Status(JsonField.of("ACCEPTED"))
+            @JvmField val ACCEPTED = of("ACCEPTED")
 
-            @JvmField val REJECTED = Status(JsonField.of("REJECTED"))
+            @JvmField val REJECTED = of("REJECTED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
@@ -411,6 +398,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class StatusReason
@@ -421,87 +420,74 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is StatusReason && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE"))
+                of("PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE"))
+                of("PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE"))
+                of("PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED =
-                StatusReason(JsonField.of("PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED"))
+                of("PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE =
-                StatusReason(JsonField.of("PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE"))
+                of("PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED =
-                StatusReason(JsonField.of("PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED"))
+                of("PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED")
 
             @JvmField
-            val PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE =
-                StatusReason(JsonField.of("PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE"))
+            val PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE = of("PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE =
-                StatusReason(JsonField.of("PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE"))
+                of("PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE =
-                StatusReason(JsonField.of("PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE"))
+                of("PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE")
 
             @JvmField
             val CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE =
-                StatusReason(JsonField.of("CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE"))
+                of("CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE")
 
             @JvmField
             val CONTROL_PERSON_ID_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("CONTROL_PERSON_ID_VERIFICATION_FAILURE"))
+                of("CONTROL_PERSON_ID_VERIFICATION_FAILURE")
 
             @JvmField
             val CONTROL_PERSON_DOB_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("CONTROL_PERSON_DOB_VERIFICATION_FAILURE"))
+                of("CONTROL_PERSON_DOB_VERIFICATION_FAILURE")
 
             @JvmField
             val CONTROL_PERSON_NAME_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("CONTROL_PERSON_NAME_VERIFICATION_FAILURE"))
+                of("CONTROL_PERSON_NAME_VERIFICATION_FAILURE")
 
             @JvmField
             val BENEFICIAL_OWNER_INDIVIDUAL_DOB_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("BENEFICIAL_OWNER_INDIVIDUAL_DOB_VERIFICATION_FAILURE"))
+                of("BENEFICIAL_OWNER_INDIVIDUAL_DOB_VERIFICATION_FAILURE")
 
             @JvmField
             val BENEFICIAL_OWNER_INDIVIDUAL_BLOCKLIST_ALERT_FAILURE =
-                StatusReason(JsonField.of("BENEFICIAL_OWNER_INDIVIDUAL_BLOCKLIST_ALERT_FAILURE"))
+                of("BENEFICIAL_OWNER_INDIVIDUAL_BLOCKLIST_ALERT_FAILURE")
 
             @JvmField
             val BENEFICIAL_OWNER_INDIVIDUAL_ID_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("BENEFICIAL_OWNER_INDIVIDUAL_ID_VERIFICATION_FAILURE"))
+                of("BENEFICIAL_OWNER_INDIVIDUAL_ID_VERIFICATION_FAILURE")
 
             @JvmField
             val BENEFICIAL_OWNER_INDIVIDUAL_NAME_VERIFICATION_FAILURE =
-                StatusReason(JsonField.of("BENEFICIAL_OWNER_INDIVIDUAL_NAME_VERIFICATION_FAILURE"))
+                of("BENEFICIAL_OWNER_INDIVIDUAL_NAME_VERIFICATION_FAILURE")
 
             @JvmStatic fun of(value: String) = StatusReason(JsonField.of(value))
         }
@@ -624,6 +610,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is StatusReason && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

@@ -1793,46 +1793,26 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is AcquirerExemption && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
                 @JvmField
-                val AUTHENTICATION_OUTAGE_EXCEPTION =
-                    AcquirerExemption(JsonField.of("AUTHENTICATION_OUTAGE_EXCEPTION"))
+                val AUTHENTICATION_OUTAGE_EXCEPTION = of("AUTHENTICATION_OUTAGE_EXCEPTION")
 
-                @JvmField val LOW_VALUE = AcquirerExemption(JsonField.of("LOW_VALUE"))
+                @JvmField val LOW_VALUE = of("LOW_VALUE")
 
-                @JvmField
-                val MERCHANT_INITIATED_TRANSACTION =
-                    AcquirerExemption(JsonField.of("MERCHANT_INITIATED_TRANSACTION"))
+                @JvmField val MERCHANT_INITIATED_TRANSACTION = of("MERCHANT_INITIATED_TRANSACTION")
 
-                @JvmField val NONE = AcquirerExemption(JsonField.of("NONE"))
+                @JvmField val NONE = of("NONE")
 
-                @JvmField
-                val RECURRING_PAYMENT = AcquirerExemption(JsonField.of("RECURRING_PAYMENT"))
+                @JvmField val RECURRING_PAYMENT = of("RECURRING_PAYMENT")
 
-                @JvmField
-                val SECURE_CORPORATE_PAYMENT =
-                    AcquirerExemption(JsonField.of("SECURE_CORPORATE_PAYMENT"))
+                @JvmField val SECURE_CORPORATE_PAYMENT = of("SECURE_CORPORATE_PAYMENT")
 
                 @JvmField
                 val STRONG_CUSTOMER_AUTHENTICATION_DELEGATION =
-                    AcquirerExemption(JsonField.of("STRONG_CUSTOMER_AUTHENTICATION_DELEGATION"))
+                    of("STRONG_CUSTOMER_AUTHENTICATION_DELEGATION")
 
-                @JvmField
-                val TRANSACTION_RISK_ANALYSIS =
-                    AcquirerExemption(JsonField.of("TRANSACTION_RISK_ANALYSIS"))
+                @JvmField val TRANSACTION_RISK_ANALYSIS = of("TRANSACTION_RISK_ANALYSIS")
 
                 @JvmStatic fun of(value: String) = AcquirerExemption(JsonField.of(value))
             }
@@ -1889,6 +1869,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is AcquirerExemption && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         class AuthenticationResult
@@ -1899,27 +1891,15 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is AuthenticationResult && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val ATTEMPTS = AuthenticationResult(JsonField.of("ATTEMPTS"))
+                @JvmField val ATTEMPTS = of("ATTEMPTS")
 
-                @JvmField val DECLINE = AuthenticationResult(JsonField.of("DECLINE"))
+                @JvmField val DECLINE = of("DECLINE")
 
-                @JvmField val NONE = AuthenticationResult(JsonField.of("NONE"))
+                @JvmField val NONE = of("NONE")
 
-                @JvmField val SUCCESS = AuthenticationResult(JsonField.of("SUCCESS"))
+                @JvmField val SUCCESS = of("SUCCESS")
 
                 @JvmStatic fun of(value: String) = AuthenticationResult(JsonField.of(value))
             }
@@ -1958,6 +1938,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is AuthenticationResult && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         class DecisionMadeBy
@@ -1968,29 +1960,17 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is DecisionMadeBy && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val CUSTOMER_ENDPOINT = DecisionMadeBy(JsonField.of("CUSTOMER_ENDPOINT"))
+                @JvmField val CUSTOMER_ENDPOINT = of("CUSTOMER_ENDPOINT")
 
-                @JvmField val LITHIC_DEFAULT = DecisionMadeBy(JsonField.of("LITHIC_DEFAULT"))
+                @JvmField val LITHIC_DEFAULT = of("LITHIC_DEFAULT")
 
-                @JvmField val LITHIC_RULES = DecisionMadeBy(JsonField.of("LITHIC_RULES"))
+                @JvmField val LITHIC_RULES = of("LITHIC_RULES")
 
-                @JvmField val NETWORK = DecisionMadeBy(JsonField.of("NETWORK"))
+                @JvmField val NETWORK = of("NETWORK")
 
-                @JvmField val UNKNOWN = DecisionMadeBy(JsonField.of("UNKNOWN"))
+                @JvmField val UNKNOWN = of("UNKNOWN")
 
                 @JvmStatic fun of(value: String) = DecisionMadeBy(JsonField.of(value))
             }
@@ -2033,6 +2013,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is DecisionMadeBy && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         class LiabilityShift
@@ -2043,29 +2035,15 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is LiabilityShift && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val _3DS_AUTHENTICATED = LiabilityShift(JsonField.of("3DS_AUTHENTICATED"))
+                @JvmField val _3DS_AUTHENTICATED = of("3DS_AUTHENTICATED")
 
-                @JvmField
-                val ACQUIRER_EXEMPTION = LiabilityShift(JsonField.of("ACQUIRER_EXEMPTION"))
+                @JvmField val ACQUIRER_EXEMPTION = of("ACQUIRER_EXEMPTION")
 
-                @JvmField val NONE = LiabilityShift(JsonField.of("NONE"))
+                @JvmField val NONE = of("NONE")
 
-                @JvmField
-                val TOKEN_AUTHENTICATED = LiabilityShift(JsonField.of("TOKEN_AUTHENTICATED"))
+                @JvmField val TOKEN_AUTHENTICATED = of("TOKEN_AUTHENTICATED")
 
                 @JvmStatic fun of(value: String) = LiabilityShift(JsonField.of(value))
             }
@@ -2104,6 +2082,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is LiabilityShift && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         class VerificationAttempted
@@ -2114,23 +2104,11 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is VerificationAttempted && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val NONE = VerificationAttempted(JsonField.of("NONE"))
+                @JvmField val NONE = of("NONE")
 
-                @JvmField val OTHER = VerificationAttempted(JsonField.of("OTHER"))
+                @JvmField val OTHER = of("OTHER")
 
                 @JvmStatic fun of(value: String) = VerificationAttempted(JsonField.of(value))
             }
@@ -2162,6 +2140,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is VerificationAttempted && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         class VerificationResult
@@ -2172,31 +2162,19 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is VerificationResult && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val CANCELLED = VerificationResult(JsonField.of("CANCELLED"))
+                @JvmField val CANCELLED = of("CANCELLED")
 
-                @JvmField val FAILED = VerificationResult(JsonField.of("FAILED"))
+                @JvmField val FAILED = of("FAILED")
 
-                @JvmField val FRICTIONLESS = VerificationResult(JsonField.of("FRICTIONLESS"))
+                @JvmField val FRICTIONLESS = of("FRICTIONLESS")
 
-                @JvmField val NOT_ATTEMPTED = VerificationResult(JsonField.of("NOT_ATTEMPTED"))
+                @JvmField val NOT_ATTEMPTED = of("NOT_ATTEMPTED")
 
-                @JvmField val REJECTED = VerificationResult(JsonField.of("REJECTED"))
+                @JvmField val REJECTED = of("REJECTED")
 
-                @JvmField val SUCCESS = VerificationResult(JsonField.of("SUCCESS"))
+                @JvmField val SUCCESS = of("SUCCESS")
 
                 @JvmStatic fun of(value: String) = VerificationResult(JsonField.of(value))
             }
@@ -2243,6 +2221,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is VerificationResult && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         override fun equals(other: Any?): Boolean {
@@ -2519,29 +2509,17 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val INTERLINK = Network(JsonField.of("INTERLINK"))
+            @JvmField val INTERLINK = of("INTERLINK")
 
-            @JvmField val MAESTRO = Network(JsonField.of("MAESTRO"))
+            @JvmField val MAESTRO = of("MAESTRO")
 
-            @JvmField val MASTERCARD = Network(JsonField.of("MASTERCARD"))
+            @JvmField val MASTERCARD = of("MASTERCARD")
 
-            @JvmField val UNKNOWN = Network(JsonField.of("UNKNOWN"))
+            @JvmField val UNKNOWN = of("UNKNOWN")
 
-            @JvmField val VISA = Network(JsonField.of("VISA"))
+            @JvmField val VISA = of("VISA")
 
             @JvmStatic fun of(value: String) = Network(JsonField.of(value))
         }
@@ -2584,6 +2562,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     @JsonDeserialize(builder = Pos.Builder::class)
@@ -2819,27 +2809,15 @@ private constructor(
 
                 @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return /* spotless:off */ other is Card && value == other.value /* spotless:on */
-                }
-
-                override fun hashCode() = value.hashCode()
-
-                override fun toString() = value.toString()
-
                 companion object {
 
-                    @JvmField val NOT_PRESENT = Card(JsonField.of("NOT_PRESENT"))
+                    @JvmField val NOT_PRESENT = of("NOT_PRESENT")
 
-                    @JvmField val PREAUTHORIZED = Card(JsonField.of("PREAUTHORIZED"))
+                    @JvmField val PREAUTHORIZED = of("PREAUTHORIZED")
 
-                    @JvmField val PRESENT = Card(JsonField.of("PRESENT"))
+                    @JvmField val PRESENT = of("PRESENT")
 
-                    @JvmField val UNKNOWN = Card(JsonField.of("UNKNOWN"))
+                    @JvmField val UNKNOWN = of("UNKNOWN")
 
                     @JvmStatic fun of(value: String) = Card(JsonField.of(value))
                 }
@@ -2878,6 +2856,18 @@ private constructor(
                     }
 
                 fun asString(): String = _value().asStringOrThrow()
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Card && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
             }
 
             class Cardholder
@@ -2888,39 +2878,27 @@ private constructor(
 
                 @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return /* spotless:off */ other is Cardholder && value == other.value /* spotless:on */
-                }
-
-                override fun hashCode() = value.hashCode()
-
-                override fun toString() = value.toString()
-
                 companion object {
 
-                    @JvmField val DEFERRED_BILLING = Cardholder(JsonField.of("DEFERRED_BILLING"))
+                    @JvmField val DEFERRED_BILLING = of("DEFERRED_BILLING")
 
-                    @JvmField val ELECTRONIC_ORDER = Cardholder(JsonField.of("ELECTRONIC_ORDER"))
+                    @JvmField val ELECTRONIC_ORDER = of("ELECTRONIC_ORDER")
 
-                    @JvmField val INSTALLMENT = Cardholder(JsonField.of("INSTALLMENT"))
+                    @JvmField val INSTALLMENT = of("INSTALLMENT")
 
-                    @JvmField val MAIL_ORDER = Cardholder(JsonField.of("MAIL_ORDER"))
+                    @JvmField val MAIL_ORDER = of("MAIL_ORDER")
 
-                    @JvmField val NOT_PRESENT = Cardholder(JsonField.of("NOT_PRESENT"))
+                    @JvmField val NOT_PRESENT = of("NOT_PRESENT")
 
-                    @JvmField val PREAUTHORIZED = Cardholder(JsonField.of("PREAUTHORIZED"))
+                    @JvmField val PREAUTHORIZED = of("PREAUTHORIZED")
 
-                    @JvmField val PRESENT = Cardholder(JsonField.of("PRESENT"))
+                    @JvmField val PRESENT = of("PRESENT")
 
-                    @JvmField val REOCCURRING = Cardholder(JsonField.of("REOCCURRING"))
+                    @JvmField val REOCCURRING = of("REOCCURRING")
 
-                    @JvmField val TELEPHONE_ORDER = Cardholder(JsonField.of("TELEPHONE_ORDER"))
+                    @JvmField val TELEPHONE_ORDER = of("TELEPHONE_ORDER")
 
-                    @JvmField val UNKNOWN = Cardholder(JsonField.of("UNKNOWN"))
+                    @JvmField val UNKNOWN = of("UNKNOWN")
 
                     @JvmStatic fun of(value: String) = Cardholder(JsonField.of(value))
                 }
@@ -2983,6 +2961,18 @@ private constructor(
                     }
 
                 fun asString(): String = _value().asStringOrThrow()
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Cardholder && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
             }
 
             class Pan
@@ -2993,49 +2983,37 @@ private constructor(
 
                 @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return /* spotless:off */ other is Pan && value == other.value /* spotless:on */
-                }
-
-                override fun hashCode() = value.hashCode()
-
-                override fun toString() = value.toString()
-
                 companion object {
 
-                    @JvmField val AUTO_ENTRY = Pan(JsonField.of("AUTO_ENTRY"))
+                    @JvmField val AUTO_ENTRY = of("AUTO_ENTRY")
 
-                    @JvmField val BAR_CODE = Pan(JsonField.of("BAR_CODE"))
+                    @JvmField val BAR_CODE = of("BAR_CODE")
 
-                    @JvmField val CONTACTLESS = Pan(JsonField.of("CONTACTLESS"))
+                    @JvmField val CONTACTLESS = of("CONTACTLESS")
 
-                    @JvmField val CREDENTIAL_ON_FILE = Pan(JsonField.of("CREDENTIAL_ON_FILE"))
+                    @JvmField val CREDENTIAL_ON_FILE = of("CREDENTIAL_ON_FILE")
 
-                    @JvmField val ECOMMERCE = Pan(JsonField.of("ECOMMERCE"))
+                    @JvmField val ECOMMERCE = of("ECOMMERCE")
 
-                    @JvmField val ERROR_KEYED = Pan(JsonField.of("ERROR_KEYED"))
+                    @JvmField val ERROR_KEYED = of("ERROR_KEYED")
 
-                    @JvmField val ERROR_MAGNETIC_STRIPE = Pan(JsonField.of("ERROR_MAGNETIC_STRIPE"))
+                    @JvmField val ERROR_MAGNETIC_STRIPE = of("ERROR_MAGNETIC_STRIPE")
 
-                    @JvmField val ICC = Pan(JsonField.of("ICC"))
+                    @JvmField val ICC = of("ICC")
 
-                    @JvmField val KEY_ENTERED = Pan(JsonField.of("KEY_ENTERED"))
+                    @JvmField val KEY_ENTERED = of("KEY_ENTERED")
 
-                    @JvmField val MAGNETIC_STRIPE = Pan(JsonField.of("MAGNETIC_STRIPE"))
+                    @JvmField val MAGNETIC_STRIPE = of("MAGNETIC_STRIPE")
 
-                    @JvmField val MANUAL = Pan(JsonField.of("MANUAL"))
+                    @JvmField val MANUAL = of("MANUAL")
 
-                    @JvmField val OCR = Pan(JsonField.of("OCR"))
+                    @JvmField val OCR = of("OCR")
 
-                    @JvmField val SECURE_CARDLESS = Pan(JsonField.of("SECURE_CARDLESS"))
+                    @JvmField val SECURE_CARDLESS = of("SECURE_CARDLESS")
 
-                    @JvmField val UNKNOWN = Pan(JsonField.of("UNKNOWN"))
+                    @JvmField val UNKNOWN = of("UNKNOWN")
 
-                    @JvmField val UNSPECIFIED = Pan(JsonField.of("UNSPECIFIED"))
+                    @JvmField val UNSPECIFIED = of("UNSPECIFIED")
 
                     @JvmStatic fun of(value: String) = Pan(JsonField.of(value))
                 }
@@ -3118,6 +3096,18 @@ private constructor(
                     }
 
                 fun asString(): String = _value().asStringOrThrow()
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Pan && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
             }
 
             override fun equals(other: Any?): Boolean {
@@ -3374,27 +3364,15 @@ private constructor(
 
                 @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return /* spotless:off */ other is Operator && value == other.value /* spotless:on */
-                }
-
-                override fun hashCode() = value.hashCode()
-
-                override fun toString() = value.toString()
-
                 companion object {
 
-                    @JvmField val ADMINISTRATIVE = Operator(JsonField.of("ADMINISTRATIVE"))
+                    @JvmField val ADMINISTRATIVE = of("ADMINISTRATIVE")
 
-                    @JvmField val CARDHOLDER = Operator(JsonField.of("CARDHOLDER"))
+                    @JvmField val CARDHOLDER = of("CARDHOLDER")
 
-                    @JvmField val CARD_ACCEPTOR = Operator(JsonField.of("CARD_ACCEPTOR"))
+                    @JvmField val CARD_ACCEPTOR = of("CARD_ACCEPTOR")
 
-                    @JvmField val UNKNOWN = Operator(JsonField.of("UNKNOWN"))
+                    @JvmField val UNKNOWN = of("UNKNOWN")
 
                     @JvmStatic fun of(value: String) = Operator(JsonField.of(value))
                 }
@@ -3433,6 +3411,18 @@ private constructor(
                     }
 
                 fun asString(): String = _value().asStringOrThrow()
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Operator && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
             }
 
             class PinCapability
@@ -3443,27 +3433,15 @@ private constructor(
 
                 @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return /* spotless:off */ other is PinCapability && value == other.value /* spotless:on */
-                }
-
-                override fun hashCode() = value.hashCode()
-
-                override fun toString() = value.toString()
-
                 companion object {
 
-                    @JvmField val CAPABLE = PinCapability(JsonField.of("CAPABLE"))
+                    @JvmField val CAPABLE = of("CAPABLE")
 
-                    @JvmField val INOPERATIVE = PinCapability(JsonField.of("INOPERATIVE"))
+                    @JvmField val INOPERATIVE = of("INOPERATIVE")
 
-                    @JvmField val NOT_CAPABLE = PinCapability(JsonField.of("NOT_CAPABLE"))
+                    @JvmField val NOT_CAPABLE = of("NOT_CAPABLE")
 
-                    @JvmField val UNSPECIFIED = PinCapability(JsonField.of("UNSPECIFIED"))
+                    @JvmField val UNSPECIFIED = of("UNSPECIFIED")
 
                     @JvmStatic fun of(value: String) = PinCapability(JsonField.of(value))
                 }
@@ -3502,6 +3480,18 @@ private constructor(
                     }
 
                 fun asString(): String = _value().asStringOrThrow()
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is PinCapability && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
             }
 
             class Type
@@ -3512,68 +3502,55 @@ private constructor(
 
                 @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-                override fun equals(other: Any?): Boolean {
-                    if (this === other) {
-                        return true
-                    }
-
-                    return /* spotless:off */ other is Type && value == other.value /* spotless:on */
-                }
-
-                override fun hashCode() = value.hashCode()
-
-                override fun toString() = value.toString()
-
                 companion object {
 
-                    @JvmField val ADMINISTRATIVE = Type(JsonField.of("ADMINISTRATIVE"))
+                    @JvmField val ADMINISTRATIVE = of("ADMINISTRATIVE")
 
-                    @JvmField val ATM = Type(JsonField.of("ATM"))
+                    @JvmField val ATM = of("ATM")
 
-                    @JvmField val AUTHORIZATION = Type(JsonField.of("AUTHORIZATION"))
+                    @JvmField val AUTHORIZATION = of("AUTHORIZATION")
 
-                    @JvmField val COUPON_MACHINE = Type(JsonField.of("COUPON_MACHINE"))
+                    @JvmField val COUPON_MACHINE = of("COUPON_MACHINE")
 
-                    @JvmField val DIAL_TERMINAL = Type(JsonField.of("DIAL_TERMINAL"))
+                    @JvmField val DIAL_TERMINAL = of("DIAL_TERMINAL")
 
-                    @JvmField val ECOMMERCE = Type(JsonField.of("ECOMMERCE"))
+                    @JvmField val ECOMMERCE = of("ECOMMERCE")
 
-                    @JvmField val ECR = Type(JsonField.of("ECR"))
+                    @JvmField val ECR = of("ECR")
 
-                    @JvmField val FUEL_MACHINE = Type(JsonField.of("FUEL_MACHINE"))
+                    @JvmField val FUEL_MACHINE = of("FUEL_MACHINE")
 
-                    @JvmField val HOME_TERMINAL = Type(JsonField.of("HOME_TERMINAL"))
+                    @JvmField val HOME_TERMINAL = of("HOME_TERMINAL")
 
-                    @JvmField val MICR = Type(JsonField.of("MICR"))
+                    @JvmField val MICR = of("MICR")
 
-                    @JvmField val OFF_PREMISE = Type(JsonField.of("OFF_PREMISE"))
+                    @JvmField val OFF_PREMISE = of("OFF_PREMISE")
 
-                    @JvmField val PAYMENT = Type(JsonField.of("PAYMENT"))
+                    @JvmField val PAYMENT = of("PAYMENT")
 
-                    @JvmField val PDA = Type(JsonField.of("PDA"))
+                    @JvmField val PDA = of("PDA")
 
-                    @JvmField val PHONE = Type(JsonField.of("PHONE"))
+                    @JvmField val PHONE = of("PHONE")
 
-                    @JvmField val POINT = Type(JsonField.of("POINT"))
+                    @JvmField val POINT = of("POINT")
 
-                    @JvmField val POS_TERMINAL = Type(JsonField.of("POS_TERMINAL"))
+                    @JvmField val POS_TERMINAL = of("POS_TERMINAL")
 
-                    @JvmField val PUBLIC_UTILITY = Type(JsonField.of("PUBLIC_UTILITY"))
+                    @JvmField val PUBLIC_UTILITY = of("PUBLIC_UTILITY")
 
-                    @JvmField val SELF_SERVICE = Type(JsonField.of("SELF_SERVICE"))
+                    @JvmField val SELF_SERVICE = of("SELF_SERVICE")
 
-                    @JvmField val TELEVISION = Type(JsonField.of("TELEVISION"))
+                    @JvmField val TELEVISION = of("TELEVISION")
 
-                    @JvmField val TELLER = Type(JsonField.of("TELLER"))
+                    @JvmField val TELLER = of("TELLER")
 
-                    @JvmField
-                    val TRAVELERS_CHECK_MACHINE = Type(JsonField.of("TRAVELERS_CHECK_MACHINE"))
+                    @JvmField val TRAVELERS_CHECK_MACHINE = of("TRAVELERS_CHECK_MACHINE")
 
-                    @JvmField val VENDING = Type(JsonField.of("VENDING"))
+                    @JvmField val VENDING = of("VENDING")
 
-                    @JvmField val VOICE = Type(JsonField.of("VOICE"))
+                    @JvmField val VOICE = of("VOICE")
 
-                    @JvmField val UNKNOWN = Type(JsonField.of("UNKNOWN"))
+                    @JvmField val UNKNOWN = of("UNKNOWN")
 
                     @JvmStatic fun of(value: String) = Type(JsonField.of(value))
                 }
@@ -3692,6 +3669,18 @@ private constructor(
                     }
 
                 fun asString(): String = _value().asStringOrThrow()
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
             }
 
             override fun equals(other: Any?): Boolean {
@@ -3738,73 +3727,53 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is DeclineResult && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField
-            val ACCOUNT_STATE_TRANSACTION_FAIL =
-                DeclineResult(JsonField.of("ACCOUNT_STATE_TRANSACTION_FAIL"))
+            @JvmField val ACCOUNT_STATE_TRANSACTION_FAIL = of("ACCOUNT_STATE_TRANSACTION_FAIL")
 
-            @JvmField val APPROVED = DeclineResult(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField
-            val BANK_CONNECTION_ERROR = DeclineResult(JsonField.of("BANK_CONNECTION_ERROR"))
+            @JvmField val BANK_CONNECTION_ERROR = of("BANK_CONNECTION_ERROR")
 
-            @JvmField val BANK_NOT_VERIFIED = DeclineResult(JsonField.of("BANK_NOT_VERIFIED"))
+            @JvmField val BANK_NOT_VERIFIED = of("BANK_NOT_VERIFIED")
 
-            @JvmField val CARD_CLOSED = DeclineResult(JsonField.of("CARD_CLOSED"))
+            @JvmField val CARD_CLOSED = of("CARD_CLOSED")
 
-            @JvmField val CARD_PAUSED = DeclineResult(JsonField.of("CARD_PAUSED"))
+            @JvmField val CARD_PAUSED = of("CARD_PAUSED")
 
-            @JvmField val DECLINED = DeclineResult(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val FRAUD_ADVICE = DeclineResult(JsonField.of("FRAUD_ADVICE"))
+            @JvmField val FRAUD_ADVICE = of("FRAUD_ADVICE")
 
-            @JvmField val IGNORED_TTL_EXPIRY = DeclineResult(JsonField.of("IGNORED_TTL_EXPIRY"))
+            @JvmField val IGNORED_TTL_EXPIRY = of("IGNORED_TTL_EXPIRY")
 
-            @JvmField val INACTIVE_ACCOUNT = DeclineResult(JsonField.of("INACTIVE_ACCOUNT"))
+            @JvmField val INACTIVE_ACCOUNT = of("INACTIVE_ACCOUNT")
 
-            @JvmField val INCORRECT_PIN = DeclineResult(JsonField.of("INCORRECT_PIN"))
+            @JvmField val INCORRECT_PIN = of("INCORRECT_PIN")
 
-            @JvmField val INVALID_CARD_DETAILS = DeclineResult(JsonField.of("INVALID_CARD_DETAILS"))
+            @JvmField val INVALID_CARD_DETAILS = of("INVALID_CARD_DETAILS")
 
-            @JvmField val INSUFFICIENT_FUNDS = DeclineResult(JsonField.of("INSUFFICIENT_FUNDS"))
+            @JvmField val INSUFFICIENT_FUNDS = of("INSUFFICIENT_FUNDS")
 
-            @JvmField
-            val INSUFFICIENT_FUNDS_PRELOAD =
-                DeclineResult(JsonField.of("INSUFFICIENT_FUNDS_PRELOAD"))
+            @JvmField val INSUFFICIENT_FUNDS_PRELOAD = of("INSUFFICIENT_FUNDS_PRELOAD")
 
-            @JvmField val INVALID_TRANSACTION = DeclineResult(JsonField.of("INVALID_TRANSACTION"))
+            @JvmField val INVALID_TRANSACTION = of("INVALID_TRANSACTION")
 
-            @JvmField val MERCHANT_BLACKLIST = DeclineResult(JsonField.of("MERCHANT_BLACKLIST"))
+            @JvmField val MERCHANT_BLACKLIST = of("MERCHANT_BLACKLIST")
 
-            @JvmField val ORIGINAL_NOT_FOUND = DeclineResult(JsonField.of("ORIGINAL_NOT_FOUND"))
+            @JvmField val ORIGINAL_NOT_FOUND = of("ORIGINAL_NOT_FOUND")
 
-            @JvmField val PREVIOUSLY_COMPLETED = DeclineResult(JsonField.of("PREVIOUSLY_COMPLETED"))
+            @JvmField val PREVIOUSLY_COMPLETED = of("PREVIOUSLY_COMPLETED")
 
-            @JvmField val SINGLE_USE_RECHARGED = DeclineResult(JsonField.of("SINGLE_USE_RECHARGED"))
+            @JvmField val SINGLE_USE_RECHARGED = of("SINGLE_USE_RECHARGED")
 
-            @JvmField
-            val SWITCH_INOPERATIVE_ADVICE = DeclineResult(JsonField.of("SWITCH_INOPERATIVE_ADVICE"))
+            @JvmField val SWITCH_INOPERATIVE_ADVICE = of("SWITCH_INOPERATIVE_ADVICE")
 
-            @JvmField
-            val UNAUTHORIZED_MERCHANT = DeclineResult(JsonField.of("UNAUTHORIZED_MERCHANT"))
+            @JvmField val UNAUTHORIZED_MERCHANT = of("UNAUTHORIZED_MERCHANT")
 
-            @JvmField val UNKNOWN_HOST_TIMEOUT = DeclineResult(JsonField.of("UNKNOWN_HOST_TIMEOUT"))
+            @JvmField val UNKNOWN_HOST_TIMEOUT = of("UNKNOWN_HOST_TIMEOUT")
 
-            @JvmField
-            val USER_TRANSACTION_LIMIT = DeclineResult(JsonField.of("USER_TRANSACTION_LIMIT"))
+            @JvmField val USER_TRANSACTION_LIMIT = of("USER_TRANSACTION_LIMIT")
 
             @JvmStatic fun of(value: String) = DeclineResult(JsonField.of(value))
         }
@@ -3919,6 +3888,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is DeclineResult && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class Status
@@ -3929,29 +3910,17 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val EXPIRED = Status(JsonField.of("EXPIRED"))
+            @JvmField val EXPIRED = of("EXPIRED")
 
-            @JvmField val PENDING = Status(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
-            @JvmField val VOIDED = Status(JsonField.of("VOIDED"))
+            @JvmField val VOIDED = of("VOIDED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
@@ -3994,6 +3963,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     @JsonDeserialize(builder = TokenInfo.Builder::class)
@@ -4096,31 +4077,19 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is WalletType && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val APPLE_PAY = WalletType(JsonField.of("APPLE_PAY"))
+                @JvmField val APPLE_PAY = of("APPLE_PAY")
 
-                @JvmField val GOOGLE_PAY = WalletType(JsonField.of("GOOGLE_PAY"))
+                @JvmField val GOOGLE_PAY = of("GOOGLE_PAY")
 
-                @JvmField val MASTERPASS = WalletType(JsonField.of("MASTERPASS"))
+                @JvmField val MASTERPASS = of("MASTERPASS")
 
-                @JvmField val MERCHANT = WalletType(JsonField.of("MERCHANT"))
+                @JvmField val MERCHANT = of("MERCHANT")
 
-                @JvmField val OTHER = WalletType(JsonField.of("OTHER"))
+                @JvmField val OTHER = of("OTHER")
 
-                @JvmField val SAMSUNG_PAY = WalletType(JsonField.of("SAMSUNG_PAY"))
+                @JvmField val SAMSUNG_PAY = of("SAMSUNG_PAY")
 
                 @JvmStatic fun of(value: String) = WalletType(JsonField.of(value))
             }
@@ -4167,6 +4136,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is WalletType && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         override fun equals(other: Any?): Boolean {
@@ -4194,7 +4175,9 @@ private constructor(
         private val amount: JsonField<Long>,
         private val amounts: JsonField<TransactionEventAmounts>,
         private val created: JsonField<OffsetDateTime>,
+        private val networkInfo: JsonField<NetworkInfo>,
         private val detailedResults: JsonField<List<DetailedResult>>,
+        private val ruleResults: JsonField<List<RuleResult>>,
         private val effectivePolarity: JsonField<EffectivePolarity>,
         private val result: JsonField<DeclineResult>,
         private val token: JsonField<String>,
@@ -4212,8 +4195,21 @@ private constructor(
         /** RFC 3339 date and time this event entered the system. UTC time zone. */
         fun created(): OffsetDateTime = created.getRequired("created")
 
+        /**
+         * Information provided by the card network in each event. This includes common identifiers
+         * shared between you, Lithic, the card network and in some cases the acquirer. These
+         * identifiers often link together events within the same transaction lifecycle and can be
+         * used to locate a particular transaction, such as during processing of disputes. Not all
+         * fields are available in all events, and the presence of these fields is dependent on the
+         * card network and the event type.
+         */
+        fun networkInfo(): Optional<NetworkInfo> =
+            Optional.ofNullable(networkInfo.getNullable("network_info"))
+
         fun detailedResults(): List<DetailedResult> =
             detailedResults.getRequired("detailed_results")
+
+        fun ruleResults(): List<RuleResult> = ruleResults.getRequired("rule_results")
 
         /** Indicates whether the transaction event is a credit or debit to the account. */
         fun effectivePolarity(): EffectivePolarity =
@@ -4235,7 +4231,19 @@ private constructor(
         /** RFC 3339 date and time this event entered the system. UTC time zone. */
         @JsonProperty("created") @ExcludeMissing fun _created() = created
 
+        /**
+         * Information provided by the card network in each event. This includes common identifiers
+         * shared between you, Lithic, the card network and in some cases the acquirer. These
+         * identifiers often link together events within the same transaction lifecycle and can be
+         * used to locate a particular transaction, such as during processing of disputes. Not all
+         * fields are available in all events, and the presence of these fields is dependent on the
+         * card network and the event type.
+         */
+        @JsonProperty("network_info") @ExcludeMissing fun _networkInfo() = networkInfo
+
         @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
+
+        @JsonProperty("rule_results") @ExcludeMissing fun _ruleResults() = ruleResults
 
         /** Indicates whether the transaction event is a credit or debit to the account. */
         @JsonProperty("effective_polarity")
@@ -4259,7 +4267,9 @@ private constructor(
                 amount()
                 amounts().validate()
                 created()
+                networkInfo().map { it.validate() }
                 detailedResults()
+                ruleResults().forEach { it.validate() }
                 effectivePolarity()
                 result()
                 token()
@@ -4280,7 +4290,9 @@ private constructor(
             private var amount: JsonField<Long> = JsonMissing.of()
             private var amounts: JsonField<TransactionEventAmounts> = JsonMissing.of()
             private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var networkInfo: JsonField<NetworkInfo> = JsonMissing.of()
             private var detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of()
+            private var ruleResults: JsonField<List<RuleResult>> = JsonMissing.of()
             private var effectivePolarity: JsonField<EffectivePolarity> = JsonMissing.of()
             private var result: JsonField<DeclineResult> = JsonMissing.of()
             private var token: JsonField<String> = JsonMissing.of()
@@ -4292,7 +4304,9 @@ private constructor(
                 this.amount = transactionEvent.amount
                 this.amounts = transactionEvent.amounts
                 this.created = transactionEvent.created
+                this.networkInfo = transactionEvent.networkInfo
                 this.detailedResults = transactionEvent.detailedResults
+                this.ruleResults = transactionEvent.ruleResults
                 this.effectivePolarity = transactionEvent.effectivePolarity
                 this.result = transactionEvent.result
                 this.token = transactionEvent.token
@@ -4324,6 +4338,30 @@ private constructor(
             @ExcludeMissing
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
+            /**
+             * Information provided by the card network in each event. This includes common
+             * identifiers shared between you, Lithic, the card network and in some cases the
+             * acquirer. These identifiers often link together events within the same transaction
+             * lifecycle and can be used to locate a particular transaction, such as during
+             * processing of disputes. Not all fields are available in all events, and the presence
+             * of these fields is dependent on the card network and the event type.
+             */
+            fun networkInfo(networkInfo: NetworkInfo) = networkInfo(JsonField.of(networkInfo))
+
+            /**
+             * Information provided by the card network in each event. This includes common
+             * identifiers shared between you, Lithic, the card network and in some cases the
+             * acquirer. These identifiers often link together events within the same transaction
+             * lifecycle and can be used to locate a particular transaction, such as during
+             * processing of disputes. Not all fields are available in all events, and the presence
+             * of these fields is dependent on the card network and the event type.
+             */
+            @JsonProperty("network_info")
+            @ExcludeMissing
+            fun networkInfo(networkInfo: JsonField<NetworkInfo>) = apply {
+                this.networkInfo = networkInfo
+            }
+
             fun detailedResults(detailedResults: List<DetailedResult>) =
                 detailedResults(JsonField.of(detailedResults))
 
@@ -4331,6 +4369,14 @@ private constructor(
             @ExcludeMissing
             fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
                 this.detailedResults = detailedResults
+            }
+
+            fun ruleResults(ruleResults: List<RuleResult>) = ruleResults(JsonField.of(ruleResults))
+
+            @JsonProperty("rule_results")
+            @ExcludeMissing
+            fun ruleResults(ruleResults: JsonField<List<RuleResult>>) = apply {
+                this.ruleResults = ruleResults
             }
 
             /** Indicates whether the transaction event is a credit or debit to the account. */
@@ -4385,7 +4431,9 @@ private constructor(
                     amount,
                     amounts,
                     created,
+                    networkInfo,
                     detailedResults.map { it.toImmutable() },
+                    ruleResults.map { it.toImmutable() },
                     effectivePolarity,
                     result,
                     token,
@@ -4988,183 +5036,126 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is DetailedResult && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
                 @JvmField
-                val ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED =
-                    DetailedResult(JsonField.of("ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED"))
+                val ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED = of("ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED")
 
-                @JvmField
-                val ACCOUNT_DELINQUENT = DetailedResult(JsonField.of("ACCOUNT_DELINQUENT"))
+                @JvmField val ACCOUNT_DELINQUENT = of("ACCOUNT_DELINQUENT")
 
-                @JvmField val ACCOUNT_INACTIVE = DetailedResult(JsonField.of("ACCOUNT_INACTIVE"))
+                @JvmField val ACCOUNT_INACTIVE = of("ACCOUNT_INACTIVE")
 
                 @JvmField
                 val ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED =
-                    DetailedResult(JsonField.of("ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED"))
+                    of("ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED")
 
                 @JvmField
                 val ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED =
-                    DetailedResult(JsonField.of("ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED"))
+                    of("ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED")
+
+                @JvmField val ACCOUNT_UNDER_REVIEW = of("ACCOUNT_UNDER_REVIEW")
+
+                @JvmField val ADDRESS_INCORRECT = of("ADDRESS_INCORRECT")
+
+                @JvmField val APPROVED = of("APPROVED")
+
+                @JvmField val AUTH_RULE_ALLOWED_COUNTRY = of("AUTH_RULE_ALLOWED_COUNTRY")
+
+                @JvmField val AUTH_RULE_ALLOWED_MCC = of("AUTH_RULE_ALLOWED_MCC")
+
+                @JvmField val AUTH_RULE_BLOCKED_COUNTRY = of("AUTH_RULE_BLOCKED_COUNTRY")
+
+                @JvmField val AUTH_RULE_BLOCKED_MCC = of("AUTH_RULE_BLOCKED_MCC")
+
+                @JvmField val CARD_CLOSED = of("CARD_CLOSED")
 
                 @JvmField
-                val ACCOUNT_UNDER_REVIEW = DetailedResult(JsonField.of("ACCOUNT_UNDER_REVIEW"))
+                val CARD_CRYPTOGRAM_VALIDATION_FAILURE = of("CARD_CRYPTOGRAM_VALIDATION_FAILURE")
 
-                @JvmField val ADDRESS_INCORRECT = DetailedResult(JsonField.of("ADDRESS_INCORRECT"))
+                @JvmField val CARD_EXPIRED = of("CARD_EXPIRED")
 
-                @JvmField val APPROVED = DetailedResult(JsonField.of("APPROVED"))
+                @JvmField val CARD_EXPIRY_DATE_INCORRECT = of("CARD_EXPIRY_DATE_INCORRECT")
 
-                @JvmField
-                val AUTH_RULE_ALLOWED_COUNTRY =
-                    DetailedResult(JsonField.of("AUTH_RULE_ALLOWED_COUNTRY"))
+                @JvmField val CARD_INVALID = of("CARD_INVALID")
 
-                @JvmField
-                val AUTH_RULE_ALLOWED_MCC = DetailedResult(JsonField.of("AUTH_RULE_ALLOWED_MCC"))
+                @JvmField val CARD_NOT_ACTIVATED = of("CARD_NOT_ACTIVATED")
 
-                @JvmField
-                val AUTH_RULE_BLOCKED_COUNTRY =
-                    DetailedResult(JsonField.of("AUTH_RULE_BLOCKED_COUNTRY"))
+                @JvmField val CARD_PAUSED = of("CARD_PAUSED")
 
-                @JvmField
-                val AUTH_RULE_BLOCKED_MCC = DetailedResult(JsonField.of("AUTH_RULE_BLOCKED_MCC"))
+                @JvmField val CARD_PIN_INCORRECT = of("CARD_PIN_INCORRECT")
 
-                @JvmField val CARD_CLOSED = DetailedResult(JsonField.of("CARD_CLOSED"))
+                @JvmField val CARD_RESTRICTED = of("CARD_RESTRICTED")
 
-                @JvmField
-                val CARD_CRYPTOGRAM_VALIDATION_FAILURE =
-                    DetailedResult(JsonField.of("CARD_CRYPTOGRAM_VALIDATION_FAILURE"))
+                @JvmField val CARD_SECURITY_CODE_INCORRECT = of("CARD_SECURITY_CODE_INCORRECT")
 
-                @JvmField val CARD_EXPIRED = DetailedResult(JsonField.of("CARD_EXPIRED"))
+                @JvmField val CARD_SPEND_LIMIT_EXCEEDED = of("CARD_SPEND_LIMIT_EXCEEDED")
 
-                @JvmField
-                val CARD_EXPIRY_DATE_INCORRECT =
-                    DetailedResult(JsonField.of("CARD_EXPIRY_DATE_INCORRECT"))
+                @JvmField val CONTACT_CARD_ISSUER = of("CONTACT_CARD_ISSUER")
 
-                @JvmField val CARD_INVALID = DetailedResult(JsonField.of("CARD_INVALID"))
+                @JvmField val CUSTOMER_ASA_TIMEOUT = of("CUSTOMER_ASA_TIMEOUT")
 
-                @JvmField
-                val CARD_NOT_ACTIVATED = DetailedResult(JsonField.of("CARD_NOT_ACTIVATED"))
+                @JvmField val CUSTOM_ASA_RESULT = of("CUSTOM_ASA_RESULT")
 
-                @JvmField val CARD_PAUSED = DetailedResult(JsonField.of("CARD_PAUSED"))
+                @JvmField val DECLINED = of("DECLINED")
+
+                @JvmField val DO_NOT_HONOR = of("DO_NOT_HONOR")
+
+                @JvmField val DRIVER_NUMBER_INVALID = of("DRIVER_NUMBER_INVALID")
+
+                @JvmField val FORMAT_ERROR = of("FORMAT_ERROR")
 
                 @JvmField
-                val CARD_PIN_INCORRECT = DetailedResult(JsonField.of("CARD_PIN_INCORRECT"))
+                val INSUFFICIENT_FUNDING_SOURCE_BALANCE = of("INSUFFICIENT_FUNDING_SOURCE_BALANCE")
 
-                @JvmField val CARD_RESTRICTED = DetailedResult(JsonField.of("CARD_RESTRICTED"))
+                @JvmField val INSUFFICIENT_FUNDS = of("INSUFFICIENT_FUNDS")
 
-                @JvmField
-                val CARD_SECURITY_CODE_INCORRECT =
-                    DetailedResult(JsonField.of("CARD_SECURITY_CODE_INCORRECT"))
+                @JvmField val LITHIC_SYSTEM_ERROR = of("LITHIC_SYSTEM_ERROR")
 
-                @JvmField
-                val CARD_SPEND_LIMIT_EXCEEDED =
-                    DetailedResult(JsonField.of("CARD_SPEND_LIMIT_EXCEEDED"))
+                @JvmField val LITHIC_SYSTEM_RATE_LIMIT = of("LITHIC_SYSTEM_RATE_LIMIT")
 
-                @JvmField
-                val CONTACT_CARD_ISSUER = DetailedResult(JsonField.of("CONTACT_CARD_ISSUER"))
+                @JvmField val MALFORMED_ASA_RESPONSE = of("MALFORMED_ASA_RESPONSE")
 
-                @JvmField
-                val CUSTOMER_ASA_TIMEOUT = DetailedResult(JsonField.of("CUSTOMER_ASA_TIMEOUT"))
-
-                @JvmField val CUSTOM_ASA_RESULT = DetailedResult(JsonField.of("CUSTOM_ASA_RESULT"))
-
-                @JvmField val DECLINED = DetailedResult(JsonField.of("DECLINED"))
-
-                @JvmField val DO_NOT_HONOR = DetailedResult(JsonField.of("DO_NOT_HONOR"))
-
-                @JvmField
-                val DRIVER_NUMBER_INVALID = DetailedResult(JsonField.of("DRIVER_NUMBER_INVALID"))
-
-                @JvmField val FORMAT_ERROR = DetailedResult(JsonField.of("FORMAT_ERROR"))
-
-                @JvmField
-                val INSUFFICIENT_FUNDING_SOURCE_BALANCE =
-                    DetailedResult(JsonField.of("INSUFFICIENT_FUNDING_SOURCE_BALANCE"))
-
-                @JvmField
-                val INSUFFICIENT_FUNDS = DetailedResult(JsonField.of("INSUFFICIENT_FUNDS"))
-
-                @JvmField
-                val LITHIC_SYSTEM_ERROR = DetailedResult(JsonField.of("LITHIC_SYSTEM_ERROR"))
-
-                @JvmField
-                val LITHIC_SYSTEM_RATE_LIMIT =
-                    DetailedResult(JsonField.of("LITHIC_SYSTEM_RATE_LIMIT"))
-
-                @JvmField
-                val MALFORMED_ASA_RESPONSE = DetailedResult(JsonField.of("MALFORMED_ASA_RESPONSE"))
-
-                @JvmField val MERCHANT_INVALID = DetailedResult(JsonField.of("MERCHANT_INVALID"))
+                @JvmField val MERCHANT_INVALID = of("MERCHANT_INVALID")
 
                 @JvmField
                 val MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE =
-                    DetailedResult(JsonField.of("MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE"))
+                    of("MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE")
+
+                @JvmField val MERCHANT_NOT_PERMITTED = of("MERCHANT_NOT_PERMITTED")
+
+                @JvmField val OVER_REVERSAL_ATTEMPTED = of("OVER_REVERSAL_ATTEMPTED")
+
+                @JvmField val PIN_BLOCKED = of("PIN_BLOCKED")
 
                 @JvmField
-                val MERCHANT_NOT_PERMITTED = DetailedResult(JsonField.of("MERCHANT_NOT_PERMITTED"))
+                val PROGRAM_CARD_SPEND_LIMIT_EXCEEDED = of("PROGRAM_CARD_SPEND_LIMIT_EXCEEDED")
 
-                @JvmField
-                val OVER_REVERSAL_ATTEMPTED =
-                    DetailedResult(JsonField.of("OVER_REVERSAL_ATTEMPTED"))
+                @JvmField val PROGRAM_SUSPENDED = of("PROGRAM_SUSPENDED")
 
-                @JvmField val PIN_BLOCKED = DetailedResult(JsonField.of("PIN_BLOCKED"))
+                @JvmField val PROGRAM_USAGE_RESTRICTION = of("PROGRAM_USAGE_RESTRICTION")
 
-                @JvmField
-                val PROGRAM_CARD_SPEND_LIMIT_EXCEEDED =
-                    DetailedResult(JsonField.of("PROGRAM_CARD_SPEND_LIMIT_EXCEEDED"))
+                @JvmField val REVERSAL_UNMATCHED = of("REVERSAL_UNMATCHED")
 
-                @JvmField val PROGRAM_SUSPENDED = DetailedResult(JsonField.of("PROGRAM_SUSPENDED"))
+                @JvmField val SECURITY_VIOLATION = of("SECURITY_VIOLATION")
 
-                @JvmField
-                val PROGRAM_USAGE_RESTRICTION =
-                    DetailedResult(JsonField.of("PROGRAM_USAGE_RESTRICTION"))
+                @JvmField val SINGLE_USE_CARD_REATTEMPTED = of("SINGLE_USE_CARD_REATTEMPTED")
 
-                @JvmField
-                val REVERSAL_UNMATCHED = DetailedResult(JsonField.of("REVERSAL_UNMATCHED"))
-
-                @JvmField
-                val SECURITY_VIOLATION = DetailedResult(JsonField.of("SECURITY_VIOLATION"))
-
-                @JvmField
-                val SINGLE_USE_CARD_REATTEMPTED =
-                    DetailedResult(JsonField.of("SINGLE_USE_CARD_REATTEMPTED"))
-
-                @JvmField
-                val TRANSACTION_INVALID = DetailedResult(JsonField.of("TRANSACTION_INVALID"))
+                @JvmField val TRANSACTION_INVALID = of("TRANSACTION_INVALID")
 
                 @JvmField
                 val TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL =
-                    DetailedResult(
-                        JsonField.of("TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL")
-                    )
+                    of("TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL")
 
                 @JvmField
                 val TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER =
-                    DetailedResult(
-                        JsonField.of("TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER")
-                    )
+                    of("TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER")
 
                 @JvmField
-                val TRANSACTION_PREVIOUSLY_COMPLETED =
-                    DetailedResult(JsonField.of("TRANSACTION_PREVIOUSLY_COMPLETED"))
+                val TRANSACTION_PREVIOUSLY_COMPLETED = of("TRANSACTION_PREVIOUSLY_COMPLETED")
 
-                @JvmField
-                val UNAUTHORIZED_MERCHANT = DetailedResult(JsonField.of("UNAUTHORIZED_MERCHANT"))
+                @JvmField val UNAUTHORIZED_MERCHANT = of("UNAUTHORIZED_MERCHANT")
 
-                @JvmField
-                val VEHICLE_NUMBER_INVALID = DetailedResult(JsonField.of("VEHICLE_NUMBER_INVALID"))
+                @JvmField val VEHICLE_NUMBER_INVALID = of("VEHICLE_NUMBER_INVALID")
 
                 @JvmStatic fun of(value: String) = DetailedResult(JsonField.of(value))
             }
@@ -5405,6 +5396,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is DetailedResult && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         class EffectivePolarity
@@ -5415,23 +5418,11 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is EffectivePolarity && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val CREDIT = EffectivePolarity(JsonField.of("CREDIT"))
+                @JvmField val CREDIT = of("CREDIT")
 
-                @JvmField val DEBIT = EffectivePolarity(JsonField.of("DEBIT"))
+                @JvmField val DEBIT = of("DEBIT")
 
                 @JvmStatic fun of(value: String) = EffectivePolarity(JsonField.of(value))
             }
@@ -5462,6 +5453,534 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is EffectivePolarity && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        /**
+         * Information provided by the card network in each event. This includes common identifiers
+         * shared between you, Lithic, the card network and in some cases the acquirer. These
+         * identifiers often link together events within the same transaction lifecycle and can be
+         * used to locate a particular transaction, such as during processing of disputes. Not all
+         * fields are available in all events, and the presence of these fields is dependent on the
+         * card network and the event type.
+         */
+        @JsonDeserialize(builder = NetworkInfo.Builder::class)
+        @NoAutoDetect
+        class NetworkInfo
+        private constructor(
+            private val acquirer: JsonField<Acquirer>,
+            private val mastercard: JsonField<Mastercard>,
+            private val visa: JsonField<Visa>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
+
+            private var validated: Boolean = false
+
+            fun acquirer(): Optional<Acquirer> =
+                Optional.ofNullable(acquirer.getNullable("acquirer"))
+
+            fun mastercard(): Optional<Mastercard> =
+                Optional.ofNullable(mastercard.getNullable("mastercard"))
+
+            fun visa(): Optional<Visa> = Optional.ofNullable(visa.getNullable("visa"))
+
+            @JsonProperty("acquirer") @ExcludeMissing fun _acquirer() = acquirer
+
+            @JsonProperty("mastercard") @ExcludeMissing fun _mastercard() = mastercard
+
+            @JsonProperty("visa") @ExcludeMissing fun _visa() = visa
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun validate(): NetworkInfo = apply {
+                if (!validated) {
+                    acquirer().map { it.validate() }
+                    mastercard().map { it.validate() }
+                    visa().map { it.validate() }
+                    validated = true
+                }
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            class Builder {
+
+                private var acquirer: JsonField<Acquirer> = JsonMissing.of()
+                private var mastercard: JsonField<Mastercard> = JsonMissing.of()
+                private var visa: JsonField<Visa> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(networkInfo: NetworkInfo) = apply {
+                    this.acquirer = networkInfo.acquirer
+                    this.mastercard = networkInfo.mastercard
+                    this.visa = networkInfo.visa
+                    additionalProperties(networkInfo.additionalProperties)
+                }
+
+                fun acquirer(acquirer: Acquirer) = acquirer(JsonField.of(acquirer))
+
+                @JsonProperty("acquirer")
+                @ExcludeMissing
+                fun acquirer(acquirer: JsonField<Acquirer>) = apply { this.acquirer = acquirer }
+
+                fun mastercard(mastercard: Mastercard) = mastercard(JsonField.of(mastercard))
+
+                @JsonProperty("mastercard")
+                @ExcludeMissing
+                fun mastercard(mastercard: JsonField<Mastercard>) = apply {
+                    this.mastercard = mastercard
+                }
+
+                fun visa(visa: Visa) = visa(JsonField.of(visa))
+
+                @JsonProperty("visa")
+                @ExcludeMissing
+                fun visa(visa: JsonField<Visa>) = apply { this.visa = visa }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    this.additionalProperties.putAll(additionalProperties)
+                }
+
+                @JsonAnySetter
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    this.additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun build(): NetworkInfo =
+                    NetworkInfo(
+                        acquirer,
+                        mastercard,
+                        visa,
+                        additionalProperties.toImmutable(),
+                    )
+            }
+
+            @JsonDeserialize(builder = Acquirer.Builder::class)
+            @NoAutoDetect
+            class Acquirer
+            private constructor(
+                private val acquirerReferenceNumber: JsonField<String>,
+                private val retrievalReferenceNumber: JsonField<String>,
+                private val additionalProperties: Map<String, JsonValue>,
+            ) {
+
+                private var validated: Boolean = false
+
+                /**
+                 * Identifier assigned by the acquirer, applicable to dual-message transactions
+                 * only. The acquirer reference number (ARN) is only populated once a transaction
+                 * has been cleared, and it is not available in all transactions (such as automated
+                 * fuel dispenser transactions). A single transaction can contain multiple ARNs if
+                 * the merchant sends multiple clearings.
+                 */
+                fun acquirerReferenceNumber(): Optional<String> =
+                    Optional.ofNullable(
+                        acquirerReferenceNumber.getNullable("acquirer_reference_number")
+                    )
+
+                /** Identifier assigned by the acquirer. */
+                fun retrievalReferenceNumber(): Optional<String> =
+                    Optional.ofNullable(
+                        retrievalReferenceNumber.getNullable("retrieval_reference_number")
+                    )
+
+                /**
+                 * Identifier assigned by the acquirer, applicable to dual-message transactions
+                 * only. The acquirer reference number (ARN) is only populated once a transaction
+                 * has been cleared, and it is not available in all transactions (such as automated
+                 * fuel dispenser transactions). A single transaction can contain multiple ARNs if
+                 * the merchant sends multiple clearings.
+                 */
+                @JsonProperty("acquirer_reference_number")
+                @ExcludeMissing
+                fun _acquirerReferenceNumber() = acquirerReferenceNumber
+
+                /** Identifier assigned by the acquirer. */
+                @JsonProperty("retrieval_reference_number")
+                @ExcludeMissing
+                fun _retrievalReferenceNumber() = retrievalReferenceNumber
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                fun validate(): Acquirer = apply {
+                    if (!validated) {
+                        acquirerReferenceNumber()
+                        retrievalReferenceNumber()
+                        validated = true
+                    }
+                }
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                class Builder {
+
+                    private var acquirerReferenceNumber: JsonField<String> = JsonMissing.of()
+                    private var retrievalReferenceNumber: JsonField<String> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(acquirer: Acquirer) = apply {
+                        this.acquirerReferenceNumber = acquirer.acquirerReferenceNumber
+                        this.retrievalReferenceNumber = acquirer.retrievalReferenceNumber
+                        additionalProperties(acquirer.additionalProperties)
+                    }
+
+                    /**
+                     * Identifier assigned by the acquirer, applicable to dual-message transactions
+                     * only. The acquirer reference number (ARN) is only populated once a
+                     * transaction has been cleared, and it is not available in all transactions
+                     * (such as automated fuel dispenser transactions). A single transaction can
+                     * contain multiple ARNs if the merchant sends multiple clearings.
+                     */
+                    fun acquirerReferenceNumber(acquirerReferenceNumber: String) =
+                        acquirerReferenceNumber(JsonField.of(acquirerReferenceNumber))
+
+                    /**
+                     * Identifier assigned by the acquirer, applicable to dual-message transactions
+                     * only. The acquirer reference number (ARN) is only populated once a
+                     * transaction has been cleared, and it is not available in all transactions
+                     * (such as automated fuel dispenser transactions). A single transaction can
+                     * contain multiple ARNs if the merchant sends multiple clearings.
+                     */
+                    @JsonProperty("acquirer_reference_number")
+                    @ExcludeMissing
+                    fun acquirerReferenceNumber(acquirerReferenceNumber: JsonField<String>) =
+                        apply {
+                            this.acquirerReferenceNumber = acquirerReferenceNumber
+                        }
+
+                    /** Identifier assigned by the acquirer. */
+                    fun retrievalReferenceNumber(retrievalReferenceNumber: String) =
+                        retrievalReferenceNumber(JsonField.of(retrievalReferenceNumber))
+
+                    /** Identifier assigned by the acquirer. */
+                    @JsonProperty("retrieval_reference_number")
+                    @ExcludeMissing
+                    fun retrievalReferenceNumber(retrievalReferenceNumber: JsonField<String>) =
+                        apply {
+                            this.retrievalReferenceNumber = retrievalReferenceNumber
+                        }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                    @JsonAnySetter
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        this.additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun build(): Acquirer =
+                        Acquirer(
+                            acquirerReferenceNumber,
+                            retrievalReferenceNumber,
+                            additionalProperties.toImmutable(),
+                        )
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Acquirer && acquirerReferenceNumber == other.acquirerReferenceNumber && retrievalReferenceNumber == other.retrievalReferenceNumber && additionalProperties == other.additionalProperties /* spotless:on */
+                }
+
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(acquirerReferenceNumber, retrievalReferenceNumber, additionalProperties) }
+                /* spotless:on */
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "Acquirer{acquirerReferenceNumber=$acquirerReferenceNumber, retrievalReferenceNumber=$retrievalReferenceNumber, additionalProperties=$additionalProperties}"
+            }
+
+            @JsonDeserialize(builder = Mastercard.Builder::class)
+            @NoAutoDetect
+            class Mastercard
+            private constructor(
+                private val banknetReferenceNumber: JsonField<String>,
+                private val switchSerialNumber: JsonField<String>,
+                private val additionalProperties: Map<String, JsonValue>,
+            ) {
+
+                private var validated: Boolean = false
+
+                /** Identifier assigned by Mastercard. */
+                fun banknetReferenceNumber(): Optional<String> =
+                    Optional.ofNullable(
+                        banknetReferenceNumber.getNullable("banknet_reference_number")
+                    )
+
+                /**
+                 * Identifier assigned by Mastercard, applicable to single-message transactions
+                 * only.
+                 */
+                fun switchSerialNumber(): Optional<String> =
+                    Optional.ofNullable(switchSerialNumber.getNullable("switch_serial_number"))
+
+                /** Identifier assigned by Mastercard. */
+                @JsonProperty("banknet_reference_number")
+                @ExcludeMissing
+                fun _banknetReferenceNumber() = banknetReferenceNumber
+
+                /**
+                 * Identifier assigned by Mastercard, applicable to single-message transactions
+                 * only.
+                 */
+                @JsonProperty("switch_serial_number")
+                @ExcludeMissing
+                fun _switchSerialNumber() = switchSerialNumber
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                fun validate(): Mastercard = apply {
+                    if (!validated) {
+                        banknetReferenceNumber()
+                        switchSerialNumber()
+                        validated = true
+                    }
+                }
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                class Builder {
+
+                    private var banknetReferenceNumber: JsonField<String> = JsonMissing.of()
+                    private var switchSerialNumber: JsonField<String> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(mastercard: Mastercard) = apply {
+                        this.banknetReferenceNumber = mastercard.banknetReferenceNumber
+                        this.switchSerialNumber = mastercard.switchSerialNumber
+                        additionalProperties(mastercard.additionalProperties)
+                    }
+
+                    /** Identifier assigned by Mastercard. */
+                    fun banknetReferenceNumber(banknetReferenceNumber: String) =
+                        banknetReferenceNumber(JsonField.of(banknetReferenceNumber))
+
+                    /** Identifier assigned by Mastercard. */
+                    @JsonProperty("banknet_reference_number")
+                    @ExcludeMissing
+                    fun banknetReferenceNumber(banknetReferenceNumber: JsonField<String>) = apply {
+                        this.banknetReferenceNumber = banknetReferenceNumber
+                    }
+
+                    /**
+                     * Identifier assigned by Mastercard, applicable to single-message transactions
+                     * only.
+                     */
+                    fun switchSerialNumber(switchSerialNumber: String) =
+                        switchSerialNumber(JsonField.of(switchSerialNumber))
+
+                    /**
+                     * Identifier assigned by Mastercard, applicable to single-message transactions
+                     * only.
+                     */
+                    @JsonProperty("switch_serial_number")
+                    @ExcludeMissing
+                    fun switchSerialNumber(switchSerialNumber: JsonField<String>) = apply {
+                        this.switchSerialNumber = switchSerialNumber
+                    }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                    @JsonAnySetter
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        this.additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun build(): Mastercard =
+                        Mastercard(
+                            banknetReferenceNumber,
+                            switchSerialNumber,
+                            additionalProperties.toImmutable(),
+                        )
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Mastercard && banknetReferenceNumber == other.banknetReferenceNumber && switchSerialNumber == other.switchSerialNumber && additionalProperties == other.additionalProperties /* spotless:on */
+                }
+
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(banknetReferenceNumber, switchSerialNumber, additionalProperties) }
+                /* spotless:on */
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "Mastercard{banknetReferenceNumber=$banknetReferenceNumber, switchSerialNumber=$switchSerialNumber, additionalProperties=$additionalProperties}"
+            }
+
+            @JsonDeserialize(builder = Visa.Builder::class)
+            @NoAutoDetect
+            class Visa
+            private constructor(
+                private val transactionId: JsonField<String>,
+                private val additionalProperties: Map<String, JsonValue>,
+            ) {
+
+                private var validated: Boolean = false
+
+                /** Identifier assigned by Visa. */
+                fun transactionId(): Optional<String> =
+                    Optional.ofNullable(transactionId.getNullable("transaction_id"))
+
+                /** Identifier assigned by Visa. */
+                @JsonProperty("transaction_id") @ExcludeMissing fun _transactionId() = transactionId
+
+                @JsonAnyGetter
+                @ExcludeMissing
+                fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                fun validate(): Visa = apply {
+                    if (!validated) {
+                        transactionId()
+                        validated = true
+                    }
+                }
+
+                fun toBuilder() = Builder().from(this)
+
+                companion object {
+
+                    @JvmStatic fun builder() = Builder()
+                }
+
+                class Builder {
+
+                    private var transactionId: JsonField<String> = JsonMissing.of()
+                    private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                    @JvmSynthetic
+                    internal fun from(visa: Visa) = apply {
+                        this.transactionId = visa.transactionId
+                        additionalProperties(visa.additionalProperties)
+                    }
+
+                    /** Identifier assigned by Visa. */
+                    fun transactionId(transactionId: String) =
+                        transactionId(JsonField.of(transactionId))
+
+                    /** Identifier assigned by Visa. */
+                    @JsonProperty("transaction_id")
+                    @ExcludeMissing
+                    fun transactionId(transactionId: JsonField<String>) = apply {
+                        this.transactionId = transactionId
+                    }
+
+                    fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                        this.additionalProperties.clear()
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                    @JsonAnySetter
+                    fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                        this.additionalProperties.put(key, value)
+                    }
+
+                    fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                        apply {
+                            this.additionalProperties.putAll(additionalProperties)
+                        }
+
+                    fun build(): Visa = Visa(transactionId, additionalProperties.toImmutable())
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is Visa && transactionId == other.transactionId && additionalProperties == other.additionalProperties /* spotless:on */
+                }
+
+                /* spotless:off */
+                private val hashCode: Int by lazy { Objects.hash(transactionId, additionalProperties) }
+                /* spotless:on */
+
+                override fun hashCode(): Int = hashCode
+
+                override fun toString() =
+                    "Visa{transactionId=$transactionId, additionalProperties=$additionalProperties}"
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is NetworkInfo && acquirer == other.acquirer && mastercard == other.mastercard && visa == other.visa && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(acquirer, mastercard, visa, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "NetworkInfo{acquirer=$acquirer, mastercard=$mastercard, visa=$visa, additionalProperties=$additionalProperties}"
         }
 
         class DeclineResult
@@ -5472,79 +5991,53 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is DeclineResult && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField
-                val ACCOUNT_STATE_TRANSACTION_FAIL =
-                    DeclineResult(JsonField.of("ACCOUNT_STATE_TRANSACTION_FAIL"))
+                @JvmField val ACCOUNT_STATE_TRANSACTION_FAIL = of("ACCOUNT_STATE_TRANSACTION_FAIL")
 
-                @JvmField val APPROVED = DeclineResult(JsonField.of("APPROVED"))
+                @JvmField val APPROVED = of("APPROVED")
 
-                @JvmField
-                val BANK_CONNECTION_ERROR = DeclineResult(JsonField.of("BANK_CONNECTION_ERROR"))
+                @JvmField val BANK_CONNECTION_ERROR = of("BANK_CONNECTION_ERROR")
 
-                @JvmField val BANK_NOT_VERIFIED = DeclineResult(JsonField.of("BANK_NOT_VERIFIED"))
+                @JvmField val BANK_NOT_VERIFIED = of("BANK_NOT_VERIFIED")
 
-                @JvmField val CARD_CLOSED = DeclineResult(JsonField.of("CARD_CLOSED"))
+                @JvmField val CARD_CLOSED = of("CARD_CLOSED")
 
-                @JvmField val CARD_PAUSED = DeclineResult(JsonField.of("CARD_PAUSED"))
+                @JvmField val CARD_PAUSED = of("CARD_PAUSED")
 
-                @JvmField val DECLINED = DeclineResult(JsonField.of("DECLINED"))
+                @JvmField val DECLINED = of("DECLINED")
 
-                @JvmField val FRAUD_ADVICE = DeclineResult(JsonField.of("FRAUD_ADVICE"))
+                @JvmField val FRAUD_ADVICE = of("FRAUD_ADVICE")
 
-                @JvmField val IGNORED_TTL_EXPIRY = DeclineResult(JsonField.of("IGNORED_TTL_EXPIRY"))
+                @JvmField val IGNORED_TTL_EXPIRY = of("IGNORED_TTL_EXPIRY")
 
-                @JvmField val INACTIVE_ACCOUNT = DeclineResult(JsonField.of("INACTIVE_ACCOUNT"))
+                @JvmField val INACTIVE_ACCOUNT = of("INACTIVE_ACCOUNT")
 
-                @JvmField val INCORRECT_PIN = DeclineResult(JsonField.of("INCORRECT_PIN"))
+                @JvmField val INCORRECT_PIN = of("INCORRECT_PIN")
 
-                @JvmField
-                val INVALID_CARD_DETAILS = DeclineResult(JsonField.of("INVALID_CARD_DETAILS"))
+                @JvmField val INVALID_CARD_DETAILS = of("INVALID_CARD_DETAILS")
 
-                @JvmField val INSUFFICIENT_FUNDS = DeclineResult(JsonField.of("INSUFFICIENT_FUNDS"))
+                @JvmField val INSUFFICIENT_FUNDS = of("INSUFFICIENT_FUNDS")
 
-                @JvmField
-                val INSUFFICIENT_FUNDS_PRELOAD =
-                    DeclineResult(JsonField.of("INSUFFICIENT_FUNDS_PRELOAD"))
+                @JvmField val INSUFFICIENT_FUNDS_PRELOAD = of("INSUFFICIENT_FUNDS_PRELOAD")
 
-                @JvmField
-                val INVALID_TRANSACTION = DeclineResult(JsonField.of("INVALID_TRANSACTION"))
+                @JvmField val INVALID_TRANSACTION = of("INVALID_TRANSACTION")
 
-                @JvmField val MERCHANT_BLACKLIST = DeclineResult(JsonField.of("MERCHANT_BLACKLIST"))
+                @JvmField val MERCHANT_BLACKLIST = of("MERCHANT_BLACKLIST")
 
-                @JvmField val ORIGINAL_NOT_FOUND = DeclineResult(JsonField.of("ORIGINAL_NOT_FOUND"))
+                @JvmField val ORIGINAL_NOT_FOUND = of("ORIGINAL_NOT_FOUND")
 
-                @JvmField
-                val PREVIOUSLY_COMPLETED = DeclineResult(JsonField.of("PREVIOUSLY_COMPLETED"))
+                @JvmField val PREVIOUSLY_COMPLETED = of("PREVIOUSLY_COMPLETED")
 
-                @JvmField
-                val SINGLE_USE_RECHARGED = DeclineResult(JsonField.of("SINGLE_USE_RECHARGED"))
+                @JvmField val SINGLE_USE_RECHARGED = of("SINGLE_USE_RECHARGED")
 
-                @JvmField
-                val SWITCH_INOPERATIVE_ADVICE =
-                    DeclineResult(JsonField.of("SWITCH_INOPERATIVE_ADVICE"))
+                @JvmField val SWITCH_INOPERATIVE_ADVICE = of("SWITCH_INOPERATIVE_ADVICE")
 
-                @JvmField
-                val UNAUTHORIZED_MERCHANT = DeclineResult(JsonField.of("UNAUTHORIZED_MERCHANT"))
+                @JvmField val UNAUTHORIZED_MERCHANT = of("UNAUTHORIZED_MERCHANT")
 
-                @JvmField
-                val UNKNOWN_HOST_TIMEOUT = DeclineResult(JsonField.of("UNKNOWN_HOST_TIMEOUT"))
+                @JvmField val UNKNOWN_HOST_TIMEOUT = of("UNKNOWN_HOST_TIMEOUT")
 
-                @JvmField
-                val USER_TRANSACTION_LIMIT = DeclineResult(JsonField.of("USER_TRANSACTION_LIMIT"))
+                @JvmField val USER_TRANSACTION_LIMIT = of("USER_TRANSACTION_LIMIT")
 
                 @JvmStatic fun of(value: String) = DeclineResult(JsonField.of(value))
             }
@@ -5659,6 +6152,586 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is DeclineResult && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        @JsonDeserialize(builder = RuleResult.Builder::class)
+        @NoAutoDetect
+        class RuleResult
+        private constructor(
+            private val authRuleToken: JsonField<String>,
+            private val result: JsonField<DetailedResult>,
+            private val name: JsonField<String>,
+            private val explanation: JsonField<String>,
+            private val additionalProperties: Map<String, JsonValue>,
+        ) {
+
+            private var validated: Boolean = false
+
+            /**
+             * The Auth Rule Token associated with the rule from which the decline originated. If
+             * this is set to null, then the decline was not associated with a customer-configured
+             * Auth Rule. This may happen in cases where a transaction is declined due to a
+             * Lithic-configured security or compliance rule, for example.
+             */
+            fun authRuleToken(): Optional<String> =
+                Optional.ofNullable(authRuleToken.getNullable("auth_rule_token"))
+
+            /** The detailed_result associated with this rule's decline. */
+            fun result(): DetailedResult = result.getRequired("result")
+
+            /** The name for the rule, if any was configured. */
+            fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
+
+            /** A human-readable explanation outlining the motivation for the rule's decline. */
+            fun explanation(): Optional<String> =
+                Optional.ofNullable(explanation.getNullable("explanation"))
+
+            /**
+             * The Auth Rule Token associated with the rule from which the decline originated. If
+             * this is set to null, then the decline was not associated with a customer-configured
+             * Auth Rule. This may happen in cases where a transaction is declined due to a
+             * Lithic-configured security or compliance rule, for example.
+             */
+            @JsonProperty("auth_rule_token") @ExcludeMissing fun _authRuleToken() = authRuleToken
+
+            /** The detailed_result associated with this rule's decline. */
+            @JsonProperty("result") @ExcludeMissing fun _result() = result
+
+            /** The name for the rule, if any was configured. */
+            @JsonProperty("name") @ExcludeMissing fun _name() = name
+
+            /** A human-readable explanation outlining the motivation for the rule's decline. */
+            @JsonProperty("explanation") @ExcludeMissing fun _explanation() = explanation
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            fun validate(): RuleResult = apply {
+                if (!validated) {
+                    authRuleToken()
+                    result()
+                    name()
+                    explanation()
+                    validated = true
+                }
+            }
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                @JvmStatic fun builder() = Builder()
+            }
+
+            class Builder {
+
+                private var authRuleToken: JsonField<String> = JsonMissing.of()
+                private var result: JsonField<DetailedResult> = JsonMissing.of()
+                private var name: JsonField<String> = JsonMissing.of()
+                private var explanation: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(ruleResult: RuleResult) = apply {
+                    this.authRuleToken = ruleResult.authRuleToken
+                    this.result = ruleResult.result
+                    this.name = ruleResult.name
+                    this.explanation = ruleResult.explanation
+                    additionalProperties(ruleResult.additionalProperties)
+                }
+
+                /**
+                 * The Auth Rule Token associated with the rule from which the decline originated.
+                 * If this is set to null, then the decline was not associated with a
+                 * customer-configured Auth Rule. This may happen in cases where a transaction is
+                 * declined due to a Lithic-configured security or compliance rule, for example.
+                 */
+                fun authRuleToken(authRuleToken: String) =
+                    authRuleToken(JsonField.of(authRuleToken))
+
+                /**
+                 * The Auth Rule Token associated with the rule from which the decline originated.
+                 * If this is set to null, then the decline was not associated with a
+                 * customer-configured Auth Rule. This may happen in cases where a transaction is
+                 * declined due to a Lithic-configured security or compliance rule, for example.
+                 */
+                @JsonProperty("auth_rule_token")
+                @ExcludeMissing
+                fun authRuleToken(authRuleToken: JsonField<String>) = apply {
+                    this.authRuleToken = authRuleToken
+                }
+
+                /** The detailed_result associated with this rule's decline. */
+                fun result(result: DetailedResult) = result(JsonField.of(result))
+
+                /** The detailed_result associated with this rule's decline. */
+                @JsonProperty("result")
+                @ExcludeMissing
+                fun result(result: JsonField<DetailedResult>) = apply { this.result = result }
+
+                /** The name for the rule, if any was configured. */
+                fun name(name: String) = name(JsonField.of(name))
+
+                /** The name for the rule, if any was configured. */
+                @JsonProperty("name")
+                @ExcludeMissing
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                /** A human-readable explanation outlining the motivation for the rule's decline. */
+                fun explanation(explanation: String) = explanation(JsonField.of(explanation))
+
+                /** A human-readable explanation outlining the motivation for the rule's decline. */
+                @JsonProperty("explanation")
+                @ExcludeMissing
+                fun explanation(explanation: JsonField<String>) = apply {
+                    this.explanation = explanation
+                }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    this.additionalProperties.putAll(additionalProperties)
+                }
+
+                @JsonAnySetter
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    this.additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun build(): RuleResult =
+                    RuleResult(
+                        authRuleToken,
+                        result,
+                        name,
+                        explanation,
+                        additionalProperties.toImmutable(),
+                    )
+            }
+
+            class DetailedResult
+            @JsonCreator
+            private constructor(
+                private val value: JsonField<String>,
+            ) : Enum {
+
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField
+                    val ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED =
+                        of("ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED")
+
+                    @JvmField val ACCOUNT_DELINQUENT = of("ACCOUNT_DELINQUENT")
+
+                    @JvmField val ACCOUNT_INACTIVE = of("ACCOUNT_INACTIVE")
+
+                    @JvmField
+                    val ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED =
+                        of("ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED")
+
+                    @JvmField
+                    val ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED =
+                        of("ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED")
+
+                    @JvmField val ACCOUNT_UNDER_REVIEW = of("ACCOUNT_UNDER_REVIEW")
+
+                    @JvmField val ADDRESS_INCORRECT = of("ADDRESS_INCORRECT")
+
+                    @JvmField val APPROVED = of("APPROVED")
+
+                    @JvmField val AUTH_RULE_ALLOWED_COUNTRY = of("AUTH_RULE_ALLOWED_COUNTRY")
+
+                    @JvmField val AUTH_RULE_ALLOWED_MCC = of("AUTH_RULE_ALLOWED_MCC")
+
+                    @JvmField val AUTH_RULE_BLOCKED_COUNTRY = of("AUTH_RULE_BLOCKED_COUNTRY")
+
+                    @JvmField val AUTH_RULE_BLOCKED_MCC = of("AUTH_RULE_BLOCKED_MCC")
+
+                    @JvmField val CARD_CLOSED = of("CARD_CLOSED")
+
+                    @JvmField
+                    val CARD_CRYPTOGRAM_VALIDATION_FAILURE =
+                        of("CARD_CRYPTOGRAM_VALIDATION_FAILURE")
+
+                    @JvmField val CARD_EXPIRED = of("CARD_EXPIRED")
+
+                    @JvmField val CARD_EXPIRY_DATE_INCORRECT = of("CARD_EXPIRY_DATE_INCORRECT")
+
+                    @JvmField val CARD_INVALID = of("CARD_INVALID")
+
+                    @JvmField val CARD_NOT_ACTIVATED = of("CARD_NOT_ACTIVATED")
+
+                    @JvmField val CARD_PAUSED = of("CARD_PAUSED")
+
+                    @JvmField val CARD_PIN_INCORRECT = of("CARD_PIN_INCORRECT")
+
+                    @JvmField val CARD_RESTRICTED = of("CARD_RESTRICTED")
+
+                    @JvmField val CARD_SECURITY_CODE_INCORRECT = of("CARD_SECURITY_CODE_INCORRECT")
+
+                    @JvmField val CARD_SPEND_LIMIT_EXCEEDED = of("CARD_SPEND_LIMIT_EXCEEDED")
+
+                    @JvmField val CONTACT_CARD_ISSUER = of("CONTACT_CARD_ISSUER")
+
+                    @JvmField val CUSTOMER_ASA_TIMEOUT = of("CUSTOMER_ASA_TIMEOUT")
+
+                    @JvmField val CUSTOM_ASA_RESULT = of("CUSTOM_ASA_RESULT")
+
+                    @JvmField val DECLINED = of("DECLINED")
+
+                    @JvmField val DO_NOT_HONOR = of("DO_NOT_HONOR")
+
+                    @JvmField val DRIVER_NUMBER_INVALID = of("DRIVER_NUMBER_INVALID")
+
+                    @JvmField val FORMAT_ERROR = of("FORMAT_ERROR")
+
+                    @JvmField
+                    val INSUFFICIENT_FUNDING_SOURCE_BALANCE =
+                        of("INSUFFICIENT_FUNDING_SOURCE_BALANCE")
+
+                    @JvmField val INSUFFICIENT_FUNDS = of("INSUFFICIENT_FUNDS")
+
+                    @JvmField val LITHIC_SYSTEM_ERROR = of("LITHIC_SYSTEM_ERROR")
+
+                    @JvmField val LITHIC_SYSTEM_RATE_LIMIT = of("LITHIC_SYSTEM_RATE_LIMIT")
+
+                    @JvmField val MALFORMED_ASA_RESPONSE = of("MALFORMED_ASA_RESPONSE")
+
+                    @JvmField val MERCHANT_INVALID = of("MERCHANT_INVALID")
+
+                    @JvmField
+                    val MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE =
+                        of("MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE")
+
+                    @JvmField val MERCHANT_NOT_PERMITTED = of("MERCHANT_NOT_PERMITTED")
+
+                    @JvmField val OVER_REVERSAL_ATTEMPTED = of("OVER_REVERSAL_ATTEMPTED")
+
+                    @JvmField val PIN_BLOCKED = of("PIN_BLOCKED")
+
+                    @JvmField
+                    val PROGRAM_CARD_SPEND_LIMIT_EXCEEDED = of("PROGRAM_CARD_SPEND_LIMIT_EXCEEDED")
+
+                    @JvmField val PROGRAM_SUSPENDED = of("PROGRAM_SUSPENDED")
+
+                    @JvmField val PROGRAM_USAGE_RESTRICTION = of("PROGRAM_USAGE_RESTRICTION")
+
+                    @JvmField val REVERSAL_UNMATCHED = of("REVERSAL_UNMATCHED")
+
+                    @JvmField val SECURITY_VIOLATION = of("SECURITY_VIOLATION")
+
+                    @JvmField val SINGLE_USE_CARD_REATTEMPTED = of("SINGLE_USE_CARD_REATTEMPTED")
+
+                    @JvmField val TRANSACTION_INVALID = of("TRANSACTION_INVALID")
+
+                    @JvmField
+                    val TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL =
+                        of("TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL")
+
+                    @JvmField
+                    val TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER =
+                        of("TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER")
+
+                    @JvmField
+                    val TRANSACTION_PREVIOUSLY_COMPLETED = of("TRANSACTION_PREVIOUSLY_COMPLETED")
+
+                    @JvmField val UNAUTHORIZED_MERCHANT = of("UNAUTHORIZED_MERCHANT")
+
+                    @JvmField val VEHICLE_NUMBER_INVALID = of("VEHICLE_NUMBER_INVALID")
+
+                    @JvmStatic fun of(value: String) = DetailedResult(JsonField.of(value))
+                }
+
+                enum class Known {
+                    ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_DELINQUENT,
+                    ACCOUNT_INACTIVE,
+                    ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_UNDER_REVIEW,
+                    ADDRESS_INCORRECT,
+                    APPROVED,
+                    AUTH_RULE_ALLOWED_COUNTRY,
+                    AUTH_RULE_ALLOWED_MCC,
+                    AUTH_RULE_BLOCKED_COUNTRY,
+                    AUTH_RULE_BLOCKED_MCC,
+                    CARD_CLOSED,
+                    CARD_CRYPTOGRAM_VALIDATION_FAILURE,
+                    CARD_EXPIRED,
+                    CARD_EXPIRY_DATE_INCORRECT,
+                    CARD_INVALID,
+                    CARD_NOT_ACTIVATED,
+                    CARD_PAUSED,
+                    CARD_PIN_INCORRECT,
+                    CARD_RESTRICTED,
+                    CARD_SECURITY_CODE_INCORRECT,
+                    CARD_SPEND_LIMIT_EXCEEDED,
+                    CONTACT_CARD_ISSUER,
+                    CUSTOMER_ASA_TIMEOUT,
+                    CUSTOM_ASA_RESULT,
+                    DECLINED,
+                    DO_NOT_HONOR,
+                    DRIVER_NUMBER_INVALID,
+                    FORMAT_ERROR,
+                    INSUFFICIENT_FUNDING_SOURCE_BALANCE,
+                    INSUFFICIENT_FUNDS,
+                    LITHIC_SYSTEM_ERROR,
+                    LITHIC_SYSTEM_RATE_LIMIT,
+                    MALFORMED_ASA_RESPONSE,
+                    MERCHANT_INVALID,
+                    MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE,
+                    MERCHANT_NOT_PERMITTED,
+                    OVER_REVERSAL_ATTEMPTED,
+                    PIN_BLOCKED,
+                    PROGRAM_CARD_SPEND_LIMIT_EXCEEDED,
+                    PROGRAM_SUSPENDED,
+                    PROGRAM_USAGE_RESTRICTION,
+                    REVERSAL_UNMATCHED,
+                    SECURITY_VIOLATION,
+                    SINGLE_USE_CARD_REATTEMPTED,
+                    TRANSACTION_INVALID,
+                    TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL,
+                    TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER,
+                    TRANSACTION_PREVIOUSLY_COMPLETED,
+                    UNAUTHORIZED_MERCHANT,
+                    VEHICLE_NUMBER_INVALID,
+                }
+
+                enum class Value {
+                    ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_DELINQUENT,
+                    ACCOUNT_INACTIVE,
+                    ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED,
+                    ACCOUNT_UNDER_REVIEW,
+                    ADDRESS_INCORRECT,
+                    APPROVED,
+                    AUTH_RULE_ALLOWED_COUNTRY,
+                    AUTH_RULE_ALLOWED_MCC,
+                    AUTH_RULE_BLOCKED_COUNTRY,
+                    AUTH_RULE_BLOCKED_MCC,
+                    CARD_CLOSED,
+                    CARD_CRYPTOGRAM_VALIDATION_FAILURE,
+                    CARD_EXPIRED,
+                    CARD_EXPIRY_DATE_INCORRECT,
+                    CARD_INVALID,
+                    CARD_NOT_ACTIVATED,
+                    CARD_PAUSED,
+                    CARD_PIN_INCORRECT,
+                    CARD_RESTRICTED,
+                    CARD_SECURITY_CODE_INCORRECT,
+                    CARD_SPEND_LIMIT_EXCEEDED,
+                    CONTACT_CARD_ISSUER,
+                    CUSTOMER_ASA_TIMEOUT,
+                    CUSTOM_ASA_RESULT,
+                    DECLINED,
+                    DO_NOT_HONOR,
+                    DRIVER_NUMBER_INVALID,
+                    FORMAT_ERROR,
+                    INSUFFICIENT_FUNDING_SOURCE_BALANCE,
+                    INSUFFICIENT_FUNDS,
+                    LITHIC_SYSTEM_ERROR,
+                    LITHIC_SYSTEM_RATE_LIMIT,
+                    MALFORMED_ASA_RESPONSE,
+                    MERCHANT_INVALID,
+                    MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE,
+                    MERCHANT_NOT_PERMITTED,
+                    OVER_REVERSAL_ATTEMPTED,
+                    PIN_BLOCKED,
+                    PROGRAM_CARD_SPEND_LIMIT_EXCEEDED,
+                    PROGRAM_SUSPENDED,
+                    PROGRAM_USAGE_RESTRICTION,
+                    REVERSAL_UNMATCHED,
+                    SECURITY_VIOLATION,
+                    SINGLE_USE_CARD_REATTEMPTED,
+                    TRANSACTION_INVALID,
+                    TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL,
+                    TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER,
+                    TRANSACTION_PREVIOUSLY_COMPLETED,
+                    UNAUTHORIZED_MERCHANT,
+                    VEHICLE_NUMBER_INVALID,
+                    _UNKNOWN,
+                }
+
+                fun value(): Value =
+                    when (this) {
+                        ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED ->
+                            Value.ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_DELINQUENT -> Value.ACCOUNT_DELINQUENT
+                        ACCOUNT_INACTIVE -> Value.ACCOUNT_INACTIVE
+                        ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED ->
+                            Value.ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED ->
+                            Value.ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_UNDER_REVIEW -> Value.ACCOUNT_UNDER_REVIEW
+                        ADDRESS_INCORRECT -> Value.ADDRESS_INCORRECT
+                        APPROVED -> Value.APPROVED
+                        AUTH_RULE_ALLOWED_COUNTRY -> Value.AUTH_RULE_ALLOWED_COUNTRY
+                        AUTH_RULE_ALLOWED_MCC -> Value.AUTH_RULE_ALLOWED_MCC
+                        AUTH_RULE_BLOCKED_COUNTRY -> Value.AUTH_RULE_BLOCKED_COUNTRY
+                        AUTH_RULE_BLOCKED_MCC -> Value.AUTH_RULE_BLOCKED_MCC
+                        CARD_CLOSED -> Value.CARD_CLOSED
+                        CARD_CRYPTOGRAM_VALIDATION_FAILURE ->
+                            Value.CARD_CRYPTOGRAM_VALIDATION_FAILURE
+                        CARD_EXPIRED -> Value.CARD_EXPIRED
+                        CARD_EXPIRY_DATE_INCORRECT -> Value.CARD_EXPIRY_DATE_INCORRECT
+                        CARD_INVALID -> Value.CARD_INVALID
+                        CARD_NOT_ACTIVATED -> Value.CARD_NOT_ACTIVATED
+                        CARD_PAUSED -> Value.CARD_PAUSED
+                        CARD_PIN_INCORRECT -> Value.CARD_PIN_INCORRECT
+                        CARD_RESTRICTED -> Value.CARD_RESTRICTED
+                        CARD_SECURITY_CODE_INCORRECT -> Value.CARD_SECURITY_CODE_INCORRECT
+                        CARD_SPEND_LIMIT_EXCEEDED -> Value.CARD_SPEND_LIMIT_EXCEEDED
+                        CONTACT_CARD_ISSUER -> Value.CONTACT_CARD_ISSUER
+                        CUSTOMER_ASA_TIMEOUT -> Value.CUSTOMER_ASA_TIMEOUT
+                        CUSTOM_ASA_RESULT -> Value.CUSTOM_ASA_RESULT
+                        DECLINED -> Value.DECLINED
+                        DO_NOT_HONOR -> Value.DO_NOT_HONOR
+                        DRIVER_NUMBER_INVALID -> Value.DRIVER_NUMBER_INVALID
+                        FORMAT_ERROR -> Value.FORMAT_ERROR
+                        INSUFFICIENT_FUNDING_SOURCE_BALANCE ->
+                            Value.INSUFFICIENT_FUNDING_SOURCE_BALANCE
+                        INSUFFICIENT_FUNDS -> Value.INSUFFICIENT_FUNDS
+                        LITHIC_SYSTEM_ERROR -> Value.LITHIC_SYSTEM_ERROR
+                        LITHIC_SYSTEM_RATE_LIMIT -> Value.LITHIC_SYSTEM_RATE_LIMIT
+                        MALFORMED_ASA_RESPONSE -> Value.MALFORMED_ASA_RESPONSE
+                        MERCHANT_INVALID -> Value.MERCHANT_INVALID
+                        MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE ->
+                            Value.MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE
+                        MERCHANT_NOT_PERMITTED -> Value.MERCHANT_NOT_PERMITTED
+                        OVER_REVERSAL_ATTEMPTED -> Value.OVER_REVERSAL_ATTEMPTED
+                        PIN_BLOCKED -> Value.PIN_BLOCKED
+                        PROGRAM_CARD_SPEND_LIMIT_EXCEEDED -> Value.PROGRAM_CARD_SPEND_LIMIT_EXCEEDED
+                        PROGRAM_SUSPENDED -> Value.PROGRAM_SUSPENDED
+                        PROGRAM_USAGE_RESTRICTION -> Value.PROGRAM_USAGE_RESTRICTION
+                        REVERSAL_UNMATCHED -> Value.REVERSAL_UNMATCHED
+                        SECURITY_VIOLATION -> Value.SECURITY_VIOLATION
+                        SINGLE_USE_CARD_REATTEMPTED -> Value.SINGLE_USE_CARD_REATTEMPTED
+                        TRANSACTION_INVALID -> Value.TRANSACTION_INVALID
+                        TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL ->
+                            Value.TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL
+                        TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER ->
+                            Value.TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER
+                        TRANSACTION_PREVIOUSLY_COMPLETED -> Value.TRANSACTION_PREVIOUSLY_COMPLETED
+                        UNAUTHORIZED_MERCHANT -> Value.UNAUTHORIZED_MERCHANT
+                        VEHICLE_NUMBER_INVALID -> Value.VEHICLE_NUMBER_INVALID
+                        else -> Value._UNKNOWN
+                    }
+
+                fun known(): Known =
+                    when (this) {
+                        ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED ->
+                            Known.ACCOUNT_DAILY_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_DELINQUENT -> Known.ACCOUNT_DELINQUENT
+                        ACCOUNT_INACTIVE -> Known.ACCOUNT_INACTIVE
+                        ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED ->
+                            Known.ACCOUNT_LIFETIME_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED ->
+                            Known.ACCOUNT_MONTHLY_SPEND_LIMIT_EXCEEDED
+                        ACCOUNT_UNDER_REVIEW -> Known.ACCOUNT_UNDER_REVIEW
+                        ADDRESS_INCORRECT -> Known.ADDRESS_INCORRECT
+                        APPROVED -> Known.APPROVED
+                        AUTH_RULE_ALLOWED_COUNTRY -> Known.AUTH_RULE_ALLOWED_COUNTRY
+                        AUTH_RULE_ALLOWED_MCC -> Known.AUTH_RULE_ALLOWED_MCC
+                        AUTH_RULE_BLOCKED_COUNTRY -> Known.AUTH_RULE_BLOCKED_COUNTRY
+                        AUTH_RULE_BLOCKED_MCC -> Known.AUTH_RULE_BLOCKED_MCC
+                        CARD_CLOSED -> Known.CARD_CLOSED
+                        CARD_CRYPTOGRAM_VALIDATION_FAILURE ->
+                            Known.CARD_CRYPTOGRAM_VALIDATION_FAILURE
+                        CARD_EXPIRED -> Known.CARD_EXPIRED
+                        CARD_EXPIRY_DATE_INCORRECT -> Known.CARD_EXPIRY_DATE_INCORRECT
+                        CARD_INVALID -> Known.CARD_INVALID
+                        CARD_NOT_ACTIVATED -> Known.CARD_NOT_ACTIVATED
+                        CARD_PAUSED -> Known.CARD_PAUSED
+                        CARD_PIN_INCORRECT -> Known.CARD_PIN_INCORRECT
+                        CARD_RESTRICTED -> Known.CARD_RESTRICTED
+                        CARD_SECURITY_CODE_INCORRECT -> Known.CARD_SECURITY_CODE_INCORRECT
+                        CARD_SPEND_LIMIT_EXCEEDED -> Known.CARD_SPEND_LIMIT_EXCEEDED
+                        CONTACT_CARD_ISSUER -> Known.CONTACT_CARD_ISSUER
+                        CUSTOMER_ASA_TIMEOUT -> Known.CUSTOMER_ASA_TIMEOUT
+                        CUSTOM_ASA_RESULT -> Known.CUSTOM_ASA_RESULT
+                        DECLINED -> Known.DECLINED
+                        DO_NOT_HONOR -> Known.DO_NOT_HONOR
+                        DRIVER_NUMBER_INVALID -> Known.DRIVER_NUMBER_INVALID
+                        FORMAT_ERROR -> Known.FORMAT_ERROR
+                        INSUFFICIENT_FUNDING_SOURCE_BALANCE ->
+                            Known.INSUFFICIENT_FUNDING_SOURCE_BALANCE
+                        INSUFFICIENT_FUNDS -> Known.INSUFFICIENT_FUNDS
+                        LITHIC_SYSTEM_ERROR -> Known.LITHIC_SYSTEM_ERROR
+                        LITHIC_SYSTEM_RATE_LIMIT -> Known.LITHIC_SYSTEM_RATE_LIMIT
+                        MALFORMED_ASA_RESPONSE -> Known.MALFORMED_ASA_RESPONSE
+                        MERCHANT_INVALID -> Known.MERCHANT_INVALID
+                        MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE ->
+                            Known.MERCHANT_LOCKED_CARD_ATTEMPTED_ELSEWHERE
+                        MERCHANT_NOT_PERMITTED -> Known.MERCHANT_NOT_PERMITTED
+                        OVER_REVERSAL_ATTEMPTED -> Known.OVER_REVERSAL_ATTEMPTED
+                        PIN_BLOCKED -> Known.PIN_BLOCKED
+                        PROGRAM_CARD_SPEND_LIMIT_EXCEEDED -> Known.PROGRAM_CARD_SPEND_LIMIT_EXCEEDED
+                        PROGRAM_SUSPENDED -> Known.PROGRAM_SUSPENDED
+                        PROGRAM_USAGE_RESTRICTION -> Known.PROGRAM_USAGE_RESTRICTION
+                        REVERSAL_UNMATCHED -> Known.REVERSAL_UNMATCHED
+                        SECURITY_VIOLATION -> Known.SECURITY_VIOLATION
+                        SINGLE_USE_CARD_REATTEMPTED -> Known.SINGLE_USE_CARD_REATTEMPTED
+                        TRANSACTION_INVALID -> Known.TRANSACTION_INVALID
+                        TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL ->
+                            Known.TRANSACTION_NOT_PERMITTED_TO_ACQUIRER_OR_TERMINAL
+                        TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER ->
+                            Known.TRANSACTION_NOT_PERMITTED_TO_ISSUER_OR_CARDHOLDER
+                        TRANSACTION_PREVIOUSLY_COMPLETED -> Known.TRANSACTION_PREVIOUSLY_COMPLETED
+                        UNAUTHORIZED_MERCHANT -> Known.UNAUTHORIZED_MERCHANT
+                        VEHICLE_NUMBER_INVALID -> Known.VEHICLE_NUMBER_INVALID
+                        else -> throw LithicInvalidDataException("Unknown DetailedResult: $value")
+                    }
+
+                fun asString(): String = _value().asStringOrThrow()
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return /* spotless:off */ other is DetailedResult && value == other.value /* spotless:on */
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is RuleResult && authRuleToken == other.authRuleToken && result == other.result && name == other.name && explanation == other.explanation && additionalProperties == other.additionalProperties /* spotless:on */
+            }
+
+            /* spotless:off */
+            private val hashCode: Int by lazy { Objects.hash(authRuleToken, result, name, explanation, additionalProperties) }
+            /* spotless:on */
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "RuleResult{authRuleToken=$authRuleToken, result=$result, name=$name, explanation=$explanation, additionalProperties=$additionalProperties}"
         }
 
         class Type
@@ -5669,51 +6742,35 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val AUTHORIZATION = Type(JsonField.of("AUTHORIZATION"))
+                @JvmField val AUTHORIZATION = of("AUTHORIZATION")
 
-                @JvmField val AUTHORIZATION_ADVICE = Type(JsonField.of("AUTHORIZATION_ADVICE"))
+                @JvmField val AUTHORIZATION_ADVICE = of("AUTHORIZATION_ADVICE")
 
-                @JvmField val AUTHORIZATION_EXPIRY = Type(JsonField.of("AUTHORIZATION_EXPIRY"))
+                @JvmField val AUTHORIZATION_EXPIRY = of("AUTHORIZATION_EXPIRY")
 
-                @JvmField val AUTHORIZATION_REVERSAL = Type(JsonField.of("AUTHORIZATION_REVERSAL"))
+                @JvmField val AUTHORIZATION_REVERSAL = of("AUTHORIZATION_REVERSAL")
 
-                @JvmField val BALANCE_INQUIRY = Type(JsonField.of("BALANCE_INQUIRY"))
+                @JvmField val BALANCE_INQUIRY = of("BALANCE_INQUIRY")
 
-                @JvmField val CLEARING = Type(JsonField.of("CLEARING"))
+                @JvmField val CLEARING = of("CLEARING")
 
-                @JvmField val CORRECTION_CREDIT = Type(JsonField.of("CORRECTION_CREDIT"))
+                @JvmField val CORRECTION_CREDIT = of("CORRECTION_CREDIT")
 
-                @JvmField val CORRECTION_DEBIT = Type(JsonField.of("CORRECTION_DEBIT"))
+                @JvmField val CORRECTION_DEBIT = of("CORRECTION_DEBIT")
 
-                @JvmField val CREDIT_AUTHORIZATION = Type(JsonField.of("CREDIT_AUTHORIZATION"))
+                @JvmField val CREDIT_AUTHORIZATION = of("CREDIT_AUTHORIZATION")
 
-                @JvmField
-                val CREDIT_AUTHORIZATION_ADVICE = Type(JsonField.of("CREDIT_AUTHORIZATION_ADVICE"))
+                @JvmField val CREDIT_AUTHORIZATION_ADVICE = of("CREDIT_AUTHORIZATION_ADVICE")
 
-                @JvmField
-                val FINANCIAL_AUTHORIZATION = Type(JsonField.of("FINANCIAL_AUTHORIZATION"))
+                @JvmField val FINANCIAL_AUTHORIZATION = of("FINANCIAL_AUTHORIZATION")
 
-                @JvmField
-                val FINANCIAL_CREDIT_AUTHORIZATION =
-                    Type(JsonField.of("FINANCIAL_CREDIT_AUTHORIZATION"))
+                @JvmField val FINANCIAL_CREDIT_AUTHORIZATION = of("FINANCIAL_CREDIT_AUTHORIZATION")
 
-                @JvmField val RETURN = Type(JsonField.of("RETURN"))
+                @JvmField val RETURN = of("RETURN")
 
-                @JvmField val RETURN_REVERSAL = Type(JsonField.of("RETURN_REVERSAL"))
+                @JvmField val RETURN_REVERSAL = of("RETURN_REVERSAL")
 
                 @JvmStatic fun of(value: String) = Type(JsonField.of(value))
             }
@@ -5792,6 +6849,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         override fun equals(other: Any?): Boolean {
@@ -5799,17 +6868,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionEvent && amount == other.amount && amounts == other.amounts && created == other.created && detailedResults == other.detailedResults && effectivePolarity == other.effectivePolarity && result == other.result && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransactionEvent && amount == other.amount && amounts == other.amounts && created == other.created && networkInfo == other.networkInfo && detailedResults == other.detailedResults && ruleResults == other.ruleResults && effectivePolarity == other.effectivePolarity && result == other.result && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, amounts, created, detailedResults, effectivePolarity, result, token, type, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(amount, amounts, created, networkInfo, detailedResults, ruleResults, effectivePolarity, result, token, type, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TransactionEvent{amount=$amount, amounts=$amounts, created=$created, detailedResults=$detailedResults, effectivePolarity=$effectivePolarity, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
+            "TransactionEvent{amount=$amount, amounts=$amounts, created=$created, networkInfo=$networkInfo, detailedResults=$detailedResults, ruleResults=$ruleResults, effectivePolarity=$effectivePolarity, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

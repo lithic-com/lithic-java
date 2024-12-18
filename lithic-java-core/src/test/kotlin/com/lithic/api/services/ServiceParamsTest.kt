@@ -5,22 +5,23 @@ package com.lithic.api.services
 import com.fasterxml.jackson.databind.json.JsonMapper
 import com.github.tomakehurst.wiremock.client.WireMock.anyUrl
 import com.github.tomakehurst.wiremock.client.WireMock.equalTo
-import com.github.tomakehurst.wiremock.client.WireMock.get
 import com.github.tomakehurst.wiremock.client.WireMock.matchingJsonPath
 import com.github.tomakehurst.wiremock.client.WireMock.ok
 import com.github.tomakehurst.wiremock.client.WireMock.post
 import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
-import com.github.tomakehurst.wiremock.client.WireMock.put
 import com.github.tomakehurst.wiremock.client.WireMock.stubFor
 import com.github.tomakehurst.wiremock.client.WireMock.verify
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo
 import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import com.lithic.api.client.LithicClient
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.core.JsonString
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.jsonMapper
-import com.lithic.api.models.*
+import com.lithic.api.models.Card
+import com.lithic.api.models.CardCreateParams
+import com.lithic.api.models.Carrier
+import com.lithic.api.models.ShippingAddress
+import com.lithic.api.models.SpendLimitDuration
 import java.time.OffsetDateTime
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -54,7 +55,7 @@ class ServiceParamsTest {
 
         val additionalBodyProperties = mutableMapOf<String, JsonValue>()
 
-        additionalBodyProperties.put("testBodyProperty", JsonString.of("ghi890"))
+        additionalBodyProperties.put("testBodyProperty", JsonValue.from("ghi890"))
 
         val params =
             CardCreateParams.builder()
@@ -82,7 +83,7 @@ class ServiceParamsTest {
                         .address2("Unit 25A")
                         .email("johnny@appleseed.com")
                         .line2Text("The Bluth Company")
-                        .phoneNumber("+12124007676")
+                        .phoneNumber("+15555555555")
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)

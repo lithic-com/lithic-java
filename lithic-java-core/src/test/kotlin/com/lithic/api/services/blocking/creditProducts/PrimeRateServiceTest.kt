@@ -4,7 +4,8 @@ package com.lithic.api.services.blocking.creditProducts
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.*
+import com.lithic.api.models.CreditProductPrimeRateCreateParams
+import com.lithic.api.models.CreditProductPrimeRateRetrieveParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

@@ -16,7 +16,6 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
 
@@ -328,27 +327,11 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ActivationMethodType && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField
-            val EMAIL_TO_CARDHOLDER_ADDRESS =
-                ActivationMethodType(JsonField.of("EMAIL_TO_CARDHOLDER_ADDRESS"))
+            @JvmField val EMAIL_TO_CARDHOLDER_ADDRESS = of("EMAIL_TO_CARDHOLDER_ADDRESS")
 
-            @JvmField
-            val TEXT_TO_CARDHOLDER_NUMBER =
-                ActivationMethodType(JsonField.of("TEXT_TO_CARDHOLDER_NUMBER"))
+            @JvmField val TEXT_TO_CARDHOLDER_NUMBER = of("TEXT_TO_CARDHOLDER_NUMBER")
 
             @JvmStatic fun of(value: String) = ActivationMethodType(JsonField.of(value))
         }
@@ -379,6 +362,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ActivationMethodType && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

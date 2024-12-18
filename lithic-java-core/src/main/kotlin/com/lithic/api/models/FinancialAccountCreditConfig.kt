@@ -247,23 +247,11 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ChargedOffReason && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val DELINQUENT = ChargedOffReason(JsonField.of("DELINQUENT"))
+            @JvmField val DELINQUENT = of("DELINQUENT")
 
-            @JvmField val FRAUD = ChargedOffReason(JsonField.of("FRAUD"))
+            @JvmField val FRAUD = of("FRAUD")
 
             @JvmStatic fun of(value: String) = ChargedOffReason(JsonField.of(value))
         }
@@ -294,6 +282,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ChargedOffReason && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class FinancialAccountState
@@ -304,27 +304,15 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is FinancialAccountState && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val PENDING = FinancialAccountState(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val CURRENT = FinancialAccountState(JsonField.of("CURRENT"))
+            @JvmField val CURRENT = of("CURRENT")
 
-            @JvmField val DELINQUENT = FinancialAccountState(JsonField.of("DELINQUENT"))
+            @JvmField val DELINQUENT = of("DELINQUENT")
 
-            @JvmField val CHARGED_OFF = FinancialAccountState(JsonField.of("CHARGED_OFF"))
+            @JvmField val CHARGED_OFF = of("CHARGED_OFF")
 
             @JvmStatic fun of(value: String) = FinancialAccountState(JsonField.of(value))
         }
@@ -363,6 +351,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is FinancialAccountState && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

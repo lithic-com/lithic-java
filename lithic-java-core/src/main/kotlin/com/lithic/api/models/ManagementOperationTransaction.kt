@@ -297,32 +297,15 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ManagementOperationCategory && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField
-            val MANAGEMENT_FEE = ManagementOperationCategory(JsonField.of("MANAGEMENT_FEE"))
+            @JvmField val MANAGEMENT_FEE = of("MANAGEMENT_FEE")
 
-            @JvmField
-            val MANAGEMENT_DISPUTE = ManagementOperationCategory(JsonField.of("MANAGEMENT_DISPUTE"))
+            @JvmField val MANAGEMENT_DISPUTE = of("MANAGEMENT_DISPUTE")
 
-            @JvmField
-            val MANAGEMENT_REWARD = ManagementOperationCategory(JsonField.of("MANAGEMENT_REWARD"))
+            @JvmField val MANAGEMENT_REWARD = of("MANAGEMENT_REWARD")
 
-            @JvmField
-            val MANAGEMENT_ADJUSTMENT =
-                ManagementOperationCategory(JsonField.of("MANAGEMENT_ADJUSTMENT"))
+            @JvmField val MANAGEMENT_ADJUSTMENT = of("MANAGEMENT_ADJUSTMENT")
 
             @JvmStatic fun of(value: String) = ManagementOperationCategory(JsonField.of(value))
         }
@@ -362,6 +345,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ManagementOperationCategory && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class ManagementOperationDirection
@@ -372,23 +367,11 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ManagementOperationDirection && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val CREDIT = ManagementOperationDirection(JsonField.of("CREDIT"))
+            @JvmField val CREDIT = of("CREDIT")
 
-            @JvmField val DEBIT = ManagementOperationDirection(JsonField.of("DEBIT"))
+            @JvmField val DEBIT = of("DEBIT")
 
             @JvmStatic fun of(value: String) = ManagementOperationDirection(JsonField.of(value))
         }
@@ -420,6 +403,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ManagementOperationDirection && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     @JsonDeserialize(builder = ManagementOperationEvent.Builder::class)
@@ -626,21 +621,9 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is DetailedResults && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val APPROVED = DetailedResults(JsonField.of("APPROVED"))
+                @JvmField val APPROVED = of("APPROVED")
 
                 @JvmStatic fun of(value: String) = DetailedResults(JsonField.of(value))
             }
@@ -667,6 +650,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is DetailedResults && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         class TransactionResult
@@ -677,23 +672,11 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is TransactionResult && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val APPROVED = TransactionResult(JsonField.of("APPROVED"))
+                @JvmField val APPROVED = of("APPROVED")
 
-                @JvmField val DECLINED = TransactionResult(JsonField.of("DECLINED"))
+                @JvmField val DECLINED = of("DECLINED")
 
                 @JvmStatic fun of(value: String) = TransactionResult(JsonField.of(value))
             }
@@ -724,6 +707,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is TransactionResult && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         class ManagementOperationEventType
@@ -734,61 +729,35 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is ManagementOperationEventType && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val CASH_BACK = ManagementOperationEventType(JsonField.of("CASH_BACK"))
+                @JvmField val CASH_BACK = of("CASH_BACK")
 
-                @JvmField
-                val CURRENCY_CONVERSION =
-                    ManagementOperationEventType(JsonField.of("CURRENCY_CONVERSION"))
+                @JvmField val CURRENCY_CONVERSION = of("CURRENCY_CONVERSION")
 
-                @JvmField val INTEREST = ManagementOperationEventType(JsonField.of("INTEREST"))
+                @JvmField val INTEREST = of("INTEREST")
 
-                @JvmField
-                val LATE_PAYMENT = ManagementOperationEventType(JsonField.of("LATE_PAYMENT"))
+                @JvmField val LATE_PAYMENT = of("LATE_PAYMENT")
 
-                @JvmField
-                val BILLING_ERROR = ManagementOperationEventType(JsonField.of("BILLING_ERROR"))
+                @JvmField val BILLING_ERROR = of("BILLING_ERROR")
 
-                @JvmField
-                val PROVISIONAL_CREDIT =
-                    ManagementOperationEventType(JsonField.of("PROVISIONAL_CREDIT"))
+                @JvmField val PROVISIONAL_CREDIT = of("PROVISIONAL_CREDIT")
 
-                @JvmField
-                val CASH_BACK_REVERSAL =
-                    ManagementOperationEventType(JsonField.of("CASH_BACK_REVERSAL"))
+                @JvmField val CASH_BACK_REVERSAL = of("CASH_BACK_REVERSAL")
 
-                @JvmField
-                val CURRENCY_CONVERSION_REVERSAL =
-                    ManagementOperationEventType(JsonField.of("CURRENCY_CONVERSION_REVERSAL"))
+                @JvmField val CURRENCY_CONVERSION_REVERSAL = of("CURRENCY_CONVERSION_REVERSAL")
 
-                @JvmField
-                val INTEREST_REVERSAL =
-                    ManagementOperationEventType(JsonField.of("INTEREST_REVERSAL"))
+                @JvmField val INTEREST_REVERSAL = of("INTEREST_REVERSAL")
 
-                @JvmField
-                val LATE_PAYMENT_REVERSAL =
-                    ManagementOperationEventType(JsonField.of("LATE_PAYMENT_REVERSAL"))
+                @JvmField val LATE_PAYMENT_REVERSAL = of("LATE_PAYMENT_REVERSAL")
 
-                @JvmField
-                val BILLING_ERROR_REVERSAL =
-                    ManagementOperationEventType(JsonField.of("BILLING_ERROR_REVERSAL"))
+                @JvmField val BILLING_ERROR_REVERSAL = of("BILLING_ERROR_REVERSAL")
 
-                @JvmField
-                val PROVISIONAL_CREDIT_REVERSAL =
-                    ManagementOperationEventType(JsonField.of("PROVISIONAL_CREDIT_REVERSAL"))
+                @JvmField val PROVISIONAL_CREDIT_REVERSAL = of("PROVISIONAL_CREDIT_REVERSAL")
+
+                @JvmField val RETURNED_PAYMENT = of("RETURNED_PAYMENT")
+
+                @JvmField val RETURNED_PAYMENT_REVERSAL = of("RETURNED_PAYMENT_REVERSAL")
 
                 @JvmStatic fun of(value: String) = ManagementOperationEventType(JsonField.of(value))
             }
@@ -806,6 +775,8 @@ private constructor(
                 LATE_PAYMENT_REVERSAL,
                 BILLING_ERROR_REVERSAL,
                 PROVISIONAL_CREDIT_REVERSAL,
+                RETURNED_PAYMENT,
+                RETURNED_PAYMENT_REVERSAL,
             }
 
             enum class Value {
@@ -821,6 +792,8 @@ private constructor(
                 LATE_PAYMENT_REVERSAL,
                 BILLING_ERROR_REVERSAL,
                 PROVISIONAL_CREDIT_REVERSAL,
+                RETURNED_PAYMENT,
+                RETURNED_PAYMENT_REVERSAL,
                 _UNKNOWN,
             }
 
@@ -838,6 +811,8 @@ private constructor(
                     LATE_PAYMENT_REVERSAL -> Value.LATE_PAYMENT_REVERSAL
                     BILLING_ERROR_REVERSAL -> Value.BILLING_ERROR_REVERSAL
                     PROVISIONAL_CREDIT_REVERSAL -> Value.PROVISIONAL_CREDIT_REVERSAL
+                    RETURNED_PAYMENT -> Value.RETURNED_PAYMENT
+                    RETURNED_PAYMENT_REVERSAL -> Value.RETURNED_PAYMENT_REVERSAL
                     else -> Value._UNKNOWN
                 }
 
@@ -855,6 +830,8 @@ private constructor(
                     LATE_PAYMENT_REVERSAL -> Known.LATE_PAYMENT_REVERSAL
                     BILLING_ERROR_REVERSAL -> Known.BILLING_ERROR_REVERSAL
                     PROVISIONAL_CREDIT_REVERSAL -> Known.PROVISIONAL_CREDIT_REVERSAL
+                    RETURNED_PAYMENT -> Known.RETURNED_PAYMENT
+                    RETURNED_PAYMENT_REVERSAL -> Known.RETURNED_PAYMENT_REVERSAL
                     else ->
                         throw LithicInvalidDataException(
                             "Unknown ManagementOperationEventType: $value"
@@ -862,6 +839,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is ManagementOperationEventType && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         override fun equals(other: Any?): Boolean {
@@ -890,23 +879,11 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is TransactionResult && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val APPROVED = TransactionResult(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField val DECLINED = TransactionResult(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
             @JvmStatic fun of(value: String) = TransactionResult(JsonField.of(value))
         }
@@ -937,6 +914,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is TransactionResult && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class TransactionStatus
@@ -947,29 +936,17 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is TransactionStatus && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val PENDING = TransactionStatus(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val SETTLED = TransactionStatus(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
-            @JvmField val DECLINED = TransactionStatus(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val REVERSED = TransactionStatus(JsonField.of("REVERSED"))
+            @JvmField val REVERSED = of("REVERSED")
 
-            @JvmField val CANCELED = TransactionStatus(JsonField.of("CANCELED"))
+            @JvmField val CANCELED = of("CANCELED")
 
             @JvmStatic fun of(value: String) = TransactionStatus(JsonField.of(value))
         }
@@ -1012,6 +989,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is TransactionStatus && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.73.0 (2024-12-18)
+
+Full Changelog: [v0.72.0...v0.73.0](https://github.com/lithic-com/lithic-java/compare/v0.72.0...v0.73.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** removes AccountHolder `resubmit` endpoint and `KYC_ADVANCED` workflow ([#416](https://github.com/lithic-com/lithic-java/issues/416))
+
+### Features
+
+* **api:** adds EventRuleResult to Transaction Events ([#404](https://github.com/lithic-com/lithic-java/issues/404)) ([ec1ae4b](https://github.com/lithic-com/lithic-java/commit/ec1ae4bddb855ee78b4a39e15aaf4a611d7bd015))
+* **api:** removes AccountHolder `resubmit` endpoint and `KYC_ADVANCED` workflow ([#416](https://github.com/lithic-com/lithic-java/issues/416)) ([36f4569](https://github.com/lithic-com/lithic-java/commit/36f45691c30512dbde47e02889ae0bb9a2908396))
+
+
+### Chores
+
+* **api:** new ConvertPhysical endpoint to convert a virtual card to a physical card ([#415](https://github.com/lithic-com/lithic-java/issues/415)) ([b4b4afb](https://github.com/lithic-com/lithic-java/commit/b4b4afb8fc30bf9e8837157bec30eda375abc62e))
+* fix bad merge conflict resolution ([2712732](https://github.com/lithic-com/lithic-java/commit/27127321e959b162c19c2d5a55bc2ee3baae3a66))
+* **internal:** remove unused and expand used wildcard imports ([#412](https://github.com/lithic-com/lithic-java/issues/412)) ([5e267a3](https://github.com/lithic-com/lithic-java/commit/5e267a3685ebc8cd6a25dbb374c1010d5ccb5a27))
+* **internal:** remove unused and expand used wildcard imports ([#414](https://github.com/lithic-com/lithic-java/issues/414)) ([1ca4834](https://github.com/lithic-com/lithic-java/commit/1ca48349b006983a828c4225ef9aa1ea411cfa34))
+* **internal:** remove unused imports ([#409](https://github.com/lithic-com/lithic-java/issues/409)) ([ebba4c6](https://github.com/lithic-com/lithic-java/commit/ebba4c6a763a176f2e14281226cb87eaf4857dc0))
+* **test:** remove unused imports ([#410](https://github.com/lithic-com/lithic-java/issues/410)) ([8cea52f](https://github.com/lithic-com/lithic-java/commit/8cea52f7f3dbdd9c7052500d2e2af832ac251ab0))
+* **test:** use `JsonValue` instead of `JsonString` ([#411](https://github.com/lithic-com/lithic-java/issues/411)) ([d363036](https://github.com/lithic-com/lithic-java/commit/d3630366ea4472454c510595cdd9c49d3f5113e0))
+* update example values in tests and docs ([#406](https://github.com/lithic-com/lithic-java/issues/406)) ([d80d755](https://github.com/lithic-com/lithic-java/commit/d80d755a70027aace16d9f98639226fa1c47c082))
+
+
+### Styles
+
+* **internal:** make enum value definitions less verbose ([#407](https://github.com/lithic-com/lithic-java/issues/407)) ([8821e09](https://github.com/lithic-com/lithic-java/commit/8821e09d0a48fb626a4fd48cd01bb358934e800a))
+* **internal:** move enum identity methods to bottom of class ([#408](https://github.com/lithic-com/lithic-java/issues/408)) ([0046a22](https://github.com/lithic-com/lithic-java/commit/0046a22074b408c85982be3f3764b436da786f0a))
+
 ## 0.72.0 (2024-11-26)
 
 Full Changelog: [v0.71.0...v0.72.0](https://github.com/lithic-com/lithic-java/compare/v0.71.0...v0.72.0)

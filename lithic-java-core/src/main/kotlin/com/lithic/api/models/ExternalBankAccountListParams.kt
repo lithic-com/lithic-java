@@ -5,13 +5,11 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
 
@@ -295,23 +293,11 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is AccountType && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val CHECKING = AccountType(JsonField.of("CHECKING"))
+            @JvmField val CHECKING = of("CHECKING")
 
-            @JvmField val SAVINGS = AccountType(JsonField.of("SAVINGS"))
+            @JvmField val SAVINGS = of("SAVINGS")
 
             @JvmStatic fun of(value: String) = AccountType(JsonField.of(value))
         }
@@ -342,6 +328,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is AccountType && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class AccountState
@@ -352,25 +350,13 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is AccountState && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val ENABLED = AccountState(JsonField.of("ENABLED"))
+            @JvmField val ENABLED = of("ENABLED")
 
-            @JvmField val CLOSED = AccountState(JsonField.of("CLOSED"))
+            @JvmField val CLOSED = of("CLOSED")
 
-            @JvmField val PAUSED = AccountState(JsonField.of("PAUSED"))
+            @JvmField val PAUSED = of("PAUSED")
 
             @JvmStatic fun of(value: String) = AccountState(JsonField.of(value))
         }
@@ -405,6 +391,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is AccountState && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class VerificationState
@@ -415,28 +413,15 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is VerificationState && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val PENDING = VerificationState(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val ENABLED = VerificationState(JsonField.of("ENABLED"))
+            @JvmField val ENABLED = of("ENABLED")
 
-            @JvmField
-            val FAILED_VERIFICATION = VerificationState(JsonField.of("FAILED_VERIFICATION"))
+            @JvmField val FAILED_VERIFICATION = of("FAILED_VERIFICATION")
 
-            @JvmField val INSUFFICIENT_FUNDS = VerificationState(JsonField.of("INSUFFICIENT_FUNDS"))
+            @JvmField val INSUFFICIENT_FUNDS = of("INSUFFICIENT_FUNDS")
 
             @JvmStatic fun of(value: String) = VerificationState(JsonField.of(value))
         }
@@ -475,6 +460,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is VerificationState && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

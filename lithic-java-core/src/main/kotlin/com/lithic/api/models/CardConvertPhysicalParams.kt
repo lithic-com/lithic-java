@@ -19,13 +19,11 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
-class CardRenewParams
+class CardConvertPhysicalParams
 constructor(
     private val cardToken: String,
     private val shippingAddress: ShippingAddress,
     private val carrier: Carrier?,
-    private val expMonth: String?,
-    private val expYear: String?,
     private val productId: String?,
     private val shippingMethod: ShippingMethod?,
     private val additionalHeaders: Headers,
@@ -39,10 +37,6 @@ constructor(
 
     fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier)
 
-    fun expMonth(): Optional<String> = Optional.ofNullable(expMonth)
-
-    fun expYear(): Optional<String> = Optional.ofNullable(expYear)
-
     fun productId(): Optional<String> = Optional.ofNullable(productId)
 
     fun shippingMethod(): Optional<ShippingMethod> = Optional.ofNullable(shippingMethod)
@@ -54,12 +48,10 @@ constructor(
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     @JvmSynthetic
-    internal fun getBody(): CardRenewBody {
-        return CardRenewBody(
+    internal fun getBody(): CardConvertPhysicalBody {
+        return CardConvertPhysicalBody(
             shippingAddress,
             carrier,
-            expMonth,
-            expYear,
             productId,
             shippingMethod,
             additionalBodyProperties,
@@ -77,14 +69,12 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = CardRenewBody.Builder::class)
+    @JsonDeserialize(builder = CardConvertPhysicalBody.Builder::class)
     @NoAutoDetect
-    class CardRenewBody
+    class CardConvertPhysicalBody
     internal constructor(
         private val shippingAddress: ShippingAddress?,
         private val carrier: Carrier?,
-        private val expMonth: String?,
-        private val expYear: String?,
         private val productId: String?,
         private val shippingMethod: ShippingMethod?,
         private val additionalProperties: Map<String, JsonValue>,
@@ -95,18 +85,6 @@ constructor(
 
         /** If omitted, the previous carrier will be used. */
         @JsonProperty("carrier") fun carrier(): Carrier? = carrier
-
-        /**
-         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
-         * expiration date six years in the future will be generated.
-         */
-        @JsonProperty("exp_month") fun expMonth(): String? = expMonth
-
-        /**
-         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
-         * expiration date six years in the future will be generated.
-         */
-        @JsonProperty("exp_year") fun expYear(): String? = expYear
 
         /**
          * Specifies the configuration (e.g. physical card art) that the card should be manufactured
@@ -143,21 +121,17 @@ constructor(
 
             private var shippingAddress: ShippingAddress? = null
             private var carrier: Carrier? = null
-            private var expMonth: String? = null
-            private var expYear: String? = null
             private var productId: String? = null
             private var shippingMethod: ShippingMethod? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
-            internal fun from(cardRenewBody: CardRenewBody) = apply {
-                this.shippingAddress = cardRenewBody.shippingAddress
-                this.carrier = cardRenewBody.carrier
-                this.expMonth = cardRenewBody.expMonth
-                this.expYear = cardRenewBody.expYear
-                this.productId = cardRenewBody.productId
-                this.shippingMethod = cardRenewBody.shippingMethod
-                additionalProperties(cardRenewBody.additionalProperties)
+            internal fun from(cardConvertPhysicalBody: CardConvertPhysicalBody) = apply {
+                this.shippingAddress = cardConvertPhysicalBody.shippingAddress
+                this.carrier = cardConvertPhysicalBody.carrier
+                this.productId = cardConvertPhysicalBody.productId
+                this.shippingMethod = cardConvertPhysicalBody.shippingMethod
+                additionalProperties(cardConvertPhysicalBody.additionalProperties)
             }
 
             /** The shipping address this card will be sent to. */
@@ -169,20 +143,6 @@ constructor(
             /** If omitted, the previous carrier will be used. */
             @JsonProperty("carrier")
             fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
-
-            /**
-             * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
-             * expiration date six years in the future will be generated.
-             */
-            @JsonProperty("exp_month")
-            fun expMonth(expMonth: String) = apply { this.expMonth = expMonth }
-
-            /**
-             * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
-             * expiration date six years in the future will be generated.
-             */
-            @JsonProperty("exp_year")
-            fun expYear(expYear: String) = apply { this.expYear = expYear }
 
             /**
              * Specifies the configuration (e.g. physical card art) that the card should be
@@ -223,14 +183,12 @@ constructor(
                 this.additionalProperties.putAll(additionalProperties)
             }
 
-            fun build(): CardRenewBody =
-                CardRenewBody(
+            fun build(): CardConvertPhysicalBody =
+                CardConvertPhysicalBody(
                     checkNotNull(shippingAddress) {
                         "`shippingAddress` is required but was not set"
                     },
                     carrier,
-                    expMonth,
-                    expYear,
                     productId,
                     shippingMethod,
                     additionalProperties.toImmutable(),
@@ -242,17 +200,17 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CardRenewBody && shippingAddress == other.shippingAddress && carrier == other.carrier && expMonth == other.expMonth && expYear == other.expYear && productId == other.productId && shippingMethod == other.shippingMethod && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CardConvertPhysicalBody && shippingAddress == other.shippingAddress && carrier == other.carrier && productId == other.productId && shippingMethod == other.shippingMethod && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(shippingAddress, carrier, expMonth, expYear, productId, shippingMethod, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(shippingAddress, carrier, productId, shippingMethod, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CardRenewBody{shippingAddress=$shippingAddress, carrier=$carrier, expMonth=$expMonth, expYear=$expYear, productId=$productId, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
+            "CardConvertPhysicalBody{shippingAddress=$shippingAddress, carrier=$carrier, productId=$productId, shippingMethod=$shippingMethod, additionalProperties=$additionalProperties}"
     }
 
     fun toBuilder() = Builder().from(this)
@@ -268,8 +226,6 @@ constructor(
         private var cardToken: String? = null
         private var shippingAddress: ShippingAddress? = null
         private var carrier: Carrier? = null
-        private var expMonth: String? = null
-        private var expYear: String? = null
         private var productId: String? = null
         private var shippingMethod: ShippingMethod? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -277,17 +233,16 @@ constructor(
         private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(cardRenewParams: CardRenewParams) = apply {
-            cardToken = cardRenewParams.cardToken
-            shippingAddress = cardRenewParams.shippingAddress
-            carrier = cardRenewParams.carrier
-            expMonth = cardRenewParams.expMonth
-            expYear = cardRenewParams.expYear
-            productId = cardRenewParams.productId
-            shippingMethod = cardRenewParams.shippingMethod
-            additionalHeaders = cardRenewParams.additionalHeaders.toBuilder()
-            additionalQueryParams = cardRenewParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties = cardRenewParams.additionalBodyProperties.toMutableMap()
+        internal fun from(cardConvertPhysicalParams: CardConvertPhysicalParams) = apply {
+            cardToken = cardConvertPhysicalParams.cardToken
+            shippingAddress = cardConvertPhysicalParams.shippingAddress
+            carrier = cardConvertPhysicalParams.carrier
+            productId = cardConvertPhysicalParams.productId
+            shippingMethod = cardConvertPhysicalParams.shippingMethod
+            additionalHeaders = cardConvertPhysicalParams.additionalHeaders.toBuilder()
+            additionalQueryParams = cardConvertPhysicalParams.additionalQueryParams.toBuilder()
+            additionalBodyProperties =
+                cardConvertPhysicalParams.additionalBodyProperties.toMutableMap()
         }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
@@ -299,18 +254,6 @@ constructor(
 
         /** If omitted, the previous carrier will be used. */
         fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
-
-        /**
-         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
-         * expiration date six years in the future will be generated.
-         */
-        fun expMonth(expMonth: String) = apply { this.expMonth = expMonth }
-
-        /**
-         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
-         * expiration date six years in the future will be generated.
-         */
-        fun expYear(expYear: String) = apply { this.expYear = expYear }
 
         /**
          * Specifies the configuration (e.g. physical card art) that the card should be manufactured
@@ -454,13 +397,11 @@ constructor(
             keys.forEach(::removeAdditionalBodyProperty)
         }
 
-        fun build(): CardRenewParams =
-            CardRenewParams(
+        fun build(): CardConvertPhysicalParams =
+            CardConvertPhysicalParams(
                 checkNotNull(cardToken) { "`cardToken` is required but was not set" },
                 checkNotNull(shippingAddress) { "`shippingAddress` is required but was not set" },
                 carrier,
-                expMonth,
-                expYear,
                 productId,
                 shippingMethod,
                 additionalHeaders.build(),
@@ -555,11 +496,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardRenewParams && cardToken == other.cardToken && shippingAddress == other.shippingAddress && carrier == other.carrier && expMonth == other.expMonth && expYear == other.expYear && productId == other.productId && shippingMethod == other.shippingMethod && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is CardConvertPhysicalParams && cardToken == other.cardToken && shippingAddress == other.shippingAddress && carrier == other.carrier && productId == other.productId && shippingMethod == other.shippingMethod && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, shippingAddress, carrier, expMonth, expYear, productId, shippingMethod, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, shippingAddress, carrier, productId, shippingMethod, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
 
     override fun toString() =
-        "CardRenewParams{cardToken=$cardToken, shippingAddress=$shippingAddress, carrier=$carrier, expMonth=$expMonth, expYear=$expYear, productId=$productId, shippingMethod=$shippingMethod, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "CardConvertPhysicalParams{cardToken=$cardToken, shippingAddress=$shippingAddress, carrier=$carrier, productId=$productId, shippingMethod=$shippingMethod, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
 }

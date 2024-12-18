@@ -564,29 +564,17 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val INTERLINK = Network(JsonField.of("INTERLINK"))
+            @JvmField val INTERLINK = of("INTERLINK")
 
-            @JvmField val MAESTRO = Network(JsonField.of("MAESTRO"))
+            @JvmField val MAESTRO = of("MAESTRO")
 
-            @JvmField val MASTERCARD = Network(JsonField.of("MASTERCARD"))
+            @JvmField val MASTERCARD = of("MASTERCARD")
 
-            @JvmField val UNKNOWN = Network(JsonField.of("UNKNOWN"))
+            @JvmField val UNKNOWN = of("UNKNOWN")
 
-            @JvmField val VISA = Network(JsonField.of("VISA"))
+            @JvmField val VISA = of("VISA")
 
             @JvmStatic fun of(value: String) = Network(JsonField.of(value))
         }
@@ -629,6 +617,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Network && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     /** The total gross amount of other fees by type. */
@@ -725,37 +725,25 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val ADJUSTMENT = Type(JsonField.of("ADJUSTMENT"))
+            @JvmField val ADJUSTMENT = of("ADJUSTMENT")
 
-            @JvmField val ARBITRATION = Type(JsonField.of("ARBITRATION"))
+            @JvmField val ARBITRATION = of("ARBITRATION")
 
-            @JvmField val CHARGEBACK = Type(JsonField.of("CHARGEBACK"))
+            @JvmField val CHARGEBACK = of("CHARGEBACK")
 
-            @JvmField val CLEARING = Type(JsonField.of("CLEARING"))
+            @JvmField val CLEARING = of("CLEARING")
 
-            @JvmField val FEE = Type(JsonField.of("FEE"))
+            @JvmField val FEE = of("FEE")
 
-            @JvmField val FINANCIAL = Type(JsonField.of("FINANCIAL"))
+            @JvmField val FINANCIAL = of("FINANCIAL")
 
-            @JvmField val NON_FINANCIAL = Type(JsonField.of("NON-FINANCIAL"))
+            @JvmField val NON_FINANCIAL = of("NON-FINANCIAL")
 
-            @JvmField val PREARBITRATION = Type(JsonField.of("PREARBITRATION"))
+            @JvmField val PREARBITRATION = of("PREARBITRATION")
 
-            @JvmField val REPRESENTMENT = Type(JsonField.of("REPRESENTMENT"))
+            @JvmField val REPRESENTMENT = of("REPRESENTMENT")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
@@ -814,6 +802,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

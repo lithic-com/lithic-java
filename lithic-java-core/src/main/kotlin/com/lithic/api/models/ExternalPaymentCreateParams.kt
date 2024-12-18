@@ -16,7 +16,6 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
@@ -446,28 +445,15 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ExternalPaymentCategory && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val EXTERNAL_WIRE = ExternalPaymentCategory(JsonField.of("EXTERNAL_WIRE"))
+            @JvmField val EXTERNAL_WIRE = of("EXTERNAL_WIRE")
 
-            @JvmField val EXTERNAL_ACH = ExternalPaymentCategory(JsonField.of("EXTERNAL_ACH"))
+            @JvmField val EXTERNAL_ACH = of("EXTERNAL_ACH")
 
-            @JvmField val EXTERNAL_CHECK = ExternalPaymentCategory(JsonField.of("EXTERNAL_CHECK"))
+            @JvmField val EXTERNAL_CHECK = of("EXTERNAL_CHECK")
 
-            @JvmField
-            val EXTERNAL_TRANSFER = ExternalPaymentCategory(JsonField.of("EXTERNAL_TRANSFER"))
+            @JvmField val EXTERNAL_TRANSFER = of("EXTERNAL_TRANSFER")
 
             @JvmStatic fun of(value: String) = ExternalPaymentCategory(JsonField.of(value))
         }
@@ -506,6 +492,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ExternalPaymentCategory && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class ExternalPaymentDirection
@@ -516,23 +514,11 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ExternalPaymentDirection && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val DEPOSIT = ExternalPaymentDirection(JsonField.of("DEPOSIT"))
+            @JvmField val DEPOSIT = of("DEPOSIT")
 
-            @JvmField val WITHDRAWAL = ExternalPaymentDirection(JsonField.of("WITHDRAWAL"))
+            @JvmField val WITHDRAWAL = of("WITHDRAWAL")
 
             @JvmStatic fun of(value: String) = ExternalPaymentDirection(JsonField.of(value))
         }
@@ -563,6 +549,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ExternalPaymentDirection && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class ExternalPaymentProgressTo
@@ -573,23 +571,11 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ExternalPaymentProgressTo && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val SETTLED = ExternalPaymentProgressTo(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
-            @JvmField val RELEASED = ExternalPaymentProgressTo(JsonField.of("RELEASED"))
+            @JvmField val RELEASED = of("RELEASED")
 
             @JvmStatic fun of(value: String) = ExternalPaymentProgressTo(JsonField.of(value))
         }
@@ -621,6 +607,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ExternalPaymentProgressTo && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

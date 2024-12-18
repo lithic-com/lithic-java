@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import com.lithic.api.models.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -19,6 +18,7 @@ class TransactionSimulateAuthorizationParamsTest {
             .merchantAmount(0L)
             .merchantCurrency("GBP")
             .partialApprovalCapable(true)
+            .pin("1234")
             .status(TransactionSimulateAuthorizationParams.Status.AUTHORIZATION)
             .build()
     }
@@ -35,6 +35,7 @@ class TransactionSimulateAuthorizationParamsTest {
                 .merchantAmount(0L)
                 .merchantCurrency("GBP")
                 .partialApprovalCapable(true)
+                .pin("1234")
                 .status(TransactionSimulateAuthorizationParams.Status.AUTHORIZATION)
                 .build()
         val body = params.getBody()
@@ -47,6 +48,7 @@ class TransactionSimulateAuthorizationParamsTest {
         assertThat(body.merchantAmount()).isEqualTo(0L)
         assertThat(body.merchantCurrency()).isEqualTo("GBP")
         assertThat(body.partialApprovalCapable()).isEqualTo(true)
+        assertThat(body.pin()).isEqualTo("1234")
         assertThat(body.status())
             .isEqualTo(TransactionSimulateAuthorizationParams.Status.AUTHORIZATION)
     }

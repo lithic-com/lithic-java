@@ -16,7 +16,6 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
 
@@ -478,27 +477,15 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is TokenizationSource && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val APPLE_PAY = TokenizationSource(JsonField.of("APPLE_PAY"))
+            @JvmField val APPLE_PAY = of("APPLE_PAY")
 
-            @JvmField val GOOGLE = TokenizationSource(JsonField.of("GOOGLE"))
+            @JvmField val GOOGLE = of("GOOGLE")
 
-            @JvmField val SAMSUNG_PAY = TokenizationSource(JsonField.of("SAMSUNG_PAY"))
+            @JvmField val SAMSUNG_PAY = of("SAMSUNG_PAY")
 
-            @JvmField val MERCHANT = TokenizationSource(JsonField.of("MERCHANT"))
+            @JvmField val MERCHANT = of("MERCHANT")
 
             @JvmStatic fun of(value: String) = TokenizationSource(JsonField.of(value))
         }
@@ -537,6 +524,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is TokenizationSource && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class WalletRecommendedDecision
@@ -547,27 +546,14 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is WalletRecommendedDecision && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val APPROVED = WalletRecommendedDecision(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField val DECLINED = WalletRecommendedDecision(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
             @JvmField
-            val REQUIRE_ADDITIONAL_AUTHENTICATION =
-                WalletRecommendedDecision(JsonField.of("REQUIRE_ADDITIONAL_AUTHENTICATION"))
+            val REQUIRE_ADDITIONAL_AUTHENTICATION = of("REQUIRE_ADDITIONAL_AUTHENTICATION")
 
             @JvmStatic fun of(value: String) = WalletRecommendedDecision(JsonField.of(value))
         }
@@ -603,6 +589,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is WalletRecommendedDecision && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

@@ -5,12 +5,10 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
@@ -260,25 +258,13 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is TokenizationChannel && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val DIGITAL_WALLET = TokenizationChannel(JsonField.of("DIGITAL_WALLET"))
+            @JvmField val DIGITAL_WALLET = of("DIGITAL_WALLET")
 
-            @JvmField val MERCHANT = TokenizationChannel(JsonField.of("MERCHANT"))
+            @JvmField val MERCHANT = of("MERCHANT")
 
-            @JvmField val ALL = TokenizationChannel(JsonField.of("ALL"))
+            @JvmField val ALL = of("ALL")
 
             @JvmStatic fun of(value: String) = TokenizationChannel(JsonField.of(value))
         }
@@ -313,6 +299,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is TokenizationChannel && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {
