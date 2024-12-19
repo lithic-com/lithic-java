@@ -46,7 +46,7 @@ class AccountServiceTest {
             accountService.update(
                 AccountUpdateParams.builder()
                     .accountToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .dailySpendLimit(1000L)
+                    .dailySpendLimit(0L)
                     .lifetimeSpendLimit(0L)
                     .monthlySpendLimit(0L)
                     .state(AccountUpdateParams.State.ACTIVE)

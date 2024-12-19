@@ -87,7 +87,7 @@ class ServiceParamsTest {
                         .build()
                 )
                 .shippingMethod(CardCreateParams.ShippingMethod._2_DAY)
-                .spendLimit(1000L)
+                .spendLimit(0L)
                 .spendLimitDuration(SpendLimitDuration.ANNUALLY)
                 .state(CardCreateParams.State.OPEN)
                 .additionalHeaders(additionalHeaders)

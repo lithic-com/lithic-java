@@ -22,7 +22,7 @@ class EnhancedCommercialDataServiceTest {
         val enhancedData =
             enhancedCommercialDataService.retrieve(
                 TransactionEventEnhancedCommercialDataRetrieveParams.builder()
-                    .eventToken("00000000-0000-0000-0000-000000000000")
+                    .eventToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
         println(enhancedData)
