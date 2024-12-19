@@ -70,7 +70,7 @@ class DecisioningServiceTest {
         val decisioningSimulateChallengeResponse =
             decisioningService.simulateChallenge(
                 ThreeDSDecisioningSimulateChallengeParams.builder()
-                    .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                     .build()
             )
         println(decisioningSimulateChallengeResponse)

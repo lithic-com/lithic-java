@@ -156,12 +156,12 @@ class V2ServiceTest {
         val v2ApplyResponse =
             v2Service.apply(
                 AuthRuleV2ApplyParams.builder()
-                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .forApplyAuthRuleRequestAccountTokens(
                         AuthRuleV2ApplyParams.ApplyAuthRuleRequestAccountTokens.builder()
                             .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
                             .build()
                     )
+                    .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
         println(v2ApplyResponse)

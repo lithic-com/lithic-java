@@ -52,8 +52,8 @@ class AuthenticationServiceTest {
                     .pan("4111111289144142")
                     .transaction(
                         ThreeDSAuthenticationSimulateParams.Transaction.builder()
-                            .amount(0L)
-                            .currency("GBP")
+                            .amount(100L)
+                            .currency("USD")
                             .build()
                     )
                     .cardExpiryCheck(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)

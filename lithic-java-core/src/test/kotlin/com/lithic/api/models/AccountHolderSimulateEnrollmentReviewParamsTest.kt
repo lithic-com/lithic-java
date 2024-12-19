@@ -10,7 +10,7 @@ class AccountHolderSimulateEnrollmentReviewParamsTest {
     @Test
     fun createAccountHolderSimulateEnrollmentReviewParams() {
         AccountHolderSimulateEnrollmentReviewParams.builder()
-            .accountHolderToken("account_holder_token")
+            .accountHolderToken("1415964d-4400-4d79-9fb3-eee0faaee4e4")
             .status(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
             .statusReasons(
                 listOf(
@@ -25,7 +25,7 @@ class AccountHolderSimulateEnrollmentReviewParamsTest {
     fun getBody() {
         val params =
             AccountHolderSimulateEnrollmentReviewParams.builder()
-                .accountHolderToken("account_holder_token")
+                .accountHolderToken("1415964d-4400-4d79-9fb3-eee0faaee4e4")
                 .status(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
                 .statusReasons(
                     listOf(
@@ -36,7 +36,7 @@ class AccountHolderSimulateEnrollmentReviewParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.accountHolderToken()).isEqualTo("account_holder_token")
+        assertThat(body.accountHolderToken()).isEqualTo("1415964d-4400-4d79-9fb3-eee0faaee4e4")
         assertThat(body.status())
             .isEqualTo(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
         assertThat(body.statusReasons())

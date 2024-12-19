@@ -232,7 +232,7 @@ class AccountHolderServiceTest {
         val document =
             accountHolderService.simulateEnrollmentDocumentReview(
                 AccountHolderSimulateEnrollmentDocumentReviewParams.builder()
-                    .documentUploadToken("document_upload_token")
+                    .documentUploadToken("b11cd67b-0a52-4180-8365-314f3def5426")
                     .status(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
                     .acceptedEntityStatusReasons(listOf("string"))
                     .statusReason(
@@ -257,7 +257,7 @@ class AccountHolderServiceTest {
         val accountHolderSimulateEnrollmentReviewResponse =
             accountHolderService.simulateEnrollmentReview(
                 AccountHolderSimulateEnrollmentReviewParams.builder()
-                    .accountHolderToken("account_holder_token")
+                    .accountHolderToken("1415964d-4400-4d79-9fb3-eee0faaee4e4")
                     .status(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
                     .statusReasons(
                         listOf(

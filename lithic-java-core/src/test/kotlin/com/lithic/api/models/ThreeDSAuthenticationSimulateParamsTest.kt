@@ -21,8 +21,8 @@ class ThreeDSAuthenticationSimulateParamsTest {
             .pan("4111111289144142")
             .transaction(
                 ThreeDSAuthenticationSimulateParams.Transaction.builder()
-                    .amount(0L)
-                    .currency("GBP")
+                    .amount(100L)
+                    .currency("USD")
                     .build()
             )
             .cardExpiryCheck(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
@@ -44,8 +44,8 @@ class ThreeDSAuthenticationSimulateParamsTest {
                 .pan("4111111289144142")
                 .transaction(
                     ThreeDSAuthenticationSimulateParams.Transaction.builder()
-                        .amount(0L)
-                        .currency("GBP")
+                        .amount(100L)
+                        .currency("USD")
                         .build()
                 )
                 .cardExpiryCheck(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
@@ -65,8 +65,8 @@ class ThreeDSAuthenticationSimulateParamsTest {
         assertThat(body.transaction())
             .isEqualTo(
                 ThreeDSAuthenticationSimulateParams.Transaction.builder()
-                    .amount(0L)
-                    .currency("GBP")
+                    .amount(100L)
+                    .currency("USD")
                     .build()
             )
         assertThat(body.cardExpiryCheck())
@@ -88,8 +88,8 @@ class ThreeDSAuthenticationSimulateParamsTest {
                 .pan("4111111289144142")
                 .transaction(
                     ThreeDSAuthenticationSimulateParams.Transaction.builder()
-                        .amount(0L)
-                        .currency("GBP")
+                        .amount(100L)
+                        .currency("USD")
                         .build()
                 )
                 .build()
@@ -108,8 +108,8 @@ class ThreeDSAuthenticationSimulateParamsTest {
         assertThat(body.transaction())
             .isEqualTo(
                 ThreeDSAuthenticationSimulateParams.Transaction.builder()
-                    .amount(0L)
-                    .currency("GBP")
+                    .amount(100L)
+                    .currency("USD")
                     .build()
             )
     }
