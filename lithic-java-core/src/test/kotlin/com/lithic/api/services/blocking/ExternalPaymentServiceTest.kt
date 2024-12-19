@@ -4,8 +4,13 @@ package com.lithic.api.services.blocking
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.*
+import com.lithic.api.models.ExternalPaymentCancelParams
+import com.lithic.api.models.ExternalPaymentCreateParams
 import com.lithic.api.models.ExternalPaymentListParams
+import com.lithic.api.models.ExternalPaymentReleaseParams
+import com.lithic.api.models.ExternalPaymentRetrieveParams
+import com.lithic.api.models.ExternalPaymentReverseParams
+import com.lithic.api.models.ExternalPaymentSettleParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

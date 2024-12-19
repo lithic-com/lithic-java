@@ -5,7 +5,6 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonValue
 import com.lithic.api.errors.LithicInvalidDataException
 
 class AccountFinancialAccountType
@@ -16,23 +15,11 @@ private constructor(
 
     @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) {
-            return true
-        }
-
-        return /* spotless:off */ other is AccountFinancialAccountType && value == other.value /* spotless:on */
-    }
-
-    override fun hashCode() = value.hashCode()
-
-    override fun toString() = value.toString()
-
     companion object {
 
-        @JvmField val ISSUING = AccountFinancialAccountType(JsonField.of("ISSUING"))
+        @JvmField val ISSUING = of("ISSUING")
 
-        @JvmField val OPERATING = AccountFinancialAccountType(JsonField.of("OPERATING"))
+        @JvmField val OPERATING = of("OPERATING")
 
         @JvmStatic fun of(value: String) = AccountFinancialAccountType(JsonField.of(value))
     }
@@ -63,4 +50,16 @@ private constructor(
         }
 
     fun asString(): String = _value().asStringOrThrow()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is AccountFinancialAccountType && value == other.value /* spotless:on */
+    }
+
+    override fun hashCode() = value.hashCode()
+
+    override fun toString() = value.toString()
 }

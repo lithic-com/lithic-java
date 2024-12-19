@@ -169,8 +169,8 @@ private constructor(
      * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
      *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
      *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be used
-     *   for e-commerce transactions. API clients should update the card's state to `OPEN` only
-     *   after the cardholder confirms receipt of the card.
+     *   for e-commerce transactions or can be added to mobile wallets. API clients should update
+     *   the card's state to `OPEN` only after the cardholder confirms receipt of the card.
      *
      * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
      */
@@ -313,8 +313,8 @@ private constructor(
      * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
      *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
      *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be used
-     *   for e-commerce transactions. API clients should update the card's state to `OPEN` only
-     *   after the cardholder confirms receipt of the card.
+     *   for e-commerce transactions or can be added to mobile wallets. API clients should update
+     *   the card's state to `OPEN` only after the cardholder confirms receipt of the card.
      *
      * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
      */
@@ -712,8 +712,9 @@ private constructor(
          * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
          *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
          *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be
-         *   used for e-commerce transactions. API clients should update the card's state to `OPEN`
-         *   only after the cardholder confirms receipt of the card.
+         *   used for e-commerce transactions or can be added to mobile wallets. API clients should
+         *   update the card's state to `OPEN` only after the cardholder confirms receipt of the
+         *   card.
          *
          * In sandbox, the same daily batch fulfillment occurs, but no cards are actually
          * manufactured.
@@ -732,8 +733,9 @@ private constructor(
          * - `PENDING_ACTIVATION` - At regular intervals, cards of type `PHYSICAL` in state
          *   `PENDING_FULFILLMENT` are sent to the card production warehouse and updated to state
          *   `PENDING_ACTIVATION` . Similar to `PENDING_FULFILLMENT`, cards in this state can be
-         *   used for e-commerce transactions. API clients should update the card's state to `OPEN`
-         *   only after the cardholder confirms receipt of the card.
+         *   used for e-commerce transactions or can be added to mobile wallets. API clients should
+         *   update the card's state to `OPEN` only after the cardholder confirms receipt of the
+         *   card.
          *
          * In sandbox, the same daily batch fulfillment occurs, but no cards are actually
          * manufactured.
@@ -1103,25 +1105,13 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is State && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val DELETED = State(JsonField.of("DELETED"))
+                @JvmField val DELETED = of("DELETED")
 
-                @JvmField val ENABLED = State(JsonField.of("ENABLED"))
+                @JvmField val ENABLED = of("ENABLED")
 
-                @JvmField val PENDING = State(JsonField.of("PENDING"))
+                @JvmField val PENDING = of("PENDING")
 
                 @JvmStatic fun of(value: String) = State(JsonField.of(value))
             }
@@ -1156,6 +1146,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is State && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         class Type
@@ -1166,23 +1168,11 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val DEPOSITORY_CHECKING = Type(JsonField.of("DEPOSITORY_CHECKING"))
+                @JvmField val DEPOSITORY_CHECKING = of("DEPOSITORY_CHECKING")
 
-                @JvmField val DEPOSITORY_SAVINGS = Type(JsonField.of("DEPOSITORY_SAVINGS"))
+                @JvmField val DEPOSITORY_SAVINGS = of("DEPOSITORY_SAVINGS")
 
                 @JvmStatic fun of(value: String) = Type(JsonField.of(value))
             }
@@ -1213,6 +1203,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         override fun equals(other: Any?): Boolean {
@@ -1241,25 +1243,13 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is PinStatus && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val OK = PinStatus(JsonField.of("OK"))
+            @JvmField val OK = of("OK")
 
-            @JvmField val BLOCKED = PinStatus(JsonField.of("BLOCKED"))
+            @JvmField val BLOCKED = of("BLOCKED")
 
-            @JvmField val NOT_SET = PinStatus(JsonField.of("NOT_SET"))
+            @JvmField val NOT_SET = of("NOT_SET")
 
             @JvmStatic fun of(value: String) = PinStatus(JsonField.of(value))
         }
@@ -1294,6 +1284,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is PinStatus && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class State
@@ -1304,29 +1306,17 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is State && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val CLOSED = State(JsonField.of("CLOSED"))
+            @JvmField val CLOSED = of("CLOSED")
 
-            @JvmField val OPEN = State(JsonField.of("OPEN"))
+            @JvmField val OPEN = of("OPEN")
 
-            @JvmField val PAUSED = State(JsonField.of("PAUSED"))
+            @JvmField val PAUSED = of("PAUSED")
 
-            @JvmField val PENDING_ACTIVATION = State(JsonField.of("PENDING_ACTIVATION"))
+            @JvmField val PENDING_ACTIVATION = of("PENDING_ACTIVATION")
 
-            @JvmField val PENDING_FULFILLMENT = State(JsonField.of("PENDING_FULFILLMENT"))
+            @JvmField val PENDING_FULFILLMENT = of("PENDING_FULFILLMENT")
 
             @JvmStatic fun of(value: String) = State(JsonField.of(value))
         }
@@ -1369,6 +1359,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is State && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class Type
@@ -1379,31 +1381,19 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val MERCHANT_LOCKED = Type(JsonField.of("MERCHANT_LOCKED"))
+            @JvmField val MERCHANT_LOCKED = of("MERCHANT_LOCKED")
 
-            @JvmField val PHYSICAL = Type(JsonField.of("PHYSICAL"))
+            @JvmField val PHYSICAL = of("PHYSICAL")
 
-            @JvmField val SINGLE_USE = Type(JsonField.of("SINGLE_USE"))
+            @JvmField val SINGLE_USE = of("SINGLE_USE")
 
-            @JvmField val VIRTUAL = Type(JsonField.of("VIRTUAL"))
+            @JvmField val VIRTUAL = of("VIRTUAL")
 
-            @JvmField val UNLOCKED = Type(JsonField.of("UNLOCKED"))
+            @JvmField val UNLOCKED = of("UNLOCKED")
 
-            @JvmField val DIGITAL_WALLET = Type(JsonField.of("DIGITAL_WALLET"))
+            @JvmField val DIGITAL_WALLET = of("DIGITAL_WALLET")
 
             @JvmStatic fun of(value: String) = Type(JsonField.of(value))
         }
@@ -1450,6 +1440,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

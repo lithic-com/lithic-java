@@ -2,7 +2,6 @@
 
 package com.lithic.api.models
 
-import com.lithic.api.models.*
 import org.junit.jupiter.api.Test
 
 class AccountHolderCreateParamsTest {
@@ -27,7 +26,7 @@ class AccountHolderCreateParamsTest {
                                 )
                                 .governmentId("114-123-1513")
                                 .legalBusinessName("Acme, Inc.")
-                                .phoneNumbers(listOf("+12124007676"))
+                                .phoneNumbers(listOf("+15555555555"))
                                 .dbaBusinessName("dba_business_name")
                                 .parentCompany("parent_company")
                                 .build()
@@ -51,7 +50,7 @@ class AccountHolderCreateParamsTest {
                                 .firstName("Tom")
                                 .governmentId("111-23-1412")
                                 .lastName("Bombadil")
-                                .phoneNumber("+12124007676")
+                                .phoneNumber("+15555555555")
                                 .build()
                         )
                     )
@@ -69,7 +68,7 @@ class AccountHolderCreateParamsTest {
                             )
                             .governmentId("114-123-1513")
                             .legalBusinessName("Acme, Inc.")
-                            .phoneNumbers(listOf("+12124007676"))
+                            .phoneNumbers(listOf("+15555555555"))
                             .dbaBusinessName("dba_business_name")
                             .parentCompany("parent_company")
                             .build()
@@ -91,7 +90,7 @@ class AccountHolderCreateParamsTest {
                             .firstName("Tom")
                             .governmentId("111-23-1412")
                             .lastName("Bombadil")
-                            .phoneNumber("+12124007676")
+                            .phoneNumber("+15555555555")
                             .build()
                     )
                     .natureOfBusiness(

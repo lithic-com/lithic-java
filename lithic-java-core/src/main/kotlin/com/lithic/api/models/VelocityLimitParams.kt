@@ -497,23 +497,11 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Scope && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val CARD = Scope(JsonField.of("CARD"))
+            @JvmField val CARD = of("CARD")
 
-            @JvmField val ACCOUNT = Scope(JsonField.of("ACCOUNT"))
+            @JvmField val ACCOUNT = of("ACCOUNT")
 
             @JvmStatic fun of(value: String) = Scope(JsonField.of(value))
         }
@@ -544,6 +532,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Scope && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

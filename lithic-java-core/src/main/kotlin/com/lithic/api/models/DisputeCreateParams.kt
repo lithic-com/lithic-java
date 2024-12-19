@@ -16,7 +16,6 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
@@ -381,52 +380,36 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Reason && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val ATM_CASH_MISDISPENSE = Reason(JsonField.of("ATM_CASH_MISDISPENSE"))
+            @JvmField val ATM_CASH_MISDISPENSE = of("ATM_CASH_MISDISPENSE")
 
-            @JvmField val CANCELLED = Reason(JsonField.of("CANCELLED"))
+            @JvmField val CANCELLED = of("CANCELLED")
 
-            @JvmField val DUPLICATED = Reason(JsonField.of("DUPLICATED"))
+            @JvmField val DUPLICATED = of("DUPLICATED")
 
-            @JvmField val FRAUD_CARD_NOT_PRESENT = Reason(JsonField.of("FRAUD_CARD_NOT_PRESENT"))
+            @JvmField val FRAUD_CARD_NOT_PRESENT = of("FRAUD_CARD_NOT_PRESENT")
 
-            @JvmField val FRAUD_CARD_PRESENT = Reason(JsonField.of("FRAUD_CARD_PRESENT"))
+            @JvmField val FRAUD_CARD_PRESENT = of("FRAUD_CARD_PRESENT")
 
-            @JvmField val FRAUD_OTHER = Reason(JsonField.of("FRAUD_OTHER"))
+            @JvmField val FRAUD_OTHER = of("FRAUD_OTHER")
 
-            @JvmField
-            val GOODS_SERVICES_NOT_AS_DESCRIBED =
-                Reason(JsonField.of("GOODS_SERVICES_NOT_AS_DESCRIBED"))
+            @JvmField val GOODS_SERVICES_NOT_AS_DESCRIBED = of("GOODS_SERVICES_NOT_AS_DESCRIBED")
 
-            @JvmField
-            val GOODS_SERVICES_NOT_RECEIVED = Reason(JsonField.of("GOODS_SERVICES_NOT_RECEIVED"))
+            @JvmField val GOODS_SERVICES_NOT_RECEIVED = of("GOODS_SERVICES_NOT_RECEIVED")
 
-            @JvmField val INCORRECT_AMOUNT = Reason(JsonField.of("INCORRECT_AMOUNT"))
+            @JvmField val INCORRECT_AMOUNT = of("INCORRECT_AMOUNT")
 
-            @JvmField val MISSING_AUTH = Reason(JsonField.of("MISSING_AUTH"))
+            @JvmField val MISSING_AUTH = of("MISSING_AUTH")
 
-            @JvmField val OTHER = Reason(JsonField.of("OTHER"))
+            @JvmField val OTHER = of("OTHER")
 
-            @JvmField val PROCESSING_ERROR = Reason(JsonField.of("PROCESSING_ERROR"))
+            @JvmField val PROCESSING_ERROR = of("PROCESSING_ERROR")
 
             @JvmField
-            val RECURRING_TRANSACTION_NOT_CANCELLED =
-                Reason(JsonField.of("RECURRING_TRANSACTION_NOT_CANCELLED"))
+            val RECURRING_TRANSACTION_NOT_CANCELLED = of("RECURRING_TRANSACTION_NOT_CANCELLED")
 
-            @JvmField val REFUND_NOT_PROCESSED = Reason(JsonField.of("REFUND_NOT_PROCESSED"))
+            @JvmField val REFUND_NOT_PROCESSED = of("REFUND_NOT_PROCESSED")
 
             @JvmStatic fun of(value: String) = Reason(JsonField.of(value))
         }
@@ -505,6 +488,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Reason && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

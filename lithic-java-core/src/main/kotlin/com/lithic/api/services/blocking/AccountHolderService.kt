@@ -12,7 +12,6 @@ import com.lithic.api.models.AccountHolderListDocumentsParams
 import com.lithic.api.models.AccountHolderListDocumentsResponse
 import com.lithic.api.models.AccountHolderListPage
 import com.lithic.api.models.AccountHolderListParams
-import com.lithic.api.models.AccountHolderResubmitParams
 import com.lithic.api.models.AccountHolderRetrieveDocumentParams
 import com.lithic.api.models.AccountHolderRetrieveParams
 import com.lithic.api.models.AccountHolderSimulateEnrollmentDocumentReviewParams
@@ -83,21 +82,6 @@ interface AccountHolderService {
     ): AccountHolderListDocumentsResponse
 
     /**
-     * Resubmit a KYC submission. This endpoint should be used in cases where a KYC submission
-     * returned a `PENDING_RESUBMIT` result, meaning one or more critical KYC fields may have been
-     * mis-entered and the individual's identity has not yet been successfully verified. This step
-     * must be completed in order to proceed with the KYC evaluation.
-     *
-     * Two resubmission attempts are permitted via this endpoint before a `REJECTED` status is
-     * returned and the account creation process is ended.
-     */
-    @JvmOverloads
-    fun resubmit(
-        params: AccountHolderResubmitParams,
-        requestOptions: RequestOptions = RequestOptions.none()
-    ): AccountHolder
-
-    /**
      * Check the status of an account holder document upload, or retrieve the upload URLs to process
      * your image uploads.
      *
@@ -127,7 +111,7 @@ interface AccountHolderService {
 
     /**
      * Simulates an enrollment review for an account holder. This endpoint is only applicable for
-     * workflows that may required intervention such as `KYB_BASIC` or `KYC_ADVANCED`.
+     * workflows that may required intervention such as `KYB_BASIC`.
      */
     @JvmOverloads
     fun simulateEnrollmentReview(

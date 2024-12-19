@@ -98,9 +98,11 @@ class V2ApplyResponseTest {
                         .version(0L)
                         .build()
                 )
+                .name("name")
                 .programLevel(true)
                 .state(V2ApplyResponse.AuthRuleState.ACTIVE)
                 .type(V2ApplyResponse.AuthRuleType.CONDITIONAL_BLOCK)
+                .excludedCardTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
                 .build()
         assertThat(v2ApplyResponse).isNotNull
         assertThat(v2ApplyResponse.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -194,8 +196,11 @@ class V2ApplyResponseTest {
                     .version(0L)
                     .build()
             )
+        assertThat(v2ApplyResponse.name()).contains("name")
         assertThat(v2ApplyResponse.programLevel()).isEqualTo(true)
         assertThat(v2ApplyResponse.state()).isEqualTo(V2ApplyResponse.AuthRuleState.ACTIVE)
         assertThat(v2ApplyResponse.type()).isEqualTo(V2ApplyResponse.AuthRuleType.CONDITIONAL_BLOCK)
+        assertThat(v2ApplyResponse.excludedCardTokens().get())
+            .containsExactly("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }

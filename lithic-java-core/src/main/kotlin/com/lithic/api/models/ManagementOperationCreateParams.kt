@@ -16,7 +16,6 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
@@ -466,32 +465,15 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ManagementOperationCategory && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField
-            val MANAGEMENT_FEE = ManagementOperationCategory(JsonField.of("MANAGEMENT_FEE"))
+            @JvmField val MANAGEMENT_FEE = of("MANAGEMENT_FEE")
 
-            @JvmField
-            val MANAGEMENT_DISPUTE = ManagementOperationCategory(JsonField.of("MANAGEMENT_DISPUTE"))
+            @JvmField val MANAGEMENT_DISPUTE = of("MANAGEMENT_DISPUTE")
 
-            @JvmField
-            val MANAGEMENT_REWARD = ManagementOperationCategory(JsonField.of("MANAGEMENT_REWARD"))
+            @JvmField val MANAGEMENT_REWARD = of("MANAGEMENT_REWARD")
 
-            @JvmField
-            val MANAGEMENT_ADJUSTMENT =
-                ManagementOperationCategory(JsonField.of("MANAGEMENT_ADJUSTMENT"))
+            @JvmField val MANAGEMENT_ADJUSTMENT = of("MANAGEMENT_ADJUSTMENT")
 
             @JvmStatic fun of(value: String) = ManagementOperationCategory(JsonField.of(value))
         }
@@ -531,6 +513,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ManagementOperationCategory && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class ManagementOperationDirection
@@ -541,23 +535,11 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ManagementOperationDirection && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val CREDIT = ManagementOperationDirection(JsonField.of("CREDIT"))
+            @JvmField val CREDIT = of("CREDIT")
 
-            @JvmField val DEBIT = ManagementOperationDirection(JsonField.of("DEBIT"))
+            @JvmField val DEBIT = of("DEBIT")
 
             @JvmStatic fun of(value: String) = ManagementOperationDirection(JsonField.of(value))
         }
@@ -589,6 +571,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ManagementOperationDirection && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class ManagementOperationEventType
@@ -599,59 +593,35 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ManagementOperationEventType && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val CASH_BACK = ManagementOperationEventType(JsonField.of("CASH_BACK"))
+            @JvmField val CASH_BACK = of("CASH_BACK")
 
-            @JvmField
-            val CURRENCY_CONVERSION =
-                ManagementOperationEventType(JsonField.of("CURRENCY_CONVERSION"))
+            @JvmField val CURRENCY_CONVERSION = of("CURRENCY_CONVERSION")
 
-            @JvmField val INTEREST = ManagementOperationEventType(JsonField.of("INTEREST"))
+            @JvmField val INTEREST = of("INTEREST")
 
-            @JvmField val LATE_PAYMENT = ManagementOperationEventType(JsonField.of("LATE_PAYMENT"))
+            @JvmField val LATE_PAYMENT = of("LATE_PAYMENT")
 
-            @JvmField
-            val BILLING_ERROR = ManagementOperationEventType(JsonField.of("BILLING_ERROR"))
+            @JvmField val BILLING_ERROR = of("BILLING_ERROR")
 
-            @JvmField
-            val PROVISIONAL_CREDIT =
-                ManagementOperationEventType(JsonField.of("PROVISIONAL_CREDIT"))
+            @JvmField val PROVISIONAL_CREDIT = of("PROVISIONAL_CREDIT")
 
-            @JvmField
-            val CASH_BACK_REVERSAL =
-                ManagementOperationEventType(JsonField.of("CASH_BACK_REVERSAL"))
+            @JvmField val CASH_BACK_REVERSAL = of("CASH_BACK_REVERSAL")
 
-            @JvmField
-            val CURRENCY_CONVERSION_REVERSAL =
-                ManagementOperationEventType(JsonField.of("CURRENCY_CONVERSION_REVERSAL"))
+            @JvmField val CURRENCY_CONVERSION_REVERSAL = of("CURRENCY_CONVERSION_REVERSAL")
 
-            @JvmField
-            val INTEREST_REVERSAL = ManagementOperationEventType(JsonField.of("INTEREST_REVERSAL"))
+            @JvmField val INTEREST_REVERSAL = of("INTEREST_REVERSAL")
 
-            @JvmField
-            val LATE_PAYMENT_REVERSAL =
-                ManagementOperationEventType(JsonField.of("LATE_PAYMENT_REVERSAL"))
+            @JvmField val LATE_PAYMENT_REVERSAL = of("LATE_PAYMENT_REVERSAL")
 
-            @JvmField
-            val BILLING_ERROR_REVERSAL =
-                ManagementOperationEventType(JsonField.of("BILLING_ERROR_REVERSAL"))
+            @JvmField val BILLING_ERROR_REVERSAL = of("BILLING_ERROR_REVERSAL")
 
-            @JvmField
-            val PROVISIONAL_CREDIT_REVERSAL =
-                ManagementOperationEventType(JsonField.of("PROVISIONAL_CREDIT_REVERSAL"))
+            @JvmField val PROVISIONAL_CREDIT_REVERSAL = of("PROVISIONAL_CREDIT_REVERSAL")
+
+            @JvmField val RETURNED_PAYMENT = of("RETURNED_PAYMENT")
+
+            @JvmField val RETURNED_PAYMENT_REVERSAL = of("RETURNED_PAYMENT_REVERSAL")
 
             @JvmStatic fun of(value: String) = ManagementOperationEventType(JsonField.of(value))
         }
@@ -669,6 +639,8 @@ constructor(
             LATE_PAYMENT_REVERSAL,
             BILLING_ERROR_REVERSAL,
             PROVISIONAL_CREDIT_REVERSAL,
+            RETURNED_PAYMENT,
+            RETURNED_PAYMENT_REVERSAL,
         }
 
         enum class Value {
@@ -684,6 +656,8 @@ constructor(
             LATE_PAYMENT_REVERSAL,
             BILLING_ERROR_REVERSAL,
             PROVISIONAL_CREDIT_REVERSAL,
+            RETURNED_PAYMENT,
+            RETURNED_PAYMENT_REVERSAL,
             _UNKNOWN,
         }
 
@@ -701,6 +675,8 @@ constructor(
                 LATE_PAYMENT_REVERSAL -> Value.LATE_PAYMENT_REVERSAL
                 BILLING_ERROR_REVERSAL -> Value.BILLING_ERROR_REVERSAL
                 PROVISIONAL_CREDIT_REVERSAL -> Value.PROVISIONAL_CREDIT_REVERSAL
+                RETURNED_PAYMENT -> Value.RETURNED_PAYMENT
+                RETURNED_PAYMENT_REVERSAL -> Value.RETURNED_PAYMENT_REVERSAL
                 else -> Value._UNKNOWN
             }
 
@@ -718,11 +694,25 @@ constructor(
                 LATE_PAYMENT_REVERSAL -> Known.LATE_PAYMENT_REVERSAL
                 BILLING_ERROR_REVERSAL -> Known.BILLING_ERROR_REVERSAL
                 PROVISIONAL_CREDIT_REVERSAL -> Known.PROVISIONAL_CREDIT_REVERSAL
+                RETURNED_PAYMENT -> Known.RETURNED_PAYMENT
+                RETURNED_PAYMENT_REVERSAL -> Known.RETURNED_PAYMENT_REVERSAL
                 else ->
                     throw LithicInvalidDataException("Unknown ManagementOperationEventType: $value")
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ManagementOperationEventType && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

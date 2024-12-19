@@ -5,12 +5,10 @@ package com.lithic.api.models
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
-import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
@@ -253,29 +251,17 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is State && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val CLOSED = State(JsonField.of("CLOSED"))
+            @JvmField val CLOSED = of("CLOSED")
 
-            @JvmField val OPEN = State(JsonField.of("OPEN"))
+            @JvmField val OPEN = of("OPEN")
 
-            @JvmField val PAUSED = State(JsonField.of("PAUSED"))
+            @JvmField val PAUSED = of("PAUSED")
 
-            @JvmField val PENDING_ACTIVATION = State(JsonField.of("PENDING_ACTIVATION"))
+            @JvmField val PENDING_ACTIVATION = of("PENDING_ACTIVATION")
 
-            @JvmField val PENDING_FULFILLMENT = State(JsonField.of("PENDING_FULFILLMENT"))
+            @JvmField val PENDING_FULFILLMENT = of("PENDING_FULFILLMENT")
 
             @JvmStatic fun of(value: String) = State(JsonField.of(value))
         }
@@ -318,6 +304,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is State && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

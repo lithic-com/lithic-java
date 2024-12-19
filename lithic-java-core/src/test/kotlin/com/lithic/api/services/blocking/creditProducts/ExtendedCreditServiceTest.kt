@@ -4,7 +4,7 @@ package com.lithic.api.services.blocking.creditProducts
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.*
+import com.lithic.api.models.CreditProductExtendedCreditRetrieveParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 

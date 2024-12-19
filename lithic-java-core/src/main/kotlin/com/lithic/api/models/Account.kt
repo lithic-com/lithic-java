@@ -483,25 +483,13 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is State && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val ACTIVE = State(JsonField.of("ACTIVE"))
+            @JvmField val ACTIVE = of("ACTIVE")
 
-            @JvmField val PAUSED = State(JsonField.of("PAUSED"))
+            @JvmField val PAUSED = of("PAUSED")
 
-            @JvmField val CLOSED = State(JsonField.of("CLOSED"))
+            @JvmField val CLOSED = of("CLOSED")
 
             @JvmStatic fun of(value: String) = State(JsonField.of(value))
         }
@@ -536,6 +524,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is State && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     @JsonDeserialize(builder = AccountHolder.Builder::class)

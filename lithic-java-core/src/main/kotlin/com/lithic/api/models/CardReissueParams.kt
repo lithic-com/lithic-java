@@ -16,7 +16,6 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
-import com.lithic.api.models.*
 import java.util.Objects
 import java.util.Optional
 
@@ -416,32 +415,19 @@ constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ShippingMethod && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val _2_DAY = ShippingMethod(JsonField.of("2-DAY"))
+            @JvmField val _2_DAY = of("2-DAY")
 
-            @JvmField val EXPEDITED = ShippingMethod(JsonField.of("EXPEDITED"))
+            @JvmField val EXPEDITED = of("EXPEDITED")
 
-            @JvmField val EXPRESS = ShippingMethod(JsonField.of("EXPRESS"))
+            @JvmField val EXPRESS = of("EXPRESS")
 
-            @JvmField val PRIORITY = ShippingMethod(JsonField.of("PRIORITY"))
+            @JvmField val PRIORITY = of("PRIORITY")
 
-            @JvmField val STANDARD = ShippingMethod(JsonField.of("STANDARD"))
+            @JvmField val STANDARD = of("STANDARD")
 
-            @JvmField
-            val STANDARD_WITH_TRACKING = ShippingMethod(JsonField.of("STANDARD_WITH_TRACKING"))
+            @JvmField val STANDARD_WITH_TRACKING = of("STANDARD_WITH_TRACKING")
 
             @JvmStatic fun of(value: String) = ShippingMethod(JsonField.of(value))
         }
@@ -488,6 +474,18 @@ constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ShippingMethod && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

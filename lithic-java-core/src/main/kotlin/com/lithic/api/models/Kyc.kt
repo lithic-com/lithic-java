@@ -475,6 +475,42 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
+        companion object {
+
+            @JvmField val KYC_BASIC = of("KYC_BASIC")
+
+            @JvmField val KYC_BYO = of("KYC_BYO")
+
+            @JvmStatic fun of(value: String) = Workflow(JsonField.of(value))
+        }
+
+        enum class Known {
+            KYC_BASIC,
+            KYC_BYO,
+        }
+
+        enum class Value {
+            KYC_BASIC,
+            KYC_BYO,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                KYC_BASIC -> Value.KYC_BASIC
+                KYC_BYO -> Value.KYC_BYO
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                KYC_BASIC -> Known.KYC_BASIC
+                KYC_BYO -> Known.KYC_BYO
+                else -> throw LithicInvalidDataException("Unknown Workflow: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
@@ -486,48 +522,6 @@ private constructor(
         override fun hashCode() = value.hashCode()
 
         override fun toString() = value.toString()
-
-        companion object {
-
-            @JvmField val KYC_ADVANCED = Workflow(JsonField.of("KYC_ADVANCED"))
-
-            @JvmField val KYC_BASIC = Workflow(JsonField.of("KYC_BASIC"))
-
-            @JvmField val KYC_BYO = Workflow(JsonField.of("KYC_BYO"))
-
-            @JvmStatic fun of(value: String) = Workflow(JsonField.of(value))
-        }
-
-        enum class Known {
-            KYC_ADVANCED,
-            KYC_BASIC,
-            KYC_BYO,
-        }
-
-        enum class Value {
-            KYC_ADVANCED,
-            KYC_BASIC,
-            KYC_BYO,
-            _UNKNOWN,
-        }
-
-        fun value(): Value =
-            when (this) {
-                KYC_ADVANCED -> Value.KYC_ADVANCED
-                KYC_BASIC -> Value.KYC_BASIC
-                KYC_BYO -> Value.KYC_BYO
-                else -> Value._UNKNOWN
-            }
-
-        fun known(): Known =
-            when (this) {
-                KYC_ADVANCED -> Known.KYC_ADVANCED
-                KYC_BASIC -> Known.KYC_BASIC
-                KYC_BYO -> Known.KYC_BYO
-                else -> throw LithicInvalidDataException("Unknown Workflow: $value")
-            }
-
-        fun asString(): String = _value().asStringOrThrow()
     }
 
     override fun equals(other: Any?): Boolean {

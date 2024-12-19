@@ -4,7 +4,8 @@ package com.lithic.api.services.blocking.threeDS
 
 import com.lithic.api.TestServerExtension
 import com.lithic.api.client.okhttp.LithicOkHttpClient
-import com.lithic.api.models.*
+import com.lithic.api.models.ThreeDSAuthenticationRetrieveParams
+import com.lithic.api.models.ThreeDSAuthenticationSimulateParams
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 

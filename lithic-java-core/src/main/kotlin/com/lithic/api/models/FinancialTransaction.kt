@@ -401,25 +401,13 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Category && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val ACH = Category(JsonField.of("ACH"))
+            @JvmField val ACH = of("ACH")
 
-            @JvmField val CARD = Category(JsonField.of("CARD"))
+            @JvmField val CARD = of("CARD")
 
-            @JvmField val TRANSFER = Category(JsonField.of("TRANSFER"))
+            @JvmField val TRANSFER = of("TRANSFER")
 
             @JvmStatic fun of(value: String) = Category(JsonField.of(value))
         }
@@ -454,6 +442,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Category && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     @JsonDeserialize(builder = FinancialEvent.Builder::class)
@@ -635,23 +635,11 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is Result && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+                @JvmField val APPROVED = of("APPROVED")
 
-                @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+                @JvmField val DECLINED = of("DECLINED")
 
                 @JvmStatic fun of(value: String) = Result(JsonField.of(value))
             }
@@ -682,6 +670,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is Result && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         class FinancialEventType
@@ -692,222 +692,131 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is FinancialEventType && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField
-                val ACH_ORIGINATION_CANCELLED =
-                    FinancialEventType(JsonField.of("ACH_ORIGINATION_CANCELLED"))
+                @JvmField val ACH_ORIGINATION_CANCELLED = of("ACH_ORIGINATION_CANCELLED")
 
-                @JvmField
-                val ACH_ORIGINATION_INITIATED =
-                    FinancialEventType(JsonField.of("ACH_ORIGINATION_INITIATED"))
+                @JvmField val ACH_ORIGINATION_INITIATED = of("ACH_ORIGINATION_INITIATED")
 
-                @JvmField
-                val ACH_ORIGINATION_PROCESSED =
-                    FinancialEventType(JsonField.of("ACH_ORIGINATION_PROCESSED"))
+                @JvmField val ACH_ORIGINATION_PROCESSED = of("ACH_ORIGINATION_PROCESSED")
 
-                @JvmField
-                val ACH_ORIGINATION_RELEASED =
-                    FinancialEventType(JsonField.of("ACH_ORIGINATION_RELEASED"))
+                @JvmField val ACH_ORIGINATION_RELEASED = of("ACH_ORIGINATION_RELEASED")
 
-                @JvmField
-                val ACH_ORIGINATION_REVIEWED =
-                    FinancialEventType(JsonField.of("ACH_ORIGINATION_REVIEWED"))
+                @JvmField val ACH_ORIGINATION_REVIEWED = of("ACH_ORIGINATION_REVIEWED")
 
-                @JvmField
-                val ACH_ORIGINATION_SETTLED =
-                    FinancialEventType(JsonField.of("ACH_ORIGINATION_SETTLED"))
+                @JvmField val ACH_ORIGINATION_SETTLED = of("ACH_ORIGINATION_SETTLED")
 
-                @JvmField
-                val ACH_RECEIPT_PROCESSED =
-                    FinancialEventType(JsonField.of("ACH_RECEIPT_PROCESSED"))
+                @JvmField val ACH_RECEIPT_PROCESSED = of("ACH_RECEIPT_PROCESSED")
 
-                @JvmField
-                val ACH_RECEIPT_SETTLED = FinancialEventType(JsonField.of("ACH_RECEIPT_SETTLED"))
+                @JvmField val ACH_RECEIPT_SETTLED = of("ACH_RECEIPT_SETTLED")
 
-                @JvmField
-                val ACH_RETURN_INITIATED = FinancialEventType(JsonField.of("ACH_RETURN_INITIATED"))
+                @JvmField val ACH_RETURN_INITIATED = of("ACH_RETURN_INITIATED")
 
-                @JvmField
-                val ACH_RETURN_PROCESSED = FinancialEventType(JsonField.of("ACH_RETURN_PROCESSED"))
+                @JvmField val ACH_RETURN_PROCESSED = of("ACH_RETURN_PROCESSED")
 
-                @JvmField val AUTHORIZATION = FinancialEventType(JsonField.of("AUTHORIZATION"))
+                @JvmField val AUTHORIZATION = of("AUTHORIZATION")
 
-                @JvmField
-                val AUTHORIZATION_ADVICE = FinancialEventType(JsonField.of("AUTHORIZATION_ADVICE"))
+                @JvmField val AUTHORIZATION_ADVICE = of("AUTHORIZATION_ADVICE")
 
-                @JvmField
-                val AUTHORIZATION_EXPIRY = FinancialEventType(JsonField.of("AUTHORIZATION_EXPIRY"))
+                @JvmField val AUTHORIZATION_EXPIRY = of("AUTHORIZATION_EXPIRY")
 
-                @JvmField
-                val AUTHORIZATION_REVERSAL =
-                    FinancialEventType(JsonField.of("AUTHORIZATION_REVERSAL"))
+                @JvmField val AUTHORIZATION_REVERSAL = of("AUTHORIZATION_REVERSAL")
 
-                @JvmField val BALANCE_INQUIRY = FinancialEventType(JsonField.of("BALANCE_INQUIRY"))
+                @JvmField val BALANCE_INQUIRY = of("BALANCE_INQUIRY")
 
-                @JvmField val BILLING_ERROR = FinancialEventType(JsonField.of("BILLING_ERROR"))
+                @JvmField val BILLING_ERROR = of("BILLING_ERROR")
 
-                @JvmField
-                val BILLING_ERROR_REVERSAL =
-                    FinancialEventType(JsonField.of("BILLING_ERROR_REVERSAL"))
+                @JvmField val BILLING_ERROR_REVERSAL = of("BILLING_ERROR_REVERSAL")
 
-                @JvmField val CARD_TO_CARD = FinancialEventType(JsonField.of("CARD_TO_CARD"))
+                @JvmField val CARD_TO_CARD = of("CARD_TO_CARD")
 
-                @JvmField val CASH_BACK = FinancialEventType(JsonField.of("CASH_BACK"))
+                @JvmField val CASH_BACK = of("CASH_BACK")
 
-                @JvmField
-                val CASH_BACK_REVERSAL = FinancialEventType(JsonField.of("CASH_BACK_REVERSAL"))
+                @JvmField val CASH_BACK_REVERSAL = of("CASH_BACK_REVERSAL")
 
-                @JvmField val CLEARING = FinancialEventType(JsonField.of("CLEARING"))
+                @JvmField val CLEARING = of("CLEARING")
 
-                @JvmField
-                val CORRECTION_CREDIT = FinancialEventType(JsonField.of("CORRECTION_CREDIT"))
+                @JvmField val CORRECTION_CREDIT = of("CORRECTION_CREDIT")
 
-                @JvmField
-                val CORRECTION_DEBIT = FinancialEventType(JsonField.of("CORRECTION_DEBIT"))
+                @JvmField val CORRECTION_DEBIT = of("CORRECTION_DEBIT")
 
-                @JvmField
-                val CREDIT_AUTHORIZATION = FinancialEventType(JsonField.of("CREDIT_AUTHORIZATION"))
+                @JvmField val CREDIT_AUTHORIZATION = of("CREDIT_AUTHORIZATION")
 
-                @JvmField
-                val CREDIT_AUTHORIZATION_ADVICE =
-                    FinancialEventType(JsonField.of("CREDIT_AUTHORIZATION_ADVICE"))
+                @JvmField val CREDIT_AUTHORIZATION_ADVICE = of("CREDIT_AUTHORIZATION_ADVICE")
 
-                @JvmField
-                val CURRENCY_CONVERSION = FinancialEventType(JsonField.of("CURRENCY_CONVERSION"))
+                @JvmField val CURRENCY_CONVERSION = of("CURRENCY_CONVERSION")
 
-                @JvmField
-                val CURRENCY_CONVERSION_REVERSAL =
-                    FinancialEventType(JsonField.of("CURRENCY_CONVERSION_REVERSAL"))
+                @JvmField val CURRENCY_CONVERSION_REVERSAL = of("CURRENCY_CONVERSION_REVERSAL")
 
-                @JvmField val DISPUTE_WON = FinancialEventType(JsonField.of("DISPUTE_WON"))
+                @JvmField val DISPUTE_WON = of("DISPUTE_WON")
 
-                @JvmField
-                val EXTERNAL_ACH_CANCELED =
-                    FinancialEventType(JsonField.of("EXTERNAL_ACH_CANCELED"))
+                @JvmField val EXTERNAL_ACH_CANCELED = of("EXTERNAL_ACH_CANCELED")
 
-                @JvmField
-                val EXTERNAL_ACH_INITIATED =
-                    FinancialEventType(JsonField.of("EXTERNAL_ACH_INITIATED"))
+                @JvmField val EXTERNAL_ACH_INITIATED = of("EXTERNAL_ACH_INITIATED")
 
-                @JvmField
-                val EXTERNAL_ACH_RELEASED =
-                    FinancialEventType(JsonField.of("EXTERNAL_ACH_RELEASED"))
+                @JvmField val EXTERNAL_ACH_RELEASED = of("EXTERNAL_ACH_RELEASED")
 
-                @JvmField
-                val EXTERNAL_ACH_REVERSED =
-                    FinancialEventType(JsonField.of("EXTERNAL_ACH_REVERSED"))
+                @JvmField val EXTERNAL_ACH_REVERSED = of("EXTERNAL_ACH_REVERSED")
 
-                @JvmField
-                val EXTERNAL_ACH_SETTLED = FinancialEventType(JsonField.of("EXTERNAL_ACH_SETTLED"))
+                @JvmField val EXTERNAL_ACH_SETTLED = of("EXTERNAL_ACH_SETTLED")
 
-                @JvmField
-                val EXTERNAL_CHECK_CANCELED =
-                    FinancialEventType(JsonField.of("EXTERNAL_CHECK_CANCELED"))
+                @JvmField val EXTERNAL_CHECK_CANCELED = of("EXTERNAL_CHECK_CANCELED")
 
-                @JvmField
-                val EXTERNAL_CHECK_INITIATED =
-                    FinancialEventType(JsonField.of("EXTERNAL_CHECK_INITIATED"))
+                @JvmField val EXTERNAL_CHECK_INITIATED = of("EXTERNAL_CHECK_INITIATED")
 
-                @JvmField
-                val EXTERNAL_CHECK_RELEASED =
-                    FinancialEventType(JsonField.of("EXTERNAL_CHECK_RELEASED"))
+                @JvmField val EXTERNAL_CHECK_RELEASED = of("EXTERNAL_CHECK_RELEASED")
 
-                @JvmField
-                val EXTERNAL_CHECK_REVERSED =
-                    FinancialEventType(JsonField.of("EXTERNAL_CHECK_REVERSED"))
+                @JvmField val EXTERNAL_CHECK_REVERSED = of("EXTERNAL_CHECK_REVERSED")
 
-                @JvmField
-                val EXTERNAL_CHECK_SETTLED =
-                    FinancialEventType(JsonField.of("EXTERNAL_CHECK_SETTLED"))
+                @JvmField val EXTERNAL_CHECK_SETTLED = of("EXTERNAL_CHECK_SETTLED")
 
-                @JvmField
-                val EXTERNAL_TRANSFER_CANCELED =
-                    FinancialEventType(JsonField.of("EXTERNAL_TRANSFER_CANCELED"))
+                @JvmField val EXTERNAL_TRANSFER_CANCELED = of("EXTERNAL_TRANSFER_CANCELED")
 
-                @JvmField
-                val EXTERNAL_TRANSFER_INITIATED =
-                    FinancialEventType(JsonField.of("EXTERNAL_TRANSFER_INITIATED"))
+                @JvmField val EXTERNAL_TRANSFER_INITIATED = of("EXTERNAL_TRANSFER_INITIATED")
 
-                @JvmField
-                val EXTERNAL_TRANSFER_RELEASED =
-                    FinancialEventType(JsonField.of("EXTERNAL_TRANSFER_RELEASED"))
+                @JvmField val EXTERNAL_TRANSFER_RELEASED = of("EXTERNAL_TRANSFER_RELEASED")
 
-                @JvmField
-                val EXTERNAL_TRANSFER_REVERSED =
-                    FinancialEventType(JsonField.of("EXTERNAL_TRANSFER_REVERSED"))
+                @JvmField val EXTERNAL_TRANSFER_REVERSED = of("EXTERNAL_TRANSFER_REVERSED")
 
-                @JvmField
-                val EXTERNAL_TRANSFER_SETTLED =
-                    FinancialEventType(JsonField.of("EXTERNAL_TRANSFER_SETTLED"))
+                @JvmField val EXTERNAL_TRANSFER_SETTLED = of("EXTERNAL_TRANSFER_SETTLED")
 
-                @JvmField
-                val EXTERNAL_WIRE_CANCELED =
-                    FinancialEventType(JsonField.of("EXTERNAL_WIRE_CANCELED"))
+                @JvmField val EXTERNAL_WIRE_CANCELED = of("EXTERNAL_WIRE_CANCELED")
 
-                @JvmField
-                val EXTERNAL_WIRE_INITIATED =
-                    FinancialEventType(JsonField.of("EXTERNAL_WIRE_INITIATED"))
+                @JvmField val EXTERNAL_WIRE_INITIATED = of("EXTERNAL_WIRE_INITIATED")
 
-                @JvmField
-                val EXTERNAL_WIRE_RELEASED =
-                    FinancialEventType(JsonField.of("EXTERNAL_WIRE_RELEASED"))
+                @JvmField val EXTERNAL_WIRE_RELEASED = of("EXTERNAL_WIRE_RELEASED")
 
-                @JvmField
-                val EXTERNAL_WIRE_REVERSED =
-                    FinancialEventType(JsonField.of("EXTERNAL_WIRE_REVERSED"))
+                @JvmField val EXTERNAL_WIRE_REVERSED = of("EXTERNAL_WIRE_REVERSED")
 
-                @JvmField
-                val EXTERNAL_WIRE_SETTLED =
-                    FinancialEventType(JsonField.of("EXTERNAL_WIRE_SETTLED"))
+                @JvmField val EXTERNAL_WIRE_SETTLED = of("EXTERNAL_WIRE_SETTLED")
 
-                @JvmField
-                val FINANCIAL_AUTHORIZATION =
-                    FinancialEventType(JsonField.of("FINANCIAL_AUTHORIZATION"))
+                @JvmField val FINANCIAL_AUTHORIZATION = of("FINANCIAL_AUTHORIZATION")
 
-                @JvmField
-                val FINANCIAL_CREDIT_AUTHORIZATION =
-                    FinancialEventType(JsonField.of("FINANCIAL_CREDIT_AUTHORIZATION"))
+                @JvmField val FINANCIAL_CREDIT_AUTHORIZATION = of("FINANCIAL_CREDIT_AUTHORIZATION")
 
-                @JvmField val INTEREST = FinancialEventType(JsonField.of("INTEREST"))
+                @JvmField val INTEREST = of("INTEREST")
 
-                @JvmField
-                val INTEREST_REVERSAL = FinancialEventType(JsonField.of("INTEREST_REVERSAL"))
+                @JvmField val INTEREST_REVERSAL = of("INTEREST_REVERSAL")
 
-                @JvmField val LATE_PAYMENT = FinancialEventType(JsonField.of("LATE_PAYMENT"))
+                @JvmField val LATE_PAYMENT = of("LATE_PAYMENT")
 
-                @JvmField
-                val LATE_PAYMENT_REVERSAL =
-                    FinancialEventType(JsonField.of("LATE_PAYMENT_REVERSAL"))
+                @JvmField val LATE_PAYMENT_REVERSAL = of("LATE_PAYMENT_REVERSAL")
 
-                @JvmField
-                val PROVISIONAL_CREDIT = FinancialEventType(JsonField.of("PROVISIONAL_CREDIT"))
+                @JvmField val PROVISIONAL_CREDIT = of("PROVISIONAL_CREDIT")
 
-                @JvmField
-                val PROVISIONAL_CREDIT_REVERSAL =
-                    FinancialEventType(JsonField.of("PROVISIONAL_CREDIT_REVERSAL"))
+                @JvmField val PROVISIONAL_CREDIT_REVERSAL = of("PROVISIONAL_CREDIT_REVERSAL")
 
-                @JvmField val RETURN = FinancialEventType(JsonField.of("RETURN"))
+                @JvmField val RETURN = of("RETURN")
 
-                @JvmField val RETURN_REVERSAL = FinancialEventType(JsonField.of("RETURN_REVERSAL"))
+                @JvmField val RETURN_REVERSAL = of("RETURN_REVERSAL")
 
-                @JvmField val TRANSFER = FinancialEventType(JsonField.of("TRANSFER"))
+                @JvmField val TRANSFER = of("TRANSFER")
 
-                @JvmField
-                val TRANSFER_INSUFFICIENT_FUNDS =
-                    FinancialEventType(JsonField.of("TRANSFER_INSUFFICIENT_FUNDS"))
+                @JvmField val TRANSFER_INSUFFICIENT_FUNDS = of("TRANSFER_INSUFFICIENT_FUNDS")
+
+                @JvmField val RETURNED_PAYMENT = of("RETURNED_PAYMENT")
+
+                @JvmField val RETURNED_PAYMENT_REVERSAL = of("RETURNED_PAYMENT_REVERSAL")
 
                 @JvmStatic fun of(value: String) = FinancialEventType(JsonField.of(value))
             }
@@ -973,6 +882,8 @@ private constructor(
                 RETURN_REVERSAL,
                 TRANSFER,
                 TRANSFER_INSUFFICIENT_FUNDS,
+                RETURNED_PAYMENT,
+                RETURNED_PAYMENT_REVERSAL,
             }
 
             enum class Value {
@@ -1036,6 +947,8 @@ private constructor(
                 RETURN_REVERSAL,
                 TRANSFER,
                 TRANSFER_INSUFFICIENT_FUNDS,
+                RETURNED_PAYMENT,
+                RETURNED_PAYMENT_REVERSAL,
                 _UNKNOWN,
             }
 
@@ -1101,6 +1014,8 @@ private constructor(
                     RETURN_REVERSAL -> Value.RETURN_REVERSAL
                     TRANSFER -> Value.TRANSFER
                     TRANSFER_INSUFFICIENT_FUNDS -> Value.TRANSFER_INSUFFICIENT_FUNDS
+                    RETURNED_PAYMENT -> Value.RETURNED_PAYMENT
+                    RETURNED_PAYMENT_REVERSAL -> Value.RETURNED_PAYMENT_REVERSAL
                     else -> Value._UNKNOWN
                 }
 
@@ -1166,10 +1081,24 @@ private constructor(
                     RETURN_REVERSAL -> Known.RETURN_REVERSAL
                     TRANSFER -> Known.TRANSFER
                     TRANSFER_INSUFFICIENT_FUNDS -> Known.TRANSFER_INSUFFICIENT_FUNDS
+                    RETURNED_PAYMENT -> Known.RETURNED_PAYMENT
+                    RETURNED_PAYMENT_REVERSAL -> Known.RETURNED_PAYMENT_REVERSAL
                     else -> throw LithicInvalidDataException("Unknown FinancialEventType: $value")
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is FinancialEventType && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         override fun equals(other: Any?): Boolean {
@@ -1198,23 +1127,11 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Result && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val APPROVED = Result(JsonField.of("APPROVED"))
+            @JvmField val APPROVED = of("APPROVED")
 
-            @JvmField val DECLINED = Result(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
             @JvmStatic fun of(value: String) = Result(JsonField.of(value))
         }
@@ -1245,6 +1162,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Result && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class Status
@@ -1255,31 +1184,19 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val DECLINED = Status(JsonField.of("DECLINED"))
+            @JvmField val DECLINED = of("DECLINED")
 
-            @JvmField val EXPIRED = Status(JsonField.of("EXPIRED"))
+            @JvmField val EXPIRED = of("EXPIRED")
 
-            @JvmField val PENDING = Status(JsonField.of("PENDING"))
+            @JvmField val PENDING = of("PENDING")
 
-            @JvmField val RETURNED = Status(JsonField.of("RETURNED"))
+            @JvmField val RETURNED = of("RETURNED")
 
-            @JvmField val SETTLED = Status(JsonField.of("SETTLED"))
+            @JvmField val SETTLED = of("SETTLED")
 
-            @JvmField val VOIDED = Status(JsonField.of("VOIDED"))
+            @JvmField val VOIDED = of("VOIDED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
@@ -1326,6 +1243,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

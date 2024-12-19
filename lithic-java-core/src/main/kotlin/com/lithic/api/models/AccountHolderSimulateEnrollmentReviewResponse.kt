@@ -1728,23 +1728,11 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is ExemptionType && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val AUTHORIZED_USER = ExemptionType(JsonField.of("AUTHORIZED_USER"))
+            @JvmField val AUTHORIZED_USER = of("AUTHORIZED_USER")
 
-            @JvmField val PREPAID_CARD_USER = ExemptionType(JsonField.of("PREPAID_CARD_USER"))
+            @JvmField val PREPAID_CARD_USER = of("PREPAID_CARD_USER")
 
             @JvmStatic fun of(value: String) = ExemptionType(JsonField.of(value))
         }
@@ -1775,6 +1763,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ExemptionType && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class Status
@@ -1785,27 +1785,15 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val ACCEPTED = Status(JsonField.of("ACCEPTED"))
+            @JvmField val ACCEPTED = of("ACCEPTED")
 
-            @JvmField val PENDING_DOCUMENT = Status(JsonField.of("PENDING_DOCUMENT"))
+            @JvmField val PENDING_DOCUMENT = of("PENDING_DOCUMENT")
 
-            @JvmField val PENDING_RESUBMIT = Status(JsonField.of("PENDING_RESUBMIT"))
+            @JvmField val PENDING_RESUBMIT = of("PENDING_RESUBMIT")
 
-            @JvmField val REJECTED = Status(JsonField.of("REJECTED"))
+            @JvmField val REJECTED = of("REJECTED")
 
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
@@ -1844,6 +1832,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class StatusReasons
@@ -1854,107 +1854,80 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is StatusReasons && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField
-            val ADDRESS_VERIFICATION_FAILURE =
-                StatusReasons(JsonField.of("ADDRESS_VERIFICATION_FAILURE"))
+            @JvmField val ADDRESS_VERIFICATION_FAILURE = of("ADDRESS_VERIFICATION_FAILURE")
 
-            @JvmField
-            val AGE_THRESHOLD_FAILURE = StatusReasons(JsonField.of("AGE_THRESHOLD_FAILURE"))
+            @JvmField val AGE_THRESHOLD_FAILURE = of("AGE_THRESHOLD_FAILURE")
 
-            @JvmField
-            val COMPLETE_VERIFICATION_FAILURE =
-                StatusReasons(JsonField.of("COMPLETE_VERIFICATION_FAILURE"))
+            @JvmField val COMPLETE_VERIFICATION_FAILURE = of("COMPLETE_VERIFICATION_FAILURE")
 
-            @JvmField
-            val DOB_VERIFICATION_FAILURE = StatusReasons(JsonField.of("DOB_VERIFICATION_FAILURE"))
+            @JvmField val DOB_VERIFICATION_FAILURE = of("DOB_VERIFICATION_FAILURE")
 
-            @JvmField
-            val ID_VERIFICATION_FAILURE = StatusReasons(JsonField.of("ID_VERIFICATION_FAILURE"))
+            @JvmField val ID_VERIFICATION_FAILURE = of("ID_VERIFICATION_FAILURE")
 
-            @JvmField
-            val MAX_DOCUMENT_ATTEMPTS = StatusReasons(JsonField.of("MAX_DOCUMENT_ATTEMPTS"))
+            @JvmField val MAX_DOCUMENT_ATTEMPTS = of("MAX_DOCUMENT_ATTEMPTS")
 
-            @JvmField
-            val MAX_RESUBMISSION_ATTEMPTS = StatusReasons(JsonField.of("MAX_RESUBMISSION_ATTEMPTS"))
+            @JvmField val MAX_RESUBMISSION_ATTEMPTS = of("MAX_RESUBMISSION_ATTEMPTS")
 
-            @JvmField
-            val NAME_VERIFICATION_FAILURE = StatusReasons(JsonField.of("NAME_VERIFICATION_FAILURE"))
+            @JvmField val NAME_VERIFICATION_FAILURE = of("NAME_VERIFICATION_FAILURE")
 
-            @JvmField
-            val OTHER_VERIFICATION_FAILURE =
-                StatusReasons(JsonField.of("OTHER_VERIFICATION_FAILURE"))
+            @JvmField val OTHER_VERIFICATION_FAILURE = of("OTHER_VERIFICATION_FAILURE")
 
-            @JvmField
-            val RISK_THRESHOLD_FAILURE = StatusReasons(JsonField.of("RISK_THRESHOLD_FAILURE"))
+            @JvmField val RISK_THRESHOLD_FAILURE = of("RISK_THRESHOLD_FAILURE")
 
-            @JvmField
-            val WATCHLIST_ALERT_FAILURE = StatusReasons(JsonField.of("WATCHLIST_ALERT_FAILURE"))
+            @JvmField val WATCHLIST_ALERT_FAILURE = of("WATCHLIST_ALERT_FAILURE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE =
-                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE"))
+                of("PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE =
-                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE"))
+                of("PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE =
-                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE"))
+                of("PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED =
-                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED"))
+                of("PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE =
-                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE"))
+                of("PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED =
-                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED"))
+                of("PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED")
 
             @JvmField
-            val PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE =
-                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE"))
+            val PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE = of("PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE =
-                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE"))
+                of("PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE")
 
             @JvmField
             val PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE =
-                StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE"))
+                of("PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE")
 
             @JvmField
             val CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE =
-                StatusReasons(JsonField.of("CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE"))
+                of("CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE")
 
             @JvmField
             val CONTROL_PERSON_ID_VERIFICATION_FAILURE =
-                StatusReasons(JsonField.of("CONTROL_PERSON_ID_VERIFICATION_FAILURE"))
+                of("CONTROL_PERSON_ID_VERIFICATION_FAILURE")
 
             @JvmField
             val CONTROL_PERSON_DOB_VERIFICATION_FAILURE =
-                StatusReasons(JsonField.of("CONTROL_PERSON_DOB_VERIFICATION_FAILURE"))
+                of("CONTROL_PERSON_DOB_VERIFICATION_FAILURE")
 
             @JvmField
             val CONTROL_PERSON_NAME_VERIFICATION_FAILURE =
-                StatusReasons(JsonField.of("CONTROL_PERSON_NAME_VERIFICATION_FAILURE"))
+                of("CONTROL_PERSON_NAME_VERIFICATION_FAILURE")
 
             @JvmStatic fun of(value: String) = StatusReasons(JsonField.of(value))
         }
@@ -2097,6 +2070,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is StatusReasons && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     class UserType
@@ -2107,23 +2092,11 @@ private constructor(
 
         @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return /* spotless:off */ other is UserType && value == other.value /* spotless:on */
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-
         companion object {
 
-            @JvmField val BUSINESS = UserType(JsonField.of("BUSINESS"))
+            @JvmField val BUSINESS = of("BUSINESS")
 
-            @JvmField val INDIVIDUAL = UserType(JsonField.of("INDIVIDUAL"))
+            @JvmField val INDIVIDUAL = of("INDIVIDUAL")
 
             @JvmStatic fun of(value: String) = UserType(JsonField.of(value))
         }
@@ -2154,6 +2127,18 @@ private constructor(
             }
 
         fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is UserType && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     /** Information about the most recent identity verification attempt */
@@ -2319,27 +2304,15 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is Status && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField val ACCEPTED = Status(JsonField.of("ACCEPTED"))
+                @JvmField val ACCEPTED = of("ACCEPTED")
 
-                @JvmField val PENDING_DOCUMENT = Status(JsonField.of("PENDING_DOCUMENT"))
+                @JvmField val PENDING_DOCUMENT = of("PENDING_DOCUMENT")
 
-                @JvmField val PENDING_RESUBMIT = Status(JsonField.of("PENDING_RESUBMIT"))
+                @JvmField val PENDING_RESUBMIT = of("PENDING_RESUBMIT")
 
-                @JvmField val REJECTED = Status(JsonField.of("REJECTED"))
+                @JvmField val REJECTED = of("REJECTED")
 
                 @JvmStatic fun of(value: String) = Status(JsonField.of(value))
             }
@@ -2378,6 +2351,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         class StatusReasons
@@ -2388,114 +2373,81 @@ private constructor(
 
             @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
 
-            override fun equals(other: Any?): Boolean {
-                if (this === other) {
-                    return true
-                }
-
-                return /* spotless:off */ other is StatusReasons && value == other.value /* spotless:on */
-            }
-
-            override fun hashCode() = value.hashCode()
-
-            override fun toString() = value.toString()
-
             companion object {
 
-                @JvmField
-                val ADDRESS_VERIFICATION_FAILURE =
-                    StatusReasons(JsonField.of("ADDRESS_VERIFICATION_FAILURE"))
+                @JvmField val ADDRESS_VERIFICATION_FAILURE = of("ADDRESS_VERIFICATION_FAILURE")
 
-                @JvmField
-                val AGE_THRESHOLD_FAILURE = StatusReasons(JsonField.of("AGE_THRESHOLD_FAILURE"))
+                @JvmField val AGE_THRESHOLD_FAILURE = of("AGE_THRESHOLD_FAILURE")
 
-                @JvmField
-                val COMPLETE_VERIFICATION_FAILURE =
-                    StatusReasons(JsonField.of("COMPLETE_VERIFICATION_FAILURE"))
+                @JvmField val COMPLETE_VERIFICATION_FAILURE = of("COMPLETE_VERIFICATION_FAILURE")
 
-                @JvmField
-                val DOB_VERIFICATION_FAILURE =
-                    StatusReasons(JsonField.of("DOB_VERIFICATION_FAILURE"))
+                @JvmField val DOB_VERIFICATION_FAILURE = of("DOB_VERIFICATION_FAILURE")
 
-                @JvmField
-                val ID_VERIFICATION_FAILURE = StatusReasons(JsonField.of("ID_VERIFICATION_FAILURE"))
+                @JvmField val ID_VERIFICATION_FAILURE = of("ID_VERIFICATION_FAILURE")
 
-                @JvmField
-                val MAX_DOCUMENT_ATTEMPTS = StatusReasons(JsonField.of("MAX_DOCUMENT_ATTEMPTS"))
+                @JvmField val MAX_DOCUMENT_ATTEMPTS = of("MAX_DOCUMENT_ATTEMPTS")
 
-                @JvmField
-                val MAX_RESUBMISSION_ATTEMPTS =
-                    StatusReasons(JsonField.of("MAX_RESUBMISSION_ATTEMPTS"))
+                @JvmField val MAX_RESUBMISSION_ATTEMPTS = of("MAX_RESUBMISSION_ATTEMPTS")
 
-                @JvmField
-                val NAME_VERIFICATION_FAILURE =
-                    StatusReasons(JsonField.of("NAME_VERIFICATION_FAILURE"))
+                @JvmField val NAME_VERIFICATION_FAILURE = of("NAME_VERIFICATION_FAILURE")
 
-                @JvmField
-                val OTHER_VERIFICATION_FAILURE =
-                    StatusReasons(JsonField.of("OTHER_VERIFICATION_FAILURE"))
+                @JvmField val OTHER_VERIFICATION_FAILURE = of("OTHER_VERIFICATION_FAILURE")
 
-                @JvmField
-                val RISK_THRESHOLD_FAILURE = StatusReasons(JsonField.of("RISK_THRESHOLD_FAILURE"))
+                @JvmField val RISK_THRESHOLD_FAILURE = of("RISK_THRESHOLD_FAILURE")
 
-                @JvmField
-                val WATCHLIST_ALERT_FAILURE = StatusReasons(JsonField.of("WATCHLIST_ALERT_FAILURE"))
+                @JvmField val WATCHLIST_ALERT_FAILURE = of("WATCHLIST_ALERT_FAILURE")
 
                 @JvmField
                 val PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE =
-                    StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE"))
+                    of("PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE")
 
                 @JvmField
                 val PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE =
-                    StatusReasons(
-                        JsonField.of("PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE")
-                    )
+                    of("PRIMARY_BUSINESS_ENTITY_ADDRESS_VERIFICATION_FAILURE")
 
                 @JvmField
                 val PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE =
-                    StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE"))
+                    of("PRIMARY_BUSINESS_ENTITY_NAME_VERIFICATION_FAILURE")
 
                 @JvmField
                 val PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED =
-                    StatusReasons(
-                        JsonField.of("PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED")
-                    )
+                    of("PRIMARY_BUSINESS_ENTITY_BUSINESS_OFFICERS_NOT_MATCHED")
 
                 @JvmField
                 val PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE =
-                    StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE"))
+                    of("PRIMARY_BUSINESS_ENTITY_SOS_FILING_INACTIVE")
 
                 @JvmField
                 val PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED =
-                    StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED"))
+                    of("PRIMARY_BUSINESS_ENTITY_SOS_NOT_MATCHED")
 
                 @JvmField
                 val PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE =
-                    StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE"))
+                    of("PRIMARY_BUSINESS_ENTITY_CMRA_FAILURE")
 
                 @JvmField
                 val PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE =
-                    StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE"))
+                    of("PRIMARY_BUSINESS_ENTITY_WATCHLIST_FAILURE")
 
                 @JvmField
                 val PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE =
-                    StatusReasons(JsonField.of("PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE"))
+                    of("PRIMARY_BUSINESS_ENTITY_REGISTERED_AGENT_FAILURE")
 
                 @JvmField
                 val CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE =
-                    StatusReasons(JsonField.of("CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE"))
+                    of("CONTROL_PERSON_BLOCKLIST_ALERT_FAILURE")
 
                 @JvmField
                 val CONTROL_PERSON_ID_VERIFICATION_FAILURE =
-                    StatusReasons(JsonField.of("CONTROL_PERSON_ID_VERIFICATION_FAILURE"))
+                    of("CONTROL_PERSON_ID_VERIFICATION_FAILURE")
 
                 @JvmField
                 val CONTROL_PERSON_DOB_VERIFICATION_FAILURE =
-                    StatusReasons(JsonField.of("CONTROL_PERSON_DOB_VERIFICATION_FAILURE"))
+                    of("CONTROL_PERSON_DOB_VERIFICATION_FAILURE")
 
                 @JvmField
                 val CONTROL_PERSON_NAME_VERIFICATION_FAILURE =
-                    StatusReasons(JsonField.of("CONTROL_PERSON_NAME_VERIFICATION_FAILURE"))
+                    of("CONTROL_PERSON_NAME_VERIFICATION_FAILURE")
 
                 @JvmStatic fun of(value: String) = StatusReasons(JsonField.of(value))
             }
@@ -2640,6 +2592,18 @@ private constructor(
                 }
 
             fun asString(): String = _value().asStringOrThrow()
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is StatusReasons && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
         }
 
         override fun equals(other: Any?): Boolean {
