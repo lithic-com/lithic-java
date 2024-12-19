@@ -10,7 +10,7 @@ class TransactionSimulateClearingParamsTest {
     @Test
     fun createTransactionSimulateClearingParams() {
         TransactionSimulateClearingParams.builder()
-            .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
             .amount(0L)
             .build()
     }
@@ -19,12 +19,12 @@ class TransactionSimulateClearingParamsTest {
     fun getBody() {
         val params =
             TransactionSimulateClearingParams.builder()
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .amount(0L)
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
         assertThat(body.amount()).isEqualTo(0L)
     }
 
@@ -32,10 +32,10 @@ class TransactionSimulateClearingParamsTest {
     fun getBodyWithoutOptionalFields() {
         val params =
             TransactionSimulateClearingParams.builder()
-                .token("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .token("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }
 }

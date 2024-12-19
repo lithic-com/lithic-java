@@ -10,18 +10,18 @@ class ReportSettlementSummaryParamsTest {
 
     @Test
     fun createReportSettlementSummaryParams() {
-        ReportSettlementSummaryParams.builder().reportDate(LocalDate.parse("2019-12-27")).build()
+        ReportSettlementSummaryParams.builder().reportDate(LocalDate.parse("2023-09-01")).build()
     }
 
     @Test
     fun getPathParam() {
         val params =
             ReportSettlementSummaryParams.builder()
-                .reportDate(LocalDate.parse("2019-12-27"))
+                .reportDate(LocalDate.parse("2023-09-01"))
                 .build()
         assertThat(params).isNotNull
         // path param "reportDate"
-        assertThat(params.getPathParam(0)).isEqualTo("2019-12-27")
+        assertThat(params.getPathParam(0)).isEqualTo("2023-09-01")
         // out-of-bound path param
         assertThat(params.getPathParam(1)).isEqualTo("")
     }

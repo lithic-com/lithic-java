@@ -24,7 +24,7 @@ class SettlementServiceTest {
         val response =
             settlementService.listDetails(
                 ReportSettlementListDetailsParams.builder()
-                    .reportDate(LocalDate.parse("2019-12-27"))
+                    .reportDate(LocalDate.parse("2023-09-01"))
                     .build()
             )
         println(response)
@@ -42,7 +42,7 @@ class SettlementServiceTest {
         val settlementReport =
             settlementService.summary(
                 ReportSettlementSummaryParams.builder()
-                    .reportDate(LocalDate.parse("2019-12-27"))
+                    .reportDate(LocalDate.parse("2023-09-01"))
                     .build()
             )
         println(settlementReport)
