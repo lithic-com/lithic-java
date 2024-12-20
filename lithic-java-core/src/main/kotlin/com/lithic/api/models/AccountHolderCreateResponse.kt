@@ -6,31 +6,43 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = AccountHolderCreateResponse.Builder::class)
 @NoAutoDetect
 class AccountHolderCreateResponse
+@JsonCreator
 private constructor(
-    private val accountToken: JsonField<String>,
-    private val created: JsonField<OffsetDateTime>,
-    private val externalId: JsonField<String>,
-    private val status: JsonField<Status>,
-    private val statusReasons: JsonField<List<StatusReasons>>,
-    private val requiredDocuments: JsonField<List<RequiredDocument>>,
-    private val token: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    private val accountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("external_id")
+    @ExcludeMissing
+    private val externalId: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("status")
+    @ExcludeMissing
+    private val status: JsonField<Status> = JsonMissing.of(),
+    @JsonProperty("status_reasons")
+    @ExcludeMissing
+    private val statusReasons: JsonField<List<StatusReasons>> = JsonMissing.of(),
+    @JsonProperty("required_documents")
+    @ExcludeMissing
+    private val requiredDocuments: JsonField<List<RequiredDocument>> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Globally unique identifier for the account. */
@@ -151,8 +163,6 @@ private constructor(
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
         /** Globally unique identifier for the account. */
-        @JsonProperty("account_token")
-        @ExcludeMissing
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
         }
@@ -161,8 +171,6 @@ private constructor(
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** Timestamp of when the account holder was created. */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
@@ -175,8 +183,6 @@ private constructor(
          * Customer-provided token that indicates a relationship with an object outside of the
          * Lithic ecosystem.
          */
-        @JsonProperty("external_id")
-        @ExcludeMissing
         fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         /**
@@ -193,8 +199,6 @@ private constructor(
          * Note:
          * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
          */
-        @JsonProperty("status")
-        @ExcludeMissing
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** Reason for the evaluation status. */
@@ -202,8 +206,6 @@ private constructor(
             statusReasons(JsonField.of(statusReasons))
 
         /** Reason for the evaluation status. */
-        @JsonProperty("status_reasons")
-        @ExcludeMissing
         fun statusReasons(statusReasons: JsonField<List<StatusReasons>>) = apply {
             this.statusReasons = statusReasons
         }
@@ -219,8 +221,6 @@ private constructor(
          * Only present for "KYB_BASIC" workflow. A list of documents required for the account
          * holder to be approved.
          */
-        @JsonProperty("required_documents")
-        @ExcludeMissing
         fun requiredDocuments(requiredDocuments: JsonField<List<RequiredDocument>>) = apply {
             this.requiredDocuments = requiredDocuments
         }
@@ -229,8 +229,6 @@ private constructor(
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier for the account holder. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -238,7 +236,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

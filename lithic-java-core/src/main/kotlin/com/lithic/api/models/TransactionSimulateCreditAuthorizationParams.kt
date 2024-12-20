@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
@@ -59,16 +60,17 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = TransactionSimulateCreditAuthorizationBody.Builder::class)
     @NoAutoDetect
     class TransactionSimulateCreditAuthorizationBody
+    @JsonCreator
     internal constructor(
-        private val amount: Long,
-        private val descriptor: String,
-        private val pan: String,
-        private val mcc: String?,
-        private val merchantAcceptorId: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("amount") private val amount: Long,
+        @JsonProperty("descriptor") private val descriptor: String,
+        @JsonProperty("pan") private val pan: String,
+        @JsonProperty("mcc") private val mcc: String?,
+        @JsonProperty("merchant_acceptor_id") private val merchantAcceptorId: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -134,24 +136,22 @@ constructor(
              * simulated transaction. For example, entering 100 in this field will appear as a -100
              * amount in the transaction.
              */
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = apply { this.amount = amount }
 
             /** Merchant descriptor. */
-            @JsonProperty("descriptor")
             fun descriptor(descriptor: String) = apply { this.descriptor = descriptor }
 
             /** Sixteen digit card number. */
-            @JsonProperty("pan") fun pan(pan: String) = apply { this.pan = pan }
+            fun pan(pan: String) = apply { this.pan = pan }
 
             /**
              * Merchant category code for the transaction to be simulated. A four-digit number
              * listed in ISO 18245. Supported merchant category codes can be found
              * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
              */
-            @JsonProperty("mcc") fun mcc(mcc: String) = apply { this.mcc = mcc }
+            fun mcc(mcc: String) = apply { this.mcc = mcc }
 
             /** Unique identifier to identify the payment card acceptor. */
-            @JsonProperty("merchant_acceptor_id")
             fun merchantAcceptorId(merchantAcceptorId: String) = apply {
                 this.merchantAcceptorId = merchantAcceptorId
             }
@@ -161,7 +161,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

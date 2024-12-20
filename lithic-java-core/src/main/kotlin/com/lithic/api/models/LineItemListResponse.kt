@@ -6,13 +6,13 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
@@ -20,23 +20,43 @@ import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = LineItemListResponse.Builder::class)
 @NoAutoDetect
 class LineItemListResponse
+@JsonCreator
 private constructor(
-    private val token: JsonField<String>,
-    private val financialAccountToken: JsonField<String>,
-    private val cardToken: JsonField<String>,
-    private val financialTransactionToken: JsonField<String>,
-    private val financialTransactionEventToken: JsonField<String>,
-    private val category: JsonField<TransactionCategory>,
-    private val eventType: JsonField<FinancialEventType>,
-    private val effectiveDate: JsonField<LocalDate>,
-    private val descriptor: JsonField<String>,
-    private val amount: JsonField<Long>,
-    private val currency: JsonField<String>,
-    private val created: JsonField<OffsetDateTime>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("financial_account_token")
+    @ExcludeMissing
+    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("card_token")
+    @ExcludeMissing
+    private val cardToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("financial_transaction_token")
+    @ExcludeMissing
+    private val financialTransactionToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("financial_transaction_event_token")
+    @ExcludeMissing
+    private val financialTransactionEventToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("category")
+    @ExcludeMissing
+    private val category: JsonField<TransactionCategory> = JsonMissing.of(),
+    @JsonProperty("event_type")
+    @ExcludeMissing
+    private val eventType: JsonField<FinancialEventType> = JsonMissing.of(),
+    @JsonProperty("effective_date")
+    @ExcludeMissing
+    private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+    @JsonProperty("descriptor")
+    @ExcludeMissing
+    private val descriptor: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("amount") @ExcludeMissing private val amount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("currency")
+    @ExcludeMissing
+    private val currency: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Globally unique identifier for a Statement Line Item */
@@ -182,8 +202,6 @@ private constructor(
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier for a Statement Line Item */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier for a financial account */
@@ -191,8 +209,6 @@ private constructor(
             financialAccountToken(JsonField.of(financialAccountToken))
 
         /** Globally unique identifier for a financial account */
-        @JsonProperty("financial_account_token")
-        @ExcludeMissing
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             this.financialAccountToken = financialAccountToken
         }
@@ -201,8 +217,6 @@ private constructor(
         fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
 
         /** Globally unique identifier for a card */
-        @JsonProperty("card_token")
-        @ExcludeMissing
         fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         /** Globally unique identifier for a financial transaction */
@@ -210,8 +224,6 @@ private constructor(
             financialTransactionToken(JsonField.of(financialTransactionToken))
 
         /** Globally unique identifier for a financial transaction */
-        @JsonProperty("financial_transaction_token")
-        @ExcludeMissing
         fun financialTransactionToken(financialTransactionToken: JsonField<String>) = apply {
             this.financialTransactionToken = financialTransactionToken
         }
@@ -221,8 +233,6 @@ private constructor(
             financialTransactionEventToken(JsonField.of(financialTransactionEventToken))
 
         /** Globally unique identifier for a financial transaction event */
-        @JsonProperty("financial_transaction_event_token")
-        @ExcludeMissing
         fun financialTransactionEventToken(financialTransactionEventToken: JsonField<String>) =
             apply {
                 this.financialTransactionEventToken = financialTransactionEventToken
@@ -230,14 +240,10 @@ private constructor(
 
         fun category(category: TransactionCategory) = category(JsonField.of(category))
 
-        @JsonProperty("category")
-        @ExcludeMissing
         fun category(category: JsonField<TransactionCategory>) = apply { this.category = category }
 
         fun eventType(eventType: FinancialEventType) = eventType(JsonField.of(eventType))
 
-        @JsonProperty("event_type")
-        @ExcludeMissing
         fun eventType(eventType: JsonField<FinancialEventType>) = apply {
             this.eventType = eventType
         }
@@ -246,40 +252,30 @@ private constructor(
         fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
 
         /** Date that the transaction effected the account balance */
-        @JsonProperty("effective_date")
-        @ExcludeMissing
         fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
             this.effectiveDate = effectiveDate
         }
 
         fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
 
-        @JsonProperty("descriptor")
-        @ExcludeMissing
         fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
         /** Transaction amount in cents */
         fun amount(amount: Long) = amount(JsonField.of(amount))
 
         /** Transaction amount in cents */
-        @JsonProperty("amount")
-        @ExcludeMissing
         fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
         /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
         /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
-        @JsonProperty("currency")
-        @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** Timestamp of when the line item was generated */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** Timestamp of when the line item was generated */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -287,7 +283,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

@@ -22,21 +22,30 @@ import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = VelocityLimitParams.Builder::class)
 @NoAutoDetect
 class VelocityLimitParams
+@JsonCreator
 private constructor(
-    private val scope: JsonField<Scope>,
-    private val period: JsonField<Period>,
-    private val filters: JsonField<Filters>,
-    private val limitAmount: JsonField<Long>,
-    private val limitCount: JsonField<Long>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("scope") @ExcludeMissing private val scope: JsonField<Scope> = JsonMissing.of(),
+    @JsonProperty("period")
+    @ExcludeMissing
+    private val period: JsonField<Period> = JsonMissing.of(),
+    @JsonProperty("filters")
+    @ExcludeMissing
+    private val filters: JsonField<Filters> = JsonMissing.of(),
+    @JsonProperty("limit_amount")
+    @ExcludeMissing
+    private val limitAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("limit_count")
+    @ExcludeMissing
+    private val limitCount: JsonField<Long> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     fun scope(): Scope = scope.getRequired("scope")
@@ -132,8 +141,6 @@ private constructor(
 
         fun scope(scope: Scope) = scope(JsonField.of(scope))
 
-        @JsonProperty("scope")
-        @ExcludeMissing
         fun scope(scope: JsonField<Scope>) = apply { this.scope = scope }
 
         /**
@@ -146,14 +153,10 @@ private constructor(
          * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
          * value is 10 seconds, and the maximum value is 2678400 seconds.
          */
-        @JsonProperty("period")
-        @ExcludeMissing
         fun period(period: JsonField<Period>) = apply { this.period = period }
 
         fun filters(filters: Filters) = filters(JsonField.of(filters))
 
-        @JsonProperty("filters")
-        @ExcludeMissing
         fun filters(filters: JsonField<Filters>) = apply { this.filters = filters }
 
         /**
@@ -168,8 +171,6 @@ private constructor(
          * unit of a currency, e.g. cents for USD). Transactions exceeding this limit will be
          * declined.
          */
-        @JsonProperty("limit_amount")
-        @ExcludeMissing
         fun limitAmount(limitAmount: JsonField<Long>) = apply { this.limitAmount = limitAmount }
 
         /**
@@ -186,8 +187,6 @@ private constructor(
          * transaction is a transaction that has been authorized, and optionally settled, or a force
          * post (a transaction that settled without prior authorization).
          */
-        @JsonProperty("limit_count")
-        @ExcludeMissing
         fun limitCount(limitCount: JsonField<Long>) = apply { this.limitCount = limitCount }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -195,7 +194,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -221,13 +219,18 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = Filters.Builder::class)
     @NoAutoDetect
     class Filters
+    @JsonCreator
     private constructor(
-        private val includeMccs: JsonField<List<String>>,
-        private val includeCountries: JsonField<List<String>>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("include_mccs")
+        @ExcludeMissing
+        private val includeMccs: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("include_countries")
+        @ExcludeMissing
+        private val includeCountries: JsonField<List<String>> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -302,8 +305,6 @@ private constructor(
              * Merchant Category Codes to include in the velocity calculation. Transactions not
              * matching this MCC will not be included in the calculated velocity.
              */
-            @JsonProperty("include_mccs")
-            @ExcludeMissing
             fun includeMccs(includeMccs: JsonField<List<String>>) = apply {
                 this.includeMccs = includeMccs
             }
@@ -319,8 +320,6 @@ private constructor(
              * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions
              * not matching any of the provided will not be included in the calculated velocity.
              */
-            @JsonProperty("include_countries")
-            @ExcludeMissing
             fun includeCountries(includeCountries: JsonField<List<String>>) = apply {
                 this.includeCountries = includeCountries
             }
@@ -330,7 +329,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

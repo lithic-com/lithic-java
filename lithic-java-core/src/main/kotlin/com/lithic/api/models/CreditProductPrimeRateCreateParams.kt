@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.time.LocalDate
 import java.util.Objects
@@ -57,13 +58,14 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = CreditProductPrimeRateCreateBody.Builder::class)
     @NoAutoDetect
     class CreditProductPrimeRateCreateBody
+    @JsonCreator
     internal constructor(
-        private val effectiveDate: LocalDate,
-        private val rate: String,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("effective_date") private val effectiveDate: LocalDate,
+        @JsonProperty("rate") private val rate: String,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Date the rate goes into effect */
@@ -99,20 +101,18 @@ constructor(
                 }
 
             /** Date the rate goes into effect */
-            @JsonProperty("effective_date")
             fun effectiveDate(effectiveDate: LocalDate) = apply {
                 this.effectiveDate = effectiveDate
             }
 
             /** The rate in decimal format */
-            @JsonProperty("rate") fun rate(rate: String) = apply { this.rate = rate }
+            fun rate(rate: String) = apply { this.rate = rate }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

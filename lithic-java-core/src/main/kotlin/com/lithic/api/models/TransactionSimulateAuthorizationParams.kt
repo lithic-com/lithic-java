@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -83,21 +83,22 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = TransactionSimulateAuthorizationBody.Builder::class)
     @NoAutoDetect
     class TransactionSimulateAuthorizationBody
+    @JsonCreator
     internal constructor(
-        private val amount: Long,
-        private val descriptor: String,
-        private val pan: String,
-        private val mcc: String?,
-        private val merchantAcceptorId: String?,
-        private val merchantAmount: Long?,
-        private val merchantCurrency: String?,
-        private val partialApprovalCapable: Boolean?,
-        private val pin: String?,
-        private val status: Status?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("amount") private val amount: Long,
+        @JsonProperty("descriptor") private val descriptor: String,
+        @JsonProperty("pan") private val pan: String,
+        @JsonProperty("mcc") private val mcc: String?,
+        @JsonProperty("merchant_acceptor_id") private val merchantAcceptorId: String?,
+        @JsonProperty("merchant_amount") private val merchantAmount: Long?,
+        @JsonProperty("merchant_currency") private val merchantCurrency: String?,
+        @JsonProperty("partial_approval_capable") private val partialApprovalCapable: Boolean?,
+        @JsonProperty("pin") private val pin: String?,
+        @JsonProperty("status") private val status: Status?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -216,24 +217,22 @@ constructor(
              * simulated transaction. For example, entering 100 in this field will result in a -100
              * amount in the transaction. For balance inquiries, this field must be set to 0.
              */
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = apply { this.amount = amount }
 
             /** Merchant descriptor. */
-            @JsonProperty("descriptor")
             fun descriptor(descriptor: String) = apply { this.descriptor = descriptor }
 
             /** Sixteen digit card number. */
-            @JsonProperty("pan") fun pan(pan: String) = apply { this.pan = pan }
+            fun pan(pan: String) = apply { this.pan = pan }
 
             /**
              * Merchant category code for the transaction to be simulated. A four-digit number
              * listed in ISO 18245. Supported merchant category codes can be found
              * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
              */
-            @JsonProperty("mcc") fun mcc(mcc: String) = apply { this.mcc = mcc }
+            fun mcc(mcc: String) = apply { this.mcc = mcc }
 
             /** Unique identifier to identify the payment card acceptor. */
-            @JsonProperty("merchant_acceptor_id")
             fun merchantAcceptorId(merchantAcceptorId: String) = apply {
                 this.merchantAcceptorId = merchantAcceptorId
             }
@@ -242,7 +241,6 @@ constructor(
              * Amount of the transaction to be simulated in currency specified in merchant_currency,
              * including any acquirer fees.
              */
-            @JsonProperty("merchant_amount")
             fun merchantAmount(merchantAmount: Long) = apply {
                 this.merchantAmount = merchantAmount
             }
@@ -251,7 +249,6 @@ constructor(
              * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR
              * and defaults to GBP if another ISO 4217 code is provided
              */
-            @JsonProperty("merchant_currency")
             fun merchantCurrency(merchantCurrency: String) = apply {
                 this.merchantCurrency = merchantCurrency
             }
@@ -261,13 +258,12 @@ constructor(
              * approval is when part of a transaction is approved and another payment must be used
              * for the remainder.
              */
-            @JsonProperty("partial_approval_capable")
             fun partialApprovalCapable(partialApprovalCapable: Boolean) = apply {
                 this.partialApprovalCapable = partialApprovalCapable
             }
 
             /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
-            @JsonProperty("pin") fun pin(pin: String) = apply { this.pin = pin }
+            fun pin(pin: String) = apply { this.pin = pin }
 
             /**
              * Type of event to simulate.
@@ -285,14 +281,13 @@ constructor(
              *   credit funds immediately, and no subsequent clearing is required to settle the
              *   transaction.
              */
-            @JsonProperty("status") fun status(status: Status) = apply { this.status = status }
+            fun status(status: Status) = apply { this.status = status }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

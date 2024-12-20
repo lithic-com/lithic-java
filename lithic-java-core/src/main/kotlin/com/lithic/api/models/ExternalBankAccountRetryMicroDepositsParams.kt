@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
@@ -53,12 +54,13 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = ExternalBankAccountRetryMicroDepositsBody.Builder::class)
     @NoAutoDetect
     class ExternalBankAccountRetryMicroDepositsBody
+    @JsonCreator
     internal constructor(
-        private val financialAccountToken: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("financial_account_token") private val financialAccountToken: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         @JsonProperty("financial_account_token")
@@ -90,7 +92,6 @@ constructor(
                     externalBankAccountRetryMicroDepositsBody.additionalProperties.toMutableMap()
             }
 
-            @JsonProperty("financial_account_token")
             fun financialAccountToken(financialAccountToken: String) = apply {
                 this.financialAccountToken = financialAccountToken
             }
@@ -100,7 +101,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

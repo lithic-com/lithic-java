@@ -4,24 +4,29 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.time.LocalDate
 import java.util.Objects
 
-@JsonDeserialize(builder = PrimeRateRetrieveResponse.Builder::class)
 @NoAutoDetect
 class PrimeRateRetrieveResponse
+@JsonCreator
 private constructor(
-    private val data: JsonField<List<InterestRate>>,
-    private val hasMore: JsonField<Boolean>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("data")
+    @ExcludeMissing
+    private val data: JsonField<List<InterestRate>> = JsonMissing.of(),
+    @JsonProperty("has_more")
+    @ExcludeMissing
+    private val hasMore: JsonField<Boolean> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** List of prime rates */
@@ -74,16 +79,12 @@ private constructor(
         fun data(data: List<InterestRate>) = data(JsonField.of(data))
 
         /** List of prime rates */
-        @JsonProperty("data")
-        @ExcludeMissing
         fun data(data: JsonField<List<InterestRate>>) = apply { this.data = data }
 
         /** Whether there are more prime rates */
         fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
         /** Whether there are more prime rates */
-        @JsonProperty("has_more")
-        @ExcludeMissing
         fun hasMore(hasMore: JsonField<Boolean>) = apply { this.hasMore = hasMore }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -91,7 +92,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -114,13 +114,18 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = InterestRate.Builder::class)
     @NoAutoDetect
     class InterestRate
+    @JsonCreator
     private constructor(
-        private val effectiveDate: JsonField<LocalDate>,
-        private val rate: JsonField<String>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("rate")
+        @ExcludeMissing
+        private val rate: JsonField<String> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Date the rate goes into effect */
@@ -173,8 +178,6 @@ private constructor(
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
 
             /** Date the rate goes into effect */
-            @JsonProperty("effective_date")
-            @ExcludeMissing
             fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
@@ -183,8 +186,6 @@ private constructor(
             fun rate(rate: String) = rate(JsonField.of(rate))
 
             /** The rate in decimal format */
-            @JsonProperty("rate")
-            @ExcludeMissing
             fun rate(rate: JsonField<String>) = apply { this.rate = rate }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -192,7 +193,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

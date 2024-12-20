@@ -6,31 +6,43 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = DigitalCardArt.Builder::class)
 @NoAutoDetect
 class DigitalCardArt
+@JsonCreator
 private constructor(
-    private val cardProgramToken: JsonField<String>,
-    private val created: JsonField<OffsetDateTime>,
-    private val description: JsonField<String>,
-    private val isCardProgramDefault: JsonField<Boolean>,
-    private val isEnabled: JsonField<Boolean>,
-    private val network: JsonField<Network>,
-    private val token: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("card_program_token")
+    @ExcludeMissing
+    private val cardProgramToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("description")
+    @ExcludeMissing
+    private val description: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("is_card_program_default")
+    @ExcludeMissing
+    private val isCardProgramDefault: JsonField<Boolean> = JsonMissing.of(),
+    @JsonProperty("is_enabled")
+    @ExcludeMissing
+    private val isEnabled: JsonField<Boolean> = JsonMissing.of(),
+    @JsonProperty("network")
+    @ExcludeMissing
+    private val network: JsonField<Network> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Globally unique identifier for the card program. */
@@ -132,8 +144,6 @@ private constructor(
             cardProgramToken(JsonField.of(cardProgramToken))
 
         /** Globally unique identifier for the card program. */
-        @JsonProperty("card_program_token")
-        @ExcludeMissing
         fun cardProgramToken(cardProgramToken: JsonField<String>) = apply {
             this.cardProgramToken = cardProgramToken
         }
@@ -142,16 +152,12 @@ private constructor(
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** Timestamp of when card art was created. */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Description of the card art. */
         fun description(description: String) = description(JsonField.of(description))
 
         /** Description of the card art. */
-        @JsonProperty("description")
-        @ExcludeMissing
         fun description(description: JsonField<String>) = apply { this.description = description }
 
         /** Whether the card art is the default card art to be added upon tokenization. */
@@ -159,8 +165,6 @@ private constructor(
             isCardProgramDefault(JsonField.of(isCardProgramDefault))
 
         /** Whether the card art is the default card art to be added upon tokenization. */
-        @JsonProperty("is_card_program_default")
-        @ExcludeMissing
         fun isCardProgramDefault(isCardProgramDefault: JsonField<Boolean>) = apply {
             this.isCardProgramDefault = isCardProgramDefault
         }
@@ -169,24 +173,18 @@ private constructor(
         fun isEnabled(isEnabled: Boolean) = isEnabled(JsonField.of(isEnabled))
 
         /** Whether the card art is enabled. */
-        @JsonProperty("is_enabled")
-        @ExcludeMissing
         fun isEnabled(isEnabled: JsonField<Boolean>) = apply { this.isEnabled = isEnabled }
 
         /** Card network. */
         fun network(network: Network) = network(JsonField.of(network))
 
         /** Card network. */
-        @JsonProperty("network")
-        @ExcludeMissing
         fun network(network: JsonField<Network>) = apply { this.network = network }
 
         /** Globally unique identifier for the card art. */
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier for the card art. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -194,7 +192,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

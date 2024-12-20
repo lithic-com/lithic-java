@@ -6,37 +6,61 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = Transfer.Builder::class)
 @NoAutoDetect
 class Transfer
+@JsonCreator
 private constructor(
-    private val category: JsonField<Category>,
-    private val created: JsonField<OffsetDateTime>,
-    private val currency: JsonField<String>,
-    private val descriptor: JsonField<String>,
-    private val events: JsonField<List<FinancialEvent>>,
-    private val fromBalance: JsonField<List<Balance>>,
-    private val pendingAmount: JsonField<Long>,
-    private val result: JsonField<Result>,
-    private val settledAmount: JsonField<Long>,
-    private val status: JsonField<Status>,
-    private val toBalance: JsonField<List<Balance>>,
-    private val token: JsonField<String>,
-    private val updated: JsonField<OffsetDateTime>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("category")
+    @ExcludeMissing
+    private val category: JsonField<Category> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("currency")
+    @ExcludeMissing
+    private val currency: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("descriptor")
+    @ExcludeMissing
+    private val descriptor: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("events")
+    @ExcludeMissing
+    private val events: JsonField<List<FinancialEvent>> = JsonMissing.of(),
+    @JsonProperty("from_balance")
+    @ExcludeMissing
+    private val fromBalance: JsonField<List<Balance>> = JsonMissing.of(),
+    @JsonProperty("pending_amount")
+    @ExcludeMissing
+    private val pendingAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("result")
+    @ExcludeMissing
+    private val result: JsonField<Result> = JsonMissing.of(),
+    @JsonProperty("settled_amount")
+    @ExcludeMissing
+    private val settledAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("status")
+    @ExcludeMissing
+    private val status: JsonField<Status> = JsonMissing.of(),
+    @JsonProperty("to_balance")
+    @ExcludeMissing
+    private val toBalance: JsonField<List<Balance>> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("updated")
+    @ExcludeMissing
+    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /**
@@ -238,24 +262,18 @@ private constructor(
          * Status types:
          * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
          */
-        @JsonProperty("category")
-        @ExcludeMissing
         fun category(category: JsonField<Category>) = apply { this.category = category }
 
         /** Date and time when the transfer occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** Date and time when the transfer occurred. UTC time zone. */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
         /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction. */
-        @JsonProperty("currency")
-        @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /**
@@ -266,24 +284,18 @@ private constructor(
         /**
          * A string that provides a description of the transfer; may be useful to display to users.
          */
-        @JsonProperty("descriptor")
-        @ExcludeMissing
         fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
         /** A list of all financial events that have modified this trasnfer. */
         fun events(events: List<FinancialEvent>) = events(JsonField.of(events))
 
         /** A list of all financial events that have modified this trasnfer. */
-        @JsonProperty("events")
-        @ExcludeMissing
         fun events(events: JsonField<List<FinancialEvent>>) = apply { this.events = events }
 
         /** The updated balance of the sending financial account. */
         fun fromBalance(fromBalance: List<Balance>) = fromBalance(JsonField.of(fromBalance))
 
         /** The updated balance of the sending financial account. */
-        @JsonProperty("from_balance")
-        @ExcludeMissing
         fun fromBalance(fromBalance: JsonField<List<Balance>>) = apply {
             this.fromBalance = fromBalance
         }
@@ -300,8 +312,6 @@ private constructor(
          * including any acquirer fees. The value of this field will go to zero over time once the
          * financial transaction is settled.
          */
-        @JsonProperty("pending_amount")
-        @ExcludeMissing
         fun pendingAmount(pendingAmount: JsonField<Long>) = apply {
             this.pendingAmount = pendingAmount
         }
@@ -316,8 +326,6 @@ private constructor(
          * APPROVED transactions were successful while DECLINED transactions were declined by user,
          * Lithic, or the network.
          */
-        @JsonProperty("result")
-        @ExcludeMissing
         fun result(result: JsonField<Result>) = apply { this.result = result }
 
         /**
@@ -330,8 +338,6 @@ private constructor(
          * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
          * cents).
          */
-        @JsonProperty("settled_amount")
-        @ExcludeMissing
         fun settledAmount(settledAmount: JsonField<Long>) = apply {
             this.settledAmount = settledAmount
         }
@@ -354,32 +360,24 @@ private constructor(
          * - `SETTLED` - The transfer is completed.
          * - `VOIDED` - The transfer was reversed before it settled.
          */
-        @JsonProperty("status")
-        @ExcludeMissing
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** The updated balance of the receiving financial account. */
         fun toBalance(toBalance: List<Balance>) = toBalance(JsonField.of(toBalance))
 
         /** The updated balance of the receiving financial account. */
-        @JsonProperty("to_balance")
-        @ExcludeMissing
         fun toBalance(toBalance: JsonField<List<Balance>>) = apply { this.toBalance = toBalance }
 
         /** Globally unique identifier for the transfer event. */
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier for the transfer event. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Date and time when the financial transaction was last updated. UTC time zone. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
         /** Date and time when the financial transaction was last updated. UTC time zone. */
-        @JsonProperty("updated")
-        @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -387,7 +385,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -472,16 +469,27 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    @JsonDeserialize(builder = FinancialEvent.Builder::class)
     @NoAutoDetect
     class FinancialEvent
+    @JsonCreator
     private constructor(
-        private val amount: JsonField<Long>,
-        private val created: JsonField<OffsetDateTime>,
-        private val result: JsonField<Result>,
-        private val token: JsonField<String>,
-        private val type: JsonField<FinancialEventType>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("result")
+        @ExcludeMissing
+        private val result: JsonField<Result> = JsonMissing.of(),
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("type")
+        @ExcludeMissing
+        private val type: JsonField<FinancialEventType> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -578,16 +586,12 @@ private constructor(
              * Amount of the financial event that has been settled in the currency's smallest unit
              * (e.g., cents).
              */
-            @JsonProperty("amount")
-            @ExcludeMissing
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Date and time when the financial event occurred. UTC time zone. */
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
             /** Date and time when the financial event occurred. UTC time zone. */
-            @JsonProperty("created")
-            @ExcludeMissing
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /**
@@ -600,22 +604,16 @@ private constructor(
              * APPROVED financial events were successful while DECLINED financial events were
              * declined by user, Lithic, or the network.
              */
-            @JsonProperty("result")
-            @ExcludeMissing
             fun result(result: JsonField<Result>) = apply { this.result = result }
 
             /** Globally unique identifier. */
             fun token(token: String) = token(JsonField.of(token))
 
             /** Globally unique identifier. */
-            @JsonProperty("token")
-            @ExcludeMissing
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             fun type(type: FinancialEventType) = type(JsonField.of(type))
 
-            @JsonProperty("type")
-            @ExcludeMissing
             fun type(type: JsonField<FinancialEventType>) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -623,7 +621,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

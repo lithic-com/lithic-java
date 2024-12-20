@@ -6,28 +6,34 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 
 /** A single event that affects the transaction state and lifecycle. */
-@JsonDeserialize(builder = Event.Builder::class)
 @NoAutoDetect
 class Event
+@JsonCreator
 private constructor(
-    private val created: JsonField<OffsetDateTime>,
-    private val eventType: JsonField<EventType>,
-    private val payload: JsonField<Payload>,
-    private val token: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("event_type")
+    @ExcludeMissing
+    private val eventType: JsonField<EventType> = JsonMissing.of(),
+    @JsonProperty("payload")
+    @ExcludeMissing
+    private val payload: JsonField<Payload> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /**
@@ -166,8 +172,6 @@ private constructor(
          *
          * If no timezone is specified, UTC will be used.
          */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
@@ -232,22 +236,16 @@ private constructor(
          * - `digital_wallet.tokenization_updated` - Notification that a digital wallet
          *   tokenization's status has changed.
          */
-        @JsonProperty("event_type")
-        @ExcludeMissing
         fun eventType(eventType: JsonField<EventType>) = apply { this.eventType = eventType }
 
         fun payload(payload: Payload) = payload(JsonField.of(payload))
 
-        @JsonProperty("payload")
-        @ExcludeMissing
         fun payload(payload: JsonField<Payload>) = apply { this.payload = payload }
 
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -255,7 +253,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -583,11 +580,12 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    @JsonDeserialize(builder = Payload.Builder::class)
     @NoAutoDetect
     class Payload
+    @JsonCreator
     private constructor(
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         @JsonAnyGetter
@@ -623,7 +621,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

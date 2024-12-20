@@ -6,32 +6,44 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 
 /** A subscription to specific event types. */
-@JsonDeserialize(builder = MessageAttempt.Builder::class)
 @NoAutoDetect
 class MessageAttempt
+@JsonCreator
 private constructor(
-    private val created: JsonField<OffsetDateTime>,
-    private val eventSubscriptionToken: JsonField<String>,
-    private val eventToken: JsonField<String>,
-    private val response: JsonField<String>,
-    private val responseStatusCode: JsonField<Long>,
-    private val status: JsonField<Status>,
-    private val token: JsonField<String>,
-    private val url: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("event_subscription_token")
+    @ExcludeMissing
+    private val eventSubscriptionToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("event_token")
+    @ExcludeMissing
+    private val eventToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("response")
+    @ExcludeMissing
+    private val response: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("response_status_code")
+    @ExcludeMissing
+    private val responseStatusCode: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("status")
+    @ExcludeMissing
+    private val status: JsonField<Status> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /**
@@ -157,8 +169,6 @@ private constructor(
          *
          * If no timezone is specified, UTC will be used.
          */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Globally unique identifier. */
@@ -166,8 +176,6 @@ private constructor(
             eventSubscriptionToken(JsonField.of(eventSubscriptionToken))
 
         /** Globally unique identifier. */
-        @JsonProperty("event_subscription_token")
-        @ExcludeMissing
         fun eventSubscriptionToken(eventSubscriptionToken: JsonField<String>) = apply {
             this.eventSubscriptionToken = eventSubscriptionToken
         }
@@ -176,16 +184,12 @@ private constructor(
         fun eventToken(eventToken: String) = eventToken(JsonField.of(eventToken))
 
         /** Globally unique identifier. */
-        @JsonProperty("event_token")
-        @ExcludeMissing
         fun eventToken(eventToken: JsonField<String>) = apply { this.eventToken = eventToken }
 
         /** The response body from the event subscription's URL. */
         fun response(response: String) = response(JsonField.of(response))
 
         /** The response body from the event subscription's URL. */
-        @JsonProperty("response")
-        @ExcludeMissing
         fun response(response: JsonField<String>) = apply { this.response = response }
 
         /** The response status code from the event subscription's URL. */
@@ -193,8 +197,6 @@ private constructor(
             responseStatusCode(JsonField.of(responseStatusCode))
 
         /** The response status code from the event subscription's URL. */
-        @JsonProperty("response_status_code")
-        @ExcludeMissing
         fun responseStatusCode(responseStatusCode: JsonField<Long>) = apply {
             this.responseStatusCode = responseStatusCode
         }
@@ -203,22 +205,16 @@ private constructor(
         fun status(status: Status) = status(JsonField.of(status))
 
         /** The status of the event attempt. */
-        @JsonProperty("status")
-        @ExcludeMissing
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun url(url: String) = url(JsonField.of(url))
 
-        @JsonProperty("url")
-        @ExcludeMissing
         fun url(url: JsonField<String>) = apply { this.url = url }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -226,7 +222,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

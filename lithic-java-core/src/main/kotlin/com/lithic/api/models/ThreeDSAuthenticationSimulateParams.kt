@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -59,15 +59,16 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = ThreeDSAuthenticationSimulateBody.Builder::class)
     @NoAutoDetect
     class ThreeDSAuthenticationSimulateBody
+    @JsonCreator
     internal constructor(
-        private val merchant: Merchant,
-        private val pan: String,
-        private val transaction: Transaction,
-        private val cardExpiryCheck: CardExpiryCheck?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("merchant") private val merchant: Merchant,
+        @JsonProperty("pan") private val pan: String,
+        @JsonProperty("transaction") private val transaction: Transaction,
+        @JsonProperty("card_expiry_check") private val cardExpiryCheck: CardExpiryCheck?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         @JsonProperty("merchant") fun merchant(): Merchant = merchant
@@ -115,20 +116,17 @@ constructor(
                     threeDSAuthenticationSimulateBody.additionalProperties.toMutableMap()
             }
 
-            @JsonProperty("merchant")
             fun merchant(merchant: Merchant) = apply { this.merchant = merchant }
 
             /** Sixteen digit card number. */
-            @JsonProperty("pan") fun pan(pan: String) = apply { this.pan = pan }
+            fun pan(pan: String) = apply { this.pan = pan }
 
-            @JsonProperty("transaction")
             fun transaction(transaction: Transaction) = apply { this.transaction = transaction }
 
             /**
              * When set will use the following values as part of the Simulated Authentication. When
              * not set defaults to MATCH
              */
-            @JsonProperty("card_expiry_check")
             fun cardExpiryCheck(cardExpiryCheck: CardExpiryCheck) = apply {
                 this.cardExpiryCheck = cardExpiryCheck
             }
@@ -138,7 +136,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -361,15 +358,16 @@ constructor(
             )
     }
 
-    @JsonDeserialize(builder = Merchant.Builder::class)
     @NoAutoDetect
     class Merchant
+    @JsonCreator
     private constructor(
-        private val country: String,
-        private val id: String,
-        private val mcc: String,
-        private val name: String,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("country") private val country: String,
+        @JsonProperty("id") private val id: String,
+        @JsonProperty("mcc") private val mcc: String,
+        @JsonProperty("name") private val name: String,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -425,30 +423,29 @@ constructor(
              * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g.
              * USA)
              */
-            @JsonProperty("country") fun country(country: String) = apply { this.country = country }
+            fun country(country: String) = apply { this.country = country }
 
             /**
              * Unique identifier to identify the payment card acceptor. Corresponds to
              * `merchant_acceptor_id` in authorization.
              */
-            @JsonProperty("id") fun id(id: String) = apply { this.id = id }
+            fun id(id: String) = apply { this.id = id }
 
             /**
              * Merchant category code for the transaction to be simulated. A four-digit number
              * listed in ISO 18245. Supported merchant category codes can be found
              * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
              */
-            @JsonProperty("mcc") fun mcc(mcc: String) = apply { this.mcc = mcc }
+            fun mcc(mcc: String) = apply { this.mcc = mcc }
 
             /** Merchant descriptor, corresponds to `descriptor` in authorization. */
-            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
+            fun name(name: String) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -491,13 +488,14 @@ constructor(
             "Merchant{country=$country, id=$id, mcc=$mcc, name=$name, additionalProperties=$additionalProperties}"
     }
 
-    @JsonDeserialize(builder = Transaction.Builder::class)
     @NoAutoDetect
     class Transaction
+    @JsonCreator
     private constructor(
-        private val amount: Long,
-        private val currency: String,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("amount") private val amount: Long,
+        @JsonProperty("currency") private val currency: String,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Amount (in cents) to authenticate. */
@@ -531,10 +529,9 @@ constructor(
             }
 
             /** Amount (in cents) to authenticate. */
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = apply { this.amount = amount }
 
             /** 3-digit alphabetic ISO 4217 currency code. */
-            @JsonProperty("currency")
             fun currency(currency: String) = apply { this.currency = currency }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -542,7 +539,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

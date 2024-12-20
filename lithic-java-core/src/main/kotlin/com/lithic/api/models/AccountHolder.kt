@@ -6,44 +6,83 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = AccountHolder.Builder::class)
 @NoAutoDetect
 class AccountHolder
+@JsonCreator
 private constructor(
-    private val accountToken: JsonField<String>,
-    private val beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>>,
-    private val beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>>,
-    private val businessAccountToken: JsonField<String>,
-    private val businessEntity: JsonField<AccountHolderBusinessResponse>,
-    private val controlPerson: JsonField<AccountHolderIndividualResponse>,
-    private val created: JsonField<OffsetDateTime>,
-    private val email: JsonField<String>,
-    private val exemptionType: JsonField<ExemptionType>,
-    private val externalId: JsonField<String>,
-    private val individual: JsonField<AccountHolderIndividualResponse>,
-    private val natureOfBusiness: JsonField<String>,
-    private val phoneNumber: JsonField<String>,
-    private val status: JsonField<Status>,
-    private val statusReasons: JsonField<List<StatusReason>>,
-    private val token: JsonField<String>,
-    private val userType: JsonField<UserType>,
-    private val verificationApplication: JsonField<AccountHolderVerificationApplication>,
-    private val requiredDocuments: JsonField<List<RequiredDocument>>,
-    private val websiteUrl: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    private val accountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("beneficial_owner_entities")
+    @ExcludeMissing
+    private val beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>> =
+        JsonMissing.of(),
+    @JsonProperty("beneficial_owner_individuals")
+    @ExcludeMissing
+    private val beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>> =
+        JsonMissing.of(),
+    @JsonProperty("business_account_token")
+    @ExcludeMissing
+    private val businessAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("business_entity")
+    @ExcludeMissing
+    private val businessEntity: JsonField<AccountHolderBusinessResponse> = JsonMissing.of(),
+    @JsonProperty("control_person")
+    @ExcludeMissing
+    private val controlPerson: JsonField<AccountHolderIndividualResponse> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("email") @ExcludeMissing private val email: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("exemption_type")
+    @ExcludeMissing
+    private val exemptionType: JsonField<ExemptionType> = JsonMissing.of(),
+    @JsonProperty("external_id")
+    @ExcludeMissing
+    private val externalId: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("individual")
+    @ExcludeMissing
+    private val individual: JsonField<AccountHolderIndividualResponse> = JsonMissing.of(),
+    @JsonProperty("nature_of_business")
+    @ExcludeMissing
+    private val natureOfBusiness: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("phone_number")
+    @ExcludeMissing
+    private val phoneNumber: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("status")
+    @ExcludeMissing
+    private val status: JsonField<Status> = JsonMissing.of(),
+    @JsonProperty("status_reasons")
+    @ExcludeMissing
+    private val statusReasons: JsonField<List<StatusReason>> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("user_type")
+    @ExcludeMissing
+    private val userType: JsonField<UserType> = JsonMissing.of(),
+    @JsonProperty("verification_application")
+    @ExcludeMissing
+    private val verificationApplication: JsonField<AccountHolderVerificationApplication> =
+        JsonMissing.of(),
+    @JsonProperty("required_documents")
+    @ExcludeMissing
+    private val requiredDocuments: JsonField<List<RequiredDocument>> = JsonMissing.of(),
+    @JsonProperty("website_url")
+    @ExcludeMissing
+    private val websiteUrl: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Globally unique identifier for the account. */
@@ -384,8 +423,6 @@ private constructor(
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
         /** Globally unique identifier for the account. */
-        @JsonProperty("account_token")
-        @ExcludeMissing
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
         }
@@ -401,8 +438,6 @@ private constructor(
          * Only present when user_type == "BUSINESS". List of all entities with >25% ownership in
          * the company.
          */
-        @JsonProperty("beneficial_owner_entities")
-        @ExcludeMissing
         fun beneficialOwnerEntities(
             beneficialOwnerEntities: JsonField<List<AccountHolderBusinessResponse>>
         ) = apply { this.beneficialOwnerEntities = beneficialOwnerEntities }
@@ -419,8 +454,6 @@ private constructor(
          * Only present when user_type == "BUSINESS". List of all individuals with >25% ownership in
          * the company.
          */
-        @JsonProperty("beneficial_owner_individuals")
-        @ExcludeMissing
         fun beneficialOwnerIndividuals(
             beneficialOwnerIndividuals: JsonField<List<AccountHolderIndividualResponse>>
         ) = apply { this.beneficialOwnerIndividuals = beneficialOwnerIndividuals }
@@ -438,8 +471,6 @@ private constructor(
          * businesses. Pass the account_token of the enrolled business associated with the
          * AUTHORIZED_USER in this field.
          */
-        @JsonProperty("business_account_token")
-        @ExcludeMissing
         fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
             this.businessAccountToken = businessAccountToken
         }
@@ -455,8 +486,6 @@ private constructor(
          * Only present when user_type == "BUSINESS". Information about the business for which the
          * account is being opened and KYB is being run.
          */
-        @JsonProperty("business_entity")
-        @ExcludeMissing
         fun businessEntity(businessEntity: JsonField<AccountHolderBusinessResponse>) = apply {
             this.businessEntity = businessEntity
         }
@@ -480,8 +509,6 @@ private constructor(
          * cards that Lithic will provide. In some cases, this individual could also be a beneficial
          * owner listed above.
          */
-        @JsonProperty("control_person")
-        @ExcludeMissing
         fun controlPerson(controlPerson: JsonField<AccountHolderIndividualResponse>) = apply {
             this.controlPerson = controlPerson
         }
@@ -490,8 +517,6 @@ private constructor(
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** Timestamp of when the account holder was created. */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
@@ -506,16 +531,12 @@ private constructor(
          * individual.phone_number when user_type == "INDIVIDUAL".
          * > Primary email of Account Holder.
          */
-        @JsonProperty("email")
-        @ExcludeMissing
         fun email(email: JsonField<String>) = apply { this.email = email }
 
         /** The type of KYC exemption for a KYC-Exempt Account Holder. */
         fun exemptionType(exemptionType: ExemptionType) = exemptionType(JsonField.of(exemptionType))
 
         /** The type of KYC exemption for a KYC-Exempt Account Holder. */
-        @JsonProperty("exemption_type")
-        @ExcludeMissing
         fun exemptionType(exemptionType: JsonField<ExemptionType>) = apply {
             this.exemptionType = exemptionType
         }
@@ -530,8 +551,6 @@ private constructor(
          * Customer-provided token that indicates a relationship with an object outside of the
          * Lithic ecosystem.
          */
-        @JsonProperty("external_id")
-        @ExcludeMissing
         fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         /**
@@ -545,8 +564,6 @@ private constructor(
          * Only present when user_type == "INDIVIDUAL". Information about the individual for which
          * the account is being opened and KYC is being run.
          */
-        @JsonProperty("individual")
-        @ExcludeMissing
         fun individual(individual: JsonField<AccountHolderIndividualResponse>) = apply {
             this.individual = individual
         }
@@ -560,8 +577,6 @@ private constructor(
         /**
          * Only present when user_type == "BUSINESS". User-submitted description of the business.
          */
-        @JsonProperty("nature_of_business")
-        @ExcludeMissing
         fun natureOfBusiness(natureOfBusiness: JsonField<String>) = apply {
             this.natureOfBusiness = natureOfBusiness
         }
@@ -578,8 +593,6 @@ private constructor(
          * individual.phone_number when user_type == "INDIVIDUAL".
          * > Primary phone of Account Holder, entered in E.164 format.
          */
-        @JsonProperty("phone_number")
-        @ExcludeMissing
         fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
 
         /**
@@ -600,8 +613,6 @@ private constructor(
          * Note:
          * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
          */
-        @JsonProperty("status")
-        @ExcludeMissing
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /**
@@ -615,8 +626,6 @@ private constructor(
          * <Deprecated. Use verification_application.status_reasons> Reason for the evaluation
          * status.
          */
-        @JsonProperty("status_reasons")
-        @ExcludeMissing
         fun statusReasons(statusReasons: JsonField<List<StatusReason>>) = apply {
             this.statusReasons = statusReasons
         }
@@ -625,8 +634,6 @@ private constructor(
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier for the account holder. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
@@ -643,8 +650,6 @@ private constructor(
          * "beneficial_owner_individuals", "beneficial_owner_entities", "nature_of_business", and
          * "website_url" attributes will be present.
          */
-        @JsonProperty("user_type")
-        @ExcludeMissing
         fun userType(userType: JsonField<UserType>) = apply { this.userType = userType }
 
         /** Information about the most recent identity verification attempt */
@@ -652,8 +657,6 @@ private constructor(
             verificationApplication(JsonField.of(verificationApplication))
 
         /** Information about the most recent identity verification attempt */
-        @JsonProperty("verification_application")
-        @ExcludeMissing
         fun verificationApplication(
             verificationApplication: JsonField<AccountHolderVerificationApplication>
         ) = apply { this.verificationApplication = verificationApplication }
@@ -669,8 +672,6 @@ private constructor(
          * Only present for "KYB_BASIC" workflow. A list of documents required for the account
          * holder to be approved.
          */
-        @JsonProperty("required_documents")
-        @ExcludeMissing
         fun requiredDocuments(requiredDocuments: JsonField<List<RequiredDocument>>) = apply {
             this.requiredDocuments = requiredDocuments
         }
@@ -679,8 +680,6 @@ private constructor(
         fun websiteUrl(websiteUrl: String) = websiteUrl(JsonField.of(websiteUrl))
 
         /** Only present when user_type == "BUSINESS". Business's primary website. */
-        @JsonProperty("website_url")
-        @ExcludeMissing
         fun websiteUrl(websiteUrl: JsonField<String>) = apply { this.websiteUrl = websiteUrl }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -688,7 +687,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -729,18 +727,33 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = AccountHolderBusinessResponse.Builder::class)
     @NoAutoDetect
     class AccountHolderBusinessResponse
+    @JsonCreator
     private constructor(
-        private val address: JsonField<Address>,
-        private val dbaBusinessName: JsonField<String>,
-        private val governmentId: JsonField<String>,
-        private val legalBusinessName: JsonField<String>,
-        private val parentCompany: JsonField<String>,
-        private val phoneNumbers: JsonField<List<String>>,
-        private val entityToken: JsonField<String>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("address")
+        @ExcludeMissing
+        private val address: JsonField<Address> = JsonMissing.of(),
+        @JsonProperty("dba_business_name")
+        @ExcludeMissing
+        private val dbaBusinessName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("government_id")
+        @ExcludeMissing
+        private val governmentId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("legal_business_name")
+        @ExcludeMissing
+        private val legalBusinessName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("parent_company")
+        @ExcludeMissing
+        private val parentCompany: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("phone_numbers")
+        @ExcludeMissing
+        private val phoneNumbers: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("entity_token")
+        @ExcludeMissing
+        private val entityToken: JsonField<String> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -867,8 +880,6 @@ private constructor(
              * Business's physical address - PO boxes, UPS drops, and FedEx drops are not
              * acceptable; APO/FPO are acceptable.
              */
-            @JsonProperty("address")
-            @ExcludeMissing
             fun address(address: JsonField<Address>) = apply { this.address = address }
 
             /**
@@ -882,8 +893,6 @@ private constructor(
              * Any name that the business operates under that is not its legal business name (if
              * applicable).
              */
-            @JsonProperty("dba_business_name")
-            @ExcludeMissing
             fun dbaBusinessName(dbaBusinessName: JsonField<String>) = apply {
                 this.dbaBusinessName = dbaBusinessName
             }
@@ -898,8 +907,6 @@ private constructor(
              * Government-issued identification number. US Federal Employer Identification Numbers
              * (EIN) are currently supported, entered as full nine-digits, with or without hyphens.
              */
-            @JsonProperty("government_id")
-            @ExcludeMissing
             fun governmentId(governmentId: JsonField<String>) = apply {
                 this.governmentId = governmentId
             }
@@ -909,8 +916,6 @@ private constructor(
                 legalBusinessName(JsonField.of(legalBusinessName))
 
             /** Legal (formal) business name. */
-            @JsonProperty("legal_business_name")
-            @ExcludeMissing
             fun legalBusinessName(legalBusinessName: JsonField<String>) = apply {
                 this.legalBusinessName = legalBusinessName
             }
@@ -919,8 +924,6 @@ private constructor(
             fun parentCompany(parentCompany: String) = parentCompany(JsonField.of(parentCompany))
 
             /** Parent company name (if applicable). */
-            @JsonProperty("parent_company")
-            @ExcludeMissing
             fun parentCompany(parentCompany: JsonField<String>) = apply {
                 this.parentCompany = parentCompany
             }
@@ -929,8 +932,6 @@ private constructor(
             fun phoneNumbers(phoneNumbers: List<String>) = phoneNumbers(JsonField.of(phoneNumbers))
 
             /** One or more of the business's phone number(s), entered as a list in E.164 format. */
-            @JsonProperty("phone_numbers")
-            @ExcludeMissing
             fun phoneNumbers(phoneNumbers: JsonField<List<String>>) = apply {
                 this.phoneNumbers = phoneNumbers
             }
@@ -939,8 +940,6 @@ private constructor(
             fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
 
             /** Globally unique identifier for the entity. */
-            @JsonProperty("entity_token")
-            @ExcludeMissing
             fun entityToken(entityToken: JsonField<String>) = apply {
                 this.entityToken = entityToken
             }
@@ -950,7 +949,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -1000,18 +998,31 @@ private constructor(
      * Information about an individual associated with an account holder. A subset of the
      * information provided via KYC. For example, we do not return the government id.
      */
-    @JsonDeserialize(builder = AccountHolderIndividualResponse.Builder::class)
     @NoAutoDetect
     class AccountHolderIndividualResponse
+    @JsonCreator
     private constructor(
-        private val address: JsonField<Address>,
-        private val dob: JsonField<String>,
-        private val email: JsonField<String>,
-        private val firstName: JsonField<String>,
-        private val lastName: JsonField<String>,
-        private val phoneNumber: JsonField<String>,
-        private val entityToken: JsonField<String>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("address")
+        @ExcludeMissing
+        private val address: JsonField<Address> = JsonMissing.of(),
+        @JsonProperty("dob") @ExcludeMissing private val dob: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("email")
+        @ExcludeMissing
+        private val email: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("first_name")
+        @ExcludeMissing
+        private val firstName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("last_name")
+        @ExcludeMissing
+        private val lastName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("phone_number")
+        @ExcludeMissing
+        private val phoneNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("entity_token")
+        @ExcludeMissing
+        private val entityToken: JsonField<String> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Individual's current address */
@@ -1111,48 +1122,36 @@ private constructor(
             fun address(address: Address) = address(JsonField.of(address))
 
             /** Individual's current address */
-            @JsonProperty("address")
-            @ExcludeMissing
             fun address(address: JsonField<Address>) = apply { this.address = address }
 
             /** Individual's date of birth, as an RFC 3339 date. */
             fun dob(dob: String) = dob(JsonField.of(dob))
 
             /** Individual's date of birth, as an RFC 3339 date. */
-            @JsonProperty("dob")
-            @ExcludeMissing
             fun dob(dob: JsonField<String>) = apply { this.dob = dob }
 
             /** Individual's email address. */
             fun email(email: String) = email(JsonField.of(email))
 
             /** Individual's email address. */
-            @JsonProperty("email")
-            @ExcludeMissing
             fun email(email: JsonField<String>) = apply { this.email = email }
 
             /** Individual's first name, as it appears on government-issued identity documents. */
             fun firstName(firstName: String) = firstName(JsonField.of(firstName))
 
             /** Individual's first name, as it appears on government-issued identity documents. */
-            @JsonProperty("first_name")
-            @ExcludeMissing
             fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
             /** Individual's last name, as it appears on government-issued identity documents. */
             fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
             /** Individual's last name, as it appears on government-issued identity documents. */
-            @JsonProperty("last_name")
-            @ExcludeMissing
             fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
             /** Individual's phone number, entered in E.164 format. */
             fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
             /** Individual's phone number, entered in E.164 format. */
-            @JsonProperty("phone_number")
-            @ExcludeMissing
             fun phoneNumber(phoneNumber: JsonField<String>) = apply {
                 this.phoneNumber = phoneNumber
             }
@@ -1161,8 +1160,6 @@ private constructor(
             fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
 
             /** Globally unique identifier for the entity. */
-            @JsonProperty("entity_token")
-            @ExcludeMissing
             fun entityToken(entityToken: JsonField<String>) = apply {
                 this.entityToken = entityToken
             }
@@ -1172,7 +1169,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -1519,15 +1515,24 @@ private constructor(
     }
 
     /** Information about the most recent identity verification attempt */
-    @JsonDeserialize(builder = AccountHolderVerificationApplication.Builder::class)
     @NoAutoDetect
     class AccountHolderVerificationApplication
+    @JsonCreator
     private constructor(
-        private val created: JsonField<OffsetDateTime>,
-        private val status: JsonField<Status>,
-        private val statusReasons: JsonField<List<StatusReason>>,
-        private val updated: JsonField<OffsetDateTime>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("created")
+        @ExcludeMissing
+        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("status")
+        @ExcludeMissing
+        private val status: JsonField<Status> = JsonMissing.of(),
+        @JsonProperty("status_reasons")
+        @ExcludeMissing
+        private val statusReasons: JsonField<List<StatusReason>> = JsonMissing.of(),
+        @JsonProperty("updated")
+        @ExcludeMissing
+        private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Timestamp of when the application was created. */
@@ -1614,8 +1619,6 @@ private constructor(
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
             /** Timestamp of when the application was created. */
-            @JsonProperty("created")
-            @ExcludeMissing
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /**
@@ -1632,8 +1635,6 @@ private constructor(
              * Note:
              * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
              */
-            @JsonProperty("status")
-            @ExcludeMissing
             fun status(status: JsonField<Status>) = apply { this.status = status }
 
             /** Reason for the evaluation status. */
@@ -1641,8 +1642,6 @@ private constructor(
                 statusReasons(JsonField.of(statusReasons))
 
             /** Reason for the evaluation status. */
-            @JsonProperty("status_reasons")
-            @ExcludeMissing
             fun statusReasons(statusReasons: JsonField<List<StatusReason>>) = apply {
                 this.statusReasons = statusReasons
             }
@@ -1651,8 +1650,6 @@ private constructor(
             fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
             /** Timestamp of when the application was last updated. */
-            @JsonProperty("updated")
-            @ExcludeMissing
             fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1660,7 +1657,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

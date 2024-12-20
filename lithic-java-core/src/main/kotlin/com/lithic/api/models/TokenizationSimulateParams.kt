@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -76,19 +76,21 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = TokenizationSimulateBody.Builder::class)
     @NoAutoDetect
     class TokenizationSimulateBody
+    @JsonCreator
     internal constructor(
-        private val cvv: String,
-        private val expirationDate: String,
-        private val pan: String,
-        private val tokenizationSource: TokenizationSource,
-        private val accountScore: Long?,
-        private val deviceScore: Long?,
-        private val entity: String?,
+        @JsonProperty("cvv") private val cvv: String,
+        @JsonProperty("expiration_date") private val expirationDate: String,
+        @JsonProperty("pan") private val pan: String,
+        @JsonProperty("tokenization_source") private val tokenizationSource: TokenizationSource,
+        @JsonProperty("account_score") private val accountScore: Long?,
+        @JsonProperty("device_score") private val deviceScore: Long?,
+        @JsonProperty("entity") private val entity: String?,
+        @JsonProperty("wallet_recommended_decision")
         private val walletRecommendedDecision: WalletRecommendedDecision?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The three digit cvv for the card. */
@@ -166,19 +168,17 @@ constructor(
             }
 
             /** The three digit cvv for the card. */
-            @JsonProperty("cvv") fun cvv(cvv: String) = apply { this.cvv = cvv }
+            fun cvv(cvv: String) = apply { this.cvv = cvv }
 
             /** The expiration date of the card in 'MM/YY' format. */
-            @JsonProperty("expiration_date")
             fun expirationDate(expirationDate: String) = apply {
                 this.expirationDate = expirationDate
             }
 
             /** The sixteen digit card number. */
-            @JsonProperty("pan") fun pan(pan: String) = apply { this.pan = pan }
+            fun pan(pan: String) = apply { this.pan = pan }
 
             /** The source of the tokenization request. */
-            @JsonProperty("tokenization_source")
             fun tokenizationSource(tokenizationSource: TokenizationSource) = apply {
                 this.tokenizationSource = tokenizationSource
             }
@@ -187,24 +187,21 @@ constructor(
              * The account score (1-5) that represents how the Digital Wallet's view on how
              * reputable an end user's account is.
              */
-            @JsonProperty("account_score")
             fun accountScore(accountScore: Long) = apply { this.accountScore = accountScore }
 
             /**
              * The device score (1-5) that represents how the Digital Wallet's view on how reputable
              * an end user's device is.
              */
-            @JsonProperty("device_score")
             fun deviceScore(deviceScore: Long) = apply { this.deviceScore = deviceScore }
 
             /**
              * Optional field to specify the token requestor name for a merchant token simulation.
              * Ignored when tokenization_source is not MERCHANT.
              */
-            @JsonProperty("entity") fun entity(entity: String) = apply { this.entity = entity }
+            fun entity(entity: String) = apply { this.entity = entity }
 
             /** The decision that the Digital Wallet's recommend */
-            @JsonProperty("wallet_recommended_decision")
             fun walletRecommendedDecision(walletRecommendedDecision: WalletRecommendedDecision) =
                 apply {
                     this.walletRecommendedDecision = walletRecommendedDecision
@@ -215,7 +212,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

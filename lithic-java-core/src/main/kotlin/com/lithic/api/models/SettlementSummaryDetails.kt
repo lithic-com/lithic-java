@@ -6,31 +6,47 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = SettlementSummaryDetails.Builder::class)
 @NoAutoDetect
 class SettlementSummaryDetails
+@JsonCreator
 private constructor(
-    private val currency: JsonField<String>,
-    private val disputesGrossAmount: JsonField<Long>,
-    private val institution: JsonField<String>,
-    private val interchangeGrossAmount: JsonField<Long>,
-    private val network: JsonField<Network>,
-    private val otherFeesGrossAmount: JsonField<Long>,
-    private val settledNetAmount: JsonField<Long>,
-    private val transactionsGrossAmount: JsonField<Long>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("currency")
+    @ExcludeMissing
+    private val currency: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("disputes_gross_amount")
+    @ExcludeMissing
+    private val disputesGrossAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("institution")
+    @ExcludeMissing
+    private val institution: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("interchange_gross_amount")
+    @ExcludeMissing
+    private val interchangeGrossAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("network")
+    @ExcludeMissing
+    private val network: JsonField<Network> = JsonMissing.of(),
+    @JsonProperty("other_fees_gross_amount")
+    @ExcludeMissing
+    private val otherFeesGrossAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("settled_net_amount")
+    @ExcludeMissing
+    private val settledNetAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("transactions_gross_amount")
+    @ExcludeMissing
+    private val transactionsGrossAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** ISO 4217 alpha 3 code. */
@@ -161,8 +177,6 @@ private constructor(
         fun currency(currency: String) = currency(JsonField.of(currency))
 
         /** ISO 4217 alpha 3 code. */
-        @JsonProperty("currency")
-        @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** The total gross amount of disputes settlements. */
@@ -170,8 +184,6 @@ private constructor(
             disputesGrossAmount(JsonField.of(disputesGrossAmount))
 
         /** The total gross amount of disputes settlements. */
-        @JsonProperty("disputes_gross_amount")
-        @ExcludeMissing
         fun disputesGrossAmount(disputesGrossAmount: JsonField<Long>) = apply {
             this.disputesGrossAmount = disputesGrossAmount
         }
@@ -184,8 +196,6 @@ private constructor(
         /**
          * The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa).
          */
-        @JsonProperty("institution")
-        @ExcludeMissing
         fun institution(institution: JsonField<String>) = apply { this.institution = institution }
 
         /** The total amount of interchange. */
@@ -193,8 +203,6 @@ private constructor(
             interchangeGrossAmount(JsonField.of(interchangeGrossAmount))
 
         /** The total amount of interchange. */
-        @JsonProperty("interchange_gross_amount")
-        @ExcludeMissing
         fun interchangeGrossAmount(interchangeGrossAmount: JsonField<Long>) = apply {
             this.interchangeGrossAmount = interchangeGrossAmount
         }
@@ -203,8 +211,6 @@ private constructor(
         fun network(network: Network) = network(JsonField.of(network))
 
         /** Card network where the transaction took place */
-        @JsonProperty("network")
-        @ExcludeMissing
         fun network(network: JsonField<Network>) = apply { this.network = network }
 
         /** Total amount of gross other fees outside of interchange. */
@@ -212,8 +218,6 @@ private constructor(
             otherFeesGrossAmount(JsonField.of(otherFeesGrossAmount))
 
         /** Total amount of gross other fees outside of interchange. */
-        @JsonProperty("other_fees_gross_amount")
-        @ExcludeMissing
         fun otherFeesGrossAmount(otherFeesGrossAmount: JsonField<Long>) = apply {
             this.otherFeesGrossAmount = otherFeesGrossAmount
         }
@@ -229,8 +233,6 @@ private constructor(
          * The total net amount of cash moved. (net value of settled_gross_amount, interchange,
          * fees).
          */
-        @JsonProperty("settled_net_amount")
-        @ExcludeMissing
         fun settledNetAmount(settledNetAmount: JsonField<Long>) = apply {
             this.settledNetAmount = settledNetAmount
         }
@@ -246,8 +248,6 @@ private constructor(
          * The total amount of settlement impacting transactions (excluding interchange, fees, and
          * disputes).
          */
-        @JsonProperty("transactions_gross_amount")
-        @ExcludeMissing
         fun transactionsGrossAmount(transactionsGrossAmount: JsonField<Long>) = apply {
             this.transactionsGrossAmount = transactionsGrossAmount
         }
@@ -257,7 +257,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
