@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -69,15 +69,16 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = EventSubscriptionUpdateBody.Builder::class)
     @NoAutoDetect
     class EventSubscriptionUpdateBody
+    @JsonCreator
     internal constructor(
-        private val url: String,
-        private val description: String?,
-        private val disabled: Boolean?,
-        private val eventTypes: List<EventType>?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("url") private val url: String,
+        @JsonProperty("description") private val description: String?,
+        @JsonProperty("disabled") private val disabled: Boolean?,
+        @JsonProperty("event_types") private val eventTypes: List<EventType>?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
@@ -127,21 +128,18 @@ constructor(
             }
 
             /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
-            @JsonProperty("url") fun url(url: String) = apply { this.url = url }
+            fun url(url: String) = apply { this.url = url }
 
             /** Event subscription description. */
-            @JsonProperty("description")
             fun description(description: String) = apply { this.description = description }
 
             /** Whether the event subscription is active (false) or inactive (true). */
-            @JsonProperty("disabled")
             fun disabled(disabled: Boolean) = apply { this.disabled = disabled }
 
             /**
              * Indicates types of events that will be sent to this subscription. If left blank, all
              * types will be sent.
              */
-            @JsonProperty("event_types")
             fun eventTypes(eventTypes: List<EventType>) = apply { this.eventTypes = eventTypes }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -149,7 +147,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

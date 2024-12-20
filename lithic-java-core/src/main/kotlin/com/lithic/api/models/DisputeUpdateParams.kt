@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
@@ -70,15 +70,16 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = DisputeUpdateBody.Builder::class)
     @NoAutoDetect
     class DisputeUpdateBody
+    @JsonCreator
     internal constructor(
-        private val amount: Long?,
-        private val customerFiledDate: OffsetDateTime?,
-        private val customerNote: String?,
-        private val reason: Reason?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("amount") private val amount: Long?,
+        @JsonProperty("customer_filed_date") private val customerFiledDate: OffsetDateTime?,
+        @JsonProperty("customer_note") private val customerNote: String?,
+        @JsonProperty("reason") private val reason: Reason?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Amount to dispute */
@@ -124,27 +125,24 @@ constructor(
             }
 
             /** Amount to dispute */
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = apply { this.amount = amount }
 
             /** Date the customer filed the dispute */
-            @JsonProperty("customer_filed_date")
             fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
                 this.customerFiledDate = customerFiledDate
             }
 
             /** Customer description of dispute */
-            @JsonProperty("customer_note")
             fun customerNote(customerNote: String) = apply { this.customerNote = customerNote }
 
             /** Reason for dispute */
-            @JsonProperty("reason") fun reason(reason: Reason) = apply { this.reason = reason }
+            fun reason(reason: Reason) = apply { this.reason = reason }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

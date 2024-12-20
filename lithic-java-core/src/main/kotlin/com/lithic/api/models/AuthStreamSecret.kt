@@ -4,23 +4,26 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = AuthStreamSecret.Builder::class)
 @NoAutoDetect
 class AuthStreamSecret
+@JsonCreator
 private constructor(
-    private val secret: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("secret")
+    @ExcludeMissing
+    private val secret: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** The shared HMAC ASA secret */
@@ -64,8 +67,6 @@ private constructor(
         fun secret(secret: String) = secret(JsonField.of(secret))
 
         /** The shared HMAC ASA secret */
-        @JsonProperty("secret")
-        @ExcludeMissing
         fun secret(secret: JsonField<String>) = apply { this.secret = secret }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -73,7 +74,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

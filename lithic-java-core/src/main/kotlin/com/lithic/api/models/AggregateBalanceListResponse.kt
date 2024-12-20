@@ -4,32 +4,51 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.time.OffsetDateTime
 import java.util.Objects
 
 /** Card Aggregate Balance across all end-user accounts */
-@JsonDeserialize(builder = AggregateBalanceListResponse.Builder::class)
 @NoAutoDetect
 class AggregateBalanceListResponse
+@JsonCreator
 private constructor(
-    private val availableAmount: JsonField<Long>,
-    private val created: JsonField<OffsetDateTime>,
-    private val currency: JsonField<String>,
-    private val lastCardToken: JsonField<String>,
-    private val lastTransactionEventToken: JsonField<String>,
-    private val lastTransactionToken: JsonField<String>,
-    private val pendingAmount: JsonField<Long>,
-    private val totalAmount: JsonField<Long>,
-    private val updated: JsonField<OffsetDateTime>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("available_amount")
+    @ExcludeMissing
+    private val availableAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("currency")
+    @ExcludeMissing
+    private val currency: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("last_card_token")
+    @ExcludeMissing
+    private val lastCardToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("last_transaction_event_token")
+    @ExcludeMissing
+    private val lastTransactionEventToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("last_transaction_token")
+    @ExcludeMissing
+    private val lastTransactionToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("pending_amount")
+    @ExcludeMissing
+    private val pendingAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("total_amount")
+    @ExcludeMissing
+    private val totalAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("updated")
+    @ExcludeMissing
+    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
@@ -162,8 +181,6 @@ private constructor(
         fun availableAmount(availableAmount: Long) = availableAmount(JsonField.of(availableAmount))
 
         /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
-        @JsonProperty("available_amount")
-        @ExcludeMissing
         fun availableAmount(availableAmount: JsonField<Long>) = apply {
             this.availableAmount = availableAmount
         }
@@ -172,24 +189,18 @@ private constructor(
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** Date and time for when the balance was first created. */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
         /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
-        @JsonProperty("currency")
-        @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** Globally unique identifier for the card that had its balance updated most recently */
         fun lastCardToken(lastCardToken: String) = lastCardToken(JsonField.of(lastCardToken))
 
         /** Globally unique identifier for the card that had its balance updated most recently */
-        @JsonProperty("last_card_token")
-        @ExcludeMissing
         fun lastCardToken(lastCardToken: JsonField<String>) = apply {
             this.lastCardToken = lastCardToken
         }
@@ -199,8 +210,6 @@ private constructor(
             lastTransactionEventToken(JsonField.of(lastTransactionEventToken))
 
         /** Globally unique identifier for the last transaction event that impacted this balance */
-        @JsonProperty("last_transaction_event_token")
-        @ExcludeMissing
         fun lastTransactionEventToken(lastTransactionEventToken: JsonField<String>) = apply {
             this.lastTransactionEventToken = lastTransactionEventToken
         }
@@ -210,8 +219,6 @@ private constructor(
             lastTransactionToken(JsonField.of(lastTransactionToken))
 
         /** Globally unique identifier for the last transaction that impacted this balance */
-        @JsonProperty("last_transaction_token")
-        @ExcludeMissing
         fun lastTransactionToken(lastTransactionToken: JsonField<String>) = apply {
             this.lastTransactionToken = lastTransactionToken
         }
@@ -226,8 +233,6 @@ private constructor(
          * Funds not available for spend due to card authorizations or pending ACH release. Shown in
          * the currency's smallest unit (e.g., cents for USD)
          */
-        @JsonProperty("pending_amount")
-        @ExcludeMissing
         fun pendingAmount(pendingAmount: JsonField<Long>) = apply {
             this.pendingAmount = pendingAmount
         }
@@ -242,16 +247,12 @@ private constructor(
          * The sum of available and pending balance in the currency's smallest unit (e.g., cents for
          * USD)
          */
-        @JsonProperty("total_amount")
-        @ExcludeMissing
         fun totalAmount(totalAmount: JsonField<Long>) = apply { this.totalAmount = totalAmount }
 
         /** Date and time for when the balance was last updated. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
         /** Date and time for when the balance was last updated. */
-        @JsonProperty("updated")
-        @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -259,7 +260,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

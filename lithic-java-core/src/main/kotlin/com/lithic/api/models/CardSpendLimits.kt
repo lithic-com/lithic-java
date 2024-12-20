@@ -4,25 +4,32 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = CardSpendLimits.Builder::class)
 @NoAutoDetect
 class CardSpendLimits
+@JsonCreator
 private constructor(
-    private val availableSpendLimit: JsonField<AvailableSpendLimit>,
-    private val spendLimit: JsonField<SpendLimit>,
-    private val spendVelocity: JsonField<SpendVelocity>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("available_spend_limit")
+    @ExcludeMissing
+    private val availableSpendLimit: JsonField<AvailableSpendLimit> = JsonMissing.of(),
+    @JsonProperty("spend_limit")
+    @ExcludeMissing
+    private val spendLimit: JsonField<SpendLimit> = JsonMissing.of(),
+    @JsonProperty("spend_velocity")
+    @ExcludeMissing
+    private val spendVelocity: JsonField<SpendVelocity> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     fun availableSpendLimit(): AvailableSpendLimit =
@@ -82,22 +89,16 @@ private constructor(
         fun availableSpendLimit(availableSpendLimit: AvailableSpendLimit) =
             availableSpendLimit(JsonField.of(availableSpendLimit))
 
-        @JsonProperty("available_spend_limit")
-        @ExcludeMissing
         fun availableSpendLimit(availableSpendLimit: JsonField<AvailableSpendLimit>) = apply {
             this.availableSpendLimit = availableSpendLimit
         }
 
         fun spendLimit(spendLimit: SpendLimit) = spendLimit(JsonField.of(spendLimit))
 
-        @JsonProperty("spend_limit")
-        @ExcludeMissing
         fun spendLimit(spendLimit: JsonField<SpendLimit>) = apply { this.spendLimit = spendLimit }
 
         fun spendVelocity(spendVelocity: SpendVelocity) = spendVelocity(JsonField.of(spendVelocity))
 
-        @JsonProperty("spend_velocity")
-        @ExcludeMissing
         fun spendVelocity(spendVelocity: JsonField<SpendVelocity>) = apply {
             this.spendVelocity = spendVelocity
         }
@@ -107,7 +108,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -131,14 +131,21 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = AvailableSpendLimit.Builder::class)
     @NoAutoDetect
     class AvailableSpendLimit
+    @JsonCreator
     private constructor(
-        private val annually: JsonField<Long>,
-        private val forever: JsonField<Long>,
-        private val monthly: JsonField<Long>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("annually")
+        @ExcludeMissing
+        private val annually: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("forever")
+        @ExcludeMissing
+        private val forever: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("monthly")
+        @ExcludeMissing
+        private val monthly: JsonField<Long> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -222,8 +229,6 @@ private constructor(
              * The available spend limit (in cents) relative to the annual limit configured on the
              * Card.
              */
-            @JsonProperty("annually")
-            @ExcludeMissing
             fun annually(annually: JsonField<Long>) = apply { this.annually = annually }
 
             /**
@@ -236,8 +241,6 @@ private constructor(
              * The available spend limit (in cents) relative to the forever limit configured on the
              * Card.
              */
-            @JsonProperty("forever")
-            @ExcludeMissing
             fun forever(forever: JsonField<Long>) = apply { this.forever = forever }
 
             /**
@@ -250,8 +253,6 @@ private constructor(
              * The available spend limit (in cents) relative to the monthly limit configured on the
              * Card.
              */
-            @JsonProperty("monthly")
-            @ExcludeMissing
             fun monthly(monthly: JsonField<Long>) = apply { this.monthly = monthly }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -259,7 +260,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -301,14 +301,21 @@ private constructor(
             "AvailableSpendLimit{annually=$annually, forever=$forever, monthly=$monthly, additionalProperties=$additionalProperties}"
     }
 
-    @JsonDeserialize(builder = SpendLimit.Builder::class)
     @NoAutoDetect
     class SpendLimit
+    @JsonCreator
     private constructor(
-        private val annually: JsonField<Long>,
-        private val forever: JsonField<Long>,
-        private val monthly: JsonField<Long>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("annually")
+        @ExcludeMissing
+        private val annually: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("forever")
+        @ExcludeMissing
+        private val forever: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("monthly")
+        @ExcludeMissing
+        private val monthly: JsonField<Long> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The configured annual spend limit (in cents) on the Card. */
@@ -370,24 +377,18 @@ private constructor(
             fun annually(annually: Long) = annually(JsonField.of(annually))
 
             /** The configured annual spend limit (in cents) on the Card. */
-            @JsonProperty("annually")
-            @ExcludeMissing
             fun annually(annually: JsonField<Long>) = apply { this.annually = annually }
 
             /** The configured forever spend limit (in cents) on the Card. */
             fun forever(forever: Long) = forever(JsonField.of(forever))
 
             /** The configured forever spend limit (in cents) on the Card. */
-            @JsonProperty("forever")
-            @ExcludeMissing
             fun forever(forever: JsonField<Long>) = apply { this.forever = forever }
 
             /** The configured monthly spend limit (in cents) on the Card. */
             fun monthly(monthly: Long) = monthly(JsonField.of(monthly))
 
             /** The configured monthly spend limit (in cents) on the Card. */
-            @JsonProperty("monthly")
-            @ExcludeMissing
             fun monthly(monthly: JsonField<Long>) = apply { this.monthly = monthly }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -395,7 +396,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -437,14 +437,21 @@ private constructor(
             "SpendLimit{annually=$annually, forever=$forever, monthly=$monthly, additionalProperties=$additionalProperties}"
     }
 
-    @JsonDeserialize(builder = SpendVelocity.Builder::class)
     @NoAutoDetect
     class SpendVelocity
+    @JsonCreator
     private constructor(
-        private val annually: JsonField<Long>,
-        private val forever: JsonField<Long>,
-        private val monthly: JsonField<Long>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("annually")
+        @ExcludeMissing
+        private val annually: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("forever")
+        @ExcludeMissing
+        private val forever: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("monthly")
+        @ExcludeMissing
+        private val monthly: JsonField<Long> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -530,8 +537,6 @@ private constructor(
              * Current annual spend velocity (in cents) on the Card. Present if annual spend limit
              * is set.
              */
-            @JsonProperty("annually")
-            @ExcludeMissing
             fun annually(annually: JsonField<Long>) = apply { this.annually = annually }
 
             /**
@@ -544,8 +549,6 @@ private constructor(
              * Current forever spend velocity (in cents) on the Card. Present if forever spend limit
              * is set.
              */
-            @JsonProperty("forever")
-            @ExcludeMissing
             fun forever(forever: JsonField<Long>) = apply { this.forever = forever }
 
             /**
@@ -558,8 +561,6 @@ private constructor(
              * Current monthly spend velocity (in cents) on the Card. Present if monthly spend limit
              * is set.
              */
-            @JsonProperty("monthly")
-            @ExcludeMissing
             fun monthly(monthly: JsonField<Long>) = apply { this.monthly = monthly }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -567,7 +568,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

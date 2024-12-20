@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -60,15 +60,17 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = AccountHolderSimulateEnrollmentDocumentReviewBody.Builder::class)
     @NoAutoDetect
     class AccountHolderSimulateEnrollmentDocumentReviewBody
+    @JsonCreator
     internal constructor(
-        private val documentUploadToken: String,
-        private val status: Status,
+        @JsonProperty("document_upload_token") private val documentUploadToken: String,
+        @JsonProperty("status") private val status: Status,
+        @JsonProperty("accepted_entity_status_reasons")
         private val acceptedEntityStatusReasons: List<String>?,
-        private val statusReason: DocumentUploadStatusReasons?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("status_reason") private val statusReason: DocumentUploadStatusReasons?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The account holder document upload which to perform the simulation upon. */
@@ -128,16 +130,14 @@ constructor(
             }
 
             /** The account holder document upload which to perform the simulation upon. */
-            @JsonProperty("document_upload_token")
             fun documentUploadToken(documentUploadToken: String) = apply {
                 this.documentUploadToken = documentUploadToken
             }
 
             /** An account holder document's upload status for use within the simulation. */
-            @JsonProperty("status") fun status(status: Status) = apply { this.status = status }
+            fun status(status: Status) = apply { this.status = status }
 
             /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
-            @JsonProperty("accepted_entity_status_reasons")
             fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: List<String>) = apply {
                 this.acceptedEntityStatusReasons = acceptedEntityStatusReasons
             }
@@ -146,7 +146,6 @@ constructor(
              * Status reason that will be associated with the simulated account holder status. Only
              * required for a `REJECTED` status or `PARTIAL_APPROVAL` status.
              */
-            @JsonProperty("status_reason")
             fun statusReason(statusReason: DocumentUploadStatusReasons) = apply {
                 this.statusReason = statusReason
             }
@@ -156,7 +155,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

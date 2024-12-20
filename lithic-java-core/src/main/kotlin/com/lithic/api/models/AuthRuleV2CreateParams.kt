@@ -23,6 +23,7 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -390,15 +391,16 @@ constructor(
             )
     }
 
-    @JsonDeserialize(builder = CreateAuthRuleRequestAccountTokens.Builder::class)
     @NoAutoDetect
     class CreateAuthRuleRequestAccountTokens
+    @JsonCreator
     private constructor(
-        private val accountTokens: List<String>,
-        private val type: AuthRuleType?,
-        private val parameters: Parameters?,
-        private val name: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("account_tokens") private val accountTokens: List<String>,
+        @JsonProperty("type") private val type: AuthRuleType?,
+        @JsonProperty("parameters") private val parameters: Parameters?,
+        @JsonProperty("name") private val name: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Account tokens to which the Auth Rule applies. */
@@ -446,27 +448,24 @@ constructor(
             }
 
             /** Account tokens to which the Auth Rule applies. */
-            @JsonProperty("account_tokens")
             fun accountTokens(accountTokens: List<String>) = apply {
                 this.accountTokens = accountTokens
             }
 
             /** The type of Auth Rule */
-            @JsonProperty("type") fun type(type: AuthRuleType) = apply { this.type = type }
+            fun type(type: AuthRuleType) = apply { this.type = type }
 
             /** Parameters for the current version of the Auth Rule */
-            @JsonProperty("parameters")
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
 
             /** Auth Rule Name */
-            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
+            fun name(name: String) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -608,12 +607,13 @@ constructor(
                 }
             }
 
-            @JsonDeserialize(builder = ConditionalBlockParameters.Builder::class)
             @NoAutoDetect
             class ConditionalBlockParameters
+            @JsonCreator
             private constructor(
-                private val conditions: List<Condition>,
-                private val additionalProperties: Map<String, JsonValue>,
+                @JsonProperty("conditions") private val conditions: List<Condition>,
+                @JsonAnySetter
+                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
                 @JsonProperty("conditions") fun conditions(): List<Condition> = conditions
@@ -642,7 +642,6 @@ constructor(
                                 conditionalBlockParameters.additionalProperties.toMutableMap()
                         }
 
-                    @JsonProperty("conditions")
                     fun conditions(conditions: List<Condition>) = apply {
                         this.conditions = conditions
                     }
@@ -652,7 +651,6 @@ constructor(
                         putAllAdditionalProperties(additionalProperties)
                     }
 
-                    @JsonAnySetter
                     fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                         additionalProperties.put(key, value)
                     }
@@ -678,14 +676,15 @@ constructor(
                         )
                 }
 
-                @JsonDeserialize(builder = Condition.Builder::class)
                 @NoAutoDetect
                 class Condition
+                @JsonCreator
                 private constructor(
-                    private val attribute: Attribute?,
-                    private val operation: Operation?,
-                    private val value: Value?,
-                    private val additionalProperties: Map<String, JsonValue>,
+                    @JsonProperty("attribute") private val attribute: Attribute?,
+                    @JsonProperty("operation") private val operation: Operation?,
+                    @JsonProperty("value") private val value: Value?,
+                    @JsonAnySetter
+                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
                 ) {
 
                     /**
@@ -798,15 +797,12 @@ constructor(
                          * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
                          *   the trailing 24 hours up and until the authorization.
                          */
-                        @JsonProperty("attribute")
                         fun attribute(attribute: Attribute) = apply { this.attribute = attribute }
 
                         /** The operation to apply to the attribute */
-                        @JsonProperty("operation")
                         fun operation(operation: Operation) = apply { this.operation = operation }
 
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                        @JsonProperty("value")
                         fun value(value: Value) = apply { this.value = value }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
@@ -815,7 +811,6 @@ constructor(
                                 putAllAdditionalProperties(additionalProperties)
                             }
 
-                        @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                             additionalProperties.put(key, value)
                         }
@@ -1270,15 +1265,16 @@ constructor(
             "CreateAuthRuleRequestAccountTokens{accountTokens=$accountTokens, type=$type, parameters=$parameters, name=$name, additionalProperties=$additionalProperties}"
     }
 
-    @JsonDeserialize(builder = CreateAuthRuleRequestCardTokens.Builder::class)
     @NoAutoDetect
     class CreateAuthRuleRequestCardTokens
+    @JsonCreator
     private constructor(
-        private val cardTokens: List<String>,
-        private val type: AuthRuleType?,
-        private val parameters: Parameters?,
-        private val name: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("card_tokens") private val cardTokens: List<String>,
+        @JsonProperty("type") private val type: AuthRuleType?,
+        @JsonProperty("parameters") private val parameters: Parameters?,
+        @JsonProperty("name") private val name: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Card tokens to which the Auth Rule applies. */
@@ -1325,25 +1321,22 @@ constructor(
                 }
 
             /** Card tokens to which the Auth Rule applies. */
-            @JsonProperty("card_tokens")
             fun cardTokens(cardTokens: List<String>) = apply { this.cardTokens = cardTokens }
 
             /** The type of Auth Rule */
-            @JsonProperty("type") fun type(type: AuthRuleType) = apply { this.type = type }
+            fun type(type: AuthRuleType) = apply { this.type = type }
 
             /** Parameters for the current version of the Auth Rule */
-            @JsonProperty("parameters")
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
 
             /** Auth Rule Name */
-            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
+            fun name(name: String) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -1485,12 +1478,13 @@ constructor(
                 }
             }
 
-            @JsonDeserialize(builder = ConditionalBlockParameters.Builder::class)
             @NoAutoDetect
             class ConditionalBlockParameters
+            @JsonCreator
             private constructor(
-                private val conditions: List<Condition>,
-                private val additionalProperties: Map<String, JsonValue>,
+                @JsonProperty("conditions") private val conditions: List<Condition>,
+                @JsonAnySetter
+                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
                 @JsonProperty("conditions") fun conditions(): List<Condition> = conditions
@@ -1519,7 +1513,6 @@ constructor(
                                 conditionalBlockParameters.additionalProperties.toMutableMap()
                         }
 
-                    @JsonProperty("conditions")
                     fun conditions(conditions: List<Condition>) = apply {
                         this.conditions = conditions
                     }
@@ -1529,7 +1522,6 @@ constructor(
                         putAllAdditionalProperties(additionalProperties)
                     }
 
-                    @JsonAnySetter
                     fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                         additionalProperties.put(key, value)
                     }
@@ -1555,14 +1547,15 @@ constructor(
                         )
                 }
 
-                @JsonDeserialize(builder = Condition.Builder::class)
                 @NoAutoDetect
                 class Condition
+                @JsonCreator
                 private constructor(
-                    private val attribute: Attribute?,
-                    private val operation: Operation?,
-                    private val value: Value?,
-                    private val additionalProperties: Map<String, JsonValue>,
+                    @JsonProperty("attribute") private val attribute: Attribute?,
+                    @JsonProperty("operation") private val operation: Operation?,
+                    @JsonProperty("value") private val value: Value?,
+                    @JsonAnySetter
+                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
                 ) {
 
                     /**
@@ -1675,15 +1668,12 @@ constructor(
                          * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
                          *   the trailing 24 hours up and until the authorization.
                          */
-                        @JsonProperty("attribute")
                         fun attribute(attribute: Attribute) = apply { this.attribute = attribute }
 
                         /** The operation to apply to the attribute */
-                        @JsonProperty("operation")
                         fun operation(operation: Operation) = apply { this.operation = operation }
 
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                        @JsonProperty("value")
                         fun value(value: Value) = apply { this.value = value }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
@@ -1692,7 +1682,6 @@ constructor(
                                 putAllAdditionalProperties(additionalProperties)
                             }
 
-                        @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                             additionalProperties.put(key, value)
                         }
@@ -2147,16 +2136,17 @@ constructor(
             "CreateAuthRuleRequestCardTokens{cardTokens=$cardTokens, type=$type, parameters=$parameters, name=$name, additionalProperties=$additionalProperties}"
     }
 
-    @JsonDeserialize(builder = CreateAuthRuleRequestProgramLevel.Builder::class)
     @NoAutoDetect
     class CreateAuthRuleRequestProgramLevel
+    @JsonCreator
     private constructor(
-        private val programLevel: Boolean,
-        private val excludedCardTokens: List<String>?,
-        private val type: AuthRuleType?,
-        private val parameters: Parameters?,
-        private val name: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("program_level") private val programLevel: Boolean,
+        @JsonProperty("excluded_card_tokens") private val excludedCardTokens: List<String>?,
+        @JsonProperty("type") private val type: AuthRuleType?,
+        @JsonProperty("parameters") private val parameters: Parameters?,
+        @JsonProperty("name") private val name: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Whether the Auth Rule applies to all authorizations on the card program. */
@@ -2211,31 +2201,27 @@ constructor(
             }
 
             /** Whether the Auth Rule applies to all authorizations on the card program. */
-            @JsonProperty("program_level")
             fun programLevel(programLevel: Boolean) = apply { this.programLevel = programLevel }
 
             /** Card tokens to which the Auth Rule does not apply. */
-            @JsonProperty("excluded_card_tokens")
             fun excludedCardTokens(excludedCardTokens: List<String>) = apply {
                 this.excludedCardTokens = excludedCardTokens
             }
 
             /** The type of Auth Rule */
-            @JsonProperty("type") fun type(type: AuthRuleType) = apply { this.type = type }
+            fun type(type: AuthRuleType) = apply { this.type = type }
 
             /** Parameters for the current version of the Auth Rule */
-            @JsonProperty("parameters")
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
 
             /** Auth Rule Name */
-            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
+            fun name(name: String) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -2377,12 +2363,13 @@ constructor(
                 }
             }
 
-            @JsonDeserialize(builder = ConditionalBlockParameters.Builder::class)
             @NoAutoDetect
             class ConditionalBlockParameters
+            @JsonCreator
             private constructor(
-                private val conditions: List<Condition>,
-                private val additionalProperties: Map<String, JsonValue>,
+                @JsonProperty("conditions") private val conditions: List<Condition>,
+                @JsonAnySetter
+                private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
 
                 @JsonProperty("conditions") fun conditions(): List<Condition> = conditions
@@ -2411,7 +2398,6 @@ constructor(
                                 conditionalBlockParameters.additionalProperties.toMutableMap()
                         }
 
-                    @JsonProperty("conditions")
                     fun conditions(conditions: List<Condition>) = apply {
                         this.conditions = conditions
                     }
@@ -2421,7 +2407,6 @@ constructor(
                         putAllAdditionalProperties(additionalProperties)
                     }
 
-                    @JsonAnySetter
                     fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                         additionalProperties.put(key, value)
                     }
@@ -2447,14 +2432,15 @@ constructor(
                         )
                 }
 
-                @JsonDeserialize(builder = Condition.Builder::class)
                 @NoAutoDetect
                 class Condition
+                @JsonCreator
                 private constructor(
-                    private val attribute: Attribute?,
-                    private val operation: Operation?,
-                    private val value: Value?,
-                    private val additionalProperties: Map<String, JsonValue>,
+                    @JsonProperty("attribute") private val attribute: Attribute?,
+                    @JsonProperty("operation") private val operation: Operation?,
+                    @JsonProperty("value") private val value: Value?,
+                    @JsonAnySetter
+                    private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
                 ) {
 
                     /**
@@ -2567,15 +2553,12 @@ constructor(
                          * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in
                          *   the trailing 24 hours up and until the authorization.
                          */
-                        @JsonProperty("attribute")
                         fun attribute(attribute: Attribute) = apply { this.attribute = attribute }
 
                         /** The operation to apply to the attribute */
-                        @JsonProperty("operation")
                         fun operation(operation: Operation) = apply { this.operation = operation }
 
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                        @JsonProperty("value")
                         fun value(value: Value) = apply { this.value = value }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
@@ -2584,7 +2567,6 @@ constructor(
                                 putAllAdditionalProperties(additionalProperties)
                             }
 
-                        @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                             additionalProperties.put(key, value)
                         }

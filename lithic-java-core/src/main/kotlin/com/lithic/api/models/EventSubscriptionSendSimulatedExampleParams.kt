@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -54,12 +54,13 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = EventSubscriptionSendSimulatedExampleBody.Builder::class)
     @NoAutoDetect
     class EventSubscriptionSendSimulatedExampleBody
+    @JsonCreator
     internal constructor(
-        private val eventType: EventType?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("event_type") private val eventType: EventType?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Event type to send example message for. */
@@ -92,7 +93,6 @@ constructor(
             }
 
             /** Event type to send example message for. */
-            @JsonProperty("event_type")
             fun eventType(eventType: EventType) = apply { this.eventType = eventType }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -100,7 +100,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

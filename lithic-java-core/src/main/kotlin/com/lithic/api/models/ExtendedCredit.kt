@@ -4,22 +4,25 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
-@JsonDeserialize(builder = ExtendedCredit.Builder::class)
 @NoAutoDetect
 class ExtendedCredit
+@JsonCreator
 private constructor(
-    private val creditExtended: JsonField<Long>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("credit_extended")
+    @ExcludeMissing
+    private val creditExtended: JsonField<Long> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     fun creditExtended(): Long = creditExtended.getRequired("credit_extended")
@@ -59,8 +62,6 @@ private constructor(
 
         fun creditExtended(creditExtended: Long) = creditExtended(JsonField.of(creditExtended))
 
-        @JsonProperty("credit_extended")
-        @ExcludeMissing
         fun creditExtended(creditExtended: JsonField<Long>) = apply {
             this.creditExtended = creditExtended
         }
@@ -70,7 +71,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

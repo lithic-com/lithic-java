@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
@@ -61,14 +62,15 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = AccountHolderUpdateBody.Builder::class)
     @NoAutoDetect
     class AccountHolderUpdateBody
+    @JsonCreator
     internal constructor(
-        private val businessAccountToken: String?,
-        private val email: String?,
-        private val phoneNumber: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("business_account_token") private val businessAccountToken: String?,
+        @JsonProperty("email") private val email: String?,
+        @JsonProperty("phone_number") private val phoneNumber: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -124,7 +126,6 @@ constructor(
              * users of businesses. Pass the account_token of the enrolled business associated with
              * the AUTHORIZED_USER in this field.
              */
-            @JsonProperty("business_account_token")
             fun businessAccountToken(businessAccountToken: String) = apply {
                 this.businessAccountToken = businessAccountToken
             }
@@ -133,14 +134,13 @@ constructor(
              * Account holder's email address. The primary purpose of this field is for cardholder
              * identification and verification during the digital wallet tokenization process.
              */
-            @JsonProperty("email") fun email(email: String) = apply { this.email = email }
+            fun email(email: String) = apply { this.email = email }
 
             /**
              * Account holder's phone number, entered in E.164 format. The primary purpose of this
              * field is for cardholder identification and verification during the digital wallet
              * tokenization process.
              */
-            @JsonProperty("phone_number")
             fun phoneNumber(phoneNumber: String) = apply { this.phoneNumber = phoneNumber }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -148,7 +148,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

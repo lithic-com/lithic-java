@@ -6,29 +6,37 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = EnhancedData.Builder::class)
 @NoAutoDetect
 class EnhancedData
+@JsonCreator
 private constructor(
-    private val token: JsonField<String>,
-    private val transactionToken: JsonField<String>,
-    private val eventToken: JsonField<String>,
-    private val common: JsonField<CommonData>,
-    private val fleet: JsonField<List<Fleet>>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("transaction_token")
+    @ExcludeMissing
+    private val transactionToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("event_token")
+    @ExcludeMissing
+    private val eventToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("common")
+    @ExcludeMissing
+    private val common: JsonField<CommonData> = JsonMissing.of(),
+    @JsonProperty("fleet")
+    @ExcludeMissing
+    private val fleet: JsonField<List<Fleet>> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** A unique identifier for the enhanced commercial data. */
@@ -104,8 +112,6 @@ private constructor(
         fun token(token: String) = token(JsonField.of(token))
 
         /** A unique identifier for the enhanced commercial data. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** The token of the transaction that the enhanced data is associated with. */
@@ -113,8 +119,6 @@ private constructor(
             transactionToken(JsonField.of(transactionToken))
 
         /** The token of the transaction that the enhanced data is associated with. */
-        @JsonProperty("transaction_token")
-        @ExcludeMissing
         fun transactionToken(transactionToken: JsonField<String>) = apply {
             this.transactionToken = transactionToken
         }
@@ -123,20 +127,14 @@ private constructor(
         fun eventToken(eventToken: String) = eventToken(JsonField.of(eventToken))
 
         /** The token of the event that the enhanced data is associated with. */
-        @JsonProperty("event_token")
-        @ExcludeMissing
         fun eventToken(eventToken: JsonField<String>) = apply { this.eventToken = eventToken }
 
         fun common(common: CommonData) = common(JsonField.of(common))
 
-        @JsonProperty("common")
-        @ExcludeMissing
         fun common(common: JsonField<CommonData>) = apply { this.common = common }
 
         fun fleet(fleet: List<Fleet>) = fleet(JsonField.of(fleet))
 
-        @JsonProperty("fleet")
-        @ExcludeMissing
         fun fleet(fleet: JsonField<List<Fleet>>) = apply { this.fleet = fleet }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -144,7 +142,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -170,16 +167,25 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = CommonData.Builder::class)
     @NoAutoDetect
     class CommonData
+    @JsonCreator
     private constructor(
-        private val customerReferenceNumber: JsonField<String>,
-        private val merchantReferenceNumber: JsonField<String>,
-        private val orderDate: JsonField<LocalDate>,
-        private val tax: JsonField<TaxData>,
-        private val lineItems: JsonField<List<LineItem>>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("customer_reference_number")
+        @ExcludeMissing
+        private val customerReferenceNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("merchant_reference_number")
+        @ExcludeMissing
+        private val merchantReferenceNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("order_date")
+        @ExcludeMissing
+        private val orderDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("tax") @ExcludeMissing private val tax: JsonField<TaxData> = JsonMissing.of(),
+        @JsonProperty("line_items")
+        @ExcludeMissing
+        private val lineItems: JsonField<List<LineItem>> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** A customer identifier. */
@@ -263,8 +269,6 @@ private constructor(
                 customerReferenceNumber(JsonField.of(customerReferenceNumber))
 
             /** A customer identifier. */
-            @JsonProperty("customer_reference_number")
-            @ExcludeMissing
             fun customerReferenceNumber(customerReferenceNumber: JsonField<String>) = apply {
                 this.customerReferenceNumber = customerReferenceNumber
             }
@@ -274,8 +278,6 @@ private constructor(
                 merchantReferenceNumber(JsonField.of(merchantReferenceNumber))
 
             /** A merchant identifier. */
-            @JsonProperty("merchant_reference_number")
-            @ExcludeMissing
             fun merchantReferenceNumber(merchantReferenceNumber: JsonField<String>) = apply {
                 this.merchantReferenceNumber = merchantReferenceNumber
             }
@@ -284,20 +286,14 @@ private constructor(
             fun orderDate(orderDate: LocalDate) = orderDate(JsonField.of(orderDate))
 
             /** The date of the order. */
-            @JsonProperty("order_date")
-            @ExcludeMissing
             fun orderDate(orderDate: JsonField<LocalDate>) = apply { this.orderDate = orderDate }
 
             fun tax(tax: TaxData) = tax(JsonField.of(tax))
 
-            @JsonProperty("tax")
-            @ExcludeMissing
             fun tax(tax: JsonField<TaxData>) = apply { this.tax = tax }
 
             fun lineItems(lineItems: List<LineItem>) = lineItems(JsonField.of(lineItems))
 
-            @JsonProperty("line_items")
-            @ExcludeMissing
             fun lineItems(lineItems: JsonField<List<LineItem>>) = apply {
                 this.lineItems = lineItems
             }
@@ -307,7 +303,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -334,15 +329,24 @@ private constructor(
         }
 
         /** An L2/L3 enhanced commercial data line item. */
-        @JsonDeserialize(builder = LineItem.Builder::class)
         @NoAutoDetect
         class LineItem
+        @JsonCreator
         private constructor(
-            private val productCode: JsonField<String>,
-            private val description: JsonField<String>,
-            private val quantity: JsonField<Double>,
-            private val amount: JsonField<Double>,
-            private val additionalProperties: Map<String, JsonValue>,
+            @JsonProperty("product_code")
+            @ExcludeMissing
+            private val productCode: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("description")
+            @ExcludeMissing
+            private val description: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("quantity")
+            @ExcludeMissing
+            private val quantity: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("amount")
+            @ExcludeMissing
+            private val amount: JsonField<Double> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
             /** An identifier for the item purchased. */
@@ -415,8 +419,6 @@ private constructor(
                 fun productCode(productCode: String) = productCode(JsonField.of(productCode))
 
                 /** An identifier for the item purchased. */
-                @JsonProperty("product_code")
-                @ExcludeMissing
                 fun productCode(productCode: JsonField<String>) = apply {
                     this.productCode = productCode
                 }
@@ -425,8 +427,6 @@ private constructor(
                 fun description(description: String) = description(JsonField.of(description))
 
                 /** A human-readable description of the item. */
-                @JsonProperty("description")
-                @ExcludeMissing
                 fun description(description: JsonField<String>) = apply {
                     this.description = description
                 }
@@ -435,16 +435,12 @@ private constructor(
                 fun quantity(quantity: Double) = quantity(JsonField.of(quantity))
 
                 /** The quantity of the item purchased. */
-                @JsonProperty("quantity")
-                @ExcludeMissing
                 fun quantity(quantity: JsonField<Double>) = apply { this.quantity = quantity }
 
                 /** The price of the item purchased in merchant currency. */
                 fun amount(amount: Double) = amount(JsonField.of(amount))
 
                 /** The price of the item purchased in merchant currency. */
-                @JsonProperty("amount")
-                @ExcludeMissing
                 fun amount(amount: JsonField<Double>) = apply { this.amount = amount }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -452,7 +448,6 @@ private constructor(
                     putAllAdditionalProperties(additionalProperties)
                 }
 
-                @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                     additionalProperties.put(key, value)
                 }
@@ -498,14 +493,21 @@ private constructor(
                 "LineItem{productCode=$productCode, description=$description, quantity=$quantity, amount=$amount, additionalProperties=$additionalProperties}"
         }
 
-        @JsonDeserialize(builder = TaxData.Builder::class)
         @NoAutoDetect
         class TaxData
+        @JsonCreator
         private constructor(
-            private val amount: JsonField<Long>,
-            private val exempt: JsonField<TaxExemptIndicator>,
-            private val merchantTaxId: JsonField<String>,
-            private val additionalProperties: Map<String, JsonValue>,
+            @JsonProperty("amount")
+            @ExcludeMissing
+            private val amount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("exempt")
+            @ExcludeMissing
+            private val exempt: JsonField<TaxExemptIndicator> = JsonMissing.of(),
+            @JsonProperty("merchant_tax_id")
+            @ExcludeMissing
+            private val merchantTaxId: JsonField<String> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
             /** The amount of tax collected. */
@@ -569,16 +571,12 @@ private constructor(
                 fun amount(amount: Long) = amount(JsonField.of(amount))
 
                 /** The amount of tax collected. */
-                @JsonProperty("amount")
-                @ExcludeMissing
                 fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
                 /** A flag indicating whether the transaction is tax exempt or not. */
                 fun exempt(exempt: TaxExemptIndicator) = exempt(JsonField.of(exempt))
 
                 /** A flag indicating whether the transaction is tax exempt or not. */
-                @JsonProperty("exempt")
-                @ExcludeMissing
                 fun exempt(exempt: JsonField<TaxExemptIndicator>) = apply { this.exempt = exempt }
 
                 /** The tax ID of the merchant. */
@@ -586,8 +584,6 @@ private constructor(
                     merchantTaxId(JsonField.of(merchantTaxId))
 
                 /** The tax ID of the merchant. */
-                @JsonProperty("merchant_tax_id")
-                @ExcludeMissing
                 fun merchantTaxId(merchantTaxId: JsonField<String>) = apply {
                     this.merchantTaxId = merchantTaxId
                 }
@@ -597,7 +593,6 @@ private constructor(
                     putAllAdditionalProperties(additionalProperties)
                 }
 
-                @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                     additionalProperties.put(key, value)
                 }
@@ -724,17 +719,30 @@ private constructor(
             "CommonData{customerReferenceNumber=$customerReferenceNumber, merchantReferenceNumber=$merchantReferenceNumber, orderDate=$orderDate, tax=$tax, lineItems=$lineItems, additionalProperties=$additionalProperties}"
     }
 
-    @JsonDeserialize(builder = Fleet.Builder::class)
     @NoAutoDetect
     class Fleet
+    @JsonCreator
     private constructor(
-        private val serviceType: JsonField<ServiceType>,
-        private val odometer: JsonField<Long>,
-        private val vehicleNumber: JsonField<String>,
-        private val driverNumber: JsonField<String>,
-        private val fuel: JsonField<FuelData>,
-        private val amountTotals: JsonField<AmountTotals>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("service_type")
+        @ExcludeMissing
+        private val serviceType: JsonField<ServiceType> = JsonMissing.of(),
+        @JsonProperty("odometer")
+        @ExcludeMissing
+        private val odometer: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("vehicle_number")
+        @ExcludeMissing
+        private val vehicleNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("driver_number")
+        @ExcludeMissing
+        private val driverNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("fuel")
+        @ExcludeMissing
+        private val fuel: JsonField<FuelData> = JsonMissing.of(),
+        @JsonProperty("amount_totals")
+        @ExcludeMissing
+        private val amountTotals: JsonField<AmountTotals> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The type of fuel service. */
@@ -834,8 +842,6 @@ private constructor(
             fun serviceType(serviceType: ServiceType) = serviceType(JsonField.of(serviceType))
 
             /** The type of fuel service. */
-            @JsonProperty("service_type")
-            @ExcludeMissing
             fun serviceType(serviceType: JsonField<ServiceType>) = apply {
                 this.serviceType = serviceType
             }
@@ -844,8 +850,6 @@ private constructor(
             fun odometer(odometer: Long) = odometer(JsonField.of(odometer))
 
             /** The odometer reading entered into the terminal at the time of sale. */
-            @JsonProperty("odometer")
-            @ExcludeMissing
             fun odometer(odometer: JsonField<Long>) = apply { this.odometer = odometer }
 
             /**
@@ -858,8 +862,6 @@ private constructor(
              * The vehicle number entered into the terminal at the time of sale, with leading zeros
              * stripped.
              */
-            @JsonProperty("vehicle_number")
-            @ExcludeMissing
             fun vehicleNumber(vehicleNumber: JsonField<String>) = apply {
                 this.vehicleNumber = vehicleNumber
             }
@@ -874,22 +876,16 @@ private constructor(
              * The driver number entered into the terminal at the time of sale, with leading zeros
              * stripped.
              */
-            @JsonProperty("driver_number")
-            @ExcludeMissing
             fun driverNumber(driverNumber: JsonField<String>) = apply {
                 this.driverNumber = driverNumber
             }
 
             fun fuel(fuel: FuelData) = fuel(JsonField.of(fuel))
 
-            @JsonProperty("fuel")
-            @ExcludeMissing
             fun fuel(fuel: JsonField<FuelData>) = apply { this.fuel = fuel }
 
             fun amountTotals(amountTotals: AmountTotals) = amountTotals(JsonField.of(amountTotals))
 
-            @JsonProperty("amount_totals")
-            @ExcludeMissing
             fun amountTotals(amountTotals: JsonField<AmountTotals>) = apply {
                 this.amountTotals = amountTotals
             }
@@ -899,7 +895,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -926,14 +921,21 @@ private constructor(
                 )
         }
 
-        @JsonDeserialize(builder = AmountTotals.Builder::class)
         @NoAutoDetect
         class AmountTotals
+        @JsonCreator
         private constructor(
-            private val grossSale: JsonField<Long>,
-            private val discount: JsonField<Long>,
-            private val netSale: JsonField<Long>,
-            private val additionalProperties: Map<String, JsonValue>,
+            @JsonProperty("gross_sale")
+            @ExcludeMissing
+            private val grossSale: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("discount")
+            @ExcludeMissing
+            private val discount: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("net_sale")
+            @ExcludeMissing
+            private val netSale: JsonField<Long> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
             /** The gross sale amount. */
@@ -996,24 +998,18 @@ private constructor(
                 fun grossSale(grossSale: Long) = grossSale(JsonField.of(grossSale))
 
                 /** The gross sale amount. */
-                @JsonProperty("gross_sale")
-                @ExcludeMissing
                 fun grossSale(grossSale: JsonField<Long>) = apply { this.grossSale = grossSale }
 
                 /** The discount applied to the gross sale amount. */
                 fun discount(discount: Long) = discount(JsonField.of(discount))
 
                 /** The discount applied to the gross sale amount. */
-                @JsonProperty("discount")
-                @ExcludeMissing
                 fun discount(discount: JsonField<Long>) = apply { this.discount = discount }
 
                 /** The amount after discount. */
                 fun netSale(netSale: Long) = netSale(JsonField.of(netSale))
 
                 /** The amount after discount. */
-                @JsonProperty("net_sale")
-                @ExcludeMissing
                 fun netSale(netSale: JsonField<Long>) = apply { this.netSale = netSale }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1021,7 +1017,6 @@ private constructor(
                     putAllAdditionalProperties(additionalProperties)
                 }
 
-                @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                     additionalProperties.put(key, value)
                 }
@@ -1066,15 +1061,24 @@ private constructor(
                 "AmountTotals{grossSale=$grossSale, discount=$discount, netSale=$netSale, additionalProperties=$additionalProperties}"
         }
 
-        @JsonDeserialize(builder = FuelData.Builder::class)
         @NoAutoDetect
         class FuelData
+        @JsonCreator
         private constructor(
-            private val type: JsonField<FuelType>,
-            private val quantity: JsonField<Double>,
-            private val unitPrice: JsonField<Long>,
-            private val unitOfMeasure: JsonField<FuelUnitOfMeasure>,
-            private val additionalProperties: Map<String, JsonValue>,
+            @JsonProperty("type")
+            @ExcludeMissing
+            private val type: JsonField<FuelType> = JsonMissing.of(),
+            @JsonProperty("quantity")
+            @ExcludeMissing
+            private val quantity: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("unit_price")
+            @ExcludeMissing
+            private val unitPrice: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("unit_of_measure")
+            @ExcludeMissing
+            private val unitOfMeasure: JsonField<FuelUnitOfMeasure> = JsonMissing.of(),
+            @JsonAnySetter
+            private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
             /** The type of fuel purchased. */
@@ -1147,24 +1151,18 @@ private constructor(
                 fun type(type: FuelType) = type(JsonField.of(type))
 
                 /** The type of fuel purchased. */
-                @JsonProperty("type")
-                @ExcludeMissing
                 fun type(type: JsonField<FuelType>) = apply { this.type = type }
 
                 /** The quantity of fuel purchased. */
                 fun quantity(quantity: Double) = quantity(JsonField.of(quantity))
 
                 /** The quantity of fuel purchased. */
-                @JsonProperty("quantity")
-                @ExcludeMissing
                 fun quantity(quantity: JsonField<Double>) = apply { this.quantity = quantity }
 
                 /** The price per unit of fuel. */
                 fun unitPrice(unitPrice: Long) = unitPrice(JsonField.of(unitPrice))
 
                 /** The price per unit of fuel. */
-                @JsonProperty("unit_price")
-                @ExcludeMissing
                 fun unitPrice(unitPrice: JsonField<Long>) = apply { this.unitPrice = unitPrice }
 
                 /** Unit of measure for fuel disbursement. */
@@ -1172,8 +1170,6 @@ private constructor(
                     unitOfMeasure(JsonField.of(unitOfMeasure))
 
                 /** Unit of measure for fuel disbursement. */
-                @JsonProperty("unit_of_measure")
-                @ExcludeMissing
                 fun unitOfMeasure(unitOfMeasure: JsonField<FuelUnitOfMeasure>) = apply {
                     this.unitOfMeasure = unitOfMeasure
                 }
@@ -1183,7 +1179,6 @@ private constructor(
                     putAllAdditionalProperties(additionalProperties)
                 }
 
-                @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                     additionalProperties.put(key, value)
                 }

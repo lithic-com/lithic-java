@@ -6,35 +6,55 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = Tokenization.Builder::class)
 @NoAutoDetect
 class Tokenization
+@JsonCreator
 private constructor(
-    private val accountToken: JsonField<String>,
-    private val cardToken: JsonField<String>,
-    private val createdAt: JsonField<OffsetDateTime>,
-    private val digitalCardArtToken: JsonField<String>,
-    private val events: JsonField<List<TokenizationEvent>>,
-    private val status: JsonField<Status>,
-    private val token: JsonField<String>,
-    private val tokenRequestorName: JsonField<TokenRequestorName>,
-    private val tokenUniqueReference: JsonField<String>,
-    private val tokenizationChannel: JsonField<TokenizationChannel>,
-    private val updatedAt: JsonField<OffsetDateTime>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    private val accountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("card_token")
+    @ExcludeMissing
+    private val cardToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("created_at")
+    @ExcludeMissing
+    private val createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("digital_card_art_token")
+    @ExcludeMissing
+    private val digitalCardArtToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("events")
+    @ExcludeMissing
+    private val events: JsonField<List<TokenizationEvent>> = JsonMissing.of(),
+    @JsonProperty("status")
+    @ExcludeMissing
+    private val status: JsonField<Status> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("token_requestor_name")
+    @ExcludeMissing
+    private val tokenRequestorName: JsonField<TokenRequestorName> = JsonMissing.of(),
+    @JsonProperty("token_unique_reference")
+    @ExcludeMissing
+    private val tokenUniqueReference: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("tokenization_channel")
+    @ExcludeMissing
+    private val tokenizationChannel: JsonField<TokenizationChannel> = JsonMissing.of(),
+    @JsonProperty("updated_at")
+    @ExcludeMissing
+    private val updatedAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** The account token associated with the card being tokenized. */
@@ -188,8 +208,6 @@ private constructor(
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
         /** The account token associated with the card being tokenized. */
-        @JsonProperty("account_token")
-        @ExcludeMissing
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
         }
@@ -198,16 +216,12 @@ private constructor(
         fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
 
         /** The card token associated with the card being tokenized. */
-        @JsonProperty("card_token")
-        @ExcludeMissing
         fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         /** Date and time when the tokenization first occurred. UTC time zone. */
         fun createdAt(createdAt: OffsetDateTime) = createdAt(JsonField.of(createdAt))
 
         /** Date and time when the tokenization first occurred. UTC time zone. */
-        @JsonProperty("created_at")
-        @ExcludeMissing
         fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply { this.createdAt = createdAt }
 
         /**
@@ -225,8 +239,6 @@ private constructor(
          * See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        @JsonProperty("digital_card_art_token")
-        @ExcludeMissing
         fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
             this.digitalCardArtToken = digitalCardArtToken
         }
@@ -235,24 +247,18 @@ private constructor(
         fun events(events: List<TokenizationEvent>) = events(JsonField.of(events))
 
         /** A list of events related to the tokenization. */
-        @JsonProperty("events")
-        @ExcludeMissing
         fun events(events: JsonField<List<TokenizationEvent>>) = apply { this.events = events }
 
         /** The status of the tokenization request */
         fun status(status: Status) = status(JsonField.of(status))
 
         /** The status of the tokenization request */
-        @JsonProperty("status")
-        @ExcludeMissing
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** Globally unique identifier for a Tokenization */
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier for a Tokenization */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** The entity that requested the tokenization. Represents a Digital Wallet or merchant. */
@@ -260,8 +266,6 @@ private constructor(
             tokenRequestorName(JsonField.of(tokenRequestorName))
 
         /** The entity that requested the tokenization. Represents a Digital Wallet or merchant. */
-        @JsonProperty("token_requestor_name")
-        @ExcludeMissing
         fun tokenRequestorName(tokenRequestorName: JsonField<TokenRequestorName>) = apply {
             this.tokenRequestorName = tokenRequestorName
         }
@@ -271,8 +275,6 @@ private constructor(
             tokenUniqueReference(JsonField.of(tokenUniqueReference))
 
         /** The network's unique reference for the tokenization. */
-        @JsonProperty("token_unique_reference")
-        @ExcludeMissing
         fun tokenUniqueReference(tokenUniqueReference: JsonField<String>) = apply {
             this.tokenUniqueReference = tokenUniqueReference
         }
@@ -282,8 +284,6 @@ private constructor(
             tokenizationChannel(JsonField.of(tokenizationChannel))
 
         /** The channel through which the tokenization was made. */
-        @JsonProperty("tokenization_channel")
-        @ExcludeMissing
         fun tokenizationChannel(tokenizationChannel: JsonField<TokenizationChannel>) = apply {
             this.tokenizationChannel = tokenizationChannel
         }
@@ -292,8 +292,6 @@ private constructor(
         fun updatedAt(updatedAt: OffsetDateTime) = updatedAt(JsonField.of(updatedAt))
 
         /** Latest date and time when the tokenization was updated. UTC time zone. */
-        @JsonProperty("updated_at")
-        @ExcludeMissing
         fun updatedAt(updatedAt: JsonField<OffsetDateTime>) = apply { this.updatedAt = updatedAt }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -301,7 +299,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -588,15 +585,22 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    @JsonDeserialize(builder = TokenizationEvent.Builder::class)
     @NoAutoDetect
     class TokenizationEvent
+    @JsonCreator
     private constructor(
-        private val createdAt: JsonField<OffsetDateTime>,
-        private val result: JsonField<Result>,
-        private val token: JsonField<String>,
-        private val type: JsonField<Type>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("created_at")
+        @ExcludeMissing
+        private val createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("result")
+        @ExcludeMissing
+        private val result: JsonField<Result> = JsonMissing.of(),
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Date and time when the tokenization event first occurred. UTC time zone. */
@@ -668,8 +672,6 @@ private constructor(
             fun createdAt(createdAt: OffsetDateTime) = createdAt(JsonField.of(createdAt))
 
             /** Date and time when the tokenization event first occurred. UTC time zone. */
-            @JsonProperty("created_at")
-            @ExcludeMissing
             fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply {
                 this.createdAt = createdAt
             }
@@ -678,24 +680,18 @@ private constructor(
             fun result(result: Result) = result(JsonField.of(result))
 
             /** Enum representing the result of the tokenization event */
-            @JsonProperty("result")
-            @ExcludeMissing
             fun result(result: JsonField<Result>) = apply { this.result = result }
 
             /** Globally unique identifier for a Tokenization Event */
             fun token(token: String) = token(JsonField.of(token))
 
             /** Globally unique identifier for a Tokenization Event */
-            @JsonProperty("token")
-            @ExcludeMissing
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Enum representing the type of tokenization event that occurred */
             fun type(type: Type) = type(JsonField.of(type))
 
             /** Enum representing the type of tokenization event that occurred */
-            @JsonProperty("type")
-            @ExcludeMissing
             fun type(type: JsonField<Type>) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -703,7 +699,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

@@ -4,23 +4,26 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = BacktestCreateResponse.Builder::class)
 @NoAutoDetect
 class BacktestCreateResponse
+@JsonCreator
 private constructor(
-    private val backtestToken: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("backtest_token")
+    @ExcludeMissing
+    private val backtestToken: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Auth Rule Backtest Token */
@@ -65,8 +68,6 @@ private constructor(
         fun backtestToken(backtestToken: String) = backtestToken(JsonField.of(backtestToken))
 
         /** Auth Rule Backtest Token */
-        @JsonProperty("backtest_token")
-        @ExcludeMissing
         fun backtestToken(backtestToken: JsonField<String>) = apply {
             this.backtestToken = backtestToken
         }
@@ -76,7 +77,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

@@ -6,32 +6,48 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = KycExempt.Builder::class)
 @NoAutoDetect
 class KycExempt
+@JsonCreator
 private constructor(
-    private val address: JsonField<Address>,
-    private val businessAccountToken: JsonField<String>,
-    private val email: JsonField<String>,
-    private val externalId: JsonField<String>,
-    private val firstName: JsonField<String>,
-    private val kycExemptionType: JsonField<KycExemptionType>,
-    private val lastName: JsonField<String>,
-    private val phoneNumber: JsonField<String>,
-    private val workflow: JsonField<Workflow>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("address")
+    @ExcludeMissing
+    private val address: JsonField<Address> = JsonMissing.of(),
+    @JsonProperty("business_account_token")
+    @ExcludeMissing
+    private val businessAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("email") @ExcludeMissing private val email: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("external_id")
+    @ExcludeMissing
+    private val externalId: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("first_name")
+    @ExcludeMissing
+    private val firstName: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("kyc_exemption_type")
+    @ExcludeMissing
+    private val kycExemptionType: JsonField<KycExemptionType> = JsonMissing.of(),
+    @JsonProperty("last_name")
+    @ExcludeMissing
+    private val lastName: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("phone_number")
+    @ExcludeMissing
+    private val phoneNumber: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("workflow")
+    @ExcludeMissing
+    private val workflow: JsonField<Workflow> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /**
@@ -170,8 +186,6 @@ private constructor(
          * KYC Exempt user's current address - PO boxes, UPS drops, and FedEx drops are not
          * acceptable; APO/FPO are acceptable.
          */
-        @JsonProperty("address")
-        @ExcludeMissing
         fun address(address: JsonField<Address>) = apply { this.address = address }
 
         /**
@@ -187,8 +201,6 @@ private constructor(
          * businesses. Pass the account_token of the enrolled business associated with the
          * AUTHORIZED_USER in this field.
          */
-        @JsonProperty("business_account_token")
-        @ExcludeMissing
         fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
             this.businessAccountToken = businessAccountToken
         }
@@ -197,24 +209,18 @@ private constructor(
         fun email(email: String) = email(JsonField.of(email))
 
         /** The KYC Exempt user's email */
-        @JsonProperty("email")
-        @ExcludeMissing
         fun email(email: JsonField<String>) = apply { this.email = email }
 
         /** A user provided id that can be used to link an account holder with an external system */
         fun externalId(externalId: String) = externalId(JsonField.of(externalId))
 
         /** A user provided id that can be used to link an account holder with an external system */
-        @JsonProperty("external_id")
-        @ExcludeMissing
         fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         /** The KYC Exempt user's first name */
         fun firstName(firstName: String) = firstName(JsonField.of(firstName))
 
         /** The KYC Exempt user's first name */
-        @JsonProperty("first_name")
-        @ExcludeMissing
         fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
         /** Specifies the type of KYC Exempt user */
@@ -222,8 +228,6 @@ private constructor(
             kycExemptionType(JsonField.of(kycExemptionType))
 
         /** Specifies the type of KYC Exempt user */
-        @JsonProperty("kyc_exemption_type")
-        @ExcludeMissing
         fun kycExemptionType(kycExemptionType: JsonField<KycExemptionType>) = apply {
             this.kycExemptionType = kycExemptionType
         }
@@ -232,24 +236,18 @@ private constructor(
         fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
         /** The KYC Exempt user's last name */
-        @JsonProperty("last_name")
-        @ExcludeMissing
         fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
         /** The KYC Exempt user's phone number */
         fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
         /** The KYC Exempt user's phone number */
-        @JsonProperty("phone_number")
-        @ExcludeMissing
         fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
 
         /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
         fun workflow(workflow: Workflow) = workflow(JsonField.of(workflow))
 
         /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
-        @JsonProperty("workflow")
-        @ExcludeMissing
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -257,7 +255,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

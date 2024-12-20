@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -68,15 +68,16 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = FinancialAccountCreateBody.Builder::class)
     @NoAutoDetect
     class FinancialAccountCreateBody
+    @JsonCreator
     internal constructor(
-        private val nickname: String,
-        private val type: Type,
-        private val accountToken: String?,
-        private val isForBenefitOf: Boolean?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("nickname") private val nickname: String,
+        @JsonProperty("type") private val type: Type,
+        @JsonProperty("account_token") private val accountToken: String?,
+        @JsonProperty("is_for_benefit_of") private val isForBenefitOf: Boolean?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         @JsonProperty("nickname") fun nickname(): String = nickname
@@ -118,15 +119,12 @@ constructor(
                     financialAccountCreateBody.additionalProperties.toMutableMap()
             }
 
-            @JsonProperty("nickname")
             fun nickname(nickname: String) = apply { this.nickname = nickname }
 
-            @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
+            fun type(type: Type) = apply { this.type = type }
 
-            @JsonProperty("account_token")
             fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
-            @JsonProperty("is_for_benefit_of")
             fun isForBenefitOf(isForBenefitOf: Boolean) = apply {
                 this.isForBenefitOf = isForBenefitOf
             }
@@ -136,7 +134,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

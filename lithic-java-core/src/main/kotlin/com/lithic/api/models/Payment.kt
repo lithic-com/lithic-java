@@ -6,42 +6,76 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = Payment.Builder::class)
 @NoAutoDetect
 class Payment
+@JsonCreator
 private constructor(
-    private val category: JsonField<Category>,
-    private val created: JsonField<OffsetDateTime>,
-    private val currency: JsonField<String>,
-    private val descriptor: JsonField<String>,
-    private val events: JsonField<List<PaymentEvent>>,
-    private val pendingAmount: JsonField<Long>,
-    private val result: JsonField<Result>,
-    private val settledAmount: JsonField<Long>,
-    private val status: JsonField<Status>,
-    private val token: JsonField<String>,
-    private val updated: JsonField<OffsetDateTime>,
-    private val direction: JsonField<Direction>,
-    private val financialAccountToken: JsonField<String>,
-    private val externalBankAccountToken: JsonField<String>,
-    private val method: JsonField<Method>,
-    private val methodAttributes: JsonField<PaymentMethodAttributes>,
-    private val source: JsonField<Source>,
-    private val userDefinedId: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("category")
+    @ExcludeMissing
+    private val category: JsonField<Category> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("currency")
+    @ExcludeMissing
+    private val currency: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("descriptor")
+    @ExcludeMissing
+    private val descriptor: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("events")
+    @ExcludeMissing
+    private val events: JsonField<List<PaymentEvent>> = JsonMissing.of(),
+    @JsonProperty("pending_amount")
+    @ExcludeMissing
+    private val pendingAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("result")
+    @ExcludeMissing
+    private val result: JsonField<Result> = JsonMissing.of(),
+    @JsonProperty("settled_amount")
+    @ExcludeMissing
+    private val settledAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("status")
+    @ExcludeMissing
+    private val status: JsonField<Status> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("updated")
+    @ExcludeMissing
+    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("direction")
+    @ExcludeMissing
+    private val direction: JsonField<Direction> = JsonMissing.of(),
+    @JsonProperty("financial_account_token")
+    @ExcludeMissing
+    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("external_bank_account_token")
+    @ExcludeMissing
+    private val externalBankAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("method")
+    @ExcludeMissing
+    private val method: JsonField<Method> = JsonMissing.of(),
+    @JsonProperty("method_attributes")
+    @ExcludeMissing
+    private val methodAttributes: JsonField<PaymentMethodAttributes> = JsonMissing.of(),
+    @JsonProperty("source")
+    @ExcludeMissing
+    private val source: JsonField<Source> = JsonMissing.of(),
+    @JsonProperty("user_defined_id")
+    @ExcludeMissing
+    private val userDefinedId: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Payment category */
@@ -262,24 +296,18 @@ private constructor(
         fun category(category: Category) = category(JsonField.of(category))
 
         /** Payment category */
-        @JsonProperty("category")
-        @ExcludeMissing
         fun category(category: JsonField<Category>) = apply { this.category = category }
 
         /** Date and time when the payment first occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** Date and time when the payment first occurred. UTC time zone. */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** 3-digit alphabetic ISO 4217 code for the settling currency of the payment. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
         /** 3-digit alphabetic ISO 4217 code for the settling currency of the payment. */
-        @JsonProperty("currency")
-        @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /**
@@ -290,16 +318,12 @@ private constructor(
         /**
          * A string that provides a description of the payment; may be useful to display to users.
          */
-        @JsonProperty("descriptor")
-        @ExcludeMissing
         fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
         /** A list of all payment events that have modified this payment. */
         fun events(events: List<PaymentEvent>) = events(JsonField.of(events))
 
         /** A list of all payment events that have modified this payment. */
-        @JsonProperty("events")
-        @ExcludeMissing
         fun events(events: JsonField<List<PaymentEvent>>) = apply { this.events = events }
 
         /**
@@ -312,8 +336,6 @@ private constructor(
          * Pending amount of the payment in the currency's smallest unit (e.g., cents). The value of
          * this field will go to zero over time once the payment is settled.
          */
-        @JsonProperty("pending_amount")
-        @ExcludeMissing
         fun pendingAmount(pendingAmount: JsonField<Long>) = apply {
             this.pendingAmount = pendingAmount
         }
@@ -328,8 +350,6 @@ private constructor(
          * APPROVED payments were successful while DECLINED payments were declined by Lithic or
          * returned.
          */
-        @JsonProperty("result")
-        @ExcludeMissing
         fun result(result: JsonField<Result>) = apply { this.result = result }
 
         /**
@@ -342,8 +362,6 @@ private constructor(
          * Amount of the payment that has been settled in the currency's smallest unit (e.g.,
          * cents).
          */
-        @JsonProperty("settled_amount")
-        @ExcludeMissing
         fun settledAmount(settledAmount: JsonField<Long>) = apply {
             this.settledAmount = settledAmount
         }
@@ -366,37 +384,27 @@ private constructor(
          * - `RETURNED` - The payment has been returned.
          * - `SETTLED` - The payment is completed.
          */
-        @JsonProperty("status")
-        @ExcludeMissing
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Date and time when the financial transaction was last updated. UTC time zone. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
         /** Date and time when the financial transaction was last updated. UTC time zone. */
-        @JsonProperty("updated")
-        @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun direction(direction: Direction) = direction(JsonField.of(direction))
 
-        @JsonProperty("direction")
-        @ExcludeMissing
         fun direction(direction: JsonField<Direction>) = apply { this.direction = direction }
 
         fun financialAccountToken(financialAccountToken: String) =
             financialAccountToken(JsonField.of(financialAccountToken))
 
-        @JsonProperty("financial_account_token")
-        @ExcludeMissing
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             this.financialAccountToken = financialAccountToken
         }
@@ -404,37 +412,27 @@ private constructor(
         fun externalBankAccountToken(externalBankAccountToken: String) =
             externalBankAccountToken(JsonField.of(externalBankAccountToken))
 
-        @JsonProperty("external_bank_account_token")
-        @ExcludeMissing
         fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
             this.externalBankAccountToken = externalBankAccountToken
         }
 
         fun method(method: Method) = method(JsonField.of(method))
 
-        @JsonProperty("method")
-        @ExcludeMissing
         fun method(method: JsonField<Method>) = apply { this.method = method }
 
         fun methodAttributes(methodAttributes: PaymentMethodAttributes) =
             methodAttributes(JsonField.of(methodAttributes))
 
-        @JsonProperty("method_attributes")
-        @ExcludeMissing
         fun methodAttributes(methodAttributes: JsonField<PaymentMethodAttributes>) = apply {
             this.methodAttributes = methodAttributes
         }
 
         fun source(source: Source) = source(JsonField.of(source))
 
-        @JsonProperty("source")
-        @ExcludeMissing
         fun source(source: JsonField<Source>) = apply { this.source = source }
 
         fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
-        @JsonProperty("user_defined_id")
-        @ExcludeMissing
         fun userDefinedId(userDefinedId: JsonField<String>) = apply {
             this.userDefinedId = userDefinedId
         }
@@ -444,7 +442,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -591,17 +588,30 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    @JsonDeserialize(builder = PaymentEvent.Builder::class)
     @NoAutoDetect
     class PaymentEvent
+    @JsonCreator
     private constructor(
-        private val amount: JsonField<Long>,
-        private val created: JsonField<OffsetDateTime>,
-        private val detailedResults: JsonField<List<DetailedResult>>,
-        private val result: JsonField<Result>,
-        private val token: JsonField<String>,
-        private val type: JsonField<PaymentEventType>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("detailed_results")
+        @ExcludeMissing
+        private val detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of(),
+        @JsonProperty("result")
+        @ExcludeMissing
+        private val result: JsonField<Result> = JsonMissing.of(),
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("type")
+        @ExcludeMissing
+        private val type: JsonField<PaymentEventType> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -741,16 +751,12 @@ private constructor(
              * Amount of the financial event that has been settled in the currency's smallest unit
              * (e.g., cents).
              */
-            @JsonProperty("amount")
-            @ExcludeMissing
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Date and time when the financial event occurred. UTC time zone. */
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
             /** Date and time when the financial event occurred. UTC time zone. */
-            @JsonProperty("created")
-            @ExcludeMissing
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /** More detailed reasons for the event */
@@ -758,8 +764,6 @@ private constructor(
                 detailedResults(JsonField.of(detailedResults))
 
             /** More detailed reasons for the event */
-            @JsonProperty("detailed_results")
-            @ExcludeMissing
             fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
                 this.detailedResults = detailedResults
             }
@@ -774,16 +778,12 @@ private constructor(
              * APPROVED financial events were successful while DECLINED financial events were
              * declined by user, Lithic, or the network.
              */
-            @JsonProperty("result")
-            @ExcludeMissing
             fun result(result: JsonField<Result>) = apply { this.result = result }
 
             /** Globally unique identifier. */
             fun token(token: String) = token(JsonField.of(token))
 
             /** Globally unique identifier. */
-            @JsonProperty("token")
-            @ExcludeMissing
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
@@ -824,8 +824,6 @@ private constructor(
              * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
              * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
              */
-            @JsonProperty("type")
-            @ExcludeMissing
             fun type(type: JsonField<PaymentEventType>) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -833,7 +831,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -1179,17 +1176,30 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    @JsonDeserialize(builder = PaymentMethodAttributes.Builder::class)
     @NoAutoDetect
     class PaymentMethodAttributes
+    @JsonCreator
     private constructor(
-        private val companyId: JsonField<String>,
-        private val receiptRoutingNumber: JsonField<String>,
-        private val retries: JsonField<Long>,
-        private val returnReasonCode: JsonField<String>,
-        private val secCode: JsonField<SecCode>,
-        private val traceNumbers: JsonField<List<String?>>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("company_id")
+        @ExcludeMissing
+        private val companyId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("receipt_routing_number")
+        @ExcludeMissing
+        private val receiptRoutingNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("retries")
+        @ExcludeMissing
+        private val retries: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("return_reason_code")
+        @ExcludeMissing
+        private val returnReasonCode: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("sec_code")
+        @ExcludeMissing
+        private val secCode: JsonField<SecCode> = JsonMissing.of(),
+        @JsonProperty("trace_numbers")
+        @ExcludeMissing
+        private val traceNumbers: JsonField<List<String?>> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         fun companyId(): Optional<String> = Optional.ofNullable(companyId.getNullable("company_id"))
@@ -1270,44 +1280,32 @@ private constructor(
 
             fun companyId(companyId: String) = companyId(JsonField.of(companyId))
 
-            @JsonProperty("company_id")
-            @ExcludeMissing
             fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
 
             fun receiptRoutingNumber(receiptRoutingNumber: String) =
                 receiptRoutingNumber(JsonField.of(receiptRoutingNumber))
 
-            @JsonProperty("receipt_routing_number")
-            @ExcludeMissing
             fun receiptRoutingNumber(receiptRoutingNumber: JsonField<String>) = apply {
                 this.receiptRoutingNumber = receiptRoutingNumber
             }
 
             fun retries(retries: Long) = retries(JsonField.of(retries))
 
-            @JsonProperty("retries")
-            @ExcludeMissing
             fun retries(retries: JsonField<Long>) = apply { this.retries = retries }
 
             fun returnReasonCode(returnReasonCode: String) =
                 returnReasonCode(JsonField.of(returnReasonCode))
 
-            @JsonProperty("return_reason_code")
-            @ExcludeMissing
             fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
                 this.returnReasonCode = returnReasonCode
             }
 
             fun secCode(secCode: SecCode) = secCode(JsonField.of(secCode))
 
-            @JsonProperty("sec_code")
-            @ExcludeMissing
             fun secCode(secCode: JsonField<SecCode>) = apply { this.secCode = secCode }
 
             fun traceNumbers(traceNumbers: List<String?>) = traceNumbers(JsonField.of(traceNumbers))
 
-            @JsonProperty("trace_numbers")
-            @ExcludeMissing
             fun traceNumbers(traceNumbers: JsonField<List<String?>>) = apply {
                 this.traceNumbers = traceNumbers
             }
@@ -1317,7 +1315,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

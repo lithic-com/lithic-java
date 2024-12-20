@@ -4,26 +4,31 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = AccountHolderUpdateResponse.Builder::class)
 @NoAutoDetect
 class AccountHolderUpdateResponse
+@JsonCreator
 private constructor(
-    private val businessAccountToken: JsonField<String>,
-    private val email: JsonField<String>,
-    private val phoneNumber: JsonField<String>,
-    private val token: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("business_account_token")
+    @ExcludeMissing
+    private val businessAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("email") @ExcludeMissing private val email: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("phone_number")
+    @ExcludeMissing
+    private val phoneNumber: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /**
@@ -115,8 +120,6 @@ private constructor(
          * authorized users. Pass the account_token of the enrolled business associated with the
          * AUTHORIZED_USER in this field.
          */
-        @JsonProperty("business_account_token")
-        @ExcludeMissing
         fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
             this.businessAccountToken = businessAccountToken
         }
@@ -125,24 +128,18 @@ private constructor(
         fun email(email: String) = email(JsonField.of(email))
 
         /** The newly updated email for the account holder */
-        @JsonProperty("email")
-        @ExcludeMissing
         fun email(email: JsonField<String>) = apply { this.email = email }
 
         /** The newly updated phone_number for the account holder */
         fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
         /** The newly updated phone_number for the account holder */
-        @JsonProperty("phone_number")
-        @ExcludeMissing
         fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
 
         /** The token for the account holder that was updated */
         fun token(token: String) = token(JsonField.of(token))
 
         /** The token for the account holder that was updated */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -150,7 +147,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

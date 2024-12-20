@@ -23,6 +23,7 @@ import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
@@ -434,28 +435,29 @@ constructor(
             )
     }
 
-    @JsonDeserialize(builder = BankVerifiedCreateBankAccountApiRequest.Builder::class)
     @NoAutoDetect
     class BankVerifiedCreateBankAccountApiRequest
+    @JsonCreator
     private constructor(
-        private val verificationMethod: VerificationMethod,
-        private val ownerType: OwnerType,
-        private val owner: String,
-        private val accountToken: String?,
-        private val companyId: String?,
-        private val doingBusinessAs: String?,
-        private val dob: LocalDate?,
-        private val userDefinedId: String?,
-        private val type: AccountType,
-        private val routingNumber: String,
-        private val accountNumber: String,
-        private val name: String?,
-        private val country: String,
-        private val currency: String,
-        private val verificationEnforcement: Boolean?,
-        private val address: ExternalBankAccountAddress?,
-        private val financialAccountToken: String,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("verification_method") private val verificationMethod: VerificationMethod,
+        @JsonProperty("owner_type") private val ownerType: OwnerType,
+        @JsonProperty("owner") private val owner: String,
+        @JsonProperty("account_token") private val accountToken: String?,
+        @JsonProperty("company_id") private val companyId: String?,
+        @JsonProperty("doing_business_as") private val doingBusinessAs: String?,
+        @JsonProperty("dob") private val dob: LocalDate?,
+        @JsonProperty("user_defined_id") private val userDefinedId: String?,
+        @JsonProperty("type") private val type: AccountType,
+        @JsonProperty("routing_number") private val routingNumber: String,
+        @JsonProperty("account_number") private val accountNumber: String,
+        @JsonProperty("name") private val name: String?,
+        @JsonProperty("country") private val country: String,
+        @JsonProperty("currency") private val currency: String,
+        @JsonProperty("verification_enforcement") private val verificationEnforcement: Boolean?,
+        @JsonProperty("address") private val address: ExternalBankAccountAddress?,
+        @JsonProperty("financial_account_token") private val financialAccountToken: String,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Verification Method */
@@ -586,81 +588,69 @@ constructor(
             }
 
             /** Verification Method */
-            @JsonProperty("verification_method")
             fun verificationMethod(verificationMethod: VerificationMethod) = apply {
                 this.verificationMethod = verificationMethod
             }
 
             /** Owner Type */
-            @JsonProperty("owner_type")
             fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
 
             /**
              * Legal Name of the business or individual who owns the external account. This will
              * appear in statements
              */
-            @JsonProperty("owner") fun owner(owner: String) = apply { this.owner = owner }
+            fun owner(owner: String) = apply { this.owner = owner }
 
             /**
              * Indicates which Lithic account the external account is associated with. For external
              * accounts that are associated with the program, account_token field returned will be
              * null
              */
-            @JsonProperty("account_token")
             fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
             /** Optional field that helps identify bank accounts in receipts */
-            @JsonProperty("company_id")
             fun companyId(companyId: String) = apply { this.companyId = companyId }
 
             /** Doing Business As */
-            @JsonProperty("doing_business_as")
             fun doingBusinessAs(doingBusinessAs: String) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
             /** Date of Birth of the Individual that owns the external bank account */
-            @JsonProperty("dob") fun dob(dob: LocalDate) = apply { this.dob = dob }
+            fun dob(dob: LocalDate) = apply { this.dob = dob }
 
             /** User Defined ID */
-            @JsonProperty("user_defined_id")
             fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
 
             /** Account Type */
-            @JsonProperty("type") fun type(type: AccountType) = apply { this.type = type }
+            fun type(type: AccountType) = apply { this.type = type }
 
             /** Routing Number */
-            @JsonProperty("routing_number")
             fun routingNumber(routingNumber: String) = apply { this.routingNumber = routingNumber }
 
             /** Account Number */
-            @JsonProperty("account_number")
             fun accountNumber(accountNumber: String) = apply { this.accountNumber = accountNumber }
 
             /** The nickname for this External Bank Account */
-            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
+            fun name(name: String) = apply { this.name = name }
 
             /**
              * The country that the bank account is located in using ISO 3166-1. We will only accept
              * USA bank accounts e.g., USA
              */
-            @JsonProperty("country") fun country(country: String) = apply { this.country = country }
+            fun country(country: String) = apply { this.country = country }
 
             /** currency of the external account 3-digit alphabetic ISO 4217 code */
-            @JsonProperty("currency")
             fun currency(currency: String) = apply { this.currency = currency }
 
-            @JsonProperty("verification_enforcement")
             fun verificationEnforcement(verificationEnforcement: Boolean) = apply {
                 this.verificationEnforcement = verificationEnforcement
             }
 
             /** Address */
-            @JsonProperty("address")
             fun address(address: ExternalBankAccountAddress) = apply { this.address = address }
 
             /** The financial account token of the operating account to fund the micro deposits */
-            @JsonProperty("financial_account_token")
             fun financialAccountToken(financialAccountToken: String) = apply {
                 this.financialAccountToken = financialAccountToken
             }
@@ -670,7 +660,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -787,20 +776,21 @@ constructor(
             "BankVerifiedCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, type=$type, routingNumber=$routingNumber, accountNumber=$accountNumber, name=$name, country=$country, currency=$currency, verificationEnforcement=$verificationEnforcement, address=$address, financialAccountToken=$financialAccountToken, additionalProperties=$additionalProperties}"
     }
 
-    @JsonDeserialize(builder = PlaidCreateBankAccountApiRequest.Builder::class)
     @NoAutoDetect
     class PlaidCreateBankAccountApiRequest
+    @JsonCreator
     private constructor(
-        private val verificationMethod: VerificationMethod,
-        private val ownerType: OwnerType,
-        private val owner: String,
-        private val accountToken: String?,
-        private val companyId: String?,
-        private val doingBusinessAs: String?,
-        private val dob: LocalDate?,
-        private val userDefinedId: String?,
-        private val processorToken: String,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("verification_method") private val verificationMethod: VerificationMethod,
+        @JsonProperty("owner_type") private val ownerType: OwnerType,
+        @JsonProperty("owner") private val owner: String,
+        @JsonProperty("account_token") private val accountToken: String?,
+        @JsonProperty("company_id") private val companyId: String?,
+        @JsonProperty("doing_business_as") private val doingBusinessAs: String?,
+        @JsonProperty("dob") private val dob: LocalDate?,
+        @JsonProperty("user_defined_id") private val userDefinedId: String?,
+        @JsonProperty("processor_token") private val processorToken: String,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Verification Method */
@@ -881,47 +871,40 @@ constructor(
                 }
 
             /** Verification Method */
-            @JsonProperty("verification_method")
             fun verificationMethod(verificationMethod: VerificationMethod) = apply {
                 this.verificationMethod = verificationMethod
             }
 
             /** Owner Type */
-            @JsonProperty("owner_type")
             fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
 
             /**
              * Legal Name of the business or individual who owns the external account. This will
              * appear in statements
              */
-            @JsonProperty("owner") fun owner(owner: String) = apply { this.owner = owner }
+            fun owner(owner: String) = apply { this.owner = owner }
 
             /**
              * Indicates which Lithic account the external account is associated with. For external
              * accounts that are associated with the program, account_token field returned will be
              * null
              */
-            @JsonProperty("account_token")
             fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
             /** Optional field that helps identify bank accounts in receipts */
-            @JsonProperty("company_id")
             fun companyId(companyId: String) = apply { this.companyId = companyId }
 
             /** Doing Business As */
-            @JsonProperty("doing_business_as")
             fun doingBusinessAs(doingBusinessAs: String) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
             /** Date of Birth of the Individual that owns the external bank account */
-            @JsonProperty("dob") fun dob(dob: LocalDate) = apply { this.dob = dob }
+            fun dob(dob: LocalDate) = apply { this.dob = dob }
 
             /** User Defined ID */
-            @JsonProperty("user_defined_id")
             fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
 
-            @JsonProperty("processor_token")
             fun processorToken(processorToken: String) = apply {
                 this.processorToken = processorToken
             }
@@ -931,7 +914,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -981,26 +963,28 @@ constructor(
             "PlaidCreateBankAccountApiRequest{verificationMethod=$verificationMethod, ownerType=$ownerType, owner=$owner, accountToken=$accountToken, companyId=$companyId, doingBusinessAs=$doingBusinessAs, dob=$dob, userDefinedId=$userDefinedId, processorToken=$processorToken, additionalProperties=$additionalProperties}"
     }
 
-    @JsonDeserialize(builder = ExternallyVerifiedCreateBankAccountApiRequest.Builder::class)
     @NoAutoDetect
     class ExternallyVerifiedCreateBankAccountApiRequest
+    @JsonCreator
     private constructor(
+        @JsonProperty("verification_method")
         private val verificationMethod: ExternallyVerifiedVerificationMethod,
-        private val ownerType: OwnerType,
-        private val owner: String,
-        private val accountToken: String?,
-        private val companyId: String?,
-        private val doingBusinessAs: String?,
-        private val dob: LocalDate?,
-        private val userDefinedId: String?,
-        private val type: Type,
-        private val routingNumber: String,
-        private val accountNumber: String,
-        private val name: String?,
-        private val country: String,
-        private val currency: String,
-        private val address: ExternalBankAccountAddress?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("owner_type") private val ownerType: OwnerType,
+        @JsonProperty("owner") private val owner: String,
+        @JsonProperty("account_token") private val accountToken: String?,
+        @JsonProperty("company_id") private val companyId: String?,
+        @JsonProperty("doing_business_as") private val doingBusinessAs: String?,
+        @JsonProperty("dob") private val dob: LocalDate?,
+        @JsonProperty("user_defined_id") private val userDefinedId: String?,
+        @JsonProperty("type") private val type: Type,
+        @JsonProperty("routing_number") private val routingNumber: String,
+        @JsonProperty("account_number") private val accountNumber: String,
+        @JsonProperty("name") private val name: String?,
+        @JsonProperty("country") private val country: String,
+        @JsonProperty("currency") private val currency: String,
+        @JsonProperty("address") private val address: ExternalBankAccountAddress?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Verification Method */
@@ -1120,73 +1104,63 @@ constructor(
             }
 
             /** Verification Method */
-            @JsonProperty("verification_method")
             fun verificationMethod(verificationMethod: ExternallyVerifiedVerificationMethod) =
                 apply {
                     this.verificationMethod = verificationMethod
                 }
 
             /** Owner Type */
-            @JsonProperty("owner_type")
             fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
 
             /**
              * Legal Name of the business or individual who owns the external account. This will
              * appear in statements
              */
-            @JsonProperty("owner") fun owner(owner: String) = apply { this.owner = owner }
+            fun owner(owner: String) = apply { this.owner = owner }
 
             /**
              * Indicates which Lithic account the external account is associated with. For external
              * accounts that are associated with the program, account_token field returned will be
              * null
              */
-            @JsonProperty("account_token")
             fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
             /** Optional field that helps identify bank accounts in receipts */
-            @JsonProperty("company_id")
             fun companyId(companyId: String) = apply { this.companyId = companyId }
 
             /** Doing Business As */
-            @JsonProperty("doing_business_as")
             fun doingBusinessAs(doingBusinessAs: String) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
             /** Date of Birth of the Individual that owns the external bank account */
-            @JsonProperty("dob") fun dob(dob: LocalDate) = apply { this.dob = dob }
+            fun dob(dob: LocalDate) = apply { this.dob = dob }
 
             /** User Defined ID */
-            @JsonProperty("user_defined_id")
             fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
 
             /** Account Type */
-            @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
+            fun type(type: Type) = apply { this.type = type }
 
             /** Routing Number */
-            @JsonProperty("routing_number")
             fun routingNumber(routingNumber: String) = apply { this.routingNumber = routingNumber }
 
             /** Account Number */
-            @JsonProperty("account_number")
             fun accountNumber(accountNumber: String) = apply { this.accountNumber = accountNumber }
 
             /** The nickname for this External Bank Account */
-            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
+            fun name(name: String) = apply { this.name = name }
 
             /**
              * The country that the bank account is located in using ISO 3166-1. We will only accept
              * USA bank accounts e.g., USA
              */
-            @JsonProperty("country") fun country(country: String) = apply { this.country = country }
+            fun country(country: String) = apply { this.country = country }
 
             /** currency of the external account 3-digit alphabetic ISO 4217 code */
-            @JsonProperty("currency")
             fun currency(currency: String) = apply { this.currency = currency }
 
             /** Address */
-            @JsonProperty("address")
             fun address(address: ExternalBankAccountAddress) = apply { this.address = address }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1194,7 +1168,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

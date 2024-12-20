@@ -4,24 +4,27 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = ResponderEndpointStatus.Builder::class)
 @NoAutoDetect
 class ResponderEndpointStatus
+@JsonCreator
 private constructor(
-    private val enrolled: JsonField<Boolean>,
-    private val url: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("enrolled")
+    @ExcludeMissing
+    private val enrolled: JsonField<Boolean> = JsonMissing.of(),
+    @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** True if the instance has an endpoint enrolled. */
@@ -74,16 +77,12 @@ private constructor(
         fun enrolled(enrolled: Boolean) = enrolled(JsonField.of(enrolled))
 
         /** True if the instance has an endpoint enrolled. */
-        @JsonProperty("enrolled")
-        @ExcludeMissing
         fun enrolled(enrolled: JsonField<Boolean>) = apply { this.enrolled = enrolled }
 
         /** The URL of the currently enrolled endpoint or null. */
         fun url(url: String) = url(JsonField.of(url))
 
         /** The URL of the currently enrolled endpoint or null. */
-        @JsonProperty("url")
-        @ExcludeMissing
         fun url(url: JsonField<String>) = apply { this.url = url }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -91,7 +90,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

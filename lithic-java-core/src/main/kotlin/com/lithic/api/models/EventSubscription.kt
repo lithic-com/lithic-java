@@ -6,29 +6,35 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
 /** A subscription to specific event types. */
-@JsonDeserialize(builder = EventSubscription.Builder::class)
 @NoAutoDetect
 class EventSubscription
+@JsonCreator
 private constructor(
-    private val description: JsonField<String>,
-    private val disabled: JsonField<Boolean>,
-    private val eventTypes: JsonField<List<EventType>>,
-    private val token: JsonField<String>,
-    private val url: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("description")
+    @ExcludeMissing
+    private val description: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("disabled")
+    @ExcludeMissing
+    private val disabled: JsonField<Boolean> = JsonMissing.of(),
+    @JsonProperty("event_types")
+    @ExcludeMissing
+    private val eventTypes: JsonField<List<EventType>> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** A description of the subscription. */
@@ -105,22 +111,16 @@ private constructor(
         fun description(description: String) = description(JsonField.of(description))
 
         /** A description of the subscription. */
-        @JsonProperty("description")
-        @ExcludeMissing
         fun description(description: JsonField<String>) = apply { this.description = description }
 
         /** Whether the subscription is disabled. */
         fun disabled(disabled: Boolean) = disabled(JsonField.of(disabled))
 
         /** Whether the subscription is disabled. */
-        @JsonProperty("disabled")
-        @ExcludeMissing
         fun disabled(disabled: JsonField<Boolean>) = apply { this.disabled = disabled }
 
         fun eventTypes(eventTypes: List<EventType>) = eventTypes(JsonField.of(eventTypes))
 
-        @JsonProperty("event_types")
-        @ExcludeMissing
         fun eventTypes(eventTypes: JsonField<List<EventType>>) = apply {
             this.eventTypes = eventTypes
         }
@@ -129,14 +129,10 @@ private constructor(
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun url(url: String) = url(JsonField.of(url))
 
-        @JsonProperty("url")
-        @ExcludeMissing
         fun url(url: JsonField<String>) = apply { this.url = url }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -144,7 +140,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
