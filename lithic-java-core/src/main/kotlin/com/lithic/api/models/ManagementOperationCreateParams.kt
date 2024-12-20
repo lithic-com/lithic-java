@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
@@ -84,21 +84,22 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = ManagementOperationCreateBody.Builder::class)
     @NoAutoDetect
     class ManagementOperationCreateBody
+    @JsonCreator
     internal constructor(
-        private val amount: Long,
-        private val category: ManagementOperationCategory,
-        private val direction: ManagementOperationDirection,
-        private val effectiveDate: LocalDate,
-        private val eventType: ManagementOperationEventType,
-        private val financialAccountToken: String,
-        private val token: String?,
-        private val memo: String?,
-        private val subtype: String?,
-        private val userDefinedId: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("amount") private val amount: Long,
+        @JsonProperty("category") private val category: ManagementOperationCategory,
+        @JsonProperty("direction") private val direction: ManagementOperationDirection,
+        @JsonProperty("effective_date") private val effectiveDate: LocalDate,
+        @JsonProperty("event_type") private val eventType: ManagementOperationEventType,
+        @JsonProperty("financial_account_token") private val financialAccountToken: String,
+        @JsonProperty("token") private val token: String?,
+        @JsonProperty("memo") private val memo: String?,
+        @JsonProperty("subtype") private val subtype: String?,
+        @JsonProperty("user_defined_id") private val userDefinedId: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         @JsonProperty("amount") fun amount(): Long = amount
@@ -165,38 +166,32 @@ constructor(
                         managementOperationCreateBody.additionalProperties.toMutableMap()
                 }
 
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = apply { this.amount = amount }
 
-            @JsonProperty("category")
             fun category(category: ManagementOperationCategory) = apply { this.category = category }
 
-            @JsonProperty("direction")
             fun direction(direction: ManagementOperationDirection) = apply {
                 this.direction = direction
             }
 
-            @JsonProperty("effective_date")
             fun effectiveDate(effectiveDate: LocalDate) = apply {
                 this.effectiveDate = effectiveDate
             }
 
-            @JsonProperty("event_type")
             fun eventType(eventType: ManagementOperationEventType) = apply {
                 this.eventType = eventType
             }
 
-            @JsonProperty("financial_account_token")
             fun financialAccountToken(financialAccountToken: String) = apply {
                 this.financialAccountToken = financialAccountToken
             }
 
-            @JsonProperty("token") fun token(token: String) = apply { this.token = token }
+            fun token(token: String) = apply { this.token = token }
 
-            @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
+            fun memo(memo: String) = apply { this.memo = memo }
 
-            @JsonProperty("subtype") fun subtype(subtype: String) = apply { this.subtype = subtype }
+            fun subtype(subtype: String) = apply { this.subtype = subtype }
 
-            @JsonProperty("user_defined_id")
             fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -204,7 +199,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

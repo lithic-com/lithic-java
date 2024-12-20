@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -79,20 +79,22 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = PaymentCreateBody.Builder::class)
     @NoAutoDetect
     class PaymentCreateBody
+    @JsonCreator
     internal constructor(
-        private val amount: Long,
-        private val externalBankAccountToken: String,
-        private val financialAccountToken: String,
-        private val method: Method,
+        @JsonProperty("amount") private val amount: Long,
+        @JsonProperty("external_bank_account_token") private val externalBankAccountToken: String,
+        @JsonProperty("financial_account_token") private val financialAccountToken: String,
+        @JsonProperty("method") private val method: Method,
+        @JsonProperty("method_attributes")
         private val methodAttributes: PaymentMethodRequestAttributes,
-        private val type: Type,
-        private val token: String?,
-        private val memo: String?,
-        private val userDefinedId: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("type") private val type: Type,
+        @JsonProperty("token") private val token: String?,
+        @JsonProperty("memo") private val memo: String?,
+        @JsonProperty("user_defined_id") private val userDefinedId: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         @JsonProperty("amount") fun amount(): Long = amount
@@ -159,36 +161,32 @@ constructor(
                 additionalProperties = paymentCreateBody.additionalProperties.toMutableMap()
             }
 
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = apply { this.amount = amount }
 
-            @JsonProperty("external_bank_account_token")
             fun externalBankAccountToken(externalBankAccountToken: String) = apply {
                 this.externalBankAccountToken = externalBankAccountToken
             }
 
-            @JsonProperty("financial_account_token")
             fun financialAccountToken(financialAccountToken: String) = apply {
                 this.financialAccountToken = financialAccountToken
             }
 
-            @JsonProperty("method") fun method(method: Method) = apply { this.method = method }
+            fun method(method: Method) = apply { this.method = method }
 
-            @JsonProperty("method_attributes")
             fun methodAttributes(methodAttributes: PaymentMethodRequestAttributes) = apply {
                 this.methodAttributes = methodAttributes
             }
 
-            @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
+            fun type(type: Type) = apply { this.type = type }
 
             /**
              * Customer-provided token that will serve as an idempotency token. This token will
              * become the transaction token.
              */
-            @JsonProperty("token") fun token(token: String) = apply { this.token = token }
+            fun token(token: String) = apply { this.token = token }
 
-            @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
+            fun memo(memo: String) = apply { this.memo = memo }
 
-            @JsonProperty("user_defined_id")
             fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -196,7 +194,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -515,12 +512,13 @@ constructor(
         override fun toString() = value.toString()
     }
 
-    @JsonDeserialize(builder = PaymentMethodRequestAttributes.Builder::class)
     @NoAutoDetect
     class PaymentMethodRequestAttributes
+    @JsonCreator
     private constructor(
-        private val secCode: SecCode,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("sec_code") private val secCode: SecCode,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         @JsonProperty("sec_code") fun secCode(): SecCode = secCode
@@ -549,7 +547,6 @@ constructor(
                         paymentMethodRequestAttributes.additionalProperties.toMutableMap()
                 }
 
-            @JsonProperty("sec_code")
             fun secCode(secCode: SecCode) = apply { this.secCode = secCode }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -557,7 +554,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

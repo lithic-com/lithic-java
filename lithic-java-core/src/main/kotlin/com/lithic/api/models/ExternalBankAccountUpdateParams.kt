@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.time.LocalDate
 import java.util.Objects
@@ -82,19 +83,20 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = ExternalBankAccountUpdateBody.Builder::class)
     @NoAutoDetect
     class ExternalBankAccountUpdateBody
+    @JsonCreator
     internal constructor(
-        private val address: ExternalBankAccountAddress?,
-        private val companyId: String?,
-        private val dob: LocalDate?,
-        private val doingBusinessAs: String?,
-        private val name: String?,
-        private val owner: String?,
-        private val ownerType: OwnerType?,
-        private val userDefinedId: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("address") private val address: ExternalBankAccountAddress?,
+        @JsonProperty("company_id") private val companyId: String?,
+        @JsonProperty("dob") private val dob: LocalDate?,
+        @JsonProperty("doing_business_as") private val doingBusinessAs: String?,
+        @JsonProperty("name") private val name: String?,
+        @JsonProperty("owner") private val owner: String?,
+        @JsonProperty("owner_type") private val ownerType: OwnerType?,
+        @JsonProperty("user_defined_id") private val userDefinedId: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Address */
@@ -168,37 +170,32 @@ constructor(
                 }
 
             /** Address */
-            @JsonProperty("address")
             fun address(address: ExternalBankAccountAddress) = apply { this.address = address }
 
             /** Optional field that helps identify bank accounts in receipts */
-            @JsonProperty("company_id")
             fun companyId(companyId: String) = apply { this.companyId = companyId }
 
             /** Date of Birth of the Individual that owns the external bank account */
-            @JsonProperty("dob") fun dob(dob: LocalDate) = apply { this.dob = dob }
+            fun dob(dob: LocalDate) = apply { this.dob = dob }
 
             /** Doing Business As */
-            @JsonProperty("doing_business_as")
             fun doingBusinessAs(doingBusinessAs: String) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
             /** The nickname for this External Bank Account */
-            @JsonProperty("name") fun name(name: String) = apply { this.name = name }
+            fun name(name: String) = apply { this.name = name }
 
             /**
              * Legal Name of the business or individual who owns the external account. This will
              * appear in statements
              */
-            @JsonProperty("owner") fun owner(owner: String) = apply { this.owner = owner }
+            fun owner(owner: String) = apply { this.owner = owner }
 
             /** Owner Type */
-            @JsonProperty("owner_type")
             fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
 
             /** User Defined ID */
-            @JsonProperty("user_defined_id")
             fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -206,7 +203,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

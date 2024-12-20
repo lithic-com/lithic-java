@@ -6,13 +6,13 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
@@ -20,33 +20,65 @@ import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = MicroDepositCreateResponse.Builder::class)
 @NoAutoDetect
 class MicroDepositCreateResponse
+@JsonCreator
 private constructor(
-    private val token: JsonField<String>,
-    private val owner: JsonField<String>,
-    private val routingNumber: JsonField<String>,
-    private val lastFour: JsonField<String>,
-    private val name: JsonField<String>,
-    private val currency: JsonField<String>,
-    private val country: JsonField<String>,
-    private val accountToken: JsonField<String>,
-    private val created: JsonField<OffsetDateTime>,
-    private val companyId: JsonField<String>,
-    private val dob: JsonField<LocalDate>,
-    private val doingBusinessAs: JsonField<String>,
-    private val userDefinedId: JsonField<String>,
-    private val verificationFailedReason: JsonField<String>,
-    private val verificationAttempts: JsonField<Long>,
-    private val financialAccountToken: JsonField<String>,
-    private val type: JsonField<Type>,
-    private val verificationMethod: JsonField<VerificationMethod>,
-    private val ownerType: JsonField<OwnerType>,
-    private val state: JsonField<State>,
-    private val verificationState: JsonField<VerificationState>,
-    private val address: JsonField<ExternalBankAccountAddress>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("owner") @ExcludeMissing private val owner: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("routing_number")
+    @ExcludeMissing
+    private val routingNumber: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("last_four")
+    @ExcludeMissing
+    private val lastFour: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("name") @ExcludeMissing private val name: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("currency")
+    @ExcludeMissing
+    private val currency: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("country")
+    @ExcludeMissing
+    private val country: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    private val accountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("company_id")
+    @ExcludeMissing
+    private val companyId: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("dob") @ExcludeMissing private val dob: JsonField<LocalDate> = JsonMissing.of(),
+    @JsonProperty("doing_business_as")
+    @ExcludeMissing
+    private val doingBusinessAs: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("user_defined_id")
+    @ExcludeMissing
+    private val userDefinedId: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("verification_failed_reason")
+    @ExcludeMissing
+    private val verificationFailedReason: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("verification_attempts")
+    @ExcludeMissing
+    private val verificationAttempts: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("financial_account_token")
+    @ExcludeMissing
+    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
+    @JsonProperty("verification_method")
+    @ExcludeMissing
+    private val verificationMethod: JsonField<VerificationMethod> = JsonMissing.of(),
+    @JsonProperty("owner_type")
+    @ExcludeMissing
+    private val ownerType: JsonField<OwnerType> = JsonMissing.of(),
+    @JsonProperty("state") @ExcludeMissing private val state: JsonField<State> = JsonMissing.of(),
+    @JsonProperty("verification_state")
+    @ExcludeMissing
+    private val verificationState: JsonField<VerificationState> = JsonMissing.of(),
+    @JsonProperty("address")
+    @ExcludeMissing
+    private val address: JsonField<ExternalBankAccountAddress> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /**
@@ -336,8 +368,6 @@ private constructor(
          * a program links an external bank account to more than one end-user or to both the program
          * and the end-user, then Lithic will return each record of the association
          */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
@@ -350,16 +380,12 @@ private constructor(
          * Legal Name of the business or individual who owns the external account. This will appear
          * in statements
          */
-        @JsonProperty("owner")
-        @ExcludeMissing
         fun owner(owner: JsonField<String>) = apply { this.owner = owner }
 
         /** Routing Number */
         fun routingNumber(routingNumber: String) = routingNumber(JsonField.of(routingNumber))
 
         /** Routing Number */
-        @JsonProperty("routing_number")
-        @ExcludeMissing
         fun routingNumber(routingNumber: JsonField<String>) = apply {
             this.routingNumber = routingNumber
         }
@@ -372,24 +398,18 @@ private constructor(
         /**
          * The last 4 digits of the bank account. Derived by Lithic from the account number passed
          */
-        @JsonProperty("last_four")
-        @ExcludeMissing
         fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
 
         /** The nickname for this External Bank Account */
         fun name(name: String) = name(JsonField.of(name))
 
         /** The nickname for this External Bank Account */
-        @JsonProperty("name")
-        @ExcludeMissing
         fun name(name: JsonField<String>) = apply { this.name = name }
 
         /** currency of the external account 3-digit alphabetic ISO 4217 code */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
         /** currency of the external account 3-digit alphabetic ISO 4217 code */
-        @JsonProperty("currency")
-        @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /**
@@ -402,8 +422,6 @@ private constructor(
          * The country that the bank account is located in using ISO 3166-1. We will only accept USA
          * bank accounts e.g., USA
          */
-        @JsonProperty("country")
-        @ExcludeMissing
         fun country(country: JsonField<String>) = apply { this.country = country }
 
         /**
@@ -416,8 +434,6 @@ private constructor(
          * Indicates which Lithic account the external account is associated with. For external
          * accounts that are associated with the program, account_token field returned will be null
          */
-        @JsonProperty("account_token")
-        @ExcludeMissing
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
         }
@@ -430,24 +446,18 @@ private constructor(
         /**
          * An ISO 8601 string representing when this funding source was added to the Lithic account.
          */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Optional field that helps identify bank accounts in receipts */
         fun companyId(companyId: String) = companyId(JsonField.of(companyId))
 
         /** Optional field that helps identify bank accounts in receipts */
-        @JsonProperty("company_id")
-        @ExcludeMissing
         fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
 
         /** Date of Birth of the Individual that owns the external bank account */
         fun dob(dob: LocalDate) = dob(JsonField.of(dob))
 
         /** Date of Birth of the Individual that owns the external bank account */
-        @JsonProperty("dob")
-        @ExcludeMissing
         fun dob(dob: JsonField<LocalDate>) = apply { this.dob = dob }
 
         /** Doing Business As */
@@ -455,8 +465,6 @@ private constructor(
             doingBusinessAs(JsonField.of(doingBusinessAs))
 
         /** Doing Business As */
-        @JsonProperty("doing_business_as")
-        @ExcludeMissing
         fun doingBusinessAs(doingBusinessAs: JsonField<String>) = apply {
             this.doingBusinessAs = doingBusinessAs
         }
@@ -465,8 +473,6 @@ private constructor(
         fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
         /** User Defined ID */
-        @JsonProperty("user_defined_id")
-        @ExcludeMissing
         fun userDefinedId(userDefinedId: JsonField<String>) = apply {
             this.userDefinedId = userDefinedId
         }
@@ -484,8 +490,6 @@ private constructor(
          * micro-deposits returned, this field will display the reason return code sent by the ACH
          * network
          */
-        @JsonProperty("verification_failed_reason")
-        @ExcludeMissing
         fun verificationFailedReason(verificationFailedReason: JsonField<String>) = apply {
             this.verificationFailedReason = verificationFailedReason
         }
@@ -495,8 +499,6 @@ private constructor(
             verificationAttempts(JsonField.of(verificationAttempts))
 
         /** The number of attempts at verification */
-        @JsonProperty("verification_attempts")
-        @ExcludeMissing
         fun verificationAttempts(verificationAttempts: JsonField<Long>) = apply {
             this.verificationAttempts = verificationAttempts
         }
@@ -506,8 +508,6 @@ private constructor(
             financialAccountToken(JsonField.of(financialAccountToken))
 
         /** The financial account token of the operating account to fund the micro deposits */
-        @JsonProperty("financial_account_token")
-        @ExcludeMissing
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             this.financialAccountToken = financialAccountToken
         }
@@ -516,8 +516,6 @@ private constructor(
         fun type(type: Type) = type(JsonField.of(type))
 
         /** Account Type */
-        @JsonProperty("type")
-        @ExcludeMissing
         fun type(type: JsonField<Type>) = apply { this.type = type }
 
         /** Verification Method */
@@ -525,8 +523,6 @@ private constructor(
             verificationMethod(JsonField.of(verificationMethod))
 
         /** Verification Method */
-        @JsonProperty("verification_method")
-        @ExcludeMissing
         fun verificationMethod(verificationMethod: JsonField<VerificationMethod>) = apply {
             this.verificationMethod = verificationMethod
         }
@@ -535,16 +531,12 @@ private constructor(
         fun ownerType(ownerType: OwnerType) = ownerType(JsonField.of(ownerType))
 
         /** Owner Type */
-        @JsonProperty("owner_type")
-        @ExcludeMissing
         fun ownerType(ownerType: JsonField<OwnerType>) = apply { this.ownerType = ownerType }
 
         /** Account State */
         fun state(state: State) = state(JsonField.of(state))
 
         /** Account State */
-        @JsonProperty("state")
-        @ExcludeMissing
         fun state(state: JsonField<State>) = apply { this.state = state }
 
         /** Verification State */
@@ -552,8 +544,6 @@ private constructor(
             verificationState(JsonField.of(verificationState))
 
         /** Verification State */
-        @JsonProperty("verification_state")
-        @ExcludeMissing
         fun verificationState(verificationState: JsonField<VerificationState>) = apply {
             this.verificationState = verificationState
         }
@@ -562,8 +552,6 @@ private constructor(
         fun address(address: ExternalBankAccountAddress) = address(JsonField.of(address))
 
         /** Address */
-        @JsonProperty("address")
-        @ExcludeMissing
         fun address(address: JsonField<ExternalBankAccountAddress>) = apply {
             this.address = address
         }
@@ -573,7 +561,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.time.OffsetDateTime
 import java.util.Objects
@@ -58,13 +59,14 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = AuthRuleV2BacktestCreateBody.Builder::class)
     @NoAutoDetect
     class AuthRuleV2BacktestCreateBody
+    @JsonCreator
     internal constructor(
-        private val end: OffsetDateTime?,
-        private val start: OffsetDateTime?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("end") private val end: OffsetDateTime?,
+        @JsonProperty("start") private val start: OffsetDateTime?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The end time of the backtest. */
@@ -99,17 +101,16 @@ constructor(
             }
 
             /** The end time of the backtest. */
-            @JsonProperty("end") fun end(end: OffsetDateTime) = apply { this.end = end }
+            fun end(end: OffsetDateTime) = apply { this.end = end }
 
             /** The start time of the backtest. */
-            @JsonProperty("start") fun start(start: OffsetDateTime) = apply { this.start = start }
+            fun start(start: OffsetDateTime) = apply { this.start = start }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

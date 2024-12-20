@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
@@ -46,13 +47,14 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = TransactionSimulateAuthorizationAdviceBody.Builder::class)
     @NoAutoDetect
     class TransactionSimulateAuthorizationAdviceBody
+    @JsonCreator
     internal constructor(
-        private val token: String,
-        private val amount: Long,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("token") private val token: String,
+        @JsonProperty("amount") private val amount: Long,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The transaction token returned from the /v1/simulate/authorize. response. */
@@ -93,20 +95,19 @@ constructor(
             }
 
             /** The transaction token returned from the /v1/simulate/authorize. response. */
-            @JsonProperty("token") fun token(token: String) = apply { this.token = token }
+            fun token(token: String) = apply { this.token = token }
 
             /**
              * Amount (in cents) to authorize. This amount will override the transaction's amount
              * that was originally set by /v1/simulate/authorize.
              */
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = apply { this.amount = amount }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

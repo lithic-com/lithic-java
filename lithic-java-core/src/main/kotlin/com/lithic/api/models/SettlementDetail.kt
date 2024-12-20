@@ -6,45 +6,83 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = SettlementDetail.Builder::class)
 @NoAutoDetect
 class SettlementDetail
+@JsonCreator
 private constructor(
-    private val accountToken: JsonField<String>,
-    private val cardProgramToken: JsonField<String>,
-    private val cardToken: JsonField<String>,
-    private val created: JsonField<OffsetDateTime>,
-    private val currency: JsonField<String>,
-    private val disputesGrossAmount: JsonField<Long>,
-    private val eventTokens: JsonField<List<String>>,
-    private val feeDescription: JsonField<String>,
-    private val institution: JsonField<String>,
-    private val interchangeFeeExtendedPrecision: JsonField<Long>,
-    private val interchangeGrossAmount: JsonField<Long>,
-    private val network: JsonField<Network>,
-    private val otherFeesDetails: JsonField<OtherFeesDetails>,
-    private val otherFeesGrossAmount: JsonField<Long>,
-    private val reportDate: JsonField<String>,
-    private val settlementDate: JsonField<String>,
-    private val token: JsonField<String>,
-    private val transactionToken: JsonField<String>,
-    private val transactionsGrossAmount: JsonField<Long>,
-    private val type: JsonField<Type>,
-    private val updated: JsonField<OffsetDateTime>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    private val accountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("card_program_token")
+    @ExcludeMissing
+    private val cardProgramToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("card_token")
+    @ExcludeMissing
+    private val cardToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("currency")
+    @ExcludeMissing
+    private val currency: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("disputes_gross_amount")
+    @ExcludeMissing
+    private val disputesGrossAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("event_tokens")
+    @ExcludeMissing
+    private val eventTokens: JsonField<List<String>> = JsonMissing.of(),
+    @JsonProperty("fee_description")
+    @ExcludeMissing
+    private val feeDescription: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("institution")
+    @ExcludeMissing
+    private val institution: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("interchange_fee_extended_precision")
+    @ExcludeMissing
+    private val interchangeFeeExtendedPrecision: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("interchange_gross_amount")
+    @ExcludeMissing
+    private val interchangeGrossAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("network")
+    @ExcludeMissing
+    private val network: JsonField<Network> = JsonMissing.of(),
+    @JsonProperty("other_fees_details")
+    @ExcludeMissing
+    private val otherFeesDetails: JsonField<OtherFeesDetails> = JsonMissing.of(),
+    @JsonProperty("other_fees_gross_amount")
+    @ExcludeMissing
+    private val otherFeesGrossAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("report_date")
+    @ExcludeMissing
+    private val reportDate: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("settlement_date")
+    @ExcludeMissing
+    private val settlementDate: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("transaction_token")
+    @ExcludeMissing
+    private val transactionToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("transactions_gross_amount")
+    @ExcludeMissing
+    private val transactionsGrossAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
+    @JsonProperty("updated")
+    @ExcludeMissing
+    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa). */
@@ -298,8 +336,6 @@ private constructor(
         /**
          * The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa).
          */
-        @JsonProperty("account_token")
-        @ExcludeMissing
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
         }
@@ -315,8 +351,6 @@ private constructor(
          * Globally unique identifier denoting the card program that the associated Transaction
          * occurred on.
          */
-        @JsonProperty("card_program_token")
-        @ExcludeMissing
         fun cardProgramToken(cardProgramToken: JsonField<String>) = apply {
             this.cardProgramToken = cardProgramToken
         }
@@ -329,24 +363,18 @@ private constructor(
         /**
          * Globally unique identifier denoting the card that the associated Transaction occurred on.
          */
-        @JsonProperty("card_token")
-        @ExcludeMissing
         fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** Date and time when the transaction first occurred. UTC time zone. */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Three-digit alphabetic ISO 4217 code. */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
         /** Three-digit alphabetic ISO 4217 code. */
-        @JsonProperty("currency")
-        @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         /** The total gross amount of disputes settlements. */
@@ -354,8 +382,6 @@ private constructor(
             disputesGrossAmount(JsonField.of(disputesGrossAmount))
 
         /** The total gross amount of disputes settlements. */
-        @JsonProperty("disputes_gross_amount")
-        @ExcludeMissing
         fun disputesGrossAmount(disputesGrossAmount: JsonField<Long>) = apply {
             this.disputesGrossAmount = disputesGrossAmount
         }
@@ -364,8 +390,6 @@ private constructor(
         fun eventTokens(eventTokens: List<String>) = eventTokens(JsonField.of(eventTokens))
 
         /** Globally unique identifiers denoting the Events associated with this settlement. */
-        @JsonProperty("event_tokens")
-        @ExcludeMissing
         fun eventTokens(eventTokens: JsonField<List<String>>) = apply {
             this.eventTokens = eventTokens
         }
@@ -374,8 +398,6 @@ private constructor(
         fun feeDescription(feeDescription: String) = feeDescription(JsonField.of(feeDescription))
 
         /** Network's description of a fee, only present on records with type `FEE`. */
-        @JsonProperty("fee_description")
-        @ExcludeMissing
         fun feeDescription(feeDescription: JsonField<String>) = apply {
             this.feeDescription = feeDescription
         }
@@ -388,8 +410,6 @@ private constructor(
         /**
          * The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa).
          */
-        @JsonProperty("institution")
-        @ExcludeMissing
         fun institution(institution: JsonField<String>) = apply { this.institution = institution }
 
         /** The total amount of interchange in six-digit extended precision. */
@@ -397,8 +417,6 @@ private constructor(
             interchangeFeeExtendedPrecision(JsonField.of(interchangeFeeExtendedPrecision))
 
         /** The total amount of interchange in six-digit extended precision. */
-        @JsonProperty("interchange_fee_extended_precision")
-        @ExcludeMissing
         fun interchangeFeeExtendedPrecision(interchangeFeeExtendedPrecision: JsonField<Long>) =
             apply {
                 this.interchangeFeeExtendedPrecision = interchangeFeeExtendedPrecision
@@ -409,8 +427,6 @@ private constructor(
             interchangeGrossAmount(JsonField.of(interchangeGrossAmount))
 
         /** The total amount of interchange. */
-        @JsonProperty("interchange_gross_amount")
-        @ExcludeMissing
         fun interchangeGrossAmount(interchangeGrossAmount: JsonField<Long>) = apply {
             this.interchangeGrossAmount = interchangeGrossAmount
         }
@@ -419,8 +435,6 @@ private constructor(
         fun network(network: Network) = network(JsonField.of(network))
 
         /** Card network where the transaction took place. */
-        @JsonProperty("network")
-        @ExcludeMissing
         fun network(network: JsonField<Network>) = apply { this.network = network }
 
         /** The total gross amount of other fees by type. */
@@ -428,8 +442,6 @@ private constructor(
             otherFeesDetails(JsonField.of(otherFeesDetails))
 
         /** The total gross amount of other fees by type. */
-        @JsonProperty("other_fees_details")
-        @ExcludeMissing
         fun otherFeesDetails(otherFeesDetails: JsonField<OtherFeesDetails>) = apply {
             this.otherFeesDetails = otherFeesDetails
         }
@@ -439,8 +451,6 @@ private constructor(
             otherFeesGrossAmount(JsonField.of(otherFeesGrossAmount))
 
         /** Total amount of gross other fees outside of interchange. */
-        @JsonProperty("other_fees_gross_amount")
-        @ExcludeMissing
         fun otherFeesGrossAmount(otherFeesGrossAmount: JsonField<Long>) = apply {
             this.otherFeesGrossAmount = otherFeesGrossAmount
         }
@@ -449,16 +459,12 @@ private constructor(
         fun reportDate(reportDate: String) = reportDate(JsonField.of(reportDate))
 
         /** Date of when the report was first generated. */
-        @JsonProperty("report_date")
-        @ExcludeMissing
         fun reportDate(reportDate: JsonField<String>) = apply { this.reportDate = reportDate }
 
         /** Date of when money movement is triggered for the transaction. */
         fun settlementDate(settlementDate: String) = settlementDate(JsonField.of(settlementDate))
 
         /** Date of when money movement is triggered for the transaction. */
-        @JsonProperty("settlement_date")
-        @ExcludeMissing
         fun settlementDate(settlementDate: JsonField<String>) = apply {
             this.settlementDate = settlementDate
         }
@@ -467,8 +473,6 @@ private constructor(
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier denoting the Settlement Detail. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier denoting the associated Transaction object. */
@@ -476,8 +480,6 @@ private constructor(
             transactionToken(JsonField.of(transactionToken))
 
         /** Globally unique identifier denoting the associated Transaction object. */
-        @JsonProperty("transaction_token")
-        @ExcludeMissing
         fun transactionToken(transactionToken: JsonField<String>) = apply {
             this.transactionToken = transactionToken
         }
@@ -493,8 +495,6 @@ private constructor(
          * The total amount of settlement impacting transactions (excluding interchange, fees, and
          * disputes).
          */
-        @JsonProperty("transactions_gross_amount")
-        @ExcludeMissing
         fun transactionsGrossAmount(transactionsGrossAmount: JsonField<Long>) = apply {
             this.transactionsGrossAmount = transactionsGrossAmount
         }
@@ -503,16 +503,12 @@ private constructor(
         fun type(type: Type) = type(JsonField.of(type))
 
         /** The type of settlement record. */
-        @JsonProperty("type")
-        @ExcludeMissing
         fun type(type: JsonField<Type>) = apply { this.type = type }
 
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
         /** Date and time when the transaction first occurred. UTC time zone. */
-        @JsonProperty("updated")
-        @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -520,7 +516,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -638,12 +633,13 @@ private constructor(
     }
 
     /** The total gross amount of other fees by type. */
-    @JsonDeserialize(builder = OtherFeesDetails.Builder::class)
     @NoAutoDetect
     class OtherFeesDetails
+    @JsonCreator
     private constructor(
-        private val isa: JsonField<Long>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("ISA") @ExcludeMissing private val isa: JsonField<Long> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         fun isa(): Optional<Long> = Optional.ofNullable(isa.getNullable("ISA"))
@@ -683,8 +679,6 @@ private constructor(
 
             fun isa(isa: Long) = isa(JsonField.of(isa))
 
-            @JsonProperty("ISA")
-            @ExcludeMissing
             fun isa(isa: JsonField<Long>) = apply { this.isa = isa }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -692,7 +686,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

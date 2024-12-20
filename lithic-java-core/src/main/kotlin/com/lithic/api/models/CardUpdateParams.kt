@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -81,18 +81,19 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = CardUpdateBody.Builder::class)
     @NoAutoDetect
     class CardUpdateBody
+    @JsonCreator
     internal constructor(
-        private val digitalCardArtToken: String?,
-        private val memo: String?,
-        private val pin: String?,
-        private val pinStatus: PinStatus?,
-        private val spendLimit: Long?,
-        private val spendLimitDuration: SpendLimitDuration?,
-        private val state: State?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("digital_card_art_token") private val digitalCardArtToken: String?,
+        @JsonProperty("memo") private val memo: String?,
+        @JsonProperty("pin") private val pin: String?,
+        @JsonProperty("pin_status") private val pinStatus: PinStatus?,
+        @JsonProperty("spend_limit") private val spendLimit: Long?,
+        @JsonProperty("spend_limit_duration") private val spendLimitDuration: SpendLimitDuration?,
+        @JsonProperty("state") private val state: State?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -194,26 +195,24 @@ constructor(
              * use. See
              * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
-            @JsonProperty("digital_card_art_token")
             fun digitalCardArtToken(digitalCardArtToken: String) = apply {
                 this.digitalCardArtToken = digitalCardArtToken
             }
 
             /** Friendly name to identify the card. */
-            @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
+            fun memo(memo: String) = apply { this.memo = memo }
 
             /**
              * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
              * `VIRTUAL`. Changing PIN also resets PIN status to `OK`. See
              * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
              */
-            @JsonProperty("pin") fun pin(pin: String) = apply { this.pin = pin }
+            fun pin(pin: String) = apply { this.pin = pin }
 
             /**
              * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
              * attempts). Can only be set to `OK` to unblock a card.
              */
-            @JsonProperty("pin_status")
             fun pinStatus(pinStatus: PinStatus) = apply { this.pinStatus = pinStatus }
 
             /**
@@ -222,7 +221,6 @@ constructor(
              * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
              * will result in declined transactions due to checks against the card limit.
              */
-            @JsonProperty("spend_limit")
             fun spendLimit(spendLimit: Long) = apply { this.spendLimit = spendLimit }
 
             /**
@@ -238,7 +236,6 @@ constructor(
              * - `TRANSACTION` - Card will authorize multiple transactions if each individual
              *   transaction is under the spend limit.
              */
-            @JsonProperty("spend_limit_duration")
             fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
                 this.spendLimitDuration = spendLimitDuration
             }
@@ -251,14 +248,13 @@ constructor(
              *   parameters).
              * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
-            @JsonProperty("state") fun state(state: State) = apply { this.state = state }
+            fun state(state: State) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

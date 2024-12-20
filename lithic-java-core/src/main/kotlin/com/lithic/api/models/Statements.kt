@@ -4,23 +4,28 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
-@JsonDeserialize(builder = Statements.Builder::class)
 @NoAutoDetect
 class Statements
+@JsonCreator
 private constructor(
-    private val data: JsonField<List<Statement>>,
-    private val hasMore: JsonField<Boolean>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("data")
+    @ExcludeMissing
+    private val data: JsonField<List<Statement>> = JsonMissing.of(),
+    @JsonProperty("has_more")
+    @ExcludeMissing
+    private val hasMore: JsonField<Boolean> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     fun data(): List<Statement> = data.getRequired("data")
@@ -67,14 +72,10 @@ private constructor(
 
         fun data(data: List<Statement>) = data(JsonField.of(data))
 
-        @JsonProperty("data")
-        @ExcludeMissing
         fun data(data: JsonField<List<Statement>>) = apply { this.data = data }
 
         fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
-        @JsonProperty("has_more")
-        @ExcludeMissing
         fun hasMore(hasMore: JsonField<Boolean>) = apply { this.hasMore = hasMore }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -82,7 +83,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

@@ -4,28 +4,37 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = Address.Builder::class)
 @NoAutoDetect
 class Address
+@JsonCreator
 private constructor(
-    private val address1: JsonField<String>,
-    private val address2: JsonField<String>,
-    private val city: JsonField<String>,
-    private val country: JsonField<String>,
-    private val postalCode: JsonField<String>,
-    private val state: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("address1")
+    @ExcludeMissing
+    private val address1: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("address2")
+    @ExcludeMissing
+    private val address2: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("city") @ExcludeMissing private val city: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("country")
+    @ExcludeMissing
+    private val country: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("postal_code")
+    @ExcludeMissing
+    private val postalCode: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("state") @ExcludeMissing private val state: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Valid deliverable address (no PO boxes). */
@@ -134,24 +143,18 @@ private constructor(
         fun address1(address1: String) = address1(JsonField.of(address1))
 
         /** Valid deliverable address (no PO boxes). */
-        @JsonProperty("address1")
-        @ExcludeMissing
         fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
 
         /** Unit or apartment number (if applicable). */
         fun address2(address2: String) = address2(JsonField.of(address2))
 
         /** Unit or apartment number (if applicable). */
-        @JsonProperty("address2")
-        @ExcludeMissing
         fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
 
         /** Name of city. */
         fun city(city: String) = city(JsonField.of(city))
 
         /** Name of city. */
-        @JsonProperty("city")
-        @ExcludeMissing
         fun city(city: JsonField<String>) = apply { this.city = city }
 
         /**
@@ -164,8 +167,6 @@ private constructor(
          * Valid country code, entered in uppercase ISO 3166-1 alpha-3 three-character format. Only
          * USA is currently supported for all workflows. KYC_EXEMPT supports CAN additionally.
          */
-        @JsonProperty("country")
-        @ExcludeMissing
         fun country(country: JsonField<String>) = apply { this.country = country }
 
         /**
@@ -180,8 +181,6 @@ private constructor(
          * postal code or nine-digit postal code (ZIP+4) using the format 12345-1234. KYC_EXEMPT
          * supports Canadian postal codes.
          */
-        @JsonProperty("postal_code")
-        @ExcludeMissing
         fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
 
         /**
@@ -194,8 +193,6 @@ private constructor(
          * Valid state code. USA state codes are supported, entered in uppercase ISO 3166-2
          * two-character format. KYC_EXEMPT supports Canadian province codes.
          */
-        @JsonProperty("state")
-        @ExcludeMissing
         fun state(state: JsonField<String>) = apply { this.state = state }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -203,7 +200,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

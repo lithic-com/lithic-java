@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -60,13 +60,14 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = AccountHolderUploadDocumentBody.Builder::class)
     @NoAutoDetect
     class AccountHolderUploadDocumentBody
+    @JsonCreator
     internal constructor(
-        private val documentType: DocumentType,
-        private val entityToken: String,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("document_type") private val documentType: DocumentType,
+        @JsonProperty("entity_token") private val entityToken: String,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The type of document to upload */
@@ -102,13 +103,11 @@ constructor(
                 }
 
             /** The type of document to upload */
-            @JsonProperty("document_type")
             fun documentType(documentType: DocumentType) = apply {
                 this.documentType = documentType
             }
 
             /** Globally unique identifier for the entity. */
-            @JsonProperty("entity_token")
             fun entityToken(entityToken: String) = apply { this.entityToken = entityToken }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -116,7 +115,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

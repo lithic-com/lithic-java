@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -69,15 +69,16 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = CardConvertPhysicalBody.Builder::class)
     @NoAutoDetect
     class CardConvertPhysicalBody
+    @JsonCreator
     internal constructor(
-        private val shippingAddress: ShippingAddress,
-        private val carrier: Carrier?,
-        private val productId: String?,
-        private val shippingMethod: ShippingMethod?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("shipping_address") private val shippingAddress: ShippingAddress,
+        @JsonProperty("carrier") private val carrier: Carrier?,
+        @JsonProperty("product_id") private val productId: String?,
+        @JsonProperty("shipping_method") private val shippingMethod: ShippingMethod?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The shipping address this card will be sent to. */
@@ -137,13 +138,11 @@ constructor(
             }
 
             /** The shipping address this card will be sent to. */
-            @JsonProperty("shipping_address")
             fun shippingAddress(shippingAddress: ShippingAddress) = apply {
                 this.shippingAddress = shippingAddress
             }
 
             /** If omitted, the previous carrier will be used. */
-            @JsonProperty("carrier")
             fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
 
             /**
@@ -151,7 +150,6 @@ constructor(
              * manufactured with, and only applies to cards of type `PHYSICAL`. This must be
              * configured with Lithic before use.
              */
-            @JsonProperty("product_id")
             fun productId(productId: String) = apply { this.productId = productId }
 
             /**
@@ -166,7 +164,6 @@ constructor(
              * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
              *   tracking
              */
-            @JsonProperty("shipping_method")
             fun shippingMethod(shippingMethod: ShippingMethod) = apply {
                 this.shippingMethod = shippingMethod
             }
@@ -176,7 +173,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

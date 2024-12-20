@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -63,16 +63,17 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = PaymentSimulateReceiptBody.Builder::class)
     @NoAutoDetect
     class PaymentSimulateReceiptBody
+    @JsonCreator
     internal constructor(
-        private val token: String,
-        private val amount: Long,
-        private val financialAccountToken: String,
-        private val receiptType: ReceiptType,
-        private val memo: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("token") private val token: String,
+        @JsonProperty("amount") private val amount: Long,
+        @JsonProperty("financial_account_token") private val financialAccountToken: String,
+        @JsonProperty("receipt_type") private val receiptType: ReceiptType,
+        @JsonProperty("memo") private val memo: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Payment token */
@@ -123,30 +124,27 @@ constructor(
             }
 
             /** Payment token */
-            @JsonProperty("token") fun token(token: String) = apply { this.token = token }
+            fun token(token: String) = apply { this.token = token }
 
             /** Amount */
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = apply { this.amount = amount }
 
             /** Financial Account Token */
-            @JsonProperty("financial_account_token")
             fun financialAccountToken(financialAccountToken: String) = apply {
                 this.financialAccountToken = financialAccountToken
             }
 
             /** Receipt Type */
-            @JsonProperty("receipt_type")
             fun receiptType(receiptType: ReceiptType) = apply { this.receiptType = receiptType }
 
             /** Memo */
-            @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
+            fun memo(memo: String) = apply { this.memo = memo }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

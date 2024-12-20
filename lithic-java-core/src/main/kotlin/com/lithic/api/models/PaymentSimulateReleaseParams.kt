@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
@@ -39,12 +40,13 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = PaymentSimulateReleaseBody.Builder::class)
     @NoAutoDetect
     class PaymentSimulateReleaseBody
+    @JsonCreator
     internal constructor(
-        private val paymentToken: String,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("payment_token") private val paymentToken: String,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Payment Token */
@@ -74,7 +76,6 @@ constructor(
             }
 
             /** Payment Token */
-            @JsonProperty("payment_token")
             fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -82,7 +83,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

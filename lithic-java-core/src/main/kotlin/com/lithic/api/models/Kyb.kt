@@ -6,33 +6,53 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = Kyb.Builder::class)
 @NoAutoDetect
 class Kyb
+@JsonCreator
 private constructor(
-    private val beneficialOwnerEntities: JsonField<List<BusinessEntity>>,
-    private val beneficialOwnerIndividuals: JsonField<List<KybIndividual>>,
-    private val businessEntity: JsonField<BusinessEntity>,
-    private val controlPerson: JsonField<KybIndividual>,
-    private val externalId: JsonField<String>,
-    private val kybPassedTimestamp: JsonField<String>,
-    private val natureOfBusiness: JsonField<String>,
-    private val tosTimestamp: JsonField<String>,
-    private val websiteUrl: JsonField<String>,
-    private val workflow: JsonField<Workflow>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("beneficial_owner_entities")
+    @ExcludeMissing
+    private val beneficialOwnerEntities: JsonField<List<BusinessEntity>> = JsonMissing.of(),
+    @JsonProperty("beneficial_owner_individuals")
+    @ExcludeMissing
+    private val beneficialOwnerIndividuals: JsonField<List<KybIndividual>> = JsonMissing.of(),
+    @JsonProperty("business_entity")
+    @ExcludeMissing
+    private val businessEntity: JsonField<BusinessEntity> = JsonMissing.of(),
+    @JsonProperty("control_person")
+    @ExcludeMissing
+    private val controlPerson: JsonField<KybIndividual> = JsonMissing.of(),
+    @JsonProperty("external_id")
+    @ExcludeMissing
+    private val externalId: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("kyb_passed_timestamp")
+    @ExcludeMissing
+    private val kybPassedTimestamp: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("nature_of_business")
+    @ExcludeMissing
+    private val natureOfBusiness: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("tos_timestamp")
+    @ExcludeMissing
+    private val tosTimestamp: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("website_url")
+    @ExcludeMissing
+    private val websiteUrl: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("workflow")
+    @ExcludeMissing
+    private val workflow: JsonField<Workflow> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /**
@@ -249,8 +269,6 @@ private constructor(
          * list. However, either this parameter or `beneficial_owner_individuals` must be populated.
          * on entities that should be included.
          */
-        @JsonProperty("beneficial_owner_entities")
-        @ExcludeMissing
         fun beneficialOwnerEntities(beneficialOwnerEntities: JsonField<List<BusinessEntity>>) =
             apply {
                 this.beneficialOwnerEntities = beneficialOwnerEntities
@@ -277,8 +295,6 @@ private constructor(
          * is an entity, pass in an empty list. However, either this parameter or
          * `beneficial_owner_entities` must be populated.
          */
-        @JsonProperty("beneficial_owner_individuals")
-        @ExcludeMissing
         fun beneficialOwnerIndividuals(beneficialOwnerIndividuals: JsonField<List<KybIndividual>>) =
             apply {
                 this.beneficialOwnerIndividuals = beneficialOwnerIndividuals
@@ -289,8 +305,6 @@ private constructor(
             businessEntity(JsonField.of(businessEntity))
 
         /** Information for business for which the account is being opened and KYB is being run. */
-        @JsonProperty("business_entity")
-        @ExcludeMissing
         fun businessEntity(businessEntity: JsonField<BusinessEntity>) = apply {
             this.businessEntity = businessEntity
         }
@@ -317,8 +331,6 @@ private constructor(
          * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
          * (Section II) for more background.
          */
-        @JsonProperty("control_person")
-        @ExcludeMissing
         fun controlPerson(controlPerson: JsonField<KybIndividual>) = apply {
             this.controlPerson = controlPerson
         }
@@ -327,8 +339,6 @@ private constructor(
         fun externalId(externalId: String) = externalId(JsonField.of(externalId))
 
         /** A user provided id that can be used to link an account holder with an external system */
-        @JsonProperty("external_id")
-        @ExcludeMissing
         fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         /**
@@ -346,8 +356,6 @@ private constructor(
          *
          * This field is required only if workflow type is `KYB_BYO`.
          */
-        @JsonProperty("kyb_passed_timestamp")
-        @ExcludeMissing
         fun kybPassedTimestamp(kybPassedTimestamp: JsonField<String>) = apply {
             this.kybPassedTimestamp = kybPassedTimestamp
         }
@@ -361,8 +369,6 @@ private constructor(
         /**
          * Short description of the company's line of business (i.e., what does the company do?).
          */
-        @JsonProperty("nature_of_business")
-        @ExcludeMissing
         fun natureOfBusiness(natureOfBusiness: JsonField<String>) = apply {
             this.natureOfBusiness = natureOfBusiness
         }
@@ -379,8 +385,6 @@ private constructor(
          * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation
          * with Lithic.
          */
-        @JsonProperty("tos_timestamp")
-        @ExcludeMissing
         fun tosTimestamp(tosTimestamp: JsonField<String>) = apply {
             this.tosTimestamp = tosTimestamp
         }
@@ -389,16 +393,12 @@ private constructor(
         fun websiteUrl(websiteUrl: String) = websiteUrl(JsonField.of(websiteUrl))
 
         /** Company website URL. */
-        @JsonProperty("website_url")
-        @ExcludeMissing
         fun websiteUrl(websiteUrl: JsonField<String>) = apply { this.websiteUrl = websiteUrl }
 
         /** Specifies the type of KYB workflow to run. */
         fun workflow(workflow: Workflow) = workflow(JsonField.of(workflow))
 
         /** Specifies the type of KYB workflow to run. */
-        @JsonProperty("workflow")
-        @ExcludeMissing
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -406,7 +406,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -437,17 +436,30 @@ private constructor(
             )
     }
 
-    @JsonDeserialize(builder = BusinessEntity.Builder::class)
     @NoAutoDetect
     class BusinessEntity
+    @JsonCreator
     private constructor(
-        private val address: JsonField<Address>,
-        private val dbaBusinessName: JsonField<String>,
-        private val governmentId: JsonField<String>,
-        private val legalBusinessName: JsonField<String>,
-        private val parentCompany: JsonField<String>,
-        private val phoneNumbers: JsonField<List<String>>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("address")
+        @ExcludeMissing
+        private val address: JsonField<Address> = JsonMissing.of(),
+        @JsonProperty("dba_business_name")
+        @ExcludeMissing
+        private val dbaBusinessName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("government_id")
+        @ExcludeMissing
+        private val governmentId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("legal_business_name")
+        @ExcludeMissing
+        private val legalBusinessName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("parent_company")
+        @ExcludeMissing
+        private val parentCompany: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("phone_numbers")
+        @ExcludeMissing
+        private val phoneNumbers: JsonField<List<String>> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -564,8 +576,6 @@ private constructor(
              * Business's physical address - PO boxes, UPS drops, and FedEx drops are not
              * acceptable; APO/FPO are acceptable.
              */
-            @JsonProperty("address")
-            @ExcludeMissing
             fun address(address: JsonField<Address>) = apply { this.address = address }
 
             /**
@@ -579,8 +589,6 @@ private constructor(
              * Any name that the business operates under that is not its legal business name (if
              * applicable).
              */
-            @JsonProperty("dba_business_name")
-            @ExcludeMissing
             fun dbaBusinessName(dbaBusinessName: JsonField<String>) = apply {
                 this.dbaBusinessName = dbaBusinessName
             }
@@ -595,8 +603,6 @@ private constructor(
              * Government-issued identification number. US Federal Employer Identification Numbers
              * (EIN) are currently supported, entered as full nine-digits, with or without hyphens.
              */
-            @JsonProperty("government_id")
-            @ExcludeMissing
             fun governmentId(governmentId: JsonField<String>) = apply {
                 this.governmentId = governmentId
             }
@@ -606,8 +612,6 @@ private constructor(
                 legalBusinessName(JsonField.of(legalBusinessName))
 
             /** Legal (formal) business name. */
-            @JsonProperty("legal_business_name")
-            @ExcludeMissing
             fun legalBusinessName(legalBusinessName: JsonField<String>) = apply {
                 this.legalBusinessName = legalBusinessName
             }
@@ -616,8 +620,6 @@ private constructor(
             fun parentCompany(parentCompany: String) = parentCompany(JsonField.of(parentCompany))
 
             /** Parent company name (if applicable). */
-            @JsonProperty("parent_company")
-            @ExcludeMissing
             fun parentCompany(parentCompany: JsonField<String>) = apply {
                 this.parentCompany = parentCompany
             }
@@ -626,8 +628,6 @@ private constructor(
             fun phoneNumbers(phoneNumbers: List<String>) = phoneNumbers(JsonField.of(phoneNumbers))
 
             /** One or more of the business's phone number(s), entered as a list in E.164 format. */
-            @JsonProperty("phone_numbers")
-            @ExcludeMissing
             fun phoneNumbers(phoneNumbers: JsonField<List<String>>) = apply {
                 this.phoneNumbers = phoneNumbers
             }
@@ -637,7 +637,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -683,18 +682,31 @@ private constructor(
     }
 
     /** Individuals associated with a KYB application. Phone number is optional. */
-    @JsonDeserialize(builder = KybIndividual.Builder::class)
     @NoAutoDetect
     class KybIndividual
+    @JsonCreator
     private constructor(
-        private val address: JsonField<Address>,
-        private val dob: JsonField<String>,
-        private val email: JsonField<String>,
-        private val firstName: JsonField<String>,
-        private val governmentId: JsonField<String>,
-        private val lastName: JsonField<String>,
-        private val phoneNumber: JsonField<String>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("address")
+        @ExcludeMissing
+        private val address: JsonField<Address> = JsonMissing.of(),
+        @JsonProperty("dob") @ExcludeMissing private val dob: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("email")
+        @ExcludeMissing
+        private val email: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("first_name")
+        @ExcludeMissing
+        private val firstName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("government_id")
+        @ExcludeMissing
+        private val governmentId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("last_name")
+        @ExcludeMissing
+        private val lastName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("phone_number")
+        @ExcludeMissing
+        private val phoneNumber: JsonField<String> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -821,16 +833,12 @@ private constructor(
              * Individual's current address - PO boxes, UPS drops, and FedEx drops are not
              * acceptable; APO/FPO are acceptable. Only USA addresses are currently supported.
              */
-            @JsonProperty("address")
-            @ExcludeMissing
             fun address(address: JsonField<Address>) = apply { this.address = address }
 
             /** Individual's date of birth, as an RFC 3339 date. */
             fun dob(dob: String) = dob(JsonField.of(dob))
 
             /** Individual's date of birth, as an RFC 3339 date. */
-            @JsonProperty("dob")
-            @ExcludeMissing
             fun dob(dob: JsonField<String>) = apply { this.dob = dob }
 
             /**
@@ -843,16 +851,12 @@ private constructor(
              * Individual's email address. If utilizing Lithic for chargeback processing, this
              * customer email address may be used to communicate dispute status and resolution.
              */
-            @JsonProperty("email")
-            @ExcludeMissing
             fun email(email: JsonField<String>) = apply { this.email = email }
 
             /** Individual's first name, as it appears on government-issued identity documents. */
             fun firstName(firstName: String) = firstName(JsonField.of(firstName))
 
             /** Individual's first name, as it appears on government-issued identity documents. */
-            @JsonProperty("first_name")
-            @ExcludeMissing
             fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
             /**
@@ -869,8 +873,6 @@ private constructor(
              * Taxpayer Identification Numbers (ITIN) are currently supported, entered as full
              * nine-digits, with or without hyphens
              */
-            @JsonProperty("government_id")
-            @ExcludeMissing
             fun governmentId(governmentId: JsonField<String>) = apply {
                 this.governmentId = governmentId
             }
@@ -879,16 +881,12 @@ private constructor(
             fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
             /** Individual's last name, as it appears on government-issued identity documents. */
-            @JsonProperty("last_name")
-            @ExcludeMissing
             fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
             /** Individual's phone number, entered in E.164 format. */
             fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
             /** Individual's phone number, entered in E.164 format. */
-            @JsonProperty("phone_number")
-            @ExcludeMissing
             fun phoneNumber(phoneNumber: JsonField<String>) = apply {
                 this.phoneNumber = phoneNumber
             }
@@ -898,7 +896,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

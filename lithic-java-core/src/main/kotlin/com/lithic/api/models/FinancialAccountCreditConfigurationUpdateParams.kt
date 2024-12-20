@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
@@ -65,15 +66,16 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = FinancialAccountCreditConfigurationUpdateBody.Builder::class)
     @NoAutoDetect
     class FinancialAccountCreditConfigurationUpdateBody
+    @JsonCreator
     internal constructor(
-        private val creditLimit: Long?,
-        private val creditProductToken: String?,
-        private val externalBankAccountToken: String?,
-        private val tier: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("credit_limit") private val creditLimit: Long?,
+        @JsonProperty("credit_product_token") private val creditProductToken: String?,
+        @JsonProperty("external_bank_account_token") private val externalBankAccountToken: String?,
+        @JsonProperty("tier") private val tier: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         @JsonProperty("credit_limit")
@@ -125,29 +127,25 @@ constructor(
                         .toMutableMap()
             }
 
-            @JsonProperty("credit_limit")
             fun creditLimit(creditLimit: Long) = apply { this.creditLimit = creditLimit }
 
             /** Globally unique identifier for the credit product */
-            @JsonProperty("credit_product_token")
             fun creditProductToken(creditProductToken: String) = apply {
                 this.creditProductToken = creditProductToken
             }
 
-            @JsonProperty("external_bank_account_token")
             fun externalBankAccountToken(externalBankAccountToken: String) = apply {
                 this.externalBankAccountToken = externalBankAccountToken
             }
 
             /** Tier to assign to a financial account */
-            @JsonProperty("tier") fun tier(tier: String) = apply { this.tier = tier }
+            fun tier(tier: String) = apply { this.tier = tier }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

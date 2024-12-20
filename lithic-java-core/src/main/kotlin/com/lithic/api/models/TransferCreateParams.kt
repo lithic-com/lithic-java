@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
@@ -59,16 +60,17 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = TransferCreateBody.Builder::class)
     @NoAutoDetect
     class TransferCreateBody
+    @JsonCreator
     internal constructor(
-        private val amount: Long,
-        private val from: String,
-        private val to: String,
-        private val token: String?,
-        private val memo: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("amount") private val amount: Long,
+        @JsonProperty("from") private val from: String,
+        @JsonProperty("to") private val to: String,
+        @JsonProperty("token") private val token: String?,
+        @JsonProperty("memo") private val memo: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -132,35 +134,34 @@ constructor(
              * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
              * should always be a positive value.
              */
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = apply { this.amount = amount }
 
             /**
              * Globally unique identifier for the financial account or card that will send the
              * funds. Accepted type dependent on the program's use case.
              */
-            @JsonProperty("from") fun from(from: String) = apply { this.from = from }
+            fun from(from: String) = apply { this.from = from }
 
             /**
              * Globally unique identifier for the financial account or card that will receive the
              * funds. Accepted type dependent on the program's use case.
              */
-            @JsonProperty("to") fun to(to: String) = apply { this.to = to }
+            fun to(to: String) = apply { this.to = to }
 
             /**
              * Customer-provided token that will serve as an idempotency token. This token will
              * become the transaction token.
              */
-            @JsonProperty("token") fun token(token: String) = apply { this.token = token }
+            fun token(token: String) = apply { this.token = token }
 
             /** Optional descriptor for the transfer. */
-            @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
+            fun memo(memo: String) = apply { this.memo = memo }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

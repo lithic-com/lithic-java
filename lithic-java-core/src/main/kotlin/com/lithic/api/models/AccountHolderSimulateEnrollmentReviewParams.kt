@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -55,14 +55,15 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = AccountHolderSimulateEnrollmentReviewBody.Builder::class)
     @NoAutoDetect
     class AccountHolderSimulateEnrollmentReviewBody
+    @JsonCreator
     internal constructor(
-        private val accountHolderToken: String?,
-        private val status: Status?,
-        private val statusReasons: List<StatusReason>?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("account_holder_token") private val accountHolderToken: String?,
+        @JsonProperty("status") private val status: Status?,
+        @JsonProperty("status_reasons") private val statusReasons: List<StatusReason>?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The account holder which to perform the simulation upon. */
@@ -110,19 +111,17 @@ constructor(
             }
 
             /** The account holder which to perform the simulation upon. */
-            @JsonProperty("account_holder_token")
             fun accountHolderToken(accountHolderToken: String) = apply {
                 this.accountHolderToken = accountHolderToken
             }
 
             /** An account holder's status for use within the simulation. */
-            @JsonProperty("status") fun status(status: Status) = apply { this.status = status }
+            fun status(status: Status) = apply { this.status = status }
 
             /**
              * Status reason that will be associated with the simulated account holder status. Only
              * required for a `REJECTED` status.
              */
-            @JsonProperty("status_reasons")
             fun statusReasons(statusReasons: List<StatusReason>) = apply {
                 this.statusReasons = statusReasons
             }
@@ -132,7 +131,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

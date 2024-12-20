@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -74,16 +74,17 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = AccountUpdateBody.Builder::class)
     @NoAutoDetect
     class AccountUpdateBody
+    @JsonCreator
     internal constructor(
-        private val dailySpendLimit: Long?,
-        private val lifetimeSpendLimit: Long?,
-        private val monthlySpendLimit: Long?,
-        private val state: State?,
-        private val verificationAddress: VerificationAddress?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("daily_spend_limit") private val dailySpendLimit: Long?,
+        @JsonProperty("lifetime_spend_limit") private val lifetimeSpendLimit: Long?,
+        @JsonProperty("monthly_spend_limit") private val monthlySpendLimit: Long?,
+        @JsonProperty("state") private val state: State?,
+        @JsonProperty("verification_address") private val verificationAddress: VerificationAddress?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -157,7 +158,6 @@ constructor(
              * Amount (in cents) for the account's daily spend limit. By default the daily spend
              * limit is set to $1,250.
              */
-            @JsonProperty("daily_spend_limit")
             fun dailySpendLimit(dailySpendLimit: Long) = apply {
                 this.dailySpendLimit = dailySpendLimit
             }
@@ -170,7 +170,6 @@ constructor(
              * declined transactions due to checks against the account limit. This behavior differs
              * from the daily spend limit and the monthly spend limit.
              */
-            @JsonProperty("lifetime_spend_limit")
             fun lifetimeSpendLimit(lifetimeSpendLimit: Long) = apply {
                 this.lifetimeSpendLimit = lifetimeSpendLimit
             }
@@ -179,13 +178,12 @@ constructor(
              * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
              * limit is set to $5,000.
              */
-            @JsonProperty("monthly_spend_limit")
             fun monthlySpendLimit(monthlySpendLimit: Long) = apply {
                 this.monthlySpendLimit = monthlySpendLimit
             }
 
             /** Account states. */
-            @JsonProperty("state") fun state(state: State) = apply { this.state = state }
+            fun state(state: State) = apply { this.state = state }
 
             /**
              * Address used during Address Verification Service (AVS) checks during transactions if
@@ -193,7 +191,6 @@ constructor(
              * supported by Authorization Rules. The field will be removed from the schema in a
              * future release.
              */
-            @JsonProperty("verification_address")
             fun verificationAddress(verificationAddress: VerificationAddress) = apply {
                 this.verificationAddress = verificationAddress
             }
@@ -203,7 +200,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
@@ -518,17 +514,18 @@ constructor(
      * via Auth Rules. This field is deprecated as AVS checks are no longer supported by
      * Authorization Rules. The field will be removed from the schema in a future release.
      */
-    @JsonDeserialize(builder = VerificationAddress.Builder::class)
     @NoAutoDetect
     class VerificationAddress
+    @JsonCreator
     private constructor(
-        private val address1: String?,
-        private val address2: String?,
-        private val city: String?,
-        private val country: String?,
-        private val postalCode: String?,
-        private val state: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("address1") private val address1: String?,
+        @JsonProperty("address2") private val address2: String?,
+        @JsonProperty("city") private val city: String?,
+        @JsonProperty("country") private val country: String?,
+        @JsonProperty("postal_code") private val postalCode: String?,
+        @JsonProperty("state") private val state: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         @JsonProperty("address1") fun address1(): Optional<String> = Optional.ofNullable(address1)
@@ -576,27 +573,23 @@ constructor(
                 additionalProperties = verificationAddress.additionalProperties.toMutableMap()
             }
 
-            @JsonProperty("address1")
             fun address1(address1: String) = apply { this.address1 = address1 }
 
-            @JsonProperty("address2")
             fun address2(address2: String) = apply { this.address2 = address2 }
 
-            @JsonProperty("city") fun city(city: String) = apply { this.city = city }
+            fun city(city: String) = apply { this.city = city }
 
-            @JsonProperty("country") fun country(country: String) = apply { this.country = country }
+            fun country(country: String) = apply { this.country = country }
 
-            @JsonProperty("postal_code")
             fun postalCode(postalCode: String) = apply { this.postalCode = postalCode }
 
-            @JsonProperty("state") fun state(state: String) = apply { this.state = state }
+            fun state(state: String) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
