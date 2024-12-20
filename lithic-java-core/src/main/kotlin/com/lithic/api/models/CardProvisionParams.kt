@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -77,17 +77,18 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = CardProvisionBody.Builder::class)
     @NoAutoDetect
     class CardProvisionBody
+    @JsonCreator
     internal constructor(
-        private val certificate: String?,
-        private val clientDeviceId: String?,
-        private val clientWalletAccountId: String?,
-        private val digitalWallet: DigitalWallet?,
-        private val nonce: String?,
-        private val nonceSignature: String?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("certificate") private val certificate: String?,
+        @JsonProperty("client_device_id") private val clientDeviceId: String?,
+        @JsonProperty("client_wallet_account_id") private val clientWalletAccountId: String?,
+        @JsonProperty("digital_wallet") private val digitalWallet: DigitalWallet?,
+        @JsonProperty("nonce") private val nonce: String?,
+        @JsonProperty("nonce_signature") private val nonceSignature: String?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -168,14 +169,12 @@ constructor(
              * PEM format with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted.
              * Provided by the device's wallet.
              */
-            @JsonProperty("certificate")
             fun certificate(certificate: String) = apply { this.certificate = certificate }
 
             /**
              * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
              * on the Visa network. Stable device identification set by the wallet provider.
              */
-            @JsonProperty("client_device_id")
             fun clientDeviceId(clientDeviceId: String) = apply {
                 this.clientDeviceId = clientDeviceId
             }
@@ -184,13 +183,11 @@ constructor(
              * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
              * on the Visa network. Consumer ID that identifies the wallet account holder entity.
              */
-            @JsonProperty("client_wallet_account_id")
             fun clientWalletAccountId(clientWalletAccountId: String) = apply {
                 this.clientWalletAccountId = clientWalletAccountId
             }
 
             /** Name of digital wallet provider. */
-            @JsonProperty("digital_wallet")
             fun digitalWallet(digitalWallet: DigitalWallet) = apply {
                 this.digitalWallet = digitalWallet
             }
@@ -200,14 +197,13 @@ constructor(
              * `activationData` in the response. Base64 cryptographic nonce provided by the device's
              * wallet.
              */
-            @JsonProperty("nonce") fun nonce(nonce: String) = apply { this.nonce = nonce }
+            fun nonce(nonce: String) = apply { this.nonce = nonce }
 
             /**
              * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
              * `activationData` in the response. Base64 cryptographic nonce provided by the device's
              * wallet.
              */
-            @JsonProperty("nonce_signature")
             fun nonceSignature(nonceSignature: String) = apply {
                 this.nonceSignature = nonceSignature
             }
@@ -217,7 +213,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

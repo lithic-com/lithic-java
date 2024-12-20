@@ -4,23 +4,26 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = ApiStatus.Builder::class)
 @NoAutoDetect
 class ApiStatus
+@JsonCreator
 private constructor(
-    private val message: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("message")
+    @ExcludeMissing
+    private val message: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     fun message(): Optional<String> = Optional.ofNullable(message.getNullable("message"))
@@ -60,8 +63,6 @@ private constructor(
 
         fun message(message: String) = message(JsonField.of(message))
 
-        @JsonProperty("message")
-        @ExcludeMissing
         fun message(message: JsonField<String>) = apply { this.message = message }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -69,7 +70,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

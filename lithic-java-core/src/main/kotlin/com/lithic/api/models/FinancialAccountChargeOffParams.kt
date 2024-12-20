@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -53,12 +53,13 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = FinancialAccountChargeOffBody.Builder::class)
     @NoAutoDetect
     class FinancialAccountChargeOffBody
+    @JsonCreator
     internal constructor(
-        private val reason: ChargedOffReason,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("reason") private val reason: ChargedOffReason,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Reason for the financial account being marked as Charged Off */
@@ -89,7 +90,6 @@ constructor(
                 }
 
             /** Reason for the financial account being marked as Charged Off */
-            @JsonProperty("reason")
             fun reason(reason: ChargedOffReason) = apply { this.reason = reason }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -97,7 +97,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

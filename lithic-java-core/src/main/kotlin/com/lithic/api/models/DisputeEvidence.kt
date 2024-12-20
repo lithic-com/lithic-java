@@ -6,13 +6,13 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
@@ -20,18 +20,30 @@ import java.util.Objects
 import java.util.Optional
 
 /** Dispute evidence. */
-@JsonDeserialize(builder = DisputeEvidence.Builder::class)
 @NoAutoDetect
 class DisputeEvidence
+@JsonCreator
 private constructor(
-    private val created: JsonField<OffsetDateTime>,
-    private val disputeToken: JsonField<String>,
-    private val downloadUrl: JsonField<String>,
-    private val filename: JsonField<String>,
-    private val token: JsonField<String>,
-    private val uploadStatus: JsonField<UploadStatus>,
-    private val uploadUrl: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("dispute_token")
+    @ExcludeMissing
+    private val disputeToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("download_url")
+    @ExcludeMissing
+    private val downloadUrl: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("filename")
+    @ExcludeMissing
+    private val filename: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("upload_status")
+    @ExcludeMissing
+    private val uploadStatus: JsonField<UploadStatus> = JsonMissing.of(),
+    @JsonProperty("upload_url")
+    @ExcludeMissing
+    private val uploadUrl: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Timestamp of when dispute evidence was created. */
@@ -148,16 +160,12 @@ private constructor(
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** Timestamp of when dispute evidence was created. */
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Dispute token evidence is attached to. */
         fun disputeToken(disputeToken: String) = disputeToken(JsonField.of(disputeToken))
 
         /** Dispute token evidence is attached to. */
-        @JsonProperty("dispute_token")
-        @ExcludeMissing
         fun disputeToken(disputeToken: JsonField<String>) = apply {
             this.disputeToken = disputeToken
         }
@@ -166,8 +174,6 @@ private constructor(
         fun downloadUrl(downloadUrl: String) = downloadUrl(JsonField.of(downloadUrl))
 
         /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
-        @JsonProperty("download_url")
-        @ExcludeMissing
         fun downloadUrl(downloadUrl: JsonField<String>) = apply { this.downloadUrl = downloadUrl }
 
         /**
@@ -180,16 +186,12 @@ private constructor(
          * File name of evidence. Recommended to give the dispute evidence a human-readable
          * identifier.
          */
-        @JsonProperty("filename")
-        @ExcludeMissing
         fun filename(filename: JsonField<String>) = apply { this.filename = filename }
 
         /** Globally unique identifier. */
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
@@ -210,8 +212,6 @@ private constructor(
          * - `REJECTED` - Evidence was rejected.
          * - `UPLOADED` - Evidence was uploaded.
          */
-        @JsonProperty("upload_status")
-        @ExcludeMissing
         fun uploadStatus(uploadStatus: JsonField<UploadStatus>) = apply {
             this.uploadStatus = uploadStatus
         }
@@ -220,8 +220,6 @@ private constructor(
         fun uploadUrl(uploadUrl: String) = uploadUrl(JsonField.of(uploadUrl))
 
         /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
-        @JsonProperty("upload_url")
-        @ExcludeMissing
         fun uploadUrl(uploadUrl: JsonField<String>) = apply { this.uploadUrl = uploadUrl }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -229,7 +227,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

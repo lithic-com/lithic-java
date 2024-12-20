@@ -6,25 +6,31 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
-@JsonDeserialize(builder = PaymentSimulateReleaseResponse.Builder::class)
 @NoAutoDetect
 class PaymentSimulateReleaseResponse
+@JsonCreator
 private constructor(
-    private val result: JsonField<Result>,
-    private val transactionEventToken: JsonField<String>,
-    private val debuggingRequestId: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("result")
+    @ExcludeMissing
+    private val result: JsonField<Result> = JsonMissing.of(),
+    @JsonProperty("transaction_event_token")
+    @ExcludeMissing
+    private val transactionEventToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("debugging_request_id")
+    @ExcludeMissing
+    private val debuggingRequestId: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Request Result */
@@ -92,8 +98,6 @@ private constructor(
         fun result(result: Result) = result(JsonField.of(result))
 
         /** Request Result */
-        @JsonProperty("result")
-        @ExcludeMissing
         fun result(result: JsonField<Result>) = apply { this.result = result }
 
         /** Transaction Event Token */
@@ -101,8 +105,6 @@ private constructor(
             transactionEventToken(JsonField.of(transactionEventToken))
 
         /** Transaction Event Token */
-        @JsonProperty("transaction_event_token")
-        @ExcludeMissing
         fun transactionEventToken(transactionEventToken: JsonField<String>) = apply {
             this.transactionEventToken = transactionEventToken
         }
@@ -112,8 +114,6 @@ private constructor(
             debuggingRequestId(JsonField.of(debuggingRequestId))
 
         /** Debugging Request Id */
-        @JsonProperty("debugging_request_id")
-        @ExcludeMissing
         fun debuggingRequestId(debuggingRequestId: JsonField<String>) = apply {
             this.debuggingRequestId = debuggingRequestId
         }
@@ -123,7 +123,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

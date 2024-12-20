@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -111,28 +111,29 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = CardCreateBody.Builder::class)
     @NoAutoDetect
     class CardCreateBody
+    @JsonCreator
     internal constructor(
-        private val type: Type,
-        private val accountToken: String?,
-        private val cardProgramToken: String?,
-        private val carrier: Carrier?,
-        private val digitalCardArtToken: String?,
-        private val expMonth: String?,
-        private val expYear: String?,
-        private val memo: String?,
-        private val pin: String?,
-        private val productId: String?,
-        private val replacementAccountToken: String?,
-        private val replacementFor: String?,
-        private val shippingAddress: ShippingAddress?,
-        private val shippingMethod: ShippingMethod?,
-        private val spendLimit: Long?,
-        private val spendLimitDuration: SpendLimitDuration?,
-        private val state: State?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("type") private val type: Type,
+        @JsonProperty("account_token") private val accountToken: String?,
+        @JsonProperty("card_program_token") private val cardProgramToken: String?,
+        @JsonProperty("carrier") private val carrier: Carrier?,
+        @JsonProperty("digital_card_art_token") private val digitalCardArtToken: String?,
+        @JsonProperty("exp_month") private val expMonth: String?,
+        @JsonProperty("exp_year") private val expYear: String?,
+        @JsonProperty("memo") private val memo: String?,
+        @JsonProperty("pin") private val pin: String?,
+        @JsonProperty("product_id") private val productId: String?,
+        @JsonProperty("replacement_account_token") private val replacementAccountToken: String?,
+        @JsonProperty("replacement_for") private val replacementFor: String?,
+        @JsonProperty("shipping_address") private val shippingAddress: ShippingAddress?,
+        @JsonProperty("shipping_method") private val shippingMethod: ShippingMethod?,
+        @JsonProperty("spend_limit") private val spendLimit: Long?,
+        @JsonProperty("spend_limit_duration") private val spendLimitDuration: SpendLimitDuration?,
+        @JsonProperty("state") private val state: State?,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -349,7 +350,7 @@ constructor(
              * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use
              *   VIRTUAL instead.
              */
-            @JsonProperty("type") fun type(type: Type) = apply { this.type = type }
+            fun type(type: Type) = apply { this.type = type }
 
             /**
              * Globally unique identifier for the account that the card will be associated with.
@@ -357,7 +358,6 @@ constructor(
              * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
              * [Managing Your Program](doc:managing-your-program) for more information.
              */
-            @JsonProperty("account_token")
             fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
             /**
@@ -367,12 +367,10 @@ constructor(
              * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
              * creating cards on specific card programs.
              */
-            @JsonProperty("card_program_token")
             fun cardProgramToken(cardProgramToken: String) = apply {
                 this.cardProgramToken = cardProgramToken
             }
 
-            @JsonProperty("carrier")
             fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
 
             /**
@@ -381,7 +379,6 @@ constructor(
              * use. See
              * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
-            @JsonProperty("digital_card_art_token")
             fun digitalCardArtToken(digitalCardArtToken: String) = apply {
                 this.digitalCardArtToken = digitalCardArtToken
             }
@@ -390,31 +387,28 @@ constructor(
              * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
              * expiration date will be generated.
              */
-            @JsonProperty("exp_month")
             fun expMonth(expMonth: String) = apply { this.expMonth = expMonth }
 
             /**
              * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
              * expiration date will be generated.
              */
-            @JsonProperty("exp_year")
             fun expYear(expYear: String) = apply { this.expYear = expYear }
 
             /** Friendly name to identify the card. */
-            @JsonProperty("memo") fun memo(memo: String) = apply { this.memo = memo }
+            fun memo(memo: String) = apply { this.memo = memo }
 
             /**
              * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`.
              * See [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
              */
-            @JsonProperty("pin") fun pin(pin: String) = apply { this.pin = pin }
+            fun pin(pin: String) = apply { this.pin = pin }
 
             /**
              * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic
              * before use. Specifies the configuration (i.e., physical card art) that the card
              * should be manufactured with.
              */
-            @JsonProperty("product_id")
             fun productId(productId: String) = apply { this.productId = productId }
 
             /**
@@ -424,7 +418,6 @@ constructor(
              * `replacement_for` is specified and this field is omitted, the replacement card's
              * account will be inferred from the card being replaced.
              */
-            @JsonProperty("replacement_account_token")
             fun replacementAccountToken(replacementAccountToken: String) = apply {
                 this.replacementAccountToken = replacementAccountToken
             }
@@ -434,12 +427,10 @@ constructor(
              * is `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL`
              * it will be replaced by a `VIRTUAL` card.
              */
-            @JsonProperty("replacement_for")
             fun replacementFor(replacementFor: String) = apply {
                 this.replacementFor = replacementFor
             }
 
-            @JsonProperty("shipping_address")
             fun shippingAddress(shippingAddress: ShippingAddress) = apply {
                 this.shippingAddress = shippingAddress
             }
@@ -456,7 +447,6 @@ constructor(
              * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
              *   tracking
              */
-            @JsonProperty("shipping_method")
             fun shippingMethod(shippingMethod: ShippingMethod) = apply {
                 this.shippingMethod = shippingMethod
             }
@@ -467,7 +457,6 @@ constructor(
              * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
              * will result in declined transactions due to checks against the card limit.
              */
-            @JsonProperty("spend_limit")
             fun spendLimit(spendLimit: Long) = apply { this.spendLimit = spendLimit }
 
             /**
@@ -483,7 +472,6 @@ constructor(
              * - `TRANSACTION` - Card will authorize multiple transactions if each individual
              *   transaction is under the spend limit.
              */
-            @JsonProperty("spend_limit_duration")
             fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
                 this.spendLimitDuration = spendLimitDuration
             }
@@ -494,14 +482,13 @@ constructor(
              *   parameters).
              * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
-            @JsonProperty("state") fun state(state: State) = apply { this.state = state }
+            fun state(state: State) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

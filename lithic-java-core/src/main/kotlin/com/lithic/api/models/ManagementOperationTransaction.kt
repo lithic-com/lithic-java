@@ -6,13 +6,13 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.LocalDate
@@ -20,24 +20,48 @@ import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = ManagementOperationTransaction.Builder::class)
 @NoAutoDetect
 class ManagementOperationTransaction
+@JsonCreator
 private constructor(
-    private val token: JsonField<String>,
-    private val result: JsonField<TransactionResult>,
-    private val category: JsonField<ManagementOperationCategory>,
-    private val status: JsonField<TransactionStatus>,
-    private val settledAmount: JsonField<Long>,
-    private val pendingAmount: JsonField<Long>,
-    private val currency: JsonField<String>,
-    private val events: JsonField<List<ManagementOperationEvent>>,
-    private val created: JsonField<OffsetDateTime>,
-    private val updated: JsonField<OffsetDateTime>,
-    private val userDefinedId: JsonField<String>,
-    private val financialAccountToken: JsonField<String>,
-    private val direction: JsonField<ManagementOperationDirection>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("result")
+    @ExcludeMissing
+    private val result: JsonField<TransactionResult> = JsonMissing.of(),
+    @JsonProperty("category")
+    @ExcludeMissing
+    private val category: JsonField<ManagementOperationCategory> = JsonMissing.of(),
+    @JsonProperty("status")
+    @ExcludeMissing
+    private val status: JsonField<TransactionStatus> = JsonMissing.of(),
+    @JsonProperty("settled_amount")
+    @ExcludeMissing
+    private val settledAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("pending_amount")
+    @ExcludeMissing
+    private val pendingAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("currency")
+    @ExcludeMissing
+    private val currency: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("events")
+    @ExcludeMissing
+    private val events: JsonField<List<ManagementOperationEvent>> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("updated")
+    @ExcludeMissing
+    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("user_defined_id")
+    @ExcludeMissing
+    private val userDefinedId: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("financial_account_token")
+    @ExcludeMissing
+    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("direction")
+    @ExcludeMissing
+    private val direction: JsonField<ManagementOperationDirection> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     fun token(): String = token.getRequired("token")
@@ -166,76 +190,54 @@ private constructor(
 
         fun token(token: String) = token(JsonField.of(token))
 
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun result(result: TransactionResult) = result(JsonField.of(result))
 
-        @JsonProperty("result")
-        @ExcludeMissing
         fun result(result: JsonField<TransactionResult>) = apply { this.result = result }
 
         fun category(category: ManagementOperationCategory) = category(JsonField.of(category))
 
-        @JsonProperty("category")
-        @ExcludeMissing
         fun category(category: JsonField<ManagementOperationCategory>) = apply {
             this.category = category
         }
 
         fun status(status: TransactionStatus) = status(JsonField.of(status))
 
-        @JsonProperty("status")
-        @ExcludeMissing
         fun status(status: JsonField<TransactionStatus>) = apply { this.status = status }
 
         fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
 
-        @JsonProperty("settled_amount")
-        @ExcludeMissing
         fun settledAmount(settledAmount: JsonField<Long>) = apply {
             this.settledAmount = settledAmount
         }
 
         fun pendingAmount(pendingAmount: Long) = pendingAmount(JsonField.of(pendingAmount))
 
-        @JsonProperty("pending_amount")
-        @ExcludeMissing
         fun pendingAmount(pendingAmount: JsonField<Long>) = apply {
             this.pendingAmount = pendingAmount
         }
 
         fun currency(currency: String) = currency(JsonField.of(currency))
 
-        @JsonProperty("currency")
-        @ExcludeMissing
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
         fun events(events: List<ManagementOperationEvent>) = events(JsonField.of(events))
 
-        @JsonProperty("events")
-        @ExcludeMissing
         fun events(events: JsonField<List<ManagementOperationEvent>>) = apply {
             this.events = events
         }
 
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        @JsonProperty("created")
-        @ExcludeMissing
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
-        @JsonProperty("updated")
-        @ExcludeMissing
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
         fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
-        @JsonProperty("user_defined_id")
-        @ExcludeMissing
         fun userDefinedId(userDefinedId: JsonField<String>) = apply {
             this.userDefinedId = userDefinedId
         }
@@ -243,16 +245,12 @@ private constructor(
         fun financialAccountToken(financialAccountToken: String) =
             financialAccountToken(JsonField.of(financialAccountToken))
 
-        @JsonProperty("financial_account_token")
-        @ExcludeMissing
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             this.financialAccountToken = financialAccountToken
         }
 
         fun direction(direction: ManagementOperationDirection) = direction(JsonField.of(direction))
 
-        @JsonProperty("direction")
-        @ExcludeMissing
         fun direction(direction: JsonField<ManagementOperationDirection>) = apply {
             this.direction = direction
         }
@@ -262,7 +260,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -424,20 +421,39 @@ private constructor(
         override fun toString() = value.toString()
     }
 
-    @JsonDeserialize(builder = ManagementOperationEvent.Builder::class)
     @NoAutoDetect
     class ManagementOperationEvent
+    @JsonCreator
     private constructor(
-        private val amount: JsonField<Long>,
-        private val type: JsonField<ManagementOperationEventType>,
-        private val subtype: JsonField<String>,
-        private val result: JsonField<TransactionResult>,
-        private val detailedResults: JsonField<List<DetailedResults>>,
-        private val created: JsonField<OffsetDateTime>,
-        private val token: JsonField<String>,
-        private val memo: JsonField<String>,
-        private val effectiveDate: JsonField<LocalDate>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("type")
+        @ExcludeMissing
+        private val type: JsonField<ManagementOperationEventType> = JsonMissing.of(),
+        @JsonProperty("subtype")
+        @ExcludeMissing
+        private val subtype: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("result")
+        @ExcludeMissing
+        private val result: JsonField<TransactionResult> = JsonMissing.of(),
+        @JsonProperty("detailed_results")
+        @ExcludeMissing
+        private val detailedResults: JsonField<List<DetailedResults>> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("memo")
+        @ExcludeMissing
+        private val memo: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         fun amount(): Long = amount.getRequired("amount")
@@ -534,59 +550,41 @@ private constructor(
 
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
-            @JsonProperty("amount")
-            @ExcludeMissing
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             fun type(type: ManagementOperationEventType) = type(JsonField.of(type))
 
-            @JsonProperty("type")
-            @ExcludeMissing
             fun type(type: JsonField<ManagementOperationEventType>) = apply { this.type = type }
 
             fun subtype(subtype: String) = subtype(JsonField.of(subtype))
 
-            @JsonProperty("subtype")
-            @ExcludeMissing
             fun subtype(subtype: JsonField<String>) = apply { this.subtype = subtype }
 
             fun result(result: TransactionResult) = result(JsonField.of(result))
 
-            @JsonProperty("result")
-            @ExcludeMissing
             fun result(result: JsonField<TransactionResult>) = apply { this.result = result }
 
             fun detailedResults(detailedResults: List<DetailedResults>) =
                 detailedResults(JsonField.of(detailedResults))
 
-            @JsonProperty("detailed_results")
-            @ExcludeMissing
             fun detailedResults(detailedResults: JsonField<List<DetailedResults>>) = apply {
                 this.detailedResults = detailedResults
             }
 
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-            @JsonProperty("created")
-            @ExcludeMissing
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             fun token(token: String) = token(JsonField.of(token))
 
-            @JsonProperty("token")
-            @ExcludeMissing
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             fun memo(memo: String) = memo(JsonField.of(memo))
 
-            @JsonProperty("memo")
-            @ExcludeMissing
             fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
 
-            @JsonProperty("effective_date")
-            @ExcludeMissing
             fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
@@ -596,7 +594,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

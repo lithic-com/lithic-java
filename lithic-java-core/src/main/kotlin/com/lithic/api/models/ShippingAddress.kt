@@ -4,33 +4,50 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = ShippingAddress.Builder::class)
 @NoAutoDetect
 class ShippingAddress
+@JsonCreator
 private constructor(
-    private val address1: JsonField<String>,
-    private val address2: JsonField<String>,
-    private val city: JsonField<String>,
-    private val country: JsonField<String>,
-    private val email: JsonField<String>,
-    private val firstName: JsonField<String>,
-    private val lastName: JsonField<String>,
-    private val line2Text: JsonField<String>,
-    private val phoneNumber: JsonField<String>,
-    private val postalCode: JsonField<String>,
-    private val state: JsonField<String>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("address1")
+    @ExcludeMissing
+    private val address1: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("address2")
+    @ExcludeMissing
+    private val address2: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("city") @ExcludeMissing private val city: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("country")
+    @ExcludeMissing
+    private val country: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("email") @ExcludeMissing private val email: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("first_name")
+    @ExcludeMissing
+    private val firstName: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("last_name")
+    @ExcludeMissing
+    private val lastName: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("line2_text")
+    @ExcludeMissing
+    private val line2Text: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("phone_number")
+    @ExcludeMissing
+    private val phoneNumber: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("postal_code")
+    @ExcludeMissing
+    private val postalCode: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("state") @ExcludeMissing private val state: JsonField<String> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Valid USPS routable address. */
@@ -207,32 +224,24 @@ private constructor(
         fun address1(address1: String) = address1(JsonField.of(address1))
 
         /** Valid USPS routable address. */
-        @JsonProperty("address1")
-        @ExcludeMissing
         fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
 
         /** Unit number (if applicable). */
         fun address2(address2: String) = address2(JsonField.of(address2))
 
         /** Unit number (if applicable). */
-        @JsonProperty("address2")
-        @ExcludeMissing
         fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
 
         /** City */
         fun city(city: String) = city(JsonField.of(city))
 
         /** City */
-        @JsonProperty("city")
-        @ExcludeMissing
         fun city(city: JsonField<String>) = apply { this.city = city }
 
         /** Uppercase ISO 3166-1 alpha-3 three character abbreviation. */
         fun country(country: String) = country(JsonField.of(country))
 
         /** Uppercase ISO 3166-1 alpha-3 three character abbreviation. */
-        @JsonProperty("country")
-        @ExcludeMissing
         fun country(country: JsonField<String>) = apply { this.country = country }
 
         /**
@@ -245,8 +254,6 @@ private constructor(
          * Email address to be contacted for expedited shipping process purposes. Required if
          * `shipping_method` is `EXPEDITED`.
          */
-        @JsonProperty("email")
-        @ExcludeMissing
         fun email(email: JsonField<String>) = apply { this.email = email }
 
         /**
@@ -259,8 +266,6 @@ private constructor(
          * Customer's first name. This will be the first name printed on the physical card. The
          * combined length of `first_name` and `last_name` may not exceed 25 characters.
          */
-        @JsonProperty("first_name")
-        @ExcludeMissing
         fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
         /**
@@ -273,8 +278,6 @@ private constructor(
          * Customer's surname (family name). This will be the last name printed on the physical
          * card. The combined length of `first_name` and `last_name` may not exceed 25 characters.
          */
-        @JsonProperty("last_name")
-        @ExcludeMissing
         fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
         /**
@@ -287,8 +290,6 @@ private constructor(
          * Text to be printed on line two of the physical card. Use of this field requires
          * additional permissions.
          */
-        @JsonProperty("line2_text")
-        @ExcludeMissing
         fun line2Text(line2Text: JsonField<String>) = apply { this.line2Text = line2Text }
 
         /**
@@ -301,8 +302,6 @@ private constructor(
          * Cardholder's phone number in E.164 format to be contacted for expedited shipping process
          * purposes. Required if `shipping_method` is `EXPEDITED`.
          */
-        @JsonProperty("phone_number")
-        @ExcludeMissing
         fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
 
         /**
@@ -315,8 +314,6 @@ private constructor(
          * Postal code (formerly zipcode). For US addresses, either five-digit postal code or
          * nine-digit postal code (ZIP+4) using the format 12345-1234.
          */
-        @JsonProperty("postal_code")
-        @ExcludeMissing
         fun postalCode(postalCode: JsonField<String>) = apply { this.postalCode = postalCode }
 
         /**
@@ -329,8 +326,6 @@ private constructor(
          * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a limit of
          * 24 characters for other countries.
          */
-        @JsonProperty("state")
-        @ExcludeMissing
         fun state(state: JsonField<String>) = apply { this.state = state }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -338,7 +333,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

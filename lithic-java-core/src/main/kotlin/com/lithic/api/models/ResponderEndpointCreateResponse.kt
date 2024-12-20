@@ -4,23 +4,26 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
-@JsonDeserialize(builder = ResponderEndpointCreateResponse.Builder::class)
 @NoAutoDetect
 class ResponderEndpointCreateResponse
+@JsonCreator
 private constructor(
-    private val enrolled: JsonField<Boolean>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("enrolled")
+    @ExcludeMissing
+    private val enrolled: JsonField<Boolean> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** True if the endpoint was enrolled successfully. */
@@ -66,8 +69,6 @@ private constructor(
         fun enrolled(enrolled: Boolean) = enrolled(JsonField.of(enrolled))
 
         /** True if the endpoint was enrolled successfully. */
-        @JsonProperty("enrolled")
-        @ExcludeMissing
         fun enrolled(enrolled: JsonField<Boolean>) = apply { this.enrolled = enrolled }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -75,7 +76,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

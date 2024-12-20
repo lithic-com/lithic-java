@@ -4,24 +4,31 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
-@JsonDeserialize(builder = RequiredDocument.Builder::class)
 @NoAutoDetect
 class RequiredDocument
+@JsonCreator
 private constructor(
-    private val entityToken: JsonField<String>,
-    private val validDocuments: JsonField<List<String>>,
-    private val statusReasons: JsonField<List<String>>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("entity_token")
+    @ExcludeMissing
+    private val entityToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("valid_documents")
+    @ExcludeMissing
+    private val validDocuments: JsonField<List<String>> = JsonMissing.of(),
+    @JsonProperty("status_reasons")
+    @ExcludeMissing
+    private val statusReasons: JsonField<List<String>> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Globally unique identifier for an entity. */
@@ -91,8 +98,6 @@ private constructor(
         fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
 
         /** Globally unique identifier for an entity. */
-        @JsonProperty("entity_token")
-        @ExcludeMissing
         fun entityToken(entityToken: JsonField<String>) = apply { this.entityToken = entityToken }
 
         /**
@@ -106,8 +111,6 @@ private constructor(
          * A list of valid documents that will satisfy the KYC requirements for the specified
          * entity.
          */
-        @JsonProperty("valid_documents")
-        @ExcludeMissing
         fun validDocuments(validDocuments: JsonField<List<String>>) = apply {
             this.validDocuments = validDocuments
         }
@@ -122,8 +125,6 @@ private constructor(
          * rovides the status reasons that will be satisfied by providing one of the valid
          * documents.
          */
-        @JsonProperty("status_reasons")
-        @ExcludeMissing
         fun statusReasons(statusReasons: JsonField<List<String>>) = apply {
             this.statusReasons = statusReasons
         }
@@ -133,7 +134,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }

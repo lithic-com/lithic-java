@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
@@ -50,14 +51,15 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = TransactionSimulateReturnBody.Builder::class)
     @NoAutoDetect
     class TransactionSimulateReturnBody
+    @JsonCreator
     internal constructor(
-        private val amount: Long,
-        private val descriptor: String,
-        private val pan: String,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("amount") private val amount: Long,
+        @JsonProperty("descriptor") private val descriptor: String,
+        @JsonProperty("pan") private val pan: String,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Amount (in cents) to authorize. */
@@ -98,21 +100,19 @@ constructor(
                 }
 
             /** Amount (in cents) to authorize. */
-            @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = apply { this.amount = amount }
 
             /** Merchant descriptor. */
-            @JsonProperty("descriptor")
             fun descriptor(descriptor: String) = apply { this.descriptor = descriptor }
 
             /** Sixteen digit card number. */
-            @JsonProperty("pan") fun pan(pan: String) = apply { this.pan = pan }
+            fun pan(pan: String) = apply { this.pan = pan }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

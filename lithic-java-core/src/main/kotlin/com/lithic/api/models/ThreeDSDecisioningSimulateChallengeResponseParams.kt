@@ -4,13 +4,14 @@ package com.lithic.api.models
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
@@ -46,13 +47,14 @@ constructor(
 
     @JvmSynthetic internal fun getQueryParams(): QueryParams = additionalQueryParams
 
-    @JsonDeserialize(builder = ThreeDSDecisioningSimulateChallengeResponseBody.Builder::class)
     @NoAutoDetect
     class ThreeDSDecisioningSimulateChallengeResponseBody
+    @JsonCreator
     internal constructor(
-        private val token: String,
-        private val challengeResponse: ChallengeResult,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("token") private val token: String,
+        @JsonProperty("challenge_response") private val challengeResponse: ChallengeResult,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -101,10 +103,9 @@ constructor(
              * the initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
              * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
              */
-            @JsonProperty("token") fun token(token: String) = apply { this.token = token }
+            fun token(token: String) = apply { this.token = token }
 
             /** Whether the Cardholder has Approved or Declined the issued Challenge */
-            @JsonProperty("challenge_response")
             fun challengeResponse(challengeResponse: ChallengeResult) = apply {
                 this.challengeResponse = challengeResponse
             }
@@ -114,7 +115,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

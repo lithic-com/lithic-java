@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
@@ -14,6 +13,7 @@ import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
@@ -55,12 +55,14 @@ constructor(
         }
     }
 
-    @JsonDeserialize(builder = TokenizationResendActivationCodeBody.Builder::class)
     @NoAutoDetect
     class TokenizationResendActivationCodeBody
+    @JsonCreator
     internal constructor(
+        @JsonProperty("activation_method_type")
         private val activationMethodType: ActivationMethodType?,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /**
@@ -102,7 +104,6 @@ constructor(
              * authentication code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
              * "EMAIL_TO_CARDHOLDER_ADDRESS"
              */
-            @JsonProperty("activation_method_type")
             fun activationMethodType(activationMethodType: ActivationMethodType) = apply {
                 this.activationMethodType = activationMethodType
             }
@@ -112,7 +113,6 @@ constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }

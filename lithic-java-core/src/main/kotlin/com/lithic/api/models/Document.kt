@@ -6,29 +6,37 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.time.OffsetDateTime
 import java.util.Objects
 
 /** Describes the document and the required document image uploads required to re-run KYC */
-@JsonDeserialize(builder = Document.Builder::class)
 @NoAutoDetect
 class Document
+@JsonCreator
 private constructor(
-    private val token: JsonField<String>,
-    private val accountHolderToken: JsonField<String>,
-    private val documentType: JsonField<DocumentType>,
-    private val entityToken: JsonField<String>,
-    private val requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>>,
-    private val additionalProperties: Map<String, JsonValue>,
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("account_holder_token")
+    @ExcludeMissing
+    private val accountHolderToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("document_type")
+    @ExcludeMissing
+    private val documentType: JsonField<DocumentType> = JsonMissing.of(),
+    @JsonProperty("entity_token")
+    @ExcludeMissing
+    private val entityToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("required_document_uploads")
+    @ExcludeMissing
+    private val requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>> = JsonMissing.of(),
+    @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Globally unique identifier for the document. */
@@ -114,8 +122,6 @@ private constructor(
         fun token(token: String) = token(JsonField.of(token))
 
         /** Globally unique identifier for the document. */
-        @JsonProperty("token")
-        @ExcludeMissing
         fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier for the account holder. */
@@ -123,8 +129,6 @@ private constructor(
             accountHolderToken(JsonField.of(accountHolderToken))
 
         /** Globally unique identifier for the account holder. */
-        @JsonProperty("account_holder_token")
-        @ExcludeMissing
         fun accountHolderToken(accountHolderToken: JsonField<String>) = apply {
             this.accountHolderToken = accountHolderToken
         }
@@ -133,8 +137,6 @@ private constructor(
         fun documentType(documentType: DocumentType) = documentType(JsonField.of(documentType))
 
         /** Type of documentation to be submitted for verification of an account holder */
-        @JsonProperty("document_type")
-        @ExcludeMissing
         fun documentType(documentType: JsonField<DocumentType>) = apply {
             this.documentType = documentType
         }
@@ -143,8 +145,6 @@ private constructor(
         fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
 
         /** Globally unique identifier for an entity. */
-        @JsonProperty("entity_token")
-        @ExcludeMissing
         fun entityToken(entityToken: JsonField<String>) = apply { this.entityToken = entityToken }
 
         /** Represents a single image of the document to upload. */
@@ -152,8 +152,6 @@ private constructor(
             requiredDocumentUploads(JsonField.of(requiredDocumentUploads))
 
         /** Represents a single image of the document to upload. */
-        @JsonProperty("required_document_uploads")
-        @ExcludeMissing
         fun requiredDocumentUploads(
             requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>>
         ) = apply { this.requiredDocumentUploads = requiredDocumentUploads }
@@ -163,7 +161,6 @@ private constructor(
             putAllAdditionalProperties(additionalProperties)
         }
 
-        @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
             additionalProperties.put(key, value)
         }
@@ -343,20 +340,39 @@ private constructor(
     }
 
     /** Represents a single image of the document to upload. */
-    @JsonDeserialize(builder = RequiredDocumentUpload.Builder::class)
     @NoAutoDetect
     class RequiredDocumentUpload
+    @JsonCreator
     private constructor(
-        private val imageType: JsonField<ImageType>,
-        private val status: JsonField<DocumentUploadStatus>,
-        private val statusReasons: JsonField<List<DocumentUploadStatusReasons>>,
-        private val uploadUrl: JsonField<String>,
-        private val token: JsonField<String>,
-        private val acceptedEntityStatusReasons: JsonField<List<String>>,
-        private val rejectedEntityStatusReasons: JsonField<List<String>>,
-        private val created: JsonField<OffsetDateTime>,
-        private val updated: JsonField<OffsetDateTime>,
-        private val additionalProperties: Map<String, JsonValue>,
+        @JsonProperty("image_type")
+        @ExcludeMissing
+        private val imageType: JsonField<ImageType> = JsonMissing.of(),
+        @JsonProperty("status")
+        @ExcludeMissing
+        private val status: JsonField<DocumentUploadStatus> = JsonMissing.of(),
+        @JsonProperty("status_reasons")
+        @ExcludeMissing
+        private val statusReasons: JsonField<List<DocumentUploadStatusReasons>> = JsonMissing.of(),
+        @JsonProperty("upload_url")
+        @ExcludeMissing
+        private val uploadUrl: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("accepted_entity_status_reasons")
+        @ExcludeMissing
+        private val acceptedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("rejected_entity_status_reasons")
+        @ExcludeMissing
+        private val rejectedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("updated")
+        @ExcludeMissing
+        private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonAnySetter
+        private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Type of image to upload. */
@@ -504,16 +520,12 @@ private constructor(
             fun imageType(imageType: ImageType) = imageType(JsonField.of(imageType))
 
             /** Type of image to upload. */
-            @JsonProperty("image_type")
-            @ExcludeMissing
             fun imageType(imageType: JsonField<ImageType>) = apply { this.imageType = imageType }
 
             /** Status of an account holder's document upload. */
             fun status(status: DocumentUploadStatus) = status(JsonField.of(status))
 
             /** Status of an account holder's document upload. */
-            @JsonProperty("status")
-            @ExcludeMissing
             fun status(status: JsonField<DocumentUploadStatus>) = apply { this.status = status }
 
             /** Reasons for document image upload status. */
@@ -521,8 +533,6 @@ private constructor(
                 statusReasons(JsonField.of(statusReasons))
 
             /** Reasons for document image upload status. */
-            @JsonProperty("status_reasons")
-            @ExcludeMissing
             fun statusReasons(statusReasons: JsonField<List<DocumentUploadStatusReasons>>) = apply {
                 this.statusReasons = statusReasons
             }
@@ -543,16 +553,12 @@ private constructor(
              * refresh the URLs by retrieving the document upload from `GET
              * /account_holders/{account_holder_token}/documents`.
              */
-            @JsonProperty("upload_url")
-            @ExcludeMissing
             fun uploadUrl(uploadUrl: JsonField<String>) = apply { this.uploadUrl = uploadUrl }
 
             /** Globally unique identifier for the document upload. */
             fun token(token: String) = token(JsonField.of(token))
 
             /** Globally unique identifier for the document upload. */
-            @JsonProperty("token")
-            @ExcludeMissing
             fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
@@ -566,8 +572,6 @@ private constructor(
              * A list of status reasons associated with a KYB account holder that have been
              * satisfied by the document upload
              */
-            @JsonProperty("accepted_entity_status_reasons")
-            @ExcludeMissing
             fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: JsonField<List<String>>) =
                 apply {
                     this.acceptedEntityStatusReasons = acceptedEntityStatusReasons
@@ -584,8 +588,6 @@ private constructor(
              * A list of status reasons associated with a KYB account holder that have not been
              * satisfied by the document upload
              */
-            @JsonProperty("rejected_entity_status_reasons")
-            @ExcludeMissing
             fun rejectedEntityStatusReasons(rejectedEntityStatusReasons: JsonField<List<String>>) =
                 apply {
                     this.rejectedEntityStatusReasons = rejectedEntityStatusReasons
@@ -595,16 +597,12 @@ private constructor(
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
             /** When the document upload was created */
-            @JsonProperty("created")
-            @ExcludeMissing
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             /** When the document upload was last updated */
             fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
             /** When the document upload was last updated */
-            @JsonProperty("updated")
-            @ExcludeMissing
             fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -612,7 +610,6 @@ private constructor(
                 putAllAdditionalProperties(additionalProperties)
             }
 
-            @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
                 additionalProperties.put(key, value)
             }
