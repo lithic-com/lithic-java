@@ -59,10 +59,10 @@ class CardReissueParamsTest {
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.carrier())
-            .isEqualTo(Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build())
-        assertThat(body.productId()).isEqualTo("100")
+            .contains(Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build())
+        assertThat(body.productId()).contains("100")
         assertThat(body.shippingAddress())
-            .isEqualTo(
+            .contains(
                 ShippingAddress.builder()
                     .address1("5 Broad Street")
                     .city("NEW YORK")
@@ -77,7 +77,7 @@ class CardReissueParamsTest {
                     .phoneNumber("+15555555555")
                     .build()
             )
-        assertThat(body.shippingMethod()).isEqualTo(CardReissueParams.ShippingMethod._2_DAY)
+        assertThat(body.shippingMethod()).contains(CardReissueParams.ShippingMethod._2_DAY)
     }
 
     @Test

@@ -49,8 +49,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /**
      * A globally unique identifier for this record of an external bank account association. If a
      * program links an external bank account to more than one end-user or to both the program and
@@ -236,6 +234,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): ExternalBankAccountListResponse = apply {
         if (!validated) {
             token()
@@ -300,30 +300,30 @@ private constructor(
         @JvmSynthetic
         internal fun from(externalBankAccountListResponse: ExternalBankAccountListResponse) =
             apply {
-                this.token = externalBankAccountListResponse.token
-                this.owner = externalBankAccountListResponse.owner
-                this.routingNumber = externalBankAccountListResponse.routingNumber
-                this.lastFour = externalBankAccountListResponse.lastFour
-                this.name = externalBankAccountListResponse.name
-                this.currency = externalBankAccountListResponse.currency
-                this.country = externalBankAccountListResponse.country
-                this.accountToken = externalBankAccountListResponse.accountToken
-                this.created = externalBankAccountListResponse.created
-                this.companyId = externalBankAccountListResponse.companyId
-                this.dob = externalBankAccountListResponse.dob
-                this.doingBusinessAs = externalBankAccountListResponse.doingBusinessAs
-                this.userDefinedId = externalBankAccountListResponse.userDefinedId
-                this.verificationFailedReason =
-                    externalBankAccountListResponse.verificationFailedReason
-                this.verificationAttempts = externalBankAccountListResponse.verificationAttempts
-                this.financialAccountToken = externalBankAccountListResponse.financialAccountToken
-                this.type = externalBankAccountListResponse.type
-                this.verificationMethod = externalBankAccountListResponse.verificationMethod
-                this.ownerType = externalBankAccountListResponse.ownerType
-                this.state = externalBankAccountListResponse.state
-                this.verificationState = externalBankAccountListResponse.verificationState
-                this.address = externalBankAccountListResponse.address
-                additionalProperties(externalBankAccountListResponse.additionalProperties)
+                token = externalBankAccountListResponse.token
+                owner = externalBankAccountListResponse.owner
+                routingNumber = externalBankAccountListResponse.routingNumber
+                lastFour = externalBankAccountListResponse.lastFour
+                name = externalBankAccountListResponse.name
+                currency = externalBankAccountListResponse.currency
+                country = externalBankAccountListResponse.country
+                accountToken = externalBankAccountListResponse.accountToken
+                created = externalBankAccountListResponse.created
+                companyId = externalBankAccountListResponse.companyId
+                dob = externalBankAccountListResponse.dob
+                doingBusinessAs = externalBankAccountListResponse.doingBusinessAs
+                userDefinedId = externalBankAccountListResponse.userDefinedId
+                verificationFailedReason = externalBankAccountListResponse.verificationFailedReason
+                verificationAttempts = externalBankAccountListResponse.verificationAttempts
+                financialAccountToken = externalBankAccountListResponse.financialAccountToken
+                type = externalBankAccountListResponse.type
+                verificationMethod = externalBankAccountListResponse.verificationMethod
+                ownerType = externalBankAccountListResponse.ownerType
+                state = externalBankAccountListResponse.state
+                verificationState = externalBankAccountListResponse.verificationState
+                address = externalBankAccountListResponse.address
+                additionalProperties =
+                    externalBankAccountListResponse.additionalProperties.toMutableMap()
             }
 
         /**
@@ -572,16 +572,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): ExternalBankAccountListResponse =

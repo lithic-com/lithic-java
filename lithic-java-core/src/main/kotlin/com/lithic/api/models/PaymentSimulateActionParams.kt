@@ -70,21 +70,23 @@ constructor(
     @NoAutoDetect
     class PaymentSimulateActionBody
     internal constructor(
-        private val eventType: SupportedSimulationTypes?,
+        private val eventType: SupportedSimulationTypes,
         private val declineReason: SupportedSimulationDeclineReasons?,
         private val returnReasonCode: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** Event Type */
-        @JsonProperty("event_type") fun eventType(): SupportedSimulationTypes? = eventType
+        @JsonProperty("event_type") fun eventType(): SupportedSimulationTypes = eventType
 
         /** Decline reason */
         @JsonProperty("decline_reason")
-        fun declineReason(): SupportedSimulationDeclineReasons? = declineReason
+        fun declineReason(): Optional<SupportedSimulationDeclineReasons> =
+            Optional.ofNullable(declineReason)
 
         /** Return Reason Code */
-        @JsonProperty("return_reason_code") fun returnReasonCode(): String? = returnReasonCode
+        @JsonProperty("return_reason_code")
+        fun returnReasonCode(): Optional<String> = Optional.ofNullable(returnReasonCode)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -106,10 +108,10 @@ constructor(
 
             @JvmSynthetic
             internal fun from(paymentSimulateActionBody: PaymentSimulateActionBody) = apply {
-                this.eventType = paymentSimulateActionBody.eventType
-                this.declineReason = paymentSimulateActionBody.declineReason
-                this.returnReasonCode = paymentSimulateActionBody.returnReasonCode
-                additionalProperties(paymentSimulateActionBody.additionalProperties)
+                eventType = paymentSimulateActionBody.eventType
+                declineReason = paymentSimulateActionBody.declineReason
+                returnReasonCode = paymentSimulateActionBody.returnReasonCode
+                additionalProperties = paymentSimulateActionBody.additionalProperties.toMutableMap()
             }
 
             /** Event Type */
@@ -132,16 +134,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): PaymentSimulateActionBody =

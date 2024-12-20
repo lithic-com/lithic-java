@@ -23,8 +23,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** The shared HMAC ASA secret */
     fun secret(): Optional<String> = Optional.ofNullable(secret.getNullable("secret"))
 
@@ -34,6 +32,8 @@ private constructor(
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+    private var validated: Boolean = false
 
     fun validate(): AuthStreamSecret = apply {
         if (!validated) {
@@ -56,8 +56,8 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(authStreamSecret: AuthStreamSecret) = apply {
-            this.secret = authStreamSecret.secret
-            additionalProperties(authStreamSecret.additionalProperties)
+            secret = authStreamSecret.secret
+            additionalProperties = authStreamSecret.additionalProperties.toMutableMap()
         }
 
         /** The shared HMAC ASA secret */
@@ -70,16 +70,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): AuthStreamSecret = AuthStreamSecret(secret, additionalProperties.toImmutable())

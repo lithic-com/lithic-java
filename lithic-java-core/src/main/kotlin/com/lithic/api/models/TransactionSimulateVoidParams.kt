@@ -59,27 +59,27 @@ constructor(
     @NoAutoDetect
     class TransactionSimulateVoidBody
     internal constructor(
-        private val token: String?,
+        private val token: String,
         private val amount: Long?,
         private val type: Type?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
-        @JsonProperty("token") fun token(): String? = token
+        @JsonProperty("token") fun token(): String = token
 
         /**
          * Amount (in cents) to void. Typically this will match the amount in the original
          * authorization, but can be less.
          */
-        @JsonProperty("amount") fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Optional<Long> = Optional.ofNullable(amount)
 
         /**
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
          * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
          */
-        @JsonProperty("type") fun type(): Type? = type
+        @JsonProperty("type") fun type(): Optional<Type> = Optional.ofNullable(type)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -101,10 +101,11 @@ constructor(
 
             @JvmSynthetic
             internal fun from(transactionSimulateVoidBody: TransactionSimulateVoidBody) = apply {
-                this.token = transactionSimulateVoidBody.token
-                this.amount = transactionSimulateVoidBody.amount
-                this.type = transactionSimulateVoidBody.type
-                additionalProperties(transactionSimulateVoidBody.additionalProperties)
+                token = transactionSimulateVoidBody.token
+                amount = transactionSimulateVoidBody.amount
+                type = transactionSimulateVoidBody.type
+                additionalProperties =
+                    transactionSimulateVoidBody.additionalProperties.toMutableMap()
             }
 
             /** The transaction token returned from the /v1/simulate/authorize response. */
@@ -126,16 +127,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): TransactionSimulateVoidBody =

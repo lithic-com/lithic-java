@@ -51,13 +51,13 @@ constructor(
     @NoAutoDetect
     class TransactionSimulateClearingBody
     internal constructor(
-        private val token: String?,
+        private val token: String,
         private val amount: Long?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
-        @JsonProperty("token") fun token(): String? = token
+        @JsonProperty("token") fun token(): String = token
 
         /**
          * Amount (in cents) to clear. Typically this will match the amount in the original
@@ -70,7 +70,7 @@ constructor(
          * that have already cleared, either partially or fully, cannot be cleared again using this
          * endpoint.
          */
-        @JsonProperty("amount") fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Optional<Long> = Optional.ofNullable(amount)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -92,9 +92,10 @@ constructor(
             @JvmSynthetic
             internal fun from(transactionSimulateClearingBody: TransactionSimulateClearingBody) =
                 apply {
-                    this.token = transactionSimulateClearingBody.token
-                    this.amount = transactionSimulateClearingBody.amount
-                    additionalProperties(transactionSimulateClearingBody.additionalProperties)
+                    token = transactionSimulateClearingBody.token
+                    amount = transactionSimulateClearingBody.amount
+                    additionalProperties =
+                        transactionSimulateClearingBody.additionalProperties.toMutableMap()
                 }
 
             /** The transaction token returned from the /v1/simulate/authorize response. */
@@ -115,16 +116,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): TransactionSimulateClearingBody =

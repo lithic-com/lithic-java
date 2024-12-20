@@ -49,8 +49,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /**
      * A globally unique identifier for this record of an external bank account association. If a
      * program links an external bank account to more than one end-user or to both the program and
@@ -236,6 +234,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): MicroDepositCreateResponse = apply {
         if (!validated) {
             token()
@@ -299,29 +299,29 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(microDepositCreateResponse: MicroDepositCreateResponse) = apply {
-            this.token = microDepositCreateResponse.token
-            this.owner = microDepositCreateResponse.owner
-            this.routingNumber = microDepositCreateResponse.routingNumber
-            this.lastFour = microDepositCreateResponse.lastFour
-            this.name = microDepositCreateResponse.name
-            this.currency = microDepositCreateResponse.currency
-            this.country = microDepositCreateResponse.country
-            this.accountToken = microDepositCreateResponse.accountToken
-            this.created = microDepositCreateResponse.created
-            this.companyId = microDepositCreateResponse.companyId
-            this.dob = microDepositCreateResponse.dob
-            this.doingBusinessAs = microDepositCreateResponse.doingBusinessAs
-            this.userDefinedId = microDepositCreateResponse.userDefinedId
-            this.verificationFailedReason = microDepositCreateResponse.verificationFailedReason
-            this.verificationAttempts = microDepositCreateResponse.verificationAttempts
-            this.financialAccountToken = microDepositCreateResponse.financialAccountToken
-            this.type = microDepositCreateResponse.type
-            this.verificationMethod = microDepositCreateResponse.verificationMethod
-            this.ownerType = microDepositCreateResponse.ownerType
-            this.state = microDepositCreateResponse.state
-            this.verificationState = microDepositCreateResponse.verificationState
-            this.address = microDepositCreateResponse.address
-            additionalProperties(microDepositCreateResponse.additionalProperties)
+            token = microDepositCreateResponse.token
+            owner = microDepositCreateResponse.owner
+            routingNumber = microDepositCreateResponse.routingNumber
+            lastFour = microDepositCreateResponse.lastFour
+            name = microDepositCreateResponse.name
+            currency = microDepositCreateResponse.currency
+            country = microDepositCreateResponse.country
+            accountToken = microDepositCreateResponse.accountToken
+            created = microDepositCreateResponse.created
+            companyId = microDepositCreateResponse.companyId
+            dob = microDepositCreateResponse.dob
+            doingBusinessAs = microDepositCreateResponse.doingBusinessAs
+            userDefinedId = microDepositCreateResponse.userDefinedId
+            verificationFailedReason = microDepositCreateResponse.verificationFailedReason
+            verificationAttempts = microDepositCreateResponse.verificationAttempts
+            financialAccountToken = microDepositCreateResponse.financialAccountToken
+            type = microDepositCreateResponse.type
+            verificationMethod = microDepositCreateResponse.verificationMethod
+            ownerType = microDepositCreateResponse.ownerType
+            state = microDepositCreateResponse.state
+            verificationState = microDepositCreateResponse.verificationState
+            address = microDepositCreateResponse.address
+            additionalProperties = microDepositCreateResponse.additionalProperties.toMutableMap()
         }
 
         /**
@@ -570,16 +570,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): MicroDepositCreateResponse =

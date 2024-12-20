@@ -44,8 +44,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** Auth Rule Token */
     fun token(): String = token.getRequired("token")
 
@@ -111,6 +109,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): V2UpdateResponse = apply {
         if (!validated) {
             token()
@@ -150,17 +150,17 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(v2UpdateResponse: V2UpdateResponse) = apply {
-            this.token = v2UpdateResponse.token
-            this.state = v2UpdateResponse.state
-            this.programLevel = v2UpdateResponse.programLevel
-            this.cardTokens = v2UpdateResponse.cardTokens
-            this.excludedCardTokens = v2UpdateResponse.excludedCardTokens
-            this.accountTokens = v2UpdateResponse.accountTokens
-            this.type = v2UpdateResponse.type
-            this.currentVersion = v2UpdateResponse.currentVersion
-            this.draftVersion = v2UpdateResponse.draftVersion
-            this.name = v2UpdateResponse.name
-            additionalProperties(v2UpdateResponse.additionalProperties)
+            token = v2UpdateResponse.token
+            state = v2UpdateResponse.state
+            programLevel = v2UpdateResponse.programLevel
+            cardTokens = v2UpdateResponse.cardTokens
+            excludedCardTokens = v2UpdateResponse.excludedCardTokens
+            accountTokens = v2UpdateResponse.accountTokens
+            type = v2UpdateResponse.type
+            currentVersion = v2UpdateResponse.currentVersion
+            draftVersion = v2UpdateResponse.draftVersion
+            name = v2UpdateResponse.name
+            additionalProperties = v2UpdateResponse.additionalProperties.toMutableMap()
         }
 
         /** Auth Rule Token */
@@ -253,16 +253,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): V2UpdateResponse =
@@ -290,8 +296,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /** Parameters for the current version of the Auth Rule */
         fun parameters(): Parameters = parameters.getRequired("parameters")
 
@@ -307,6 +311,8 @@ private constructor(
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
 
         fun validate(): CurrentVersion = apply {
             if (!validated) {
@@ -331,9 +337,9 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(currentVersion: CurrentVersion) = apply {
-                this.parameters = currentVersion.parameters
-                this.version = currentVersion.version
-                additionalProperties(currentVersion.additionalProperties)
+                parameters = currentVersion.parameters
+                version = currentVersion.version
+                additionalProperties = currentVersion.additionalProperties.toMutableMap()
             }
 
             /** Parameters for the current version of the Auth Rule */
@@ -360,16 +366,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): CurrentVersion =
@@ -521,8 +533,6 @@ private constructor(
                 private val additionalProperties: Map<String, JsonValue>,
             ) {
 
-                private var validated: Boolean = false
-
                 fun conditions(): List<Condition> = conditions.getRequired("conditions")
 
                 @JsonProperty("conditions") @ExcludeMissing fun _conditions() = conditions
@@ -530,6 +540,8 @@ private constructor(
                 @JsonAnyGetter
                 @ExcludeMissing
                 fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                private var validated: Boolean = false
 
                 fun validate(): ConditionalBlockParameters = apply {
                     if (!validated) {
@@ -553,8 +565,9 @@ private constructor(
                     @JvmSynthetic
                     internal fun from(conditionalBlockParameters: ConditionalBlockParameters) =
                         apply {
-                            this.conditions = conditionalBlockParameters.conditions
-                            additionalProperties(conditionalBlockParameters.additionalProperties)
+                            conditions = conditionalBlockParameters.conditions
+                            additionalProperties =
+                                conditionalBlockParameters.additionalProperties.toMutableMap()
                         }
 
                     fun conditions(conditions: List<Condition>) =
@@ -568,18 +581,26 @@ private constructor(
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
-                        this.additionalProperties.putAll(additionalProperties)
+                        putAllAdditionalProperties(additionalProperties)
                     }
 
                     @JsonAnySetter
                     fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                        this.additionalProperties.put(key, value)
+                        additionalProperties.put(key, value)
                     }
 
                     fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                         apply {
                             this.additionalProperties.putAll(additionalProperties)
                         }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
 
                     fun build(): ConditionalBlockParameters =
                         ConditionalBlockParameters(
@@ -597,8 +618,6 @@ private constructor(
                     private val value: JsonField<Value>,
                     private val additionalProperties: Map<String, JsonValue>,
                 ) {
-
-                    private var validated: Boolean = false
 
                     /**
                      * The attribute to target.
@@ -694,6 +713,8 @@ private constructor(
                     @ExcludeMissing
                     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+                    private var validated: Boolean = false
+
                     fun validate(): Condition = apply {
                         if (!validated) {
                             attribute()
@@ -720,10 +741,10 @@ private constructor(
 
                         @JvmSynthetic
                         internal fun from(condition: Condition) = apply {
-                            this.attribute = condition.attribute
-                            this.operation = condition.operation
-                            this.value = condition.value
-                            additionalProperties(condition.additionalProperties)
+                            attribute = condition.attribute
+                            operation = condition.operation
+                            value = condition.value
+                            additionalProperties = condition.additionalProperties.toMutableMap()
                         }
 
                         /**
@@ -829,17 +850,25 @@ private constructor(
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
                                 this.additionalProperties.clear()
-                                this.additionalProperties.putAll(additionalProperties)
+                                putAllAdditionalProperties(additionalProperties)
                             }
 
                         @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                            this.additionalProperties.put(key, value)
+                            additionalProperties.put(key, value)
                         }
 
                         fun putAllAdditionalProperties(
                             additionalProperties: Map<String, JsonValue>
                         ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                        fun removeAdditionalProperty(key: String) = apply {
+                            additionalProperties.remove(key)
+                        }
+
+                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                            keys.forEach(::removeAdditionalProperty)
+                        }
 
                         fun build(): Condition =
                             Condition(
@@ -1242,8 +1271,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /** Parameters for the current version of the Auth Rule */
         fun parameters(): Parameters = parameters.getRequired("parameters")
 
@@ -1259,6 +1286,8 @@ private constructor(
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
 
         fun validate(): DraftVersion = apply {
             if (!validated) {
@@ -1283,9 +1312,9 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(draftVersion: DraftVersion) = apply {
-                this.parameters = draftVersion.parameters
-                this.version = draftVersion.version
-                additionalProperties(draftVersion.additionalProperties)
+                parameters = draftVersion.parameters
+                version = draftVersion.version
+                additionalProperties = draftVersion.additionalProperties.toMutableMap()
             }
 
             /** Parameters for the current version of the Auth Rule */
@@ -1312,16 +1341,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): DraftVersion =
@@ -1473,8 +1508,6 @@ private constructor(
                 private val additionalProperties: Map<String, JsonValue>,
             ) {
 
-                private var validated: Boolean = false
-
                 fun conditions(): List<Condition> = conditions.getRequired("conditions")
 
                 @JsonProperty("conditions") @ExcludeMissing fun _conditions() = conditions
@@ -1482,6 +1515,8 @@ private constructor(
                 @JsonAnyGetter
                 @ExcludeMissing
                 fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                private var validated: Boolean = false
 
                 fun validate(): ConditionalBlockParameters = apply {
                     if (!validated) {
@@ -1505,8 +1540,9 @@ private constructor(
                     @JvmSynthetic
                     internal fun from(conditionalBlockParameters: ConditionalBlockParameters) =
                         apply {
-                            this.conditions = conditionalBlockParameters.conditions
-                            additionalProperties(conditionalBlockParameters.additionalProperties)
+                            conditions = conditionalBlockParameters.conditions
+                            additionalProperties =
+                                conditionalBlockParameters.additionalProperties.toMutableMap()
                         }
 
                     fun conditions(conditions: List<Condition>) =
@@ -1520,18 +1556,26 @@ private constructor(
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
-                        this.additionalProperties.putAll(additionalProperties)
+                        putAllAdditionalProperties(additionalProperties)
                     }
 
                     @JsonAnySetter
                     fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                        this.additionalProperties.put(key, value)
+                        additionalProperties.put(key, value)
                     }
 
                     fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                         apply {
                             this.additionalProperties.putAll(additionalProperties)
                         }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
 
                     fun build(): ConditionalBlockParameters =
                         ConditionalBlockParameters(
@@ -1549,8 +1593,6 @@ private constructor(
                     private val value: JsonField<Value>,
                     private val additionalProperties: Map<String, JsonValue>,
                 ) {
-
-                    private var validated: Boolean = false
 
                     /**
                      * The attribute to target.
@@ -1646,6 +1688,8 @@ private constructor(
                     @ExcludeMissing
                     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+                    private var validated: Boolean = false
+
                     fun validate(): Condition = apply {
                         if (!validated) {
                             attribute()
@@ -1672,10 +1716,10 @@ private constructor(
 
                         @JvmSynthetic
                         internal fun from(condition: Condition) = apply {
-                            this.attribute = condition.attribute
-                            this.operation = condition.operation
-                            this.value = condition.value
-                            additionalProperties(condition.additionalProperties)
+                            attribute = condition.attribute
+                            operation = condition.operation
+                            value = condition.value
+                            additionalProperties = condition.additionalProperties.toMutableMap()
                         }
 
                         /**
@@ -1781,17 +1825,25 @@ private constructor(
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
                                 this.additionalProperties.clear()
-                                this.additionalProperties.putAll(additionalProperties)
+                                putAllAdditionalProperties(additionalProperties)
                             }
 
                         @JsonAnySetter
                         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                            this.additionalProperties.put(key, value)
+                            additionalProperties.put(key, value)
                         }
 
                         fun putAllAdditionalProperties(
                             additionalProperties: Map<String, JsonValue>
                         ) = apply { this.additionalProperties.putAll(additionalProperties) }
+
+                        fun removeAdditionalProperty(key: String) = apply {
+                            additionalProperties.remove(key)
+                        }
+
+                        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                            keys.forEach(::removeAdditionalProperty)
+                        }
 
                         fun build(): Condition =
                             Condition(

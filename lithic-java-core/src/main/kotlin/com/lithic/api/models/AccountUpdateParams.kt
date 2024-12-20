@@ -90,7 +90,8 @@ constructor(
          * Amount (in cents) for the account's daily spend limit. By default the daily spend limit
          * is set to $1,250.
          */
-        @JsonProperty("daily_spend_limit") fun dailySpendLimit(): Long? = dailySpendLimit
+        @JsonProperty("daily_spend_limit")
+        fun dailySpendLimit(): Optional<Long> = Optional.ofNullable(dailySpendLimit)
 
         /**
          * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached, no
@@ -100,16 +101,18 @@ constructor(
          * transactions due to checks against the account limit. This behavior differs from the
          * daily spend limit and the monthly spend limit.
          */
-        @JsonProperty("lifetime_spend_limit") fun lifetimeSpendLimit(): Long? = lifetimeSpendLimit
+        @JsonProperty("lifetime_spend_limit")
+        fun lifetimeSpendLimit(): Optional<Long> = Optional.ofNullable(lifetimeSpendLimit)
 
         /**
          * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
          * limit is set to $5,000.
          */
-        @JsonProperty("monthly_spend_limit") fun monthlySpendLimit(): Long? = monthlySpendLimit
+        @JsonProperty("monthly_spend_limit")
+        fun monthlySpendLimit(): Optional<Long> = Optional.ofNullable(monthlySpendLimit)
 
         /** Account states. */
-        @JsonProperty("state") fun state(): State? = state
+        @JsonProperty("state") fun state(): Optional<State> = Optional.ofNullable(state)
 
         /**
          * Address used during Address Verification Service (AVS) checks during transactions if
@@ -117,7 +120,8 @@ constructor(
          * Authorization Rules. The field will be removed from the schema in a future release.
          */
         @JsonProperty("verification_address")
-        fun verificationAddress(): VerificationAddress? = verificationAddress
+        fun verificationAddress(): Optional<VerificationAddress> =
+            Optional.ofNullable(verificationAddress)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -141,12 +145,12 @@ constructor(
 
             @JvmSynthetic
             internal fun from(accountUpdateBody: AccountUpdateBody) = apply {
-                this.dailySpendLimit = accountUpdateBody.dailySpendLimit
-                this.lifetimeSpendLimit = accountUpdateBody.lifetimeSpendLimit
-                this.monthlySpendLimit = accountUpdateBody.monthlySpendLimit
-                this.state = accountUpdateBody.state
-                this.verificationAddress = accountUpdateBody.verificationAddress
-                additionalProperties(accountUpdateBody.additionalProperties)
+                dailySpendLimit = accountUpdateBody.dailySpendLimit
+                lifetimeSpendLimit = accountUpdateBody.lifetimeSpendLimit
+                monthlySpendLimit = accountUpdateBody.monthlySpendLimit
+                state = accountUpdateBody.state
+                verificationAddress = accountUpdateBody.verificationAddress
+                additionalProperties = accountUpdateBody.additionalProperties.toMutableMap()
             }
 
             /**
@@ -196,16 +200,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): AccountUpdateBody =
@@ -521,17 +531,18 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        @JsonProperty("address1") fun address1(): String? = address1
+        @JsonProperty("address1") fun address1(): Optional<String> = Optional.ofNullable(address1)
 
-        @JsonProperty("address2") fun address2(): String? = address2
+        @JsonProperty("address2") fun address2(): Optional<String> = Optional.ofNullable(address2)
 
-        @JsonProperty("city") fun city(): String? = city
+        @JsonProperty("city") fun city(): Optional<String> = Optional.ofNullable(city)
 
-        @JsonProperty("country") fun country(): String? = country
+        @JsonProperty("country") fun country(): Optional<String> = Optional.ofNullable(country)
 
-        @JsonProperty("postal_code") fun postalCode(): String? = postalCode
+        @JsonProperty("postal_code")
+        fun postalCode(): Optional<String> = Optional.ofNullable(postalCode)
 
-        @JsonProperty("state") fun state(): String? = state
+        @JsonProperty("state") fun state(): Optional<String> = Optional.ofNullable(state)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -556,13 +567,13 @@ constructor(
 
             @JvmSynthetic
             internal fun from(verificationAddress: VerificationAddress) = apply {
-                this.address1 = verificationAddress.address1
-                this.address2 = verificationAddress.address2
-                this.city = verificationAddress.city
-                this.country = verificationAddress.country
-                this.postalCode = verificationAddress.postalCode
-                this.state = verificationAddress.state
-                additionalProperties(verificationAddress.additionalProperties)
+                address1 = verificationAddress.address1
+                address2 = verificationAddress.address2
+                city = verificationAddress.city
+                country = verificationAddress.country
+                postalCode = verificationAddress.postalCode
+                state = verificationAddress.state
+                additionalProperties = verificationAddress.additionalProperties.toMutableMap()
             }
 
             @JsonProperty("address1")
@@ -582,16 +593,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): VerificationAddress =

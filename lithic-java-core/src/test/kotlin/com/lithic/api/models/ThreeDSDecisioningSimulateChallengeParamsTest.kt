@@ -22,7 +22,7 @@ class ThreeDSDecisioningSimulateChallengeParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
+        assertThat(body.token()).contains("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
     }
 
     @Test

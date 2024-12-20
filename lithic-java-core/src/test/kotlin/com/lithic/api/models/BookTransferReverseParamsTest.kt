@@ -24,7 +24,7 @@ class BookTransferReverseParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.memo()).isEqualTo("memo")
+        assertThat(body.memo()).contains("memo")
     }
 
     @Test

@@ -79,11 +79,11 @@ class CardRenewParamsTest {
                     .build()
             )
         assertThat(body.carrier())
-            .isEqualTo(Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build())
-        assertThat(body.expMonth()).isEqualTo("06")
-        assertThat(body.expYear()).isEqualTo("2027")
-        assertThat(body.productId()).isEqualTo("100")
-        assertThat(body.shippingMethod()).isEqualTo(CardRenewParams.ShippingMethod._2_DAY)
+            .contains(Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build())
+        assertThat(body.expMonth()).contains("06")
+        assertThat(body.expYear()).contains("2027")
+        assertThat(body.productId()).contains("100")
+        assertThat(body.shippingMethod()).contains(CardRenewParams.ShippingMethod._2_DAY)
     }
 
     @Test

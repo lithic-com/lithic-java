@@ -59,7 +59,7 @@ constructor(
     ) {
 
         @JsonProperty("financial_account_token")
-        fun financialAccountToken(): String? = financialAccountToken
+        fun financialAccountToken(): Optional<String> = Optional.ofNullable(financialAccountToken)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -81,9 +81,9 @@ constructor(
             internal fun from(
                 externalBankAccountRetryPrenoteBody: ExternalBankAccountRetryPrenoteBody
             ) = apply {
-                this.financialAccountToken =
-                    externalBankAccountRetryPrenoteBody.financialAccountToken
-                additionalProperties(externalBankAccountRetryPrenoteBody.additionalProperties)
+                financialAccountToken = externalBankAccountRetryPrenoteBody.financialAccountToken
+                additionalProperties =
+                    externalBankAccountRetryPrenoteBody.additionalProperties.toMutableMap()
             }
 
             @JsonProperty("financial_account_token")
@@ -93,16 +93,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): ExternalBankAccountRetryPrenoteBody =

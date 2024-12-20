@@ -52,10 +52,10 @@ class ManagementOperationCreateParamsTest {
         assertThat(body.eventType())
             .isEqualTo(ManagementOperationCreateParams.ManagementOperationEventType.CASH_BACK)
         assertThat(body.financialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.memo()).isEqualTo("memo")
-        assertThat(body.subtype()).isEqualTo("subtype")
-        assertThat(body.userDefinedId()).isEqualTo("user_defined_id")
+        assertThat(body.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.memo()).contains("memo")
+        assertThat(body.subtype()).contains("subtype")
+        assertThat(body.userDefinedId()).contains("user_defined_id")
     }
 
     @Test

@@ -34,8 +34,8 @@ class DisputeCreateParamsTest {
         assertThat(body.amount()).isEqualTo(10000L)
         assertThat(body.reason()).isEqualTo(DisputeCreateParams.Reason.ATM_CASH_MISDISPENSE)
         assertThat(body.transactionToken()).isEqualTo("12345624-aa69-4cbc-a946-30d90181b621")
-        assertThat(body.customerFiledDate()).isEqualTo(OffsetDateTime.parse("2021-06-28T22:53:15Z"))
-        assertThat(body.customerNote()).isEqualTo("customer_note")
+        assertThat(body.customerFiledDate()).contains(OffsetDateTime.parse("2021-06-28T22:53:15Z"))
+        assertThat(body.customerNote()).contains("customer_note")
     }
 
     @Test

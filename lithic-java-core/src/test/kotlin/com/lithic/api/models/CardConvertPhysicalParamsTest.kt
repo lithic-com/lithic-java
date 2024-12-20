@@ -75,9 +75,9 @@ class CardConvertPhysicalParamsTest {
                     .build()
             )
         assertThat(body.carrier())
-            .isEqualTo(Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build())
-        assertThat(body.productId()).isEqualTo("100")
-        assertThat(body.shippingMethod()).isEqualTo(CardConvertPhysicalParams.ShippingMethod._2_DAY)
+            .contains(Carrier.builder().qrCodeUrl("https://lithic.com/activate-card/1").build())
+        assertThat(body.productId()).contains("100")
+        assertThat(body.shippingMethod()).contains(CardConvertPhysicalParams.ShippingMethod._2_DAY)
     }
 
     @Test

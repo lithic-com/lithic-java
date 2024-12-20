@@ -43,8 +43,8 @@ class BookTransferCreateParamsTest {
         assertThat(body.subtype()).isEqualTo("subtype")
         assertThat(body.toFinancialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.type()).isEqualTo(BookTransferCreateParams.Type.ATM_WITHDRAWAL)
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.memo()).isEqualTo("memo")
+        assertThat(body.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.memo()).contains("memo")
     }
 
     @Test
