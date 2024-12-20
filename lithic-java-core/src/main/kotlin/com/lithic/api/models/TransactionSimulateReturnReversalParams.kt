@@ -43,12 +43,12 @@ constructor(
     @NoAutoDetect
     class TransactionSimulateReturnReversalBody
     internal constructor(
-        private val token: String?,
+        private val token: String,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
-        @JsonProperty("token") fun token(): String? = token
+        @JsonProperty("token") fun token(): String = token
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -70,8 +70,9 @@ constructor(
             internal fun from(
                 transactionSimulateReturnReversalBody: TransactionSimulateReturnReversalBody
             ) = apply {
-                this.token = transactionSimulateReturnReversalBody.token
-                additionalProperties(transactionSimulateReturnReversalBody.additionalProperties)
+                token = transactionSimulateReturnReversalBody.token
+                additionalProperties =
+                    transactionSimulateReturnReversalBody.additionalProperties.toMutableMap()
             }
 
             /** The transaction token returned from the /v1/simulate/authorize response. */
@@ -79,16 +80,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): TransactionSimulateReturnReversalBody =

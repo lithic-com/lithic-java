@@ -28,8 +28,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     fun address1(): String = address1.getRequired("address1")
 
     fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
@@ -57,6 +55,8 @@ private constructor(
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+    private var validated: Boolean = false
 
     fun validate(): ExternalBankAccountAddress = apply {
         if (!validated) {
@@ -89,13 +89,13 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(externalBankAccountAddress: ExternalBankAccountAddress) = apply {
-            this.address1 = externalBankAccountAddress.address1
-            this.address2 = externalBankAccountAddress.address2
-            this.city = externalBankAccountAddress.city
-            this.state = externalBankAccountAddress.state
-            this.postalCode = externalBankAccountAddress.postalCode
-            this.country = externalBankAccountAddress.country
-            additionalProperties(externalBankAccountAddress.additionalProperties)
+            address1 = externalBankAccountAddress.address1
+            address2 = externalBankAccountAddress.address2
+            city = externalBankAccountAddress.city
+            state = externalBankAccountAddress.state
+            postalCode = externalBankAccountAddress.postalCode
+            country = externalBankAccountAddress.country
+            additionalProperties = externalBankAccountAddress.additionalProperties.toMutableMap()
         }
 
         fun address1(address1: String) = address1(JsonField.of(address1))
@@ -136,16 +136,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): ExternalBankAccountAddress =

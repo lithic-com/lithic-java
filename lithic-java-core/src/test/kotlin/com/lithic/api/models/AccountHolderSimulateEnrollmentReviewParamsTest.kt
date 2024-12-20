@@ -36,11 +36,11 @@ class AccountHolderSimulateEnrollmentReviewParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.accountHolderToken()).isEqualTo("1415964d-4400-4d79-9fb3-eee0faaee4e4")
+        assertThat(body.accountHolderToken()).contains("1415964d-4400-4d79-9fb3-eee0faaee4e4")
         assertThat(body.status())
-            .isEqualTo(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
+            .contains(AccountHolderSimulateEnrollmentReviewParams.Status.ACCEPTED)
         assertThat(body.statusReasons())
-            .isEqualTo(
+            .contains(
                 listOf(
                     AccountHolderSimulateEnrollmentReviewParams.StatusReason
                         .PRIMARY_BUSINESS_ENTITY_ID_VERIFICATION_FAILURE

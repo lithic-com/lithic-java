@@ -24,7 +24,7 @@ class DisputeInitiateEvidenceUploadParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.filename()).isEqualTo("filename")
+        assertThat(body.filename()).contains("filename")
     }
 
     @Test

@@ -27,7 +27,7 @@ class EventSubscriptionSendSimulatedExampleParamsTest {
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.eventType())
-            .isEqualTo(EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED)
+            .contains(EventSubscriptionSendSimulatedExampleParams.EventType.ACCOUNT_HOLDER_CREATED)
     }
 
     @Test

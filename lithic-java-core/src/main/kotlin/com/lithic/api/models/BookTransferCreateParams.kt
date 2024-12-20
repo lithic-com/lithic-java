@@ -79,12 +79,12 @@ constructor(
     @NoAutoDetect
     class BookTransferCreateBody
     internal constructor(
-        private val amount: Long?,
-        private val category: Category?,
-        private val fromFinancialAccountToken: String?,
-        private val subtype: String?,
-        private val toFinancialAccountToken: String?,
-        private val type: Type?,
+        private val amount: Long,
+        private val category: Category,
+        private val fromFinancialAccountToken: String,
+        private val subtype: String,
+        private val toFinancialAccountToken: String,
+        private val type: Type,
         private val token: String?,
         private val memo: String?,
         private val additionalProperties: Map<String, JsonValue>,
@@ -94,39 +94,39 @@ constructor(
          * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
          * should always be a positive value.
          */
-        @JsonProperty("amount") fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Long = amount
 
         /** Category of the book transfer */
-        @JsonProperty("category") fun category(): Category? = category
+        @JsonProperty("category") fun category(): Category = category
 
         /**
          * Globally unique identifier for the financial account or card that will send the funds.
          * Accepted type dependent on the program's use case.
          */
         @JsonProperty("from_financial_account_token")
-        fun fromFinancialAccountToken(): String? = fromFinancialAccountToken
+        fun fromFinancialAccountToken(): String = fromFinancialAccountToken
 
         /** The program specific subtype code for the specified category/type. */
-        @JsonProperty("subtype") fun subtype(): String? = subtype
+        @JsonProperty("subtype") fun subtype(): String = subtype
 
         /**
          * Globally unique identifier for the financial account or card that will receive the funds.
          * Accepted type dependent on the program's use case.
          */
         @JsonProperty("to_financial_account_token")
-        fun toFinancialAccountToken(): String? = toFinancialAccountToken
+        fun toFinancialAccountToken(): String = toFinancialAccountToken
 
         /** Type of book_transfer */
-        @JsonProperty("type") fun type(): Type? = type
+        @JsonProperty("type") fun type(): Type = type
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        @JsonProperty("token") fun token(): String? = token
+        @JsonProperty("token") fun token(): Optional<String> = Optional.ofNullable(token)
 
         /** Optional descriptor for the transfer. */
-        @JsonProperty("memo") fun memo(): String? = memo
+        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -153,15 +153,15 @@ constructor(
 
             @JvmSynthetic
             internal fun from(bookTransferCreateBody: BookTransferCreateBody) = apply {
-                this.amount = bookTransferCreateBody.amount
-                this.category = bookTransferCreateBody.category
-                this.fromFinancialAccountToken = bookTransferCreateBody.fromFinancialAccountToken
-                this.subtype = bookTransferCreateBody.subtype
-                this.toFinancialAccountToken = bookTransferCreateBody.toFinancialAccountToken
-                this.type = bookTransferCreateBody.type
-                this.token = bookTransferCreateBody.token
-                this.memo = bookTransferCreateBody.memo
-                additionalProperties(bookTransferCreateBody.additionalProperties)
+                amount = bookTransferCreateBody.amount
+                category = bookTransferCreateBody.category
+                fromFinancialAccountToken = bookTransferCreateBody.fromFinancialAccountToken
+                subtype = bookTransferCreateBody.subtype
+                toFinancialAccountToken = bookTransferCreateBody.toFinancialAccountToken
+                type = bookTransferCreateBody.type
+                token = bookTransferCreateBody.token
+                memo = bookTransferCreateBody.memo
+                additionalProperties = bookTransferCreateBody.additionalProperties.toMutableMap()
             }
 
             /**
@@ -209,16 +209,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): BookTransferCreateBody =

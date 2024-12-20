@@ -24,8 +24,8 @@ class ResponderEndpointCreateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.type()).isEqualTo(ResponderEndpointCreateParams.Type.AUTH_STREAM_ACCESS)
-        assertThat(body.url()).isEqualTo("https://example.com")
+        assertThat(body.type()).contains(ResponderEndpointCreateParams.Type.AUTH_STREAM_ACCESS)
+        assertThat(body.url()).contains("https://example.com")
     }
 
     @Test

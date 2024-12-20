@@ -39,8 +39,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** Globally unique identifier for a Statement Line Item */
     fun token(): String = token.getRequired("token")
 
@@ -120,6 +118,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): LineItemListResponse = apply {
         if (!validated) {
             token()
@@ -163,20 +163,19 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(lineItemListResponse: LineItemListResponse) = apply {
-            this.token = lineItemListResponse.token
-            this.financialAccountToken = lineItemListResponse.financialAccountToken
-            this.cardToken = lineItemListResponse.cardToken
-            this.financialTransactionToken = lineItemListResponse.financialTransactionToken
-            this.financialTransactionEventToken =
-                lineItemListResponse.financialTransactionEventToken
-            this.category = lineItemListResponse.category
-            this.eventType = lineItemListResponse.eventType
-            this.effectiveDate = lineItemListResponse.effectiveDate
-            this.descriptor = lineItemListResponse.descriptor
-            this.amount = lineItemListResponse.amount
-            this.currency = lineItemListResponse.currency
-            this.created = lineItemListResponse.created
-            additionalProperties(lineItemListResponse.additionalProperties)
+            token = lineItemListResponse.token
+            financialAccountToken = lineItemListResponse.financialAccountToken
+            cardToken = lineItemListResponse.cardToken
+            financialTransactionToken = lineItemListResponse.financialTransactionToken
+            financialTransactionEventToken = lineItemListResponse.financialTransactionEventToken
+            category = lineItemListResponse.category
+            eventType = lineItemListResponse.eventType
+            effectiveDate = lineItemListResponse.effectiveDate
+            descriptor = lineItemListResponse.descriptor
+            amount = lineItemListResponse.amount
+            currency = lineItemListResponse.currency
+            created = lineItemListResponse.created
+            additionalProperties = lineItemListResponse.additionalProperties.toMutableMap()
         }
 
         /** Globally unique identifier for a Statement Line Item */
@@ -285,16 +284,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): LineItemListResponse =

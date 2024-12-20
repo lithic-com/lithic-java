@@ -161,7 +161,7 @@ private constructor(
 
         fun apiKey(apiKey: String) = apply { this.apiKey = apiKey }
 
-        fun webhookSecret(webhookSecret: String?) = apply { this.webhookSecret = webhookSecret }
+        fun webhookSecret(webhookSecret: String) = apply { this.webhookSecret = webhookSecret }
 
         fun fromEnv() = apply {
             System.getenv("LITHIC_API_KEY")?.let { apiKey(it) }

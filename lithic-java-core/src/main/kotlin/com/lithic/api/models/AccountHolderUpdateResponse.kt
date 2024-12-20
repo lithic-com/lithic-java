@@ -26,8 +26,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /**
      * Only applicable for customers using the KYC-Exempt workflow to enroll businesses with
      * authorized users. Pass the account_token of the enrolled business associated with the
@@ -68,6 +66,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): AccountHolderUpdateResponse = apply {
         if (!validated) {
             businessAccountToken()
@@ -95,11 +95,11 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(accountHolderUpdateResponse: AccountHolderUpdateResponse) = apply {
-            this.businessAccountToken = accountHolderUpdateResponse.businessAccountToken
-            this.email = accountHolderUpdateResponse.email
-            this.phoneNumber = accountHolderUpdateResponse.phoneNumber
-            this.token = accountHolderUpdateResponse.token
-            additionalProperties(accountHolderUpdateResponse.additionalProperties)
+            businessAccountToken = accountHolderUpdateResponse.businessAccountToken
+            email = accountHolderUpdateResponse.email
+            phoneNumber = accountHolderUpdateResponse.phoneNumber
+            token = accountHolderUpdateResponse.token
+            additionalProperties = accountHolderUpdateResponse.additionalProperties.toMutableMap()
         }
 
         /**
@@ -147,16 +147,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): AccountHolderUpdateResponse =

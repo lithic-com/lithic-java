@@ -394,12 +394,12 @@ constructor(
     @NoAutoDetect
     class ApplyAuthRuleRequestAccountTokens
     private constructor(
-        private val accountTokens: List<String>?,
+        private val accountTokens: List<String>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** Account tokens to which the Auth Rule applies. */
-        @JsonProperty("account_tokens") fun accountTokens(): List<String>? = accountTokens
+        @JsonProperty("account_tokens") fun accountTokens(): List<String> = accountTokens
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -421,8 +421,9 @@ constructor(
             internal fun from(
                 applyAuthRuleRequestAccountTokens: ApplyAuthRuleRequestAccountTokens
             ) = apply {
-                this.accountTokens = applyAuthRuleRequestAccountTokens.accountTokens
-                additionalProperties(applyAuthRuleRequestAccountTokens.additionalProperties)
+                accountTokens = applyAuthRuleRequestAccountTokens.accountTokens.toMutableList()
+                additionalProperties =
+                    applyAuthRuleRequestAccountTokens.additionalProperties.toMutableMap()
             }
 
             /** Account tokens to which the Auth Rule applies. */
@@ -433,16 +434,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): ApplyAuthRuleRequestAccountTokens =
@@ -475,12 +482,12 @@ constructor(
     @NoAutoDetect
     class ApplyAuthRuleRequestCardTokens
     private constructor(
-        private val cardTokens: List<String>?,
+        private val cardTokens: List<String>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** Card tokens to which the Auth Rule applies. */
-        @JsonProperty("card_tokens") fun cardTokens(): List<String>? = cardTokens
+        @JsonProperty("card_tokens") fun cardTokens(): List<String> = cardTokens
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -501,8 +508,9 @@ constructor(
             @JvmSynthetic
             internal fun from(applyAuthRuleRequestCardTokens: ApplyAuthRuleRequestCardTokens) =
                 apply {
-                    this.cardTokens = applyAuthRuleRequestCardTokens.cardTokens
-                    additionalProperties(applyAuthRuleRequestCardTokens.additionalProperties)
+                    cardTokens = applyAuthRuleRequestCardTokens.cardTokens.toMutableList()
+                    additionalProperties =
+                        applyAuthRuleRequestCardTokens.additionalProperties.toMutableMap()
                 }
 
             /** Card tokens to which the Auth Rule applies. */
@@ -511,16 +519,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): ApplyAuthRuleRequestCardTokens =
@@ -553,17 +567,17 @@ constructor(
     @NoAutoDetect
     class ApplyAuthRuleRequestProgramLevel
     private constructor(
-        private val programLevel: Boolean?,
+        private val programLevel: Boolean,
         private val excludedCardTokens: List<String>?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** Whether the Auth Rule applies to all authorizations on the card program. */
-        @JsonProperty("program_level") fun programLevel(): Boolean? = programLevel
+        @JsonProperty("program_level") fun programLevel(): Boolean = programLevel
 
         /** Card tokens to which the Auth Rule does not apply. */
         @JsonProperty("excluded_card_tokens")
-        fun excludedCardTokens(): List<String>? = excludedCardTokens
+        fun excludedCardTokens(): Optional<List<String>> = Optional.ofNullable(excludedCardTokens)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -585,9 +599,11 @@ constructor(
             @JvmSynthetic
             internal fun from(applyAuthRuleRequestProgramLevel: ApplyAuthRuleRequestProgramLevel) =
                 apply {
-                    this.programLevel = applyAuthRuleRequestProgramLevel.programLevel
-                    this.excludedCardTokens = applyAuthRuleRequestProgramLevel.excludedCardTokens
-                    additionalProperties(applyAuthRuleRequestProgramLevel.additionalProperties)
+                    programLevel = applyAuthRuleRequestProgramLevel.programLevel
+                    excludedCardTokens =
+                        applyAuthRuleRequestProgramLevel.excludedCardTokens?.toMutableList()
+                    additionalProperties =
+                        applyAuthRuleRequestProgramLevel.additionalProperties.toMutableMap()
                 }
 
             /** Whether the Auth Rule applies to all authorizations on the card program. */
@@ -602,16 +618,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): ApplyAuthRuleRequestProgramLevel =

@@ -42,8 +42,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** Payment category */
     fun category(): Payment.Category = category.getRequired("category")
 
@@ -112,28 +110,6 @@ private constructor(
 
     /** Balance */
     fun balance(): Optional<Balance> = Optional.ofNullable(balance.getNullable("balance"))
-
-    fun toPayment(): Payment =
-        Payment.builder()
-            .category(category)
-            .created(created)
-            .currency(currency)
-            .descriptor(descriptor)
-            .events(events)
-            .pendingAmount(pendingAmount)
-            .result(result)
-            .settledAmount(settledAmount)
-            .status(status)
-            .token(token)
-            .updated(updated)
-            .direction(direction)
-            .financialAccountToken(financialAccountToken)
-            .externalBankAccountToken(externalBankAccountToken)
-            .method(method)
-            .methodAttributes(methodAttributes)
-            .source(source)
-            .userDefinedId(userDefinedId)
-            .build()
 
     /** Payment category */
     @JsonProperty("category") @ExcludeMissing fun _category() = category
@@ -208,6 +184,30 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    fun toPayment(): Payment =
+        Payment.builder()
+            .category(category)
+            .created(created)
+            .currency(currency)
+            .descriptor(descriptor)
+            .events(events)
+            .pendingAmount(pendingAmount)
+            .result(result)
+            .settledAmount(settledAmount)
+            .status(status)
+            .token(token)
+            .updated(updated)
+            .direction(direction)
+            .financialAccountToken(financialAccountToken)
+            .externalBankAccountToken(externalBankAccountToken)
+            .method(method)
+            .methodAttributes(methodAttributes)
+            .source(source)
+            .userDefinedId(userDefinedId)
+            .build()
+
+    private var validated: Boolean = false
+
     fun validate(): PaymentRetryResponse = apply {
         if (!validated) {
             category()
@@ -265,26 +265,26 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(paymentRetryResponse: PaymentRetryResponse) = apply {
-            this.category = paymentRetryResponse.category
-            this.created = paymentRetryResponse.created
-            this.currency = paymentRetryResponse.currency
-            this.descriptor = paymentRetryResponse.descriptor
-            this.events = paymentRetryResponse.events
-            this.pendingAmount = paymentRetryResponse.pendingAmount
-            this.result = paymentRetryResponse.result
-            this.settledAmount = paymentRetryResponse.settledAmount
-            this.status = paymentRetryResponse.status
-            this.token = paymentRetryResponse.token
-            this.updated = paymentRetryResponse.updated
-            this.direction = paymentRetryResponse.direction
-            this.financialAccountToken = paymentRetryResponse.financialAccountToken
-            this.externalBankAccountToken = paymentRetryResponse.externalBankAccountToken
-            this.method = paymentRetryResponse.method
-            this.methodAttributes = paymentRetryResponse.methodAttributes
-            this.source = paymentRetryResponse.source
-            this.userDefinedId = paymentRetryResponse.userDefinedId
-            this.balance = paymentRetryResponse.balance
-            additionalProperties(paymentRetryResponse.additionalProperties)
+            category = paymentRetryResponse.category
+            created = paymentRetryResponse.created
+            currency = paymentRetryResponse.currency
+            descriptor = paymentRetryResponse.descriptor
+            events = paymentRetryResponse.events
+            pendingAmount = paymentRetryResponse.pendingAmount
+            result = paymentRetryResponse.result
+            settledAmount = paymentRetryResponse.settledAmount
+            status = paymentRetryResponse.status
+            token = paymentRetryResponse.token
+            updated = paymentRetryResponse.updated
+            direction = paymentRetryResponse.direction
+            financialAccountToken = paymentRetryResponse.financialAccountToken
+            externalBankAccountToken = paymentRetryResponse.externalBankAccountToken
+            method = paymentRetryResponse.method
+            methodAttributes = paymentRetryResponse.methodAttributes
+            source = paymentRetryResponse.source
+            userDefinedId = paymentRetryResponse.userDefinedId
+            balance = paymentRetryResponse.balance
+            additionalProperties = paymentRetryResponse.additionalProperties.toMutableMap()
         }
 
         /** Payment category */
@@ -480,16 +480,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): PaymentRetryResponse =

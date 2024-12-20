@@ -72,20 +72,22 @@ constructor(
     @NoAutoDetect
     class FinancialAccountCreateBody
     internal constructor(
-        private val nickname: String?,
-        private val type: Type?,
+        private val nickname: String,
+        private val type: Type,
         private val accountToken: String?,
         private val isForBenefitOf: Boolean?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        @JsonProperty("nickname") fun nickname(): String? = nickname
+        @JsonProperty("nickname") fun nickname(): String = nickname
 
-        @JsonProperty("type") fun type(): Type? = type
+        @JsonProperty("type") fun type(): Type = type
 
-        @JsonProperty("account_token") fun accountToken(): String? = accountToken
+        @JsonProperty("account_token")
+        fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
-        @JsonProperty("is_for_benefit_of") fun isForBenefitOf(): Boolean? = isForBenefitOf
+        @JsonProperty("is_for_benefit_of")
+        fun isForBenefitOf(): Optional<Boolean> = Optional.ofNullable(isForBenefitOf)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -108,11 +110,12 @@ constructor(
 
             @JvmSynthetic
             internal fun from(financialAccountCreateBody: FinancialAccountCreateBody) = apply {
-                this.nickname = financialAccountCreateBody.nickname
-                this.type = financialAccountCreateBody.type
-                this.accountToken = financialAccountCreateBody.accountToken
-                this.isForBenefitOf = financialAccountCreateBody.isForBenefitOf
-                additionalProperties(financialAccountCreateBody.additionalProperties)
+                nickname = financialAccountCreateBody.nickname
+                type = financialAccountCreateBody.type
+                accountToken = financialAccountCreateBody.accountToken
+                isForBenefitOf = financialAccountCreateBody.isForBenefitOf
+                additionalProperties =
+                    financialAccountCreateBody.additionalProperties.toMutableMap()
             }
 
             @JsonProperty("nickname")
@@ -130,16 +133,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): FinancialAccountCreateBody =

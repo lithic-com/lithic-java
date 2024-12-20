@@ -37,9 +37,9 @@ class AccountHolderSimulateEnrollmentDocumentReviewParamsTest {
         assertThat(body.documentUploadToken()).isEqualTo("b11cd67b-0a52-4180-8365-314f3def5426")
         assertThat(body.status())
             .isEqualTo(AccountHolderSimulateEnrollmentDocumentReviewParams.Status.UPLOADED)
-        assertThat(body.acceptedEntityStatusReasons()).isEqualTo(listOf("string"))
+        assertThat(body.acceptedEntityStatusReasons()).contains(listOf("string"))
         assertThat(body.statusReason())
-            .isEqualTo(
+            .contains(
                 AccountHolderSimulateEnrollmentDocumentReviewParams.DocumentUploadStatusReasons
                     .DOCUMENT_MISSING_REQUIRED_DATA
             )

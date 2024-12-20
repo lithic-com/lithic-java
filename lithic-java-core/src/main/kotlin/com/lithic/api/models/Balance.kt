@@ -36,8 +36,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
     fun availableAmount(): Long = availableAmount.getRequired("available_amount")
 
@@ -131,6 +129,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): Balance = apply {
         if (!validated) {
             availableAmount()
@@ -170,17 +170,17 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(balance: Balance) = apply {
-            this.availableAmount = balance.availableAmount
-            this.created = balance.created
-            this.currency = balance.currency
-            this.financialAccountToken = balance.financialAccountToken
-            this.financialAccountType = balance.financialAccountType
-            this.lastTransactionEventToken = balance.lastTransactionEventToken
-            this.lastTransactionToken = balance.lastTransactionToken
-            this.pendingAmount = balance.pendingAmount
-            this.totalAmount = balance.totalAmount
-            this.updated = balance.updated
-            additionalProperties(balance.additionalProperties)
+            availableAmount = balance.availableAmount
+            created = balance.created
+            currency = balance.currency
+            financialAccountToken = balance.financialAccountToken
+            financialAccountType = balance.financialAccountType
+            lastTransactionEventToken = balance.lastTransactionEventToken
+            lastTransactionToken = balance.lastTransactionToken
+            pendingAmount = balance.pendingAmount
+            totalAmount = balance.totalAmount
+            updated = balance.updated
+            additionalProperties = balance.additionalProperties.toMutableMap()
         }
 
         /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
@@ -303,16 +303,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): Balance =

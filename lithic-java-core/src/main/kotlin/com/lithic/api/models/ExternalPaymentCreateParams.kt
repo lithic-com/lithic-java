@@ -84,11 +84,11 @@ constructor(
     @NoAutoDetect
     class ExternalPaymentCreateBody
     internal constructor(
-        private val amount: Long?,
-        private val category: ExternalPaymentCategory?,
-        private val effectiveDate: LocalDate?,
-        private val financialAccountToken: String?,
-        private val paymentType: ExternalPaymentDirection?,
+        private val amount: Long,
+        private val category: ExternalPaymentCategory,
+        private val effectiveDate: LocalDate,
+        private val financialAccountToken: String,
+        private val paymentType: ExternalPaymentDirection,
         private val token: String?,
         private val memo: String?,
         private val progressTo: ExternalPaymentProgressTo?,
@@ -96,24 +96,26 @@ constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        @JsonProperty("amount") fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Long = amount
 
-        @JsonProperty("category") fun category(): ExternalPaymentCategory? = category
+        @JsonProperty("category") fun category(): ExternalPaymentCategory = category
 
-        @JsonProperty("effective_date") fun effectiveDate(): LocalDate? = effectiveDate
+        @JsonProperty("effective_date") fun effectiveDate(): LocalDate = effectiveDate
 
         @JsonProperty("financial_account_token")
-        fun financialAccountToken(): String? = financialAccountToken
+        fun financialAccountToken(): String = financialAccountToken
 
-        @JsonProperty("payment_type") fun paymentType(): ExternalPaymentDirection? = paymentType
+        @JsonProperty("payment_type") fun paymentType(): ExternalPaymentDirection = paymentType
 
-        @JsonProperty("token") fun token(): String? = token
+        @JsonProperty("token") fun token(): Optional<String> = Optional.ofNullable(token)
 
-        @JsonProperty("memo") fun memo(): String? = memo
+        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
 
-        @JsonProperty("progress_to") fun progressTo(): ExternalPaymentProgressTo? = progressTo
+        @JsonProperty("progress_to")
+        fun progressTo(): Optional<ExternalPaymentProgressTo> = Optional.ofNullable(progressTo)
 
-        @JsonProperty("user_defined_id") fun userDefinedId(): String? = userDefinedId
+        @JsonProperty("user_defined_id")
+        fun userDefinedId(): Optional<String> = Optional.ofNullable(userDefinedId)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -141,16 +143,16 @@ constructor(
 
             @JvmSynthetic
             internal fun from(externalPaymentCreateBody: ExternalPaymentCreateBody) = apply {
-                this.amount = externalPaymentCreateBody.amount
-                this.category = externalPaymentCreateBody.category
-                this.effectiveDate = externalPaymentCreateBody.effectiveDate
-                this.financialAccountToken = externalPaymentCreateBody.financialAccountToken
-                this.paymentType = externalPaymentCreateBody.paymentType
-                this.token = externalPaymentCreateBody.token
-                this.memo = externalPaymentCreateBody.memo
-                this.progressTo = externalPaymentCreateBody.progressTo
-                this.userDefinedId = externalPaymentCreateBody.userDefinedId
-                additionalProperties(externalPaymentCreateBody.additionalProperties)
+                amount = externalPaymentCreateBody.amount
+                category = externalPaymentCreateBody.category
+                effectiveDate = externalPaymentCreateBody.effectiveDate
+                financialAccountToken = externalPaymentCreateBody.financialAccountToken
+                paymentType = externalPaymentCreateBody.paymentType
+                token = externalPaymentCreateBody.token
+                memo = externalPaymentCreateBody.memo
+                progressTo = externalPaymentCreateBody.progressTo
+                userDefinedId = externalPaymentCreateBody.userDefinedId
+                additionalProperties = externalPaymentCreateBody.additionalProperties.toMutableMap()
             }
 
             @JsonProperty("amount") fun amount(amount: Long) = apply { this.amount = amount }
@@ -187,16 +189,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): ExternalPaymentCreateBody =

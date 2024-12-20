@@ -96,35 +96,39 @@ constructor(
          * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
          * wallet.
          */
-        @JsonProperty("certificate") fun certificate(): String? = certificate
+        @JsonProperty("certificate")
+        fun certificate(): Optional<String> = Optional.ofNullable(certificate)
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Stable device identification set by the wallet provider.
          */
-        @JsonProperty("client_device_id") fun clientDeviceId(): String? = clientDeviceId
+        @JsonProperty("client_device_id")
+        fun clientDeviceId(): Optional<String> = Optional.ofNullable(clientDeviceId)
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Consumer ID that identifies the wallet account holder entity.
          */
         @JsonProperty("client_wallet_account_id")
-        fun clientWalletAccountId(): String? = clientWalletAccountId
+        fun clientWalletAccountId(): Optional<String> = Optional.ofNullable(clientWalletAccountId)
 
         /** Name of digital wallet provider. */
-        @JsonProperty("digital_wallet") fun digitalWallet(): DigitalWallet? = digitalWallet
+        @JsonProperty("digital_wallet")
+        fun digitalWallet(): Optional<DigitalWallet> = Optional.ofNullable(digitalWallet)
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        @JsonProperty("nonce") fun nonce(): String? = nonce
+        @JsonProperty("nonce") fun nonce(): Optional<String> = Optional.ofNullable(nonce)
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        @JsonProperty("nonce_signature") fun nonceSignature(): String? = nonceSignature
+        @JsonProperty("nonce_signature")
+        fun nonceSignature(): Optional<String> = Optional.ofNullable(nonceSignature)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -149,13 +153,13 @@ constructor(
 
             @JvmSynthetic
             internal fun from(cardProvisionBody: CardProvisionBody) = apply {
-                this.certificate = cardProvisionBody.certificate
-                this.clientDeviceId = cardProvisionBody.clientDeviceId
-                this.clientWalletAccountId = cardProvisionBody.clientWalletAccountId
-                this.digitalWallet = cardProvisionBody.digitalWallet
-                this.nonce = cardProvisionBody.nonce
-                this.nonceSignature = cardProvisionBody.nonceSignature
-                additionalProperties(cardProvisionBody.additionalProperties)
+                certificate = cardProvisionBody.certificate
+                clientDeviceId = cardProvisionBody.clientDeviceId
+                clientWalletAccountId = cardProvisionBody.clientWalletAccountId
+                digitalWallet = cardProvisionBody.digitalWallet
+                nonce = cardProvisionBody.nonce
+                nonceSignature = cardProvisionBody.nonceSignature
+                additionalProperties = cardProvisionBody.additionalProperties.toMutableMap()
             }
 
             /**
@@ -210,16 +214,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): CardProvisionBody =

@@ -61,16 +61,16 @@ constructor(
     @NoAutoDetect
     class CreditProductPrimeRateCreateBody
     internal constructor(
-        private val effectiveDate: LocalDate?,
-        private val rate: String?,
+        private val effectiveDate: LocalDate,
+        private val rate: String,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** Date the rate goes into effect */
-        @JsonProperty("effective_date") fun effectiveDate(): LocalDate? = effectiveDate
+        @JsonProperty("effective_date") fun effectiveDate(): LocalDate = effectiveDate
 
         /** The rate in decimal format */
-        @JsonProperty("rate") fun rate(): String? = rate
+        @JsonProperty("rate") fun rate(): String = rate
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -92,9 +92,10 @@ constructor(
             @JvmSynthetic
             internal fun from(creditProductPrimeRateCreateBody: CreditProductPrimeRateCreateBody) =
                 apply {
-                    this.effectiveDate = creditProductPrimeRateCreateBody.effectiveDate
-                    this.rate = creditProductPrimeRateCreateBody.rate
-                    additionalProperties(creditProductPrimeRateCreateBody.additionalProperties)
+                    effectiveDate = creditProductPrimeRateCreateBody.effectiveDate
+                    rate = creditProductPrimeRateCreateBody.rate
+                    additionalProperties =
+                        creditProductPrimeRateCreateBody.additionalProperties.toMutableMap()
                 }
 
             /** Date the rate goes into effect */
@@ -108,16 +109,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): CreditProductPrimeRateCreateBody =

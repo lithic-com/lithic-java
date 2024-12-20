@@ -66,16 +66,18 @@ constructor(
     ) {
 
         /** The account holder which to perform the simulation upon. */
-        @JsonProperty("account_holder_token") fun accountHolderToken(): String? = accountHolderToken
+        @JsonProperty("account_holder_token")
+        fun accountHolderToken(): Optional<String> = Optional.ofNullable(accountHolderToken)
 
         /** An account holder's status for use within the simulation. */
-        @JsonProperty("status") fun status(): Status? = status
+        @JsonProperty("status") fun status(): Optional<Status> = Optional.ofNullable(status)
 
         /**
          * Status reason that will be associated with the simulated account holder status. Only
          * required for a `REJECTED` status.
          */
-        @JsonProperty("status_reasons") fun statusReasons(): List<StatusReason>? = statusReasons
+        @JsonProperty("status_reasons")
+        fun statusReasons(): Optional<List<StatusReason>> = Optional.ofNullable(statusReasons)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -99,11 +101,12 @@ constructor(
             internal fun from(
                 accountHolderSimulateEnrollmentReviewBody: AccountHolderSimulateEnrollmentReviewBody
             ) = apply {
-                this.accountHolderToken =
-                    accountHolderSimulateEnrollmentReviewBody.accountHolderToken
-                this.status = accountHolderSimulateEnrollmentReviewBody.status
-                this.statusReasons = accountHolderSimulateEnrollmentReviewBody.statusReasons
-                additionalProperties(accountHolderSimulateEnrollmentReviewBody.additionalProperties)
+                accountHolderToken = accountHolderSimulateEnrollmentReviewBody.accountHolderToken
+                status = accountHolderSimulateEnrollmentReviewBody.status
+                statusReasons =
+                    accountHolderSimulateEnrollmentReviewBody.statusReasons?.toMutableList()
+                additionalProperties =
+                    accountHolderSimulateEnrollmentReviewBody.additionalProperties.toMutableMap()
             }
 
             /** The account holder which to perform the simulation upon. */
@@ -126,16 +129,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): AccountHolderSimulateEnrollmentReviewBody =

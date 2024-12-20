@@ -90,7 +90,7 @@ class AuthRuleV2DraftParamsTest {
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.parameters())
-            .isEqualTo(
+            .contains(
                 AuthRuleV2DraftParams.Parameters.ofConditionalBlockParameters(
                     AuthRuleV2DraftParams.Parameters.ConditionalBlockParameters.builder()
                         .conditions(

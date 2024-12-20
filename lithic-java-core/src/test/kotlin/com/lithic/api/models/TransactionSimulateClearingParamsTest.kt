@@ -25,7 +25,7 @@ class TransactionSimulateClearingParamsTest {
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.token()).isEqualTo("fabd829d-7f7b-4432-a8f2-07ea4889aaac")
-        assertThat(body.amount()).isEqualTo(0L)
+        assertThat(body.amount()).contains(0L)
     }
 
     @Test

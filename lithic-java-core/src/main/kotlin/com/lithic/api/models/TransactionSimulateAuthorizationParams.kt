@@ -87,9 +87,9 @@ constructor(
     @NoAutoDetect
     class TransactionSimulateAuthorizationBody
     internal constructor(
-        private val amount: Long?,
-        private val descriptor: String?,
-        private val pan: String?,
+        private val amount: Long,
+        private val descriptor: String,
+        private val pan: String,
         private val mcc: String?,
         private val merchantAcceptorId: String?,
         private val merchantAmount: Long?,
@@ -106,35 +106,38 @@ constructor(
          * simulated transaction. For example, entering 100 in this field will result in a -100
          * amount in the transaction. For balance inquiries, this field must be set to 0.
          */
-        @JsonProperty("amount") fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Long = amount
 
         /** Merchant descriptor. */
-        @JsonProperty("descriptor") fun descriptor(): String? = descriptor
+        @JsonProperty("descriptor") fun descriptor(): String = descriptor
 
         /** Sixteen digit card number. */
-        @JsonProperty("pan") fun pan(): String? = pan
+        @JsonProperty("pan") fun pan(): String = pan
 
         /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
          * ISO 18245. Supported merchant category codes can be found
          * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
          */
-        @JsonProperty("mcc") fun mcc(): String? = mcc
+        @JsonProperty("mcc") fun mcc(): Optional<String> = Optional.ofNullable(mcc)
 
         /** Unique identifier to identify the payment card acceptor. */
-        @JsonProperty("merchant_acceptor_id") fun merchantAcceptorId(): String? = merchantAcceptorId
+        @JsonProperty("merchant_acceptor_id")
+        fun merchantAcceptorId(): Optional<String> = Optional.ofNullable(merchantAcceptorId)
 
         /**
          * Amount of the transaction to be simulated in currency specified in merchant_currency,
          * including any acquirer fees.
          */
-        @JsonProperty("merchant_amount") fun merchantAmount(): Long? = merchantAmount
+        @JsonProperty("merchant_amount")
+        fun merchantAmount(): Optional<Long> = Optional.ofNullable(merchantAmount)
 
         /**
          * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
          * defaults to GBP if another ISO 4217 code is provided
          */
-        @JsonProperty("merchant_currency") fun merchantCurrency(): String? = merchantCurrency
+        @JsonProperty("merchant_currency")
+        fun merchantCurrency(): Optional<String> = Optional.ofNullable(merchantCurrency)
 
         /**
          * Set to true if the terminal is capable of partial approval otherwise false. Partial
@@ -142,10 +145,11 @@ constructor(
          * the remainder.
          */
         @JsonProperty("partial_approval_capable")
-        fun partialApprovalCapable(): Boolean? = partialApprovalCapable
+        fun partialApprovalCapable(): Optional<Boolean> =
+            Optional.ofNullable(partialApprovalCapable)
 
         /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
-        @JsonProperty("pin") fun pin(): String? = pin
+        @JsonProperty("pin") fun pin(): Optional<String> = Optional.ofNullable(pin)
 
         /**
          * Type of event to simulate.
@@ -161,7 +165,7 @@ constructor(
          * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
          *   funds immediately, and no subsequent clearing is required to settle the transaction.
          */
-        @JsonProperty("status") fun status(): Status? = status
+        @JsonProperty("status") fun status(): Optional<Status> = Optional.ofNullable(status)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -192,18 +196,18 @@ constructor(
             internal fun from(
                 transactionSimulateAuthorizationBody: TransactionSimulateAuthorizationBody
             ) = apply {
-                this.amount = transactionSimulateAuthorizationBody.amount
-                this.descriptor = transactionSimulateAuthorizationBody.descriptor
-                this.pan = transactionSimulateAuthorizationBody.pan
-                this.mcc = transactionSimulateAuthorizationBody.mcc
-                this.merchantAcceptorId = transactionSimulateAuthorizationBody.merchantAcceptorId
-                this.merchantAmount = transactionSimulateAuthorizationBody.merchantAmount
-                this.merchantCurrency = transactionSimulateAuthorizationBody.merchantCurrency
-                this.partialApprovalCapable =
-                    transactionSimulateAuthorizationBody.partialApprovalCapable
-                this.pin = transactionSimulateAuthorizationBody.pin
-                this.status = transactionSimulateAuthorizationBody.status
-                additionalProperties(transactionSimulateAuthorizationBody.additionalProperties)
+                amount = transactionSimulateAuthorizationBody.amount
+                descriptor = transactionSimulateAuthorizationBody.descriptor
+                pan = transactionSimulateAuthorizationBody.pan
+                mcc = transactionSimulateAuthorizationBody.mcc
+                merchantAcceptorId = transactionSimulateAuthorizationBody.merchantAcceptorId
+                merchantAmount = transactionSimulateAuthorizationBody.merchantAmount
+                merchantCurrency = transactionSimulateAuthorizationBody.merchantCurrency
+                partialApprovalCapable = transactionSimulateAuthorizationBody.partialApprovalCapable
+                pin = transactionSimulateAuthorizationBody.pin
+                status = transactionSimulateAuthorizationBody.status
+                additionalProperties =
+                    transactionSimulateAuthorizationBody.additionalProperties.toMutableMap()
             }
 
             /**
@@ -285,16 +289,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): TransactionSimulateAuthorizationBody =

@@ -32,8 +32,8 @@ class FinancialAccountCreateParamsTest {
         assertThat(body).isNotNull
         assertThat(body.nickname()).isEqualTo("nickname")
         assertThat(body.type()).isEqualTo(FinancialAccountCreateParams.Type.OPERATING)
-        assertThat(body.accountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.isForBenefitOf()).isEqualTo(true)
+        assertThat(body.accountToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.isForBenefitOf()).contains(true)
     }
 
     @Test

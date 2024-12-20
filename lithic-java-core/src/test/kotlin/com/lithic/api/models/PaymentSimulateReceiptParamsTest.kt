@@ -35,7 +35,7 @@ class PaymentSimulateReceiptParamsTest {
         assertThat(body.financialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.receiptType())
             .isEqualTo(PaymentSimulateReceiptParams.ReceiptType.RECEIPT_CREDIT)
-        assertThat(body.memo()).isEqualTo("memo")
+        assertThat(body.memo()).contains("memo")
     }
 
     @Test

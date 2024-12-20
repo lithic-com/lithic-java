@@ -58,7 +58,7 @@ class ExternalBankAccountUpdateParamsTest {
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.address())
-            .isEqualTo(
+            .contains(
                 ExternalBankAccountAddress.builder()
                     .address1("x")
                     .city("x")
@@ -68,13 +68,13 @@ class ExternalBankAccountUpdateParamsTest {
                     .address2("x")
                     .build()
             )
-        assertThat(body.companyId()).isEqualTo("x")
-        assertThat(body.dob()).isEqualTo(LocalDate.parse("2019-12-27"))
-        assertThat(body.doingBusinessAs()).isEqualTo("x")
-        assertThat(body.name()).isEqualTo("x")
-        assertThat(body.owner()).isEqualTo("x")
-        assertThat(body.ownerType()).isEqualTo(OwnerType.INDIVIDUAL)
-        assertThat(body.userDefinedId()).isEqualTo("x")
+        assertThat(body.companyId()).contains("x")
+        assertThat(body.dob()).contains(LocalDate.parse("2019-12-27"))
+        assertThat(body.doingBusinessAs()).contains("x")
+        assertThat(body.name()).contains("x")
+        assertThat(body.owner()).contains("x")
+        assertThat(body.ownerType()).contains(OwnerType.INDIVIDUAL)
+        assertThat(body.userDefinedId()).contains("x")
     }
 
     @Test

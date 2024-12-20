@@ -23,8 +23,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /**
      * Globally unique identifier for the 3DS authentication. This token is sent as part of the
      * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
@@ -49,6 +47,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): ChallengeResponse = apply {
         if (!validated) {
             token()
@@ -72,9 +72,9 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(challengeResponse: ChallengeResponse) = apply {
-            this.token = challengeResponse.token
+            token = challengeResponse.token
             this.challengeResponse = challengeResponse.challengeResponse
-            additionalProperties(challengeResponse.additionalProperties)
+            additionalProperties = challengeResponse.additionalProperties.toMutableMap()
         }
 
         /**
@@ -106,16 +106,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): ChallengeResponse =

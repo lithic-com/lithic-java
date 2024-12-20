@@ -50,12 +50,12 @@ class AccountUpdateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.dailySpendLimit()).isEqualTo(1000L)
-        assertThat(body.lifetimeSpendLimit()).isEqualTo(0L)
-        assertThat(body.monthlySpendLimit()).isEqualTo(0L)
-        assertThat(body.state()).isEqualTo(AccountUpdateParams.State.ACTIVE)
+        assertThat(body.dailySpendLimit()).contains(1000L)
+        assertThat(body.lifetimeSpendLimit()).contains(0L)
+        assertThat(body.monthlySpendLimit()).contains(0L)
+        assertThat(body.state()).contains(AccountUpdateParams.State.ACTIVE)
         assertThat(body.verificationAddress())
-            .isEqualTo(
+            .contains(
                 AccountUpdateParams.VerificationAddress.builder()
                     .address1("address1")
                     .address2("address2")

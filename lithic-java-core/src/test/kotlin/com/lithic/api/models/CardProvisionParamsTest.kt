@@ -34,12 +34,12 @@ class CardProvisionParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.certificate()).isEqualTo("U3RhaW5sZXNzIHJvY2tz")
-        assertThat(body.clientDeviceId()).isEqualTo("client_device_id")
-        assertThat(body.clientWalletAccountId()).isEqualTo("client_wallet_account_id")
-        assertThat(body.digitalWallet()).isEqualTo(CardProvisionParams.DigitalWallet.APPLE_PAY)
-        assertThat(body.nonce()).isEqualTo("U3RhaW5sZXNzIHJvY2tz")
-        assertThat(body.nonceSignature()).isEqualTo("U3RhaW5sZXNzIHJvY2tz")
+        assertThat(body.certificate()).contains("U3RhaW5sZXNzIHJvY2tz")
+        assertThat(body.clientDeviceId()).contains("client_device_id")
+        assertThat(body.clientWalletAccountId()).contains("client_wallet_account_id")
+        assertThat(body.digitalWallet()).contains(CardProvisionParams.DigitalWallet.APPLE_PAY)
+        assertThat(body.nonce()).contains("U3RhaW5sZXNzIHJvY2tz")
+        assertThat(body.nonceSignature()).contains("U3RhaW5sZXNzIHJvY2tz")
     }
 
     @Test

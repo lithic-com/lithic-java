@@ -43,11 +43,11 @@ class PaymentSimulateActionParamsTest {
                 PaymentSimulateActionParams.SupportedSimulationTypes.ACH_ORIGINATION_REVIEWED
             )
         assertThat(body.declineReason())
-            .isEqualTo(
+            .contains(
                 PaymentSimulateActionParams.SupportedSimulationDeclineReasons
                     .PROGRAM_TRANSACTION_LIMIT_EXCEEDED
             )
-        assertThat(body.returnReasonCode()).isEqualTo("return_reason_code")
+        assertThat(body.returnReasonCode()).contains("return_reason_code")
     }
 
     @Test
