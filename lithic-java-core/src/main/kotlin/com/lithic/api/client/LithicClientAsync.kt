@@ -32,6 +32,7 @@ import com.lithic.api.services.async.TokenizationDecisioningServiceAsync
 import com.lithic.api.services.async.TokenizationServiceAsync
 import com.lithic.api.services.async.TransactionServiceAsync
 import com.lithic.api.services.async.TransferServiceAsync
+import com.lithic.api.services.async.WebhookServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface LithicClientAsync {
@@ -67,6 +68,8 @@ interface LithicClientAsync {
     fun transactions(): TransactionServiceAsync
 
     fun responderEndpoints(): ResponderEndpointServiceAsync
+
+    fun webhooks(): WebhookServiceAsync
 
     fun externalBankAccounts(): ExternalBankAccountServiceAsync
 
