@@ -33,8 +33,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** Valid USPS routable address. */
     fun address1(): String = address1.getRequired("address1")
 
@@ -148,6 +146,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): ShippingAddress = apply {
         if (!validated) {
             address1()
@@ -189,18 +189,18 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(shippingAddress: ShippingAddress) = apply {
-            this.address1 = shippingAddress.address1
-            this.address2 = shippingAddress.address2
-            this.city = shippingAddress.city
-            this.country = shippingAddress.country
-            this.email = shippingAddress.email
-            this.firstName = shippingAddress.firstName
-            this.lastName = shippingAddress.lastName
-            this.line2Text = shippingAddress.line2Text
-            this.phoneNumber = shippingAddress.phoneNumber
-            this.postalCode = shippingAddress.postalCode
-            this.state = shippingAddress.state
-            additionalProperties(shippingAddress.additionalProperties)
+            address1 = shippingAddress.address1
+            address2 = shippingAddress.address2
+            city = shippingAddress.city
+            country = shippingAddress.country
+            email = shippingAddress.email
+            firstName = shippingAddress.firstName
+            lastName = shippingAddress.lastName
+            line2Text = shippingAddress.line2Text
+            phoneNumber = shippingAddress.phoneNumber
+            postalCode = shippingAddress.postalCode
+            state = shippingAddress.state
+            additionalProperties = shippingAddress.additionalProperties.toMutableMap()
         }
 
         /** Valid USPS routable address. */
@@ -335,16 +335,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): ShippingAddress =

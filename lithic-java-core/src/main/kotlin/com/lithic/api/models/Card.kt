@@ -49,8 +49,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** Globally unique identifier for the account to which the card belongs. */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
@@ -343,6 +341,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): Card = apply {
         if (!validated) {
             accountToken()
@@ -408,30 +408,30 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(card: Card) = apply {
-            this.accountToken = card.accountToken
-            this.authRuleTokens = card.authRuleTokens
-            this.cardProgramToken = card.cardProgramToken
-            this.replacementFor = card.replacementFor
-            this.cardholderCurrency = card.cardholderCurrency
-            this.created = card.created
-            this.cvv = card.cvv
-            this.digitalCardArtToken = card.digitalCardArtToken
-            this.expMonth = card.expMonth
-            this.expYear = card.expYear
-            this.funding = card.funding
-            this.hostname = card.hostname
-            this.lastFour = card.lastFour
-            this.memo = card.memo
-            this.pan = card.pan
-            this.pendingCommands = card.pendingCommands
-            this.pinStatus = card.pinStatus
-            this.productId = card.productId
-            this.spendLimit = card.spendLimit
-            this.spendLimitDuration = card.spendLimitDuration
-            this.state = card.state
-            this.token = card.token
-            this.type = card.type
-            additionalProperties(card.additionalProperties)
+            accountToken = card.accountToken
+            authRuleTokens = card.authRuleTokens
+            cardProgramToken = card.cardProgramToken
+            replacementFor = card.replacementFor
+            cardholderCurrency = card.cardholderCurrency
+            created = card.created
+            cvv = card.cvv
+            digitalCardArtToken = card.digitalCardArtToken
+            expMonth = card.expMonth
+            expYear = card.expYear
+            funding = card.funding
+            hostname = card.hostname
+            lastFour = card.lastFour
+            memo = card.memo
+            pan = card.pan
+            pendingCommands = card.pendingCommands
+            pinStatus = card.pinStatus
+            productId = card.productId
+            spendLimit = card.spendLimit
+            spendLimitDuration = card.spendLimitDuration
+            state = card.state
+            token = card.token
+            type = card.type
+            additionalProperties = card.additionalProperties.toMutableMap()
         }
 
         /** Globally unique identifier for the account to which the card belongs. */
@@ -790,16 +790,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): Card =
@@ -845,8 +851,6 @@ private constructor(
         private val type: JsonField<Type>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
-
-        private var validated: Boolean = false
 
         /** Account name identifying the funding source. This may be `null`. */
         fun accountName(): Optional<String> =
@@ -931,6 +935,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): FundingAccount = apply {
             if (!validated) {
                 accountName()
@@ -964,14 +970,14 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(fundingAccount: FundingAccount) = apply {
-                this.accountName = fundingAccount.accountName
-                this.created = fundingAccount.created
-                this.lastFour = fundingAccount.lastFour
-                this.nickname = fundingAccount.nickname
-                this.state = fundingAccount.state
-                this.token = fundingAccount.token
-                this.type = fundingAccount.type
-                additionalProperties(fundingAccount.additionalProperties)
+                accountName = fundingAccount.accountName
+                created = fundingAccount.created
+                lastFour = fundingAccount.lastFour
+                nickname = fundingAccount.nickname
+                state = fundingAccount.state
+                token = fundingAccount.token
+                type = fundingAccount.type
+                additionalProperties = fundingAccount.additionalProperties.toMutableMap()
             }
 
             /** Account name identifying the funding source. This may be `null`. */
@@ -1072,16 +1078,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): FundingAccount =

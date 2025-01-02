@@ -54,20 +54,20 @@ constructor(
     @NoAutoDetect
     class TransactionSimulateReturnBody
     internal constructor(
-        private val amount: Long?,
-        private val descriptor: String?,
-        private val pan: String?,
+        private val amount: Long,
+        private val descriptor: String,
+        private val pan: String,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** Amount (in cents) to authorize. */
-        @JsonProperty("amount") fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Long = amount
 
         /** Merchant descriptor. */
-        @JsonProperty("descriptor") fun descriptor(): String? = descriptor
+        @JsonProperty("descriptor") fun descriptor(): String = descriptor
 
         /** Sixteen digit card number. */
-        @JsonProperty("pan") fun pan(): String? = pan
+        @JsonProperty("pan") fun pan(): String = pan
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -90,10 +90,11 @@ constructor(
             @JvmSynthetic
             internal fun from(transactionSimulateReturnBody: TransactionSimulateReturnBody) =
                 apply {
-                    this.amount = transactionSimulateReturnBody.amount
-                    this.descriptor = transactionSimulateReturnBody.descriptor
-                    this.pan = transactionSimulateReturnBody.pan
-                    additionalProperties(transactionSimulateReturnBody.additionalProperties)
+                    amount = transactionSimulateReturnBody.amount
+                    descriptor = transactionSimulateReturnBody.descriptor
+                    pan = transactionSimulateReturnBody.pan
+                    additionalProperties =
+                        transactionSimulateReturnBody.additionalProperties.toMutableMap()
                 }
 
             /** Amount (in cents) to authorize. */
@@ -108,16 +109,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): TransactionSimulateReturnBody =

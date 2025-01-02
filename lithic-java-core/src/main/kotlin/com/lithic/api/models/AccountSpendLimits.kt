@@ -25,8 +25,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     fun availableSpendLimit(): AvailableSpendLimit =
         availableSpendLimit.getRequired("available_spend_limit")
 
@@ -47,6 +45,8 @@ private constructor(
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+    private var validated: Boolean = false
 
     fun validate(): AccountSpendLimits = apply {
         if (!validated) {
@@ -73,10 +73,10 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(accountSpendLimits: AccountSpendLimits) = apply {
-            this.availableSpendLimit = accountSpendLimits.availableSpendLimit
-            this.spendLimit = accountSpendLimits.spendLimit
-            this.spendVelocity = accountSpendLimits.spendVelocity
-            additionalProperties(accountSpendLimits.additionalProperties)
+            availableSpendLimit = accountSpendLimits.availableSpendLimit
+            spendLimit = accountSpendLimits.spendLimit
+            spendVelocity = accountSpendLimits.spendVelocity
+            additionalProperties = accountSpendLimits.additionalProperties.toMutableMap()
         }
 
         fun availableSpendLimit(availableSpendLimit: AvailableSpendLimit) =
@@ -104,16 +104,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): AccountSpendLimits =
@@ -134,8 +140,6 @@ private constructor(
         private val monthly: JsonField<Long>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
-
-        private var validated: Boolean = false
 
         /**
          * The available spend limit (in cents) relative to the daily limit configured on the
@@ -177,6 +181,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): AvailableSpendLimit = apply {
             if (!validated) {
                 daily()
@@ -202,10 +208,10 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(availableSpendLimit: AvailableSpendLimit) = apply {
-                this.daily = availableSpendLimit.daily
-                this.lifetime = availableSpendLimit.lifetime
-                this.monthly = availableSpendLimit.monthly
-                additionalProperties(availableSpendLimit.additionalProperties)
+                daily = availableSpendLimit.daily
+                lifetime = availableSpendLimit.lifetime
+                monthly = availableSpendLimit.monthly
+                additionalProperties = availableSpendLimit.additionalProperties.toMutableMap()
             }
 
             /**
@@ -252,16 +258,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): AvailableSpendLimit =
@@ -301,8 +313,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /** The configured daily spend limit (in cents) on the Account. */
         fun daily(): Optional<Long> = Optional.ofNullable(daily.getNullable("daily"))
 
@@ -324,6 +334,8 @@ private constructor(
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
 
         fun validate(): SpendLimit = apply {
             if (!validated) {
@@ -350,10 +362,10 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(spendLimit: SpendLimit) = apply {
-                this.daily = spendLimit.daily
-                this.lifetime = spendLimit.lifetime
-                this.monthly = spendLimit.monthly
-                additionalProperties(spendLimit.additionalProperties)
+                daily = spendLimit.daily
+                lifetime = spendLimit.lifetime
+                monthly = spendLimit.monthly
+                additionalProperties = spendLimit.additionalProperties.toMutableMap()
             }
 
             /** The configured daily spend limit (in cents) on the Account. */
@@ -382,16 +394,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): SpendLimit =
@@ -431,8 +449,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /**
          * Current daily spend velocity (in cents) on the Account. Present if daily spend limit is
          * set.
@@ -473,6 +489,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): SpendVelocity = apply {
             if (!validated) {
                 daily()
@@ -498,10 +516,10 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(spendVelocity: SpendVelocity) = apply {
-                this.daily = spendVelocity.daily
-                this.lifetime = spendVelocity.lifetime
-                this.monthly = spendVelocity.monthly
-                additionalProperties(spendVelocity.additionalProperties)
+                daily = spendVelocity.daily
+                lifetime = spendVelocity.lifetime
+                monthly = spendVelocity.monthly
+                additionalProperties = spendVelocity.additionalProperties.toMutableMap()
             }
 
             /**
@@ -548,16 +566,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): SpendVelocity =

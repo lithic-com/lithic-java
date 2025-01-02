@@ -70,17 +70,18 @@ constructor(
     @NoAutoDetect
     class ExternalPaymentSettleBody
     internal constructor(
-        private val effectiveDate: LocalDate?,
+        private val effectiveDate: LocalDate,
         private val memo: String?,
         private val progressTo: ExternalPaymentProgressTo?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        @JsonProperty("effective_date") fun effectiveDate(): LocalDate? = effectiveDate
+        @JsonProperty("effective_date") fun effectiveDate(): LocalDate = effectiveDate
 
-        @JsonProperty("memo") fun memo(): String? = memo
+        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
 
-        @JsonProperty("progress_to") fun progressTo(): ExternalPaymentProgressTo? = progressTo
+        @JsonProperty("progress_to")
+        fun progressTo(): Optional<ExternalPaymentProgressTo> = Optional.ofNullable(progressTo)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -102,10 +103,10 @@ constructor(
 
             @JvmSynthetic
             internal fun from(externalPaymentSettleBody: ExternalPaymentSettleBody) = apply {
-                this.effectiveDate = externalPaymentSettleBody.effectiveDate
-                this.memo = externalPaymentSettleBody.memo
-                this.progressTo = externalPaymentSettleBody.progressTo
-                additionalProperties(externalPaymentSettleBody.additionalProperties)
+                effectiveDate = externalPaymentSettleBody.effectiveDate
+                memo = externalPaymentSettleBody.memo
+                progressTo = externalPaymentSettleBody.progressTo
+                additionalProperties = externalPaymentSettleBody.additionalProperties.toMutableMap()
             }
 
             @JsonProperty("effective_date")
@@ -122,16 +123,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): ExternalPaymentSettleBody =

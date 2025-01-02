@@ -98,31 +98,36 @@ constructor(
     ) {
 
         /** Address */
-        @JsonProperty("address") fun address(): ExternalBankAccountAddress? = address
+        @JsonProperty("address")
+        fun address(): Optional<ExternalBankAccountAddress> = Optional.ofNullable(address)
 
         /** Optional field that helps identify bank accounts in receipts */
-        @JsonProperty("company_id") fun companyId(): String? = companyId
+        @JsonProperty("company_id")
+        fun companyId(): Optional<String> = Optional.ofNullable(companyId)
 
         /** Date of Birth of the Individual that owns the external bank account */
-        @JsonProperty("dob") fun dob(): LocalDate? = dob
+        @JsonProperty("dob") fun dob(): Optional<LocalDate> = Optional.ofNullable(dob)
 
         /** Doing Business As */
-        @JsonProperty("doing_business_as") fun doingBusinessAs(): String? = doingBusinessAs
+        @JsonProperty("doing_business_as")
+        fun doingBusinessAs(): Optional<String> = Optional.ofNullable(doingBusinessAs)
 
         /** The nickname for this External Bank Account */
-        @JsonProperty("name") fun name(): String? = name
+        @JsonProperty("name") fun name(): Optional<String> = Optional.ofNullable(name)
 
         /**
          * Legal Name of the business or individual who owns the external account. This will appear
          * in statements
          */
-        @JsonProperty("owner") fun owner(): String? = owner
+        @JsonProperty("owner") fun owner(): Optional<String> = Optional.ofNullable(owner)
 
         /** Owner Type */
-        @JsonProperty("owner_type") fun ownerType(): OwnerType? = ownerType
+        @JsonProperty("owner_type")
+        fun ownerType(): Optional<OwnerType> = Optional.ofNullable(ownerType)
 
         /** User Defined ID */
-        @JsonProperty("user_defined_id") fun userDefinedId(): String? = userDefinedId
+        @JsonProperty("user_defined_id")
+        fun userDefinedId(): Optional<String> = Optional.ofNullable(userDefinedId)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -150,15 +155,16 @@ constructor(
             @JvmSynthetic
             internal fun from(externalBankAccountUpdateBody: ExternalBankAccountUpdateBody) =
                 apply {
-                    this.address = externalBankAccountUpdateBody.address
-                    this.companyId = externalBankAccountUpdateBody.companyId
-                    this.dob = externalBankAccountUpdateBody.dob
-                    this.doingBusinessAs = externalBankAccountUpdateBody.doingBusinessAs
-                    this.name = externalBankAccountUpdateBody.name
-                    this.owner = externalBankAccountUpdateBody.owner
-                    this.ownerType = externalBankAccountUpdateBody.ownerType
-                    this.userDefinedId = externalBankAccountUpdateBody.userDefinedId
-                    additionalProperties(externalBankAccountUpdateBody.additionalProperties)
+                    address = externalBankAccountUpdateBody.address
+                    companyId = externalBankAccountUpdateBody.companyId
+                    dob = externalBankAccountUpdateBody.dob
+                    doingBusinessAs = externalBankAccountUpdateBody.doingBusinessAs
+                    name = externalBankAccountUpdateBody.name
+                    owner = externalBankAccountUpdateBody.owner
+                    ownerType = externalBankAccountUpdateBody.ownerType
+                    userDefinedId = externalBankAccountUpdateBody.userDefinedId
+                    additionalProperties =
+                        externalBankAccountUpdateBody.additionalProperties.toMutableMap()
                 }
 
             /** Address */
@@ -197,16 +203,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): ExternalBankAccountUpdateBody =

@@ -63,7 +63,7 @@ constructor(
     @NoAutoDetect
     class EventSubscriptionCreateBody
     internal constructor(
-        private val url: String?,
+        private val url: String,
         private val description: String?,
         private val disabled: Boolean?,
         private val eventTypes: List<EventType>?,
@@ -71,19 +71,21 @@ constructor(
     ) {
 
         /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
-        @JsonProperty("url") fun url(): String? = url
+        @JsonProperty("url") fun url(): String = url
 
         /** Event subscription description. */
-        @JsonProperty("description") fun description(): String? = description
+        @JsonProperty("description")
+        fun description(): Optional<String> = Optional.ofNullable(description)
 
         /** Whether the event subscription is active (false) or inactive (true). */
-        @JsonProperty("disabled") fun disabled(): Boolean? = disabled
+        @JsonProperty("disabled") fun disabled(): Optional<Boolean> = Optional.ofNullable(disabled)
 
         /**
          * Indicates types of events that will be sent to this subscription. If left blank, all
          * types will be sent.
          */
-        @JsonProperty("event_types") fun eventTypes(): List<EventType>? = eventTypes
+        @JsonProperty("event_types")
+        fun eventTypes(): Optional<List<EventType>> = Optional.ofNullable(eventTypes)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -106,11 +108,12 @@ constructor(
 
             @JvmSynthetic
             internal fun from(eventSubscriptionCreateBody: EventSubscriptionCreateBody) = apply {
-                this.url = eventSubscriptionCreateBody.url
-                this.description = eventSubscriptionCreateBody.description
-                this.disabled = eventSubscriptionCreateBody.disabled
-                this.eventTypes = eventSubscriptionCreateBody.eventTypes
-                additionalProperties(eventSubscriptionCreateBody.additionalProperties)
+                url = eventSubscriptionCreateBody.url
+                description = eventSubscriptionCreateBody.description
+                disabled = eventSubscriptionCreateBody.disabled
+                eventTypes = eventSubscriptionCreateBody.eventTypes?.toMutableList()
+                additionalProperties =
+                    eventSubscriptionCreateBody.additionalProperties.toMutableMap()
             }
 
             /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
@@ -133,16 +136,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): EventSubscriptionCreateBody =

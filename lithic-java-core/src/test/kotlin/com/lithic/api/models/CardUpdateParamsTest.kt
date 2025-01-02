@@ -36,13 +36,13 @@ class CardUpdateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.digitalCardArtToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.memo()).isEqualTo("New Card")
-        assertThat(body.pin()).isEqualTo("pin")
-        assertThat(body.pinStatus()).isEqualTo(CardUpdateParams.PinStatus.OK)
-        assertThat(body.spendLimit()).isEqualTo(0L)
-        assertThat(body.spendLimitDuration()).isEqualTo(SpendLimitDuration.ANNUALLY)
-        assertThat(body.state()).isEqualTo(CardUpdateParams.State.CLOSED)
+        assertThat(body.digitalCardArtToken()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.memo()).contains("New Card")
+        assertThat(body.pin()).contains("pin")
+        assertThat(body.pinStatus()).contains(CardUpdateParams.PinStatus.OK)
+        assertThat(body.spendLimit()).contains(0L)
+        assertThat(body.spendLimitDuration()).contains(SpendLimitDuration.ANNUALLY)
+        assertThat(body.state()).contains(CardUpdateParams.State.CLOSED)
     }
 
     @Test

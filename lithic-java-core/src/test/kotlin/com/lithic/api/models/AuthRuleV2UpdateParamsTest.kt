@@ -26,8 +26,8 @@ class AuthRuleV2UpdateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.name()).isEqualTo("name")
-        assertThat(body.state()).isEqualTo(AuthRuleV2UpdateParams.State.INACTIVE)
+        assertThat(body.name()).contains("name")
+        assertThat(body.state()).contains(AuthRuleV2UpdateParams.State.INACTIVE)
     }
 
     @Test

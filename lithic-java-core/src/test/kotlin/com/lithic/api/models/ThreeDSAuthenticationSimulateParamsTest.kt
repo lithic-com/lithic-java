@@ -70,7 +70,7 @@ class ThreeDSAuthenticationSimulateParamsTest {
                     .build()
             )
         assertThat(body.cardExpiryCheck())
-            .isEqualTo(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
+            .contains(ThreeDSAuthenticationSimulateParams.CardExpiryCheck.MATCH)
     }
 
     @Test

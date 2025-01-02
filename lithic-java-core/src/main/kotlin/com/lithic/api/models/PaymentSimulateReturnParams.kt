@@ -51,16 +51,17 @@ constructor(
     @NoAutoDetect
     class PaymentSimulateReturnBody
     internal constructor(
-        private val paymentToken: String?,
+        private val paymentToken: String,
         private val returnReasonCode: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** Payment Token */
-        @JsonProperty("payment_token") fun paymentToken(): String? = paymentToken
+        @JsonProperty("payment_token") fun paymentToken(): String = paymentToken
 
         /** Return Reason Code */
-        @JsonProperty("return_reason_code") fun returnReasonCode(): String? = returnReasonCode
+        @JsonProperty("return_reason_code")
+        fun returnReasonCode(): Optional<String> = Optional.ofNullable(returnReasonCode)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -81,9 +82,9 @@ constructor(
 
             @JvmSynthetic
             internal fun from(paymentSimulateReturnBody: PaymentSimulateReturnBody) = apply {
-                this.paymentToken = paymentSimulateReturnBody.paymentToken
-                this.returnReasonCode = paymentSimulateReturnBody.returnReasonCode
-                additionalProperties(paymentSimulateReturnBody.additionalProperties)
+                paymentToken = paymentSimulateReturnBody.paymentToken
+                returnReasonCode = paymentSimulateReturnBody.returnReasonCode
+                additionalProperties = paymentSimulateReturnBody.additionalProperties.toMutableMap()
             }
 
             /** Payment Token */
@@ -98,16 +99,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): PaymentSimulateReturnBody =

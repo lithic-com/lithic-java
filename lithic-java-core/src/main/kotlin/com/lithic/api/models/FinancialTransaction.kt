@@ -37,8 +37,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /**
      * Status types:
      * - `CARD` - Issuing card transaction.
@@ -161,6 +159,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): FinancialTransaction = apply {
         if (!validated) {
             category()
@@ -202,18 +202,18 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(financialTransaction: FinancialTransaction) = apply {
-            this.category = financialTransaction.category
-            this.created = financialTransaction.created
-            this.currency = financialTransaction.currency
-            this.descriptor = financialTransaction.descriptor
-            this.events = financialTransaction.events
-            this.pendingAmount = financialTransaction.pendingAmount
-            this.result = financialTransaction.result
-            this.settledAmount = financialTransaction.settledAmount
-            this.status = financialTransaction.status
-            this.token = financialTransaction.token
-            this.updated = financialTransaction.updated
-            additionalProperties(financialTransaction.additionalProperties)
+            category = financialTransaction.category
+            created = financialTransaction.created
+            currency = financialTransaction.currency
+            descriptor = financialTransaction.descriptor
+            events = financialTransaction.events
+            pendingAmount = financialTransaction.pendingAmount
+            result = financialTransaction.result
+            settledAmount = financialTransaction.settledAmount
+            status = financialTransaction.status
+            token = financialTransaction.token
+            updated = financialTransaction.updated
+            additionalProperties = financialTransaction.additionalProperties.toMutableMap()
         }
 
         /**
@@ -364,16 +364,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): FinancialTransaction =
@@ -468,8 +474,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
          * (e.g., cents).
@@ -515,6 +519,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): FinancialEvent = apply {
             if (!validated) {
                 amount()
@@ -544,12 +550,12 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(financialEvent: FinancialEvent) = apply {
-                this.amount = financialEvent.amount
-                this.created = financialEvent.created
-                this.result = financialEvent.result
-                this.token = financialEvent.token
-                this.type = financialEvent.type
-                additionalProperties(financialEvent.additionalProperties)
+                amount = financialEvent.amount
+                created = financialEvent.created
+                result = financialEvent.result
+                token = financialEvent.token
+                type = financialEvent.type
+                additionalProperties = financialEvent.additionalProperties.toMutableMap()
             }
 
             /**
@@ -604,16 +610,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): FinancialEvent =

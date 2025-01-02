@@ -31,11 +31,11 @@ class DisputeUpdateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.amount()).isEqualTo(0L)
+        assertThat(body.amount()).contains(0L)
         assertThat(body.customerFiledDate())
-            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(body.customerNote()).isEqualTo("customer_note")
-        assertThat(body.reason()).isEqualTo(DisputeUpdateParams.Reason.ATM_CASH_MISDISPENSE)
+            .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(body.customerNote()).contains("customer_note")
+        assertThat(body.reason()).contains(DisputeUpdateParams.Reason.ATM_CASH_MISDISPENSE)
     }
 
     @Test

@@ -35,8 +35,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /**
      * List of all entities with >25% ownership in the company. If no entity or individual owns >25%
      * of the company, and the largest shareholder is an entity, please identify them in this field.
@@ -176,6 +174,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): Kyb = apply {
         if (!validated) {
             beneficialOwnerEntities().forEach { it.validate() }
@@ -215,17 +215,17 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(kyb: Kyb) = apply {
-            this.beneficialOwnerEntities = kyb.beneficialOwnerEntities
-            this.beneficialOwnerIndividuals = kyb.beneficialOwnerIndividuals
-            this.businessEntity = kyb.businessEntity
-            this.controlPerson = kyb.controlPerson
-            this.externalId = kyb.externalId
-            this.kybPassedTimestamp = kyb.kybPassedTimestamp
-            this.natureOfBusiness = kyb.natureOfBusiness
-            this.tosTimestamp = kyb.tosTimestamp
-            this.websiteUrl = kyb.websiteUrl
-            this.workflow = kyb.workflow
-            additionalProperties(kyb.additionalProperties)
+            beneficialOwnerEntities = kyb.beneficialOwnerEntities
+            beneficialOwnerIndividuals = kyb.beneficialOwnerIndividuals
+            businessEntity = kyb.businessEntity
+            controlPerson = kyb.controlPerson
+            externalId = kyb.externalId
+            kybPassedTimestamp = kyb.kybPassedTimestamp
+            natureOfBusiness = kyb.natureOfBusiness
+            tosTimestamp = kyb.tosTimestamp
+            websiteUrl = kyb.websiteUrl
+            workflow = kyb.workflow
+            additionalProperties = kyb.additionalProperties.toMutableMap()
         }
 
         /**
@@ -403,16 +403,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): Kyb =
@@ -443,8 +449,6 @@ private constructor(
         private val phoneNumbers: JsonField<List<String>>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
-
-        private var validated: Boolean = false
 
         /**
          * Business's physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
@@ -508,6 +512,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): BusinessEntity = apply {
             if (!validated) {
                 address().validate()
@@ -539,13 +545,13 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(businessEntity: BusinessEntity) = apply {
-                this.address = businessEntity.address
-                this.dbaBusinessName = businessEntity.dbaBusinessName
-                this.governmentId = businessEntity.governmentId
-                this.legalBusinessName = businessEntity.legalBusinessName
-                this.parentCompany = businessEntity.parentCompany
-                this.phoneNumbers = businessEntity.phoneNumbers
-                additionalProperties(businessEntity.additionalProperties)
+                address = businessEntity.address
+                dbaBusinessName = businessEntity.dbaBusinessName
+                governmentId = businessEntity.governmentId
+                legalBusinessName = businessEntity.legalBusinessName
+                parentCompany = businessEntity.parentCompany
+                phoneNumbers = businessEntity.phoneNumbers
+                additionalProperties = businessEntity.additionalProperties.toMutableMap()
             }
 
             /**
@@ -628,16 +634,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): BusinessEntity =
@@ -684,8 +696,6 @@ private constructor(
         private val phoneNumber: JsonField<String>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
-
-        private var validated: Boolean = false
 
         /**
          * Individual's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
@@ -756,6 +766,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): KybIndividual = apply {
             if (!validated) {
                 address().validate()
@@ -789,14 +801,14 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(kybIndividual: KybIndividual) = apply {
-                this.address = kybIndividual.address
-                this.dob = kybIndividual.dob
-                this.email = kybIndividual.email
-                this.firstName = kybIndividual.firstName
-                this.governmentId = kybIndividual.governmentId
-                this.lastName = kybIndividual.lastName
-                this.phoneNumber = kybIndividual.phoneNumber
-                additionalProperties(kybIndividual.additionalProperties)
+                address = kybIndividual.address
+                dob = kybIndividual.dob
+                email = kybIndividual.email
+                firstName = kybIndividual.firstName
+                governmentId = kybIndividual.governmentId
+                lastName = kybIndividual.lastName
+                phoneNumber = kybIndividual.phoneNumber
+                additionalProperties = kybIndividual.additionalProperties.toMutableMap()
             }
 
             /**
@@ -883,16 +895,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): KybIndividual =

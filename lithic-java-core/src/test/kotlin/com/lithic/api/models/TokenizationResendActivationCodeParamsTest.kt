@@ -31,7 +31,7 @@ class TokenizationResendActivationCodeParamsTest {
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.activationMethodType())
-            .isEqualTo(
+            .contains(
                 TokenizationResendActivationCodeParams.ActivationMethodType
                     .EMAIL_TO_CARDHOLDER_ADDRESS
             )

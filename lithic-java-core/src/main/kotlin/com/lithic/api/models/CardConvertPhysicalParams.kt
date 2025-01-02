@@ -73,7 +73,7 @@ constructor(
     @NoAutoDetect
     class CardConvertPhysicalBody
     internal constructor(
-        private val shippingAddress: ShippingAddress?,
+        private val shippingAddress: ShippingAddress,
         private val carrier: Carrier?,
         private val productId: String?,
         private val shippingMethod: ShippingMethod?,
@@ -81,17 +81,18 @@ constructor(
     ) {
 
         /** The shipping address this card will be sent to. */
-        @JsonProperty("shipping_address") fun shippingAddress(): ShippingAddress? = shippingAddress
+        @JsonProperty("shipping_address") fun shippingAddress(): ShippingAddress = shippingAddress
 
         /** If omitted, the previous carrier will be used. */
-        @JsonProperty("carrier") fun carrier(): Carrier? = carrier
+        @JsonProperty("carrier") fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier)
 
         /**
          * Specifies the configuration (e.g. physical card art) that the card should be manufactured
          * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
          * before use.
          */
-        @JsonProperty("product_id") fun productId(): String? = productId
+        @JsonProperty("product_id")
+        fun productId(): Optional<String> = Optional.ofNullable(productId)
 
         /**
          * Shipping method for the card. Use of options besides `STANDARD` require additional
@@ -104,7 +105,8 @@ constructor(
          * - `2_DAY` - FedEx 2-day shipping, with tracking
          * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
          */
-        @JsonProperty("shipping_method") fun shippingMethod(): ShippingMethod? = shippingMethod
+        @JsonProperty("shipping_method")
+        fun shippingMethod(): Optional<ShippingMethod> = Optional.ofNullable(shippingMethod)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -127,11 +129,11 @@ constructor(
 
             @JvmSynthetic
             internal fun from(cardConvertPhysicalBody: CardConvertPhysicalBody) = apply {
-                this.shippingAddress = cardConvertPhysicalBody.shippingAddress
-                this.carrier = cardConvertPhysicalBody.carrier
-                this.productId = cardConvertPhysicalBody.productId
-                this.shippingMethod = cardConvertPhysicalBody.shippingMethod
-                additionalProperties(cardConvertPhysicalBody.additionalProperties)
+                shippingAddress = cardConvertPhysicalBody.shippingAddress
+                carrier = cardConvertPhysicalBody.carrier
+                productId = cardConvertPhysicalBody.productId
+                shippingMethod = cardConvertPhysicalBody.shippingMethod
+                additionalProperties = cardConvertPhysicalBody.additionalProperties.toMutableMap()
             }
 
             /** The shipping address this card will be sent to. */
@@ -171,16 +173,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): CardConvertPhysicalBody =

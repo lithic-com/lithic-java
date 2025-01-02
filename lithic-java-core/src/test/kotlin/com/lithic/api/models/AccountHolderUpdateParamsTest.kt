@@ -28,9 +28,9 @@ class AccountHolderUpdateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.businessAccountToken()).isEqualTo("business_account_token")
-        assertThat(body.email()).isEqualTo("email")
-        assertThat(body.phoneNumber()).isEqualTo("phone_number")
+        assertThat(body.businessAccountToken()).contains("business_account_token")
+        assertThat(body.email()).contains("email")
+        assertThat(body.phoneNumber()).contains("phone_number")
     }
 
     @Test

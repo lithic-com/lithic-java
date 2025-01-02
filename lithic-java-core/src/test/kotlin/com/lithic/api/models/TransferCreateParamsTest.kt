@@ -33,8 +33,8 @@ class TransferCreateParamsTest {
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.from()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.to()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.memo()).isEqualTo("memo")
+        assertThat(body.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.memo()).contains("memo")
     }
 
     @Test

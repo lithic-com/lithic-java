@@ -26,8 +26,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** Auth Rule Backtest Token */
     fun backtestToken(): String = backtestToken.getRequired("backtest_token")
 
@@ -48,6 +46,8 @@ private constructor(
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+    private var validated: Boolean = false
 
     fun validate(): BacktestResults = apply {
         if (!validated) {
@@ -74,10 +74,10 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(backtestResults: BacktestResults) = apply {
-            this.backtestToken = backtestResults.backtestToken
-            this.simulationParameters = backtestResults.simulationParameters
-            this.results = backtestResults.results
-            additionalProperties(backtestResults.additionalProperties)
+            backtestToken = backtestResults.backtestToken
+            simulationParameters = backtestResults.simulationParameters
+            results = backtestResults.results
+            additionalProperties = backtestResults.additionalProperties.toMutableMap()
         }
 
         /** Auth Rule Backtest Token */
@@ -107,16 +107,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): BacktestResults =
@@ -137,8 +143,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         fun currentVersion(): Optional<RuleStats> =
             Optional.ofNullable(currentVersion.getNullable("current_version"))
 
@@ -152,6 +156,8 @@ private constructor(
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
 
         fun validate(): Results = apply {
             if (!validated) {
@@ -176,9 +182,9 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(results: Results) = apply {
-                this.currentVersion = results.currentVersion
-                this.draftVersion = results.draftVersion
-                additionalProperties(results.additionalProperties)
+                currentVersion = results.currentVersion
+                draftVersion = results.draftVersion
+                additionalProperties = results.additionalProperties.toMutableMap()
             }
 
             fun currentVersion(currentVersion: RuleStats) =
@@ -200,16 +206,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): Results =
@@ -230,8 +242,6 @@ private constructor(
             private val examples: JsonField<List<Example>>,
             private val additionalProperties: Map<String, JsonValue>,
         ) {
-
-            private var validated: Boolean = false
 
             /**
              * The version of the rule, this is incremented whenever the rule's parameters change.
@@ -282,6 +292,8 @@ private constructor(
             @ExcludeMissing
             fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+            private var validated: Boolean = false
+
             fun validate(): RuleStats = apply {
                 if (!validated) {
                     version()
@@ -309,11 +321,11 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(ruleStats: RuleStats) = apply {
-                    this.version = ruleStats.version
-                    this.approved = ruleStats.approved
-                    this.declined = ruleStats.declined
-                    this.examples = ruleStats.examples
-                    additionalProperties(ruleStats.additionalProperties)
+                    version = ruleStats.version
+                    approved = ruleStats.approved
+                    declined = ruleStats.declined
+                    examples = ruleStats.examples
+                    additionalProperties = ruleStats.additionalProperties.toMutableMap()
                 }
 
                 /**
@@ -378,18 +390,26 @@ private constructor(
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
-                    this.additionalProperties.putAll(additionalProperties)
+                    putAllAdditionalProperties(additionalProperties)
                 }
 
                 @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    this.additionalProperties.put(key, value)
+                    additionalProperties.put(key, value)
                 }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
                 fun build(): RuleStats =
                     RuleStats(
@@ -410,8 +430,6 @@ private constructor(
                 private val approved: JsonField<Boolean>,
                 private val additionalProperties: Map<String, JsonValue>,
             ) {
-
-                private var validated: Boolean = false
 
                 /** The authorization request event token. */
                 fun eventToken(): Optional<String> =
@@ -438,6 +456,8 @@ private constructor(
                 @ExcludeMissing
                 fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+                private var validated: Boolean = false
+
                 fun validate(): Example = apply {
                     if (!validated) {
                         eventToken()
@@ -463,10 +483,10 @@ private constructor(
 
                     @JvmSynthetic
                     internal fun from(example: Example) = apply {
-                        this.eventToken = example.eventToken
-                        this.timestamp = example.timestamp
-                        this.approved = example.approved
-                        additionalProperties(example.additionalProperties)
+                        eventToken = example.eventToken
+                        timestamp = example.timestamp
+                        approved = example.approved
+                        additionalProperties = example.additionalProperties.toMutableMap()
                     }
 
                     /** The authorization request event token. */
@@ -499,18 +519,26 @@ private constructor(
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
-                        this.additionalProperties.putAll(additionalProperties)
+                        putAllAdditionalProperties(additionalProperties)
                     }
 
                     @JsonAnySetter
                     fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                        this.additionalProperties.put(key, value)
+                        additionalProperties.put(key, value)
                     }
 
                     fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                         apply {
                             this.additionalProperties.putAll(additionalProperties)
                         }
+
+                    fun removeAdditionalProperty(key: String) = apply {
+                        additionalProperties.remove(key)
+                    }
+
+                    fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                        keys.forEach(::removeAdditionalProperty)
+                    }
 
                     fun build(): Example =
                         Example(
@@ -585,8 +613,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /** Auth Rule Token */
         fun authRuleToken(): Optional<String> =
             Optional.ofNullable(authRuleToken.getNullable("auth_rule_token"))
@@ -609,6 +635,8 @@ private constructor(
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
 
         fun validate(): SimulationParameters = apply {
             if (!validated) {
@@ -635,10 +663,10 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(simulationParameters: SimulationParameters) = apply {
-                this.authRuleToken = simulationParameters.authRuleToken
-                this.start = simulationParameters.start
-                this.end = simulationParameters.end
-                additionalProperties(simulationParameters.additionalProperties)
+                authRuleToken = simulationParameters.authRuleToken
+                start = simulationParameters.start
+                end = simulationParameters.end
+                additionalProperties = simulationParameters.additionalProperties.toMutableMap()
             }
 
             /** Auth Rule Token */
@@ -669,16 +697,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): SimulationParameters =

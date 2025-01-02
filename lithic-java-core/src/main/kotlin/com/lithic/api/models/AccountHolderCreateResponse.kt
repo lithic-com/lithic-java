@@ -33,8 +33,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** Globally unique identifier for the account. */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
@@ -104,6 +102,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): AccountHolderCreateResponse = apply {
         if (!validated) {
             accountToken()
@@ -137,14 +137,14 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(accountHolderCreateResponse: AccountHolderCreateResponse) = apply {
-            this.accountToken = accountHolderCreateResponse.accountToken
-            this.created = accountHolderCreateResponse.created
-            this.externalId = accountHolderCreateResponse.externalId
-            this.status = accountHolderCreateResponse.status
-            this.statusReasons = accountHolderCreateResponse.statusReasons
-            this.requiredDocuments = accountHolderCreateResponse.requiredDocuments
-            this.token = accountHolderCreateResponse.token
-            additionalProperties(accountHolderCreateResponse.additionalProperties)
+            accountToken = accountHolderCreateResponse.accountToken
+            created = accountHolderCreateResponse.created
+            externalId = accountHolderCreateResponse.externalId
+            status = accountHolderCreateResponse.status
+            statusReasons = accountHolderCreateResponse.statusReasons
+            requiredDocuments = accountHolderCreateResponse.requiredDocuments
+            token = accountHolderCreateResponse.token
+            additionalProperties = accountHolderCreateResponse.additionalProperties.toMutableMap()
         }
 
         /** Globally unique identifier for the account. */
@@ -235,16 +235,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): AccountHolderCreateResponse =

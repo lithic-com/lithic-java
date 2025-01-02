@@ -46,11 +46,11 @@ class ExternalPaymentCreateParamsTest {
         assertThat(body.financialAccountToken()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.paymentType())
             .isEqualTo(ExternalPaymentCreateParams.ExternalPaymentDirection.DEPOSIT)
-        assertThat(body.token()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.memo()).isEqualTo("memo")
+        assertThat(body.token()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.memo()).contains("memo")
         assertThat(body.progressTo())
-            .isEqualTo(ExternalPaymentCreateParams.ExternalPaymentProgressTo.SETTLED)
-        assertThat(body.userDefinedId()).isEqualTo("user_defined_id")
+            .contains(ExternalPaymentCreateParams.ExternalPaymentProgressTo.SETTLED)
+        assertThat(body.userDefinedId()).contains("user_defined_id")
     }
 
     @Test

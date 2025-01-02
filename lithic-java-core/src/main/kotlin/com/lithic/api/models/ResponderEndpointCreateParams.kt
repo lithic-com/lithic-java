@@ -61,10 +61,10 @@ constructor(
     ) {
 
         /** The type of the endpoint. */
-        @JsonProperty("type") fun type(): Type? = type
+        @JsonProperty("type") fun type(): Optional<Type> = Optional.ofNullable(type)
 
         /** The URL for the responder endpoint (must be http(s)). */
-        @JsonProperty("url") fun url(): String? = url
+        @JsonProperty("url") fun url(): Optional<String> = Optional.ofNullable(url)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -85,9 +85,10 @@ constructor(
 
             @JvmSynthetic
             internal fun from(responderEndpointCreateBody: ResponderEndpointCreateBody) = apply {
-                this.type = responderEndpointCreateBody.type
-                this.url = responderEndpointCreateBody.url
-                additionalProperties(responderEndpointCreateBody.additionalProperties)
+                type = responderEndpointCreateBody.type
+                url = responderEndpointCreateBody.url
+                additionalProperties =
+                    responderEndpointCreateBody.additionalProperties.toMutableMap()
             }
 
             /** The type of the endpoint. */
@@ -98,16 +99,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): ResponderEndpointCreateBody =

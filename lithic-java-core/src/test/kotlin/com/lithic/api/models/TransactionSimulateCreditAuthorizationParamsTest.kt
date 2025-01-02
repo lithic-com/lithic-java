@@ -33,8 +33,8 @@ class TransactionSimulateCreditAuthorizationParamsTest {
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
-        assertThat(body.mcc()).isEqualTo("5812")
-        assertThat(body.merchantAcceptorId()).isEqualTo("XRKGDPOWEWQRRWU")
+        assertThat(body.mcc()).contains("5812")
+        assertThat(body.merchantAcceptorId()).contains("XRKGDPOWEWQRRWU")
     }
 
     @Test

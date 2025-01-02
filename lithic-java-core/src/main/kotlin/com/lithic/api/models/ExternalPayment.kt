@@ -40,8 +40,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     fun token(): String = token.getRequired("token")
 
     fun result(): TransactionResult = result.getRequired("result")
@@ -102,6 +100,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): ExternalPayment = apply {
         if (!validated) {
             token()
@@ -147,20 +147,20 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(externalPayment: ExternalPayment) = apply {
-            this.token = externalPayment.token
-            this.result = externalPayment.result
-            this.category = externalPayment.category
-            this.status = externalPayment.status
-            this.settledAmount = externalPayment.settledAmount
-            this.pendingAmount = externalPayment.pendingAmount
-            this.currency = externalPayment.currency
-            this.events = externalPayment.events
-            this.created = externalPayment.created
-            this.updated = externalPayment.updated
-            this.userDefinedId = externalPayment.userDefinedId
-            this.financialAccountToken = externalPayment.financialAccountToken
-            this.paymentType = externalPayment.paymentType
-            additionalProperties(externalPayment.additionalProperties)
+            token = externalPayment.token
+            result = externalPayment.result
+            category = externalPayment.category
+            status = externalPayment.status
+            settledAmount = externalPayment.settledAmount
+            pendingAmount = externalPayment.pendingAmount
+            currency = externalPayment.currency
+            events = externalPayment.events
+            created = externalPayment.created
+            updated = externalPayment.updated
+            userDefinedId = externalPayment.userDefinedId
+            financialAccountToken = externalPayment.financialAccountToken
+            paymentType = externalPayment.paymentType
+            additionalProperties = externalPayment.additionalProperties.toMutableMap()
         }
 
         fun token(token: String) = token(JsonField.of(token))
@@ -257,16 +257,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): ExternalPayment =
@@ -372,8 +378,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         fun amount(): Long = amount.getRequired("amount")
 
         fun type(): ExternalPaymentEventType = type.getRequired("type")
@@ -411,6 +415,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): ExternalPaymentEvent = apply {
             if (!validated) {
                 amount()
@@ -446,15 +452,15 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(externalPaymentEvent: ExternalPaymentEvent) = apply {
-                this.amount = externalPaymentEvent.amount
-                this.type = externalPaymentEvent.type
-                this.result = externalPaymentEvent.result
-                this.detailedResults = externalPaymentEvent.detailedResults
-                this.created = externalPaymentEvent.created
-                this.token = externalPaymentEvent.token
-                this.memo = externalPaymentEvent.memo
-                this.effectiveDate = externalPaymentEvent.effectiveDate
-                additionalProperties(externalPaymentEvent.additionalProperties)
+                amount = externalPaymentEvent.amount
+                type = externalPaymentEvent.type
+                result = externalPaymentEvent.result
+                detailedResults = externalPaymentEvent.detailedResults
+                created = externalPaymentEvent.created
+                token = externalPaymentEvent.token
+                memo = externalPaymentEvent.memo
+                effectiveDate = externalPaymentEvent.effectiveDate
+                additionalProperties = externalPaymentEvent.additionalProperties.toMutableMap()
             }
 
             fun amount(amount: Long) = amount(JsonField.of(amount))
@@ -512,16 +518,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): ExternalPaymentEvent =

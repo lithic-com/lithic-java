@@ -31,8 +31,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** A unique identifier for the enhanced commercial data. */
     fun token(): String = token.getRequired("token")
 
@@ -63,6 +61,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): EnhancedData = apply {
         if (!validated) {
             token()
@@ -92,12 +92,12 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(enhancedData: EnhancedData) = apply {
-            this.token = enhancedData.token
-            this.transactionToken = enhancedData.transactionToken
-            this.eventToken = enhancedData.eventToken
-            this.common = enhancedData.common
-            this.fleet = enhancedData.fleet
-            additionalProperties(enhancedData.additionalProperties)
+            token = enhancedData.token
+            transactionToken = enhancedData.transactionToken
+            eventToken = enhancedData.eventToken
+            common = enhancedData.common
+            fleet = enhancedData.fleet
+            additionalProperties = enhancedData.additionalProperties.toMutableMap()
         }
 
         /** A unique identifier for the enhanced commercial data. */
@@ -141,16 +141,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): EnhancedData =
@@ -175,8 +181,6 @@ private constructor(
         private val lineItems: JsonField<List<LineItem>>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
-
-        private var validated: Boolean = false
 
         /** A customer identifier. */
         fun customerReferenceNumber(): Optional<String> =
@@ -215,6 +219,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): CommonData = apply {
             if (!validated) {
                 customerReferenceNumber()
@@ -244,12 +250,12 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(commonData: CommonData) = apply {
-                this.customerReferenceNumber = commonData.customerReferenceNumber
-                this.merchantReferenceNumber = commonData.merchantReferenceNumber
-                this.orderDate = commonData.orderDate
-                this.tax = commonData.tax
-                this.lineItems = commonData.lineItems
-                additionalProperties(commonData.additionalProperties)
+                customerReferenceNumber = commonData.customerReferenceNumber
+                merchantReferenceNumber = commonData.merchantReferenceNumber
+                orderDate = commonData.orderDate
+                tax = commonData.tax
+                lineItems = commonData.lineItems
+                additionalProperties = commonData.additionalProperties.toMutableMap()
             }
 
             /** A customer identifier. */
@@ -298,16 +304,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): CommonData =
@@ -332,8 +344,6 @@ private constructor(
             private val amount: JsonField<Double>,
             private val additionalProperties: Map<String, JsonValue>,
         ) {
-
-            private var validated: Boolean = false
 
             /** An identifier for the item purchased. */
             fun productCode(): Optional<String> =
@@ -365,6 +375,8 @@ private constructor(
             @ExcludeMissing
             fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+            private var validated: Boolean = false
+
             fun validate(): LineItem = apply {
                 if (!validated) {
                     productCode()
@@ -392,11 +404,11 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(lineItem: LineItem) = apply {
-                    this.productCode = lineItem.productCode
-                    this.description = lineItem.description
-                    this.quantity = lineItem.quantity
-                    this.amount = lineItem.amount
-                    additionalProperties(lineItem.additionalProperties)
+                    productCode = lineItem.productCode
+                    description = lineItem.description
+                    quantity = lineItem.quantity
+                    amount = lineItem.amount
+                    additionalProperties = lineItem.additionalProperties.toMutableMap()
                 }
 
                 /** An identifier for the item purchased. */
@@ -437,18 +449,26 @@ private constructor(
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
-                    this.additionalProperties.putAll(additionalProperties)
+                    putAllAdditionalProperties(additionalProperties)
                 }
 
                 @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    this.additionalProperties.put(key, value)
+                    additionalProperties.put(key, value)
                 }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
                 fun build(): LineItem =
                     LineItem(
@@ -488,8 +508,6 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue>,
         ) {
 
-            private var validated: Boolean = false
-
             /** The amount of tax collected. */
             fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
 
@@ -513,6 +531,8 @@ private constructor(
             @JsonAnyGetter
             @ExcludeMissing
             fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            private var validated: Boolean = false
 
             fun validate(): TaxData = apply {
                 if (!validated) {
@@ -539,10 +559,10 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(taxData: TaxData) = apply {
-                    this.amount = taxData.amount
-                    this.exempt = taxData.exempt
-                    this.merchantTaxId = taxData.merchantTaxId
-                    additionalProperties(taxData.additionalProperties)
+                    amount = taxData.amount
+                    exempt = taxData.exempt
+                    merchantTaxId = taxData.merchantTaxId
+                    additionalProperties = taxData.additionalProperties.toMutableMap()
                 }
 
                 /** The amount of tax collected. */
@@ -574,18 +594,26 @@ private constructor(
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
-                    this.additionalProperties.putAll(additionalProperties)
+                    putAllAdditionalProperties(additionalProperties)
                 }
 
                 @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    this.additionalProperties.put(key, value)
+                    additionalProperties.put(key, value)
                 }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
                 fun build(): TaxData =
                     TaxData(
@@ -709,8 +737,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /** The type of fuel service. */
         fun serviceType(): Optional<ServiceType> =
             Optional.ofNullable(serviceType.getNullable("service_type"))
@@ -762,6 +788,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): Fleet = apply {
             if (!validated) {
                 serviceType()
@@ -793,13 +821,13 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(fleet: Fleet) = apply {
-                this.serviceType = fleet.serviceType
-                this.odometer = fleet.odometer
-                this.vehicleNumber = fleet.vehicleNumber
-                this.driverNumber = fleet.driverNumber
-                this.fuel = fleet.fuel
-                this.amountTotals = fleet.amountTotals
-                additionalProperties(fleet.additionalProperties)
+                serviceType = fleet.serviceType
+                odometer = fleet.odometer
+                vehicleNumber = fleet.vehicleNumber
+                driverNumber = fleet.driverNumber
+                fuel = fleet.fuel
+                amountTotals = fleet.amountTotals
+                additionalProperties = fleet.additionalProperties.toMutableMap()
             }
 
             /** The type of fuel service. */
@@ -868,16 +896,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): Fleet =
@@ -902,8 +936,6 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue>,
         ) {
 
-            private var validated: Boolean = false
-
             /** The gross sale amount. */
             fun grossSale(): Optional<Long> =
                 Optional.ofNullable(grossSale.getNullable("gross_sale"))
@@ -926,6 +958,8 @@ private constructor(
             @JsonAnyGetter
             @ExcludeMissing
             fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            private var validated: Boolean = false
 
             fun validate(): AmountTotals = apply {
                 if (!validated) {
@@ -952,10 +986,10 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(amountTotals: AmountTotals) = apply {
-                    this.grossSale = amountTotals.grossSale
-                    this.discount = amountTotals.discount
-                    this.netSale = amountTotals.netSale
-                    additionalProperties(amountTotals.additionalProperties)
+                    grossSale = amountTotals.grossSale
+                    discount = amountTotals.discount
+                    netSale = amountTotals.netSale
+                    additionalProperties = amountTotals.additionalProperties.toMutableMap()
                 }
 
                 /** The gross sale amount. */
@@ -984,18 +1018,26 @@ private constructor(
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
-                    this.additionalProperties.putAll(additionalProperties)
+                    putAllAdditionalProperties(additionalProperties)
                 }
 
                 @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    this.additionalProperties.put(key, value)
+                    additionalProperties.put(key, value)
                 }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
                 fun build(): AmountTotals =
                     AmountTotals(
@@ -1035,8 +1077,6 @@ private constructor(
             private val additionalProperties: Map<String, JsonValue>,
         ) {
 
-            private var validated: Boolean = false
-
             /** The type of fuel purchased. */
             fun type(): Optional<FuelType> = Optional.ofNullable(type.getNullable("type"))
 
@@ -1067,6 +1107,8 @@ private constructor(
             @ExcludeMissing
             fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+            private var validated: Boolean = false
+
             fun validate(): FuelData = apply {
                 if (!validated) {
                     type()
@@ -1094,11 +1136,11 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(fuelData: FuelData) = apply {
-                    this.type = fuelData.type
-                    this.quantity = fuelData.quantity
-                    this.unitPrice = fuelData.unitPrice
-                    this.unitOfMeasure = fuelData.unitOfMeasure
-                    additionalProperties(fuelData.additionalProperties)
+                    type = fuelData.type
+                    quantity = fuelData.quantity
+                    unitPrice = fuelData.unitPrice
+                    unitOfMeasure = fuelData.unitOfMeasure
+                    additionalProperties = fuelData.additionalProperties.toMutableMap()
                 }
 
                 /** The type of fuel purchased. */
@@ -1138,18 +1180,26 @@ private constructor(
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
-                    this.additionalProperties.putAll(additionalProperties)
+                    putAllAdditionalProperties(additionalProperties)
                 }
 
                 @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    this.additionalProperties.put(key, value)
+                    additionalProperties.put(key, value)
                 }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
                 fun build(): FuelData =
                     FuelData(
