@@ -43,8 +43,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /**
      * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
      * `acctType`.
@@ -226,6 +224,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): AuthenticationRetrieveResponse = apply {
         if (!validated) {
             accountType()
@@ -280,25 +280,25 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(authenticationRetrieveResponse: AuthenticationRetrieveResponse) = apply {
-            this.accountType = authenticationRetrieveResponse.accountType
-            this.additionalData = authenticationRetrieveResponse.additionalData
-            this.app = authenticationRetrieveResponse.app
-            this.authenticationRequestType =
-                authenticationRetrieveResponse.authenticationRequestType
-            this.authenticationResult = authenticationRetrieveResponse.authenticationResult
-            this.browser = authenticationRetrieveResponse.browser
-            this.cardExpiryCheck = authenticationRetrieveResponse.cardExpiryCheck
-            this.cardToken = authenticationRetrieveResponse.cardToken
-            this.cardholder = authenticationRetrieveResponse.cardholder
-            this.channel = authenticationRetrieveResponse.channel
-            this.created = authenticationRetrieveResponse.created
-            this.decisionMadeBy = authenticationRetrieveResponse.decisionMadeBy
-            this.merchant = authenticationRetrieveResponse.merchant
-            this.messageCategory = authenticationRetrieveResponse.messageCategory
-            this.threeRiRequestType = authenticationRetrieveResponse.threeRiRequestType
-            this.token = authenticationRetrieveResponse.token
-            this.transaction = authenticationRetrieveResponse.transaction
-            additionalProperties(authenticationRetrieveResponse.additionalProperties)
+            accountType = authenticationRetrieveResponse.accountType
+            additionalData = authenticationRetrieveResponse.additionalData
+            app = authenticationRetrieveResponse.app
+            authenticationRequestType = authenticationRetrieveResponse.authenticationRequestType
+            authenticationResult = authenticationRetrieveResponse.authenticationResult
+            browser = authenticationRetrieveResponse.browser
+            cardExpiryCheck = authenticationRetrieveResponse.cardExpiryCheck
+            cardToken = authenticationRetrieveResponse.cardToken
+            cardholder = authenticationRetrieveResponse.cardholder
+            channel = authenticationRetrieveResponse.channel
+            created = authenticationRetrieveResponse.created
+            decisionMadeBy = authenticationRetrieveResponse.decisionMadeBy
+            merchant = authenticationRetrieveResponse.merchant
+            messageCategory = authenticationRetrieveResponse.messageCategory
+            threeRiRequestType = authenticationRetrieveResponse.threeRiRequestType
+            token = authenticationRetrieveResponse.token
+            transaction = authenticationRetrieveResponse.transaction
+            additionalProperties =
+                authenticationRetrieveResponse.additionalProperties.toMutableMap()
         }
 
         /**
@@ -524,16 +524,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): AuthenticationRetrieveResponse =
@@ -758,8 +764,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /**
          * Indicates whether the shipping address and billing address provided by the cardholder are
          * the same. This value - and assessment of whether the addresses match - is provided
@@ -854,6 +858,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): Cardholder = apply {
             if (!validated) {
                 addressMatch()
@@ -889,15 +895,15 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(cardholder: Cardholder) = apply {
-                this.addressMatch = cardholder.addressMatch
-                this.billingAddress = cardholder.billingAddress
-                this.email = cardholder.email
-                this.name = cardholder.name
-                this.phoneNumberHome = cardholder.phoneNumberHome
-                this.phoneNumberMobile = cardholder.phoneNumberMobile
-                this.phoneNumberWork = cardholder.phoneNumberWork
-                this.shippingAddress = cardholder.shippingAddress
-                additionalProperties(cardholder.additionalProperties)
+                addressMatch = cardholder.addressMatch
+                billingAddress = cardholder.billingAddress
+                email = cardholder.email
+                name = cardholder.name
+                phoneNumberHome = cardholder.phoneNumberHome
+                phoneNumberMobile = cardholder.phoneNumberMobile
+                phoneNumberWork = cardholder.phoneNumberWork
+                shippingAddress = cardholder.shippingAddress
+                additionalProperties = cardholder.additionalProperties.toMutableMap()
             }
 
             /**
@@ -1017,16 +1023,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): Cardholder =
@@ -1056,8 +1068,6 @@ private constructor(
             private val postalCode: JsonField<String>,
             private val additionalProperties: Map<String, JsonValue>,
         ) {
-
-            private var validated: Boolean = false
 
             /** First line of the street address provided by the cardholder. */
             fun address1(): Optional<String> = Optional.ofNullable(address1.getNullable("address1"))
@@ -1106,6 +1116,8 @@ private constructor(
             @ExcludeMissing
             fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+            private var validated: Boolean = false
+
             fun validate(): ThreeDSAddress = apply {
                 if (!validated) {
                     address1()
@@ -1137,13 +1149,13 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(threeDSAddress: ThreeDSAddress) = apply {
-                    this.address1 = threeDSAddress.address1
-                    this.address2 = threeDSAddress.address2
-                    this.address3 = threeDSAddress.address3
-                    this.city = threeDSAddress.city
-                    this.country = threeDSAddress.country
-                    this.postalCode = threeDSAddress.postalCode
-                    additionalProperties(threeDSAddress.additionalProperties)
+                    address1 = threeDSAddress.address1
+                    address2 = threeDSAddress.address2
+                    address3 = threeDSAddress.address3
+                    city = threeDSAddress.city
+                    country = threeDSAddress.country
+                    postalCode = threeDSAddress.postalCode
+                    additionalProperties = threeDSAddress.additionalProperties.toMutableMap()
                 }
 
                 /** First line of the street address provided by the cardholder. */
@@ -1204,18 +1216,26 @@ private constructor(
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
-                    this.additionalProperties.putAll(additionalProperties)
+                    putAllAdditionalProperties(additionalProperties)
                 }
 
                 @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    this.additionalProperties.put(key, value)
+                    additionalProperties.put(key, value)
                 }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
                 fun build(): ThreeDSAddress =
                     ThreeDSAddress(
@@ -1416,8 +1436,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /**
          * Country code of the merchant requesting 3DS authentication. Maps to EMV 3DS field
          * merchantCountryCode.
@@ -1476,6 +1494,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): Merchant = apply {
             if (!validated) {
                 country()
@@ -1505,12 +1525,12 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(merchant: Merchant) = apply {
-                this.country = merchant.country
-                this.id = merchant.id
-                this.mcc = merchant.mcc
-                this.name = merchant.name
-                this.riskIndicator = merchant.riskIndicator
-                additionalProperties(merchant.additionalProperties)
+                country = merchant.country
+                id = merchant.id
+                mcc = merchant.mcc
+                name = merchant.name
+                riskIndicator = merchant.riskIndicator
+                additionalProperties = merchant.additionalProperties.toMutableMap()
             }
 
             /**
@@ -1582,16 +1602,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): Merchant =
@@ -1624,8 +1650,6 @@ private constructor(
             private val shippingMethod: JsonField<ShippingMethod>,
             private val additionalProperties: Map<String, JsonValue>,
         ) {
-
-            private var validated: Boolean = false
 
             /**
              * In transactions with electronic delivery, email address to which merchandise is
@@ -1760,6 +1784,8 @@ private constructor(
             @ExcludeMissing
             fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+            private var validated: Boolean = false
+
             fun validate(): RiskIndicator = apply {
                 if (!validated) {
                     deliveryEmailAddress()
@@ -1797,16 +1823,16 @@ private constructor(
 
                 @JvmSynthetic
                 internal fun from(riskIndicator: RiskIndicator) = apply {
-                    this.deliveryEmailAddress = riskIndicator.deliveryEmailAddress
-                    this.deliveryTimeFrame = riskIndicator.deliveryTimeFrame
-                    this.giftCardAmount = riskIndicator.giftCardAmount
-                    this.giftCardCount = riskIndicator.giftCardCount
-                    this.giftCardCurrency = riskIndicator.giftCardCurrency
-                    this.orderAvailability = riskIndicator.orderAvailability
-                    this.preOrderAvailableDate = riskIndicator.preOrderAvailableDate
-                    this.reorderItems = riskIndicator.reorderItems
-                    this.shippingMethod = riskIndicator.shippingMethod
-                    additionalProperties(riskIndicator.additionalProperties)
+                    deliveryEmailAddress = riskIndicator.deliveryEmailAddress
+                    deliveryTimeFrame = riskIndicator.deliveryTimeFrame
+                    giftCardAmount = riskIndicator.giftCardAmount
+                    giftCardCount = riskIndicator.giftCardCount
+                    giftCardCurrency = riskIndicator.giftCardCurrency
+                    orderAvailability = riskIndicator.orderAvailability
+                    preOrderAvailableDate = riskIndicator.preOrderAvailableDate
+                    reorderItems = riskIndicator.reorderItems
+                    shippingMethod = riskIndicator.shippingMethod
+                    additionalProperties = riskIndicator.additionalProperties.toMutableMap()
                 }
 
                 /**
@@ -1970,18 +1996,26 @@ private constructor(
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
-                    this.additionalProperties.putAll(additionalProperties)
+                    putAllAdditionalProperties(additionalProperties)
                 }
 
                 @JsonAnySetter
                 fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                    this.additionalProperties.put(key, value)
+                    additionalProperties.put(key, value)
                 }
 
                 fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
                     apply {
                         this.additionalProperties.putAll(additionalProperties)
                     }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
 
                 fun build(): RiskIndicator =
                     RiskIndicator(
@@ -2390,8 +2424,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /**
          * Mastercard only: Indicates whether the network would have considered the authentication
          * request to be low risk or not.
@@ -2424,6 +2456,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): AdditionalData = apply {
             if (!validated) {
                 networkDecision()
@@ -2447,9 +2481,9 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(additionalData: AdditionalData) = apply {
-                this.networkDecision = additionalData.networkDecision
-                this.networkRiskScore = additionalData.networkRiskScore
-                additionalProperties(additionalData.additionalProperties)
+                networkDecision = additionalData.networkDecision
+                networkRiskScore = additionalData.networkRiskScore
+                additionalProperties = additionalData.additionalProperties.toMutableMap()
             }
 
             /**
@@ -2488,16 +2522,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): AdditionalData =
@@ -2596,8 +2636,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /**
          * Device information gathered from the cardholder's device - JSON name/value pairs that is
          * Base64url encoded. Maps to EMV 3DS field deviceInfo.
@@ -2627,6 +2665,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): App = apply {
             if (!validated) {
                 deviceInfo()
@@ -2650,9 +2690,9 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(app: App) = apply {
-                this.deviceInfo = app.deviceInfo
-                this.ip = app.ip
-                additionalProperties(app.additionalProperties)
+                deviceInfo = app.deviceInfo
+                ip = app.ip
+                additionalProperties = app.additionalProperties.toMutableMap()
             }
 
             /**
@@ -2685,16 +2725,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): App =
@@ -2847,8 +2893,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /**
          * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
          * merchant or digital wallet). Maps to EMV 3DS field browserIP.
@@ -2925,6 +2969,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): Browser = apply {
             if (!validated) {
                 ip()
@@ -2956,13 +3002,13 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(browser: Browser) = apply {
-                this.ip = browser.ip
-                this.javaEnabled = browser.javaEnabled
-                this.javascriptEnabled = browser.javascriptEnabled
-                this.language = browser.language
-                this.timeZone = browser.timeZone
-                this.userAgent = browser.userAgent
-                additionalProperties(browser.additionalProperties)
+                ip = browser.ip
+                javaEnabled = browser.javaEnabled
+                javascriptEnabled = browser.javascriptEnabled
+                language = browser.language
+                timeZone = browser.timeZone
+                userAgent = browser.userAgent
+                additionalProperties = browser.additionalProperties.toMutableMap()
             }
 
             /**
@@ -3052,16 +3098,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): Browser =
@@ -3251,8 +3303,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /**
          * Amount of the purchase in minor units of currency with all punctuation removed. Maps to
          * EMV 3DS field purchaseAmount.
@@ -3313,6 +3363,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): Transaction = apply {
             if (!validated) {
                 amount()
@@ -3342,12 +3394,12 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(transaction: Transaction) = apply {
-                this.amount = transaction.amount
-                this.currency = transaction.currency
-                this.currencyExponent = transaction.currencyExponent
-                this.dateTime = transaction.dateTime
-                this.type = transaction.type
-                additionalProperties(transaction.additionalProperties)
+                amount = transaction.amount
+                currency = transaction.currency
+                currencyExponent = transaction.currencyExponent
+                dateTime = transaction.dateTime
+                type = transaction.type
+                additionalProperties = transaction.additionalProperties.toMutableMap()
             }
 
             /**
@@ -3419,16 +3471,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): Transaction =

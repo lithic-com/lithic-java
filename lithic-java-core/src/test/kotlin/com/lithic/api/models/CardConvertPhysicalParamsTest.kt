@@ -74,9 +74,9 @@ class CardConvertPhysicalParamsTest {
                     .phoneNumber("+15555555555")
                     .build()
             )
-        assertThat(body.carrier()).isEqualTo(Carrier.builder().qrCodeUrl("qr_code_url").build())
-        assertThat(body.productId()).isEqualTo("product_id")
-        assertThat(body.shippingMethod()).isEqualTo(CardConvertPhysicalParams.ShippingMethod._2_DAY)
+        assertThat(body.carrier()).contains(Carrier.builder().qrCodeUrl("qr_code_url").build())
+        assertThat(body.productId()).contains("product_id")
+        assertThat(body.shippingMethod()).contains(CardConvertPhysicalParams.ShippingMethod._2_DAY)
     }
 
     @Test

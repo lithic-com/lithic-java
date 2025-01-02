@@ -68,29 +68,30 @@ constructor(
     @NoAutoDetect
     class DisputeCreateBody
     internal constructor(
-        private val amount: Long?,
-        private val reason: Reason?,
-        private val transactionToken: String?,
+        private val amount: Long,
+        private val reason: Reason,
+        private val transactionToken: String,
         private val customerFiledDate: OffsetDateTime?,
         private val customerNote: String?,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** Amount to dispute */
-        @JsonProperty("amount") fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Long = amount
 
         /** Reason for dispute */
-        @JsonProperty("reason") fun reason(): Reason? = reason
+        @JsonProperty("reason") fun reason(): Reason = reason
 
         /** Transaction to dispute */
-        @JsonProperty("transaction_token") fun transactionToken(): String? = transactionToken
+        @JsonProperty("transaction_token") fun transactionToken(): String = transactionToken
 
         /** Date the customer filed the dispute */
         @JsonProperty("customer_filed_date")
-        fun customerFiledDate(): OffsetDateTime? = customerFiledDate
+        fun customerFiledDate(): Optional<OffsetDateTime> = Optional.ofNullable(customerFiledDate)
 
         /** Customer description of dispute */
-        @JsonProperty("customer_note") fun customerNote(): String? = customerNote
+        @JsonProperty("customer_note")
+        fun customerNote(): Optional<String> = Optional.ofNullable(customerNote)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -114,12 +115,12 @@ constructor(
 
             @JvmSynthetic
             internal fun from(disputeCreateBody: DisputeCreateBody) = apply {
-                this.amount = disputeCreateBody.amount
-                this.reason = disputeCreateBody.reason
-                this.transactionToken = disputeCreateBody.transactionToken
-                this.customerFiledDate = disputeCreateBody.customerFiledDate
-                this.customerNote = disputeCreateBody.customerNote
-                additionalProperties(disputeCreateBody.additionalProperties)
+                amount = disputeCreateBody.amount
+                reason = disputeCreateBody.reason
+                transactionToken = disputeCreateBody.transactionToken
+                customerFiledDate = disputeCreateBody.customerFiledDate
+                customerNote = disputeCreateBody.customerNote
+                additionalProperties = disputeCreateBody.additionalProperties.toMutableMap()
             }
 
             /** Amount to dispute */
@@ -146,16 +147,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): DisputeCreateBody =

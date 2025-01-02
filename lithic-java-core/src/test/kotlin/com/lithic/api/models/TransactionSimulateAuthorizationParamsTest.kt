@@ -43,14 +43,14 @@ class TransactionSimulateAuthorizationParamsTest {
         assertThat(body.amount()).isEqualTo(0L)
         assertThat(body.descriptor()).isEqualTo("COFFEE SHOP")
         assertThat(body.pan()).isEqualTo("4111111289144142")
-        assertThat(body.mcc()).isEqualTo("5812")
-        assertThat(body.merchantAcceptorId()).isEqualTo("OODKZAPJVN4YS7O")
-        assertThat(body.merchantAmount()).isEqualTo(0L)
-        assertThat(body.merchantCurrency()).isEqualTo("GBP")
-        assertThat(body.partialApprovalCapable()).isEqualTo(true)
-        assertThat(body.pin()).isEqualTo("1234")
+        assertThat(body.mcc()).contains("5812")
+        assertThat(body.merchantAcceptorId()).contains("OODKZAPJVN4YS7O")
+        assertThat(body.merchantAmount()).contains(0L)
+        assertThat(body.merchantCurrency()).contains("GBP")
+        assertThat(body.partialApprovalCapable()).contains(true)
+        assertThat(body.pin()).contains("1234")
         assertThat(body.status())
-            .isEqualTo(TransactionSimulateAuthorizationParams.Status.AUTHORIZATION)
+            .contains(TransactionSimulateAuthorizationParams.Status.AUTHORIZATION)
     }
 
     @Test

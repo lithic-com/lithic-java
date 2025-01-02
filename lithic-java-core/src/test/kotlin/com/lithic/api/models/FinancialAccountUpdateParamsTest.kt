@@ -24,7 +24,7 @@ class FinancialAccountUpdateParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.nickname()).isEqualTo("nickname")
+        assertThat(body.nickname()).contains("nickname")
     }
 
     @Test

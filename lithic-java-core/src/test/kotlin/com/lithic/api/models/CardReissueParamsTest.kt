@@ -58,10 +58,10 @@ class CardReissueParamsTest {
                 .build()
         val body = params.getBody()
         assertThat(body).isNotNull
-        assertThat(body.carrier()).isEqualTo(Carrier.builder().qrCodeUrl("qr_code_url").build())
-        assertThat(body.productId()).isEqualTo("product_id")
+        assertThat(body.carrier()).contains(Carrier.builder().qrCodeUrl("qr_code_url").build())
+        assertThat(body.productId()).contains("product_id")
         assertThat(body.shippingAddress())
-            .isEqualTo(
+            .contains(
                 ShippingAddress.builder()
                     .address1("5 Broad Street")
                     .city("NEW YORK")
@@ -76,7 +76,7 @@ class CardReissueParamsTest {
                     .phoneNumber("+15555555555")
                     .build()
             )
-        assertThat(body.shippingMethod()).isEqualTo(CardReissueParams.ShippingMethod._2_DAY)
+        assertThat(body.shippingMethod()).contains(CardReissueParams.ShippingMethod._2_DAY)
     }
 
     @Test

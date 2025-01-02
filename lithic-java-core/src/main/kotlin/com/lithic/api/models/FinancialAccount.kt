@@ -36,8 +36,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** Globally unique identifier for the account */
     fun token(): String = token.getRequired("token")
 
@@ -92,6 +90,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): FinancialAccount = apply {
         if (!validated) {
             token()
@@ -131,17 +131,17 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(financialAccount: FinancialAccount) = apply {
-            this.token = financialAccount.token
-            this.created = financialAccount.created
-            this.updated = financialAccount.updated
-            this.type = financialAccount.type
-            this.routingNumber = financialAccount.routingNumber
-            this.accountNumber = financialAccount.accountNumber
-            this.nickname = financialAccount.nickname
-            this.accountToken = financialAccount.accountToken
-            this.isForBenefitOf = financialAccount.isForBenefitOf
-            this.creditConfiguration = financialAccount.creditConfiguration
-            additionalProperties(financialAccount.additionalProperties)
+            token = financialAccount.token
+            created = financialAccount.created
+            updated = financialAccount.updated
+            type = financialAccount.type
+            routingNumber = financialAccount.routingNumber
+            accountNumber = financialAccount.accountNumber
+            nickname = financialAccount.nickname
+            accountToken = financialAccount.accountToken
+            isForBenefitOf = financialAccount.isForBenefitOf
+            creditConfiguration = financialAccount.creditConfiguration
+            additionalProperties = financialAccount.additionalProperties.toMutableMap()
         }
 
         /** Globally unique identifier for the account */
@@ -222,16 +222,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): FinancialAccount =
@@ -263,8 +269,6 @@ private constructor(
         private val chargedOffReason: JsonField<ChargedOffReason>,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
-
-        private var validated: Boolean = false
 
         fun creditLimit(): Optional<Long> =
             Optional.ofNullable(creditLimit.getNullable("credit_limit"))
@@ -319,6 +323,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): FinancialAccountCreditConfig = apply {
             if (!validated) {
                 creditLimit()
@@ -352,15 +358,15 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(financialAccountCreditConfig: FinancialAccountCreditConfig) = apply {
-                this.creditLimit = financialAccountCreditConfig.creditLimit
-                this.externalBankAccountToken =
-                    financialAccountCreditConfig.externalBankAccountToken
-                this.creditProductToken = financialAccountCreditConfig.creditProductToken
-                this.tier = financialAccountCreditConfig.tier
-                this.isSpendBlocked = financialAccountCreditConfig.isSpendBlocked
-                this.financialAccountState = financialAccountCreditConfig.financialAccountState
-                this.chargedOffReason = financialAccountCreditConfig.chargedOffReason
-                additionalProperties(financialAccountCreditConfig.additionalProperties)
+                creditLimit = financialAccountCreditConfig.creditLimit
+                externalBankAccountToken = financialAccountCreditConfig.externalBankAccountToken
+                creditProductToken = financialAccountCreditConfig.creditProductToken
+                tier = financialAccountCreditConfig.tier
+                isSpendBlocked = financialAccountCreditConfig.isSpendBlocked
+                financialAccountState = financialAccountCreditConfig.financialAccountState
+                chargedOffReason = financialAccountCreditConfig.chargedOffReason
+                additionalProperties =
+                    financialAccountCreditConfig.additionalProperties.toMutableMap()
             }
 
             fun creditLimit(creditLimit: Long) = creditLimit(JsonField.of(creditLimit))
@@ -431,16 +437,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): FinancialAccountCreditConfig =

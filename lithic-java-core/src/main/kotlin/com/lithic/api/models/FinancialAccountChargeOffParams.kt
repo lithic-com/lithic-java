@@ -57,12 +57,12 @@ constructor(
     @NoAutoDetect
     class FinancialAccountChargeOffBody
     internal constructor(
-        private val reason: ChargedOffReason?,
+        private val reason: ChargedOffReason,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** Reason for the financial account being marked as Charged Off */
-        @JsonProperty("reason") fun reason(): ChargedOffReason? = reason
+        @JsonProperty("reason") fun reason(): ChargedOffReason = reason
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -83,8 +83,9 @@ constructor(
             @JvmSynthetic
             internal fun from(financialAccountChargeOffBody: FinancialAccountChargeOffBody) =
                 apply {
-                    this.reason = financialAccountChargeOffBody.reason
-                    additionalProperties(financialAccountChargeOffBody.additionalProperties)
+                    reason = financialAccountChargeOffBody.reason
+                    additionalProperties =
+                        financialAccountChargeOffBody.additionalProperties.toMutableMap()
                 }
 
             /** Reason for the financial account being marked as Charged Off */
@@ -93,16 +94,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): FinancialAccountChargeOffBody =

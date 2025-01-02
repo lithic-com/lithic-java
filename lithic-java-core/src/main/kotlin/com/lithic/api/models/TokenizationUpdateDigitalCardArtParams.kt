@@ -65,7 +65,7 @@ constructor(
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
         @JsonProperty("digital_card_art_token")
-        fun digitalCardArtToken(): String? = digitalCardArtToken
+        fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -87,8 +87,9 @@ constructor(
             internal fun from(
                 tokenizationUpdateDigitalCardArtBody: TokenizationUpdateDigitalCardArtBody
             ) = apply {
-                this.digitalCardArtToken = tokenizationUpdateDigitalCardArtBody.digitalCardArtToken
-                additionalProperties(tokenizationUpdateDigitalCardArtBody.additionalProperties)
+                digitalCardArtToken = tokenizationUpdateDigitalCardArtBody.digitalCardArtToken
+                additionalProperties =
+                    tokenizationUpdateDigitalCardArtBody.additionalProperties.toMutableMap()
             }
 
             /**
@@ -104,16 +105,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): TokenizationUpdateDigitalCardArtBody =

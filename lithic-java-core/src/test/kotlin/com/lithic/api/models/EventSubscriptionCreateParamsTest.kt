@@ -29,10 +29,10 @@ class EventSubscriptionCreateParamsTest {
         val body = params.getBody()
         assertThat(body).isNotNull
         assertThat(body.url()).isEqualTo("https://example.com")
-        assertThat(body.description()).isEqualTo("description")
-        assertThat(body.disabled()).isEqualTo(true)
+        assertThat(body.description()).contains("description")
+        assertThat(body.disabled()).contains(true)
         assertThat(body.eventTypes())
-            .isEqualTo(listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED))
+            .contains(listOf(EventSubscriptionCreateParams.EventType.ACCOUNT_HOLDER_CREATED))
     }
 
     @Test

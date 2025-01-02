@@ -43,12 +43,12 @@ constructor(
     @NoAutoDetect
     class CardSearchByPanBody
     internal constructor(
-        private val pan: String?,
+        private val pan: String,
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
         /** The PAN for the card being retrieved. */
-        @JsonProperty("pan") fun pan(): String? = pan
+        @JsonProperty("pan") fun pan(): String = pan
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -68,8 +68,8 @@ constructor(
 
             @JvmSynthetic
             internal fun from(cardSearchByPanBody: CardSearchByPanBody) = apply {
-                this.pan = cardSearchByPanBody.pan
-                additionalProperties(cardSearchByPanBody.additionalProperties)
+                pan = cardSearchByPanBody.pan
+                additionalProperties = cardSearchByPanBody.additionalProperties.toMutableMap()
             }
 
             /** The PAN for the card being retrieved. */
@@ -77,16 +77,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): CardSearchByPanBody =

@@ -37,8 +37,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** Category of the book transfer */
     fun category(): Category = category.getRequired("category")
 
@@ -158,6 +156,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): BookTransferResponse = apply {
         if (!validated) {
             category()
@@ -200,19 +200,19 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(bookTransferResponse: BookTransferResponse) = apply {
-            this.category = bookTransferResponse.category
-            this.created = bookTransferResponse.created
-            this.currency = bookTransferResponse.currency
-            this.events = bookTransferResponse.events
-            this.fromFinancialAccountToken = bookTransferResponse.fromFinancialAccountToken
-            this.pendingAmount = bookTransferResponse.pendingAmount
-            this.result = bookTransferResponse.result
-            this.settledAmount = bookTransferResponse.settledAmount
-            this.status = bookTransferResponse.status
-            this.toFinancialAccountToken = bookTransferResponse.toFinancialAccountToken
-            this.token = bookTransferResponse.token
-            this.updated = bookTransferResponse.updated
-            additionalProperties(bookTransferResponse.additionalProperties)
+            category = bookTransferResponse.category
+            created = bookTransferResponse.created
+            currency = bookTransferResponse.currency
+            events = bookTransferResponse.events
+            fromFinancialAccountToken = bookTransferResponse.fromFinancialAccountToken
+            pendingAmount = bookTransferResponse.pendingAmount
+            result = bookTransferResponse.result
+            settledAmount = bookTransferResponse.settledAmount
+            status = bookTransferResponse.status
+            toFinancialAccountToken = bookTransferResponse.toFinancialAccountToken
+            token = bookTransferResponse.token
+            updated = bookTransferResponse.updated
+            additionalProperties = bookTransferResponse.additionalProperties.toMutableMap()
         }
 
         /** Category of the book transfer */
@@ -360,16 +360,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): BookTransferResponse =
@@ -492,8 +498,6 @@ private constructor(
         private val additionalProperties: Map<String, JsonValue>,
     ) {
 
-        private var validated: Boolean = false
-
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
          * (e.g., cents).
@@ -559,6 +563,8 @@ private constructor(
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+        private var validated: Boolean = false
+
         fun validate(): BookTransferEvent = apply {
             if (!validated) {
                 amount()
@@ -594,15 +600,15 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(bookTransferEvent: BookTransferEvent) = apply {
-                this.amount = bookTransferEvent.amount
-                this.type = bookTransferEvent.type
-                this.result = bookTransferEvent.result
-                this.created = bookTransferEvent.created
-                this.token = bookTransferEvent.token
-                this.subtype = bookTransferEvent.subtype
-                this.memo = bookTransferEvent.memo
-                this.detailedResults = bookTransferEvent.detailedResults
-                additionalProperties(bookTransferEvent.additionalProperties)
+                amount = bookTransferEvent.amount
+                type = bookTransferEvent.type
+                result = bookTransferEvent.result
+                created = bookTransferEvent.created
+                token = bookTransferEvent.token
+                subtype = bookTransferEvent.subtype
+                memo = bookTransferEvent.memo
+                detailedResults = bookTransferEvent.detailedResults
+                additionalProperties = bookTransferEvent.additionalProperties.toMutableMap()
             }
 
             /**
@@ -686,16 +692,22 @@ private constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): BookTransferEvent =

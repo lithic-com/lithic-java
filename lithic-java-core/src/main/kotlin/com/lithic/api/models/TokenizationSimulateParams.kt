@@ -80,10 +80,10 @@ constructor(
     @NoAutoDetect
     class TokenizationSimulateBody
     internal constructor(
-        private val cvv: String?,
-        private val expirationDate: String?,
-        private val pan: String?,
-        private val tokenizationSource: TokenizationSource?,
+        private val cvv: String,
+        private val expirationDate: String,
+        private val pan: String,
+        private val tokenizationSource: TokenizationSource,
         private val accountScore: Long?,
         private val deviceScore: Long?,
         private val entity: String?,
@@ -92,39 +92,42 @@ constructor(
     ) {
 
         /** The three digit cvv for the card. */
-        @JsonProperty("cvv") fun cvv(): String? = cvv
+        @JsonProperty("cvv") fun cvv(): String = cvv
 
         /** The expiration date of the card in 'MM/YY' format. */
-        @JsonProperty("expiration_date") fun expirationDate(): String? = expirationDate
+        @JsonProperty("expiration_date") fun expirationDate(): String = expirationDate
 
         /** The sixteen digit card number. */
-        @JsonProperty("pan") fun pan(): String? = pan
+        @JsonProperty("pan") fun pan(): String = pan
 
         /** The source of the tokenization request. */
         @JsonProperty("tokenization_source")
-        fun tokenizationSource(): TokenizationSource? = tokenizationSource
+        fun tokenizationSource(): TokenizationSource = tokenizationSource
 
         /**
          * The account score (1-5) that represents how the Digital Wallet's view on how reputable an
          * end user's account is.
          */
-        @JsonProperty("account_score") fun accountScore(): Long? = accountScore
+        @JsonProperty("account_score")
+        fun accountScore(): Optional<Long> = Optional.ofNullable(accountScore)
 
         /**
          * The device score (1-5) that represents how the Digital Wallet's view on how reputable an
          * end user's device is.
          */
-        @JsonProperty("device_score") fun deviceScore(): Long? = deviceScore
+        @JsonProperty("device_score")
+        fun deviceScore(): Optional<Long> = Optional.ofNullable(deviceScore)
 
         /**
          * Optional field to specify the token requestor name for a merchant token simulation.
          * Ignored when tokenization_source is not MERCHANT.
          */
-        @JsonProperty("entity") fun entity(): String? = entity
+        @JsonProperty("entity") fun entity(): Optional<String> = Optional.ofNullable(entity)
 
         /** The decision that the Digital Wallet's recommend */
         @JsonProperty("wallet_recommended_decision")
-        fun walletRecommendedDecision(): WalletRecommendedDecision? = walletRecommendedDecision
+        fun walletRecommendedDecision(): Optional<WalletRecommendedDecision> =
+            Optional.ofNullable(walletRecommendedDecision)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -151,15 +154,15 @@ constructor(
 
             @JvmSynthetic
             internal fun from(tokenizationSimulateBody: TokenizationSimulateBody) = apply {
-                this.cvv = tokenizationSimulateBody.cvv
-                this.expirationDate = tokenizationSimulateBody.expirationDate
-                this.pan = tokenizationSimulateBody.pan
-                this.tokenizationSource = tokenizationSimulateBody.tokenizationSource
-                this.accountScore = tokenizationSimulateBody.accountScore
-                this.deviceScore = tokenizationSimulateBody.deviceScore
-                this.entity = tokenizationSimulateBody.entity
-                this.walletRecommendedDecision = tokenizationSimulateBody.walletRecommendedDecision
-                additionalProperties(tokenizationSimulateBody.additionalProperties)
+                cvv = tokenizationSimulateBody.cvv
+                expirationDate = tokenizationSimulateBody.expirationDate
+                pan = tokenizationSimulateBody.pan
+                tokenizationSource = tokenizationSimulateBody.tokenizationSource
+                accountScore = tokenizationSimulateBody.accountScore
+                deviceScore = tokenizationSimulateBody.deviceScore
+                entity = tokenizationSimulateBody.entity
+                walletRecommendedDecision = tokenizationSimulateBody.walletRecommendedDecision
+                additionalProperties = tokenizationSimulateBody.additionalProperties.toMutableMap()
             }
 
             /** The three digit cvv for the card. */
@@ -209,16 +212,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): TokenizationSimulateBody =

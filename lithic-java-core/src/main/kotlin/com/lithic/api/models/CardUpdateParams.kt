@@ -102,23 +102,24 @@ constructor(
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
         @JsonProperty("digital_card_art_token")
-        fun digitalCardArtToken(): String? = digitalCardArtToken
+        fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken)
 
         /** Friendly name to identify the card. */
-        @JsonProperty("memo") fun memo(): String? = memo
+        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
 
         /**
          * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
          * Changing PIN also resets PIN status to `OK`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
-        @JsonProperty("pin") fun pin(): String? = pin
+        @JsonProperty("pin") fun pin(): Optional<String> = Optional.ofNullable(pin)
 
         /**
          * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
          * attempts). Can only be set to `OK` to unblock a card.
          */
-        @JsonProperty("pin_status") fun pinStatus(): PinStatus? = pinStatus
+        @JsonProperty("pin_status")
+        fun pinStatus(): Optional<PinStatus> = Optional.ofNullable(pinStatus)
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -126,7 +127,8 @@ constructor(
          * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
          * declined transactions due to checks against the card limit.
          */
-        @JsonProperty("spend_limit") fun spendLimit(): Long? = spendLimit
+        @JsonProperty("spend_limit")
+        fun spendLimit(): Optional<Long> = Optional.ofNullable(spendLimit)
 
         /**
          * Spend limit duration values:
@@ -141,7 +143,8 @@ constructor(
          *   transaction is under the spend limit.
          */
         @JsonProperty("spend_limit_duration")
-        fun spendLimitDuration(): SpendLimitDuration? = spendLimitDuration
+        fun spendLimitDuration(): Optional<SpendLimitDuration> =
+            Optional.ofNullable(spendLimitDuration)
 
         /**
          * Card state values:
@@ -149,7 +152,7 @@ constructor(
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        @JsonProperty("state") fun state(): State? = state
+        @JsonProperty("state") fun state(): Optional<State> = Optional.ofNullable(state)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -175,14 +178,14 @@ constructor(
 
             @JvmSynthetic
             internal fun from(cardUpdateBody: CardUpdateBody) = apply {
-                this.digitalCardArtToken = cardUpdateBody.digitalCardArtToken
-                this.memo = cardUpdateBody.memo
-                this.pin = cardUpdateBody.pin
-                this.pinStatus = cardUpdateBody.pinStatus
-                this.spendLimit = cardUpdateBody.spendLimit
-                this.spendLimitDuration = cardUpdateBody.spendLimitDuration
-                this.state = cardUpdateBody.state
-                additionalProperties(cardUpdateBody.additionalProperties)
+                digitalCardArtToken = cardUpdateBody.digitalCardArtToken
+                memo = cardUpdateBody.memo
+                pin = cardUpdateBody.pin
+                pinStatus = cardUpdateBody.pinStatus
+                spendLimit = cardUpdateBody.spendLimit
+                spendLimitDuration = cardUpdateBody.spendLimitDuration
+                state = cardUpdateBody.state
+                additionalProperties = cardUpdateBody.additionalProperties.toMutableMap()
             }
 
             /**
@@ -252,16 +255,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): CardUpdateBody =

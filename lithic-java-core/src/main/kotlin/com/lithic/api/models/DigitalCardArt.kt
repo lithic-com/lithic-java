@@ -33,8 +33,6 @@ private constructor(
     private val additionalProperties: Map<String, JsonValue>,
 ) {
 
-    private var validated: Boolean = false
-
     /** Globally unique identifier for the card program. */
     fun cardProgramToken(): String = cardProgramToken.getRequired("card_program_token")
 
@@ -84,6 +82,8 @@ private constructor(
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
 
+    private var validated: Boolean = false
+
     fun validate(): DigitalCardArt = apply {
         if (!validated) {
             cardProgramToken()
@@ -117,14 +117,14 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(digitalCardArt: DigitalCardArt) = apply {
-            this.cardProgramToken = digitalCardArt.cardProgramToken
-            this.created = digitalCardArt.created
-            this.description = digitalCardArt.description
-            this.isCardProgramDefault = digitalCardArt.isCardProgramDefault
-            this.isEnabled = digitalCardArt.isEnabled
-            this.network = digitalCardArt.network
-            this.token = digitalCardArt.token
-            additionalProperties(digitalCardArt.additionalProperties)
+            cardProgramToken = digitalCardArt.cardProgramToken
+            created = digitalCardArt.created
+            description = digitalCardArt.description
+            isCardProgramDefault = digitalCardArt.isCardProgramDefault
+            isEnabled = digitalCardArt.isEnabled
+            network = digitalCardArt.network
+            token = digitalCardArt.token
+            additionalProperties = digitalCardArt.additionalProperties.toMutableMap()
         }
 
         /** Globally unique identifier for the card program. */
@@ -191,16 +191,22 @@ private constructor(
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
-            this.additionalProperties.putAll(additionalProperties)
+            putAllAdditionalProperties(additionalProperties)
         }
 
         @JsonAnySetter
         fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-            this.additionalProperties.put(key, value)
+            additionalProperties.put(key, value)
         }
 
         fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.putAll(additionalProperties)
+        }
+
+        fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+        fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+            keys.forEach(::removeAdditionalProperty)
         }
 
         fun build(): DigitalCardArt =

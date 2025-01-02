@@ -78,11 +78,11 @@ class CardRenewParamsTest {
                     .phoneNumber("+15555555555")
                     .build()
             )
-        assertThat(body.carrier()).isEqualTo(Carrier.builder().qrCodeUrl("qr_code_url").build())
-        assertThat(body.expMonth()).isEqualTo("06")
-        assertThat(body.expYear()).isEqualTo("2027")
-        assertThat(body.productId()).isEqualTo("product_id")
-        assertThat(body.shippingMethod()).isEqualTo(CardRenewParams.ShippingMethod._2_DAY)
+        assertThat(body.carrier()).contains(Carrier.builder().qrCodeUrl("qr_code_url").build())
+        assertThat(body.expMonth()).contains("06")
+        assertThat(body.expYear()).contains("2027")
+        assertThat(body.productId()).contains("product_id")
+        assertThat(body.shippingMethod()).contains(CardRenewParams.ShippingMethod._2_DAY)
     }
 
     @Test

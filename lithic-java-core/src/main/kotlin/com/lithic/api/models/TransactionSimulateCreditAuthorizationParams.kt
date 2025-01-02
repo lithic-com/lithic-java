@@ -63,9 +63,9 @@ constructor(
     @NoAutoDetect
     class TransactionSimulateCreditAuthorizationBody
     internal constructor(
-        private val amount: Long?,
-        private val descriptor: String?,
-        private val pan: String?,
+        private val amount: Long,
+        private val descriptor: String,
+        private val pan: String,
         private val mcc: String?,
         private val merchantAcceptorId: String?,
         private val additionalProperties: Map<String, JsonValue>,
@@ -76,23 +76,24 @@ constructor(
          * simulated transaction. For example, entering 100 in this field will appear as a -100
          * amount in the transaction.
          */
-        @JsonProperty("amount") fun amount(): Long? = amount
+        @JsonProperty("amount") fun amount(): Long = amount
 
         /** Merchant descriptor. */
-        @JsonProperty("descriptor") fun descriptor(): String? = descriptor
+        @JsonProperty("descriptor") fun descriptor(): String = descriptor
 
         /** Sixteen digit card number. */
-        @JsonProperty("pan") fun pan(): String? = pan
+        @JsonProperty("pan") fun pan(): String = pan
 
         /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
          * ISO 18245. Supported merchant category codes can be found
          * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
          */
-        @JsonProperty("mcc") fun mcc(): String? = mcc
+        @JsonProperty("mcc") fun mcc(): Optional<String> = Optional.ofNullable(mcc)
 
         /** Unique identifier to identify the payment card acceptor. */
-        @JsonProperty("merchant_acceptor_id") fun merchantAcceptorId(): String? = merchantAcceptorId
+        @JsonProperty("merchant_acceptor_id")
+        fun merchantAcceptorId(): Optional<String> = Optional.ofNullable(merchantAcceptorId)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -119,15 +120,13 @@ constructor(
                 transactionSimulateCreditAuthorizationBody:
                     TransactionSimulateCreditAuthorizationBody
             ) = apply {
-                this.amount = transactionSimulateCreditAuthorizationBody.amount
-                this.descriptor = transactionSimulateCreditAuthorizationBody.descriptor
-                this.pan = transactionSimulateCreditAuthorizationBody.pan
-                this.mcc = transactionSimulateCreditAuthorizationBody.mcc
-                this.merchantAcceptorId =
-                    transactionSimulateCreditAuthorizationBody.merchantAcceptorId
-                additionalProperties(
-                    transactionSimulateCreditAuthorizationBody.additionalProperties
-                )
+                amount = transactionSimulateCreditAuthorizationBody.amount
+                descriptor = transactionSimulateCreditAuthorizationBody.descriptor
+                pan = transactionSimulateCreditAuthorizationBody.pan
+                mcc = transactionSimulateCreditAuthorizationBody.mcc
+                merchantAcceptorId = transactionSimulateCreditAuthorizationBody.merchantAcceptorId
+                additionalProperties =
+                    transactionSimulateCreditAuthorizationBody.additionalProperties.toMutableMap()
             }
 
             /**
@@ -159,16 +158,22 @@ constructor(
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
-                this.additionalProperties.putAll(additionalProperties)
+                putAllAdditionalProperties(additionalProperties)
             }
 
             @JsonAnySetter
             fun putAdditionalProperty(key: String, value: JsonValue) = apply {
-                this.additionalProperties.put(key, value)
+                additionalProperties.put(key, value)
             }
 
             fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
             }
 
             fun build(): TransactionSimulateCreditAuthorizationBody =

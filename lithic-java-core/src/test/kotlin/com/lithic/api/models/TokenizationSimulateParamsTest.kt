@@ -45,11 +45,11 @@ class TokenizationSimulateParamsTest {
         assertThat(body.pan()).isEqualTo("4111111289144142")
         assertThat(body.tokenizationSource())
             .isEqualTo(TokenizationSimulateParams.TokenizationSource.APPLE_PAY)
-        assertThat(body.accountScore()).isEqualTo(0L)
-        assertThat(body.deviceScore()).isEqualTo(0L)
-        assertThat(body.entity()).isEqualTo("entity")
+        assertThat(body.accountScore()).contains(0L)
+        assertThat(body.deviceScore()).contains(0L)
+        assertThat(body.entity()).contains("entity")
         assertThat(body.walletRecommendedDecision())
-            .isEqualTo(TokenizationSimulateParams.WalletRecommendedDecision.APPROVED)
+            .contains(TokenizationSimulateParams.WalletRecommendedDecision.APPROVED)
     }
 
     @Test
