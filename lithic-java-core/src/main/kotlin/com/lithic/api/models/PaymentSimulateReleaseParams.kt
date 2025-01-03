@@ -17,24 +17,21 @@ import java.util.Objects
 
 class PaymentSimulateReleaseParams
 constructor(
-    private val paymentToken: String,
+    private val body: PaymentSimulateReleaseBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun paymentToken(): String = paymentToken
+    /** Payment Token */
+    fun paymentToken(): String = body.paymentToken()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): PaymentSimulateReleaseBody {
-        return PaymentSimulateReleaseBody(paymentToken, additionalBodyProperties)
-    }
+    @JvmSynthetic internal fun getBody(): PaymentSimulateReleaseBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -132,22 +129,19 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var paymentToken: String? = null
+        private var body: PaymentSimulateReleaseBody.Builder = PaymentSimulateReleaseBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(paymentSimulateReleaseParams: PaymentSimulateReleaseParams) = apply {
-            paymentToken = paymentSimulateReleaseParams.paymentToken
+            body = paymentSimulateReleaseParams.body.toBuilder()
             additionalHeaders = paymentSimulateReleaseParams.additionalHeaders.toBuilder()
             additionalQueryParams = paymentSimulateReleaseParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                paymentSimulateReleaseParams.additionalBodyProperties.toMutableMap()
         }
 
         /** Payment Token */
-        fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
+        fun paymentToken(paymentToken: String) = apply { body.paymentToken(paymentToken) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -248,33 +242,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): PaymentSimulateReleaseParams =
             PaymentSimulateReleaseParams(
-                checkNotNull(paymentToken) { "`paymentToken` is required but was not set" },
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -283,11 +273,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentSimulateReleaseParams && paymentToken == other.paymentToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is PaymentSimulateReleaseParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(paymentToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "PaymentSimulateReleaseParams{paymentToken=$paymentToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "PaymentSimulateReleaseParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

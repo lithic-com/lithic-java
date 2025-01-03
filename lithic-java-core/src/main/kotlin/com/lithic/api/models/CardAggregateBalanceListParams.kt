@@ -16,8 +16,10 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** Cardholder to retrieve aggregate balances for. */
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
+    /** Business to retrieve aggregate balances for. */
     fun businessAccountToken(): Optional<String> = Optional.ofNullable(businessAccountToken)
 
     fun _additionalHeaders(): Headers = additionalHeaders

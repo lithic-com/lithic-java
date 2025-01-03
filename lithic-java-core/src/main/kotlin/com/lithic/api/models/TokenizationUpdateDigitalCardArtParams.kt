@@ -19,26 +19,28 @@ import java.util.Optional
 class TokenizationUpdateDigitalCardArtParams
 constructor(
     private val tokenizationToken: String,
-    private val digitalCardArtToken: String?,
+    private val body: TokenizationUpdateDigitalCardArtBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun tokenizationToken(): String = tokenizationToken
 
-    fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken)
+    /**
+     * Specifies the digital card art to be displayed in the user’s digital wallet for a
+     * tokenization. This artwork must be approved by the network and configured by Lithic to use.
+     * See
+     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     */
+    fun digitalCardArtToken(): Optional<String> = body.digitalCardArtToken()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): TokenizationUpdateDigitalCardArtBody {
-        return TokenizationUpdateDigitalCardArtBody(digitalCardArtToken, additionalBodyProperties)
-    }
+    @JvmSynthetic internal fun getBody(): TokenizationUpdateDigitalCardArtBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -159,22 +161,20 @@ constructor(
     class Builder {
 
         private var tokenizationToken: String? = null
-        private var digitalCardArtToken: String? = null
+        private var body: TokenizationUpdateDigitalCardArtBody.Builder =
+            TokenizationUpdateDigitalCardArtBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(
             tokenizationUpdateDigitalCardArtParams: TokenizationUpdateDigitalCardArtParams
         ) = apply {
             tokenizationToken = tokenizationUpdateDigitalCardArtParams.tokenizationToken
-            digitalCardArtToken = tokenizationUpdateDigitalCardArtParams.digitalCardArtToken
+            body = tokenizationUpdateDigitalCardArtParams.body.toBuilder()
             additionalHeaders = tokenizationUpdateDigitalCardArtParams.additionalHeaders.toBuilder()
             additionalQueryParams =
                 tokenizationUpdateDigitalCardArtParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                tokenizationUpdateDigitalCardArtParams.additionalBodyProperties.toMutableMap()
         }
 
         fun tokenizationToken(tokenizationToken: String) = apply {
@@ -188,7 +188,7 @@ constructor(
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
         fun digitalCardArtToken(digitalCardArtToken: String) = apply {
-            this.digitalCardArtToken = digitalCardArtToken
+            body.digitalCardArtToken(digitalCardArtToken)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -290,25 +290,22 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TokenizationUpdateDigitalCardArtParams =
@@ -316,10 +313,9 @@ constructor(
                 checkNotNull(tokenizationToken) {
                     "`tokenizationToken` is required but was not set"
                 },
-                digitalCardArtToken,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -328,11 +324,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TokenizationUpdateDigitalCardArtParams && tokenizationToken == other.tokenizationToken && digitalCardArtToken == other.digitalCardArtToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is TokenizationUpdateDigitalCardArtParams && tokenizationToken == other.tokenizationToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tokenizationToken, digitalCardArtToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(tokenizationToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "TokenizationUpdateDigitalCardArtParams{tokenizationToken=$tokenizationToken, digitalCardArtToken=$digitalCardArtToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "TokenizationUpdateDigitalCardArtParams{tokenizationToken=$tokenizationToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

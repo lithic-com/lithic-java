@@ -32,26 +32,23 @@ import java.util.Optional
 class AuthRuleV2DraftParams
 constructor(
     private val authRuleToken: String,
-    private val parameters: Parameters?,
+    private val body: AuthRuleV2DraftBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun authRuleToken(): String = authRuleToken
 
-    fun parameters(): Optional<Parameters> = Optional.ofNullable(parameters)
+    /** Parameters for the current version of the Auth Rule */
+    fun parameters(): Optional<Parameters> = body.parameters()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): AuthRuleV2DraftBody {
-        return AuthRuleV2DraftBody(parameters, additionalBodyProperties)
-    }
+    @JvmSynthetic internal fun getBody(): AuthRuleV2DraftBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -101,6 +98,16 @@ constructor(
 
             /** Parameters for the current version of the Auth Rule */
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
+
+            fun parameters(conditionalBlockParameters: Parameters.ConditionalBlockParameters) =
+                apply {
+                    this.parameters =
+                        Parameters.ofConditionalBlockParameters(conditionalBlockParameters)
+                }
+
+            fun parameters(velocityLimitParams: VelocityLimitParams) = apply {
+                this.parameters = Parameters.ofVelocityLimitParams(velocityLimitParams)
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -154,33 +161,29 @@ constructor(
     class Builder {
 
         private var authRuleToken: String? = null
-        private var parameters: Parameters? = null
+        private var body: AuthRuleV2DraftBody.Builder = AuthRuleV2DraftBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(authRuleV2DraftParams: AuthRuleV2DraftParams) = apply {
             authRuleToken = authRuleV2DraftParams.authRuleToken
-            parameters = authRuleV2DraftParams.parameters
+            body = authRuleV2DraftParams.body.toBuilder()
             additionalHeaders = authRuleV2DraftParams.additionalHeaders.toBuilder()
             additionalQueryParams = authRuleV2DraftParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties = authRuleV2DraftParams.additionalBodyProperties.toMutableMap()
         }
 
         fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
 
         /** Parameters for the current version of the Auth Rule */
-        fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
+        fun parameters(parameters: Parameters) = apply { body.parameters(parameters) }
 
-        /** Parameters for the current version of the Auth Rule */
         fun parameters(conditionalBlockParameters: Parameters.ConditionalBlockParameters) = apply {
-            this.parameters = Parameters.ofConditionalBlockParameters(conditionalBlockParameters)
+            body.parameters(conditionalBlockParameters)
         }
 
-        /** Parameters for the current version of the Auth Rule */
         fun parameters(velocityLimitParams: VelocityLimitParams) = apply {
-            this.parameters = Parameters.ofVelocityLimitParams(velocityLimitParams)
+            body.parameters(velocityLimitParams)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -282,34 +285,30 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): AuthRuleV2DraftParams =
             AuthRuleV2DraftParams(
                 checkNotNull(authRuleToken) { "`authRuleToken` is required but was not set" },
-                parameters,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -452,7 +451,7 @@ constructor(
 
             class Builder {
 
-                private var conditions: List<Condition>? = null
+                private var conditions: MutableList<Condition>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
@@ -462,7 +461,13 @@ constructor(
                         conditionalBlockParameters.additionalProperties.toMutableMap()
                 }
 
-                fun conditions(conditions: List<Condition>) = apply { this.conditions = conditions }
+                fun conditions(conditions: List<Condition>) = apply {
+                    this.conditions = conditions.toMutableList()
+                }
+
+                fun addCondition(condition: Condition) = apply {
+                    conditions = (conditions ?: mutableListOf()).apply { add(condition) }
+                }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -620,6 +625,17 @@ constructor(
 
                     /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                     fun value(value: Value) = apply { this.value = value }
+
+                    /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
+                    fun value(string: String) = apply { this.value = Value.ofString(string) }
+
+                    /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
+                    fun value(integer: Long) = apply { this.value = Value.ofInteger(integer) }
+
+                    /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
+                    fun valueOfStrings(strings: List<String>) = apply {
+                        this.value = Value.ofStrings(strings)
+                    }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -1006,11 +1022,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2DraftParams && authRuleToken == other.authRuleToken && parameters == other.parameters && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is AuthRuleV2DraftParams && authRuleToken == other.authRuleToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, parameters, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(authRuleToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "AuthRuleV2DraftParams{authRuleToken=$authRuleToken, parameters=$parameters, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "AuthRuleV2DraftParams{authRuleToken=$authRuleToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

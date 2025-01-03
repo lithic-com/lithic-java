@@ -22,41 +22,45 @@ import java.util.Optional
 class CardConvertPhysicalParams
 constructor(
     private val cardToken: String,
-    private val shippingAddress: ShippingAddress,
-    private val carrier: Carrier?,
-    private val productId: String?,
-    private val shippingMethod: ShippingMethod?,
+    private val body: CardConvertPhysicalBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun cardToken(): String = cardToken
 
-    fun shippingAddress(): ShippingAddress = shippingAddress
+    /** The shipping address this card will be sent to. */
+    fun shippingAddress(): ShippingAddress = body.shippingAddress()
 
-    fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier)
+    /** If omitted, the previous carrier will be used. */
+    fun carrier(): Optional<Carrier> = body.carrier()
 
-    fun productId(): Optional<String> = Optional.ofNullable(productId)
+    /**
+     * Specifies the configuration (e.g. physical card art) that the card should be manufactured
+     * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
+     * before use.
+     */
+    fun productId(): Optional<String> = body.productId()
 
-    fun shippingMethod(): Optional<ShippingMethod> = Optional.ofNullable(shippingMethod)
+    /**
+     * Shipping method for the card. Use of options besides `STANDARD` require additional
+     * permissions.
+     * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+     * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
+     * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+     * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
+     * - `2_DAY` - FedEx 2-day shipping, with tracking
+     * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+     */
+    fun shippingMethod(): Optional<ShippingMethod> = body.shippingMethod()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): CardConvertPhysicalBody {
-        return CardConvertPhysicalBody(
-            shippingAddress,
-            carrier,
-            productId,
-            shippingMethod,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): CardConvertPhysicalBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -228,43 +232,34 @@ constructor(
     class Builder {
 
         private var cardToken: String? = null
-        private var shippingAddress: ShippingAddress? = null
-        private var carrier: Carrier? = null
-        private var productId: String? = null
-        private var shippingMethod: ShippingMethod? = null
+        private var body: CardConvertPhysicalBody.Builder = CardConvertPhysicalBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(cardConvertPhysicalParams: CardConvertPhysicalParams) = apply {
             cardToken = cardConvertPhysicalParams.cardToken
-            shippingAddress = cardConvertPhysicalParams.shippingAddress
-            carrier = cardConvertPhysicalParams.carrier
-            productId = cardConvertPhysicalParams.productId
-            shippingMethod = cardConvertPhysicalParams.shippingMethod
+            body = cardConvertPhysicalParams.body.toBuilder()
             additionalHeaders = cardConvertPhysicalParams.additionalHeaders.toBuilder()
             additionalQueryParams = cardConvertPhysicalParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                cardConvertPhysicalParams.additionalBodyProperties.toMutableMap()
         }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
 
         /** The shipping address this card will be sent to. */
         fun shippingAddress(shippingAddress: ShippingAddress) = apply {
-            this.shippingAddress = shippingAddress
+            body.shippingAddress(shippingAddress)
         }
 
         /** If omitted, the previous carrier will be used. */
-        fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
+        fun carrier(carrier: Carrier) = apply { body.carrier(carrier) }
 
         /**
          * Specifies the configuration (e.g. physical card art) that the card should be manufactured
          * with, and only applies to cards of type `PHYSICAL`. This must be configured with Lithic
          * before use.
          */
-        fun productId(productId: String) = apply { this.productId = productId }
+        fun productId(productId: String) = apply { body.productId(productId) }
 
         /**
          * Shipping method for the card. Use of options besides `STANDARD` require additional
@@ -278,7 +273,7 @@ constructor(
          * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
          */
         fun shippingMethod(shippingMethod: ShippingMethod) = apply {
-            this.shippingMethod = shippingMethod
+            body.shippingMethod(shippingMethod)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -380,37 +375,30 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): CardConvertPhysicalParams =
             CardConvertPhysicalParams(
                 checkNotNull(cardToken) { "`cardToken` is required but was not set" },
-                checkNotNull(shippingAddress) { "`shippingAddress` is required but was not set" },
-                carrier,
-                productId,
-                shippingMethod,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -500,11 +488,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardConvertPhysicalParams && cardToken == other.cardToken && shippingAddress == other.shippingAddress && carrier == other.carrier && productId == other.productId && shippingMethod == other.shippingMethod && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is CardConvertPhysicalParams && cardToken == other.cardToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, shippingAddress, carrier, productId, shippingMethod, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "CardConvertPhysicalParams{cardToken=$cardToken, shippingAddress=$shippingAddress, carrier=$carrier, productId=$productId, shippingMethod=$shippingMethod, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "CardConvertPhysicalParams{cardToken=$cardToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

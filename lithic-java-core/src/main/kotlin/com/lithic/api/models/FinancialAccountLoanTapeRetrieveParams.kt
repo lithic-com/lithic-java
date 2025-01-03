@@ -15,8 +15,10 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** Globally unique identifier for financial account. */
     fun financialAccountToken(): String = financialAccountToken
 
+    /** Globally unique identifier for loan tape. */
     fun loanTapeToken(): String = loanTapeToken
 
     fun _additionalHeaders(): Headers = additionalHeaders

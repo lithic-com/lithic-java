@@ -18,10 +18,13 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** Globally unique identifier for credit products. */
     fun creditProductToken(): String = creditProductToken
 
+    /** The effective date that the prime rates ends before */
     fun endingBefore(): Optional<LocalDate> = Optional.ofNullable(endingBefore)
 
+    /** The effective date that the prime rate starts after */
     fun startingAfter(): Optional<LocalDate> = Optional.ofNullable(startingAfter)
 
     fun _additionalHeaders(): Headers = additionalHeaders
