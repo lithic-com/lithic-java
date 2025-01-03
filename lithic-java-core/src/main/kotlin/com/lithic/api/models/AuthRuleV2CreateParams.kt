@@ -31,34 +31,25 @@ import java.util.Optional
 
 class AuthRuleV2CreateParams
 constructor(
-    private val createAuthRuleRequestAccountTokens: CreateAuthRuleRequestAccountTokens?,
-    private val createAuthRuleRequestCardTokens: CreateAuthRuleRequestCardTokens?,
-    private val createAuthRuleRequestProgramLevel: CreateAuthRuleRequestProgramLevel?,
+    private val body: AuthRuleV2CreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) {
 
     fun createAuthRuleRequestAccountTokens(): Optional<CreateAuthRuleRequestAccountTokens> =
-        Optional.ofNullable(createAuthRuleRequestAccountTokens)
+        body.createAuthRuleRequestAccountTokens()
 
     fun createAuthRuleRequestCardTokens(): Optional<CreateAuthRuleRequestCardTokens> =
-        Optional.ofNullable(createAuthRuleRequestCardTokens)
+        body.createAuthRuleRequestCardTokens()
 
     fun createAuthRuleRequestProgramLevel(): Optional<CreateAuthRuleRequestProgramLevel> =
-        Optional.ofNullable(createAuthRuleRequestProgramLevel)
+        body.createAuthRuleRequestProgramLevel()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun getBody(): AuthRuleV2CreateBody {
-        return AuthRuleV2CreateBody(
-            createAuthRuleRequestAccountTokens,
-            createAuthRuleRequestCardTokens,
-            createAuthRuleRequestProgramLevel,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): AuthRuleV2CreateBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -242,19 +233,13 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var createAuthRuleRequestAccountTokens: CreateAuthRuleRequestAccountTokens? = null
-        private var createAuthRuleRequestCardTokens: CreateAuthRuleRequestCardTokens? = null
-        private var createAuthRuleRequestProgramLevel: CreateAuthRuleRequestProgramLevel? = null
+        private var body: AuthRuleV2CreateBody? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(authRuleV2CreateParams: AuthRuleV2CreateParams) = apply {
-            createAuthRuleRequestAccountTokens =
-                authRuleV2CreateParams.createAuthRuleRequestAccountTokens
-            createAuthRuleRequestCardTokens = authRuleV2CreateParams.createAuthRuleRequestCardTokens
-            createAuthRuleRequestProgramLevel =
-                authRuleV2CreateParams.createAuthRuleRequestProgramLevel
+            body = authRuleV2CreateParams.body
             additionalHeaders = authRuleV2CreateParams.additionalHeaders.toBuilder()
             additionalQueryParams = authRuleV2CreateParams.additionalQueryParams.toBuilder()
         }
@@ -262,25 +247,28 @@ constructor(
         fun forCreateAuthRuleRequestAccountTokens(
             createAuthRuleRequestAccountTokens: CreateAuthRuleRequestAccountTokens
         ) = apply {
-            this.createAuthRuleRequestAccountTokens = createAuthRuleRequestAccountTokens
-            this.createAuthRuleRequestCardTokens = null
-            this.createAuthRuleRequestProgramLevel = null
+            body =
+                AuthRuleV2CreateBody.ofCreateAuthRuleRequestAccountTokens(
+                    createAuthRuleRequestAccountTokens
+                )
         }
 
         fun forCreateAuthRuleRequestCardTokens(
             createAuthRuleRequestCardTokens: CreateAuthRuleRequestCardTokens
         ) = apply {
-            this.createAuthRuleRequestAccountTokens = null
-            this.createAuthRuleRequestCardTokens = createAuthRuleRequestCardTokens
-            this.createAuthRuleRequestProgramLevel = null
+            body =
+                AuthRuleV2CreateBody.ofCreateAuthRuleRequestCardTokens(
+                    createAuthRuleRequestCardTokens
+                )
         }
 
         fun forCreateAuthRuleRequestProgramLevel(
             createAuthRuleRequestProgramLevel: CreateAuthRuleRequestProgramLevel
         ) = apply {
-            this.createAuthRuleRequestAccountTokens = null
-            this.createAuthRuleRequestCardTokens = null
-            this.createAuthRuleRequestProgramLevel = createAuthRuleRequestProgramLevel
+            body =
+                AuthRuleV2CreateBody.ofCreateAuthRuleRequestProgramLevel(
+                    createAuthRuleRequestProgramLevel
+                )
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -383,9 +371,7 @@ constructor(
 
         fun build(): AuthRuleV2CreateParams =
             AuthRuleV2CreateParams(
-                createAuthRuleRequestAccountTokens,
-                createAuthRuleRequestCardTokens,
-                createAuthRuleRequestProgramLevel,
+                body ?: AuthRuleV2CreateBody(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -429,7 +415,7 @@ constructor(
 
         class Builder {
 
-            private var accountTokens: List<String>? = null
+            private var accountTokens: MutableList<String>? = null
             private var type: AuthRuleType? = null
             private var parameters: Parameters? = null
             private var name: String? = null
@@ -449,7 +435,12 @@ constructor(
 
             /** Account tokens to which the Auth Rule applies. */
             fun accountTokens(accountTokens: List<String>) = apply {
-                this.accountTokens = accountTokens
+                this.accountTokens = accountTokens.toMutableList()
+            }
+
+            /** Account tokens to which the Auth Rule applies. */
+            fun addAccountToken(accountToken: String) = apply {
+                accountTokens = (accountTokens ?: mutableListOf()).apply { add(accountToken) }
             }
 
             /** The type of Auth Rule */
@@ -457,6 +448,16 @@ constructor(
 
             /** Parameters for the current version of the Auth Rule */
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
+
+            fun parameters(conditionalBlockParameters: Parameters.ConditionalBlockParameters) =
+                apply {
+                    this.parameters =
+                        Parameters.ofConditionalBlockParameters(conditionalBlockParameters)
+                }
+
+            fun parameters(velocityLimitParams: VelocityLimitParams) = apply {
+                this.parameters = Parameters.ofVelocityLimitParams(velocityLimitParams)
+            }
 
             /** Auth Rule Name */
             fun name(name: String) = apply { this.name = name }
@@ -631,7 +632,7 @@ constructor(
 
                 class Builder {
 
-                    private var conditions: List<Condition>? = null
+                    private var conditions: MutableList<Condition>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -643,7 +644,11 @@ constructor(
                         }
 
                     fun conditions(conditions: List<Condition>) = apply {
-                        this.conditions = conditions
+                        this.conditions = conditions.toMutableList()
+                    }
+
+                    fun addCondition(condition: Condition) = apply {
+                        conditions = (conditions ?: mutableListOf()).apply { add(condition) }
                     }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -804,6 +809,17 @@ constructor(
 
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                         fun value(value: Value) = apply { this.value = value }
+
+                        /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
+                        fun value(string: String) = apply { this.value = Value.ofString(string) }
+
+                        /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
+                        fun value(integer: Long) = apply { this.value = Value.ofInteger(integer) }
+
+                        /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
+                        fun valueOfStrings(strings: List<String>) = apply {
+                            this.value = Value.ofStrings(strings)
+                        }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
@@ -1303,7 +1319,7 @@ constructor(
 
         class Builder {
 
-            private var cardTokens: List<String>? = null
+            private var cardTokens: MutableList<String>? = null
             private var type: AuthRuleType? = null
             private var parameters: Parameters? = null
             private var name: String? = null
@@ -1321,13 +1337,30 @@ constructor(
                 }
 
             /** Card tokens to which the Auth Rule applies. */
-            fun cardTokens(cardTokens: List<String>) = apply { this.cardTokens = cardTokens }
+            fun cardTokens(cardTokens: List<String>) = apply {
+                this.cardTokens = cardTokens.toMutableList()
+            }
+
+            /** Card tokens to which the Auth Rule applies. */
+            fun addCardToken(cardToken: String) = apply {
+                cardTokens = (cardTokens ?: mutableListOf()).apply { add(cardToken) }
+            }
 
             /** The type of Auth Rule */
             fun type(type: AuthRuleType) = apply { this.type = type }
 
             /** Parameters for the current version of the Auth Rule */
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
+
+            fun parameters(conditionalBlockParameters: Parameters.ConditionalBlockParameters) =
+                apply {
+                    this.parameters =
+                        Parameters.ofConditionalBlockParameters(conditionalBlockParameters)
+                }
+
+            fun parameters(velocityLimitParams: VelocityLimitParams) = apply {
+                this.parameters = Parameters.ofVelocityLimitParams(velocityLimitParams)
+            }
 
             /** Auth Rule Name */
             fun name(name: String) = apply { this.name = name }
@@ -1502,7 +1535,7 @@ constructor(
 
                 class Builder {
 
-                    private var conditions: List<Condition>? = null
+                    private var conditions: MutableList<Condition>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -1514,7 +1547,11 @@ constructor(
                         }
 
                     fun conditions(conditions: List<Condition>) = apply {
-                        this.conditions = conditions
+                        this.conditions = conditions.toMutableList()
+                    }
+
+                    fun addCondition(condition: Condition) = apply {
+                        conditions = (conditions ?: mutableListOf()).apply { add(condition) }
                     }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1675,6 +1712,17 @@ constructor(
 
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                         fun value(value: Value) = apply { this.value = value }
+
+                        /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
+                        fun value(string: String) = apply { this.value = Value.ofString(string) }
+
+                        /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
+                        fun value(integer: Long) = apply { this.value = Value.ofInteger(integer) }
+
+                        /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
+                        fun valueOfStrings(strings: List<String>) = apply {
+                            this.value = Value.ofStrings(strings)
+                        }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
@@ -2180,7 +2228,7 @@ constructor(
         class Builder {
 
             private var programLevel: Boolean? = null
-            private var excludedCardTokens: List<String>? = null
+            private var excludedCardTokens: MutableList<String>? = null
             private var type: AuthRuleType? = null
             private var parameters: Parameters? = null
             private var name: String? = null
@@ -2205,7 +2253,13 @@ constructor(
 
             /** Card tokens to which the Auth Rule does not apply. */
             fun excludedCardTokens(excludedCardTokens: List<String>) = apply {
-                this.excludedCardTokens = excludedCardTokens
+                this.excludedCardTokens = excludedCardTokens.toMutableList()
+            }
+
+            /** Card tokens to which the Auth Rule does not apply. */
+            fun addExcludedCardToken(excludedCardToken: String) = apply {
+                excludedCardTokens =
+                    (excludedCardTokens ?: mutableListOf()).apply { add(excludedCardToken) }
             }
 
             /** The type of Auth Rule */
@@ -2213,6 +2267,16 @@ constructor(
 
             /** Parameters for the current version of the Auth Rule */
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
+
+            fun parameters(conditionalBlockParameters: Parameters.ConditionalBlockParameters) =
+                apply {
+                    this.parameters =
+                        Parameters.ofConditionalBlockParameters(conditionalBlockParameters)
+                }
+
+            fun parameters(velocityLimitParams: VelocityLimitParams) = apply {
+                this.parameters = Parameters.ofVelocityLimitParams(velocityLimitParams)
+            }
 
             /** Auth Rule Name */
             fun name(name: String) = apply { this.name = name }
@@ -2387,7 +2451,7 @@ constructor(
 
                 class Builder {
 
-                    private var conditions: List<Condition>? = null
+                    private var conditions: MutableList<Condition>? = null
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -2399,7 +2463,11 @@ constructor(
                         }
 
                     fun conditions(conditions: List<Condition>) = apply {
-                        this.conditions = conditions
+                        this.conditions = conditions.toMutableList()
+                    }
+
+                    fun addCondition(condition: Condition) = apply {
+                        conditions = (conditions ?: mutableListOf()).apply { add(condition) }
                     }
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -2560,6 +2628,17 @@ constructor(
 
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                         fun value(value: Value) = apply { this.value = value }
+
+                        /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
+                        fun value(string: String) = apply { this.value = Value.ofString(string) }
+
+                        /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
+                        fun value(integer: Long) = apply { this.value = Value.ofInteger(integer) }
+
+                        /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
+                        fun valueOfStrings(strings: List<String>) = apply {
+                            this.value = Value.ofStrings(strings)
+                        }
 
                         fun additionalProperties(additionalProperties: Map<String, JsonValue>) =
                             apply {
@@ -3026,11 +3105,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRuleV2CreateParams && createAuthRuleRequestAccountTokens == other.createAuthRuleRequestAccountTokens && createAuthRuleRequestCardTokens == other.createAuthRuleRequestCardTokens && createAuthRuleRequestProgramLevel == other.createAuthRuleRequestProgramLevel && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is AuthRuleV2CreateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(createAuthRuleRequestAccountTokens, createAuthRuleRequestCardTokens, createAuthRuleRequestProgramLevel, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "AuthRuleV2CreateParams{createAuthRuleRequestAccountTokens=$createAuthRuleRequestAccountTokens, createAuthRuleRequestCardTokens=$createAuthRuleRequestCardTokens, createAuthRuleRequestProgramLevel=$createAuthRuleRequestProgramLevel, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "AuthRuleV2CreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

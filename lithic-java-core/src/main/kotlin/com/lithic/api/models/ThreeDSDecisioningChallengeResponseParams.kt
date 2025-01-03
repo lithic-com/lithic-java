@@ -17,31 +17,28 @@ import java.util.Objects
 
 class ThreeDSDecisioningChallengeResponseParams
 constructor(
-    private val token: String,
-    private val challengeResponse: ChallengeResult,
+    private val body: ThreeDSDecisioningChallengeResponseBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun token(): String = token
+    /**
+     * Globally unique identifier for the 3DS authentication. This token is sent as part of the
+     * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
+     * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
+     */
+    fun token(): String = body.token()
 
-    fun challengeResponse(): ChallengeResult = challengeResponse
+    /** Whether the Cardholder has Approved or Declined the issued Challenge */
+    fun challengeResponse(): ChallengeResult = body.challengeResponse()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): ThreeDSDecisioningChallengeResponseBody {
-        return ThreeDSDecisioningChallengeResponseBody(
-            token,
-            challengeResponse,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): ThreeDSDecisioningChallengeResponseBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -164,24 +161,20 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var token: String? = null
-        private var challengeResponse: ChallengeResult? = null
+        private var body: ThreeDSDecisioningChallengeResponseBody.Builder =
+            ThreeDSDecisioningChallengeResponseBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(
             threeDSDecisioningChallengeResponseParams: ThreeDSDecisioningChallengeResponseParams
         ) = apply {
-            token = threeDSDecisioningChallengeResponseParams.token
-            challengeResponse = threeDSDecisioningChallengeResponseParams.challengeResponse
+            body = threeDSDecisioningChallengeResponseParams.body.toBuilder()
             additionalHeaders =
                 threeDSDecisioningChallengeResponseParams.additionalHeaders.toBuilder()
             additionalQueryParams =
                 threeDSDecisioningChallengeResponseParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                threeDSDecisioningChallengeResponseParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
@@ -189,11 +182,11 @@ constructor(
          * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
          * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
          */
-        fun token(token: String) = apply { this.token = token }
+        fun token(token: String) = apply { body.token(token) }
 
         /** Whether the Cardholder has Approved or Declined the issued Challenge */
         fun challengeResponse(challengeResponse: ChallengeResult) = apply {
-            this.challengeResponse = challengeResponse
+            body.challengeResponse(challengeResponse)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -295,36 +288,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ThreeDSDecisioningChallengeResponseParams =
             ThreeDSDecisioningChallengeResponseParams(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(challengeResponse) {
-                    "`challengeResponse` is required but was not set"
-                },
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -333,11 +319,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ThreeDSDecisioningChallengeResponseParams && token == other.token && challengeResponse == other.challengeResponse && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is ThreeDSDecisioningChallengeResponseParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, challengeResponse, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "ThreeDSDecisioningChallengeResponseParams{token=$token, challengeResponse=$challengeResponse, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "ThreeDSDecisioningChallengeResponseParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

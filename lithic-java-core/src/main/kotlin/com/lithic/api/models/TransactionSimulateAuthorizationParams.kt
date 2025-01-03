@@ -21,63 +21,79 @@ import java.util.Optional
 
 class TransactionSimulateAuthorizationParams
 constructor(
-    private val amount: Long,
-    private val descriptor: String,
-    private val pan: String,
-    private val mcc: String?,
-    private val merchantAcceptorId: String?,
-    private val merchantAmount: Long?,
-    private val merchantCurrency: String?,
-    private val partialApprovalCapable: Boolean?,
-    private val pin: String?,
-    private val status: Status?,
+    private val body: TransactionSimulateAuthorizationBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun amount(): Long = amount
+    /**
+     * Amount (in cents) to authorize. For credit authorizations and financial credit
+     * authorizations, any value entered will be converted into a negative amount in the simulated
+     * transaction. For example, entering 100 in this field will result in a -100 amount in the
+     * transaction. For balance inquiries, this field must be set to 0.
+     */
+    fun amount(): Long = body.amount()
 
-    fun descriptor(): String = descriptor
+    /** Merchant descriptor. */
+    fun descriptor(): String = body.descriptor()
 
-    fun pan(): String = pan
+    /** Sixteen digit card number. */
+    fun pan(): String = body.pan()
 
-    fun mcc(): Optional<String> = Optional.ofNullable(mcc)
+    /**
+     * Merchant category code for the transaction to be simulated. A four-digit number listed in
+     * ISO 18245. Supported merchant category codes can be found
+     * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+     */
+    fun mcc(): Optional<String> = body.mcc()
 
-    fun merchantAcceptorId(): Optional<String> = Optional.ofNullable(merchantAcceptorId)
+    /** Unique identifier to identify the payment card acceptor. */
+    fun merchantAcceptorId(): Optional<String> = body.merchantAcceptorId()
 
-    fun merchantAmount(): Optional<Long> = Optional.ofNullable(merchantAmount)
+    /**
+     * Amount of the transaction to be simulated in currency specified in merchant_currency,
+     * including any acquirer fees.
+     */
+    fun merchantAmount(): Optional<Long> = body.merchantAmount()
 
-    fun merchantCurrency(): Optional<String> = Optional.ofNullable(merchantCurrency)
+    /**
+     * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
+     * defaults to GBP if another ISO 4217 code is provided
+     */
+    fun merchantCurrency(): Optional<String> = body.merchantCurrency()
 
-    fun partialApprovalCapable(): Optional<Boolean> = Optional.ofNullable(partialApprovalCapable)
+    /**
+     * Set to true if the terminal is capable of partial approval otherwise false. Partial approval
+     * is when part of a transaction is approved and another payment must be used for the remainder.
+     */
+    fun partialApprovalCapable(): Optional<Boolean> = body.partialApprovalCapable()
 
-    fun pin(): Optional<String> = Optional.ofNullable(pin)
+    /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
+    fun pin(): Optional<String> = body.pin()
 
-    fun status(): Optional<Status> = Optional.ofNullable(status)
+    /**
+     * Type of event to simulate.
+     * - `AUTHORIZATION` is a dual message purchase authorization, meaning a subsequent clearing
+     *   step is required to settle the transaction.
+     * - `BALANCE_INQUIRY` is a $0 authorization requesting the balance held on the card, and is
+     *   most often observed when a cardholder requests to view a card's balance at an ATM.
+     * - `CREDIT_AUTHORIZATION` is a dual message request from a merchant to authorize a refund,
+     *   meaning a subsequent clearing step is required to settle the transaction.
+     * - `FINANCIAL_AUTHORIZATION` is a single message request from a merchant to debit funds
+     *   immediately (such as an ATM withdrawal), and no subsequent clearing is required to settle
+     *   the transaction.
+     * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
+     *   funds immediately, and no subsequent clearing is required to settle the transaction.
+     */
+    fun status(): Optional<Status> = body.status()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): TransactionSimulateAuthorizationBody {
-        return TransactionSimulateAuthorizationBody(
-            amount,
-            descriptor,
-            pan,
-            mcc,
-            merchantAcceptorId,
-            merchantAmount,
-            merchantCurrency,
-            partialApprovalCapable,
-            pin,
-            status,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): TransactionSimulateAuthorizationBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -346,39 +362,19 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var amount: Long? = null
-        private var descriptor: String? = null
-        private var pan: String? = null
-        private var mcc: String? = null
-        private var merchantAcceptorId: String? = null
-        private var merchantAmount: Long? = null
-        private var merchantCurrency: String? = null
-        private var partialApprovalCapable: Boolean? = null
-        private var pin: String? = null
-        private var status: Status? = null
+        private var body: TransactionSimulateAuthorizationBody.Builder =
+            TransactionSimulateAuthorizationBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(
             transactionSimulateAuthorizationParams: TransactionSimulateAuthorizationParams
         ) = apply {
-            amount = transactionSimulateAuthorizationParams.amount
-            descriptor = transactionSimulateAuthorizationParams.descriptor
-            pan = transactionSimulateAuthorizationParams.pan
-            mcc = transactionSimulateAuthorizationParams.mcc
-            merchantAcceptorId = transactionSimulateAuthorizationParams.merchantAcceptorId
-            merchantAmount = transactionSimulateAuthorizationParams.merchantAmount
-            merchantCurrency = transactionSimulateAuthorizationParams.merchantCurrency
-            partialApprovalCapable = transactionSimulateAuthorizationParams.partialApprovalCapable
-            pin = transactionSimulateAuthorizationParams.pin
-            status = transactionSimulateAuthorizationParams.status
+            body = transactionSimulateAuthorizationParams.body.toBuilder()
             additionalHeaders = transactionSimulateAuthorizationParams.additionalHeaders.toBuilder()
             additionalQueryParams =
                 transactionSimulateAuthorizationParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                transactionSimulateAuthorizationParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
@@ -387,38 +383,38 @@ constructor(
          * simulated transaction. For example, entering 100 in this field will result in a -100
          * amount in the transaction. For balance inquiries, this field must be set to 0.
          */
-        fun amount(amount: Long) = apply { this.amount = amount }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         /** Merchant descriptor. */
-        fun descriptor(descriptor: String) = apply { this.descriptor = descriptor }
+        fun descriptor(descriptor: String) = apply { body.descriptor(descriptor) }
 
         /** Sixteen digit card number. */
-        fun pan(pan: String) = apply { this.pan = pan }
+        fun pan(pan: String) = apply { body.pan(pan) }
 
         /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
          * ISO 18245. Supported merchant category codes can be found
          * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
          */
-        fun mcc(mcc: String) = apply { this.mcc = mcc }
+        fun mcc(mcc: String) = apply { body.mcc(mcc) }
 
         /** Unique identifier to identify the payment card acceptor. */
         fun merchantAcceptorId(merchantAcceptorId: String) = apply {
-            this.merchantAcceptorId = merchantAcceptorId
+            body.merchantAcceptorId(merchantAcceptorId)
         }
 
         /**
          * Amount of the transaction to be simulated in currency specified in merchant_currency,
          * including any acquirer fees.
          */
-        fun merchantAmount(merchantAmount: Long) = apply { this.merchantAmount = merchantAmount }
+        fun merchantAmount(merchantAmount: Long) = apply { body.merchantAmount(merchantAmount) }
 
         /**
          * 3-digit alphabetic ISO 4217 currency code. Note: Simulator only accepts USD, GBP, EUR and
          * defaults to GBP if another ISO 4217 code is provided
          */
         fun merchantCurrency(merchantCurrency: String) = apply {
-            this.merchantCurrency = merchantCurrency
+            body.merchantCurrency(merchantCurrency)
         }
 
         /**
@@ -427,11 +423,11 @@ constructor(
          * the remainder.
          */
         fun partialApprovalCapable(partialApprovalCapable: Boolean) = apply {
-            this.partialApprovalCapable = partialApprovalCapable
+            body.partialApprovalCapable(partialApprovalCapable)
         }
 
         /** Simulate entering a PIN. If omitted, PIN check will not be performed. */
-        fun pin(pin: String) = apply { this.pin = pin }
+        fun pin(pin: String) = apply { body.pin(pin) }
 
         /**
          * Type of event to simulate.
@@ -447,7 +443,7 @@ constructor(
          * - `FINANCIAL_CREDIT_AUTHORIZATION` is a single message request from a merchant to credit
          *   funds immediately, and no subsequent clearing is required to settle the transaction.
          */
-        fun status(status: Status) = apply { this.status = status }
+        fun status(status: Status) = apply { body.status(status) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -548,42 +544,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransactionSimulateAuthorizationParams =
             TransactionSimulateAuthorizationParams(
-                checkNotNull(amount) { "`amount` is required but was not set" },
-                checkNotNull(descriptor) { "`descriptor` is required but was not set" },
-                checkNotNull(pan) { "`pan` is required but was not set" },
-                mcc,
-                merchantAcceptorId,
-                merchantAmount,
-                merchantCurrency,
-                partialApprovalCapable,
-                pin,
-                status,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -667,11 +650,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionSimulateAuthorizationParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && merchantAmount == other.merchantAmount && merchantCurrency == other.merchantCurrency && partialApprovalCapable == other.partialApprovalCapable && pin == other.pin && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is TransactionSimulateAuthorizationParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, merchantAmount, merchantCurrency, partialApprovalCapable, pin, status, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "TransactionSimulateAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, merchantAmount=$merchantAmount, merchantCurrency=$merchantCurrency, partialApprovalCapable=$partialApprovalCapable, pin=$pin, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "TransactionSimulateAuthorizationParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

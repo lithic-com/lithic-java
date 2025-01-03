@@ -18,31 +18,33 @@ import java.util.Optional
 
 class TransactionSimulateClearingParams
 constructor(
-    private val token: String,
-    private val amount: Long?,
+    private val body: TransactionSimulateClearingBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun token(): String = token
+    /** The transaction token returned from the /v1/simulate/authorize response. */
+    fun token(): String = body.token()
 
-    fun amount(): Optional<Long> = Optional.ofNullable(amount)
+    /**
+     * Amount (in cents) to clear. Typically this will match the amount in the original
+     * authorization, but can be higher or lower. The sign of this amount will automatically match
+     * the sign of the original authorization's amount. For example, entering 100 in this field will
+     * result in a -100 amount in the transaction, if the original authorization is a credit
+     * authorization.
+     *
+     * If `amount` is not set, the full amount of the transaction will be cleared. Transactions that
+     * have already cleared, either partially or fully, cannot be cleared again using this endpoint.
+     */
+    fun amount(): Optional<Long> = body.amount()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): TransactionSimulateClearingBody {
-        return TransactionSimulateClearingBody(
-            token,
-            amount,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): TransactionSimulateClearingBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -171,26 +173,22 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var token: String? = null
-        private var amount: Long? = null
+        private var body: TransactionSimulateClearingBody.Builder =
+            TransactionSimulateClearingBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(transactionSimulateClearingParams: TransactionSimulateClearingParams) =
             apply {
-                token = transactionSimulateClearingParams.token
-                amount = transactionSimulateClearingParams.amount
+                body = transactionSimulateClearingParams.body.toBuilder()
                 additionalHeaders = transactionSimulateClearingParams.additionalHeaders.toBuilder()
                 additionalQueryParams =
                     transactionSimulateClearingParams.additionalQueryParams.toBuilder()
-                additionalBodyProperties =
-                    transactionSimulateClearingParams.additionalBodyProperties.toMutableMap()
             }
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
-        fun token(token: String) = apply { this.token = token }
+        fun token(token: String) = apply { body.token(token) }
 
         /**
          * Amount (in cents) to clear. Typically this will match the amount in the original
@@ -203,7 +201,7 @@ constructor(
          * that have already cleared, either partially or fully, cannot be cleared again using this
          * endpoint.
          */
-        fun amount(amount: Long) = apply { this.amount = amount }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -304,34 +302,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransactionSimulateClearingParams =
             TransactionSimulateClearingParams(
-                checkNotNull(token) { "`token` is required but was not set" },
-                amount,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -340,11 +333,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionSimulateClearingParams && token == other.token && amount == other.amount && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is TransactionSimulateClearingParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, amount, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "TransactionSimulateClearingParams{token=$token, amount=$amount, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "TransactionSimulateClearingParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

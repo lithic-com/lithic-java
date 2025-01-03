@@ -27,26 +27,58 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /**
+     * Date string in RFC 3339 format. Only entries created after the specified time will be
+     * included. UTC time zone.
+     */
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
 
+    /** Email address of the account holder. The query must be an exact match, case insensitive. */
     fun email(): Optional<String> = Optional.ofNullable(email)
 
+    /**
+     * Date string in RFC 3339 format. Only entries created before the specified time will be
+     * included. UTC time zone.
+     */
     fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
+    /**
+     * A cursor representing an item's token before which a page of results should end. Used to
+     * retrieve the previous page of results before this item.
+     */
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
+    /** If applicable, represents the external_id associated with the account_holder. */
     fun externalId(): Optional<String> = Optional.ofNullable(externalId)
 
+    /**
+     * (Individual Account Holders only) The first name of the account holder. The query is case
+     * insensitive and supports partial matches.
+     */
     fun firstName(): Optional<String> = Optional.ofNullable(firstName)
 
+    /**
+     * (Individual Account Holders only) The last name of the account holder. The query is case
+     * insensitive and supports partial matches.
+     */
     fun lastName(): Optional<String> = Optional.ofNullable(lastName)
 
+    /**
+     * (Business Account Holders only) The legal business name of the account holder. The query is
+     * case insensitive and supports partial matches.
+     */
     fun legalBusinessName(): Optional<String> = Optional.ofNullable(legalBusinessName)
 
+    /** The number of account_holders to limit the response to. */
     fun limit(): Optional<Long> = Optional.ofNullable(limit)
 
+    /** Phone number of the account holder. The query must be an exact match. */
     fun phoneNumber(): Optional<String> = Optional.ofNullable(phoneNumber)
 
+    /**
+     * A cursor representing an item's token after which a page of results should begin. Used to
+     * retrieve the next page of results after this item.
+     */
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
     fun _additionalHeaders(): Headers = additionalHeaders

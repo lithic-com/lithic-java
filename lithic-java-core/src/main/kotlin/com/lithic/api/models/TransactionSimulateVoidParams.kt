@@ -21,35 +21,34 @@ import java.util.Optional
 
 class TransactionSimulateVoidParams
 constructor(
-    private val token: String,
-    private val amount: Long?,
-    private val type: Type?,
+    private val body: TransactionSimulateVoidBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun token(): String = token
+    /** The transaction token returned from the /v1/simulate/authorize response. */
+    fun token(): String = body.token()
 
-    fun amount(): Optional<Long> = Optional.ofNullable(amount)
+    /**
+     * Amount (in cents) to void. Typically this will match the amount in the original
+     * authorization, but can be less.
+     */
+    fun amount(): Optional<Long> = body.amount()
 
-    fun type(): Optional<Type> = Optional.ofNullable(type)
+    /**
+     * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
+     * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
+     * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+     */
+    fun type(): Optional<Type> = body.type()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): TransactionSimulateVoidBody {
-        return TransactionSimulateVoidBody(
-            token,
-            amount,
-            type,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): TransactionSimulateVoidBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -182,39 +181,33 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var token: String? = null
-        private var amount: Long? = null
-        private var type: Type? = null
+        private var body: TransactionSimulateVoidBody.Builder =
+            TransactionSimulateVoidBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(transactionSimulateVoidParams: TransactionSimulateVoidParams) = apply {
-            token = transactionSimulateVoidParams.token
-            amount = transactionSimulateVoidParams.amount
-            type = transactionSimulateVoidParams.type
+            body = transactionSimulateVoidParams.body.toBuilder()
             additionalHeaders = transactionSimulateVoidParams.additionalHeaders.toBuilder()
             additionalQueryParams = transactionSimulateVoidParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                transactionSimulateVoidParams.additionalBodyProperties.toMutableMap()
         }
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
-        fun token(token: String) = apply { this.token = token }
+        fun token(token: String) = apply { body.token(token) }
 
         /**
          * Amount (in cents) to void. Typically this will match the amount in the original
          * authorization, but can be less.
          */
-        fun amount(amount: Long) = apply { this.amount = amount }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
          * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
          */
-        fun type(type: Type) = apply { this.type = type }
+        fun type(type: Type) = apply { body.type(type) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -315,35 +308,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransactionSimulateVoidParams =
             TransactionSimulateVoidParams(
-                checkNotNull(token) { "`token` is required but was not set" },
-                amount,
-                type,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -409,11 +396,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionSimulateVoidParams && token == other.token && amount == other.amount && type == other.type && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is TransactionSimulateVoidParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, amount, type, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "TransactionSimulateVoidParams{token=$token, amount=$amount, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "TransactionSimulateVoidParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

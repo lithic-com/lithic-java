@@ -21,91 +21,147 @@ import java.util.Optional
 
 class CardCreateParams
 constructor(
-    private val type: Type,
-    private val accountToken: String?,
-    private val cardProgramToken: String?,
-    private val carrier: Carrier?,
-    private val digitalCardArtToken: String?,
-    private val expMonth: String?,
-    private val expYear: String?,
-    private val memo: String?,
-    private val pin: String?,
-    private val productId: String?,
-    private val replacementAccountToken: String?,
-    private val replacementFor: String?,
-    private val shippingAddress: ShippingAddress?,
-    private val shippingMethod: ShippingMethod?,
-    private val spendLimit: Long?,
-    private val spendLimitDuration: SpendLimitDuration?,
-    private val state: State?,
+    private val body: CardCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun type(): Type = type
+    /**
+     * Card types:
+     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
+     *   Apple Pay or Google Pay (if the card program is digital wallet-enabled).
+     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+     *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
+     *   [lithic.com/contact](https://lithic.com/contact) for more information.
+     * - `SINGLE_USE` - Card is closed upon first successful authorization.
+     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that successfully
+     *   authorizes the card.
+     * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
+     * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+     *   instead.
+     */
+    fun type(): Type = body.type()
 
-    fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
+    /**
+     * Globally unique identifier for the account that the card will be associated with. Required
+     * for programs enrolling users using the
+     * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+     * [Managing Your Program](doc:managing-your-program) for more information.
+     */
+    fun accountToken(): Optional<String> = body.accountToken()
 
-    fun cardProgramToken(): Optional<String> = Optional.ofNullable(cardProgramToken)
+    /**
+     * For card programs with more than one BIN range. This must be configured with Lithic before
+     * use. Identifies the card program/BIN range under which to create the card. If omitted, will
+     * utilize the program's default `card_program_token`. In Sandbox, use
+     * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
+     * creating cards on specific card programs.
+     */
+    fun cardProgramToken(): Optional<String> = body.cardProgramToken()
 
-    fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier)
+    fun carrier(): Optional<Carrier> = body.carrier()
 
-    fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken)
+    /**
+     * Specifies the digital card art to be displayed in the user’s digital wallet after
+     * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
+     * See
+     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     */
+    fun digitalCardArtToken(): Optional<String> = body.digitalCardArtToken()
 
-    fun expMonth(): Optional<String> = Optional.ofNullable(expMonth)
+    /**
+     * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an expiration
+     * date will be generated.
+     */
+    fun expMonth(): Optional<String> = body.expMonth()
 
-    fun expYear(): Optional<String> = Optional.ofNullable(expYear)
+    /**
+     * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+     * expiration date will be generated.
+     */
+    fun expYear(): Optional<String> = body.expYear()
 
-    fun memo(): Optional<String> = Optional.ofNullable(memo)
+    /** Friendly name to identify the card. */
+    fun memo(): Optional<String> = body.memo()
 
-    fun pin(): Optional<String> = Optional.ofNullable(pin)
+    /**
+     * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
+     * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+     */
+    fun pin(): Optional<String> = body.pin()
 
-    fun productId(): Optional<String> = Optional.ofNullable(productId)
+    /**
+     * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before use.
+     * Specifies the configuration (i.e., physical card art) that the card should be manufactured
+     * with.
+     */
+    fun productId(): Optional<String> = body.productId()
 
-    fun replacementAccountToken(): Optional<String> = Optional.ofNullable(replacementAccountToken)
+    /**
+     * Restricted field limited to select use cases. Lithic will reach out directly if this field
+     * should be used. Globally unique identifier for the replacement card's account. If this field
+     * is specified, `replacement_for` must also be specified. If `replacement_for` is specified and
+     * this field is omitted, the replacement card's account will be inferred from the card being
+     * replaced.
+     */
+    fun replacementAccountToken(): Optional<String> = body.replacementAccountToken()
 
-    fun replacementFor(): Optional<String> = Optional.ofNullable(replacementFor)
+    /**
+     * Globally unique identifier for the card that this card will replace. If the card type is
+     * `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL` it will be
+     * replaced by a `VIRTUAL` card.
+     */
+    fun replacementFor(): Optional<String> = body.replacementFor()
 
-    fun shippingAddress(): Optional<ShippingAddress> = Optional.ofNullable(shippingAddress)
+    fun shippingAddress(): Optional<ShippingAddress> = body.shippingAddress()
 
-    fun shippingMethod(): Optional<ShippingMethod> = Optional.ofNullable(shippingMethod)
+    /**
+     * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options besides
+     * `STANDARD` require additional permissions.
+     * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+     * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
+     * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+     * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
+     * - `2_DAY` - FedEx 2-day shipping, with tracking
+     * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+     */
+    fun shippingMethod(): Optional<ShippingMethod> = body.shippingMethod()
 
-    fun spendLimit(): Optional<Long> = Optional.ofNullable(spendLimit)
+    /**
+     * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
+     * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should only
+     * be used to reset or remove a prior limit. Only a limit of 1 or above will result in declined
+     * transactions due to checks against the card limit.
+     */
+    fun spendLimit(): Optional<Long> = body.spendLimit()
 
-    fun spendLimitDuration(): Optional<SpendLimitDuration> = Optional.ofNullable(spendLimitDuration)
+    /**
+     * Spend limit duration values:
+     * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
+     * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
+     *   support recurring monthly payments, which can occur on different day every month, the time
+     *   window we consider for monthly velocity starts 6 days after the current calendar date one
+     *   month prior.
+     * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
+     *   under the spend limit.
+     */
+    fun spendLimitDuration(): Optional<SpendLimitDuration> = body.spendLimitDuration()
 
-    fun state(): Optional<State> = Optional.ofNullable(state)
+    /**
+     * Card state values:
+     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     */
+    fun state(): Optional<State> = body.state()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): CardCreateBody {
-        return CardCreateBody(
-            type,
-            accountToken,
-            cardProgramToken,
-            carrier,
-            digitalCardArtToken,
-            expMonth,
-            expYear,
-            memo,
-            pin,
-            productId,
-            replacementAccountToken,
-            replacementFor,
-            shippingAddress,
-            shippingMethod,
-            spendLimit,
-            spendLimitDuration,
-            state,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): CardCreateBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -554,49 +610,15 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var type: Type? = null
-        private var accountToken: String? = null
-        private var cardProgramToken: String? = null
-        private var carrier: Carrier? = null
-        private var digitalCardArtToken: String? = null
-        private var expMonth: String? = null
-        private var expYear: String? = null
-        private var memo: String? = null
-        private var pin: String? = null
-        private var productId: String? = null
-        private var replacementAccountToken: String? = null
-        private var replacementFor: String? = null
-        private var shippingAddress: ShippingAddress? = null
-        private var shippingMethod: ShippingMethod? = null
-        private var spendLimit: Long? = null
-        private var spendLimitDuration: SpendLimitDuration? = null
-        private var state: State? = null
+        private var body: CardCreateBody.Builder = CardCreateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(cardCreateParams: CardCreateParams) = apply {
-            type = cardCreateParams.type
-            accountToken = cardCreateParams.accountToken
-            cardProgramToken = cardCreateParams.cardProgramToken
-            carrier = cardCreateParams.carrier
-            digitalCardArtToken = cardCreateParams.digitalCardArtToken
-            expMonth = cardCreateParams.expMonth
-            expYear = cardCreateParams.expYear
-            memo = cardCreateParams.memo
-            pin = cardCreateParams.pin
-            productId = cardCreateParams.productId
-            replacementAccountToken = cardCreateParams.replacementAccountToken
-            replacementFor = cardCreateParams.replacementFor
-            shippingAddress = cardCreateParams.shippingAddress
-            shippingMethod = cardCreateParams.shippingMethod
-            spendLimit = cardCreateParams.spendLimit
-            spendLimitDuration = cardCreateParams.spendLimitDuration
-            state = cardCreateParams.state
+            body = cardCreateParams.body.toBuilder()
             additionalHeaders = cardCreateParams.additionalHeaders.toBuilder()
             additionalQueryParams = cardCreateParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties = cardCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
@@ -614,7 +636,7 @@ constructor(
          * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
          *   instead.
          */
-        fun type(type: Type) = apply { this.type = type }
+        fun type(type: Type) = apply { body.type(type) }
 
         /**
          * Globally unique identifier for the account that the card will be associated with.
@@ -622,7 +644,7 @@ constructor(
          * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
          * [Managing Your Program](doc:managing-your-program) for more information.
          */
-        fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+        fun accountToken(accountToken: String) = apply { body.accountToken(accountToken) }
 
         /**
          * For card programs with more than one BIN range. This must be configured with Lithic
@@ -632,10 +654,10 @@ constructor(
          * creating cards on specific card programs.
          */
         fun cardProgramToken(cardProgramToken: String) = apply {
-            this.cardProgramToken = cardProgramToken
+            body.cardProgramToken(cardProgramToken)
         }
 
-        fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
+        fun carrier(carrier: Carrier) = apply { body.carrier(carrier) }
 
         /**
          * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -644,36 +666,36 @@ constructor(
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
         fun digitalCardArtToken(digitalCardArtToken: String) = apply {
-            this.digitalCardArtToken = digitalCardArtToken
+            body.digitalCardArtToken(digitalCardArtToken)
         }
 
         /**
          * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date will be generated.
          */
-        fun expMonth(expMonth: String) = apply { this.expMonth = expMonth }
+        fun expMonth(expMonth: String) = apply { body.expMonth(expMonth) }
 
         /**
          * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date will be generated.
          */
-        fun expYear(expYear: String) = apply { this.expYear = expYear }
+        fun expYear(expYear: String) = apply { body.expYear(expYear) }
 
         /** Friendly name to identify the card. */
-        fun memo(memo: String) = apply { this.memo = memo }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         /**
          * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
-        fun pin(pin: String) = apply { this.pin = pin }
+        fun pin(pin: String) = apply { body.pin(pin) }
 
         /**
          * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
          * use. Specifies the configuration (i.e., physical card art) that the card should be
          * manufactured with.
          */
-        fun productId(productId: String) = apply { this.productId = productId }
+        fun productId(productId: String) = apply { body.productId(productId) }
 
         /**
          * Restricted field limited to select use cases. Lithic will reach out directly if this
@@ -683,7 +705,7 @@ constructor(
          * from the card being replaced.
          */
         fun replacementAccountToken(replacementAccountToken: String) = apply {
-            this.replacementAccountToken = replacementAccountToken
+            body.replacementAccountToken(replacementAccountToken)
         }
 
         /**
@@ -691,10 +713,10 @@ constructor(
          * `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL` it
          * will be replaced by a `VIRTUAL` card.
          */
-        fun replacementFor(replacementFor: String) = apply { this.replacementFor = replacementFor }
+        fun replacementFor(replacementFor: String) = apply { body.replacementFor(replacementFor) }
 
         fun shippingAddress(shippingAddress: ShippingAddress) = apply {
-            this.shippingAddress = shippingAddress
+            body.shippingAddress(shippingAddress)
         }
 
         /**
@@ -709,7 +731,7 @@ constructor(
          * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
          */
         fun shippingMethod(shippingMethod: ShippingMethod) = apply {
-            this.shippingMethod = shippingMethod
+            body.shippingMethod(shippingMethod)
         }
 
         /**
@@ -718,7 +740,7 @@ constructor(
          * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
          * declined transactions due to checks against the card limit.
          */
-        fun spendLimit(spendLimit: Long) = apply { this.spendLimit = spendLimit }
+        fun spendLimit(spendLimit: Long) = apply { body.spendLimit(spendLimit) }
 
         /**
          * Spend limit duration values:
@@ -733,7 +755,7 @@ constructor(
          *   transaction is under the spend limit.
          */
         fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
-            this.spendLimitDuration = spendLimitDuration
+            body.spendLimitDuration(spendLimitDuration)
         }
 
         /**
@@ -741,7 +763,7 @@ constructor(
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        fun state(state: State) = apply { this.state = state }
+        fun state(state: State) = apply { body.state(state) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -842,49 +864,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): CardCreateParams =
             CardCreateParams(
-                checkNotNull(type) { "`type` is required but was not set" },
-                accountToken,
-                cardProgramToken,
-                carrier,
-                digitalCardArtToken,
-                expMonth,
-                expYear,
-                memo,
-                pin,
-                productId,
-                replacementAccountToken,
-                replacementFor,
-                shippingAddress,
-                shippingMethod,
-                spendLimit,
-                spendLimitDuration,
-                state,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -1112,11 +1114,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardCreateParams && type == other.type && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && carrier == other.carrier && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && memo == other.memo && pin == other.pin && productId == other.productId && replacementAccountToken == other.replacementAccountToken && replacementFor == other.replacementFor && shippingAddress == other.shippingAddress && shippingMethod == other.shippingMethod && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is CardCreateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(type, accountToken, cardProgramToken, carrier, digitalCardArtToken, expMonth, expYear, memo, pin, productId, replacementAccountToken, replacementFor, shippingAddress, shippingMethod, spendLimit, spendLimitDuration, state, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "CardCreateParams{type=$type, accountToken=$accountToken, cardProgramToken=$cardProgramToken, carrier=$carrier, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, memo=$memo, pin=$pin, productId=$productId, replacementAccountToken=$replacementAccountToken, replacementFor=$replacementFor, shippingAddress=$shippingAddress, shippingMethod=$shippingMethod, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "CardCreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

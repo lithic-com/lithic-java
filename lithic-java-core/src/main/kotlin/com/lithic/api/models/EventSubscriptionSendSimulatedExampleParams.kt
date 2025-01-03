@@ -22,26 +22,23 @@ import java.util.Optional
 class EventSubscriptionSendSimulatedExampleParams
 constructor(
     private val eventSubscriptionToken: String,
-    private val eventType: EventType?,
+    private val body: EventSubscriptionSendSimulatedExampleBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun eventSubscriptionToken(): String = eventSubscriptionToken
 
-    fun eventType(): Optional<EventType> = Optional.ofNullable(eventType)
+    /** Event type to send example message for. */
+    fun eventType(): Optional<EventType> = body.eventType()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): EventSubscriptionSendSimulatedExampleBody {
-        return EventSubscriptionSendSimulatedExampleBody(eventType, additionalBodyProperties)
-    }
+    @JvmSynthetic internal fun getBody(): EventSubscriptionSendSimulatedExampleBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -150,10 +147,10 @@ constructor(
     class Builder {
 
         private var eventSubscriptionToken: String? = null
-        private var eventType: EventType? = null
+        private var body: EventSubscriptionSendSimulatedExampleBody.Builder =
+            EventSubscriptionSendSimulatedExampleBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(
@@ -161,13 +158,11 @@ constructor(
         ) = apply {
             eventSubscriptionToken =
                 eventSubscriptionSendSimulatedExampleParams.eventSubscriptionToken
-            eventType = eventSubscriptionSendSimulatedExampleParams.eventType
+            body = eventSubscriptionSendSimulatedExampleParams.body.toBuilder()
             additionalHeaders =
                 eventSubscriptionSendSimulatedExampleParams.additionalHeaders.toBuilder()
             additionalQueryParams =
                 eventSubscriptionSendSimulatedExampleParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                eventSubscriptionSendSimulatedExampleParams.additionalBodyProperties.toMutableMap()
         }
 
         fun eventSubscriptionToken(eventSubscriptionToken: String) = apply {
@@ -175,7 +170,7 @@ constructor(
         }
 
         /** Event type to send example message for. */
-        fun eventType(eventType: EventType) = apply { this.eventType = eventType }
+        fun eventType(eventType: EventType) = apply { body.eventType(eventType) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -276,25 +271,22 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): EventSubscriptionSendSimulatedExampleParams =
@@ -302,10 +294,9 @@ constructor(
                 checkNotNull(eventSubscriptionToken) {
                     "`eventSubscriptionToken` is required but was not set"
                 },
-                eventType,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -617,11 +608,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventSubscriptionSendSimulatedExampleParams && eventSubscriptionToken == other.eventSubscriptionToken && eventType == other.eventType && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is EventSubscriptionSendSimulatedExampleParams && eventSubscriptionToken == other.eventSubscriptionToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventSubscriptionToken, eventType, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(eventSubscriptionToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "EventSubscriptionSendSimulatedExampleParams{eventSubscriptionToken=$eventSubscriptionToken, eventType=$eventType, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "EventSubscriptionSendSimulatedExampleParams{eventSubscriptionToken=$eventSubscriptionToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

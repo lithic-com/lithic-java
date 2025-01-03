@@ -18,43 +18,41 @@ import java.util.Optional
 
 class TransactionSimulateCreditAuthorizationParams
 constructor(
-    private val amount: Long,
-    private val descriptor: String,
-    private val pan: String,
-    private val mcc: String?,
-    private val merchantAcceptorId: String?,
+    private val body: TransactionSimulateCreditAuthorizationBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun amount(): Long = amount
+    /**
+     * Amount (in cents). Any value entered will be converted into a negative amount in the
+     * simulated transaction. For example, entering 100 in this field will appear as a -100 amount
+     * in the transaction.
+     */
+    fun amount(): Long = body.amount()
 
-    fun descriptor(): String = descriptor
+    /** Merchant descriptor. */
+    fun descriptor(): String = body.descriptor()
 
-    fun pan(): String = pan
+    /** Sixteen digit card number. */
+    fun pan(): String = body.pan()
 
-    fun mcc(): Optional<String> = Optional.ofNullable(mcc)
+    /**
+     * Merchant category code for the transaction to be simulated. A four-digit number listed in
+     * ISO 18245. Supported merchant category codes can be found
+     * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+     */
+    fun mcc(): Optional<String> = body.mcc()
 
-    fun merchantAcceptorId(): Optional<String> = Optional.ofNullable(merchantAcceptorId)
+    /** Unique identifier to identify the payment card acceptor. */
+    fun merchantAcceptorId(): Optional<String> = body.merchantAcceptorId()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): TransactionSimulateCreditAuthorizationBody {
-        return TransactionSimulateCreditAuthorizationBody(
-            amount,
-            descriptor,
-            pan,
-            mcc,
-            merchantAcceptorId,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): TransactionSimulateCreditAuthorizationBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -214,31 +212,21 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var amount: Long? = null
-        private var descriptor: String? = null
-        private var pan: String? = null
-        private var mcc: String? = null
-        private var merchantAcceptorId: String? = null
+        private var body: TransactionSimulateCreditAuthorizationBody.Builder =
+            TransactionSimulateCreditAuthorizationBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(
             transactionSimulateCreditAuthorizationParams:
                 TransactionSimulateCreditAuthorizationParams
         ) = apply {
-            amount = transactionSimulateCreditAuthorizationParams.amount
-            descriptor = transactionSimulateCreditAuthorizationParams.descriptor
-            pan = transactionSimulateCreditAuthorizationParams.pan
-            mcc = transactionSimulateCreditAuthorizationParams.mcc
-            merchantAcceptorId = transactionSimulateCreditAuthorizationParams.merchantAcceptorId
+            body = transactionSimulateCreditAuthorizationParams.body.toBuilder()
             additionalHeaders =
                 transactionSimulateCreditAuthorizationParams.additionalHeaders.toBuilder()
             additionalQueryParams =
                 transactionSimulateCreditAuthorizationParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                transactionSimulateCreditAuthorizationParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
@@ -246,24 +234,24 @@ constructor(
          * simulated transaction. For example, entering 100 in this field will appear as a -100
          * amount in the transaction.
          */
-        fun amount(amount: Long) = apply { this.amount = amount }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         /** Merchant descriptor. */
-        fun descriptor(descriptor: String) = apply { this.descriptor = descriptor }
+        fun descriptor(descriptor: String) = apply { body.descriptor(descriptor) }
 
         /** Sixteen digit card number. */
-        fun pan(pan: String) = apply { this.pan = pan }
+        fun pan(pan: String) = apply { body.pan(pan) }
 
         /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
          * ISO 18245. Supported merchant category codes can be found
          * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
          */
-        fun mcc(mcc: String) = apply { this.mcc = mcc }
+        fun mcc(mcc: String) = apply { body.mcc(mcc) }
 
         /** Unique identifier to identify the payment card acceptor. */
         fun merchantAcceptorId(merchantAcceptorId: String) = apply {
-            this.merchantAcceptorId = merchantAcceptorId
+            body.merchantAcceptorId(merchantAcceptorId)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -365,37 +353,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransactionSimulateCreditAuthorizationParams =
             TransactionSimulateCreditAuthorizationParams(
-                checkNotNull(amount) { "`amount` is required but was not set" },
-                checkNotNull(descriptor) { "`descriptor` is required but was not set" },
-                checkNotNull(pan) { "`pan` is required but was not set" },
-                mcc,
-                merchantAcceptorId,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -404,11 +384,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionSimulateCreditAuthorizationParams && amount == other.amount && descriptor == other.descriptor && pan == other.pan && mcc == other.mcc && merchantAcceptorId == other.merchantAcceptorId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is TransactionSimulateCreditAuthorizationParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, descriptor, pan, mcc, merchantAcceptorId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "TransactionSimulateCreditAuthorizationParams{amount=$amount, descriptor=$descriptor, pan=$pan, mcc=$mcc, merchantAcceptorId=$merchantAcceptorId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "TransactionSimulateCreditAuthorizationParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

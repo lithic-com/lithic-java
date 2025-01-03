@@ -22,38 +22,29 @@ import java.util.Optional
 class PaymentSimulateActionParams
 constructor(
     private val paymentToken: String,
-    private val eventType: SupportedSimulationTypes,
-    private val declineReason: SupportedSimulationDeclineReasons?,
-    private val returnReasonCode: String?,
+    private val body: PaymentSimulateActionBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun paymentToken(): String = paymentToken
 
-    fun eventType(): SupportedSimulationTypes = eventType
+    /** Event Type */
+    fun eventType(): SupportedSimulationTypes = body.eventType()
 
-    fun declineReason(): Optional<SupportedSimulationDeclineReasons> =
-        Optional.ofNullable(declineReason)
+    /** Decline reason */
+    fun declineReason(): Optional<SupportedSimulationDeclineReasons> = body.declineReason()
 
-    fun returnReasonCode(): Optional<String> = Optional.ofNullable(returnReasonCode)
+    /** Return Reason Code */
+    fun returnReasonCode(): Optional<String> = body.returnReasonCode()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): PaymentSimulateActionBody {
-        return PaymentSimulateActionBody(
-            eventType,
-            declineReason,
-            returnReasonCode,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): PaymentSimulateActionBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -188,38 +179,31 @@ constructor(
     class Builder {
 
         private var paymentToken: String? = null
-        private var eventType: SupportedSimulationTypes? = null
-        private var declineReason: SupportedSimulationDeclineReasons? = null
-        private var returnReasonCode: String? = null
+        private var body: PaymentSimulateActionBody.Builder = PaymentSimulateActionBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(paymentSimulateActionParams: PaymentSimulateActionParams) = apply {
             paymentToken = paymentSimulateActionParams.paymentToken
-            eventType = paymentSimulateActionParams.eventType
-            declineReason = paymentSimulateActionParams.declineReason
-            returnReasonCode = paymentSimulateActionParams.returnReasonCode
+            body = paymentSimulateActionParams.body.toBuilder()
             additionalHeaders = paymentSimulateActionParams.additionalHeaders.toBuilder()
             additionalQueryParams = paymentSimulateActionParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                paymentSimulateActionParams.additionalBodyProperties.toMutableMap()
         }
 
         fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
 
         /** Event Type */
-        fun eventType(eventType: SupportedSimulationTypes) = apply { this.eventType = eventType }
+        fun eventType(eventType: SupportedSimulationTypes) = apply { body.eventType(eventType) }
 
         /** Decline reason */
         fun declineReason(declineReason: SupportedSimulationDeclineReasons) = apply {
-            this.declineReason = declineReason
+            body.declineReason(declineReason)
         }
 
         /** Return Reason Code */
         fun returnReasonCode(returnReasonCode: String) = apply {
-            this.returnReasonCode = returnReasonCode
+            body.returnReasonCode(returnReasonCode)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -321,36 +305,30 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): PaymentSimulateActionParams =
             PaymentSimulateActionParams(
                 checkNotNull(paymentToken) { "`paymentToken` is required but was not set" },
-                checkNotNull(eventType) { "`eventType` is required but was not set" },
-                declineReason,
-                returnReasonCode,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -514,11 +492,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentSimulateActionParams && paymentToken == other.paymentToken && eventType == other.eventType && declineReason == other.declineReason && returnReasonCode == other.returnReasonCode && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is PaymentSimulateActionParams && paymentToken == other.paymentToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(paymentToken, eventType, declineReason, returnReasonCode, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(paymentToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "PaymentSimulateActionParams{paymentToken=$paymentToken, eventType=$eventType, declineReason=$declineReason, returnReasonCode=$returnReasonCode, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "PaymentSimulateActionParams{paymentToken=$paymentToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

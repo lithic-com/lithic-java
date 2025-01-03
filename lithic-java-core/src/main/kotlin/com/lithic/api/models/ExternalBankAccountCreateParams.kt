@@ -33,37 +33,27 @@ import kotlin.jvm.optionals.getOrNull
 
 class ExternalBankAccountCreateParams
 constructor(
-    private val bankVerifiedCreateBankAccountApiRequest: BankVerifiedCreateBankAccountApiRequest?,
-    private val plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest?,
-    private val externallyVerifiedCreateBankAccountApiRequest:
-        ExternallyVerifiedCreateBankAccountApiRequest?,
+    private val body: ExternalBankAccountCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) {
 
     fun bankVerifiedCreateBankAccountApiRequest():
         Optional<BankVerifiedCreateBankAccountApiRequest> =
-        Optional.ofNullable(bankVerifiedCreateBankAccountApiRequest)
+        body.bankVerifiedCreateBankAccountApiRequest()
 
     fun plaidCreateBankAccountApiRequest(): Optional<PlaidCreateBankAccountApiRequest> =
-        Optional.ofNullable(plaidCreateBankAccountApiRequest)
+        body.plaidCreateBankAccountApiRequest()
 
     fun externallyVerifiedCreateBankAccountApiRequest():
         Optional<ExternallyVerifiedCreateBankAccountApiRequest> =
-        Optional.ofNullable(externallyVerifiedCreateBankAccountApiRequest)
+        body.externallyVerifiedCreateBankAccountApiRequest()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun getBody(): ExternalBankAccountCreateBody {
-        return ExternalBankAccountCreateBody(
-            bankVerifiedCreateBankAccountApiRequest,
-            plaidCreateBankAccountApiRequest,
-            externallyVerifiedCreateBankAccountApiRequest,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): ExternalBankAccountCreateBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -277,25 +267,14 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var bankVerifiedCreateBankAccountApiRequest:
-            BankVerifiedCreateBankAccountApiRequest? =
-            null
-        private var plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest? = null
-        private var externallyVerifiedCreateBankAccountApiRequest:
-            ExternallyVerifiedCreateBankAccountApiRequest? =
-            null
+        private var body: ExternalBankAccountCreateBody? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(externalBankAccountCreateParams: ExternalBankAccountCreateParams) =
             apply {
-                bankVerifiedCreateBankAccountApiRequest =
-                    externalBankAccountCreateParams.bankVerifiedCreateBankAccountApiRequest
-                plaidCreateBankAccountApiRequest =
-                    externalBankAccountCreateParams.plaidCreateBankAccountApiRequest
-                externallyVerifiedCreateBankAccountApiRequest =
-                    externalBankAccountCreateParams.externallyVerifiedCreateBankAccountApiRequest
+                body = externalBankAccountCreateParams.body
                 additionalHeaders = externalBankAccountCreateParams.additionalHeaders.toBuilder()
                 additionalQueryParams =
                     externalBankAccountCreateParams.additionalQueryParams.toBuilder()
@@ -304,27 +283,29 @@ constructor(
         fun forBankVerifiedCreateBankAccountApiRequest(
             bankVerifiedCreateBankAccountApiRequest: BankVerifiedCreateBankAccountApiRequest
         ) = apply {
-            this.bankVerifiedCreateBankAccountApiRequest = bankVerifiedCreateBankAccountApiRequest
-            this.plaidCreateBankAccountApiRequest = null
-            this.externallyVerifiedCreateBankAccountApiRequest = null
+            body =
+                ExternalBankAccountCreateBody.ofBankVerifiedCreateBankAccountApiRequest(
+                    bankVerifiedCreateBankAccountApiRequest
+                )
         }
 
         fun forPlaidCreateBankAccountApiRequest(
             plaidCreateBankAccountApiRequest: PlaidCreateBankAccountApiRequest
         ) = apply {
-            this.bankVerifiedCreateBankAccountApiRequest = null
-            this.plaidCreateBankAccountApiRequest = plaidCreateBankAccountApiRequest
-            this.externallyVerifiedCreateBankAccountApiRequest = null
+            body =
+                ExternalBankAccountCreateBody.ofPlaidCreateBankAccountApiRequest(
+                    plaidCreateBankAccountApiRequest
+                )
         }
 
         fun forExternallyVerifiedCreateBankAccountApiRequest(
             externallyVerifiedCreateBankAccountApiRequest:
                 ExternallyVerifiedCreateBankAccountApiRequest
         ) = apply {
-            this.bankVerifiedCreateBankAccountApiRequest = null
-            this.plaidCreateBankAccountApiRequest = null
-            this.externallyVerifiedCreateBankAccountApiRequest =
-                externallyVerifiedCreateBankAccountApiRequest
+            body =
+                ExternalBankAccountCreateBody.ofExternallyVerifiedCreateBankAccountApiRequest(
+                    externallyVerifiedCreateBankAccountApiRequest
+                )
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -427,9 +408,7 @@ constructor(
 
         fun build(): ExternalBankAccountCreateParams =
             ExternalBankAccountCreateParams(
-                bankVerifiedCreateBankAccountApiRequest,
-                plaidCreateBankAccountApiRequest,
-                externallyVerifiedCreateBankAccountApiRequest,
+                body ?: ExternalBankAccountCreateBody(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -1340,11 +1319,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalBankAccountCreateParams && bankVerifiedCreateBankAccountApiRequest == other.bankVerifiedCreateBankAccountApiRequest && plaidCreateBankAccountApiRequest == other.plaidCreateBankAccountApiRequest && externallyVerifiedCreateBankAccountApiRequest == other.externallyVerifiedCreateBankAccountApiRequest && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is ExternalBankAccountCreateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(bankVerifiedCreateBankAccountApiRequest, plaidCreateBankAccountApiRequest, externallyVerifiedCreateBankAccountApiRequest, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "ExternalBankAccountCreateParams{bankVerifiedCreateBankAccountApiRequest=$bankVerifiedCreateBankAccountApiRequest, plaidCreateBankAccountApiRequest=$plaidCreateBankAccountApiRequest, externallyVerifiedCreateBankAccountApiRequest=$externallyVerifiedCreateBankAccountApiRequest, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "ExternalBankAccountCreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

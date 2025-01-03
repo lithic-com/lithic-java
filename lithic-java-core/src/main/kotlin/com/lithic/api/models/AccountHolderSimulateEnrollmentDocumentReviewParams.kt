@@ -21,40 +21,33 @@ import java.util.Optional
 
 class AccountHolderSimulateEnrollmentDocumentReviewParams
 constructor(
-    private val documentUploadToken: String,
-    private val status: Status,
-    private val acceptedEntityStatusReasons: List<String>?,
-    private val statusReason: DocumentUploadStatusReasons?,
+    private val body: AccountHolderSimulateEnrollmentDocumentReviewBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun documentUploadToken(): String = documentUploadToken
+    /** The account holder document upload which to perform the simulation upon. */
+    fun documentUploadToken(): String = body.documentUploadToken()
 
-    fun status(): Status = status
+    /** An account holder document's upload status for use within the simulation. */
+    fun status(): Status = body.status()
 
-    fun acceptedEntityStatusReasons(): Optional<List<String>> =
-        Optional.ofNullable(acceptedEntityStatusReasons)
+    /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+    fun acceptedEntityStatusReasons(): Optional<List<String>> = body.acceptedEntityStatusReasons()
 
-    fun statusReason(): Optional<DocumentUploadStatusReasons> = Optional.ofNullable(statusReason)
+    /**
+     * Status reason that will be associated with the simulated account holder status. Only required
+     * for a `REJECTED` status or `PARTIAL_APPROVAL` status.
+     */
+    fun statusReason(): Optional<DocumentUploadStatusReasons> = body.statusReason()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): AccountHolderSimulateEnrollmentDocumentReviewBody {
-        return AccountHolderSimulateEnrollmentDocumentReviewBody(
-            documentUploadToken,
-            status,
-            acceptedEntityStatusReasons,
-            statusReason,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): AccountHolderSimulateEnrollmentDocumentReviewBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -108,7 +101,7 @@ constructor(
 
             private var documentUploadToken: String? = null
             private var status: Status? = null
-            private var acceptedEntityStatusReasons: List<String>? = null
+            private var acceptedEntityStatusReasons: MutableList<String>? = null
             private var statusReason: DocumentUploadStatusReasons? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -139,7 +132,15 @@ constructor(
 
             /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
             fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: List<String>) = apply {
-                this.acceptedEntityStatusReasons = acceptedEntityStatusReasons
+                this.acceptedEntityStatusReasons = acceptedEntityStatusReasons.toMutableList()
+            }
+
+            /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+            fun addAcceptedEntityStatusReason(acceptedEntityStatusReason: String) = apply {
+                acceptedEntityStatusReasons =
+                    (acceptedEntityStatusReasons ?: mutableListOf()).apply {
+                        add(acceptedEntityStatusReason)
+                    }
             }
 
             /**
@@ -209,53 +210,40 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var documentUploadToken: String? = null
-        private var status: Status? = null
-        private var acceptedEntityStatusReasons: MutableList<String> = mutableListOf()
-        private var statusReason: DocumentUploadStatusReasons? = null
+        private var body: AccountHolderSimulateEnrollmentDocumentReviewBody.Builder =
+            AccountHolderSimulateEnrollmentDocumentReviewBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(
             accountHolderSimulateEnrollmentDocumentReviewParams:
                 AccountHolderSimulateEnrollmentDocumentReviewParams
         ) = apply {
-            documentUploadToken =
-                accountHolderSimulateEnrollmentDocumentReviewParams.documentUploadToken
-            status = accountHolderSimulateEnrollmentDocumentReviewParams.status
-            acceptedEntityStatusReasons =
-                accountHolderSimulateEnrollmentDocumentReviewParams.acceptedEntityStatusReasons
-                    ?.toMutableList() ?: mutableListOf()
-            statusReason = accountHolderSimulateEnrollmentDocumentReviewParams.statusReason
+            body = accountHolderSimulateEnrollmentDocumentReviewParams.body.toBuilder()
             additionalHeaders =
                 accountHolderSimulateEnrollmentDocumentReviewParams.additionalHeaders.toBuilder()
             additionalQueryParams =
                 accountHolderSimulateEnrollmentDocumentReviewParams.additionalQueryParams
                     .toBuilder()
-            additionalBodyProperties =
-                accountHolderSimulateEnrollmentDocumentReviewParams.additionalBodyProperties
-                    .toMutableMap()
         }
 
         /** The account holder document upload which to perform the simulation upon. */
         fun documentUploadToken(documentUploadToken: String) = apply {
-            this.documentUploadToken = documentUploadToken
+            body.documentUploadToken(documentUploadToken)
         }
 
         /** An account holder document's upload status for use within the simulation. */
-        fun status(status: Status) = apply { this.status = status }
+        fun status(status: Status) = apply { body.status(status) }
 
         /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
         fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: List<String>) = apply {
-            this.acceptedEntityStatusReasons.clear()
-            this.acceptedEntityStatusReasons.addAll(acceptedEntityStatusReasons)
+            body.acceptedEntityStatusReasons(acceptedEntityStatusReasons)
         }
 
         /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
         fun addAcceptedEntityStatusReason(acceptedEntityStatusReason: String) = apply {
-            this.acceptedEntityStatusReasons.add(acceptedEntityStatusReason)
+            body.addAcceptedEntityStatusReason(acceptedEntityStatusReason)
         }
 
         /**
@@ -263,7 +251,7 @@ constructor(
          * required for a `REJECTED` status or `PARTIAL_APPROVAL` status.
          */
         fun statusReason(statusReason: DocumentUploadStatusReasons) = apply {
-            this.statusReason = statusReason
+            body.statusReason(statusReason)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -365,38 +353,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): AccountHolderSimulateEnrollmentDocumentReviewParams =
             AccountHolderSimulateEnrollmentDocumentReviewParams(
-                checkNotNull(documentUploadToken) {
-                    "`documentUploadToken` is required but was not set"
-                },
-                checkNotNull(status) { "`status` is required but was not set" },
-                acceptedEntityStatusReasons.toImmutable().ifEmpty { null },
-                statusReason,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -587,11 +566,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderSimulateEnrollmentDocumentReviewParams && documentUploadToken == other.documentUploadToken && status == other.status && acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && statusReason == other.statusReason && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is AccountHolderSimulateEnrollmentDocumentReviewParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(documentUploadToken, status, acceptedEntityStatusReasons, statusReason, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "AccountHolderSimulateEnrollmentDocumentReviewParams{documentUploadToken=$documentUploadToken, status=$status, acceptedEntityStatusReasons=$acceptedEntityStatusReasons, statusReason=$statusReason, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "AccountHolderSimulateEnrollmentDocumentReviewParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
