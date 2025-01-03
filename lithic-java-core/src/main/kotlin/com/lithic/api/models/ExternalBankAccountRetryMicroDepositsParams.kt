@@ -19,29 +19,22 @@ import java.util.Optional
 class ExternalBankAccountRetryMicroDepositsParams
 constructor(
     private val externalBankAccountToken: String,
-    private val financialAccountToken: String?,
+    private val body: ExternalBankAccountRetryMicroDepositsBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun externalBankAccountToken(): String = externalBankAccountToken
 
-    fun financialAccountToken(): Optional<String> = Optional.ofNullable(financialAccountToken)
+    fun financialAccountToken(): Optional<String> = body.financialAccountToken()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): ExternalBankAccountRetryMicroDepositsBody {
-        return ExternalBankAccountRetryMicroDepositsBody(
-            financialAccountToken,
-            additionalBodyProperties
-        )
-    }
+    @JvmSynthetic internal fun getBody(): ExternalBankAccountRetryMicroDepositsBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -151,10 +144,10 @@ constructor(
     class Builder {
 
         private var externalBankAccountToken: String? = null
-        private var financialAccountToken: String? = null
+        private var body: ExternalBankAccountRetryMicroDepositsBody.Builder =
+            ExternalBankAccountRetryMicroDepositsBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(
@@ -162,14 +155,11 @@ constructor(
         ) = apply {
             externalBankAccountToken =
                 externalBankAccountRetryMicroDepositsParams.externalBankAccountToken
-            financialAccountToken =
-                externalBankAccountRetryMicroDepositsParams.financialAccountToken
+            body = externalBankAccountRetryMicroDepositsParams.body.toBuilder()
             additionalHeaders =
                 externalBankAccountRetryMicroDepositsParams.additionalHeaders.toBuilder()
             additionalQueryParams =
                 externalBankAccountRetryMicroDepositsParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                externalBankAccountRetryMicroDepositsParams.additionalBodyProperties.toMutableMap()
         }
 
         fun externalBankAccountToken(externalBankAccountToken: String) = apply {
@@ -177,7 +167,7 @@ constructor(
         }
 
         fun financialAccountToken(financialAccountToken: String) = apply {
-            this.financialAccountToken = financialAccountToken
+            body.financialAccountToken(financialAccountToken)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -279,25 +269,22 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ExternalBankAccountRetryMicroDepositsParams =
@@ -305,10 +292,9 @@ constructor(
                 checkNotNull(externalBankAccountToken) {
                     "`externalBankAccountToken` is required but was not set"
                 },
-                financialAccountToken,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -317,11 +303,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalBankAccountRetryMicroDepositsParams && externalBankAccountToken == other.externalBankAccountToken && financialAccountToken == other.financialAccountToken && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is ExternalBankAccountRetryMicroDepositsParams && externalBankAccountToken == other.externalBankAccountToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountToken, financialAccountToken, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "ExternalBankAccountRetryMicroDepositsParams{externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "ExternalBankAccountRetryMicroDepositsParams{externalBankAccountToken=$externalBankAccountToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

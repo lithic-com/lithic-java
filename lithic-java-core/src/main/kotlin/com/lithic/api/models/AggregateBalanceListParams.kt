@@ -19,6 +19,7 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** Get the aggregate balance for a given Financial Account type. */
     fun financialAccountType(): Optional<FinancialAccountType> =
         Optional.ofNullable(financialAccountType)
 

@@ -21,42 +21,29 @@ import java.util.Optional
 
 class FinancialAccountCreateParams
 constructor(
-    private val nickname: String,
-    private val type: Type,
-    private val accountToken: String?,
-    private val isForBenefitOf: Boolean?,
     private val idempotencyKey: String?,
+    private val body: FinancialAccountCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun nickname(): String = nickname
-
-    fun type(): Type = type
-
-    fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
-
-    fun isForBenefitOf(): Optional<Boolean> = Optional.ofNullable(isForBenefitOf)
-
     fun idempotencyKey(): Optional<String> = Optional.ofNullable(idempotencyKey)
+
+    fun nickname(): String = body.nickname()
+
+    fun type(): Type = body.type()
+
+    fun accountToken(): Optional<String> = body.accountToken()
+
+    fun isForBenefitOf(): Optional<Boolean> = body.isForBenefitOf()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): FinancialAccountCreateBody {
-        return FinancialAccountCreateBody(
-            nickname,
-            type,
-            accountToken,
-            isForBenefitOf,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): FinancialAccountCreateBody = body
 
     @JvmSynthetic
     internal fun getHeaders(): Headers {
@@ -186,37 +173,28 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var nickname: String? = null
-        private var type: Type? = null
-        private var accountToken: String? = null
-        private var isForBenefitOf: Boolean? = null
         private var idempotencyKey: String? = null
+        private var body: FinancialAccountCreateBody.Builder = FinancialAccountCreateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(financialAccountCreateParams: FinancialAccountCreateParams) = apply {
-            nickname = financialAccountCreateParams.nickname
-            type = financialAccountCreateParams.type
-            accountToken = financialAccountCreateParams.accountToken
-            isForBenefitOf = financialAccountCreateParams.isForBenefitOf
             idempotencyKey = financialAccountCreateParams.idempotencyKey
+            body = financialAccountCreateParams.body.toBuilder()
             additionalHeaders = financialAccountCreateParams.additionalHeaders.toBuilder()
             additionalQueryParams = financialAccountCreateParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                financialAccountCreateParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun nickname(nickname: String) = apply { this.nickname = nickname }
-
-        fun type(type: Type) = apply { this.type = type }
-
-        fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
-
-        fun isForBenefitOf(isForBenefitOf: Boolean) = apply { this.isForBenefitOf = isForBenefitOf }
-
         fun idempotencyKey(idempotencyKey: String) = apply { this.idempotencyKey = idempotencyKey }
+
+        fun nickname(nickname: String) = apply { body.nickname(nickname) }
+
+        fun type(type: Type) = apply { body.type(type) }
+
+        fun accountToken(accountToken: String) = apply { body.accountToken(accountToken) }
+
+        fun isForBenefitOf(isForBenefitOf: Boolean) = apply { body.isForBenefitOf(isForBenefitOf) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -317,37 +295,30 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): FinancialAccountCreateParams =
             FinancialAccountCreateParams(
-                checkNotNull(nickname) { "`nickname` is required but was not set" },
-                checkNotNull(type) { "`type` is required but was not set" },
-                accountToken,
-                isForBenefitOf,
                 idempotencyKey,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -407,11 +378,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is FinancialAccountCreateParams && nickname == other.nickname && type == other.type && accountToken == other.accountToken && isForBenefitOf == other.isForBenefitOf && idempotencyKey == other.idempotencyKey && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is FinancialAccountCreateParams && idempotencyKey == other.idempotencyKey && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(nickname, type, accountToken, isForBenefitOf, idempotencyKey, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(idempotencyKey, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "FinancialAccountCreateParams{nickname=$nickname, type=$type, accountToken=$accountToken, isForBenefitOf=$isForBenefitOf, idempotencyKey=$idempotencyKey, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "FinancialAccountCreateParams{idempotencyKey=$idempotencyKey, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

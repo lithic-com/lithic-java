@@ -21,59 +21,40 @@ import java.util.Optional
 
 class PaymentCreateParams
 constructor(
-    private val amount: Long,
-    private val externalBankAccountToken: String,
-    private val financialAccountToken: String,
-    private val method: Method,
-    private val methodAttributes: PaymentMethodRequestAttributes,
-    private val type: Type,
-    private val token: String?,
-    private val memo: String?,
-    private val userDefinedId: String?,
+    private val body: PaymentCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun amount(): Long = amount
+    fun amount(): Long = body.amount()
 
-    fun externalBankAccountToken(): String = externalBankAccountToken
+    fun externalBankAccountToken(): String = body.externalBankAccountToken()
 
-    fun financialAccountToken(): String = financialAccountToken
+    fun financialAccountToken(): String = body.financialAccountToken()
 
-    fun method(): Method = method
+    fun method(): Method = body.method()
 
-    fun methodAttributes(): PaymentMethodRequestAttributes = methodAttributes
+    fun methodAttributes(): PaymentMethodRequestAttributes = body.methodAttributes()
 
-    fun type(): Type = type
+    fun type(): Type = body.type()
 
-    fun token(): Optional<String> = Optional.ofNullable(token)
+    /**
+     * Customer-provided token that will serve as an idempotency token. This token will become the
+     * transaction token.
+     */
+    fun token(): Optional<String> = body.token()
 
-    fun memo(): Optional<String> = Optional.ofNullable(memo)
+    fun memo(): Optional<String> = body.memo()
 
-    fun userDefinedId(): Optional<String> = Optional.ofNullable(userDefinedId)
+    fun userDefinedId(): Optional<String> = body.userDefinedId()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): PaymentCreateBody {
-        return PaymentCreateBody(
-            amount,
-            externalBankAccountToken,
-            financialAccountToken,
-            method,
-            methodAttributes,
-            type,
-            token,
-            memo,
-            userDefinedId,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): PaymentCreateBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -257,62 +238,44 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var amount: Long? = null
-        private var externalBankAccountToken: String? = null
-        private var financialAccountToken: String? = null
-        private var method: Method? = null
-        private var methodAttributes: PaymentMethodRequestAttributes? = null
-        private var type: Type? = null
-        private var token: String? = null
-        private var memo: String? = null
-        private var userDefinedId: String? = null
+        private var body: PaymentCreateBody.Builder = PaymentCreateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(paymentCreateParams: PaymentCreateParams) = apply {
-            amount = paymentCreateParams.amount
-            externalBankAccountToken = paymentCreateParams.externalBankAccountToken
-            financialAccountToken = paymentCreateParams.financialAccountToken
-            method = paymentCreateParams.method
-            methodAttributes = paymentCreateParams.methodAttributes
-            type = paymentCreateParams.type
-            token = paymentCreateParams.token
-            memo = paymentCreateParams.memo
-            userDefinedId = paymentCreateParams.userDefinedId
+            body = paymentCreateParams.body.toBuilder()
             additionalHeaders = paymentCreateParams.additionalHeaders.toBuilder()
             additionalQueryParams = paymentCreateParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties = paymentCreateParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun amount(amount: Long) = apply { this.amount = amount }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         fun externalBankAccountToken(externalBankAccountToken: String) = apply {
-            this.externalBankAccountToken = externalBankAccountToken
+            body.externalBankAccountToken(externalBankAccountToken)
         }
 
         fun financialAccountToken(financialAccountToken: String) = apply {
-            this.financialAccountToken = financialAccountToken
+            body.financialAccountToken(financialAccountToken)
         }
 
-        fun method(method: Method) = apply { this.method = method }
+        fun method(method: Method) = apply { body.method(method) }
 
         fun methodAttributes(methodAttributes: PaymentMethodRequestAttributes) = apply {
-            this.methodAttributes = methodAttributes
+            body.methodAttributes(methodAttributes)
         }
 
-        fun type(type: Type) = apply { this.type = type }
+        fun type(type: Type) = apply { body.type(type) }
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        fun token(token: String) = apply { this.token = token }
+        fun token(token: String) = apply { body.token(token) }
 
-        fun memo(memo: String) = apply { this.memo = memo }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
-        fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
+        fun userDefinedId(userDefinedId: String) = apply { body.userDefinedId(userDefinedId) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -413,45 +376,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): PaymentCreateParams =
             PaymentCreateParams(
-                checkNotNull(amount) { "`amount` is required but was not set" },
-                checkNotNull(externalBankAccountToken) {
-                    "`externalBankAccountToken` is required but was not set"
-                },
-                checkNotNull(financialAccountToken) {
-                    "`financialAccountToken` is required but was not set"
-                },
-                checkNotNull(method) { "`method` is required but was not set" },
-                checkNotNull(methodAttributes) { "`methodAttributes` is required but was not set" },
-                checkNotNull(type) { "`type` is required but was not set" },
-                token,
-                memo,
-                userDefinedId,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -718,11 +665,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentCreateParams && amount == other.amount && externalBankAccountToken == other.externalBankAccountToken && financialAccountToken == other.financialAccountToken && method == other.method && methodAttributes == other.methodAttributes && type == other.type && token == other.token && memo == other.memo && userDefinedId == other.userDefinedId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is PaymentCreateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, externalBankAccountToken, financialAccountToken, method, methodAttributes, type, token, memo, userDefinedId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "PaymentCreateParams{amount=$amount, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, type=$type, token=$token, memo=$memo, userDefinedId=$userDefinedId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "PaymentCreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

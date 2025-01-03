@@ -22,31 +22,22 @@ import java.util.Optional
 
 class AccountHolderCreateParams
 constructor(
-    private val kyb: Kyb?,
-    private val kyc: Kyc?,
-    private val kycExempt: KycExempt?,
+    private val body: AccountHolderCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) {
 
-    fun kyb(): Optional<Kyb> = Optional.ofNullable(kyb)
+    fun kyb(): Optional<Kyb> = body.kyb()
 
-    fun kyc(): Optional<Kyc> = Optional.ofNullable(kyc)
+    fun kyc(): Optional<Kyc> = body.kyc()
 
-    fun kycExempt(): Optional<KycExempt> = Optional.ofNullable(kycExempt)
+    fun kycExempt(): Optional<KycExempt> = body.kycExempt()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    @JvmSynthetic
-    internal fun getBody(): AccountHolderCreateBody {
-        return AccountHolderCreateBody(
-            kyb,
-            kyc,
-            kycExempt,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): AccountHolderCreateBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -181,37 +172,23 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var kyb: Kyb? = null
-        private var kyc: Kyc? = null
-        private var kycExempt: KycExempt? = null
+        private var body: AccountHolderCreateBody? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(accountHolderCreateParams: AccountHolderCreateParams) = apply {
-            kyb = accountHolderCreateParams.kyb
-            kyc = accountHolderCreateParams.kyc
-            kycExempt = accountHolderCreateParams.kycExempt
+            body = accountHolderCreateParams.body
             additionalHeaders = accountHolderCreateParams.additionalHeaders.toBuilder()
             additionalQueryParams = accountHolderCreateParams.additionalQueryParams.toBuilder()
         }
 
-        fun forKyb(kyb: Kyb) = apply {
-            this.kyb = kyb
-            this.kyc = null
-            this.kycExempt = null
-        }
+        fun forKyb(kyb: Kyb) = apply { body = AccountHolderCreateBody.ofKyb(kyb) }
 
-        fun forKyc(kyc: Kyc) = apply {
-            this.kyb = null
-            this.kyc = kyc
-            this.kycExempt = null
-        }
+        fun forKyc(kyc: Kyc) = apply { body = AccountHolderCreateBody.ofKyc(kyc) }
 
         fun forKycExempt(kycExempt: KycExempt) = apply {
-            this.kyb = null
-            this.kyc = null
-            this.kycExempt = kycExempt
+            body = AccountHolderCreateBody.ofKycExempt(kycExempt)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -314,9 +291,7 @@ constructor(
 
         fun build(): AccountHolderCreateParams =
             AccountHolderCreateParams(
-                kyb,
-                kyc,
-                kycExempt,
+                body ?: AccountHolderCreateBody(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -327,11 +302,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderCreateParams && kyb == other.kyb && kyc == other.kyc && kycExempt == other.kycExempt && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is AccountHolderCreateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(kyb, kyc, kycExempt, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "AccountHolderCreateParams{kyb=$kyb, kyc=$kyc, kycExempt=$kycExempt, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "AccountHolderCreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

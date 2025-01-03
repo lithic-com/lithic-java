@@ -18,6 +18,7 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** The type of the endpoint. */
     fun type(): Type = type
 
     fun _additionalHeaders(): Headers = additionalHeaders

@@ -24,8 +24,16 @@ constructor(
 
     fun eventSubscriptionToken(): String = eventSubscriptionToken
 
+    /**
+     * Date string in RFC 3339 format. Only entries created after the specified time will be
+     * included. UTC time zone.
+     */
     fun begin(): Optional<OffsetDateTime> = Optional.ofNullable(begin)
 
+    /**
+     * Date string in RFC 3339 format. Only entries created before the specified time will be
+     * included. UTC time zone.
+     */
     fun end(): Optional<OffsetDateTime> = Optional.ofNullable(end)
 
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -35,9 +43,8 @@ constructor(
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
     @JvmSynthetic
-    internal fun getBody(): Optional<Map<String, JsonValue>> {
-        return Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
-    }
+    internal fun getBody(): Optional<Map<String, JsonValue>> =
+        Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
