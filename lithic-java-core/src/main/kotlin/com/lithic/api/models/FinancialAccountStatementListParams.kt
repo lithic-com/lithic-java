@@ -22,19 +22,38 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** Globally unique identifier for financial account. */
     fun financialAccountToken(): String = financialAccountToken
 
+    /**
+     * Date string in RFC 3339 format. Only entries created after the specified date will be
+     * included.
+     */
     fun begin(): Optional<LocalDate> = Optional.ofNullable(begin)
 
+    /**
+     * Date string in RFC 3339 format. Only entries created before the specified date will be
+     * included.
+     */
     fun end(): Optional<LocalDate> = Optional.ofNullable(end)
 
+    /**
+     * A cursor representing an item's token before which a page of results should end. Used to
+     * retrieve the previous page of results before this item.
+     */
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
+    /** Whether to include the initial statement. It is not included by default. */
     fun includeInitialStatements(): Optional<Boolean> =
         Optional.ofNullable(includeInitialStatements)
 
+    /** Page size (for pagination). */
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
+    /**
+     * A cursor representing an item's token after which a page of results should begin. Used to
+     * retrieve the next page of results after this item.
+     */
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
     fun _additionalHeaders(): Headers = additionalHeaders

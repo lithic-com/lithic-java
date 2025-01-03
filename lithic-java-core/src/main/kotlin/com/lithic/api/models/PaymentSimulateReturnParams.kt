@@ -18,31 +18,24 @@ import java.util.Optional
 
 class PaymentSimulateReturnParams
 constructor(
-    private val paymentToken: String,
-    private val returnReasonCode: String?,
+    private val body: PaymentSimulateReturnBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun paymentToken(): String = paymentToken
+    /** Payment Token */
+    fun paymentToken(): String = body.paymentToken()
 
-    fun returnReasonCode(): Optional<String> = Optional.ofNullable(returnReasonCode)
+    /** Return Reason Code */
+    fun returnReasonCode(): Optional<String> = body.returnReasonCode()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): PaymentSimulateReturnBody {
-        return PaymentSimulateReturnBody(
-            paymentToken,
-            returnReasonCode,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): PaymentSimulateReturnBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -152,28 +145,23 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var paymentToken: String? = null
-        private var returnReasonCode: String? = null
+        private var body: PaymentSimulateReturnBody.Builder = PaymentSimulateReturnBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(paymentSimulateReturnParams: PaymentSimulateReturnParams) = apply {
-            paymentToken = paymentSimulateReturnParams.paymentToken
-            returnReasonCode = paymentSimulateReturnParams.returnReasonCode
+            body = paymentSimulateReturnParams.body.toBuilder()
             additionalHeaders = paymentSimulateReturnParams.additionalHeaders.toBuilder()
             additionalQueryParams = paymentSimulateReturnParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                paymentSimulateReturnParams.additionalBodyProperties.toMutableMap()
         }
 
         /** Payment Token */
-        fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
+        fun paymentToken(paymentToken: String) = apply { body.paymentToken(paymentToken) }
 
         /** Return Reason Code */
         fun returnReasonCode(returnReasonCode: String) = apply {
-            this.returnReasonCode = returnReasonCode
+            body.returnReasonCode(returnReasonCode)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -275,34 +263,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): PaymentSimulateReturnParams =
             PaymentSimulateReturnParams(
-                checkNotNull(paymentToken) { "`paymentToken` is required but was not set" },
-                returnReasonCode,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -311,11 +294,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentSimulateReturnParams && paymentToken == other.paymentToken && returnReasonCode == other.returnReasonCode && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is PaymentSimulateReturnParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(paymentToken, returnReasonCode, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "PaymentSimulateReturnParams{paymentToken=$paymentToken, returnReasonCode=$returnReasonCode, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "PaymentSimulateReturnParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

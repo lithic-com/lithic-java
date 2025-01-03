@@ -19,14 +19,25 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** Only return Authorization Rules that are bound to the provided account token. */
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
+    /** Only return Authorization Rules that are bound to the provided card token. */
     fun cardToken(): Optional<String> = Optional.ofNullable(cardToken)
 
+    /**
+     * A cursor representing an item's token before which a page of results should end. Used to
+     * retrieve the previous page of results before this item.
+     */
     fun endingBefore(): Optional<String> = Optional.ofNullable(endingBefore)
 
+    /** Page size (for pagination). */
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
+    /**
+     * A cursor representing an item's token after which a page of results should begin. Used to
+     * retrieve the next page of results after this item.
+     */
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
     fun _additionalHeaders(): Headers = additionalHeaders

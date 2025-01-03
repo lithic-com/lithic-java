@@ -23,37 +23,26 @@ import java.util.Optional
 class ExternalPaymentSettleParams
 constructor(
     private val externalPaymentToken: String,
-    private val effectiveDate: LocalDate,
-    private val memo: String?,
-    private val progressTo: ExternalPaymentProgressTo?,
+    private val body: ExternalPaymentSettleBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun externalPaymentToken(): String = externalPaymentToken
 
-    fun effectiveDate(): LocalDate = effectiveDate
+    fun effectiveDate(): LocalDate = body.effectiveDate()
 
-    fun memo(): Optional<String> = Optional.ofNullable(memo)
+    fun memo(): Optional<String> = body.memo()
 
-    fun progressTo(): Optional<ExternalPaymentProgressTo> = Optional.ofNullable(progressTo)
+    fun progressTo(): Optional<ExternalPaymentProgressTo> = body.progressTo()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): ExternalPaymentSettleBody {
-        return ExternalPaymentSettleBody(
-            effectiveDate,
-            memo,
-            progressTo,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): ExternalPaymentSettleBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -177,35 +166,28 @@ constructor(
     class Builder {
 
         private var externalPaymentToken: String? = null
-        private var effectiveDate: LocalDate? = null
-        private var memo: String? = null
-        private var progressTo: ExternalPaymentProgressTo? = null
+        private var body: ExternalPaymentSettleBody.Builder = ExternalPaymentSettleBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(externalPaymentSettleParams: ExternalPaymentSettleParams) = apply {
             externalPaymentToken = externalPaymentSettleParams.externalPaymentToken
-            effectiveDate = externalPaymentSettleParams.effectiveDate
-            memo = externalPaymentSettleParams.memo
-            progressTo = externalPaymentSettleParams.progressTo
+            body = externalPaymentSettleParams.body.toBuilder()
             additionalHeaders = externalPaymentSettleParams.additionalHeaders.toBuilder()
             additionalQueryParams = externalPaymentSettleParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                externalPaymentSettleParams.additionalBodyProperties.toMutableMap()
         }
 
         fun externalPaymentToken(externalPaymentToken: String) = apply {
             this.externalPaymentToken = externalPaymentToken
         }
 
-        fun effectiveDate(effectiveDate: LocalDate) = apply { this.effectiveDate = effectiveDate }
+        fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
-        fun memo(memo: String) = apply { this.memo = memo }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         fun progressTo(progressTo: ExternalPaymentProgressTo) = apply {
-            this.progressTo = progressTo
+            body.progressTo(progressTo)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -307,25 +289,22 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ExternalPaymentSettleParams =
@@ -333,12 +312,9 @@ constructor(
                 checkNotNull(externalPaymentToken) {
                     "`externalPaymentToken` is required but was not set"
                 },
-                checkNotNull(effectiveDate) { "`effectiveDate` is required but was not set" },
-                memo,
-                progressTo,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -405,11 +381,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalPaymentSettleParams && externalPaymentToken == other.externalPaymentToken && effectiveDate == other.effectiveDate && memo == other.memo && progressTo == other.progressTo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is ExternalPaymentSettleParams && externalPaymentToken == other.externalPaymentToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalPaymentToken, effectiveDate, memo, progressTo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalPaymentToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "ExternalPaymentSettleParams{externalPaymentToken=$externalPaymentToken, effectiveDate=$effectiveDate, memo=$memo, progressTo=$progressTo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "ExternalPaymentSettleParams{externalPaymentToken=$externalPaymentToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

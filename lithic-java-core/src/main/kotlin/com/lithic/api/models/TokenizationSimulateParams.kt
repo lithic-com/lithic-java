@@ -21,56 +21,52 @@ import java.util.Optional
 
 class TokenizationSimulateParams
 constructor(
-    private val cvv: String,
-    private val expirationDate: String,
-    private val pan: String,
-    private val tokenizationSource: TokenizationSource,
-    private val accountScore: Long?,
-    private val deviceScore: Long?,
-    private val entity: String?,
-    private val walletRecommendedDecision: WalletRecommendedDecision?,
+    private val body: TokenizationSimulateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun cvv(): String = cvv
+    /** The three digit cvv for the card. */
+    fun cvv(): String = body.cvv()
 
-    fun expirationDate(): String = expirationDate
+    /** The expiration date of the card in 'MM/YY' format. */
+    fun expirationDate(): String = body.expirationDate()
 
-    fun pan(): String = pan
+    /** The sixteen digit card number. */
+    fun pan(): String = body.pan()
 
-    fun tokenizationSource(): TokenizationSource = tokenizationSource
+    /** The source of the tokenization request. */
+    fun tokenizationSource(): TokenizationSource = body.tokenizationSource()
 
-    fun accountScore(): Optional<Long> = Optional.ofNullable(accountScore)
+    /**
+     * The account score (1-5) that represents how the Digital Wallet's view on how reputable an end
+     * user's account is.
+     */
+    fun accountScore(): Optional<Long> = body.accountScore()
 
-    fun deviceScore(): Optional<Long> = Optional.ofNullable(deviceScore)
+    /**
+     * The device score (1-5) that represents how the Digital Wallet's view on how reputable an end
+     * user's device is.
+     */
+    fun deviceScore(): Optional<Long> = body.deviceScore()
 
-    fun entity(): Optional<String> = Optional.ofNullable(entity)
+    /**
+     * Optional field to specify the token requestor name for a merchant token simulation. Ignored
+     * when tokenization_source is not MERCHANT.
+     */
+    fun entity(): Optional<String> = body.entity()
 
+    /** The decision that the Digital Wallet's recommend */
     fun walletRecommendedDecision(): Optional<WalletRecommendedDecision> =
-        Optional.ofNullable(walletRecommendedDecision)
+        body.walletRecommendedDecision()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): TokenizationSimulateBody {
-        return TokenizationSimulateBody(
-            cvv,
-            expirationDate,
-            pan,
-            tokenizationSource,
-            accountScore,
-            deviceScore,
-            entity,
-            walletRecommendedDecision,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): TokenizationSimulateBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -270,70 +266,53 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var cvv: String? = null
-        private var expirationDate: String? = null
-        private var pan: String? = null
-        private var tokenizationSource: TokenizationSource? = null
-        private var accountScore: Long? = null
-        private var deviceScore: Long? = null
-        private var entity: String? = null
-        private var walletRecommendedDecision: WalletRecommendedDecision? = null
+        private var body: TokenizationSimulateBody.Builder = TokenizationSimulateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(tokenizationSimulateParams: TokenizationSimulateParams) = apply {
-            cvv = tokenizationSimulateParams.cvv
-            expirationDate = tokenizationSimulateParams.expirationDate
-            pan = tokenizationSimulateParams.pan
-            tokenizationSource = tokenizationSimulateParams.tokenizationSource
-            accountScore = tokenizationSimulateParams.accountScore
-            deviceScore = tokenizationSimulateParams.deviceScore
-            entity = tokenizationSimulateParams.entity
-            walletRecommendedDecision = tokenizationSimulateParams.walletRecommendedDecision
+            body = tokenizationSimulateParams.body.toBuilder()
             additionalHeaders = tokenizationSimulateParams.additionalHeaders.toBuilder()
             additionalQueryParams = tokenizationSimulateParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                tokenizationSimulateParams.additionalBodyProperties.toMutableMap()
         }
 
         /** The three digit cvv for the card. */
-        fun cvv(cvv: String) = apply { this.cvv = cvv }
+        fun cvv(cvv: String) = apply { body.cvv(cvv) }
 
         /** The expiration date of the card in 'MM/YY' format. */
-        fun expirationDate(expirationDate: String) = apply { this.expirationDate = expirationDate }
+        fun expirationDate(expirationDate: String) = apply { body.expirationDate(expirationDate) }
 
         /** The sixteen digit card number. */
-        fun pan(pan: String) = apply { this.pan = pan }
+        fun pan(pan: String) = apply { body.pan(pan) }
 
         /** The source of the tokenization request. */
         fun tokenizationSource(tokenizationSource: TokenizationSource) = apply {
-            this.tokenizationSource = tokenizationSource
+            body.tokenizationSource(tokenizationSource)
         }
 
         /**
          * The account score (1-5) that represents how the Digital Wallet's view on how reputable an
          * end user's account is.
          */
-        fun accountScore(accountScore: Long) = apply { this.accountScore = accountScore }
+        fun accountScore(accountScore: Long) = apply { body.accountScore(accountScore) }
 
         /**
          * The device score (1-5) that represents how the Digital Wallet's view on how reputable an
          * end user's device is.
          */
-        fun deviceScore(deviceScore: Long) = apply { this.deviceScore = deviceScore }
+        fun deviceScore(deviceScore: Long) = apply { body.deviceScore(deviceScore) }
 
         /**
          * Optional field to specify the token requestor name for a merchant token simulation.
          * Ignored when tokenization_source is not MERCHANT.
          */
-        fun entity(entity: String) = apply { this.entity = entity }
+        fun entity(entity: String) = apply { body.entity(entity) }
 
         /** The decision that the Digital Wallet's recommend */
         fun walletRecommendedDecision(walletRecommendedDecision: WalletRecommendedDecision) =
             apply {
-                this.walletRecommendedDecision = walletRecommendedDecision
+                body.walletRecommendedDecision(walletRecommendedDecision)
             }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -435,42 +414,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TokenizationSimulateParams =
             TokenizationSimulateParams(
-                checkNotNull(cvv) { "`cvv` is required but was not set" },
-                checkNotNull(expirationDate) { "`expirationDate` is required but was not set" },
-                checkNotNull(pan) { "`pan` is required but was not set" },
-                checkNotNull(tokenizationSource) {
-                    "`tokenizationSource` is required but was not set"
-                },
-                accountScore,
-                deviceScore,
-                entity,
-                walletRecommendedDecision,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -613,11 +579,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TokenizationSimulateParams && cvv == other.cvv && expirationDate == other.expirationDate && pan == other.pan && tokenizationSource == other.tokenizationSource && accountScore == other.accountScore && deviceScore == other.deviceScore && entity == other.entity && walletRecommendedDecision == other.walletRecommendedDecision && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is TokenizationSimulateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cvv, expirationDate, pan, tokenizationSource, accountScore, deviceScore, entity, walletRecommendedDecision, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "TokenizationSimulateParams{cvv=$cvv, expirationDate=$expirationDate, pan=$pan, tokenizationSource=$tokenizationSource, accountScore=$accountScore, deviceScore=$deviceScore, entity=$entity, walletRecommendedDecision=$walletRecommendedDecision, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "TokenizationSimulateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

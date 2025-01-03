@@ -17,31 +17,27 @@ import java.util.Objects
 
 class TransactionSimulateAuthorizationAdviceParams
 constructor(
-    private val token: String,
-    private val amount: Long,
+    private val body: TransactionSimulateAuthorizationAdviceBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun token(): String = token
+    /** The transaction token returned from the /v1/simulate/authorize. response. */
+    fun token(): String = body.token()
 
-    fun amount(): Long = amount
+    /**
+     * Amount (in cents) to authorize. This amount will override the transaction's amount that was
+     * originally set by /v1/simulate/authorize.
+     */
+    fun amount(): Long = body.amount()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): TransactionSimulateAuthorizationAdviceBody {
-        return TransactionSimulateAuthorizationAdviceBody(
-            token,
-            amount,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): TransactionSimulateAuthorizationAdviceBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -158,35 +154,31 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var token: String? = null
-        private var amount: Long? = null
+        private var body: TransactionSimulateAuthorizationAdviceBody.Builder =
+            TransactionSimulateAuthorizationAdviceBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(
             transactionSimulateAuthorizationAdviceParams:
                 TransactionSimulateAuthorizationAdviceParams
         ) = apply {
-            token = transactionSimulateAuthorizationAdviceParams.token
-            amount = transactionSimulateAuthorizationAdviceParams.amount
+            body = transactionSimulateAuthorizationAdviceParams.body.toBuilder()
             additionalHeaders =
                 transactionSimulateAuthorizationAdviceParams.additionalHeaders.toBuilder()
             additionalQueryParams =
                 transactionSimulateAuthorizationAdviceParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                transactionSimulateAuthorizationAdviceParams.additionalBodyProperties.toMutableMap()
         }
 
         /** The transaction token returned from the /v1/simulate/authorize. response. */
-        fun token(token: String) = apply { this.token = token }
+        fun token(token: String) = apply { body.token(token) }
 
         /**
          * Amount (in cents) to authorize. This amount will override the transaction's amount that
          * was originally set by /v1/simulate/authorize.
          */
-        fun amount(amount: Long) = apply { this.amount = amount }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -287,34 +279,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransactionSimulateAuthorizationAdviceParams =
             TransactionSimulateAuthorizationAdviceParams(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(amount) { "`amount` is required but was not set" },
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -323,11 +310,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionSimulateAuthorizationAdviceParams && token == other.token && amount == other.amount && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is TransactionSimulateAuthorizationAdviceParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, amount, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "TransactionSimulateAuthorizationAdviceParams{token=$token, amount=$amount, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "TransactionSimulateAuthorizationAdviceParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

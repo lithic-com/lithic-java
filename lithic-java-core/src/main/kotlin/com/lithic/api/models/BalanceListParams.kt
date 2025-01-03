@@ -24,12 +24,16 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** List balances for all financial accounts of a given account_token. */
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
+    /** UTC date and time of the balances to retrieve. Defaults to latest available balances */
     fun balanceDate(): Optional<OffsetDateTime> = Optional.ofNullable(balanceDate)
 
+    /** List balances for all financial accounts of a given business_account_token. */
     fun businessAccountToken(): Optional<String> = Optional.ofNullable(businessAccountToken)
 
+    /** List balances for a given Financial Account type. */
     fun financialAccountType(): Optional<FinancialAccountType> =
         Optional.ofNullable(financialAccountType)
 

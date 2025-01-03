@@ -19,37 +19,40 @@ import java.util.Optional
 class AccountHolderUpdateParams
 constructor(
     private val accountHolderToken: String,
-    private val businessAccountToken: String?,
-    private val email: String?,
-    private val phoneNumber: String?,
+    private val body: AccountHolderUpdateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun accountHolderToken(): String = accountHolderToken
 
-    fun businessAccountToken(): Optional<String> = Optional.ofNullable(businessAccountToken)
+    /**
+     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+     * businesses. Pass the account_token of the enrolled business associated with the
+     * AUTHORIZED_USER in this field.
+     */
+    fun businessAccountToken(): Optional<String> = body.businessAccountToken()
 
-    fun email(): Optional<String> = Optional.ofNullable(email)
+    /**
+     * Account holder's email address. The primary purpose of this field is for cardholder
+     * identification and verification during the digital wallet tokenization process.
+     */
+    fun email(): Optional<String> = body.email()
 
-    fun phoneNumber(): Optional<String> = Optional.ofNullable(phoneNumber)
+    /**
+     * Account holder's phone number, entered in E.164 format. The primary purpose of this field is
+     * for cardholder identification and verification during the digital wallet tokenization
+     * process.
+     */
+    fun phoneNumber(): Optional<String> = body.phoneNumber()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): AccountHolderUpdateBody {
-        return AccountHolderUpdateBody(
-            businessAccountToken,
-            email,
-            phoneNumber,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): AccountHolderUpdateBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -200,23 +203,16 @@ constructor(
     class Builder {
 
         private var accountHolderToken: String? = null
-        private var businessAccountToken: String? = null
-        private var email: String? = null
-        private var phoneNumber: String? = null
+        private var body: AccountHolderUpdateBody.Builder = AccountHolderUpdateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(accountHolderUpdateParams: AccountHolderUpdateParams) = apply {
             accountHolderToken = accountHolderUpdateParams.accountHolderToken
-            businessAccountToken = accountHolderUpdateParams.businessAccountToken
-            email = accountHolderUpdateParams.email
-            phoneNumber = accountHolderUpdateParams.phoneNumber
+            body = accountHolderUpdateParams.body.toBuilder()
             additionalHeaders = accountHolderUpdateParams.additionalHeaders.toBuilder()
             additionalQueryParams = accountHolderUpdateParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                accountHolderUpdateParams.additionalBodyProperties.toMutableMap()
         }
 
         fun accountHolderToken(accountHolderToken: String) = apply {
@@ -229,21 +225,21 @@ constructor(
          * AUTHORIZED_USER in this field.
          */
         fun businessAccountToken(businessAccountToken: String) = apply {
-            this.businessAccountToken = businessAccountToken
+            body.businessAccountToken(businessAccountToken)
         }
 
         /**
          * Account holder's email address. The primary purpose of this field is for cardholder
          * identification and verification during the digital wallet tokenization process.
          */
-        fun email(email: String) = apply { this.email = email }
+        fun email(email: String) = apply { body.email(email) }
 
         /**
          * Account holder's phone number, entered in E.164 format. The primary purpose of this field
          * is for cardholder identification and verification during the digital wallet tokenization
          * process.
          */
-        fun phoneNumber(phoneNumber: String) = apply { this.phoneNumber = phoneNumber }
+        fun phoneNumber(phoneNumber: String) = apply { body.phoneNumber(phoneNumber) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -344,25 +340,22 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): AccountHolderUpdateParams =
@@ -370,12 +363,9 @@ constructor(
                 checkNotNull(accountHolderToken) {
                     "`accountHolderToken` is required but was not set"
                 },
-                businessAccountToken,
-                email,
-                phoneNumber,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -384,11 +374,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountHolderUpdateParams && accountHolderToken == other.accountHolderToken && businessAccountToken == other.businessAccountToken && email == other.email && phoneNumber == other.phoneNumber && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is AccountHolderUpdateParams && accountHolderToken == other.accountHolderToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, businessAccountToken, email, phoneNumber, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountHolderToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "AccountHolderUpdateParams{accountHolderToken=$accountHolderToken, businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "AccountHolderUpdateParams{accountHolderToken=$accountHolderToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

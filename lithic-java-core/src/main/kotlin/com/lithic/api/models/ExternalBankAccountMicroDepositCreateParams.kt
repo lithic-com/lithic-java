@@ -18,26 +18,22 @@ import java.util.Objects
 class ExternalBankAccountMicroDepositCreateParams
 constructor(
     private val externalBankAccountToken: String,
-    private val microDeposits: List<Long>,
+    private val body: ExternalBankAccountMicroDepositCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun externalBankAccountToken(): String = externalBankAccountToken
 
-    fun microDeposits(): List<Long> = microDeposits
+    fun microDeposits(): List<Long> = body.microDeposits()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): ExternalBankAccountMicroDepositCreateBody {
-        return ExternalBankAccountMicroDepositCreateBody(microDeposits, additionalBodyProperties)
-    }
+    @JvmSynthetic internal fun getBody(): ExternalBankAccountMicroDepositCreateBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -74,7 +70,7 @@ constructor(
 
         class Builder {
 
-            private var microDeposits: List<Long>? = null
+            private var microDeposits: MutableList<Long>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -88,7 +84,11 @@ constructor(
             }
 
             fun microDeposits(microDeposits: List<Long>) = apply {
-                this.microDeposits = microDeposits
+                this.microDeposits = microDeposits.toMutableList()
+            }
+
+            fun addMicroDeposit(microDeposit: Long) = apply {
+                microDeposits = (microDeposits ?: mutableListOf()).apply { add(microDeposit) }
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -147,10 +147,10 @@ constructor(
     class Builder {
 
         private var externalBankAccountToken: String? = null
-        private var microDeposits: MutableList<Long> = mutableListOf()
+        private var body: ExternalBankAccountMicroDepositCreateBody.Builder =
+            ExternalBankAccountMicroDepositCreateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(
@@ -158,26 +158,20 @@ constructor(
         ) = apply {
             externalBankAccountToken =
                 externalBankAccountMicroDepositCreateParams.externalBankAccountToken
-            microDeposits =
-                externalBankAccountMicroDepositCreateParams.microDeposits.toMutableList()
+            body = externalBankAccountMicroDepositCreateParams.body.toBuilder()
             additionalHeaders =
                 externalBankAccountMicroDepositCreateParams.additionalHeaders.toBuilder()
             additionalQueryParams =
                 externalBankAccountMicroDepositCreateParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                externalBankAccountMicroDepositCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         fun externalBankAccountToken(externalBankAccountToken: String) = apply {
             this.externalBankAccountToken = externalBankAccountToken
         }
 
-        fun microDeposits(microDeposits: List<Long>) = apply {
-            this.microDeposits.clear()
-            this.microDeposits.addAll(microDeposits)
-        }
+        fun microDeposits(microDeposits: List<Long>) = apply { body.microDeposits(microDeposits) }
 
-        fun addMicroDeposit(microDeposit: Long) = apply { this.microDeposits.add(microDeposit) }
+        fun addMicroDeposit(microDeposit: Long) = apply { body.addMicroDeposit(microDeposit) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -278,25 +272,22 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ExternalBankAccountMicroDepositCreateParams =
@@ -304,10 +295,9 @@ constructor(
                 checkNotNull(externalBankAccountToken) {
                     "`externalBankAccountToken` is required but was not set"
                 },
-                microDeposits.toImmutable(),
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -316,11 +306,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalBankAccountMicroDepositCreateParams && externalBankAccountToken == other.externalBankAccountToken && microDeposits == other.microDeposits && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is ExternalBankAccountMicroDepositCreateParams && externalBankAccountToken == other.externalBankAccountToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountToken, microDeposits, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(externalBankAccountToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "ExternalBankAccountMicroDepositCreateParams{externalBankAccountToken=$externalBankAccountToken, microDeposits=$microDeposits, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "ExternalBankAccountMicroDepositCreateParams{externalBankAccountToken=$externalBankAccountToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

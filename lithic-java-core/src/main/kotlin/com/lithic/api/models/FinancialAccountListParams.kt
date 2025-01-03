@@ -21,10 +21,13 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** List financial accounts for a given account_token or business_account_token */
     fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
 
+    /** List financial accounts for a given business_account_token */
     fun businessAccountToken(): Optional<String> = Optional.ofNullable(businessAccountToken)
 
+    /** List financial accounts of a given type */
     fun type(): Optional<Type> = Optional.ofNullable(type)
 
     fun _additionalHeaders(): Headers = additionalHeaders

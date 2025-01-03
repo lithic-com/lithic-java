@@ -15,8 +15,10 @@ constructor(
     private val additionalQueryParams: QueryParams,
 ) {
 
+    /** A base64 encoded JSON string of an EmbedRequest to specify which card to load. */
     fun embedRequest(): String = embedRequest
 
+    /** SHA256 HMAC of the embed_request JSON string with base64 digest. */
     fun hmac(): String = hmac
 
     fun _additionalHeaders(): Headers = additionalHeaders

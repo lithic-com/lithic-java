@@ -22,49 +22,54 @@ import java.util.Optional
 class CardProvisionParams
 constructor(
     private val cardToken: String,
-    private val certificate: String?,
-    private val clientDeviceId: String?,
-    private val clientWalletAccountId: String?,
-    private val digitalWallet: DigitalWallet?,
-    private val nonce: String?,
-    private val nonceSignature: String?,
+    private val body: CardProvisionBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
     fun cardToken(): String = cardToken
 
-    fun certificate(): Optional<String> = Optional.ofNullable(certificate)
+    /**
+     * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
+     * the response. Apple's public leaf certificate. Base64 encoded in PEM format with headers
+     * `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's wallet.
+     */
+    fun certificate(): Optional<String> = body.certificate()
 
-    fun clientDeviceId(): Optional<String> = Optional.ofNullable(clientDeviceId)
+    /**
+     * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on the
+     * Visa network. Stable device identification set by the wallet provider.
+     */
+    fun clientDeviceId(): Optional<String> = body.clientDeviceId()
 
-    fun clientWalletAccountId(): Optional<String> = Optional.ofNullable(clientWalletAccountId)
+    /**
+     * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on the
+     * Visa network. Consumer ID that identifies the wallet account holder entity.
+     */
+    fun clientWalletAccountId(): Optional<String> = body.clientWalletAccountId()
 
-    fun digitalWallet(): Optional<DigitalWallet> = Optional.ofNullable(digitalWallet)
+    /** Name of digital wallet provider. */
+    fun digitalWallet(): Optional<DigitalWallet> = body.digitalWallet()
 
-    fun nonce(): Optional<String> = Optional.ofNullable(nonce)
+    /**
+     * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
+     * the response. Base64 cryptographic nonce provided by the device's wallet.
+     */
+    fun nonce(): Optional<String> = body.nonce()
 
-    fun nonceSignature(): Optional<String> = Optional.ofNullable(nonceSignature)
+    /**
+     * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
+     * the response. Base64 cryptographic nonce provided by the device's wallet.
+     */
+    fun nonceSignature(): Optional<String> = body.nonceSignature()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): CardProvisionBody {
-        return CardProvisionBody(
-            certificate,
-            clientDeviceId,
-            clientWalletAccountId,
-            digitalWallet,
-            nonce,
-            nonceSignature,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): CardProvisionBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -268,28 +273,16 @@ constructor(
     class Builder {
 
         private var cardToken: String? = null
-        private var certificate: String? = null
-        private var clientDeviceId: String? = null
-        private var clientWalletAccountId: String? = null
-        private var digitalWallet: DigitalWallet? = null
-        private var nonce: String? = null
-        private var nonceSignature: String? = null
+        private var body: CardProvisionBody.Builder = CardProvisionBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(cardProvisionParams: CardProvisionParams) = apply {
             cardToken = cardProvisionParams.cardToken
-            certificate = cardProvisionParams.certificate
-            clientDeviceId = cardProvisionParams.clientDeviceId
-            clientWalletAccountId = cardProvisionParams.clientWalletAccountId
-            digitalWallet = cardProvisionParams.digitalWallet
-            nonce = cardProvisionParams.nonce
-            nonceSignature = cardProvisionParams.nonceSignature
+            body = cardProvisionParams.body.toBuilder()
             additionalHeaders = cardProvisionParams.additionalHeaders.toBuilder()
             additionalQueryParams = cardProvisionParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties = cardProvisionParams.additionalBodyProperties.toMutableMap()
         }
 
         fun cardToken(cardToken: String) = apply { this.cardToken = cardToken }
@@ -300,38 +293,38 @@ constructor(
          * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
          * wallet.
          */
-        fun certificate(certificate: String) = apply { this.certificate = certificate }
+        fun certificate(certificate: String) = apply { body.certificate(certificate) }
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Stable device identification set by the wallet provider.
          */
-        fun clientDeviceId(clientDeviceId: String) = apply { this.clientDeviceId = clientDeviceId }
+        fun clientDeviceId(clientDeviceId: String) = apply { body.clientDeviceId(clientDeviceId) }
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Consumer ID that identifies the wallet account holder entity.
          */
         fun clientWalletAccountId(clientWalletAccountId: String) = apply {
-            this.clientWalletAccountId = clientWalletAccountId
+            body.clientWalletAccountId(clientWalletAccountId)
         }
 
         /** Name of digital wallet provider. */
         fun digitalWallet(digitalWallet: DigitalWallet) = apply {
-            this.digitalWallet = digitalWallet
+            body.digitalWallet(digitalWallet)
         }
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        fun nonce(nonce: String) = apply { this.nonce = nonce }
+        fun nonce(nonce: String) = apply { body.nonce(nonce) }
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        fun nonceSignature(nonceSignature: String) = apply { this.nonceSignature = nonceSignature }
+        fun nonceSignature(nonceSignature: String) = apply { body.nonceSignature(nonceSignature) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -432,39 +425,30 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): CardProvisionParams =
             CardProvisionParams(
                 checkNotNull(cardToken) { "`cardToken` is required but was not set" },
-                certificate,
-                clientDeviceId,
-                clientWalletAccountId,
-                digitalWallet,
-                nonce,
-                nonceSignature,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -536,11 +520,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CardProvisionParams && cardToken == other.cardToken && certificate == other.certificate && clientDeviceId == other.clientDeviceId && clientWalletAccountId == other.clientWalletAccountId && digitalWallet == other.digitalWallet && nonce == other.nonce && nonceSignature == other.nonceSignature && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is CardProvisionParams && cardToken == other.cardToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, certificate, clientDeviceId, clientWalletAccountId, digitalWallet, nonce, nonceSignature, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(cardToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "CardProvisionParams{cardToken=$cardToken, certificate=$certificate, clientDeviceId=$clientDeviceId, clientWalletAccountId=$clientWalletAccountId, digitalWallet=$digitalWallet, nonce=$nonce, nonceSignature=$nonceSignature, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "CardProvisionParams{cardToken=$cardToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

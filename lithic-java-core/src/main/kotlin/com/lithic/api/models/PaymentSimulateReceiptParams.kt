@@ -21,43 +21,33 @@ import java.util.Optional
 
 class PaymentSimulateReceiptParams
 constructor(
-    private val token: String,
-    private val amount: Long,
-    private val financialAccountToken: String,
-    private val receiptType: ReceiptType,
-    private val memo: String?,
+    private val body: PaymentSimulateReceiptBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun token(): String = token
+    /** Payment token */
+    fun token(): String = body.token()
 
-    fun amount(): Long = amount
+    /** Amount */
+    fun amount(): Long = body.amount()
 
-    fun financialAccountToken(): String = financialAccountToken
+    /** Financial Account Token */
+    fun financialAccountToken(): String = body.financialAccountToken()
 
-    fun receiptType(): ReceiptType = receiptType
+    /** Receipt Type */
+    fun receiptType(): ReceiptType = body.receiptType()
 
-    fun memo(): Optional<String> = Optional.ofNullable(memo)
+    /** Memo */
+    fun memo(): Optional<String> = body.memo()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): PaymentSimulateReceiptBody {
-        return PaymentSimulateReceiptBody(
-            token,
-            amount,
-            financialAccountToken,
-            receiptType,
-            memo,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): PaymentSimulateReceiptBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -200,44 +190,33 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var token: String? = null
-        private var amount: Long? = null
-        private var financialAccountToken: String? = null
-        private var receiptType: ReceiptType? = null
-        private var memo: String? = null
+        private var body: PaymentSimulateReceiptBody.Builder = PaymentSimulateReceiptBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(paymentSimulateReceiptParams: PaymentSimulateReceiptParams) = apply {
-            token = paymentSimulateReceiptParams.token
-            amount = paymentSimulateReceiptParams.amount
-            financialAccountToken = paymentSimulateReceiptParams.financialAccountToken
-            receiptType = paymentSimulateReceiptParams.receiptType
-            memo = paymentSimulateReceiptParams.memo
+            body = paymentSimulateReceiptParams.body.toBuilder()
             additionalHeaders = paymentSimulateReceiptParams.additionalHeaders.toBuilder()
             additionalQueryParams = paymentSimulateReceiptParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                paymentSimulateReceiptParams.additionalBodyProperties.toMutableMap()
         }
 
         /** Payment token */
-        fun token(token: String) = apply { this.token = token }
+        fun token(token: String) = apply { body.token(token) }
 
         /** Amount */
-        fun amount(amount: Long) = apply { this.amount = amount }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         /** Financial Account Token */
         fun financialAccountToken(financialAccountToken: String) = apply {
-            this.financialAccountToken = financialAccountToken
+            body.financialAccountToken(financialAccountToken)
         }
 
         /** Receipt Type */
-        fun receiptType(receiptType: ReceiptType) = apply { this.receiptType = receiptType }
+        fun receiptType(receiptType: ReceiptType) = apply { body.receiptType(receiptType) }
 
         /** Memo */
-        fun memo(memo: String) = apply { this.memo = memo }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -338,39 +317,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): PaymentSimulateReceiptParams =
             PaymentSimulateReceiptParams(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(amount) { "`amount` is required but was not set" },
-                checkNotNull(financialAccountToken) {
-                    "`financialAccountToken` is required but was not set"
-                },
-                checkNotNull(receiptType) { "`receiptType` is required but was not set" },
-                memo,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -436,11 +405,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentSimulateReceiptParams && token == other.token && amount == other.amount && financialAccountToken == other.financialAccountToken && receiptType == other.receiptType && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is PaymentSimulateReceiptParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(token, amount, financialAccountToken, receiptType, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "PaymentSimulateReceiptParams{token=$token, amount=$amount, financialAccountToken=$financialAccountToken, receiptType=$receiptType, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "PaymentSimulateReceiptParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

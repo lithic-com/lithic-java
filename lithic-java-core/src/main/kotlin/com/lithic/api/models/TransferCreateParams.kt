@@ -18,43 +18,45 @@ import java.util.Optional
 
 class TransferCreateParams
 constructor(
-    private val amount: Long,
-    private val from: String,
-    private val to: String,
-    private val token: String?,
-    private val memo: String?,
+    private val body: TransferCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun amount(): Long = amount
+    /**
+     * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This should
+     * always be a positive value.
+     */
+    fun amount(): Long = body.amount()
 
-    fun from(): String = from
+    /**
+     * Globally unique identifier for the financial account or card that will send the funds.
+     * Accepted type dependent on the program's use case.
+     */
+    fun from(): String = body.from()
 
-    fun to(): String = to
+    /**
+     * Globally unique identifier for the financial account or card that will receive the funds.
+     * Accepted type dependent on the program's use case.
+     */
+    fun to(): String = body.to()
 
-    fun token(): Optional<String> = Optional.ofNullable(token)
+    /**
+     * Customer-provided token that will serve as an idempotency token. This token will become the
+     * transaction token.
+     */
+    fun token(): Optional<String> = body.token()
 
-    fun memo(): Optional<String> = Optional.ofNullable(memo)
+    /** Optional descriptor for the transfer. */
+    fun memo(): Optional<String> = body.memo()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): TransferCreateBody {
-        return TransferCreateBody(
-            amount,
-            from,
-            to,
-            token,
-            memo,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): TransferCreateBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -215,53 +217,43 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var amount: Long? = null
-        private var from: String? = null
-        private var to: String? = null
-        private var token: String? = null
-        private var memo: String? = null
+        private var body: TransferCreateBody.Builder = TransferCreateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(transferCreateParams: TransferCreateParams) = apply {
-            amount = transferCreateParams.amount
-            from = transferCreateParams.from
-            to = transferCreateParams.to
-            token = transferCreateParams.token
-            memo = transferCreateParams.memo
+            body = transferCreateParams.body.toBuilder()
             additionalHeaders = transferCreateParams.additionalHeaders.toBuilder()
             additionalQueryParams = transferCreateParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties = transferCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
          * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
          * should always be a positive value.
          */
-        fun amount(amount: Long) = apply { this.amount = amount }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
          * Globally unique identifier for the financial account or card that will send the funds.
          * Accepted type dependent on the program's use case.
          */
-        fun from(from: String) = apply { this.from = from }
+        fun from(from: String) = apply { body.from(from) }
 
         /**
          * Globally unique identifier for the financial account or card that will receive the funds.
          * Accepted type dependent on the program's use case.
          */
-        fun to(to: String) = apply { this.to = to }
+        fun to(to: String) = apply { body.to(to) }
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        fun token(token: String) = apply { this.token = token }
+        fun token(token: String) = apply { body.token(token) }
 
         /** Optional descriptor for the transfer. */
-        fun memo(memo: String) = apply { this.memo = memo }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -362,37 +354,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransferCreateParams =
             TransferCreateParams(
-                checkNotNull(amount) { "`amount` is required but was not set" },
-                checkNotNull(from) { "`from` is required but was not set" },
-                checkNotNull(to) { "`to` is required but was not set" },
-                token,
-                memo,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -401,11 +385,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransferCreateParams && amount == other.amount && from == other.from && to == other.to && token == other.token && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is TransferCreateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, from, to, token, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "TransferCreateParams{amount=$amount, from=$from, to=$to, token=$token, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "TransferCreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

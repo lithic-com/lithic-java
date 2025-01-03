@@ -19,33 +19,27 @@ import java.util.Objects
 class CreditProductPrimeRateCreateParams
 constructor(
     private val creditProductToken: String,
-    private val effectiveDate: LocalDate,
-    private val rate: String,
+    private val body: CreditProductPrimeRateCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
+    /** Globally unique identifier for credit products. */
     fun creditProductToken(): String = creditProductToken
 
-    fun effectiveDate(): LocalDate = effectiveDate
+    /** Date the rate goes into effect */
+    fun effectiveDate(): LocalDate = body.effectiveDate()
 
-    fun rate(): String = rate
+    /** The rate in decimal format */
+    fun rate(): String = body.rate()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): CreditProductPrimeRateCreateBody {
-        return CreditProductPrimeRateCreateBody(
-            effectiveDate,
-            rate,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): CreditProductPrimeRateCreateBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -164,23 +158,19 @@ constructor(
     class Builder {
 
         private var creditProductToken: String? = null
-        private var effectiveDate: LocalDate? = null
-        private var rate: String? = null
+        private var body: CreditProductPrimeRateCreateBody.Builder =
+            CreditProductPrimeRateCreateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(creditProductPrimeRateCreateParams: CreditProductPrimeRateCreateParams) =
             apply {
                 creditProductToken = creditProductPrimeRateCreateParams.creditProductToken
-                effectiveDate = creditProductPrimeRateCreateParams.effectiveDate
-                rate = creditProductPrimeRateCreateParams.rate
+                body = creditProductPrimeRateCreateParams.body.toBuilder()
                 additionalHeaders = creditProductPrimeRateCreateParams.additionalHeaders.toBuilder()
                 additionalQueryParams =
                     creditProductPrimeRateCreateParams.additionalQueryParams.toBuilder()
-                additionalBodyProperties =
-                    creditProductPrimeRateCreateParams.additionalBodyProperties.toMutableMap()
             }
 
         /** Globally unique identifier for credit products. */
@@ -189,10 +179,10 @@ constructor(
         }
 
         /** Date the rate goes into effect */
-        fun effectiveDate(effectiveDate: LocalDate) = apply { this.effectiveDate = effectiveDate }
+        fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
         /** The rate in decimal format */
-        fun rate(rate: String) = apply { this.rate = rate }
+        fun rate(rate: String) = apply { body.rate(rate) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -293,25 +283,22 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): CreditProductPrimeRateCreateParams =
@@ -319,11 +306,9 @@ constructor(
                 checkNotNull(creditProductToken) {
                     "`creditProductToken` is required but was not set"
                 },
-                checkNotNull(effectiveDate) { "`effectiveDate` is required but was not set" },
-                checkNotNull(rate) { "`rate` is required but was not set" },
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -332,11 +317,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is CreditProductPrimeRateCreateParams && creditProductToken == other.creditProductToken && effectiveDate == other.effectiveDate && rate == other.rate && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is CreditProductPrimeRateCreateParams && creditProductToken == other.creditProductToken && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(creditProductToken, effectiveDate, rate, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(creditProductToken, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "CreditProductPrimeRateCreateParams{creditProductToken=$creditProductToken, effectiveDate=$effectiveDate, rate=$rate, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "CreditProductPrimeRateCreateParams{creditProductToken=$creditProductToken, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

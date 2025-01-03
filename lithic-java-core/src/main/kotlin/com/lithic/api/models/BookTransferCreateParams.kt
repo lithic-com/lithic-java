@@ -21,55 +21,54 @@ import java.util.Optional
 
 class BookTransferCreateParams
 constructor(
-    private val amount: Long,
-    private val category: Category,
-    private val fromFinancialAccountToken: String,
-    private val subtype: String,
-    private val toFinancialAccountToken: String,
-    private val type: Type,
-    private val token: String?,
-    private val memo: String?,
+    private val body: BookTransferCreateBody,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) {
 
-    fun amount(): Long = amount
+    /**
+     * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This should
+     * always be a positive value.
+     */
+    fun amount(): Long = body.amount()
 
-    fun category(): Category = category
+    /** Category of the book transfer */
+    fun category(): Category = body.category()
 
-    fun fromFinancialAccountToken(): String = fromFinancialAccountToken
+    /**
+     * Globally unique identifier for the financial account or card that will send the funds.
+     * Accepted type dependent on the program's use case.
+     */
+    fun fromFinancialAccountToken(): String = body.fromFinancialAccountToken()
 
-    fun subtype(): String = subtype
+    /** The program specific subtype code for the specified category/type. */
+    fun subtype(): String = body.subtype()
 
-    fun toFinancialAccountToken(): String = toFinancialAccountToken
+    /**
+     * Globally unique identifier for the financial account or card that will receive the funds.
+     * Accepted type dependent on the program's use case.
+     */
+    fun toFinancialAccountToken(): String = body.toFinancialAccountToken()
 
-    fun type(): Type = type
+    /** Type of book_transfer */
+    fun type(): Type = body.type()
 
-    fun token(): Optional<String> = Optional.ofNullable(token)
+    /**
+     * Customer-provided token that will serve as an idempotency token. This token will become the
+     * transaction token.
+     */
+    fun token(): Optional<String> = body.token()
 
-    fun memo(): Optional<String> = Optional.ofNullable(memo)
+    /** Optional descriptor for the transfer. */
+    fun memo(): Optional<String> = body.memo()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
-    @JvmSynthetic
-    internal fun getBody(): BookTransferCreateBody {
-        return BookTransferCreateBody(
-            amount,
-            category,
-            fromFinancialAccountToken,
-            subtype,
-            toFinancialAccountToken,
-            type,
-            token,
-            memo,
-            additionalBodyProperties,
-        )
-    }
+    @JvmSynthetic internal fun getBody(): BookTransferCreateBody = body
 
     @JvmSynthetic internal fun getHeaders(): Headers = additionalHeaders
 
@@ -270,73 +269,56 @@ constructor(
     @NoAutoDetect
     class Builder {
 
-        private var amount: Long? = null
-        private var category: Category? = null
-        private var fromFinancialAccountToken: String? = null
-        private var subtype: String? = null
-        private var toFinancialAccountToken: String? = null
-        private var type: Type? = null
-        private var token: String? = null
-        private var memo: String? = null
+        private var body: BookTransferCreateBody.Builder = BookTransferCreateBody.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(bookTransferCreateParams: BookTransferCreateParams) = apply {
-            amount = bookTransferCreateParams.amount
-            category = bookTransferCreateParams.category
-            fromFinancialAccountToken = bookTransferCreateParams.fromFinancialAccountToken
-            subtype = bookTransferCreateParams.subtype
-            toFinancialAccountToken = bookTransferCreateParams.toFinancialAccountToken
-            type = bookTransferCreateParams.type
-            token = bookTransferCreateParams.token
-            memo = bookTransferCreateParams.memo
+            body = bookTransferCreateParams.body.toBuilder()
             additionalHeaders = bookTransferCreateParams.additionalHeaders.toBuilder()
             additionalQueryParams = bookTransferCreateParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties =
-                bookTransferCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         /**
          * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
          * should always be a positive value.
          */
-        fun amount(amount: Long) = apply { this.amount = amount }
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         /** Category of the book transfer */
-        fun category(category: Category) = apply { this.category = category }
+        fun category(category: Category) = apply { body.category(category) }
 
         /**
          * Globally unique identifier for the financial account or card that will send the funds.
          * Accepted type dependent on the program's use case.
          */
         fun fromFinancialAccountToken(fromFinancialAccountToken: String) = apply {
-            this.fromFinancialAccountToken = fromFinancialAccountToken
+            body.fromFinancialAccountToken(fromFinancialAccountToken)
         }
 
         /** The program specific subtype code for the specified category/type. */
-        fun subtype(subtype: String) = apply { this.subtype = subtype }
+        fun subtype(subtype: String) = apply { body.subtype(subtype) }
 
         /**
          * Globally unique identifier for the financial account or card that will receive the funds.
          * Accepted type dependent on the program's use case.
          */
         fun toFinancialAccountToken(toFinancialAccountToken: String) = apply {
-            this.toFinancialAccountToken = toFinancialAccountToken
+            body.toFinancialAccountToken(toFinancialAccountToken)
         }
 
         /** Type of book_transfer */
-        fun type(type: Type) = apply { this.type = type }
+        fun type(type: Type) = apply { body.type(type) }
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        fun token(token: String) = apply { this.token = token }
+        fun token(token: String) = apply { body.token(token) }
 
         /** Optional descriptor for the transfer. */
-        fun memo(memo: String) = apply { this.memo = memo }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -437,44 +419,29 @@ constructor(
         }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
+            body.additionalProperties(additionalBodyProperties)
         }
 
         fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
+            body.putAdditionalProperty(key, value)
         }
 
         fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
             apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
+                body.putAllAdditionalProperties(additionalBodyProperties)
             }
 
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
 
         fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): BookTransferCreateParams =
             BookTransferCreateParams(
-                checkNotNull(amount) { "`amount` is required but was not set" },
-                checkNotNull(category) { "`category` is required but was not set" },
-                checkNotNull(fromFinancialAccountToken) {
-                    "`fromFinancialAccountToken` is required but was not set"
-                },
-                checkNotNull(subtype) { "`subtype` is required but was not set" },
-                checkNotNull(toFinancialAccountToken) {
-                    "`toFinancialAccountToken` is required but was not set"
-                },
-                checkNotNull(type) { "`type` is required but was not set" },
-                token,
-                memo,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
@@ -807,11 +774,11 @@ constructor(
             return true
         }
 
-        return /* spotless:off */ other is BookTransferCreateParams && amount == other.amount && category == other.category && fromFinancialAccountToken == other.fromFinancialAccountToken && subtype == other.subtype && toFinancialAccountToken == other.toFinancialAccountToken && type == other.type && token == other.token && memo == other.memo && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return /* spotless:off */ other is BookTransferCreateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(amount, category, fromFinancialAccountToken, subtype, toFinancialAccountToken, type, token, memo, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "BookTransferCreateParams{amount=$amount, category=$category, fromFinancialAccountToken=$fromFinancialAccountToken, subtype=$subtype, toFinancialAccountToken=$toFinancialAccountToken, type=$type, token=$token, memo=$memo, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "BookTransferCreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
