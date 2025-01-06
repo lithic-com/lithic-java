@@ -183,25 +183,64 @@ constructor(
              * The account score (1-5) that represents how the Digital Wallet's view on how
              * reputable an end user's account is.
              */
-            fun accountScore(accountScore: Long) = apply { this.accountScore = accountScore }
+            fun accountScore(accountScore: Long?) = apply { this.accountScore = accountScore }
+
+            /**
+             * The account score (1-5) that represents how the Digital Wallet's view on how
+             * reputable an end user's account is.
+             */
+            fun accountScore(accountScore: Long) = accountScore(accountScore as Long?)
+
+            /**
+             * The account score (1-5) that represents how the Digital Wallet's view on how
+             * reputable an end user's account is.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun accountScore(accountScore: Optional<Long>) =
+                accountScore(accountScore.orElse(null) as Long?)
 
             /**
              * The device score (1-5) that represents how the Digital Wallet's view on how reputable
              * an end user's device is.
              */
-            fun deviceScore(deviceScore: Long) = apply { this.deviceScore = deviceScore }
+            fun deviceScore(deviceScore: Long?) = apply { this.deviceScore = deviceScore }
+
+            /**
+             * The device score (1-5) that represents how the Digital Wallet's view on how reputable
+             * an end user's device is.
+             */
+            fun deviceScore(deviceScore: Long) = deviceScore(deviceScore as Long?)
+
+            /**
+             * The device score (1-5) that represents how the Digital Wallet's view on how reputable
+             * an end user's device is.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun deviceScore(deviceScore: Optional<Long>) =
+                deviceScore(deviceScore.orElse(null) as Long?)
 
             /**
              * Optional field to specify the token requestor name for a merchant token simulation.
              * Ignored when tokenization_source is not MERCHANT.
              */
-            fun entity(entity: String) = apply { this.entity = entity }
+            fun entity(entity: String?) = apply { this.entity = entity }
+
+            /**
+             * Optional field to specify the token requestor name for a merchant token simulation.
+             * Ignored when tokenization_source is not MERCHANT.
+             */
+            fun entity(entity: Optional<String>) = entity(entity.orElse(null))
 
             /** The decision that the Digital Wallet's recommend */
-            fun walletRecommendedDecision(walletRecommendedDecision: WalletRecommendedDecision) =
+            fun walletRecommendedDecision(walletRecommendedDecision: WalletRecommendedDecision?) =
                 apply {
                     this.walletRecommendedDecision = walletRecommendedDecision
                 }
+
+            /** The decision that the Digital Wallet's recommend */
+            fun walletRecommendedDecision(
+                walletRecommendedDecision: Optional<WalletRecommendedDecision>
+            ) = walletRecommendedDecision(walletRecommendedDecision.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -295,25 +334,64 @@ constructor(
          * The account score (1-5) that represents how the Digital Wallet's view on how reputable an
          * end user's account is.
          */
-        fun accountScore(accountScore: Long) = apply { body.accountScore(accountScore) }
+        fun accountScore(accountScore: Long?) = apply { body.accountScore(accountScore) }
+
+        /**
+         * The account score (1-5) that represents how the Digital Wallet's view on how reputable an
+         * end user's account is.
+         */
+        fun accountScore(accountScore: Long) = accountScore(accountScore as Long?)
+
+        /**
+         * The account score (1-5) that represents how the Digital Wallet's view on how reputable an
+         * end user's account is.
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun accountScore(accountScore: Optional<Long>) =
+            accountScore(accountScore.orElse(null) as Long?)
 
         /**
          * The device score (1-5) that represents how the Digital Wallet's view on how reputable an
          * end user's device is.
          */
-        fun deviceScore(deviceScore: Long) = apply { body.deviceScore(deviceScore) }
+        fun deviceScore(deviceScore: Long?) = apply { body.deviceScore(deviceScore) }
+
+        /**
+         * The device score (1-5) that represents how the Digital Wallet's view on how reputable an
+         * end user's device is.
+         */
+        fun deviceScore(deviceScore: Long) = deviceScore(deviceScore as Long?)
+
+        /**
+         * The device score (1-5) that represents how the Digital Wallet's view on how reputable an
+         * end user's device is.
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun deviceScore(deviceScore: Optional<Long>) =
+            deviceScore(deviceScore.orElse(null) as Long?)
 
         /**
          * Optional field to specify the token requestor name for a merchant token simulation.
          * Ignored when tokenization_source is not MERCHANT.
          */
-        fun entity(entity: String) = apply { body.entity(entity) }
+        fun entity(entity: String?) = apply { body.entity(entity) }
+
+        /**
+         * Optional field to specify the token requestor name for a merchant token simulation.
+         * Ignored when tokenization_source is not MERCHANT.
+         */
+        fun entity(entity: Optional<String>) = entity(entity.orElse(null))
 
         /** The decision that the Digital Wallet's recommend */
-        fun walletRecommendedDecision(walletRecommendedDecision: WalletRecommendedDecision) =
+        fun walletRecommendedDecision(walletRecommendedDecision: WalletRecommendedDecision?) =
             apply {
                 body.walletRecommendedDecision(walletRecommendedDecision)
             }
+
+        /** The decision that the Digital Wallet's recommend */
+        fun walletRecommendedDecision(
+            walletRecommendedDecision: Optional<WalletRecommendedDecision>
+        ) = walletRecommendedDecision(walletRecommendedDecision.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

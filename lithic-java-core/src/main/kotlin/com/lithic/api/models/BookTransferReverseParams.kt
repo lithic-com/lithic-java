@@ -83,7 +83,10 @@ constructor(
             }
 
             /** Optional descriptor for the reversal. */
-            fun memo(memo: String) = apply { this.memo = memo }
+            fun memo(memo: String?) = apply { this.memo = memo }
+
+            /** Optional descriptor for the reversal. */
+            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -154,7 +157,10 @@ constructor(
         }
 
         /** Optional descriptor for the reversal. */
-        fun memo(memo: String) = apply { body.memo(memo) }
+        fun memo(memo: String?) = apply { body.memo(memo) }
+
+        /** Optional descriptor for the reversal. */
+        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

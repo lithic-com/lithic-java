@@ -63,12 +63,19 @@ constructor(
         }
 
         /** Cardholder to retrieve aggregate balances for. */
-        fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+        fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+
+        /** Cardholder to retrieve aggregate balances for. */
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
 
         /** Business to retrieve aggregate balances for. */
-        fun businessAccountToken(businessAccountToken: String) = apply {
+        fun businessAccountToken(businessAccountToken: String?) = apply {
             this.businessAccountToken = businessAccountToken
         }
+
+        /** Business to retrieve aggregate balances for. */
+        fun businessAccountToken(businessAccountToken: Optional<String>) =
+            businessAccountToken(businessAccountToken.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
