@@ -25,104 +25,90 @@ class Statement
 @JsonCreator
 private constructor(
     @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("financial_account_token")
-    @ExcludeMissing
-    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("statement_start_date")
-    @ExcludeMissing
-    private val statementStartDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("statement_end_date")
-    @ExcludeMissing
-    private val statementEndDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("next_statement_end_date")
-    @ExcludeMissing
-    private val nextStatementEndDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("payment_due_date")
-    @ExcludeMissing
-    private val paymentDueDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("next_payment_due_date")
-    @ExcludeMissing
-    private val nextPaymentDueDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("days_in_billing_cycle")
-    @ExcludeMissing
-    private val daysInBillingCycle: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("credit_limit")
-    @ExcludeMissing
-    private val creditLimit: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("available_credit")
-    @ExcludeMissing
-    private val availableCredit: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("starting_balance")
-    @ExcludeMissing
-    private val startingBalance: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("ending_balance")
-    @ExcludeMissing
-    private val endingBalance: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("period_totals")
-    @ExcludeMissing
-    private val periodTotals: JsonField<StatementTotals> = JsonMissing.of(),
-    @JsonProperty("ytd_totals")
-    @ExcludeMissing
-    private val ytdTotals: JsonField<StatementTotals> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("updated")
-    @ExcludeMissing
-    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("credit_product_token")
-    @ExcludeMissing
-    private val creditProductToken: JsonField<String> = JsonMissing.of(),
     @JsonProperty("account_standing")
     @ExcludeMissing
     private val accountStanding: JsonField<AccountStanding> = JsonMissing.of(),
     @JsonProperty("amount_due")
     @ExcludeMissing
     private val amountDue: JsonField<AmountDue> = JsonMissing.of(),
-    @JsonProperty("interest_details")
+    @JsonProperty("available_credit")
     @ExcludeMissing
-    private val interestDetails: JsonField<InterestDetails> = JsonMissing.of(),
+    private val availableCredit: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("credit_limit")
+    @ExcludeMissing
+    private val creditLimit: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("credit_product_token")
+    @ExcludeMissing
+    private val creditProductToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("days_in_billing_cycle")
+    @ExcludeMissing
+    private val daysInBillingCycle: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("ending_balance")
+    @ExcludeMissing
+    private val endingBalance: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("financial_account_token")
+    @ExcludeMissing
+    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("payment_due_date")
+    @ExcludeMissing
+    private val paymentDueDate: JsonField<LocalDate> = JsonMissing.of(),
+    @JsonProperty("period_totals")
+    @ExcludeMissing
+    private val periodTotals: JsonField<StatementTotals> = JsonMissing.of(),
+    @JsonProperty("starting_balance")
+    @ExcludeMissing
+    private val startingBalance: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("statement_end_date")
+    @ExcludeMissing
+    private val statementEndDate: JsonField<LocalDate> = JsonMissing.of(),
+    @JsonProperty("statement_start_date")
+    @ExcludeMissing
+    private val statementStartDate: JsonField<LocalDate> = JsonMissing.of(),
     @JsonProperty("statement_type")
     @ExcludeMissing
     private val statementType: JsonField<StatementType> = JsonMissing.of(),
+    @JsonProperty("updated")
+    @ExcludeMissing
+    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("ytd_totals")
+    @ExcludeMissing
+    private val ytdTotals: JsonField<StatementTotals> = JsonMissing.of(),
+    @JsonProperty("interest_details")
+    @ExcludeMissing
+    private val interestDetails: JsonField<InterestDetails> = JsonMissing.of(),
+    @JsonProperty("next_payment_due_date")
+    @ExcludeMissing
+    private val nextPaymentDueDate: JsonField<LocalDate> = JsonMissing.of(),
+    @JsonProperty("next_statement_end_date")
+    @ExcludeMissing
+    private val nextStatementEndDate: JsonField<LocalDate> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Globally unique identifier for a statement */
     fun token(): String = token.getRequired("token")
 
-    /** Globally unique identifier for a financial account */
-    fun financialAccountToken(): String =
-        financialAccountToken.getRequired("financial_account_token")
+    fun accountStanding(): AccountStanding = accountStanding.getRequired("account_standing")
 
-    /** Date when the billing period began */
-    fun statementStartDate(): LocalDate = statementStartDate.getRequired("statement_start_date")
-
-    /** Date when the billing period ended */
-    fun statementEndDate(): LocalDate = statementEndDate.getRequired("statement_end_date")
-
-    /** Date when the next billing period will end */
-    fun nextStatementEndDate(): Optional<LocalDate> =
-        Optional.ofNullable(nextStatementEndDate.getNullable("next_statement_end_date"))
-
-    /** Date when the payment is due */
-    fun paymentDueDate(): LocalDate = paymentDueDate.getRequired("payment_due_date")
-
-    /** Date when the next payment is due */
-    fun nextPaymentDueDate(): Optional<LocalDate> =
-        Optional.ofNullable(nextPaymentDueDate.getNullable("next_payment_due_date"))
-
-    /** Number of days in the billing cycle */
-    fun daysInBillingCycle(): Long = daysInBillingCycle.getRequired("days_in_billing_cycle")
-
-    /** This is the maximum credit balance extended by the lender in cents */
-    fun creditLimit(): Long = creditLimit.getRequired("credit_limit")
+    fun amountDue(): AmountDue = amountDue.getRequired("amount_due")
 
     /** Amount of credit available to spend in cents */
     fun availableCredit(): Long = availableCredit.getRequired("available_credit")
 
-    /** Balance at the start of the billing period */
-    fun startingBalance(): Long = startingBalance.getRequired("starting_balance")
+    /** Timestamp of when the statement was created */
+    fun created(): OffsetDateTime = created.getRequired("created")
+
+    /** This is the maximum credit balance extended by the lender in cents */
+    fun creditLimit(): Long = creditLimit.getRequired("credit_limit")
+
+    /** Globally unique identifier for a credit product */
+    fun creditProductToken(): String = creditProductToken.getRequired("credit_product_token")
+
+    /** Number of days in the billing cycle */
+    fun daysInBillingCycle(): Long = daysInBillingCycle.getRequired("days_in_billing_cycle")
 
     /**
      * Balance at the end of the billing period. For charge cards, this should be the same at the
@@ -130,70 +116,67 @@ private constructor(
      */
     fun endingBalance(): Long = endingBalance.getRequired("ending_balance")
 
+    /** Globally unique identifier for a financial account */
+    fun financialAccountToken(): String =
+        financialAccountToken.getRequired("financial_account_token")
+
+    /** Date when the payment is due */
+    fun paymentDueDate(): LocalDate = paymentDueDate.getRequired("payment_due_date")
+
     fun periodTotals(): StatementTotals = periodTotals.getRequired("period_totals")
 
-    fun ytdTotals(): StatementTotals = ytdTotals.getRequired("ytd_totals")
+    /** Balance at the start of the billing period */
+    fun startingBalance(): Long = startingBalance.getRequired("starting_balance")
 
-    /** Timestamp of when the statement was created */
-    fun created(): OffsetDateTime = created.getRequired("created")
+    /** Date when the billing period ended */
+    fun statementEndDate(): LocalDate = statementEndDate.getRequired("statement_end_date")
+
+    /** Date when the billing period began */
+    fun statementStartDate(): LocalDate = statementStartDate.getRequired("statement_start_date")
+
+    fun statementType(): StatementType = statementType.getRequired("statement_type")
 
     /** Timestamp of when the statement was updated */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
-    /** Globally unique identifier for a credit product */
-    fun creditProductToken(): String = creditProductToken.getRequired("credit_product_token")
-
-    fun accountStanding(): AccountStanding = accountStanding.getRequired("account_standing")
-
-    fun amountDue(): AmountDue = amountDue.getRequired("amount_due")
+    fun ytdTotals(): StatementTotals = ytdTotals.getRequired("ytd_totals")
 
     fun interestDetails(): Optional<InterestDetails> =
         Optional.ofNullable(interestDetails.getNullable("interest_details"))
 
-    fun statementType(): StatementType = statementType.getRequired("statement_type")
+    /** Date when the next payment is due */
+    fun nextPaymentDueDate(): Optional<LocalDate> =
+        Optional.ofNullable(nextPaymentDueDate.getNullable("next_payment_due_date"))
+
+    /** Date when the next billing period will end */
+    fun nextStatementEndDate(): Optional<LocalDate> =
+        Optional.ofNullable(nextStatementEndDate.getNullable("next_statement_end_date"))
 
     /** Globally unique identifier for a statement */
     @JsonProperty("token") @ExcludeMissing fun _token() = token
 
-    /** Globally unique identifier for a financial account */
-    @JsonProperty("financial_account_token")
+    @JsonProperty("account_standing") @ExcludeMissing fun _accountStanding() = accountStanding
+
+    @JsonProperty("amount_due") @ExcludeMissing fun _amountDue() = amountDue
+
+    /** Amount of credit available to spend in cents */
+    @JsonProperty("available_credit") @ExcludeMissing fun _availableCredit() = availableCredit
+
+    /** Timestamp of when the statement was created */
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
+
+    /** This is the maximum credit balance extended by the lender in cents */
+    @JsonProperty("credit_limit") @ExcludeMissing fun _creditLimit() = creditLimit
+
+    /** Globally unique identifier for a credit product */
+    @JsonProperty("credit_product_token")
     @ExcludeMissing
-    fun _financialAccountToken() = financialAccountToken
-
-    /** Date when the billing period began */
-    @JsonProperty("statement_start_date")
-    @ExcludeMissing
-    fun _statementStartDate() = statementStartDate
-
-    /** Date when the billing period ended */
-    @JsonProperty("statement_end_date") @ExcludeMissing fun _statementEndDate() = statementEndDate
-
-    /** Date when the next billing period will end */
-    @JsonProperty("next_statement_end_date")
-    @ExcludeMissing
-    fun _nextStatementEndDate() = nextStatementEndDate
-
-    /** Date when the payment is due */
-    @JsonProperty("payment_due_date") @ExcludeMissing fun _paymentDueDate() = paymentDueDate
-
-    /** Date when the next payment is due */
-    @JsonProperty("next_payment_due_date")
-    @ExcludeMissing
-    fun _nextPaymentDueDate() = nextPaymentDueDate
+    fun _creditProductToken() = creditProductToken
 
     /** Number of days in the billing cycle */
     @JsonProperty("days_in_billing_cycle")
     @ExcludeMissing
     fun _daysInBillingCycle() = daysInBillingCycle
-
-    /** This is the maximum credit balance extended by the lender in cents */
-    @JsonProperty("credit_limit") @ExcludeMissing fun _creditLimit() = creditLimit
-
-    /** Amount of credit available to spend in cents */
-    @JsonProperty("available_credit") @ExcludeMissing fun _availableCredit() = availableCredit
-
-    /** Balance at the start of the billing period */
-    @JsonProperty("starting_balance") @ExcludeMissing fun _startingBalance() = startingBalance
 
     /**
      * Balance at the end of the billing period. For charge cards, this should be the same at the
@@ -201,28 +184,45 @@ private constructor(
      */
     @JsonProperty("ending_balance") @ExcludeMissing fun _endingBalance() = endingBalance
 
+    /** Globally unique identifier for a financial account */
+    @JsonProperty("financial_account_token")
+    @ExcludeMissing
+    fun _financialAccountToken() = financialAccountToken
+
+    /** Date when the payment is due */
+    @JsonProperty("payment_due_date") @ExcludeMissing fun _paymentDueDate() = paymentDueDate
+
     @JsonProperty("period_totals") @ExcludeMissing fun _periodTotals() = periodTotals
 
-    @JsonProperty("ytd_totals") @ExcludeMissing fun _ytdTotals() = ytdTotals
+    /** Balance at the start of the billing period */
+    @JsonProperty("starting_balance") @ExcludeMissing fun _startingBalance() = startingBalance
 
-    /** Timestamp of when the statement was created */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    /** Date when the billing period ended */
+    @JsonProperty("statement_end_date") @ExcludeMissing fun _statementEndDate() = statementEndDate
+
+    /** Date when the billing period began */
+    @JsonProperty("statement_start_date")
+    @ExcludeMissing
+    fun _statementStartDate() = statementStartDate
+
+    @JsonProperty("statement_type") @ExcludeMissing fun _statementType() = statementType
 
     /** Timestamp of when the statement was updated */
     @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
 
-    /** Globally unique identifier for a credit product */
-    @JsonProperty("credit_product_token")
-    @ExcludeMissing
-    fun _creditProductToken() = creditProductToken
-
-    @JsonProperty("account_standing") @ExcludeMissing fun _accountStanding() = accountStanding
-
-    @JsonProperty("amount_due") @ExcludeMissing fun _amountDue() = amountDue
+    @JsonProperty("ytd_totals") @ExcludeMissing fun _ytdTotals() = ytdTotals
 
     @JsonProperty("interest_details") @ExcludeMissing fun _interestDetails() = interestDetails
 
-    @JsonProperty("statement_type") @ExcludeMissing fun _statementType() = statementType
+    /** Date when the next payment is due */
+    @JsonProperty("next_payment_due_date")
+    @ExcludeMissing
+    fun _nextPaymentDueDate() = nextPaymentDueDate
+
+    /** Date when the next billing period will end */
+    @JsonProperty("next_statement_end_date")
+    @ExcludeMissing
+    fun _nextStatementEndDate() = nextStatementEndDate
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -233,26 +233,26 @@ private constructor(
     fun validate(): Statement = apply {
         if (!validated) {
             token()
-            financialAccountToken()
-            statementStartDate()
-            statementEndDate()
-            nextStatementEndDate()
-            paymentDueDate()
-            nextPaymentDueDate()
-            daysInBillingCycle()
-            creditLimit()
-            availableCredit()
-            startingBalance()
-            endingBalance()
-            periodTotals().validate()
-            ytdTotals().validate()
-            created()
-            updated()
-            creditProductToken()
             accountStanding().validate()
             amountDue().validate()
-            interestDetails().map { it.validate() }
+            availableCredit()
+            created()
+            creditLimit()
+            creditProductToken()
+            daysInBillingCycle()
+            endingBalance()
+            financialAccountToken()
+            paymentDueDate()
+            periodTotals().validate()
+            startingBalance()
+            statementEndDate()
+            statementStartDate()
             statementType()
+            updated()
+            ytdTotals().validate()
+            interestDetails().map { it.validate() }
+            nextPaymentDueDate()
+            nextStatementEndDate()
             validated = true
         }
     }
@@ -267,51 +267,51 @@ private constructor(
     class Builder {
 
         private var token: JsonField<String> = JsonMissing.of()
-        private var financialAccountToken: JsonField<String> = JsonMissing.of()
-        private var statementStartDate: JsonField<LocalDate> = JsonMissing.of()
-        private var statementEndDate: JsonField<LocalDate> = JsonMissing.of()
-        private var nextStatementEndDate: JsonField<LocalDate> = JsonMissing.of()
-        private var paymentDueDate: JsonField<LocalDate> = JsonMissing.of()
-        private var nextPaymentDueDate: JsonField<LocalDate> = JsonMissing.of()
-        private var daysInBillingCycle: JsonField<Long> = JsonMissing.of()
-        private var creditLimit: JsonField<Long> = JsonMissing.of()
-        private var availableCredit: JsonField<Long> = JsonMissing.of()
-        private var startingBalance: JsonField<Long> = JsonMissing.of()
-        private var endingBalance: JsonField<Long> = JsonMissing.of()
-        private var periodTotals: JsonField<StatementTotals> = JsonMissing.of()
-        private var ytdTotals: JsonField<StatementTotals> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var creditProductToken: JsonField<String> = JsonMissing.of()
         private var accountStanding: JsonField<AccountStanding> = JsonMissing.of()
         private var amountDue: JsonField<AmountDue> = JsonMissing.of()
-        private var interestDetails: JsonField<InterestDetails> = JsonMissing.of()
+        private var availableCredit: JsonField<Long> = JsonMissing.of()
+        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var creditLimit: JsonField<Long> = JsonMissing.of()
+        private var creditProductToken: JsonField<String> = JsonMissing.of()
+        private var daysInBillingCycle: JsonField<Long> = JsonMissing.of()
+        private var endingBalance: JsonField<Long> = JsonMissing.of()
+        private var financialAccountToken: JsonField<String> = JsonMissing.of()
+        private var paymentDueDate: JsonField<LocalDate> = JsonMissing.of()
+        private var periodTotals: JsonField<StatementTotals> = JsonMissing.of()
+        private var startingBalance: JsonField<Long> = JsonMissing.of()
+        private var statementEndDate: JsonField<LocalDate> = JsonMissing.of()
+        private var statementStartDate: JsonField<LocalDate> = JsonMissing.of()
         private var statementType: JsonField<StatementType> = JsonMissing.of()
+        private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var ytdTotals: JsonField<StatementTotals> = JsonMissing.of()
+        private var interestDetails: JsonField<InterestDetails> = JsonMissing.of()
+        private var nextPaymentDueDate: JsonField<LocalDate> = JsonMissing.of()
+        private var nextStatementEndDate: JsonField<LocalDate> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(statement: Statement) = apply {
             token = statement.token
-            financialAccountToken = statement.financialAccountToken
-            statementStartDate = statement.statementStartDate
-            statementEndDate = statement.statementEndDate
-            nextStatementEndDate = statement.nextStatementEndDate
-            paymentDueDate = statement.paymentDueDate
-            nextPaymentDueDate = statement.nextPaymentDueDate
-            daysInBillingCycle = statement.daysInBillingCycle
-            creditLimit = statement.creditLimit
-            availableCredit = statement.availableCredit
-            startingBalance = statement.startingBalance
-            endingBalance = statement.endingBalance
-            periodTotals = statement.periodTotals
-            ytdTotals = statement.ytdTotals
-            created = statement.created
-            updated = statement.updated
-            creditProductToken = statement.creditProductToken
             accountStanding = statement.accountStanding
             amountDue = statement.amountDue
-            interestDetails = statement.interestDetails
+            availableCredit = statement.availableCredit
+            created = statement.created
+            creditLimit = statement.creditLimit
+            creditProductToken = statement.creditProductToken
+            daysInBillingCycle = statement.daysInBillingCycle
+            endingBalance = statement.endingBalance
+            financialAccountToken = statement.financialAccountToken
+            paymentDueDate = statement.paymentDueDate
+            periodTotals = statement.periodTotals
+            startingBalance = statement.startingBalance
+            statementEndDate = statement.statementEndDate
+            statementStartDate = statement.statementStartDate
             statementType = statement.statementType
+            updated = statement.updated
+            ytdTotals = statement.ytdTotals
+            interestDetails = statement.interestDetails
+            nextPaymentDueDate = statement.nextPaymentDueDate
+            nextStatementEndDate = statement.nextStatementEndDate
             additionalProperties = statement.additionalProperties.toMutableMap()
         }
 
@@ -321,73 +321,16 @@ private constructor(
         /** Globally unique identifier for a statement */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
-        /** Globally unique identifier for a financial account */
-        fun financialAccountToken(financialAccountToken: String) =
-            financialAccountToken(JsonField.of(financialAccountToken))
+        fun accountStanding(accountStanding: AccountStanding) =
+            accountStanding(JsonField.of(accountStanding))
 
-        /** Globally unique identifier for a financial account */
-        fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
-            this.financialAccountToken = financialAccountToken
+        fun accountStanding(accountStanding: JsonField<AccountStanding>) = apply {
+            this.accountStanding = accountStanding
         }
 
-        /** Date when the billing period began */
-        fun statementStartDate(statementStartDate: LocalDate) =
-            statementStartDate(JsonField.of(statementStartDate))
+        fun amountDue(amountDue: AmountDue) = amountDue(JsonField.of(amountDue))
 
-        /** Date when the billing period began */
-        fun statementStartDate(statementStartDate: JsonField<LocalDate>) = apply {
-            this.statementStartDate = statementStartDate
-        }
-
-        /** Date when the billing period ended */
-        fun statementEndDate(statementEndDate: LocalDate) =
-            statementEndDate(JsonField.of(statementEndDate))
-
-        /** Date when the billing period ended */
-        fun statementEndDate(statementEndDate: JsonField<LocalDate>) = apply {
-            this.statementEndDate = statementEndDate
-        }
-
-        /** Date when the next billing period will end */
-        fun nextStatementEndDate(nextStatementEndDate: LocalDate) =
-            nextStatementEndDate(JsonField.of(nextStatementEndDate))
-
-        /** Date when the next billing period will end */
-        fun nextStatementEndDate(nextStatementEndDate: JsonField<LocalDate>) = apply {
-            this.nextStatementEndDate = nextStatementEndDate
-        }
-
-        /** Date when the payment is due */
-        fun paymentDueDate(paymentDueDate: LocalDate) = paymentDueDate(JsonField.of(paymentDueDate))
-
-        /** Date when the payment is due */
-        fun paymentDueDate(paymentDueDate: JsonField<LocalDate>) = apply {
-            this.paymentDueDate = paymentDueDate
-        }
-
-        /** Date when the next payment is due */
-        fun nextPaymentDueDate(nextPaymentDueDate: LocalDate) =
-            nextPaymentDueDate(JsonField.of(nextPaymentDueDate))
-
-        /** Date when the next payment is due */
-        fun nextPaymentDueDate(nextPaymentDueDate: JsonField<LocalDate>) = apply {
-            this.nextPaymentDueDate = nextPaymentDueDate
-        }
-
-        /** Number of days in the billing cycle */
-        fun daysInBillingCycle(daysInBillingCycle: Long) =
-            daysInBillingCycle(JsonField.of(daysInBillingCycle))
-
-        /** Number of days in the billing cycle */
-        fun daysInBillingCycle(daysInBillingCycle: JsonField<Long>) = apply {
-            this.daysInBillingCycle = daysInBillingCycle
-        }
-
-        /** This is the maximum credit balance extended by the lender in cents */
-        fun creditLimit(creditLimit: Long) = creditLimit(JsonField.of(creditLimit))
-
-        /** This is the maximum credit balance extended by the lender in cents */
-        fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
+        fun amountDue(amountDue: JsonField<AmountDue>) = apply { this.amountDue = amountDue }
 
         /** Amount of credit available to spend in cents */
         fun availableCredit(availableCredit: Long) = availableCredit(JsonField.of(availableCredit))
@@ -397,12 +340,34 @@ private constructor(
             this.availableCredit = availableCredit
         }
 
-        /** Balance at the start of the billing period */
-        fun startingBalance(startingBalance: Long) = startingBalance(JsonField.of(startingBalance))
+        /** Timestamp of when the statement was created */
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** Balance at the start of the billing period */
-        fun startingBalance(startingBalance: JsonField<Long>) = apply {
-            this.startingBalance = startingBalance
+        /** Timestamp of when the statement was created */
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+        /** This is the maximum credit balance extended by the lender in cents */
+        fun creditLimit(creditLimit: Long) = creditLimit(JsonField.of(creditLimit))
+
+        /** This is the maximum credit balance extended by the lender in cents */
+        fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
+
+        /** Globally unique identifier for a credit product */
+        fun creditProductToken(creditProductToken: String) =
+            creditProductToken(JsonField.of(creditProductToken))
+
+        /** Globally unique identifier for a credit product */
+        fun creditProductToken(creditProductToken: JsonField<String>) = apply {
+            this.creditProductToken = creditProductToken
+        }
+
+        /** Number of days in the billing cycle */
+        fun daysInBillingCycle(daysInBillingCycle: Long) =
+            daysInBillingCycle(JsonField.of(daysInBillingCycle))
+
+        /** Number of days in the billing cycle */
+        fun daysInBillingCycle(daysInBillingCycle: JsonField<Long>) = apply {
+            this.daysInBillingCycle = daysInBillingCycle
         }
 
         /**
@@ -419,21 +384,60 @@ private constructor(
             this.endingBalance = endingBalance
         }
 
+        /** Globally unique identifier for a financial account */
+        fun financialAccountToken(financialAccountToken: String) =
+            financialAccountToken(JsonField.of(financialAccountToken))
+
+        /** Globally unique identifier for a financial account */
+        fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
+            this.financialAccountToken = financialAccountToken
+        }
+
+        /** Date when the payment is due */
+        fun paymentDueDate(paymentDueDate: LocalDate) = paymentDueDate(JsonField.of(paymentDueDate))
+
+        /** Date when the payment is due */
+        fun paymentDueDate(paymentDueDate: JsonField<LocalDate>) = apply {
+            this.paymentDueDate = paymentDueDate
+        }
+
         fun periodTotals(periodTotals: StatementTotals) = periodTotals(JsonField.of(periodTotals))
 
         fun periodTotals(periodTotals: JsonField<StatementTotals>) = apply {
             this.periodTotals = periodTotals
         }
 
-        fun ytdTotals(ytdTotals: StatementTotals) = ytdTotals(JsonField.of(ytdTotals))
+        /** Balance at the start of the billing period */
+        fun startingBalance(startingBalance: Long) = startingBalance(JsonField.of(startingBalance))
 
-        fun ytdTotals(ytdTotals: JsonField<StatementTotals>) = apply { this.ytdTotals = ytdTotals }
+        /** Balance at the start of the billing period */
+        fun startingBalance(startingBalance: JsonField<Long>) = apply {
+            this.startingBalance = startingBalance
+        }
 
-        /** Timestamp of when the statement was created */
-        fun created(created: OffsetDateTime) = created(JsonField.of(created))
+        /** Date when the billing period ended */
+        fun statementEndDate(statementEndDate: LocalDate) =
+            statementEndDate(JsonField.of(statementEndDate))
 
-        /** Timestamp of when the statement was created */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+        /** Date when the billing period ended */
+        fun statementEndDate(statementEndDate: JsonField<LocalDate>) = apply {
+            this.statementEndDate = statementEndDate
+        }
+
+        /** Date when the billing period began */
+        fun statementStartDate(statementStartDate: LocalDate) =
+            statementStartDate(JsonField.of(statementStartDate))
+
+        /** Date when the billing period began */
+        fun statementStartDate(statementStartDate: JsonField<LocalDate>) = apply {
+            this.statementStartDate = statementStartDate
+        }
+
+        fun statementType(statementType: StatementType) = statementType(JsonField.of(statementType))
+
+        fun statementType(statementType: JsonField<StatementType>) = apply {
+            this.statementType = statementType
+        }
 
         /** Timestamp of when the statement was updated */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
@@ -441,25 +445,9 @@ private constructor(
         /** Timestamp of when the statement was updated */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
-        /** Globally unique identifier for a credit product */
-        fun creditProductToken(creditProductToken: String) =
-            creditProductToken(JsonField.of(creditProductToken))
+        fun ytdTotals(ytdTotals: StatementTotals) = ytdTotals(JsonField.of(ytdTotals))
 
-        /** Globally unique identifier for a credit product */
-        fun creditProductToken(creditProductToken: JsonField<String>) = apply {
-            this.creditProductToken = creditProductToken
-        }
-
-        fun accountStanding(accountStanding: AccountStanding) =
-            accountStanding(JsonField.of(accountStanding))
-
-        fun accountStanding(accountStanding: JsonField<AccountStanding>) = apply {
-            this.accountStanding = accountStanding
-        }
-
-        fun amountDue(amountDue: AmountDue) = amountDue(JsonField.of(amountDue))
-
-        fun amountDue(amountDue: JsonField<AmountDue>) = apply { this.amountDue = amountDue }
+        fun ytdTotals(ytdTotals: JsonField<StatementTotals>) = apply { this.ytdTotals = ytdTotals }
 
         fun interestDetails(interestDetails: InterestDetails) =
             interestDetails(JsonField.of(interestDetails))
@@ -468,10 +456,22 @@ private constructor(
             this.interestDetails = interestDetails
         }
 
-        fun statementType(statementType: StatementType) = statementType(JsonField.of(statementType))
+        /** Date when the next payment is due */
+        fun nextPaymentDueDate(nextPaymentDueDate: LocalDate) =
+            nextPaymentDueDate(JsonField.of(nextPaymentDueDate))
 
-        fun statementType(statementType: JsonField<StatementType>) = apply {
-            this.statementType = statementType
+        /** Date when the next payment is due */
+        fun nextPaymentDueDate(nextPaymentDueDate: JsonField<LocalDate>) = apply {
+            this.nextPaymentDueDate = nextPaymentDueDate
+        }
+
+        /** Date when the next billing period will end */
+        fun nextStatementEndDate(nextStatementEndDate: LocalDate) =
+            nextStatementEndDate(JsonField.of(nextStatementEndDate))
+
+        /** Date when the next billing period will end */
+        fun nextStatementEndDate(nextStatementEndDate: JsonField<LocalDate>) = apply {
+            this.nextStatementEndDate = nextStatementEndDate
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -496,26 +496,26 @@ private constructor(
         fun build(): Statement =
             Statement(
                 token,
-                financialAccountToken,
-                statementStartDate,
-                statementEndDate,
-                nextStatementEndDate,
-                paymentDueDate,
-                nextPaymentDueDate,
-                daysInBillingCycle,
-                creditLimit,
-                availableCredit,
-                startingBalance,
-                endingBalance,
-                periodTotals,
-                ytdTotals,
-                created,
-                updated,
-                creditProductToken,
                 accountStanding,
                 amountDue,
-                interestDetails,
+                availableCredit,
+                created,
+                creditLimit,
+                creditProductToken,
+                daysInBillingCycle,
+                endingBalance,
+                financialAccountToken,
+                paymentDueDate,
+                periodTotals,
+                startingBalance,
+                statementEndDate,
+                statementStartDate,
                 statementType,
+                updated,
+                ytdTotals,
+                interestDetails,
+                nextPaymentDueDate,
+                nextStatementEndDate,
                 additionalProperties.toImmutable(),
             )
     }
@@ -524,35 +524,34 @@ private constructor(
     class AccountStanding
     @JsonCreator
     private constructor(
-        @JsonProperty("period_state")
+        @JsonProperty("consecutive_full_payments_made")
         @ExcludeMissing
-        private val periodState: JsonField<PeriodState> = JsonMissing.of(),
-        @JsonProperty("period_number")
-        @ExcludeMissing
-        private val periodNumber: JsonField<Long> = JsonMissing.of(),
+        private val consecutiveFullPaymentsMade: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("consecutive_minimum_payments_made")
         @ExcludeMissing
         private val consecutiveMinimumPaymentsMade: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("consecutive_minimum_payments_missed")
         @ExcludeMissing
         private val consecutiveMinimumPaymentsMissed: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("consecutive_full_payments_made")
-        @ExcludeMissing
-        private val consecutiveFullPaymentsMade: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("days_past_due")
         @ExcludeMissing
         private val daysPastDue: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("has_grace")
         @ExcludeMissing
         private val hasGrace: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("period_number")
+        @ExcludeMissing
+        private val periodNumber: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("period_state")
+        @ExcludeMissing
+        private val periodState: JsonField<PeriodState> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        fun periodState(): PeriodState = periodState.getRequired("period_state")
-
-        /** Current overall period number */
-        fun periodNumber(): Long = periodNumber.getRequired("period_number")
+        /** Number of consecutive full payments made */
+        fun consecutiveFullPaymentsMade(): Long =
+            consecutiveFullPaymentsMade.getRequired("consecutive_full_payments_made")
 
         /** Number of consecutive minimum payments made */
         fun consecutiveMinimumPaymentsMade(): Long =
@@ -562,20 +561,21 @@ private constructor(
         fun consecutiveMinimumPaymentsMissed(): Long =
             consecutiveMinimumPaymentsMissed.getRequired("consecutive_minimum_payments_missed")
 
-        /** Number of consecutive full payments made */
-        fun consecutiveFullPaymentsMade(): Long =
-            consecutiveFullPaymentsMade.getRequired("consecutive_full_payments_made")
-
         /** Number of days past due */
         fun daysPastDue(): Long = daysPastDue.getRequired("days_past_due")
 
         /** Whether the account currently has grace or not */
         fun hasGrace(): Boolean = hasGrace.getRequired("has_grace")
 
-        @JsonProperty("period_state") @ExcludeMissing fun _periodState() = periodState
-
         /** Current overall period number */
-        @JsonProperty("period_number") @ExcludeMissing fun _periodNumber() = periodNumber
+        fun periodNumber(): Long = periodNumber.getRequired("period_number")
+
+        fun periodState(): PeriodState = periodState.getRequired("period_state")
+
+        /** Number of consecutive full payments made */
+        @JsonProperty("consecutive_full_payments_made")
+        @ExcludeMissing
+        fun _consecutiveFullPaymentsMade() = consecutiveFullPaymentsMade
 
         /** Number of consecutive minimum payments made */
         @JsonProperty("consecutive_minimum_payments_made")
@@ -587,16 +587,16 @@ private constructor(
         @ExcludeMissing
         fun _consecutiveMinimumPaymentsMissed() = consecutiveMinimumPaymentsMissed
 
-        /** Number of consecutive full payments made */
-        @JsonProperty("consecutive_full_payments_made")
-        @ExcludeMissing
-        fun _consecutiveFullPaymentsMade() = consecutiveFullPaymentsMade
-
         /** Number of days past due */
         @JsonProperty("days_past_due") @ExcludeMissing fun _daysPastDue() = daysPastDue
 
         /** Whether the account currently has grace or not */
         @JsonProperty("has_grace") @ExcludeMissing fun _hasGrace() = hasGrace
+
+        /** Current overall period number */
+        @JsonProperty("period_number") @ExcludeMissing fun _periodNumber() = periodNumber
+
+        @JsonProperty("period_state") @ExcludeMissing fun _periodState() = periodState
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -606,13 +606,13 @@ private constructor(
 
         fun validate(): AccountStanding = apply {
             if (!validated) {
-                periodState()
-                periodNumber()
+                consecutiveFullPaymentsMade()
                 consecutiveMinimumPaymentsMade()
                 consecutiveMinimumPaymentsMissed()
-                consecutiveFullPaymentsMade()
                 daysPastDue()
                 hasGrace()
+                periodNumber()
+                periodState()
                 validated = true
             }
         }
@@ -626,39 +626,34 @@ private constructor(
 
         class Builder {
 
-            private var periodState: JsonField<PeriodState> = JsonMissing.of()
-            private var periodNumber: JsonField<Long> = JsonMissing.of()
+            private var consecutiveFullPaymentsMade: JsonField<Long> = JsonMissing.of()
             private var consecutiveMinimumPaymentsMade: JsonField<Long> = JsonMissing.of()
             private var consecutiveMinimumPaymentsMissed: JsonField<Long> = JsonMissing.of()
-            private var consecutiveFullPaymentsMade: JsonField<Long> = JsonMissing.of()
             private var daysPastDue: JsonField<Long> = JsonMissing.of()
             private var hasGrace: JsonField<Boolean> = JsonMissing.of()
+            private var periodNumber: JsonField<Long> = JsonMissing.of()
+            private var periodState: JsonField<PeriodState> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(accountStanding: AccountStanding) = apply {
-                periodState = accountStanding.periodState
-                periodNumber = accountStanding.periodNumber
+                consecutiveFullPaymentsMade = accountStanding.consecutiveFullPaymentsMade
                 consecutiveMinimumPaymentsMade = accountStanding.consecutiveMinimumPaymentsMade
                 consecutiveMinimumPaymentsMissed = accountStanding.consecutiveMinimumPaymentsMissed
-                consecutiveFullPaymentsMade = accountStanding.consecutiveFullPaymentsMade
                 daysPastDue = accountStanding.daysPastDue
                 hasGrace = accountStanding.hasGrace
+                periodNumber = accountStanding.periodNumber
+                periodState = accountStanding.periodState
                 additionalProperties = accountStanding.additionalProperties.toMutableMap()
             }
 
-            fun periodState(periodState: PeriodState) = periodState(JsonField.of(periodState))
+            /** Number of consecutive full payments made */
+            fun consecutiveFullPaymentsMade(consecutiveFullPaymentsMade: Long) =
+                consecutiveFullPaymentsMade(JsonField.of(consecutiveFullPaymentsMade))
 
-            fun periodState(periodState: JsonField<PeriodState>) = apply {
-                this.periodState = periodState
-            }
-
-            /** Current overall period number */
-            fun periodNumber(periodNumber: Long) = periodNumber(JsonField.of(periodNumber))
-
-            /** Current overall period number */
-            fun periodNumber(periodNumber: JsonField<Long>) = apply {
-                this.periodNumber = periodNumber
+            /** Number of consecutive full payments made */
+            fun consecutiveFullPaymentsMade(consecutiveFullPaymentsMade: JsonField<Long>) = apply {
+                this.consecutiveFullPaymentsMade = consecutiveFullPaymentsMade
             }
 
             /** Number of consecutive minimum payments made */
@@ -680,15 +675,6 @@ private constructor(
                 consecutiveMinimumPaymentsMissed: JsonField<Long>
             ) = apply { this.consecutiveMinimumPaymentsMissed = consecutiveMinimumPaymentsMissed }
 
-            /** Number of consecutive full payments made */
-            fun consecutiveFullPaymentsMade(consecutiveFullPaymentsMade: Long) =
-                consecutiveFullPaymentsMade(JsonField.of(consecutiveFullPaymentsMade))
-
-            /** Number of consecutive full payments made */
-            fun consecutiveFullPaymentsMade(consecutiveFullPaymentsMade: JsonField<Long>) = apply {
-                this.consecutiveFullPaymentsMade = consecutiveFullPaymentsMade
-            }
-
             /** Number of days past due */
             fun daysPastDue(daysPastDue: Long) = daysPastDue(JsonField.of(daysPastDue))
 
@@ -700,6 +686,20 @@ private constructor(
 
             /** Whether the account currently has grace or not */
             fun hasGrace(hasGrace: JsonField<Boolean>) = apply { this.hasGrace = hasGrace }
+
+            /** Current overall period number */
+            fun periodNumber(periodNumber: Long) = periodNumber(JsonField.of(periodNumber))
+
+            /** Current overall period number */
+            fun periodNumber(periodNumber: JsonField<Long>) = apply {
+                this.periodNumber = periodNumber
+            }
+
+            fun periodState(periodState: PeriodState) = periodState(JsonField.of(periodState))
+
+            fun periodState(periodState: JsonField<PeriodState>) = apply {
+                this.periodState = periodState
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -722,13 +722,13 @@ private constructor(
 
             fun build(): AccountStanding =
                 AccountStanding(
-                    periodState,
-                    periodNumber,
+                    consecutiveFullPaymentsMade,
                     consecutiveMinimumPaymentsMade,
                     consecutiveMinimumPaymentsMissed,
-                    consecutiveFullPaymentsMade,
                     daysPastDue,
                     hasGrace,
+                    periodNumber,
+                    periodState,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -801,17 +801,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountStanding && periodState == other.periodState && periodNumber == other.periodNumber && consecutiveMinimumPaymentsMade == other.consecutiveMinimumPaymentsMade && consecutiveMinimumPaymentsMissed == other.consecutiveMinimumPaymentsMissed && consecutiveFullPaymentsMade == other.consecutiveFullPaymentsMade && daysPastDue == other.daysPastDue && hasGrace == other.hasGrace && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountStanding && consecutiveFullPaymentsMade == other.consecutiveFullPaymentsMade && consecutiveMinimumPaymentsMade == other.consecutiveMinimumPaymentsMade && consecutiveMinimumPaymentsMissed == other.consecutiveMinimumPaymentsMissed && daysPastDue == other.daysPastDue && hasGrace == other.hasGrace && periodNumber == other.periodNumber && periodState == other.periodState && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(periodState, periodNumber, consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed, consecutiveFullPaymentsMade, daysPastDue, hasGrace, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(consecutiveFullPaymentsMade, consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed, daysPastDue, hasGrace, periodNumber, periodState, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "AccountStanding{periodState=$periodState, periodNumber=$periodNumber, consecutiveMinimumPaymentsMade=$consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed=$consecutiveMinimumPaymentsMissed, consecutiveFullPaymentsMade=$consecutiveFullPaymentsMade, daysPastDue=$daysPastDue, hasGrace=$hasGrace, additionalProperties=$additionalProperties}"
+            "AccountStanding{consecutiveFullPaymentsMade=$consecutiveFullPaymentsMade, consecutiveMinimumPaymentsMade=$consecutiveMinimumPaymentsMade, consecutiveMinimumPaymentsMissed=$consecutiveMinimumPaymentsMissed, daysPastDue=$daysPastDue, hasGrace=$hasGrace, periodNumber=$periodNumber, periodState=$periodState, additionalProperties=$additionalProperties}"
     }
 
     @NoAutoDetect
@@ -955,28 +955,45 @@ private constructor(
     class StatementTotals
     @JsonCreator
     private constructor(
+        @JsonProperty("balance_transfers")
+        @ExcludeMissing
+        private val balanceTransfers: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("cash_advances")
+        @ExcludeMissing
+        private val cashAdvances: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("credits")
+        @ExcludeMissing
+        private val credits: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("fees") @ExcludeMissing private val fees: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("interest")
+        @ExcludeMissing
+        private val interest: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("payments")
         @ExcludeMissing
         private val payments: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("purchases")
         @ExcludeMissing
         private val purchases: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("fees") @ExcludeMissing private val fees: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("credits")
-        @ExcludeMissing
-        private val credits: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("interest")
-        @ExcludeMissing
-        private val interest: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("cash_advances")
-        @ExcludeMissing
-        private val cashAdvances: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("balance_transfers")
-        @ExcludeMissing
-        private val balanceTransfers: JsonField<Long> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
+
+        /** Opening balance transferred from previous account in cents */
+        fun balanceTransfers(): Long = balanceTransfers.getRequired("balance_transfers")
+
+        /** ATM and cashback transactions in cents */
+        fun cashAdvances(): Long = cashAdvances.getRequired("cash_advances")
+
+        /**
+         * Volume of credit management operation transactions less any balance transfers in cents
+         */
+        fun credits(): Long = credits.getRequired("credits")
+
+        /** Volume of debit management operation transactions less any interest in cents */
+        fun fees(): Long = fees.getRequired("fees")
+
+        /** Interest accrued in cents */
+        fun interest(): Long = interest.getRequired("interest")
 
         /** Any funds transfers which affective the balance in cents */
         fun payments(): Long = payments.getRequired("payments")
@@ -984,47 +1001,30 @@ private constructor(
         /** Net card transaction volume less any cash advances in cents */
         fun purchases(): Long = purchases.getRequired("purchases")
 
-        /** Volume of debit management operation transactions less any interest in cents */
-        fun fees(): Long = fees.getRequired("fees")
-
-        /**
-         * Volume of credit management operation transactions less any balance transfers in cents
-         */
-        fun credits(): Long = credits.getRequired("credits")
-
-        /** Interest accrued in cents */
-        fun interest(): Long = interest.getRequired("interest")
+        /** Opening balance transferred from previous account in cents */
+        @JsonProperty("balance_transfers")
+        @ExcludeMissing
+        fun _balanceTransfers() = balanceTransfers
 
         /** ATM and cashback transactions in cents */
-        fun cashAdvances(): Long = cashAdvances.getRequired("cash_advances")
-
-        /** Opening balance transferred from previous account in cents */
-        fun balanceTransfers(): Long = balanceTransfers.getRequired("balance_transfers")
-
-        /** Any funds transfers which affective the balance in cents */
-        @JsonProperty("payments") @ExcludeMissing fun _payments() = payments
-
-        /** Net card transaction volume less any cash advances in cents */
-        @JsonProperty("purchases") @ExcludeMissing fun _purchases() = purchases
-
-        /** Volume of debit management operation transactions less any interest in cents */
-        @JsonProperty("fees") @ExcludeMissing fun _fees() = fees
+        @JsonProperty("cash_advances") @ExcludeMissing fun _cashAdvances() = cashAdvances
 
         /**
          * Volume of credit management operation transactions less any balance transfers in cents
          */
         @JsonProperty("credits") @ExcludeMissing fun _credits() = credits
 
+        /** Volume of debit management operation transactions less any interest in cents */
+        @JsonProperty("fees") @ExcludeMissing fun _fees() = fees
+
         /** Interest accrued in cents */
         @JsonProperty("interest") @ExcludeMissing fun _interest() = interest
 
-        /** ATM and cashback transactions in cents */
-        @JsonProperty("cash_advances") @ExcludeMissing fun _cashAdvances() = cashAdvances
+        /** Any funds transfers which affective the balance in cents */
+        @JsonProperty("payments") @ExcludeMissing fun _payments() = payments
 
-        /** Opening balance transferred from previous account in cents */
-        @JsonProperty("balance_transfers")
-        @ExcludeMissing
-        fun _balanceTransfers() = balanceTransfers
+        /** Net card transaction volume less any cash advances in cents */
+        @JsonProperty("purchases") @ExcludeMissing fun _purchases() = purchases
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -1034,13 +1034,13 @@ private constructor(
 
         fun validate(): StatementTotals = apply {
             if (!validated) {
+                balanceTransfers()
+                cashAdvances()
+                credits()
+                fees()
+                interest()
                 payments()
                 purchases()
-                fees()
-                credits()
-                interest()
-                cashAdvances()
-                balanceTransfers()
                 validated = true
             }
         }
@@ -1054,44 +1054,43 @@ private constructor(
 
         class Builder {
 
+            private var balanceTransfers: JsonField<Long> = JsonMissing.of()
+            private var cashAdvances: JsonField<Long> = JsonMissing.of()
+            private var credits: JsonField<Long> = JsonMissing.of()
+            private var fees: JsonField<Long> = JsonMissing.of()
+            private var interest: JsonField<Long> = JsonMissing.of()
             private var payments: JsonField<Long> = JsonMissing.of()
             private var purchases: JsonField<Long> = JsonMissing.of()
-            private var fees: JsonField<Long> = JsonMissing.of()
-            private var credits: JsonField<Long> = JsonMissing.of()
-            private var interest: JsonField<Long> = JsonMissing.of()
-            private var cashAdvances: JsonField<Long> = JsonMissing.of()
-            private var balanceTransfers: JsonField<Long> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(statementTotals: StatementTotals) = apply {
+                balanceTransfers = statementTotals.balanceTransfers
+                cashAdvances = statementTotals.cashAdvances
+                credits = statementTotals.credits
+                fees = statementTotals.fees
+                interest = statementTotals.interest
                 payments = statementTotals.payments
                 purchases = statementTotals.purchases
-                fees = statementTotals.fees
-                credits = statementTotals.credits
-                interest = statementTotals.interest
-                cashAdvances = statementTotals.cashAdvances
-                balanceTransfers = statementTotals.balanceTransfers
                 additionalProperties = statementTotals.additionalProperties.toMutableMap()
             }
 
-            /** Any funds transfers which affective the balance in cents */
-            fun payments(payments: Long) = payments(JsonField.of(payments))
+            /** Opening balance transferred from previous account in cents */
+            fun balanceTransfers(balanceTransfers: Long) =
+                balanceTransfers(JsonField.of(balanceTransfers))
 
-            /** Any funds transfers which affective the balance in cents */
-            fun payments(payments: JsonField<Long>) = apply { this.payments = payments }
+            /** Opening balance transferred from previous account in cents */
+            fun balanceTransfers(balanceTransfers: JsonField<Long>) = apply {
+                this.balanceTransfers = balanceTransfers
+            }
 
-            /** Net card transaction volume less any cash advances in cents */
-            fun purchases(purchases: Long) = purchases(JsonField.of(purchases))
+            /** ATM and cashback transactions in cents */
+            fun cashAdvances(cashAdvances: Long) = cashAdvances(JsonField.of(cashAdvances))
 
-            /** Net card transaction volume less any cash advances in cents */
-            fun purchases(purchases: JsonField<Long>) = apply { this.purchases = purchases }
-
-            /** Volume of debit management operation transactions less any interest in cents */
-            fun fees(fees: Long) = fees(JsonField.of(fees))
-
-            /** Volume of debit management operation transactions less any interest in cents */
-            fun fees(fees: JsonField<Long>) = apply { this.fees = fees }
+            /** ATM and cashback transactions in cents */
+            fun cashAdvances(cashAdvances: JsonField<Long>) = apply {
+                this.cashAdvances = cashAdvances
+            }
 
             /**
              * Volume of credit management operation transactions less any balance transfers in
@@ -1105,28 +1104,29 @@ private constructor(
              */
             fun credits(credits: JsonField<Long>) = apply { this.credits = credits }
 
+            /** Volume of debit management operation transactions less any interest in cents */
+            fun fees(fees: Long) = fees(JsonField.of(fees))
+
+            /** Volume of debit management operation transactions less any interest in cents */
+            fun fees(fees: JsonField<Long>) = apply { this.fees = fees }
+
             /** Interest accrued in cents */
             fun interest(interest: Long) = interest(JsonField.of(interest))
 
             /** Interest accrued in cents */
             fun interest(interest: JsonField<Long>) = apply { this.interest = interest }
 
-            /** ATM and cashback transactions in cents */
-            fun cashAdvances(cashAdvances: Long) = cashAdvances(JsonField.of(cashAdvances))
+            /** Any funds transfers which affective the balance in cents */
+            fun payments(payments: Long) = payments(JsonField.of(payments))
 
-            /** ATM and cashback transactions in cents */
-            fun cashAdvances(cashAdvances: JsonField<Long>) = apply {
-                this.cashAdvances = cashAdvances
-            }
+            /** Any funds transfers which affective the balance in cents */
+            fun payments(payments: JsonField<Long>) = apply { this.payments = payments }
 
-            /** Opening balance transferred from previous account in cents */
-            fun balanceTransfers(balanceTransfers: Long) =
-                balanceTransfers(JsonField.of(balanceTransfers))
+            /** Net card transaction volume less any cash advances in cents */
+            fun purchases(purchases: Long) = purchases(JsonField.of(purchases))
 
-            /** Opening balance transferred from previous account in cents */
-            fun balanceTransfers(balanceTransfers: JsonField<Long>) = apply {
-                this.balanceTransfers = balanceTransfers
-            }
+            /** Net card transaction volume less any cash advances in cents */
+            fun purchases(purchases: JsonField<Long>) = apply { this.purchases = purchases }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1149,13 +1149,13 @@ private constructor(
 
             fun build(): StatementTotals =
                 StatementTotals(
+                    balanceTransfers,
+                    cashAdvances,
+                    credits,
+                    fees,
+                    interest,
                     payments,
                     purchases,
-                    fees,
-                    credits,
-                    interest,
-                    cashAdvances,
-                    balanceTransfers,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -1165,17 +1165,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is StatementTotals && payments == other.payments && purchases == other.purchases && fees == other.fees && credits == other.credits && interest == other.interest && cashAdvances == other.cashAdvances && balanceTransfers == other.balanceTransfers && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is StatementTotals && balanceTransfers == other.balanceTransfers && cashAdvances == other.cashAdvances && credits == other.credits && fees == other.fees && interest == other.interest && payments == other.payments && purchases == other.purchases && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(payments, purchases, fees, credits, interest, cashAdvances, balanceTransfers, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(balanceTransfers, cashAdvances, credits, fees, interest, payments, purchases, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "StatementTotals{payments=$payments, purchases=$purchases, fees=$fees, credits=$credits, interest=$interest, cashAdvances=$cashAdvances, balanceTransfers=$balanceTransfers, additionalProperties=$additionalProperties}"
+            "StatementTotals{balanceTransfers=$balanceTransfers, cashAdvances=$cashAdvances, credits=$credits, fees=$fees, interest=$interest, payments=$payments, purchases=$purchases, additionalProperties=$additionalProperties}"
     }
 
     class StatementType
@@ -1239,74 +1239,74 @@ private constructor(
     class InterestDetails
     @JsonCreator
     private constructor(
-        @JsonProperty("prime_rate")
+        @JsonProperty("actual_interest_charged")
         @ExcludeMissing
-        private val primeRate: JsonField<String> = JsonMissing.of(),
+        private val actualInterestCharged: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("daily_balance_amounts")
+        @ExcludeMissing
+        private val dailyBalanceAmounts: JsonField<CategoryDetails> = JsonMissing.of(),
+        @JsonProperty("effective_apr")
+        @ExcludeMissing
+        private val effectiveApr: JsonField<CategoryDetails> = JsonMissing.of(),
         @JsonProperty("interest_calculation_method")
         @ExcludeMissing
         private val interestCalculationMethod: JsonField<InterestCalculationMethod> =
             JsonMissing.of(),
-        @JsonProperty("effective_apr")
-        @ExcludeMissing
-        private val effectiveApr: JsonField<CategoryDetails> = JsonMissing.of(),
         @JsonProperty("interest_for_period")
         @ExcludeMissing
         private val interestForPeriod: JsonField<CategoryDetails> = JsonMissing.of(),
-        @JsonProperty("daily_balance_amounts")
+        @JsonProperty("prime_rate")
         @ExcludeMissing
-        private val dailyBalanceAmounts: JsonField<CategoryDetails> = JsonMissing.of(),
+        private val primeRate: JsonField<String> = JsonMissing.of(),
         @JsonProperty("minimum_interest_charged")
         @ExcludeMissing
         private val minimumInterestCharged: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("actual_interest_charged")
-        @ExcludeMissing
-        private val actualInterestCharged: JsonField<Long> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        fun primeRate(): Optional<String> = Optional.ofNullable(primeRate.getNullable("prime_rate"))
-
-        fun interestCalculationMethod(): InterestCalculationMethod =
-            interestCalculationMethod.getRequired("interest_calculation_method")
-
-        fun effectiveApr(): CategoryDetails = effectiveApr.getRequired("effective_apr")
-
-        fun interestForPeriod(): CategoryDetails =
-            interestForPeriod.getRequired("interest_for_period")
+        fun actualInterestCharged(): Optional<Long> =
+            Optional.ofNullable(actualInterestCharged.getNullable("actual_interest_charged"))
 
         fun dailyBalanceAmounts(): CategoryDetails =
             dailyBalanceAmounts.getRequired("daily_balance_amounts")
 
+        fun effectiveApr(): CategoryDetails = effectiveApr.getRequired("effective_apr")
+
+        fun interestCalculationMethod(): InterestCalculationMethod =
+            interestCalculationMethod.getRequired("interest_calculation_method")
+
+        fun interestForPeriod(): CategoryDetails =
+            interestForPeriod.getRequired("interest_for_period")
+
+        fun primeRate(): Optional<String> = Optional.ofNullable(primeRate.getNullable("prime_rate"))
+
         fun minimumInterestCharged(): Optional<Long> =
             Optional.ofNullable(minimumInterestCharged.getNullable("minimum_interest_charged"))
 
-        fun actualInterestCharged(): Optional<Long> =
-            Optional.ofNullable(actualInterestCharged.getNullable("actual_interest_charged"))
-
-        @JsonProperty("prime_rate") @ExcludeMissing fun _primeRate() = primeRate
-
-        @JsonProperty("interest_calculation_method")
+        @JsonProperty("actual_interest_charged")
         @ExcludeMissing
-        fun _interestCalculationMethod() = interestCalculationMethod
-
-        @JsonProperty("effective_apr") @ExcludeMissing fun _effectiveApr() = effectiveApr
-
-        @JsonProperty("interest_for_period")
-        @ExcludeMissing
-        fun _interestForPeriod() = interestForPeriod
+        fun _actualInterestCharged() = actualInterestCharged
 
         @JsonProperty("daily_balance_amounts")
         @ExcludeMissing
         fun _dailyBalanceAmounts() = dailyBalanceAmounts
 
+        @JsonProperty("effective_apr") @ExcludeMissing fun _effectiveApr() = effectiveApr
+
+        @JsonProperty("interest_calculation_method")
+        @ExcludeMissing
+        fun _interestCalculationMethod() = interestCalculationMethod
+
+        @JsonProperty("interest_for_period")
+        @ExcludeMissing
+        fun _interestForPeriod() = interestForPeriod
+
+        @JsonProperty("prime_rate") @ExcludeMissing fun _primeRate() = primeRate
+
         @JsonProperty("minimum_interest_charged")
         @ExcludeMissing
         fun _minimumInterestCharged() = minimumInterestCharged
-
-        @JsonProperty("actual_interest_charged")
-        @ExcludeMissing
-        fun _actualInterestCharged() = actualInterestCharged
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -1316,13 +1316,13 @@ private constructor(
 
         fun validate(): InterestDetails = apply {
             if (!validated) {
-                primeRate()
-                interestCalculationMethod()
-                effectiveApr().validate()
-                interestForPeriod().validate()
-                dailyBalanceAmounts().validate()
-                minimumInterestCharged()
                 actualInterestCharged()
+                dailyBalanceAmounts().validate()
+                effectiveApr().validate()
+                interestCalculationMethod()
+                interestForPeriod().validate()
+                primeRate()
+                minimumInterestCharged()
                 validated = true
             }
         }
@@ -1336,51 +1336,33 @@ private constructor(
 
         class Builder {
 
-            private var primeRate: JsonField<String> = JsonMissing.of()
+            private var actualInterestCharged: JsonField<Long> = JsonMissing.of()
+            private var dailyBalanceAmounts: JsonField<CategoryDetails> = JsonMissing.of()
+            private var effectiveApr: JsonField<CategoryDetails> = JsonMissing.of()
             private var interestCalculationMethod: JsonField<InterestCalculationMethod> =
                 JsonMissing.of()
-            private var effectiveApr: JsonField<CategoryDetails> = JsonMissing.of()
             private var interestForPeriod: JsonField<CategoryDetails> = JsonMissing.of()
-            private var dailyBalanceAmounts: JsonField<CategoryDetails> = JsonMissing.of()
+            private var primeRate: JsonField<String> = JsonMissing.of()
             private var minimumInterestCharged: JsonField<Long> = JsonMissing.of()
-            private var actualInterestCharged: JsonField<Long> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(interestDetails: InterestDetails) = apply {
-                primeRate = interestDetails.primeRate
-                interestCalculationMethod = interestDetails.interestCalculationMethod
-                effectiveApr = interestDetails.effectiveApr
-                interestForPeriod = interestDetails.interestForPeriod
-                dailyBalanceAmounts = interestDetails.dailyBalanceAmounts
-                minimumInterestCharged = interestDetails.minimumInterestCharged
                 actualInterestCharged = interestDetails.actualInterestCharged
+                dailyBalanceAmounts = interestDetails.dailyBalanceAmounts
+                effectiveApr = interestDetails.effectiveApr
+                interestCalculationMethod = interestDetails.interestCalculationMethod
+                interestForPeriod = interestDetails.interestForPeriod
+                primeRate = interestDetails.primeRate
+                minimumInterestCharged = interestDetails.minimumInterestCharged
                 additionalProperties = interestDetails.additionalProperties.toMutableMap()
             }
 
-            fun primeRate(primeRate: String) = primeRate(JsonField.of(primeRate))
+            fun actualInterestCharged(actualInterestCharged: Long) =
+                actualInterestCharged(JsonField.of(actualInterestCharged))
 
-            fun primeRate(primeRate: JsonField<String>) = apply { this.primeRate = primeRate }
-
-            fun interestCalculationMethod(interestCalculationMethod: InterestCalculationMethod) =
-                interestCalculationMethod(JsonField.of(interestCalculationMethod))
-
-            fun interestCalculationMethod(
-                interestCalculationMethod: JsonField<InterestCalculationMethod>
-            ) = apply { this.interestCalculationMethod = interestCalculationMethod }
-
-            fun effectiveApr(effectiveApr: CategoryDetails) =
-                effectiveApr(JsonField.of(effectiveApr))
-
-            fun effectiveApr(effectiveApr: JsonField<CategoryDetails>) = apply {
-                this.effectiveApr = effectiveApr
-            }
-
-            fun interestForPeriod(interestForPeriod: CategoryDetails) =
-                interestForPeriod(JsonField.of(interestForPeriod))
-
-            fun interestForPeriod(interestForPeriod: JsonField<CategoryDetails>) = apply {
-                this.interestForPeriod = interestForPeriod
+            fun actualInterestCharged(actualInterestCharged: JsonField<Long>) = apply {
+                this.actualInterestCharged = actualInterestCharged
             }
 
             fun dailyBalanceAmounts(dailyBalanceAmounts: CategoryDetails) =
@@ -1390,18 +1372,36 @@ private constructor(
                 this.dailyBalanceAmounts = dailyBalanceAmounts
             }
 
+            fun effectiveApr(effectiveApr: CategoryDetails) =
+                effectiveApr(JsonField.of(effectiveApr))
+
+            fun effectiveApr(effectiveApr: JsonField<CategoryDetails>) = apply {
+                this.effectiveApr = effectiveApr
+            }
+
+            fun interestCalculationMethod(interestCalculationMethod: InterestCalculationMethod) =
+                interestCalculationMethod(JsonField.of(interestCalculationMethod))
+
+            fun interestCalculationMethod(
+                interestCalculationMethod: JsonField<InterestCalculationMethod>
+            ) = apply { this.interestCalculationMethod = interestCalculationMethod }
+
+            fun interestForPeriod(interestForPeriod: CategoryDetails) =
+                interestForPeriod(JsonField.of(interestForPeriod))
+
+            fun interestForPeriod(interestForPeriod: JsonField<CategoryDetails>) = apply {
+                this.interestForPeriod = interestForPeriod
+            }
+
+            fun primeRate(primeRate: String) = primeRate(JsonField.of(primeRate))
+
+            fun primeRate(primeRate: JsonField<String>) = apply { this.primeRate = primeRate }
+
             fun minimumInterestCharged(minimumInterestCharged: Long) =
                 minimumInterestCharged(JsonField.of(minimumInterestCharged))
 
             fun minimumInterestCharged(minimumInterestCharged: JsonField<Long>) = apply {
                 this.minimumInterestCharged = minimumInterestCharged
-            }
-
-            fun actualInterestCharged(actualInterestCharged: Long) =
-                actualInterestCharged(JsonField.of(actualInterestCharged))
-
-            fun actualInterestCharged(actualInterestCharged: JsonField<Long>) = apply {
-                this.actualInterestCharged = actualInterestCharged
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1425,13 +1425,13 @@ private constructor(
 
             fun build(): InterestDetails =
                 InterestDetails(
-                    primeRate,
-                    interestCalculationMethod,
-                    effectiveApr,
-                    interestForPeriod,
-                    dailyBalanceAmounts,
-                    minimumInterestCharged,
                     actualInterestCharged,
+                    dailyBalanceAmounts,
+                    effectiveApr,
+                    interestCalculationMethod,
+                    interestForPeriod,
+                    primeRate,
+                    minimumInterestCharged,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -1440,32 +1440,32 @@ private constructor(
         class CategoryDetails
         @JsonCreator
         private constructor(
-            @JsonProperty("purchases")
-            @ExcludeMissing
-            private val purchases: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("cash_advances")
-            @ExcludeMissing
-            private val cashAdvances: JsonField<String> = JsonMissing.of(),
             @JsonProperty("balance_transfers")
             @ExcludeMissing
             private val balanceTransfers: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("cash_advances")
+            @ExcludeMissing
+            private val cashAdvances: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("purchases")
+            @ExcludeMissing
+            private val purchases: JsonField<String> = JsonMissing.of(),
             @JsonAnySetter
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            fun purchases(): String = purchases.getRequired("purchases")
+            fun balanceTransfers(): String = balanceTransfers.getRequired("balance_transfers")
 
             fun cashAdvances(): String = cashAdvances.getRequired("cash_advances")
 
-            fun balanceTransfers(): String = balanceTransfers.getRequired("balance_transfers")
-
-            @JsonProperty("purchases") @ExcludeMissing fun _purchases() = purchases
-
-            @JsonProperty("cash_advances") @ExcludeMissing fun _cashAdvances() = cashAdvances
+            fun purchases(): String = purchases.getRequired("purchases")
 
             @JsonProperty("balance_transfers")
             @ExcludeMissing
             fun _balanceTransfers() = balanceTransfers
+
+            @JsonProperty("cash_advances") @ExcludeMissing fun _cashAdvances() = cashAdvances
+
+            @JsonProperty("purchases") @ExcludeMissing fun _purchases() = purchases
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -1475,9 +1475,9 @@ private constructor(
 
             fun validate(): CategoryDetails = apply {
                 if (!validated) {
-                    purchases()
-                    cashAdvances()
                     balanceTransfers()
+                    cashAdvances()
+                    purchases()
                     validated = true
                 }
             }
@@ -1491,27 +1491,17 @@ private constructor(
 
             class Builder {
 
-                private var purchases: JsonField<String> = JsonMissing.of()
-                private var cashAdvances: JsonField<String> = JsonMissing.of()
                 private var balanceTransfers: JsonField<String> = JsonMissing.of()
+                private var cashAdvances: JsonField<String> = JsonMissing.of()
+                private var purchases: JsonField<String> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(categoryDetails: CategoryDetails) = apply {
-                    purchases = categoryDetails.purchases
-                    cashAdvances = categoryDetails.cashAdvances
                     balanceTransfers = categoryDetails.balanceTransfers
+                    cashAdvances = categoryDetails.cashAdvances
+                    purchases = categoryDetails.purchases
                     additionalProperties = categoryDetails.additionalProperties.toMutableMap()
-                }
-
-                fun purchases(purchases: String) = purchases(JsonField.of(purchases))
-
-                fun purchases(purchases: JsonField<String>) = apply { this.purchases = purchases }
-
-                fun cashAdvances(cashAdvances: String) = cashAdvances(JsonField.of(cashAdvances))
-
-                fun cashAdvances(cashAdvances: JsonField<String>) = apply {
-                    this.cashAdvances = cashAdvances
                 }
 
                 fun balanceTransfers(balanceTransfers: String) =
@@ -1520,6 +1510,16 @@ private constructor(
                 fun balanceTransfers(balanceTransfers: JsonField<String>) = apply {
                     this.balanceTransfers = balanceTransfers
                 }
+
+                fun cashAdvances(cashAdvances: String) = cashAdvances(JsonField.of(cashAdvances))
+
+                fun cashAdvances(cashAdvances: JsonField<String>) = apply {
+                    this.cashAdvances = cashAdvances
+                }
+
+                fun purchases(purchases: String) = purchases(JsonField.of(purchases))
+
+                fun purchases(purchases: JsonField<String>) = apply { this.purchases = purchases }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -1545,9 +1545,9 @@ private constructor(
 
                 fun build(): CategoryDetails =
                     CategoryDetails(
-                        purchases,
-                        cashAdvances,
                         balanceTransfers,
+                        cashAdvances,
+                        purchases,
                         additionalProperties.toImmutable(),
                     )
             }
@@ -1557,17 +1557,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is CategoryDetails && purchases == other.purchases && cashAdvances == other.cashAdvances && balanceTransfers == other.balanceTransfers && additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is CategoryDetails && balanceTransfers == other.balanceTransfers && cashAdvances == other.cashAdvances && purchases == other.purchases && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(purchases, cashAdvances, balanceTransfers, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(balanceTransfers, cashAdvances, purchases, additionalProperties) }
             /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "CategoryDetails{purchases=$purchases, cashAdvances=$cashAdvances, balanceTransfers=$balanceTransfers, additionalProperties=$additionalProperties}"
+                "CategoryDetails{balanceTransfers=$balanceTransfers, cashAdvances=$cashAdvances, purchases=$purchases, additionalProperties=$additionalProperties}"
         }
 
         class InterestCalculationMethod
@@ -1635,17 +1635,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is InterestDetails && primeRate == other.primeRate && interestCalculationMethod == other.interestCalculationMethod && effectiveApr == other.effectiveApr && interestForPeriod == other.interestForPeriod && dailyBalanceAmounts == other.dailyBalanceAmounts && minimumInterestCharged == other.minimumInterestCharged && actualInterestCharged == other.actualInterestCharged && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is InterestDetails && actualInterestCharged == other.actualInterestCharged && dailyBalanceAmounts == other.dailyBalanceAmounts && effectiveApr == other.effectiveApr && interestCalculationMethod == other.interestCalculationMethod && interestForPeriod == other.interestForPeriod && primeRate == other.primeRate && minimumInterestCharged == other.minimumInterestCharged && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(primeRate, interestCalculationMethod, effectiveApr, interestForPeriod, dailyBalanceAmounts, minimumInterestCharged, actualInterestCharged, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(actualInterestCharged, dailyBalanceAmounts, effectiveApr, interestCalculationMethod, interestForPeriod, primeRate, minimumInterestCharged, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "InterestDetails{primeRate=$primeRate, interestCalculationMethod=$interestCalculationMethod, effectiveApr=$effectiveApr, interestForPeriod=$interestForPeriod, dailyBalanceAmounts=$dailyBalanceAmounts, minimumInterestCharged=$minimumInterestCharged, actualInterestCharged=$actualInterestCharged, additionalProperties=$additionalProperties}"
+            "InterestDetails{actualInterestCharged=$actualInterestCharged, dailyBalanceAmounts=$dailyBalanceAmounts, effectiveApr=$effectiveApr, interestCalculationMethod=$interestCalculationMethod, interestForPeriod=$interestForPeriod, primeRate=$primeRate, minimumInterestCharged=$minimumInterestCharged, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -1653,15 +1653,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Statement && token == other.token && financialAccountToken == other.financialAccountToken && statementStartDate == other.statementStartDate && statementEndDate == other.statementEndDate && nextStatementEndDate == other.nextStatementEndDate && paymentDueDate == other.paymentDueDate && nextPaymentDueDate == other.nextPaymentDueDate && daysInBillingCycle == other.daysInBillingCycle && creditLimit == other.creditLimit && availableCredit == other.availableCredit && startingBalance == other.startingBalance && endingBalance == other.endingBalance && periodTotals == other.periodTotals && ytdTotals == other.ytdTotals && created == other.created && updated == other.updated && creditProductToken == other.creditProductToken && accountStanding == other.accountStanding && amountDue == other.amountDue && interestDetails == other.interestDetails && statementType == other.statementType && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Statement && token == other.token && accountStanding == other.accountStanding && amountDue == other.amountDue && availableCredit == other.availableCredit && created == other.created && creditLimit == other.creditLimit && creditProductToken == other.creditProductToken && daysInBillingCycle == other.daysInBillingCycle && endingBalance == other.endingBalance && financialAccountToken == other.financialAccountToken && paymentDueDate == other.paymentDueDate && periodTotals == other.periodTotals && startingBalance == other.startingBalance && statementEndDate == other.statementEndDate && statementStartDate == other.statementStartDate && statementType == other.statementType && updated == other.updated && ytdTotals == other.ytdTotals && interestDetails == other.interestDetails && nextPaymentDueDate == other.nextPaymentDueDate && nextStatementEndDate == other.nextStatementEndDate && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, financialAccountToken, statementStartDate, statementEndDate, nextStatementEndDate, paymentDueDate, nextPaymentDueDate, daysInBillingCycle, creditLimit, availableCredit, startingBalance, endingBalance, periodTotals, ytdTotals, created, updated, creditProductToken, accountStanding, amountDue, interestDetails, statementType, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, accountStanding, amountDue, availableCredit, created, creditLimit, creditProductToken, daysInBillingCycle, endingBalance, financialAccountToken, paymentDueDate, periodTotals, startingBalance, statementEndDate, statementStartDate, statementType, updated, ytdTotals, interestDetails, nextPaymentDueDate, nextStatementEndDate, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Statement{token=$token, financialAccountToken=$financialAccountToken, statementStartDate=$statementStartDate, statementEndDate=$statementEndDate, nextStatementEndDate=$nextStatementEndDate, paymentDueDate=$paymentDueDate, nextPaymentDueDate=$nextPaymentDueDate, daysInBillingCycle=$daysInBillingCycle, creditLimit=$creditLimit, availableCredit=$availableCredit, startingBalance=$startingBalance, endingBalance=$endingBalance, periodTotals=$periodTotals, ytdTotals=$ytdTotals, created=$created, updated=$updated, creditProductToken=$creditProductToken, accountStanding=$accountStanding, amountDue=$amountDue, interestDetails=$interestDetails, statementType=$statementType, additionalProperties=$additionalProperties}"
+        "Statement{token=$token, accountStanding=$accountStanding, amountDue=$amountDue, availableCredit=$availableCredit, created=$created, creditLimit=$creditLimit, creditProductToken=$creditProductToken, daysInBillingCycle=$daysInBillingCycle, endingBalance=$endingBalance, financialAccountToken=$financialAccountToken, paymentDueDate=$paymentDueDate, periodTotals=$periodTotals, startingBalance=$startingBalance, statementEndDate=$statementEndDate, statementStartDate=$statementStartDate, statementType=$statementType, updated=$updated, ytdTotals=$ytdTotals, interestDetails=$interestDetails, nextPaymentDueDate=$nextPaymentDueDate, nextStatementEndDate=$nextStatementEndDate, additionalProperties=$additionalProperties}"
 }

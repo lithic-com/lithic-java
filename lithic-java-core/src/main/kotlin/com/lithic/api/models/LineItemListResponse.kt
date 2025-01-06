@@ -25,114 +25,114 @@ class LineItemListResponse
 @JsonCreator
 private constructor(
     @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("financial_account_token")
-    @ExcludeMissing
-    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("card_token")
-    @ExcludeMissing
-    private val cardToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("financial_transaction_token")
-    @ExcludeMissing
-    private val financialTransactionToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("financial_transaction_event_token")
-    @ExcludeMissing
-    private val financialTransactionEventToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("amount") @ExcludeMissing private val amount: JsonField<Long> = JsonMissing.of(),
     @JsonProperty("category")
     @ExcludeMissing
     private val category: JsonField<TransactionCategory> = JsonMissing.of(),
-    @JsonProperty("event_type")
-    @ExcludeMissing
-    private val eventType: JsonField<FinancialEventType> = JsonMissing.of(),
-    @JsonProperty("effective_date")
-    @ExcludeMissing
-    private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
-    @JsonProperty("descriptor")
-    @ExcludeMissing
-    private val descriptor: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("amount") @ExcludeMissing private val amount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("currency")
-    @ExcludeMissing
-    private val currency: JsonField<String> = JsonMissing.of(),
     @JsonProperty("created")
     @ExcludeMissing
     private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("currency")
+    @ExcludeMissing
+    private val currency: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("effective_date")
+    @ExcludeMissing
+    private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+    @JsonProperty("event_type")
+    @ExcludeMissing
+    private val eventType: JsonField<FinancialEventType> = JsonMissing.of(),
+    @JsonProperty("financial_account_token")
+    @ExcludeMissing
+    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("financial_transaction_event_token")
+    @ExcludeMissing
+    private val financialTransactionEventToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("financial_transaction_token")
+    @ExcludeMissing
+    private val financialTransactionToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("card_token")
+    @ExcludeMissing
+    private val cardToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("descriptor")
+    @ExcludeMissing
+    private val descriptor: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Globally unique identifier for a Statement Line Item */
     fun token(): String = token.getRequired("token")
 
+    /** Transaction amount in cents */
+    fun amount(): Long = amount.getRequired("amount")
+
+    fun category(): TransactionCategory = category.getRequired("category")
+
+    /** Timestamp of when the line item was generated */
+    fun created(): OffsetDateTime = created.getRequired("created")
+
+    /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
+    fun currency(): String = currency.getRequired("currency")
+
+    /** Date that the transaction effected the account balance */
+    fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
+
+    fun eventType(): FinancialEventType = eventType.getRequired("event_type")
+
     /** Globally unique identifier for a financial account */
     fun financialAccountToken(): String =
         financialAccountToken.getRequired("financial_account_token")
-
-    /** Globally unique identifier for a card */
-    fun cardToken(): Optional<String> = Optional.ofNullable(cardToken.getNullable("card_token"))
-
-    /** Globally unique identifier for a financial transaction */
-    fun financialTransactionToken(): String =
-        financialTransactionToken.getRequired("financial_transaction_token")
 
     /** Globally unique identifier for a financial transaction event */
     fun financialTransactionEventToken(): String =
         financialTransactionEventToken.getRequired("financial_transaction_event_token")
 
-    fun category(): TransactionCategory = category.getRequired("category")
+    /** Globally unique identifier for a financial transaction */
+    fun financialTransactionToken(): String =
+        financialTransactionToken.getRequired("financial_transaction_token")
 
-    fun eventType(): FinancialEventType = eventType.getRequired("event_type")
-
-    /** Date that the transaction effected the account balance */
-    fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
+    /** Globally unique identifier for a card */
+    fun cardToken(): Optional<String> = Optional.ofNullable(cardToken.getNullable("card_token"))
 
     fun descriptor(): Optional<String> = Optional.ofNullable(descriptor.getNullable("descriptor"))
 
-    /** Transaction amount in cents */
-    fun amount(): Long = amount.getRequired("amount")
-
-    /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
-    fun currency(): String = currency.getRequired("currency")
-
-    /** Timestamp of when the line item was generated */
-    fun created(): OffsetDateTime = created.getRequired("created")
-
     /** Globally unique identifier for a Statement Line Item */
     @JsonProperty("token") @ExcludeMissing fun _token() = token
+
+    /** Transaction amount in cents */
+    @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+    @JsonProperty("category") @ExcludeMissing fun _category() = category
+
+    /** Timestamp of when the line item was generated */
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
+
+    /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
+    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+
+    /** Date that the transaction effected the account balance */
+    @JsonProperty("effective_date") @ExcludeMissing fun _effectiveDate() = effectiveDate
+
+    @JsonProperty("event_type") @ExcludeMissing fun _eventType() = eventType
 
     /** Globally unique identifier for a financial account */
     @JsonProperty("financial_account_token")
     @ExcludeMissing
     fun _financialAccountToken() = financialAccountToken
 
-    /** Globally unique identifier for a card */
-    @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
+    /** Globally unique identifier for a financial transaction event */
+    @JsonProperty("financial_transaction_event_token")
+    @ExcludeMissing
+    fun _financialTransactionEventToken() = financialTransactionEventToken
 
     /** Globally unique identifier for a financial transaction */
     @JsonProperty("financial_transaction_token")
     @ExcludeMissing
     fun _financialTransactionToken() = financialTransactionToken
 
-    /** Globally unique identifier for a financial transaction event */
-    @JsonProperty("financial_transaction_event_token")
-    @ExcludeMissing
-    fun _financialTransactionEventToken() = financialTransactionEventToken
-
-    @JsonProperty("category") @ExcludeMissing fun _category() = category
-
-    @JsonProperty("event_type") @ExcludeMissing fun _eventType() = eventType
-
-    /** Date that the transaction effected the account balance */
-    @JsonProperty("effective_date") @ExcludeMissing fun _effectiveDate() = effectiveDate
+    /** Globally unique identifier for a card */
+    @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
 
     @JsonProperty("descriptor") @ExcludeMissing fun _descriptor() = descriptor
-
-    /** Transaction amount in cents */
-    @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
-
-    /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
-    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
-
-    /** Timestamp of when the line item was generated */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -143,17 +143,17 @@ private constructor(
     fun validate(): LineItemListResponse = apply {
         if (!validated) {
             token()
-            financialAccountToken()
-            cardToken()
-            financialTransactionToken()
-            financialTransactionEventToken()
-            category()
-            eventType()
-            effectiveDate()
-            descriptor()
             amount()
-            currency()
+            category()
             created()
+            currency()
+            effectiveDate()
+            eventType()
+            financialAccountToken()
+            financialTransactionEventToken()
+            financialTransactionToken()
+            cardToken()
+            descriptor()
             validated = true
         }
     }
@@ -168,33 +168,33 @@ private constructor(
     class Builder {
 
         private var token: JsonField<String> = JsonMissing.of()
-        private var financialAccountToken: JsonField<String> = JsonMissing.of()
-        private var cardToken: JsonField<String> = JsonMissing.of()
-        private var financialTransactionToken: JsonField<String> = JsonMissing.of()
-        private var financialTransactionEventToken: JsonField<String> = JsonMissing.of()
-        private var category: JsonField<TransactionCategory> = JsonMissing.of()
-        private var eventType: JsonField<FinancialEventType> = JsonMissing.of()
-        private var effectiveDate: JsonField<LocalDate> = JsonMissing.of()
-        private var descriptor: JsonField<String> = JsonMissing.of()
         private var amount: JsonField<Long> = JsonMissing.of()
-        private var currency: JsonField<String> = JsonMissing.of()
+        private var category: JsonField<TransactionCategory> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var currency: JsonField<String> = JsonMissing.of()
+        private var effectiveDate: JsonField<LocalDate> = JsonMissing.of()
+        private var eventType: JsonField<FinancialEventType> = JsonMissing.of()
+        private var financialAccountToken: JsonField<String> = JsonMissing.of()
+        private var financialTransactionEventToken: JsonField<String> = JsonMissing.of()
+        private var financialTransactionToken: JsonField<String> = JsonMissing.of()
+        private var cardToken: JsonField<String> = JsonMissing.of()
+        private var descriptor: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(lineItemListResponse: LineItemListResponse) = apply {
             token = lineItemListResponse.token
-            financialAccountToken = lineItemListResponse.financialAccountToken
-            cardToken = lineItemListResponse.cardToken
-            financialTransactionToken = lineItemListResponse.financialTransactionToken
-            financialTransactionEventToken = lineItemListResponse.financialTransactionEventToken
-            category = lineItemListResponse.category
-            eventType = lineItemListResponse.eventType
-            effectiveDate = lineItemListResponse.effectiveDate
-            descriptor = lineItemListResponse.descriptor
             amount = lineItemListResponse.amount
-            currency = lineItemListResponse.currency
+            category = lineItemListResponse.category
             created = lineItemListResponse.created
+            currency = lineItemListResponse.currency
+            effectiveDate = lineItemListResponse.effectiveDate
+            eventType = lineItemListResponse.eventType
+            financialAccountToken = lineItemListResponse.financialAccountToken
+            financialTransactionEventToken = lineItemListResponse.financialTransactionEventToken
+            financialTransactionToken = lineItemListResponse.financialTransactionToken
+            cardToken = lineItemListResponse.cardToken
+            descriptor = lineItemListResponse.descriptor
             additionalProperties = lineItemListResponse.additionalProperties.toMutableMap()
         }
 
@@ -204,6 +204,42 @@ private constructor(
         /** Globally unique identifier for a Statement Line Item */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
+        /** Transaction amount in cents */
+        fun amount(amount: Long) = amount(JsonField.of(amount))
+
+        /** Transaction amount in cents */
+        fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+        fun category(category: TransactionCategory) = category(JsonField.of(category))
+
+        fun category(category: JsonField<TransactionCategory>) = apply { this.category = category }
+
+        /** Timestamp of when the line item was generated */
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+        /** Timestamp of when the line item was generated */
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+        /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
+        fun currency(currency: String) = currency(JsonField.of(currency))
+
+        /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
+        fun currency(currency: JsonField<String>) = apply { this.currency = currency }
+
+        /** Date that the transaction effected the account balance */
+        fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
+
+        /** Date that the transaction effected the account balance */
+        fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
+            this.effectiveDate = effectiveDate
+        }
+
+        fun eventType(eventType: FinancialEventType) = eventType(JsonField.of(eventType))
+
+        fun eventType(eventType: JsonField<FinancialEventType>) = apply {
+            this.eventType = eventType
+        }
+
         /** Globally unique identifier for a financial account */
         fun financialAccountToken(financialAccountToken: String) =
             financialAccountToken(JsonField.of(financialAccountToken))
@@ -211,21 +247,6 @@ private constructor(
         /** Globally unique identifier for a financial account */
         fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             this.financialAccountToken = financialAccountToken
-        }
-
-        /** Globally unique identifier for a card */
-        fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
-
-        /** Globally unique identifier for a card */
-        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
-
-        /** Globally unique identifier for a financial transaction */
-        fun financialTransactionToken(financialTransactionToken: String) =
-            financialTransactionToken(JsonField.of(financialTransactionToken))
-
-        /** Globally unique identifier for a financial transaction */
-        fun financialTransactionToken(financialTransactionToken: JsonField<String>) = apply {
-            this.financialTransactionToken = financialTransactionToken
         }
 
         /** Globally unique identifier for a financial transaction event */
@@ -238,45 +259,24 @@ private constructor(
                 this.financialTransactionEventToken = financialTransactionEventToken
             }
 
-        fun category(category: TransactionCategory) = category(JsonField.of(category))
+        /** Globally unique identifier for a financial transaction */
+        fun financialTransactionToken(financialTransactionToken: String) =
+            financialTransactionToken(JsonField.of(financialTransactionToken))
 
-        fun category(category: JsonField<TransactionCategory>) = apply { this.category = category }
-
-        fun eventType(eventType: FinancialEventType) = eventType(JsonField.of(eventType))
-
-        fun eventType(eventType: JsonField<FinancialEventType>) = apply {
-            this.eventType = eventType
+        /** Globally unique identifier for a financial transaction */
+        fun financialTransactionToken(financialTransactionToken: JsonField<String>) = apply {
+            this.financialTransactionToken = financialTransactionToken
         }
 
-        /** Date that the transaction effected the account balance */
-        fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
+        /** Globally unique identifier for a card */
+        fun cardToken(cardToken: String) = cardToken(JsonField.of(cardToken))
 
-        /** Date that the transaction effected the account balance */
-        fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
-            this.effectiveDate = effectiveDate
-        }
+        /** Globally unique identifier for a card */
+        fun cardToken(cardToken: JsonField<String>) = apply { this.cardToken = cardToken }
 
         fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
 
         fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
-
-        /** Transaction amount in cents */
-        fun amount(amount: Long) = amount(JsonField.of(amount))
-
-        /** Transaction amount in cents */
-        fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
-
-        /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
-        fun currency(currency: String) = currency(JsonField.of(currency))
-
-        /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
-        fun currency(currency: JsonField<String>) = apply { this.currency = currency }
-
-        /** Timestamp of when the line item was generated */
-        fun created(created: OffsetDateTime) = created(JsonField.of(created))
-
-        /** Timestamp of when the line item was generated */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -300,17 +300,17 @@ private constructor(
         fun build(): LineItemListResponse =
             LineItemListResponse(
                 token,
-                financialAccountToken,
-                cardToken,
-                financialTransactionToken,
-                financialTransactionEventToken,
-                category,
-                eventType,
-                effectiveDate,
-                descriptor,
                 amount,
-                currency,
+                category,
                 created,
+                currency,
+                effectiveDate,
+                eventType,
+                financialAccountToken,
+                financialTransactionEventToken,
+                financialTransactionToken,
+                cardToken,
+                descriptor,
                 additionalProperties.toImmutable(),
             )
     }
@@ -848,15 +848,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is LineItemListResponse && token == other.token && financialAccountToken == other.financialAccountToken && cardToken == other.cardToken && financialTransactionToken == other.financialTransactionToken && financialTransactionEventToken == other.financialTransactionEventToken && category == other.category && eventType == other.eventType && effectiveDate == other.effectiveDate && descriptor == other.descriptor && amount == other.amount && currency == other.currency && created == other.created && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is LineItemListResponse && token == other.token && amount == other.amount && category == other.category && created == other.created && currency == other.currency && effectiveDate == other.effectiveDate && eventType == other.eventType && financialAccountToken == other.financialAccountToken && financialTransactionEventToken == other.financialTransactionEventToken && financialTransactionToken == other.financialTransactionToken && cardToken == other.cardToken && descriptor == other.descriptor && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, financialAccountToken, cardToken, financialTransactionToken, financialTransactionEventToken, category, eventType, effectiveDate, descriptor, amount, currency, created, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, amount, category, created, currency, effectiveDate, eventType, financialAccountToken, financialTransactionEventToken, financialTransactionToken, cardToken, descriptor, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "LineItemListResponse{token=$token, financialAccountToken=$financialAccountToken, cardToken=$cardToken, financialTransactionToken=$financialTransactionToken, financialTransactionEventToken=$financialTransactionEventToken, category=$category, eventType=$eventType, effectiveDate=$effectiveDate, descriptor=$descriptor, amount=$amount, currency=$currency, created=$created, additionalProperties=$additionalProperties}"
+        "LineItemListResponse{token=$token, amount=$amount, category=$category, created=$created, currency=$currency, effectiveDate=$effectiveDate, eventType=$eventType, financialAccountToken=$financialAccountToken, financialTransactionEventToken=$financialTransactionEventToken, financialTransactionToken=$financialTransactionToken, cardToken=$cardToken, descriptor=$descriptor, additionalProperties=$additionalProperties}"
 }

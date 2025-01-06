@@ -24,6 +24,7 @@ import java.util.Optional
 class Dispute
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("amount") @ExcludeMissing private val amount: JsonField<Long> = JsonMissing.of(),
     @JsonProperty("arbitration_date")
     @ExcludeMissing
@@ -73,12 +74,14 @@ private constructor(
     @JsonProperty("status")
     @ExcludeMissing
     private val status: JsonField<Status> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("transaction_token")
     @ExcludeMissing
     private val transactionToken: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /** Globally unique identifier. */
+    fun token(): String = token.getRequired("token")
 
     /** Amount under dispute. May be different from the original transaction amount. */
     fun amount(): Long = amount.getRequired("amount")
@@ -192,14 +195,14 @@ private constructor(
      */
     fun status(): Status = status.getRequired("status")
 
-    /** Globally unique identifier. */
-    fun token(): String = token.getRequired("token")
-
     /**
      * The transaction that is being disputed. A transaction can only be disputed once but may have
      * multiple dispute cases.
      */
     fun transactionToken(): String = transactionToken.getRequired("transaction_token")
+
+    /** Globally unique identifier. */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /** Amount under dispute. May be different from the original transaction amount. */
     @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
@@ -306,9 +309,6 @@ private constructor(
      */
     @JsonProperty("status") @ExcludeMissing fun _status() = status
 
-    /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
     /**
      * The transaction that is being disputed. A transaction can only be disputed once but may have
      * multiple dispute cases.
@@ -323,6 +323,7 @@ private constructor(
 
     fun validate(): Dispute = apply {
         if (!validated) {
+            token()
             amount()
             arbitrationDate()
             created()
@@ -340,7 +341,6 @@ private constructor(
             resolutionNote()
             resolutionReason()
             status()
-            token()
             transactionToken()
             validated = true
         }
@@ -355,6 +355,7 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
         private var amount: JsonField<Long> = JsonMissing.of()
         private var arbitrationDate: JsonField<OffsetDateTime> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
@@ -372,12 +373,12 @@ private constructor(
         private var resolutionNote: JsonField<String> = JsonMissing.of()
         private var resolutionReason: JsonField<ResolutionReason> = JsonMissing.of()
         private var status: JsonField<Status> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
         private var transactionToken: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(dispute: Dispute) = apply {
+            token = dispute.token
             amount = dispute.amount
             arbitrationDate = dispute.arbitrationDate
             created = dispute.created
@@ -395,10 +396,15 @@ private constructor(
             resolutionNote = dispute.resolutionNote
             resolutionReason = dispute.resolutionReason
             status = dispute.status
-            token = dispute.token
             transactionToken = dispute.transactionToken
             additionalProperties = dispute.additionalProperties.toMutableMap()
         }
+
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Amount under dispute. May be different from the original transaction amount. */
         fun amount(amount: Long) = amount(JsonField.of(amount))
@@ -636,12 +642,6 @@ private constructor(
          */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
-        /** Globally unique identifier. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** Globally unique identifier. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
-
         /**
          * The transaction that is being disputed. A transaction can only be disputed once but may
          * have multiple dispute cases.
@@ -678,6 +678,7 @@ private constructor(
 
         fun build(): Dispute =
             Dispute(
+                token,
                 amount,
                 arbitrationDate,
                 created,
@@ -695,7 +696,6 @@ private constructor(
                 resolutionNote,
                 resolutionReason,
                 status,
-                token,
                 transactionToken,
                 additionalProperties.toImmutable(),
             )
@@ -1078,15 +1078,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Dispute && amount == other.amount && arbitrationDate == other.arbitrationDate && created == other.created && customerFiledDate == other.customerFiledDate && customerNote == other.customerNote && networkClaimIds == other.networkClaimIds && networkFiledDate == other.networkFiledDate && networkReasonCode == other.networkReasonCode && prearbitrationDate == other.prearbitrationDate && primaryClaimId == other.primaryClaimId && reason == other.reason && representmentDate == other.representmentDate && resolutionAmount == other.resolutionAmount && resolutionDate == other.resolutionDate && resolutionNote == other.resolutionNote && resolutionReason == other.resolutionReason && status == other.status && token == other.token && transactionToken == other.transactionToken && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Dispute && token == other.token && amount == other.amount && arbitrationDate == other.arbitrationDate && created == other.created && customerFiledDate == other.customerFiledDate && customerNote == other.customerNote && networkClaimIds == other.networkClaimIds && networkFiledDate == other.networkFiledDate && networkReasonCode == other.networkReasonCode && prearbitrationDate == other.prearbitrationDate && primaryClaimId == other.primaryClaimId && reason == other.reason && representmentDate == other.representmentDate && resolutionAmount == other.resolutionAmount && resolutionDate == other.resolutionDate && resolutionNote == other.resolutionNote && resolutionReason == other.resolutionReason && status == other.status && transactionToken == other.transactionToken && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(amount, arbitrationDate, created, customerFiledDate, customerNote, networkClaimIds, networkFiledDate, networkReasonCode, prearbitrationDate, primaryClaimId, reason, representmentDate, resolutionAmount, resolutionDate, resolutionNote, resolutionReason, status, token, transactionToken, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, amount, arbitrationDate, created, customerFiledDate, customerNote, networkClaimIds, networkFiledDate, networkReasonCode, prearbitrationDate, primaryClaimId, reason, representmentDate, resolutionAmount, resolutionDate, resolutionNote, resolutionReason, status, transactionToken, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Dispute{amount=$amount, arbitrationDate=$arbitrationDate, created=$created, customerFiledDate=$customerFiledDate, customerNote=$customerNote, networkClaimIds=$networkClaimIds, networkFiledDate=$networkFiledDate, networkReasonCode=$networkReasonCode, prearbitrationDate=$prearbitrationDate, primaryClaimId=$primaryClaimId, reason=$reason, representmentDate=$representmentDate, resolutionAmount=$resolutionAmount, resolutionDate=$resolutionDate, resolutionNote=$resolutionNote, resolutionReason=$resolutionReason, status=$status, token=$token, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
+        "Dispute{token=$token, amount=$amount, arbitrationDate=$arbitrationDate, created=$created, customerFiledDate=$customerFiledDate, customerNote=$customerNote, networkClaimIds=$networkClaimIds, networkFiledDate=$networkFiledDate, networkReasonCode=$networkReasonCode, prearbitrationDate=$prearbitrationDate, primaryClaimId=$primaryClaimId, reason=$reason, representmentDate=$representmentDate, resolutionAmount=$resolutionAmount, resolutionDate=$resolutionDate, resolutionNote=$resolutionNote, resolutionReason=$resolutionReason, status=$status, transactionToken=$transactionToken, additionalProperties=$additionalProperties}"
 }

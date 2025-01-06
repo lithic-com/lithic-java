@@ -22,38 +22,26 @@ import java.util.Optional
 class Kyc
 @JsonCreator
 private constructor(
-    @JsonProperty("external_id")
-    @ExcludeMissing
-    private val externalId: JsonField<String> = JsonMissing.of(),
     @JsonProperty("individual")
     @ExcludeMissing
     private val individual: JsonField<Individual> = JsonMissing.of(),
-    @JsonProperty("kyc_passed_timestamp")
-    @ExcludeMissing
-    private val kycPassedTimestamp: JsonField<String> = JsonMissing.of(),
     @JsonProperty("tos_timestamp")
     @ExcludeMissing
     private val tosTimestamp: JsonField<String> = JsonMissing.of(),
     @JsonProperty("workflow")
     @ExcludeMissing
     private val workflow: JsonField<Workflow> = JsonMissing.of(),
+    @JsonProperty("external_id")
+    @ExcludeMissing
+    private val externalId: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("kyc_passed_timestamp")
+    @ExcludeMissing
+    private val kycPassedTimestamp: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    /** A user provided id that can be used to link an account holder with an external system */
-    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
-
     /** Information on individual for whom the account is being opened and KYC is being run. */
     fun individual(): Individual = individual.getRequired("individual")
-
-    /**
-     * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual with a
-     * pass result.
-     *
-     * This field is required only if workflow type is `KYC_BYO`.
-     */
-    fun kycPassedTimestamp(): Optional<String> =
-        Optional.ofNullable(kycPassedTimestamp.getNullable("kyc_passed_timestamp"))
 
     /**
      * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
@@ -66,10 +54,7 @@ private constructor(
     fun workflow(): Workflow = workflow.getRequired("workflow")
 
     /** A user provided id that can be used to link an account holder with an external system */
-    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
-
-    /** Information on individual for whom the account is being opened and KYC is being run. */
-    @JsonProperty("individual") @ExcludeMissing fun _individual() = individual
+    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
 
     /**
      * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual with a
@@ -77,9 +62,11 @@ private constructor(
      *
      * This field is required only if workflow type is `KYC_BYO`.
      */
-    @JsonProperty("kyc_passed_timestamp")
-    @ExcludeMissing
-    fun _kycPassedTimestamp() = kycPassedTimestamp
+    fun kycPassedTimestamp(): Optional<String> =
+        Optional.ofNullable(kycPassedTimestamp.getNullable("kyc_passed_timestamp"))
+
+    /** Information on individual for whom the account is being opened and KYC is being run. */
+    @JsonProperty("individual") @ExcludeMissing fun _individual() = individual
 
     /**
      * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
@@ -91,6 +78,19 @@ private constructor(
     /** Specifies the type of KYC workflow to run. */
     @JsonProperty("workflow") @ExcludeMissing fun _workflow() = workflow
 
+    /** A user provided id that can be used to link an account holder with an external system */
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
+
+    /**
+     * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual with a
+     * pass result.
+     *
+     * This field is required only if workflow type is `KYC_BYO`.
+     */
+    @JsonProperty("kyc_passed_timestamp")
+    @ExcludeMissing
+    fun _kycPassedTimestamp() = kycPassedTimestamp
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -99,11 +99,11 @@ private constructor(
 
     fun validate(): Kyc = apply {
         if (!validated) {
-            externalId()
             individual().validate()
-            kycPassedTimestamp()
             tosTimestamp()
             workflow()
+            externalId()
+            kycPassedTimestamp()
             validated = true
         }
     }
@@ -117,53 +117,28 @@ private constructor(
 
     class Builder {
 
-        private var externalId: JsonField<String> = JsonMissing.of()
         private var individual: JsonField<Individual> = JsonMissing.of()
-        private var kycPassedTimestamp: JsonField<String> = JsonMissing.of()
         private var tosTimestamp: JsonField<String> = JsonMissing.of()
         private var workflow: JsonField<Workflow> = JsonMissing.of()
+        private var externalId: JsonField<String> = JsonMissing.of()
+        private var kycPassedTimestamp: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(kyc: Kyc) = apply {
-            externalId = kyc.externalId
             individual = kyc.individual
-            kycPassedTimestamp = kyc.kycPassedTimestamp
             tosTimestamp = kyc.tosTimestamp
             workflow = kyc.workflow
+            externalId = kyc.externalId
+            kycPassedTimestamp = kyc.kycPassedTimestamp
             additionalProperties = kyc.additionalProperties.toMutableMap()
         }
-
-        /** A user provided id that can be used to link an account holder with an external system */
-        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
-
-        /** A user provided id that can be used to link an account holder with an external system */
-        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         /** Information on individual for whom the account is being opened and KYC is being run. */
         fun individual(individual: Individual) = individual(JsonField.of(individual))
 
         /** Information on individual for whom the account is being opened and KYC is being run. */
         fun individual(individual: JsonField<Individual>) = apply { this.individual = individual }
-
-        /**
-         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual
-         * with a pass result.
-         *
-         * This field is required only if workflow type is `KYC_BYO`.
-         */
-        fun kycPassedTimestamp(kycPassedTimestamp: String) =
-            kycPassedTimestamp(JsonField.of(kycPassedTimestamp))
-
-        /**
-         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual
-         * with a pass result.
-         *
-         * This field is required only if workflow type is `KYC_BYO`.
-         */
-        fun kycPassedTimestamp(kycPassedTimestamp: JsonField<String>) = apply {
-            this.kycPassedTimestamp = kycPassedTimestamp
-        }
 
         /**
          * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
@@ -187,6 +162,31 @@ private constructor(
         /** Specifies the type of KYC workflow to run. */
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
+        /** A user provided id that can be used to link an account holder with an external system */
+        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
+
+        /** A user provided id that can be used to link an account holder with an external system */
+        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+
+        /**
+         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual
+         * with a pass result.
+         *
+         * This field is required only if workflow type is `KYC_BYO`.
+         */
+        fun kycPassedTimestamp(kycPassedTimestamp: String) =
+            kycPassedTimestamp(JsonField.of(kycPassedTimestamp))
+
+        /**
+         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual
+         * with a pass result.
+         *
+         * This field is required only if workflow type is `KYC_BYO`.
+         */
+        fun kycPassedTimestamp(kycPassedTimestamp: JsonField<String>) = apply {
+            this.kycPassedTimestamp = kycPassedTimestamp
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -208,11 +208,11 @@ private constructor(
 
         fun build(): Kyc =
             Kyc(
-                externalId,
                 individual,
-                kycPassedTimestamp,
                 tosTimestamp,
                 workflow,
+                externalId,
+                kycPassedTimestamp,
                 additionalProperties.toImmutable(),
             )
     }
@@ -538,15 +538,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Kyc && externalId == other.externalId && individual == other.individual && kycPassedTimestamp == other.kycPassedTimestamp && tosTimestamp == other.tosTimestamp && workflow == other.workflow && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Kyc && individual == other.individual && tosTimestamp == other.tosTimestamp && workflow == other.workflow && externalId == other.externalId && kycPassedTimestamp == other.kycPassedTimestamp && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(externalId, individual, kycPassedTimestamp, tosTimestamp, workflow, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(individual, tosTimestamp, workflow, externalId, kycPassedTimestamp, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Kyc{externalId=$externalId, individual=$individual, kycPassedTimestamp=$kycPassedTimestamp, tosTimestamp=$tosTimestamp, workflow=$workflow, additionalProperties=$additionalProperties}"
+        "Kyc{individual=$individual, tosTimestamp=$tosTimestamp, workflow=$workflow, externalId=$externalId, kycPassedTimestamp=$kycPassedTimestamp, additionalProperties=$additionalProperties}"
 }

@@ -24,45 +24,36 @@ import java.util.Optional
 class DisputeEvidence
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("created")
     @ExcludeMissing
     private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
     @JsonProperty("dispute_token")
     @ExcludeMissing
     private val disputeToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("upload_status")
+    @ExcludeMissing
+    private val uploadStatus: JsonField<UploadStatus> = JsonMissing.of(),
     @JsonProperty("download_url")
     @ExcludeMissing
     private val downloadUrl: JsonField<String> = JsonMissing.of(),
     @JsonProperty("filename")
     @ExcludeMissing
     private val filename: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("upload_status")
-    @ExcludeMissing
-    private val uploadStatus: JsonField<UploadStatus> = JsonMissing.of(),
     @JsonProperty("upload_url")
     @ExcludeMissing
     private val uploadUrl: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
+    /** Globally unique identifier. */
+    fun token(): String = token.getRequired("token")
+
     /** Timestamp of when dispute evidence was created. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
     /** Dispute token evidence is attached to. */
     fun disputeToken(): String = disputeToken.getRequired("dispute_token")
-
-    /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
-    fun downloadUrl(): Optional<String> =
-        Optional.ofNullable(downloadUrl.getNullable("download_url"))
-
-    /**
-     * File name of evidence. Recommended to give the dispute evidence a human-readable identifier.
-     */
-    fun filename(): Optional<String> = Optional.ofNullable(filename.getNullable("filename"))
-
-    /** Globally unique identifier. */
-    fun token(): String = token.getRequired("token")
 
     /**
      * Upload status types:
@@ -74,25 +65,26 @@ private constructor(
      */
     fun uploadStatus(): UploadStatus = uploadStatus.getRequired("upload_status")
 
+    /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
+    fun downloadUrl(): Optional<String> =
+        Optional.ofNullable(downloadUrl.getNullable("download_url"))
+
+    /**
+     * File name of evidence. Recommended to give the dispute evidence a human-readable identifier.
+     */
+    fun filename(): Optional<String> = Optional.ofNullable(filename.getNullable("filename"))
+
     /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
     fun uploadUrl(): Optional<String> = Optional.ofNullable(uploadUrl.getNullable("upload_url"))
+
+    /** Globally unique identifier. */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /** Timestamp of when dispute evidence was created. */
     @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     /** Dispute token evidence is attached to. */
     @JsonProperty("dispute_token") @ExcludeMissing fun _disputeToken() = disputeToken
-
-    /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
-    @JsonProperty("download_url") @ExcludeMissing fun _downloadUrl() = downloadUrl
-
-    /**
-     * File name of evidence. Recommended to give the dispute evidence a human-readable identifier.
-     */
-    @JsonProperty("filename") @ExcludeMissing fun _filename() = filename
-
-    /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /**
      * Upload status types:
@@ -103,6 +95,14 @@ private constructor(
      * - `UPLOADED` - Evidence was uploaded.
      */
     @JsonProperty("upload_status") @ExcludeMissing fun _uploadStatus() = uploadStatus
+
+    /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
+    @JsonProperty("download_url") @ExcludeMissing fun _downloadUrl() = downloadUrl
+
+    /**
+     * File name of evidence. Recommended to give the dispute evidence a human-readable identifier.
+     */
+    @JsonProperty("filename") @ExcludeMissing fun _filename() = filename
 
     /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
     @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl() = uploadUrl
@@ -115,12 +115,12 @@ private constructor(
 
     fun validate(): DisputeEvidence = apply {
         if (!validated) {
+            token()
             created()
             disputeToken()
+            uploadStatus()
             downloadUrl()
             filename()
-            token()
-            uploadStatus()
             uploadUrl()
             validated = true
         }
@@ -135,26 +135,32 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var disputeToken: JsonField<String> = JsonMissing.of()
+        private var uploadStatus: JsonField<UploadStatus> = JsonMissing.of()
         private var downloadUrl: JsonField<String> = JsonMissing.of()
         private var filename: JsonField<String> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
-        private var uploadStatus: JsonField<UploadStatus> = JsonMissing.of()
         private var uploadUrl: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(disputeEvidence: DisputeEvidence) = apply {
+            token = disputeEvidence.token
             created = disputeEvidence.created
             disputeToken = disputeEvidence.disputeToken
+            uploadStatus = disputeEvidence.uploadStatus
             downloadUrl = disputeEvidence.downloadUrl
             filename = disputeEvidence.filename
-            token = disputeEvidence.token
-            uploadStatus = disputeEvidence.uploadStatus
             uploadUrl = disputeEvidence.uploadUrl
             additionalProperties = disputeEvidence.additionalProperties.toMutableMap()
         }
+
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Timestamp of when dispute evidence was created. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -169,30 +175,6 @@ private constructor(
         fun disputeToken(disputeToken: JsonField<String>) = apply {
             this.disputeToken = disputeToken
         }
-
-        /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
-        fun downloadUrl(downloadUrl: String) = downloadUrl(JsonField.of(downloadUrl))
-
-        /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
-        fun downloadUrl(downloadUrl: JsonField<String>) = apply { this.downloadUrl = downloadUrl }
-
-        /**
-         * File name of evidence. Recommended to give the dispute evidence a human-readable
-         * identifier.
-         */
-        fun filename(filename: String) = filename(JsonField.of(filename))
-
-        /**
-         * File name of evidence. Recommended to give the dispute evidence a human-readable
-         * identifier.
-         */
-        fun filename(filename: JsonField<String>) = apply { this.filename = filename }
-
-        /** Globally unique identifier. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** Globally unique identifier. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
          * Upload status types:
@@ -215,6 +197,24 @@ private constructor(
         fun uploadStatus(uploadStatus: JsonField<UploadStatus>) = apply {
             this.uploadStatus = uploadStatus
         }
+
+        /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
+        fun downloadUrl(downloadUrl: String) = downloadUrl(JsonField.of(downloadUrl))
+
+        /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
+        fun downloadUrl(downloadUrl: JsonField<String>) = apply { this.downloadUrl = downloadUrl }
+
+        /**
+         * File name of evidence. Recommended to give the dispute evidence a human-readable
+         * identifier.
+         */
+        fun filename(filename: String) = filename(JsonField.of(filename))
+
+        /**
+         * File name of evidence. Recommended to give the dispute evidence a human-readable
+         * identifier.
+         */
+        fun filename(filename: JsonField<String>) = apply { this.filename = filename }
 
         /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
         fun uploadUrl(uploadUrl: String) = uploadUrl(JsonField.of(uploadUrl))
@@ -243,12 +243,12 @@ private constructor(
 
         fun build(): DisputeEvidence =
             DisputeEvidence(
+                token,
                 created,
                 disputeToken,
+                uploadStatus,
                 downloadUrl,
                 filename,
-                token,
-                uploadStatus,
                 uploadUrl,
                 additionalProperties.toImmutable(),
             )
@@ -334,15 +334,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DisputeEvidence && created == other.created && disputeToken == other.disputeToken && downloadUrl == other.downloadUrl && filename == other.filename && token == other.token && uploadStatus == other.uploadStatus && uploadUrl == other.uploadUrl && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is DisputeEvidence && token == other.token && created == other.created && disputeToken == other.disputeToken && uploadStatus == other.uploadStatus && downloadUrl == other.downloadUrl && filename == other.filename && uploadUrl == other.uploadUrl && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(created, disputeToken, downloadUrl, filename, token, uploadStatus, uploadUrl, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, created, disputeToken, uploadStatus, downloadUrl, filename, uploadUrl, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DisputeEvidence{created=$created, disputeToken=$disputeToken, downloadUrl=$downloadUrl, filename=$filename, token=$token, uploadStatus=$uploadStatus, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
+        "DisputeEvidence{token=$token, created=$created, disputeToken=$disputeToken, uploadStatus=$uploadStatus, downloadUrl=$downloadUrl, filename=$filename, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
 }

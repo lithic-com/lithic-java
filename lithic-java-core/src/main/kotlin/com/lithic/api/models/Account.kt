@@ -23,6 +23,14 @@ import java.util.Optional
 class Account
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("created")
+    @ExcludeMissing
+    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("spend_limit")
+    @ExcludeMissing
+    private val spendLimit: JsonField<SpendLimit> = JsonMissing.of(),
+    @JsonProperty("state") @ExcludeMissing private val state: JsonField<State> = JsonMissing.of(),
     @JsonProperty("account_holder")
     @ExcludeMissing
     private val accountHolder: JsonField<AccountHolder> = JsonMissing.of(),
@@ -32,35 +40,23 @@ private constructor(
     @JsonProperty("cardholder_currency")
     @ExcludeMissing
     private val cardholderCurrency: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("spend_limit")
-    @ExcludeMissing
-    private val spendLimit: JsonField<SpendLimit> = JsonMissing.of(),
-    @JsonProperty("state") @ExcludeMissing private val state: JsonField<State> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("verification_address")
     @ExcludeMissing
     private val verificationAddress: JsonField<VerificationAddress> = JsonMissing.of(),
-    @JsonProperty("created")
-    @ExcludeMissing
-    private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
-    fun accountHolder(): Optional<AccountHolder> =
-        Optional.ofNullable(accountHolder.getNullable("account_holder"))
+    /**
+     * Globally unique identifier for the account. This is the same as the account_token returned by
+     * the enroll endpoint. If using this parameter, do not include pagination.
+     */
+    fun token(): String = token.getRequired("token")
 
     /**
-     * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
-     * deprecated and will no longer be populated in the `account_holder` object. The key will be
-     * removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth
-     * Rule information instead.
+     * Timestamp of when the account was created. For accounts created before 2023-05-11, this field
+     * will be null.
      */
-    fun authRuleTokens(): Optional<List<String>> =
-        Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
-
-    /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
-    fun cardholderCurrency(): Optional<String> =
-        Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
+    fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
 
     /**
      * Spend limit information for the user containing the daily, monthly, and lifetime spend limit
@@ -82,22 +78,8 @@ private constructor(
      */
     fun state(): State = state.getRequired("state")
 
-    /**
-     * Globally unique identifier for the account. This is the same as the account_token returned by
-     * the enroll endpoint. If using this parameter, do not include pagination.
-     */
-    fun token(): String = token.getRequired("token")
-
-    fun verificationAddress(): Optional<VerificationAddress> =
-        Optional.ofNullable(verificationAddress.getNullable("verification_address"))
-
-    /**
-     * Timestamp of when the account was created. For accounts created before 2023-05-11, this field
-     * will be null.
-     */
-    fun created(): Optional<OffsetDateTime> = Optional.ofNullable(created.getNullable("created"))
-
-    @JsonProperty("account_holder") @ExcludeMissing fun _accountHolder() = accountHolder
+    fun accountHolder(): Optional<AccountHolder> =
+        Optional.ofNullable(accountHolder.getNullable("account_holder"))
 
     /**
      * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
@@ -105,12 +87,27 @@ private constructor(
      * removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth
      * Rule information instead.
      */
-    @JsonProperty("auth_rule_tokens") @ExcludeMissing fun _authRuleTokens() = authRuleTokens
+    fun authRuleTokens(): Optional<List<String>> =
+        Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
 
     /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
-    @JsonProperty("cardholder_currency")
-    @ExcludeMissing
-    fun _cardholderCurrency() = cardholderCurrency
+    fun cardholderCurrency(): Optional<String> =
+        Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
+
+    fun verificationAddress(): Optional<VerificationAddress> =
+        Optional.ofNullable(verificationAddress.getNullable("verification_address"))
+
+    /**
+     * Globally unique identifier for the account. This is the same as the account_token returned by
+     * the enroll endpoint. If using this parameter, do not include pagination.
+     */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
+
+    /**
+     * Timestamp of when the account was created. For accounts created before 2023-05-11, this field
+     * will be null.
+     */
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     /**
      * Spend limit information for the user containing the daily, monthly, and lifetime spend limit
@@ -132,21 +129,24 @@ private constructor(
      */
     @JsonProperty("state") @ExcludeMissing fun _state() = state
 
+    @JsonProperty("account_holder") @ExcludeMissing fun _accountHolder() = accountHolder
+
     /**
-     * Globally unique identifier for the account. This is the same as the account_token returned by
-     * the enroll endpoint. If using this parameter, do not include pagination.
+     * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
+     * deprecated and will no longer be populated in the `account_holder` object. The key will be
+     * removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth
+     * Rule information instead.
      */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("auth_rule_tokens") @ExcludeMissing fun _authRuleTokens() = authRuleTokens
+
+    /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+    @JsonProperty("cardholder_currency")
+    @ExcludeMissing
+    fun _cardholderCurrency() = cardholderCurrency
 
     @JsonProperty("verification_address")
     @ExcludeMissing
     fun _verificationAddress() = verificationAddress
-
-    /**
-     * Timestamp of when the account was created. For accounts created before 2023-05-11, this field
-     * will be null.
-     */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -156,14 +156,14 @@ private constructor(
 
     fun validate(): Account = apply {
         if (!validated) {
+            token()
+            created()
+            spendLimit().validate()
+            state()
             accountHolder().map { it.validate() }
             authRuleTokens()
             cardholderCurrency()
-            spendLimit().validate()
-            state()
-            token()
             verificationAddress().map { it.validate() }
-            created()
             validated = true
         }
     }
@@ -177,62 +177,52 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
+        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var spendLimit: JsonField<SpendLimit> = JsonMissing.of()
+        private var state: JsonField<State> = JsonMissing.of()
         private var accountHolder: JsonField<AccountHolder> = JsonMissing.of()
         private var authRuleTokens: JsonField<List<String>> = JsonMissing.of()
         private var cardholderCurrency: JsonField<String> = JsonMissing.of()
-        private var spendLimit: JsonField<SpendLimit> = JsonMissing.of()
-        private var state: JsonField<State> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
         private var verificationAddress: JsonField<VerificationAddress> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(account: Account) = apply {
+            token = account.token
+            created = account.created
+            spendLimit = account.spendLimit
+            state = account.state
             accountHolder = account.accountHolder
             authRuleTokens = account.authRuleTokens
             cardholderCurrency = account.cardholderCurrency
-            spendLimit = account.spendLimit
-            state = account.state
-            token = account.token
             verificationAddress = account.verificationAddress
-            created = account.created
             additionalProperties = account.additionalProperties.toMutableMap()
         }
 
-        fun accountHolder(accountHolder: AccountHolder) = accountHolder(JsonField.of(accountHolder))
-
-        fun accountHolder(accountHolder: JsonField<AccountHolder>) = apply {
-            this.accountHolder = accountHolder
-        }
+        /**
+         * Globally unique identifier for the account. This is the same as the account_token
+         * returned by the enroll endpoint. If using this parameter, do not include pagination.
+         */
+        fun token(token: String) = token(JsonField.of(token))
 
         /**
-         * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
-         * deprecated and will no longer be populated in the `account_holder` object. The key will
-         * be removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch
-         * Auth Rule information instead.
+         * Globally unique identifier for the account. This is the same as the account_token
+         * returned by the enroll endpoint. If using this parameter, do not include pagination.
          */
-        fun authRuleTokens(authRuleTokens: List<String>) =
-            authRuleTokens(JsonField.of(authRuleTokens))
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
-         * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
-         * deprecated and will no longer be populated in the `account_holder` object. The key will
-         * be removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch
-         * Auth Rule information instead.
+         * Timestamp of when the account was created. For accounts created before 2023-05-11, this
+         * field will be null.
          */
-        fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {
-            this.authRuleTokens = authRuleTokens
-        }
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
-        fun cardholderCurrency(cardholderCurrency: String) =
-            cardholderCurrency(JsonField.of(cardholderCurrency))
-
-        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
-        fun cardholderCurrency(cardholderCurrency: JsonField<String>) = apply {
-            this.cardholderCurrency = cardholderCurrency
-        }
+        /**
+         * Timestamp of when the account was created. For accounts created before 2023-05-11, this
+         * field will be null.
+         */
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /**
          * Spend limit information for the user containing the daily, monthly, and lifetime spend
@@ -276,17 +266,39 @@ private constructor(
          */
         fun state(state: JsonField<State>) = apply { this.state = state }
 
-        /**
-         * Globally unique identifier for the account. This is the same as the account_token
-         * returned by the enroll endpoint. If using this parameter, do not include pagination.
-         */
-        fun token(token: String) = token(JsonField.of(token))
+        fun accountHolder(accountHolder: AccountHolder) = accountHolder(JsonField.of(accountHolder))
+
+        fun accountHolder(accountHolder: JsonField<AccountHolder>) = apply {
+            this.accountHolder = accountHolder
+        }
 
         /**
-         * Globally unique identifier for the account. This is the same as the account_token
-         * returned by the enroll endpoint. If using this parameter, do not include pagination.
+         * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
+         * deprecated and will no longer be populated in the `account_holder` object. The key will
+         * be removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch
+         * Auth Rule information instead.
          */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        fun authRuleTokens(authRuleTokens: List<String>) =
+            authRuleTokens(JsonField.of(authRuleTokens))
+
+        /**
+         * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
+         * deprecated and will no longer be populated in the `account_holder` object. The key will
+         * be removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch
+         * Auth Rule information instead.
+         */
+        fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {
+            this.authRuleTokens = authRuleTokens
+        }
+
+        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+        fun cardholderCurrency(cardholderCurrency: String) =
+            cardholderCurrency(JsonField.of(cardholderCurrency))
+
+        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+        fun cardholderCurrency(cardholderCurrency: JsonField<String>) = apply {
+            this.cardholderCurrency = cardholderCurrency
+        }
 
         fun verificationAddress(verificationAddress: VerificationAddress) =
             verificationAddress(JsonField.of(verificationAddress))
@@ -294,18 +306,6 @@ private constructor(
         fun verificationAddress(verificationAddress: JsonField<VerificationAddress>) = apply {
             this.verificationAddress = verificationAddress
         }
-
-        /**
-         * Timestamp of when the account was created. For accounts created before 2023-05-11, this
-         * field will be null.
-         */
-        fun created(created: OffsetDateTime) = created(JsonField.of(created))
-
-        /**
-         * Timestamp of when the account was created. For accounts created before 2023-05-11, this
-         * field will be null.
-         */
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -328,14 +328,14 @@ private constructor(
 
         fun build(): Account =
             Account(
+                token,
+                created,
+                spendLimit,
+                state,
                 accountHolder,
                 authRuleTokens.map { it.toImmutable() },
                 cardholderCurrency,
-                spendLimit,
-                state,
-                token,
                 verificationAddress,
-                created,
                 additionalProperties.toImmutable(),
             )
     }
@@ -549,6 +549,9 @@ private constructor(
     class AccountHolder
     @JsonCreator
     private constructor(
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
         @JsonProperty("business_account_token")
         @ExcludeMissing
         private val businessAccountToken: JsonField<String> = JsonMissing.of(),
@@ -558,12 +561,12 @@ private constructor(
         @JsonProperty("phone_number")
         @ExcludeMissing
         private val phoneNumber: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("token")
-        @ExcludeMissing
-        private val token: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
+
+        /** Globally unique identifier for the account holder. */
+        fun token(): String = token.getRequired("token")
 
         /**
          * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
@@ -580,7 +583,7 @@ private constructor(
         fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
 
         /** Globally unique identifier for the account holder. */
-        fun token(): String = token.getRequired("token")
+        @JsonProperty("token") @ExcludeMissing fun _token() = token
 
         /**
          * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
@@ -597,9 +600,6 @@ private constructor(
         /** Phone number of the individual. */
         @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
 
-        /** Globally unique identifier for the account holder. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
-
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -608,10 +608,10 @@ private constructor(
 
         fun validate(): AccountHolder = apply {
             if (!validated) {
+                token()
                 businessAccountToken()
                 email()
                 phoneNumber()
-                token()
                 validated = true
             }
         }
@@ -625,20 +625,26 @@ private constructor(
 
         class Builder {
 
+            private var token: JsonField<String> = JsonMissing.of()
             private var businessAccountToken: JsonField<String> = JsonMissing.of()
             private var email: JsonField<String> = JsonMissing.of()
             private var phoneNumber: JsonField<String> = JsonMissing.of()
-            private var token: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(accountHolder: AccountHolder) = apply {
+                token = accountHolder.token
                 businessAccountToken = accountHolder.businessAccountToken
                 email = accountHolder.email
                 phoneNumber = accountHolder.phoneNumber
-                token = accountHolder.token
                 additionalProperties = accountHolder.additionalProperties.toMutableMap()
             }
+
+            /** Globally unique identifier for the account holder. */
+            fun token(token: String) = token(JsonField.of(token))
+
+            /** Globally unique identifier for the account holder. */
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
              * Only applicable for customers using the KYC-Exempt workflow to enroll authorized
@@ -671,12 +677,6 @@ private constructor(
                 this.phoneNumber = phoneNumber
             }
 
-            /** Globally unique identifier for the account holder. */
-            fun token(token: String) = token(JsonField.of(token))
-
-            /** Globally unique identifier for the account holder. */
-            fun token(token: JsonField<String>) = apply { this.token = token }
-
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -698,10 +698,10 @@ private constructor(
 
             fun build(): AccountHolder =
                 AccountHolder(
+                    token,
                     businessAccountToken,
                     email,
                     phoneNumber,
-                    token,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -711,17 +711,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is AccountHolder && businessAccountToken == other.businessAccountToken && email == other.email && phoneNumber == other.phoneNumber && token == other.token && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is AccountHolder && token == other.token && businessAccountToken == other.businessAccountToken && email == other.email && phoneNumber == other.phoneNumber && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(businessAccountToken, email, phoneNumber, token, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(token, businessAccountToken, email, phoneNumber, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "AccountHolder{businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, token=$token, additionalProperties=$additionalProperties}"
+            "AccountHolder{token=$token, businessAccountToken=$businessAccountToken, email=$email, phoneNumber=$phoneNumber, additionalProperties=$additionalProperties}"
     }
 
     @NoAutoDetect
@@ -731,9 +731,6 @@ private constructor(
         @JsonProperty("address1")
         @ExcludeMissing
         private val address1: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("address2")
-        @ExcludeMissing
-        private val address2: JsonField<String> = JsonMissing.of(),
         @JsonProperty("city")
         @ExcludeMissing
         private val city: JsonField<String> = JsonMissing.of(),
@@ -746,15 +743,15 @@ private constructor(
         @JsonProperty("state")
         @ExcludeMissing
         private val state: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("address2")
+        @ExcludeMissing
+        private val address2: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Valid deliverable address (no PO boxes). */
         fun address1(): String = address1.getRequired("address1")
-
-        /** Unit or apartment number (if applicable). */
-        fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
 
         /** City name. */
         fun city(): String = city.getRequired("city")
@@ -774,11 +771,11 @@ private constructor(
          */
         fun state(): String = state.getRequired("state")
 
+        /** Unit or apartment number (if applicable). */
+        fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
+
         /** Valid deliverable address (no PO boxes). */
         @JsonProperty("address1") @ExcludeMissing fun _address1() = address1
-
-        /** Unit or apartment number (if applicable). */
-        @JsonProperty("address2") @ExcludeMissing fun _address2() = address2
 
         /** City name. */
         @JsonProperty("city") @ExcludeMissing fun _city() = city
@@ -798,6 +795,9 @@ private constructor(
          */
         @JsonProperty("state") @ExcludeMissing fun _state() = state
 
+        /** Unit or apartment number (if applicable). */
+        @JsonProperty("address2") @ExcludeMissing fun _address2() = address2
+
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -807,11 +807,11 @@ private constructor(
         fun validate(): VerificationAddress = apply {
             if (!validated) {
                 address1()
-                address2()
                 city()
                 country()
                 postalCode()
                 state()
+                address2()
                 validated = true
             }
         }
@@ -826,21 +826,21 @@ private constructor(
         class Builder {
 
             private var address1: JsonField<String> = JsonMissing.of()
-            private var address2: JsonField<String> = JsonMissing.of()
             private var city: JsonField<String> = JsonMissing.of()
             private var country: JsonField<String> = JsonMissing.of()
             private var postalCode: JsonField<String> = JsonMissing.of()
             private var state: JsonField<String> = JsonMissing.of()
+            private var address2: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(verificationAddress: VerificationAddress) = apply {
                 address1 = verificationAddress.address1
-                address2 = verificationAddress.address2
                 city = verificationAddress.city
                 country = verificationAddress.country
                 postalCode = verificationAddress.postalCode
                 state = verificationAddress.state
+                address2 = verificationAddress.address2
                 additionalProperties = verificationAddress.additionalProperties.toMutableMap()
             }
 
@@ -849,12 +849,6 @@ private constructor(
 
             /** Valid deliverable address (no PO boxes). */
             fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
-
-            /** Unit or apartment number (if applicable). */
-            fun address2(address2: String) = address2(JsonField.of(address2))
-
-            /** Unit or apartment number (if applicable). */
-            fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
 
             /** City name. */
             fun city(city: String) = city(JsonField.of(city))
@@ -894,6 +888,12 @@ private constructor(
              */
             fun state(state: JsonField<String>) = apply { this.state = state }
 
+            /** Unit or apartment number (if applicable). */
+            fun address2(address2: String) = address2(JsonField.of(address2))
+
+            /** Unit or apartment number (if applicable). */
+            fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -916,11 +916,11 @@ private constructor(
             fun build(): VerificationAddress =
                 VerificationAddress(
                     address1,
-                    address2,
                     city,
                     country,
                     postalCode,
                     state,
+                    address2,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -930,17 +930,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is VerificationAddress && address1 == other.address1 && address2 == other.address2 && city == other.city && country == other.country && postalCode == other.postalCode && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is VerificationAddress && address1 == other.address1 && city == other.city && country == other.country && postalCode == other.postalCode && state == other.state && address2 == other.address2 && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address1, address2, city, country, postalCode, state, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(address1, city, country, postalCode, state, address2, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "VerificationAddress{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
+            "VerificationAddress{address1=$address1, city=$city, country=$country, postalCode=$postalCode, state=$state, address2=$address2, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -948,15 +948,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Account && accountHolder == other.accountHolder && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && spendLimit == other.spendLimit && state == other.state && token == other.token && verificationAddress == other.verificationAddress && created == other.created && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Account && token == other.token && created == other.created && spendLimit == other.spendLimit && state == other.state && accountHolder == other.accountHolder && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && verificationAddress == other.verificationAddress && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(accountHolder, authRuleTokens, cardholderCurrency, spendLimit, state, token, verificationAddress, created, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, created, spendLimit, state, accountHolder, authRuleTokens, cardholderCurrency, verificationAddress, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Account{accountHolder=$accountHolder, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, spendLimit=$spendLimit, state=$state, token=$token, verificationAddress=$verificationAddress, created=$created, additionalProperties=$additionalProperties}"
+        "Account{token=$token, created=$created, spendLimit=$spendLimit, state=$state, accountHolder=$accountHolder, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, verificationAddress=$verificationAddress, additionalProperties=$additionalProperties}"
 }

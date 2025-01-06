@@ -22,6 +22,8 @@ import java.util.Optional
 class AuthRule
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("state") @ExcludeMissing private val state: JsonField<State> = JsonMissing.of(),
     @JsonProperty("account_tokens")
     @ExcludeMissing
     private val accountTokens: JsonField<List<String>> = JsonMissing.of(),
@@ -43,10 +45,14 @@ private constructor(
     @JsonProperty("program_level")
     @ExcludeMissing
     private val programLevel: JsonField<Boolean> = JsonMissing.of(),
-    @JsonProperty("state") @ExcludeMissing private val state: JsonField<State> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /** Globally unique identifier. */
+    fun token(): String = token.getRequired("token")
+
+    /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
+    fun state(): State = state.getRequired("state")
 
     /**
      * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note that
@@ -86,11 +92,11 @@ private constructor(
     fun programLevel(): Optional<Boolean> =
         Optional.ofNullable(programLevel.getNullable("program_level"))
 
-    /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
-    fun state(): State = state.getRequired("state")
-
     /** Globally unique identifier. */
-    fun token(): String = token.getRequired("token")
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
+
+    /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
+    @JsonProperty("state") @ExcludeMissing fun _state() = state
 
     /**
      * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note that
@@ -123,12 +129,6 @@ private constructor(
     /** Boolean indicating whether the Auth Rule is applied at the program level. */
     @JsonProperty("program_level") @ExcludeMissing fun _programLevel() = programLevel
 
-    /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
-
-    /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -137,6 +137,8 @@ private constructor(
 
     fun validate(): AuthRule = apply {
         if (!validated) {
+            token()
+            state()
             accountTokens()
             allowedCountries()
             allowedMcc()
@@ -144,8 +146,6 @@ private constructor(
             blockedMcc()
             cardTokens()
             programLevel()
-            state()
-            token()
             validated = true
         }
     }
@@ -159,6 +159,8 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
+        private var state: JsonField<State> = JsonMissing.of()
         private var accountTokens: JsonField<List<String>> = JsonMissing.of()
         private var allowedCountries: JsonField<List<String>> = JsonMissing.of()
         private var allowedMcc: JsonField<List<String>> = JsonMissing.of()
@@ -166,12 +168,12 @@ private constructor(
         private var blockedMcc: JsonField<List<String>> = JsonMissing.of()
         private var cardTokens: JsonField<List<String>> = JsonMissing.of()
         private var programLevel: JsonField<Boolean> = JsonMissing.of()
-        private var state: JsonField<State> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(authRule: AuthRule) = apply {
+            token = authRule.token
+            state = authRule.state
             accountTokens = authRule.accountTokens
             allowedCountries = authRule.allowedCountries
             allowedMcc = authRule.allowedMcc
@@ -179,10 +181,20 @@ private constructor(
             blockedMcc = authRule.blockedMcc
             cardTokens = authRule.cardTokens
             programLevel = authRule.programLevel
-            state = authRule.state
-            token = authRule.token
             additionalProperties = authRule.additionalProperties.toMutableMap()
         }
+
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
+
+        /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
+        fun state(state: State) = state(JsonField.of(state))
+
+        /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
+        fun state(state: JsonField<State>) = apply { this.state = state }
 
         /**
          * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
@@ -256,18 +268,6 @@ private constructor(
             this.programLevel = programLevel
         }
 
-        /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
-        fun state(state: State) = state(JsonField.of(state))
-
-        /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
-        fun state(state: JsonField<State>) = apply { this.state = state }
-
-        /** Globally unique identifier. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** Globally unique identifier. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
-
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -289,6 +289,8 @@ private constructor(
 
         fun build(): AuthRule =
             AuthRule(
+                token,
+                state,
                 accountTokens.map { it.toImmutable() },
                 allowedCountries.map { it.toImmutable() },
                 allowedMcc.map { it.toImmutable() },
@@ -296,8 +298,6 @@ private constructor(
                 blockedMcc.map { it.toImmutable() },
                 cardTokens.map { it.toImmutable() },
                 programLevel,
-                state,
-                token,
                 additionalProperties.toImmutable(),
             )
     }
@@ -364,15 +364,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AuthRule && accountTokens == other.accountTokens && allowedCountries == other.allowedCountries && allowedMcc == other.allowedMcc && blockedCountries == other.blockedCountries && blockedMcc == other.blockedMcc && cardTokens == other.cardTokens && programLevel == other.programLevel && state == other.state && token == other.token && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is AuthRule && token == other.token && state == other.state && accountTokens == other.accountTokens && allowedCountries == other.allowedCountries && allowedMcc == other.allowedMcc && blockedCountries == other.blockedCountries && blockedMcc == other.blockedMcc && cardTokens == other.cardTokens && programLevel == other.programLevel && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(accountTokens, allowedCountries, allowedMcc, blockedCountries, blockedMcc, cardTokens, programLevel, state, token, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, state, accountTokens, allowedCountries, allowedMcc, blockedCountries, blockedMcc, cardTokens, programLevel, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "AuthRule{accountTokens=$accountTokens, allowedCountries=$allowedCountries, allowedMcc=$allowedMcc, blockedCountries=$blockedCountries, blockedMcc=$blockedMcc, cardTokens=$cardTokens, programLevel=$programLevel, state=$state, token=$token, additionalProperties=$additionalProperties}"
+        "AuthRule{token=$token, state=$state, accountTokens=$accountTokens, allowedCountries=$allowedCountries, allowedMcc=$allowedMcc, blockedCountries=$blockedCountries, blockedMcc=$blockedMcc, cardTokens=$cardTokens, programLevel=$programLevel, additionalProperties=$additionalProperties}"
 }

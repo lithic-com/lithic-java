@@ -23,6 +23,7 @@ import java.util.Optional
 class Payment
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("category")
     @ExcludeMissing
     private val category: JsonField<Category> = JsonMissing.of(),
@@ -35,9 +36,24 @@ private constructor(
     @JsonProperty("descriptor")
     @ExcludeMissing
     private val descriptor: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("direction")
+    @ExcludeMissing
+    private val direction: JsonField<Direction> = JsonMissing.of(),
     @JsonProperty("events")
     @ExcludeMissing
     private val events: JsonField<List<PaymentEvent>> = JsonMissing.of(),
+    @JsonProperty("external_bank_account_token")
+    @ExcludeMissing
+    private val externalBankAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("financial_account_token")
+    @ExcludeMissing
+    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("method")
+    @ExcludeMissing
+    private val method: JsonField<Method> = JsonMissing.of(),
+    @JsonProperty("method_attributes")
+    @ExcludeMissing
+    private val methodAttributes: JsonField<PaymentMethodAttributes> = JsonMissing.of(),
     @JsonProperty("pending_amount")
     @ExcludeMissing
     private val pendingAmount: JsonField<Long> = JsonMissing.of(),
@@ -47,36 +63,23 @@ private constructor(
     @JsonProperty("settled_amount")
     @ExcludeMissing
     private val settledAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("status")
-    @ExcludeMissing
-    private val status: JsonField<Status> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("updated")
-    @ExcludeMissing
-    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("direction")
-    @ExcludeMissing
-    private val direction: JsonField<Direction> = JsonMissing.of(),
-    @JsonProperty("financial_account_token")
-    @ExcludeMissing
-    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("external_bank_account_token")
-    @ExcludeMissing
-    private val externalBankAccountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("method")
-    @ExcludeMissing
-    private val method: JsonField<Method> = JsonMissing.of(),
-    @JsonProperty("method_attributes")
-    @ExcludeMissing
-    private val methodAttributes: JsonField<PaymentMethodAttributes> = JsonMissing.of(),
     @JsonProperty("source")
     @ExcludeMissing
     private val source: JsonField<Source> = JsonMissing.of(),
+    @JsonProperty("status")
+    @ExcludeMissing
+    private val status: JsonField<Status> = JsonMissing.of(),
+    @JsonProperty("updated")
+    @ExcludeMissing
+    private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
     @JsonProperty("user_defined_id")
     @ExcludeMissing
     private val userDefinedId: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /** Globally unique identifier. */
+    fun token(): String = token.getRequired("token")
 
     /** Payment category */
     fun category(): Category = category.getRequired("category")
@@ -90,8 +93,21 @@ private constructor(
     /** A string that provides a description of the payment; may be useful to display to users. */
     fun descriptor(): String = descriptor.getRequired("descriptor")
 
+    fun direction(): Direction = direction.getRequired("direction")
+
     /** A list of all payment events that have modified this payment. */
     fun events(): List<PaymentEvent> = events.getRequired("events")
+
+    fun externalBankAccountToken(): Optional<String> =
+        Optional.ofNullable(externalBankAccountToken.getNullable("external_bank_account_token"))
+
+    fun financialAccountToken(): String =
+        financialAccountToken.getRequired("financial_account_token")
+
+    fun method(): Method = method.getRequired("method")
+
+    fun methodAttributes(): PaymentMethodAttributes =
+        methodAttributes.getRequired("method_attributes")
 
     /**
      * Pending amount of the payment in the currency's smallest unit (e.g., cents). The value of
@@ -110,6 +126,8 @@ private constructor(
      */
     fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
 
+    fun source(): Source = source.getRequired("source")
+
     /**
      * Status types:
      * - `DECLINED` - The payment was declined.
@@ -120,29 +138,14 @@ private constructor(
      */
     fun status(): Status = status.getRequired("status")
 
-    /** Globally unique identifier. */
-    fun token(): String = token.getRequired("token")
-
     /** Date and time when the financial transaction was last updated. UTC time zone. */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
-    fun direction(): Direction = direction.getRequired("direction")
-
-    fun financialAccountToken(): String =
-        financialAccountToken.getRequired("financial_account_token")
-
-    fun externalBankAccountToken(): Optional<String> =
-        Optional.ofNullable(externalBankAccountToken.getNullable("external_bank_account_token"))
-
-    fun method(): Method = method.getRequired("method")
-
-    fun methodAttributes(): PaymentMethodAttributes =
-        methodAttributes.getRequired("method_attributes")
-
-    fun source(): Source = source.getRequired("source")
-
     fun userDefinedId(): Optional<String> =
         Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
+
+    /** Globally unique identifier. */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /** Payment category */
     @JsonProperty("category") @ExcludeMissing fun _category() = category
@@ -156,8 +159,22 @@ private constructor(
     /** A string that provides a description of the payment; may be useful to display to users. */
     @JsonProperty("descriptor") @ExcludeMissing fun _descriptor() = descriptor
 
+    @JsonProperty("direction") @ExcludeMissing fun _direction() = direction
+
     /** A list of all payment events that have modified this payment. */
     @JsonProperty("events") @ExcludeMissing fun _events() = events
+
+    @JsonProperty("external_bank_account_token")
+    @ExcludeMissing
+    fun _externalBankAccountToken() = externalBankAccountToken
+
+    @JsonProperty("financial_account_token")
+    @ExcludeMissing
+    fun _financialAccountToken() = financialAccountToken
+
+    @JsonProperty("method") @ExcludeMissing fun _method() = method
+
+    @JsonProperty("method_attributes") @ExcludeMissing fun _methodAttributes() = methodAttributes
 
     /**
      * Pending amount of the payment in the currency's smallest unit (e.g., cents). The value of
@@ -176,6 +193,8 @@ private constructor(
      */
     @JsonProperty("settled_amount") @ExcludeMissing fun _settledAmount() = settledAmount
 
+    @JsonProperty("source") @ExcludeMissing fun _source() = source
+
     /**
      * Status types:
      * - `DECLINED` - The payment was declined.
@@ -186,27 +205,8 @@ private constructor(
      */
     @JsonProperty("status") @ExcludeMissing fun _status() = status
 
-    /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
     /** Date and time when the financial transaction was last updated. UTC time zone. */
     @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
-
-    @JsonProperty("direction") @ExcludeMissing fun _direction() = direction
-
-    @JsonProperty("financial_account_token")
-    @ExcludeMissing
-    fun _financialAccountToken() = financialAccountToken
-
-    @JsonProperty("external_bank_account_token")
-    @ExcludeMissing
-    fun _externalBankAccountToken() = externalBankAccountToken
-
-    @JsonProperty("method") @ExcludeMissing fun _method() = method
-
-    @JsonProperty("method_attributes") @ExcludeMissing fun _methodAttributes() = methodAttributes
-
-    @JsonProperty("source") @ExcludeMissing fun _source() = source
 
     @JsonProperty("user_defined_id") @ExcludeMissing fun _userDefinedId() = userDefinedId
 
@@ -218,23 +218,23 @@ private constructor(
 
     fun validate(): Payment = apply {
         if (!validated) {
+            token()
             category()
             created()
             currency()
             descriptor()
+            direction()
             events().forEach { it.validate() }
+            externalBankAccountToken()
+            financialAccountToken()
+            method()
+            methodAttributes().validate()
             pendingAmount()
             result()
             settledAmount()
-            status()
-            token()
-            updated()
-            direction()
-            financialAccountToken()
-            externalBankAccountToken()
-            method()
-            methodAttributes().validate()
             source()
+            status()
+            updated()
             userDefinedId()
             validated = true
         }
@@ -249,48 +249,54 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
         private var category: JsonField<Category> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var currency: JsonField<String> = JsonMissing.of()
         private var descriptor: JsonField<String> = JsonMissing.of()
+        private var direction: JsonField<Direction> = JsonMissing.of()
         private var events: JsonField<List<PaymentEvent>> = JsonMissing.of()
+        private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
+        private var financialAccountToken: JsonField<String> = JsonMissing.of()
+        private var method: JsonField<Method> = JsonMissing.of()
+        private var methodAttributes: JsonField<PaymentMethodAttributes> = JsonMissing.of()
         private var pendingAmount: JsonField<Long> = JsonMissing.of()
         private var result: JsonField<Result> = JsonMissing.of()
         private var settledAmount: JsonField<Long> = JsonMissing.of()
-        private var status: JsonField<Status> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
-        private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var direction: JsonField<Direction> = JsonMissing.of()
-        private var financialAccountToken: JsonField<String> = JsonMissing.of()
-        private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
-        private var method: JsonField<Method> = JsonMissing.of()
-        private var methodAttributes: JsonField<PaymentMethodAttributes> = JsonMissing.of()
         private var source: JsonField<Source> = JsonMissing.of()
+        private var status: JsonField<Status> = JsonMissing.of()
+        private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
         private var userDefinedId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(payment: Payment) = apply {
+            token = payment.token
             category = payment.category
             created = payment.created
             currency = payment.currency
             descriptor = payment.descriptor
+            direction = payment.direction
             events = payment.events
+            externalBankAccountToken = payment.externalBankAccountToken
+            financialAccountToken = payment.financialAccountToken
+            method = payment.method
+            methodAttributes = payment.methodAttributes
             pendingAmount = payment.pendingAmount
             result = payment.result
             settledAmount = payment.settledAmount
-            status = payment.status
-            token = payment.token
-            updated = payment.updated
-            direction = payment.direction
-            financialAccountToken = payment.financialAccountToken
-            externalBankAccountToken = payment.externalBankAccountToken
-            method = payment.method
-            methodAttributes = payment.methodAttributes
             source = payment.source
+            status = payment.status
+            updated = payment.updated
             userDefinedId = payment.userDefinedId
             additionalProperties = payment.additionalProperties.toMutableMap()
         }
+
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Payment category */
         fun category(category: Category) = category(JsonField.of(category))
@@ -320,11 +326,40 @@ private constructor(
          */
         fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
+        fun direction(direction: Direction) = direction(JsonField.of(direction))
+
+        fun direction(direction: JsonField<Direction>) = apply { this.direction = direction }
+
         /** A list of all payment events that have modified this payment. */
         fun events(events: List<PaymentEvent>) = events(JsonField.of(events))
 
         /** A list of all payment events that have modified this payment. */
         fun events(events: JsonField<List<PaymentEvent>>) = apply { this.events = events }
+
+        fun externalBankAccountToken(externalBankAccountToken: String) =
+            externalBankAccountToken(JsonField.of(externalBankAccountToken))
+
+        fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
+            this.externalBankAccountToken = externalBankAccountToken
+        }
+
+        fun financialAccountToken(financialAccountToken: String) =
+            financialAccountToken(JsonField.of(financialAccountToken))
+
+        fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
+            this.financialAccountToken = financialAccountToken
+        }
+
+        fun method(method: Method) = method(JsonField.of(method))
+
+        fun method(method: JsonField<Method>) = apply { this.method = method }
+
+        fun methodAttributes(methodAttributes: PaymentMethodAttributes) =
+            methodAttributes(JsonField.of(methodAttributes))
+
+        fun methodAttributes(methodAttributes: JsonField<PaymentMethodAttributes>) = apply {
+            this.methodAttributes = methodAttributes
+        }
 
         /**
          * Pending amount of the payment in the currency's smallest unit (e.g., cents). The value of
@@ -366,6 +401,10 @@ private constructor(
             this.settledAmount = settledAmount
         }
 
+        fun source(source: Source) = source(JsonField.of(source))
+
+        fun source(source: JsonField<Source>) = apply { this.source = source }
+
         /**
          * Status types:
          * - `DECLINED` - The payment was declined.
@@ -386,50 +425,11 @@ private constructor(
          */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
-        /** Globally unique identifier. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** Globally unique identifier. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
-
         /** Date and time when the financial transaction was last updated. UTC time zone. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
         /** Date and time when the financial transaction was last updated. UTC time zone. */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
-
-        fun direction(direction: Direction) = direction(JsonField.of(direction))
-
-        fun direction(direction: JsonField<Direction>) = apply { this.direction = direction }
-
-        fun financialAccountToken(financialAccountToken: String) =
-            financialAccountToken(JsonField.of(financialAccountToken))
-
-        fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
-            this.financialAccountToken = financialAccountToken
-        }
-
-        fun externalBankAccountToken(externalBankAccountToken: String) =
-            externalBankAccountToken(JsonField.of(externalBankAccountToken))
-
-        fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
-            this.externalBankAccountToken = externalBankAccountToken
-        }
-
-        fun method(method: Method) = method(JsonField.of(method))
-
-        fun method(method: JsonField<Method>) = apply { this.method = method }
-
-        fun methodAttributes(methodAttributes: PaymentMethodAttributes) =
-            methodAttributes(JsonField.of(methodAttributes))
-
-        fun methodAttributes(methodAttributes: JsonField<PaymentMethodAttributes>) = apply {
-            this.methodAttributes = methodAttributes
-        }
-
-        fun source(source: Source) = source(JsonField.of(source))
-
-        fun source(source: JsonField<Source>) = apply { this.source = source }
 
         fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
@@ -458,23 +458,23 @@ private constructor(
 
         fun build(): Payment =
             Payment(
+                token,
                 category,
                 created,
                 currency,
                 descriptor,
+                direction,
                 events.map { it.toImmutable() },
+                externalBankAccountToken,
+                financialAccountToken,
+                method,
+                methodAttributes,
                 pendingAmount,
                 result,
                 settledAmount,
-                status,
-                token,
-                updated,
-                direction,
-                financialAccountToken,
-                externalBankAccountToken,
-                method,
-                methodAttributes,
                 source,
+                status,
+                updated,
                 userDefinedId,
                 additionalProperties.toImmutable(),
             )
@@ -592,27 +592,30 @@ private constructor(
     class PaymentEvent
     @JsonCreator
     private constructor(
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
         @JsonProperty("amount")
         @ExcludeMissing
         private val amount: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("created")
         @ExcludeMissing
         private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("detailed_results")
-        @ExcludeMissing
-        private val detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of(),
         @JsonProperty("result")
         @ExcludeMissing
         private val result: JsonField<Result> = JsonMissing.of(),
-        @JsonProperty("token")
-        @ExcludeMissing
-        private val token: JsonField<String> = JsonMissing.of(),
         @JsonProperty("type")
         @ExcludeMissing
         private val type: JsonField<PaymentEventType> = JsonMissing.of(),
+        @JsonProperty("detailed_results")
+        @ExcludeMissing
+        private val detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
+
+        /** Globally unique identifier. */
+        fun token(): String = token.getRequired("token")
 
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
@@ -623,18 +626,11 @@ private constructor(
         /** Date and time when the financial event occurred. UTC time zone. */
         fun created(): OffsetDateTime = created.getRequired("created")
 
-        /** More detailed reasons for the event */
-        fun detailedResults(): Optional<List<DetailedResult>> =
-            Optional.ofNullable(detailedResults.getNullable("detailed_results"))
-
         /**
          * APPROVED financial events were successful while DECLINED financial events were declined
          * by user, Lithic, or the network.
          */
         fun result(): Result = result.getRequired("result")
-
-        /** Globally unique identifier. */
-        fun token(): String = token.getRequired("token")
 
         /**
          * Event types:
@@ -655,6 +651,13 @@ private constructor(
          */
         fun type(): PaymentEventType = type.getRequired("type")
 
+        /** More detailed reasons for the event */
+        fun detailedResults(): Optional<List<DetailedResult>> =
+            Optional.ofNullable(detailedResults.getNullable("detailed_results"))
+
+        /** Globally unique identifier. */
+        @JsonProperty("token") @ExcludeMissing fun _token() = token
+
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
          * (e.g., cents).
@@ -664,17 +667,11 @@ private constructor(
         /** Date and time when the financial event occurred. UTC time zone. */
         @JsonProperty("created") @ExcludeMissing fun _created() = created
 
-        /** More detailed reasons for the event */
-        @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
-
         /**
          * APPROVED financial events were successful while DECLINED financial events were declined
          * by user, Lithic, or the network.
          */
         @JsonProperty("result") @ExcludeMissing fun _result() = result
-
-        /** Globally unique identifier. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
 
         /**
          * Event types:
@@ -695,6 +692,9 @@ private constructor(
          */
         @JsonProperty("type") @ExcludeMissing fun _type() = type
 
+        /** More detailed reasons for the event */
+        @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
+
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -703,12 +703,12 @@ private constructor(
 
         fun validate(): PaymentEvent = apply {
             if (!validated) {
+                token()
                 amount()
                 created()
-                detailedResults()
                 result()
-                token()
                 type()
+                detailedResults()
                 validated = true
             }
         }
@@ -722,24 +722,30 @@ private constructor(
 
         class Builder {
 
+            private var token: JsonField<String> = JsonMissing.of()
             private var amount: JsonField<Long> = JsonMissing.of()
             private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of()
             private var result: JsonField<Result> = JsonMissing.of()
-            private var token: JsonField<String> = JsonMissing.of()
             private var type: JsonField<PaymentEventType> = JsonMissing.of()
+            private var detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(paymentEvent: PaymentEvent) = apply {
+                token = paymentEvent.token
                 amount = paymentEvent.amount
                 created = paymentEvent.created
-                detailedResults = paymentEvent.detailedResults
                 result = paymentEvent.result
-                token = paymentEvent.token
                 type = paymentEvent.type
+                detailedResults = paymentEvent.detailedResults
                 additionalProperties = paymentEvent.additionalProperties.toMutableMap()
             }
+
+            /** Globally unique identifier. */
+            fun token(token: String) = token(JsonField.of(token))
+
+            /** Globally unique identifier. */
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
              * Amount of the financial event that has been settled in the currency's smallest unit
@@ -759,15 +765,6 @@ private constructor(
             /** Date and time when the financial event occurred. UTC time zone. */
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-            /** More detailed reasons for the event */
-            fun detailedResults(detailedResults: List<DetailedResult>) =
-                detailedResults(JsonField.of(detailedResults))
-
-            /** More detailed reasons for the event */
-            fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
-                this.detailedResults = detailedResults
-            }
-
             /**
              * APPROVED financial events were successful while DECLINED financial events were
              * declined by user, Lithic, or the network.
@@ -779,12 +776,6 @@ private constructor(
              * declined by user, Lithic, or the network.
              */
             fun result(result: JsonField<Result>) = apply { this.result = result }
-
-            /** Globally unique identifier. */
-            fun token(token: String) = token(JsonField.of(token))
-
-            /** Globally unique identifier. */
-            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
              * Event types:
@@ -826,6 +817,15 @@ private constructor(
              */
             fun type(type: JsonField<PaymentEventType>) = apply { this.type = type }
 
+            /** More detailed reasons for the event */
+            fun detailedResults(detailedResults: List<DetailedResult>) =
+                detailedResults(JsonField.of(detailedResults))
+
+            /** More detailed reasons for the event */
+            fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
+                this.detailedResults = detailedResults
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -847,12 +847,12 @@ private constructor(
 
             fun build(): PaymentEvent =
                 PaymentEvent(
+                    token,
                     amount,
                     created,
-                    detailedResults.map { it.toImmutable() },
                     result,
-                    token,
                     type,
+                    detailedResults.map { it.toImmutable() },
                     additionalProperties.toImmutable(),
                 )
         }
@@ -1106,17 +1106,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is PaymentEvent && amount == other.amount && created == other.created && detailedResults == other.detailedResults && result == other.result && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is PaymentEvent && token == other.token && amount == other.amount && created == other.created && result == other.result && type == other.type && detailedResults == other.detailedResults && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, created, detailedResults, result, token, type, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(token, amount, created, result, type, detailedResults, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "PaymentEvent{amount=$amount, created=$created, detailedResults=$detailedResults, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
+            "PaymentEvent{token=$token, amount=$amount, created=$created, result=$result, type=$type, detailedResults=$detailedResults, additionalProperties=$additionalProperties}"
     }
 
     class Method
@@ -1610,15 +1610,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Payment && category == other.category && created == other.created && currency == other.currency && descriptor == other.descriptor && events == other.events && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && status == other.status && token == other.token && updated == other.updated && direction == other.direction && financialAccountToken == other.financialAccountToken && externalBankAccountToken == other.externalBankAccountToken && method == other.method && methodAttributes == other.methodAttributes && source == other.source && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Payment && token == other.token && category == other.category && created == other.created && currency == other.currency && descriptor == other.descriptor && direction == other.direction && events == other.events && externalBankAccountToken == other.externalBankAccountToken && financialAccountToken == other.financialAccountToken && method == other.method && methodAttributes == other.methodAttributes && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && source == other.source && status == other.status && updated == other.updated && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(category, created, currency, descriptor, events, pendingAmount, result, settledAmount, status, token, updated, direction, financialAccountToken, externalBankAccountToken, method, methodAttributes, source, userDefinedId, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, category, created, currency, descriptor, direction, events, externalBankAccountToken, financialAccountToken, method, methodAttributes, pendingAmount, result, settledAmount, source, status, updated, userDefinedId, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Payment{category=$category, created=$created, currency=$currency, descriptor=$descriptor, events=$events, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, token=$token, updated=$updated, direction=$direction, financialAccountToken=$financialAccountToken, externalBankAccountToken=$externalBankAccountToken, method=$method, methodAttributes=$methodAttributes, source=$source, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
+        "Payment{token=$token, category=$category, created=$created, currency=$currency, descriptor=$descriptor, direction=$direction, events=$events, externalBankAccountToken=$externalBankAccountToken, financialAccountToken=$financialAccountToken, method=$method, methodAttributes=$methodAttributes, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, source=$source, status=$status, updated=$updated, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 }

@@ -22,6 +22,7 @@ import java.util.Objects
 class BookTransferResponse
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("category")
     @ExcludeMissing
     private val category: JsonField<Category> = JsonMissing.of(),
@@ -52,12 +53,17 @@ private constructor(
     @JsonProperty("to_financial_account_token")
     @ExcludeMissing
     private val toFinancialAccountToken: JsonValue = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("updated")
     @ExcludeMissing
     private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /**
+     * Customer-provided token that will serve as an idempotency token. This token will become the
+     * transaction token.
+     */
+    fun token(): String = token.getRequired("token")
 
     /** Category of the book transfer */
     fun category(): Category = category.getRequired("category")
@@ -103,14 +109,14 @@ private constructor(
      */
     fun status(): Status = status.getRequired("status")
 
+    /** Date and time when the financial transaction was last updated. UTC time zone. */
+    fun updated(): OffsetDateTime = updated.getRequired("updated")
+
     /**
      * Customer-provided token that will serve as an idempotency token. This token will become the
      * transaction token.
      */
-    fun token(): String = token.getRequired("token")
-
-    /** Date and time when the financial transaction was last updated. UTC time zone. */
-    fun updated(): OffsetDateTime = updated.getRequired("updated")
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /** Category of the book transfer */
     @JsonProperty("category") @ExcludeMissing fun _category() = category
@@ -165,12 +171,6 @@ private constructor(
     @ExcludeMissing
     fun _toFinancialAccountToken() = toFinancialAccountToken
 
-    /**
-     * Customer-provided token that will serve as an idempotency token. This token will become the
-     * transaction token.
-     */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
     /** Date and time when the financial transaction was last updated. UTC time zone. */
     @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
 
@@ -182,6 +182,7 @@ private constructor(
 
     fun validate(): BookTransferResponse = apply {
         if (!validated) {
+            token()
             category()
             created()
             currency()
@@ -191,7 +192,6 @@ private constructor(
             result()
             settledAmount()
             status()
-            token()
             updated()
             validated = true
         }
@@ -206,6 +206,7 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
         private var category: JsonField<Category> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var currency: JsonField<String> = JsonMissing.of()
@@ -216,12 +217,12 @@ private constructor(
         private var settledAmount: JsonField<Long> = JsonMissing.of()
         private var status: JsonField<Status> = JsonMissing.of()
         private var toFinancialAccountToken: JsonValue = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(bookTransferResponse: BookTransferResponse) = apply {
+            token = bookTransferResponse.token
             category = bookTransferResponse.category
             created = bookTransferResponse.created
             currency = bookTransferResponse.currency
@@ -232,10 +233,21 @@ private constructor(
             settledAmount = bookTransferResponse.settledAmount
             status = bookTransferResponse.status
             toFinancialAccountToken = bookTransferResponse.toFinancialAccountToken
-            token = bookTransferResponse.token
             updated = bookTransferResponse.updated
             additionalProperties = bookTransferResponse.additionalProperties.toMutableMap()
         }
+
+        /**
+         * Customer-provided token that will serve as an idempotency token. This token will become
+         * the transaction token.
+         */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /**
+         * Customer-provided token that will serve as an idempotency token. This token will become
+         * the transaction token.
+         */
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Category of the book transfer */
         fun category(category: Category) = category(JsonField.of(category))
@@ -338,18 +350,6 @@ private constructor(
             this.toFinancialAccountToken = toFinancialAccountToken
         }
 
-        /**
-         * Customer-provided token that will serve as an idempotency token. This token will become
-         * the transaction token.
-         */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /**
-         * Customer-provided token that will serve as an idempotency token. This token will become
-         * the transaction token.
-         */
-        fun token(token: JsonField<String>) = apply { this.token = token }
-
         /** Date and time when the financial transaction was last updated. UTC time zone. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
@@ -377,6 +377,7 @@ private constructor(
 
         fun build(): BookTransferResponse =
             BookTransferResponse(
+                token,
                 category,
                 created,
                 currency,
@@ -387,7 +388,6 @@ private constructor(
                 settledAmount,
                 status,
                 toFinancialAccountToken,
-                token,
                 updated,
                 additionalProperties.toImmutable(),
             )
@@ -484,33 +484,36 @@ private constructor(
     class BookTransferEvent
     @JsonCreator
     private constructor(
-        @JsonProperty("amount")
-        @ExcludeMissing
-        private val amount: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("type")
-        @ExcludeMissing
-        private val type: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("result")
-        @ExcludeMissing
-        private val result: JsonField<Result> = JsonMissing.of(),
-        @JsonProperty("created")
-        @ExcludeMissing
-        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("token")
         @ExcludeMissing
         private val token: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("subtype")
+        @JsonProperty("amount")
         @ExcludeMissing
-        private val subtype: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("memo")
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("created")
         @ExcludeMissing
-        private val memo: JsonField<String> = JsonMissing.of(),
+        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("detailed_results")
         @ExcludeMissing
         private val detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of(),
+        @JsonProperty("memo")
+        @ExcludeMissing
+        private val memo: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("result")
+        @ExcludeMissing
+        private val result: JsonField<Result> = JsonMissing.of(),
+        @JsonProperty("subtype")
+        @ExcludeMissing
+        private val subtype: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("type")
+        @ExcludeMissing
+        private val type: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
+
+        /** Globally unique identifier. */
+        fun token(): String = token.getRequired("token")
 
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
@@ -518,8 +521,15 @@ private constructor(
          */
         fun amount(): Long = amount.getRequired("amount")
 
-        /** Type of the book transfer */
-        fun type(): String = type.getRequired("type")
+        /** Date and time when the financial event occurred. UTC time zone. */
+        fun created(): OffsetDateTime = created.getRequired("created")
+
+        /** Detailed Results */
+        fun detailedResults(): List<DetailedResult> =
+            detailedResults.getRequired("detailed_results")
+
+        /** Memo for the transfer. */
+        fun memo(): String = memo.getRequired("memo")
 
         /**
          * APPROVED financial events were successful while DECLINED financial events were declined
@@ -527,21 +537,14 @@ private constructor(
          */
         fun result(): Result = result.getRequired("result")
 
-        /** Date and time when the financial event occurred. UTC time zone. */
-        fun created(): OffsetDateTime = created.getRequired("created")
-
-        /** Globally unique identifier. */
-        fun token(): String = token.getRequired("token")
-
         /** The program specific subtype code for the specified category/type. */
         fun subtype(): String = subtype.getRequired("subtype")
 
-        /** Memo for the transfer. */
-        fun memo(): String = memo.getRequired("memo")
+        /** Type of the book transfer */
+        fun type(): String = type.getRequired("type")
 
-        /** Detailed Results */
-        fun detailedResults(): List<DetailedResult> =
-            detailedResults.getRequired("detailed_results")
+        /** Globally unique identifier. */
+        @JsonProperty("token") @ExcludeMissing fun _token() = token
 
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
@@ -549,8 +552,14 @@ private constructor(
          */
         @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
 
-        /** Type of the book transfer */
-        @JsonProperty("type") @ExcludeMissing fun _type() = type
+        /** Date and time when the financial event occurred. UTC time zone. */
+        @JsonProperty("created") @ExcludeMissing fun _created() = created
+
+        /** Detailed Results */
+        @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
+
+        /** Memo for the transfer. */
+        @JsonProperty("memo") @ExcludeMissing fun _memo() = memo
 
         /**
          * APPROVED financial events were successful while DECLINED financial events were declined
@@ -558,20 +567,11 @@ private constructor(
          */
         @JsonProperty("result") @ExcludeMissing fun _result() = result
 
-        /** Date and time when the financial event occurred. UTC time zone. */
-        @JsonProperty("created") @ExcludeMissing fun _created() = created
-
-        /** Globally unique identifier. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
-
         /** The program specific subtype code for the specified category/type. */
         @JsonProperty("subtype") @ExcludeMissing fun _subtype() = subtype
 
-        /** Memo for the transfer. */
-        @JsonProperty("memo") @ExcludeMissing fun _memo() = memo
-
-        /** Detailed Results */
-        @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
+        /** Type of the book transfer */
+        @JsonProperty("type") @ExcludeMissing fun _type() = type
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -581,14 +581,14 @@ private constructor(
 
         fun validate(): BookTransferEvent = apply {
             if (!validated) {
-                amount()
-                type()
-                result()
-                created()
                 token()
-                subtype()
-                memo()
+                amount()
+                created()
                 detailedResults()
+                memo()
+                result()
+                subtype()
+                type()
                 validated = true
             }
         }
@@ -602,28 +602,34 @@ private constructor(
 
         class Builder {
 
-            private var amount: JsonField<Long> = JsonMissing.of()
-            private var type: JsonField<String> = JsonMissing.of()
-            private var result: JsonField<Result> = JsonMissing.of()
-            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
             private var token: JsonField<String> = JsonMissing.of()
-            private var subtype: JsonField<String> = JsonMissing.of()
-            private var memo: JsonField<String> = JsonMissing.of()
+            private var amount: JsonField<Long> = JsonMissing.of()
+            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
             private var detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of()
+            private var memo: JsonField<String> = JsonMissing.of()
+            private var result: JsonField<Result> = JsonMissing.of()
+            private var subtype: JsonField<String> = JsonMissing.of()
+            private var type: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(bookTransferEvent: BookTransferEvent) = apply {
-                amount = bookTransferEvent.amount
-                type = bookTransferEvent.type
-                result = bookTransferEvent.result
-                created = bookTransferEvent.created
                 token = bookTransferEvent.token
-                subtype = bookTransferEvent.subtype
-                memo = bookTransferEvent.memo
+                amount = bookTransferEvent.amount
+                created = bookTransferEvent.created
                 detailedResults = bookTransferEvent.detailedResults
+                memo = bookTransferEvent.memo
+                result = bookTransferEvent.result
+                subtype = bookTransferEvent.subtype
+                type = bookTransferEvent.type
                 additionalProperties = bookTransferEvent.additionalProperties.toMutableMap()
             }
+
+            /** Globally unique identifier. */
+            fun token(token: String) = token(JsonField.of(token))
+
+            /** Globally unique identifier. */
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
              * Amount of the financial event that has been settled in the currency's smallest unit
@@ -637,11 +643,26 @@ private constructor(
              */
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-            /** Type of the book transfer */
-            fun type(type: String) = type(JsonField.of(type))
+            /** Date and time when the financial event occurred. UTC time zone. */
+            fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-            /** Type of the book transfer */
-            fun type(type: JsonField<String>) = apply { this.type = type }
+            /** Date and time when the financial event occurred. UTC time zone. */
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+            /** Detailed Results */
+            fun detailedResults(detailedResults: List<DetailedResult>) =
+                detailedResults(JsonField.of(detailedResults))
+
+            /** Detailed Results */
+            fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
+                this.detailedResults = detailedResults
+            }
+
+            /** Memo for the transfer. */
+            fun memo(memo: String) = memo(JsonField.of(memo))
+
+            /** Memo for the transfer. */
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             /**
              * APPROVED financial events were successful while DECLINED financial events were
@@ -655,38 +676,17 @@ private constructor(
              */
             fun result(result: JsonField<Result>) = apply { this.result = result }
 
-            /** Date and time when the financial event occurred. UTC time zone. */
-            fun created(created: OffsetDateTime) = created(JsonField.of(created))
-
-            /** Date and time when the financial event occurred. UTC time zone. */
-            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
-
-            /** Globally unique identifier. */
-            fun token(token: String) = token(JsonField.of(token))
-
-            /** Globally unique identifier. */
-            fun token(token: JsonField<String>) = apply { this.token = token }
-
             /** The program specific subtype code for the specified category/type. */
             fun subtype(subtype: String) = subtype(JsonField.of(subtype))
 
             /** The program specific subtype code for the specified category/type. */
             fun subtype(subtype: JsonField<String>) = apply { this.subtype = subtype }
 
-            /** Memo for the transfer. */
-            fun memo(memo: String) = memo(JsonField.of(memo))
+            /** Type of the book transfer */
+            fun type(type: String) = type(JsonField.of(type))
 
-            /** Memo for the transfer. */
-            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
-
-            /** Detailed Results */
-            fun detailedResults(detailedResults: List<DetailedResult>) =
-                detailedResults(JsonField.of(detailedResults))
-
-            /** Detailed Results */
-            fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
-                this.detailedResults = detailedResults
-            }
+            /** Type of the book transfer */
+            fun type(type: JsonField<String>) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -709,14 +709,14 @@ private constructor(
 
             fun build(): BookTransferEvent =
                 BookTransferEvent(
-                    amount,
-                    type,
-                    result,
-                    created,
                     token,
-                    subtype,
-                    memo,
+                    amount,
+                    created,
                     detailedResults.map { it.toImmutable() },
+                    memo,
+                    result,
+                    subtype,
+                    type,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -840,17 +840,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is BookTransferEvent && amount == other.amount && type == other.type && result == other.result && created == other.created && token == other.token && subtype == other.subtype && memo == other.memo && detailedResults == other.detailedResults && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is BookTransferEvent && token == other.token && amount == other.amount && created == other.created && detailedResults == other.detailedResults && memo == other.memo && result == other.result && subtype == other.subtype && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, type, result, created, token, subtype, memo, detailedResults, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(token, amount, created, detailedResults, memo, result, subtype, type, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "BookTransferEvent{amount=$amount, type=$type, result=$result, created=$created, token=$token, subtype=$subtype, memo=$memo, detailedResults=$detailedResults, additionalProperties=$additionalProperties}"
+            "BookTransferEvent{token=$token, amount=$amount, created=$created, detailedResults=$detailedResults, memo=$memo, result=$result, subtype=$subtype, type=$type, additionalProperties=$additionalProperties}"
     }
 
     class Result
@@ -978,15 +978,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BookTransferResponse && category == other.category && created == other.created && currency == other.currency && events == other.events && fromFinancialAccountToken == other.fromFinancialAccountToken && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && status == other.status && toFinancialAccountToken == other.toFinancialAccountToken && token == other.token && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is BookTransferResponse && token == other.token && category == other.category && created == other.created && currency == other.currency && events == other.events && fromFinancialAccountToken == other.fromFinancialAccountToken && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && status == other.status && toFinancialAccountToken == other.toFinancialAccountToken && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(category, created, currency, events, fromFinancialAccountToken, pendingAmount, result, settledAmount, status, toFinancialAccountToken, token, updated, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, category, created, currency, events, fromFinancialAccountToken, pendingAmount, result, settledAmount, status, toFinancialAccountToken, updated, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "BookTransferResponse{category=$category, created=$created, currency=$currency, events=$events, fromFinancialAccountToken=$fromFinancialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, toFinancialAccountToken=$toFinancialAccountToken, token=$token, updated=$updated, additionalProperties=$additionalProperties}"
+        "BookTransferResponse{token=$token, category=$category, created=$created, currency=$currency, events=$events, fromFinancialAccountToken=$fromFinancialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, toFinancialAccountToken=$toFinancialAccountToken, updated=$updated, additionalProperties=$additionalProperties}"
 }

@@ -34,24 +34,24 @@ private constructor(
     @JsonProperty("control_person")
     @ExcludeMissing
     private val controlPerson: JsonField<KybIndividual> = JsonMissing.of(),
-    @JsonProperty("external_id")
-    @ExcludeMissing
-    private val externalId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("kyb_passed_timestamp")
-    @ExcludeMissing
-    private val kybPassedTimestamp: JsonField<String> = JsonMissing.of(),
     @JsonProperty("nature_of_business")
     @ExcludeMissing
     private val natureOfBusiness: JsonField<String> = JsonMissing.of(),
     @JsonProperty("tos_timestamp")
     @ExcludeMissing
     private val tosTimestamp: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("website_url")
-    @ExcludeMissing
-    private val websiteUrl: JsonField<String> = JsonMissing.of(),
     @JsonProperty("workflow")
     @ExcludeMissing
     private val workflow: JsonField<Workflow> = JsonMissing.of(),
+    @JsonProperty("external_id")
+    @ExcludeMissing
+    private val externalId: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("kyb_passed_timestamp")
+    @ExcludeMissing
+    private val kybPassedTimestamp: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("website_url")
+    @ExcludeMissing
+    private val websiteUrl: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
@@ -93,6 +93,19 @@ private constructor(
      */
     fun controlPerson(): KybIndividual = controlPerson.getRequired("control_person")
 
+    /** Short description of the company's line of business (i.e., what does the company do?). */
+    fun natureOfBusiness(): String = natureOfBusiness.getRequired("nature_of_business")
+
+    /**
+     * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
+     * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation with
+     * Lithic.
+     */
+    fun tosTimestamp(): String = tosTimestamp.getRequired("tos_timestamp")
+
+    /** Specifies the type of KYB workflow to run. */
+    fun workflow(): Workflow = workflow.getRequired("workflow")
+
     /** A user provided id that can be used to link an account holder with an external system */
     fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
 
@@ -105,21 +118,8 @@ private constructor(
     fun kybPassedTimestamp(): Optional<String> =
         Optional.ofNullable(kybPassedTimestamp.getNullable("kyb_passed_timestamp"))
 
-    /** Short description of the company's line of business (i.e., what does the company do?). */
-    fun natureOfBusiness(): String = natureOfBusiness.getRequired("nature_of_business")
-
-    /**
-     * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
-     * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation with
-     * Lithic.
-     */
-    fun tosTimestamp(): String = tosTimestamp.getRequired("tos_timestamp")
-
     /** Company website URL. */
     fun websiteUrl(): Optional<String> = Optional.ofNullable(websiteUrl.getNullable("website_url"))
-
-    /** Specifies the type of KYB workflow to run. */
-    fun workflow(): Workflow = workflow.getRequired("workflow")
 
     /**
      * List of all entities with >25% ownership in the company. If no entity or individual owns >25%
@@ -161,6 +161,19 @@ private constructor(
      */
     @JsonProperty("control_person") @ExcludeMissing fun _controlPerson() = controlPerson
 
+    /** Short description of the company's line of business (i.e., what does the company do?). */
+    @JsonProperty("nature_of_business") @ExcludeMissing fun _natureOfBusiness() = natureOfBusiness
+
+    /**
+     * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
+     * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation with
+     * Lithic.
+     */
+    @JsonProperty("tos_timestamp") @ExcludeMissing fun _tosTimestamp() = tosTimestamp
+
+    /** Specifies the type of KYB workflow to run. */
+    @JsonProperty("workflow") @ExcludeMissing fun _workflow() = workflow
+
     /** A user provided id that can be used to link an account holder with an external system */
     @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
 
@@ -174,21 +187,8 @@ private constructor(
     @ExcludeMissing
     fun _kybPassedTimestamp() = kybPassedTimestamp
 
-    /** Short description of the company's line of business (i.e., what does the company do?). */
-    @JsonProperty("nature_of_business") @ExcludeMissing fun _natureOfBusiness() = natureOfBusiness
-
-    /**
-     * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
-     * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation with
-     * Lithic.
-     */
-    @JsonProperty("tos_timestamp") @ExcludeMissing fun _tosTimestamp() = tosTimestamp
-
     /** Company website URL. */
     @JsonProperty("website_url") @ExcludeMissing fun _websiteUrl() = websiteUrl
-
-    /** Specifies the type of KYB workflow to run. */
-    @JsonProperty("workflow") @ExcludeMissing fun _workflow() = workflow
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -202,12 +202,12 @@ private constructor(
             beneficialOwnerIndividuals().forEach { it.validate() }
             businessEntity().validate()
             controlPerson().validate()
-            externalId()
-            kybPassedTimestamp()
             natureOfBusiness()
             tosTimestamp()
-            websiteUrl()
             workflow()
+            externalId()
+            kybPassedTimestamp()
+            websiteUrl()
             validated = true
         }
     }
@@ -225,12 +225,12 @@ private constructor(
         private var beneficialOwnerIndividuals: JsonField<List<KybIndividual>> = JsonMissing.of()
         private var businessEntity: JsonField<BusinessEntity> = JsonMissing.of()
         private var controlPerson: JsonField<KybIndividual> = JsonMissing.of()
-        private var externalId: JsonField<String> = JsonMissing.of()
-        private var kybPassedTimestamp: JsonField<String> = JsonMissing.of()
         private var natureOfBusiness: JsonField<String> = JsonMissing.of()
         private var tosTimestamp: JsonField<String> = JsonMissing.of()
-        private var websiteUrl: JsonField<String> = JsonMissing.of()
         private var workflow: JsonField<Workflow> = JsonMissing.of()
+        private var externalId: JsonField<String> = JsonMissing.of()
+        private var kybPassedTimestamp: JsonField<String> = JsonMissing.of()
+        private var websiteUrl: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -239,12 +239,12 @@ private constructor(
             beneficialOwnerIndividuals = kyb.beneficialOwnerIndividuals
             businessEntity = kyb.businessEntity
             controlPerson = kyb.controlPerson
-            externalId = kyb.externalId
-            kybPassedTimestamp = kyb.kybPassedTimestamp
             natureOfBusiness = kyb.natureOfBusiness
             tosTimestamp = kyb.tosTimestamp
-            websiteUrl = kyb.websiteUrl
             workflow = kyb.workflow
+            externalId = kyb.externalId
+            kybPassedTimestamp = kyb.kybPassedTimestamp
+            websiteUrl = kyb.websiteUrl
             additionalProperties = kyb.additionalProperties.toMutableMap()
         }
 
@@ -335,31 +335,6 @@ private constructor(
             this.controlPerson = controlPerson
         }
 
-        /** A user provided id that can be used to link an account holder with an external system */
-        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
-
-        /** A user provided id that can be used to link an account holder with an external system */
-        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
-
-        /**
-         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with
-         * a pass result.
-         *
-         * This field is required only if workflow type is `KYB_BYO`.
-         */
-        fun kybPassedTimestamp(kybPassedTimestamp: String) =
-            kybPassedTimestamp(JsonField.of(kybPassedTimestamp))
-
-        /**
-         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with
-         * a pass result.
-         *
-         * This field is required only if workflow type is `KYB_BYO`.
-         */
-        fun kybPassedTimestamp(kybPassedTimestamp: JsonField<String>) = apply {
-            this.kybPassedTimestamp = kybPassedTimestamp
-        }
-
         /**
          * Short description of the company's line of business (i.e., what does the company do?).
          */
@@ -389,17 +364,42 @@ private constructor(
             this.tosTimestamp = tosTimestamp
         }
 
-        /** Company website URL. */
-        fun websiteUrl(websiteUrl: String) = websiteUrl(JsonField.of(websiteUrl))
-
-        /** Company website URL. */
-        fun websiteUrl(websiteUrl: JsonField<String>) = apply { this.websiteUrl = websiteUrl }
-
         /** Specifies the type of KYB workflow to run. */
         fun workflow(workflow: Workflow) = workflow(JsonField.of(workflow))
 
         /** Specifies the type of KYB workflow to run. */
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
+
+        /** A user provided id that can be used to link an account holder with an external system */
+        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
+
+        /** A user provided id that can be used to link an account holder with an external system */
+        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+
+        /**
+         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with
+         * a pass result.
+         *
+         * This field is required only if workflow type is `KYB_BYO`.
+         */
+        fun kybPassedTimestamp(kybPassedTimestamp: String) =
+            kybPassedTimestamp(JsonField.of(kybPassedTimestamp))
+
+        /**
+         * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with
+         * a pass result.
+         *
+         * This field is required only if workflow type is `KYB_BYO`.
+         */
+        fun kybPassedTimestamp(kybPassedTimestamp: JsonField<String>) = apply {
+            this.kybPassedTimestamp = kybPassedTimestamp
+        }
+
+        /** Company website URL. */
+        fun websiteUrl(websiteUrl: String) = websiteUrl(JsonField.of(websiteUrl))
+
+        /** Company website URL. */
+        fun websiteUrl(websiteUrl: JsonField<String>) = apply { this.websiteUrl = websiteUrl }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -426,12 +426,12 @@ private constructor(
                 beneficialOwnerIndividuals.map { it.toImmutable() },
                 businessEntity,
                 controlPerson,
-                externalId,
-                kybPassedTimestamp,
                 natureOfBusiness,
                 tosTimestamp,
-                websiteUrl,
                 workflow,
+                externalId,
+                kybPassedTimestamp,
+                websiteUrl,
                 additionalProperties.toImmutable(),
             )
     }
@@ -443,21 +443,21 @@ private constructor(
         @JsonProperty("address")
         @ExcludeMissing
         private val address: JsonField<Address> = JsonMissing.of(),
-        @JsonProperty("dba_business_name")
-        @ExcludeMissing
-        private val dbaBusinessName: JsonField<String> = JsonMissing.of(),
         @JsonProperty("government_id")
         @ExcludeMissing
         private val governmentId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("legal_business_name")
         @ExcludeMissing
         private val legalBusinessName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("parent_company")
-        @ExcludeMissing
-        private val parentCompany: JsonField<String> = JsonMissing.of(),
         @JsonProperty("phone_numbers")
         @ExcludeMissing
         private val phoneNumbers: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("dba_business_name")
+        @ExcludeMissing
+        private val dbaBusinessName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("parent_company")
+        @ExcludeMissing
+        private val parentCompany: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -469,13 +469,6 @@ private constructor(
         fun address(): Address = address.getRequired("address")
 
         /**
-         * Any name that the business operates under that is not its legal business name (if
-         * applicable).
-         */
-        fun dbaBusinessName(): Optional<String> =
-            Optional.ofNullable(dbaBusinessName.getNullable("dba_business_name"))
-
-        /**
          * Government-issued identification number. US Federal Employer Identification Numbers (EIN)
          * are currently supported, entered as full nine-digits, with or without hyphens.
          */
@@ -484,24 +477,25 @@ private constructor(
         /** Legal (formal) business name. */
         fun legalBusinessName(): String = legalBusinessName.getRequired("legal_business_name")
 
+        /** One or more of the business's phone number(s), entered as a list in E.164 format. */
+        fun phoneNumbers(): List<String> = phoneNumbers.getRequired("phone_numbers")
+
+        /**
+         * Any name that the business operates under that is not its legal business name (if
+         * applicable).
+         */
+        fun dbaBusinessName(): Optional<String> =
+            Optional.ofNullable(dbaBusinessName.getNullable("dba_business_name"))
+
         /** Parent company name (if applicable). */
         fun parentCompany(): Optional<String> =
             Optional.ofNullable(parentCompany.getNullable("parent_company"))
-
-        /** One or more of the business's phone number(s), entered as a list in E.164 format. */
-        fun phoneNumbers(): List<String> = phoneNumbers.getRequired("phone_numbers")
 
         /**
          * Business's physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
          * APO/FPO are acceptable.
          */
         @JsonProperty("address") @ExcludeMissing fun _address() = address
-
-        /**
-         * Any name that the business operates under that is not its legal business name (if
-         * applicable).
-         */
-        @JsonProperty("dba_business_name") @ExcludeMissing fun _dbaBusinessName() = dbaBusinessName
 
         /**
          * Government-issued identification number. US Federal Employer Identification Numbers (EIN)
@@ -514,11 +508,17 @@ private constructor(
         @ExcludeMissing
         fun _legalBusinessName() = legalBusinessName
 
-        /** Parent company name (if applicable). */
-        @JsonProperty("parent_company") @ExcludeMissing fun _parentCompany() = parentCompany
-
         /** One or more of the business's phone number(s), entered as a list in E.164 format. */
         @JsonProperty("phone_numbers") @ExcludeMissing fun _phoneNumbers() = phoneNumbers
+
+        /**
+         * Any name that the business operates under that is not its legal business name (if
+         * applicable).
+         */
+        @JsonProperty("dba_business_name") @ExcludeMissing fun _dbaBusinessName() = dbaBusinessName
+
+        /** Parent company name (if applicable). */
+        @JsonProperty("parent_company") @ExcludeMissing fun _parentCompany() = parentCompany
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -529,11 +529,11 @@ private constructor(
         fun validate(): BusinessEntity = apply {
             if (!validated) {
                 address().validate()
-                dbaBusinessName()
                 governmentId()
                 legalBusinessName()
-                parentCompany()
                 phoneNumbers()
+                dbaBusinessName()
+                parentCompany()
                 validated = true
             }
         }
@@ -548,21 +548,21 @@ private constructor(
         class Builder {
 
             private var address: JsonField<Address> = JsonMissing.of()
-            private var dbaBusinessName: JsonField<String> = JsonMissing.of()
             private var governmentId: JsonField<String> = JsonMissing.of()
             private var legalBusinessName: JsonField<String> = JsonMissing.of()
-            private var parentCompany: JsonField<String> = JsonMissing.of()
             private var phoneNumbers: JsonField<List<String>> = JsonMissing.of()
+            private var dbaBusinessName: JsonField<String> = JsonMissing.of()
+            private var parentCompany: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(businessEntity: BusinessEntity) = apply {
                 address = businessEntity.address
-                dbaBusinessName = businessEntity.dbaBusinessName
                 governmentId = businessEntity.governmentId
                 legalBusinessName = businessEntity.legalBusinessName
-                parentCompany = businessEntity.parentCompany
                 phoneNumbers = businessEntity.phoneNumbers
+                dbaBusinessName = businessEntity.dbaBusinessName
+                parentCompany = businessEntity.parentCompany
                 additionalProperties = businessEntity.additionalProperties.toMutableMap()
             }
 
@@ -577,21 +577,6 @@ private constructor(
              * acceptable; APO/FPO are acceptable.
              */
             fun address(address: JsonField<Address>) = apply { this.address = address }
-
-            /**
-             * Any name that the business operates under that is not its legal business name (if
-             * applicable).
-             */
-            fun dbaBusinessName(dbaBusinessName: String) =
-                dbaBusinessName(JsonField.of(dbaBusinessName))
-
-            /**
-             * Any name that the business operates under that is not its legal business name (if
-             * applicable).
-             */
-            fun dbaBusinessName(dbaBusinessName: JsonField<String>) = apply {
-                this.dbaBusinessName = dbaBusinessName
-            }
 
             /**
              * Government-issued identification number. US Federal Employer Identification Numbers
@@ -616,20 +601,35 @@ private constructor(
                 this.legalBusinessName = legalBusinessName
             }
 
-            /** Parent company name (if applicable). */
-            fun parentCompany(parentCompany: String) = parentCompany(JsonField.of(parentCompany))
-
-            /** Parent company name (if applicable). */
-            fun parentCompany(parentCompany: JsonField<String>) = apply {
-                this.parentCompany = parentCompany
-            }
-
             /** One or more of the business's phone number(s), entered as a list in E.164 format. */
             fun phoneNumbers(phoneNumbers: List<String>) = phoneNumbers(JsonField.of(phoneNumbers))
 
             /** One or more of the business's phone number(s), entered as a list in E.164 format. */
             fun phoneNumbers(phoneNumbers: JsonField<List<String>>) = apply {
                 this.phoneNumbers = phoneNumbers
+            }
+
+            /**
+             * Any name that the business operates under that is not its legal business name (if
+             * applicable).
+             */
+            fun dbaBusinessName(dbaBusinessName: String) =
+                dbaBusinessName(JsonField.of(dbaBusinessName))
+
+            /**
+             * Any name that the business operates under that is not its legal business name (if
+             * applicable).
+             */
+            fun dbaBusinessName(dbaBusinessName: JsonField<String>) = apply {
+                this.dbaBusinessName = dbaBusinessName
+            }
+
+            /** Parent company name (if applicable). */
+            fun parentCompany(parentCompany: String) = parentCompany(JsonField.of(parentCompany))
+
+            /** Parent company name (if applicable). */
+            fun parentCompany(parentCompany: JsonField<String>) = apply {
+                this.parentCompany = parentCompany
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -654,11 +654,11 @@ private constructor(
             fun build(): BusinessEntity =
                 BusinessEntity(
                     address,
-                    dbaBusinessName,
                     governmentId,
                     legalBusinessName,
-                    parentCompany,
                     phoneNumbers.map { it.toImmutable() },
+                    dbaBusinessName,
+                    parentCompany,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -668,17 +668,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is BusinessEntity && address == other.address && dbaBusinessName == other.dbaBusinessName && governmentId == other.governmentId && legalBusinessName == other.legalBusinessName && parentCompany == other.parentCompany && phoneNumbers == other.phoneNumbers && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is BusinessEntity && address == other.address && governmentId == other.governmentId && legalBusinessName == other.legalBusinessName && phoneNumbers == other.phoneNumbers && dbaBusinessName == other.dbaBusinessName && parentCompany == other.parentCompany && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(address, dbaBusinessName, governmentId, legalBusinessName, parentCompany, phoneNumbers, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(address, governmentId, legalBusinessName, phoneNumbers, dbaBusinessName, parentCompany, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "BusinessEntity{address=$address, dbaBusinessName=$dbaBusinessName, governmentId=$governmentId, legalBusinessName=$legalBusinessName, parentCompany=$parentCompany, phoneNumbers=$phoneNumbers, additionalProperties=$additionalProperties}"
+            "BusinessEntity{address=$address, governmentId=$governmentId, legalBusinessName=$legalBusinessName, phoneNumbers=$phoneNumbers, dbaBusinessName=$dbaBusinessName, parentCompany=$parentCompany, additionalProperties=$additionalProperties}"
     }
 
     /** Individuals associated with a KYB application. Phone number is optional. */
@@ -1003,15 +1003,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Kyb && beneficialOwnerEntities == other.beneficialOwnerEntities && beneficialOwnerIndividuals == other.beneficialOwnerIndividuals && businessEntity == other.businessEntity && controlPerson == other.controlPerson && externalId == other.externalId && kybPassedTimestamp == other.kybPassedTimestamp && natureOfBusiness == other.natureOfBusiness && tosTimestamp == other.tosTimestamp && websiteUrl == other.websiteUrl && workflow == other.workflow && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Kyb && beneficialOwnerEntities == other.beneficialOwnerEntities && beneficialOwnerIndividuals == other.beneficialOwnerIndividuals && businessEntity == other.businessEntity && controlPerson == other.controlPerson && natureOfBusiness == other.natureOfBusiness && tosTimestamp == other.tosTimestamp && workflow == other.workflow && externalId == other.externalId && kybPassedTimestamp == other.kybPassedTimestamp && websiteUrl == other.websiteUrl && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(beneficialOwnerEntities, beneficialOwnerIndividuals, businessEntity, controlPerson, externalId, kybPassedTimestamp, natureOfBusiness, tosTimestamp, websiteUrl, workflow, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(beneficialOwnerEntities, beneficialOwnerIndividuals, businessEntity, controlPerson, natureOfBusiness, tosTimestamp, workflow, externalId, kybPassedTimestamp, websiteUrl, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Kyb{beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, externalId=$externalId, kybPassedTimestamp=$kybPassedTimestamp, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, websiteUrl=$websiteUrl, workflow=$workflow, additionalProperties=$additionalProperties}"
+        "Kyb{beneficialOwnerEntities=$beneficialOwnerEntities, beneficialOwnerIndividuals=$beneficialOwnerIndividuals, businessEntity=$businessEntity, controlPerson=$controlPerson, natureOfBusiness=$natureOfBusiness, tosTimestamp=$tosTimestamp, workflow=$workflow, externalId=$externalId, kybPassedTimestamp=$kybPassedTimestamp, websiteUrl=$websiteUrl, additionalProperties=$additionalProperties}"
 }

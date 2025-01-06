@@ -33,24 +33,12 @@ class V2UpdateResponse
 @JsonCreator
 private constructor(
     @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("state")
-    @ExcludeMissing
-    private val state: JsonField<AuthRuleState> = JsonMissing.of(),
-    @JsonProperty("program_level")
-    @ExcludeMissing
-    private val programLevel: JsonField<Boolean> = JsonMissing.of(),
-    @JsonProperty("card_tokens")
-    @ExcludeMissing
-    private val cardTokens: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("excluded_card_tokens")
-    @ExcludeMissing
-    private val excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
     @JsonProperty("account_tokens")
     @ExcludeMissing
     private val accountTokens: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("type")
+    @JsonProperty("card_tokens")
     @ExcludeMissing
-    private val type: JsonField<AuthRuleType> = JsonMissing.of(),
+    private val cardTokens: JsonField<List<String>> = JsonMissing.of(),
     @JsonProperty("current_version")
     @ExcludeMissing
     private val currentVersion: JsonField<CurrentVersion> = JsonMissing.of(),
@@ -58,30 +46,29 @@ private constructor(
     @ExcludeMissing
     private val draftVersion: JsonField<DraftVersion> = JsonMissing.of(),
     @JsonProperty("name") @ExcludeMissing private val name: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("program_level")
+    @ExcludeMissing
+    private val programLevel: JsonField<Boolean> = JsonMissing.of(),
+    @JsonProperty("state")
+    @ExcludeMissing
+    private val state: JsonField<AuthRuleState> = JsonMissing.of(),
+    @JsonProperty("type")
+    @ExcludeMissing
+    private val type: JsonField<AuthRuleType> = JsonMissing.of(),
+    @JsonProperty("excluded_card_tokens")
+    @ExcludeMissing
+    private val excludedCardTokens: JsonField<List<String>> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Auth Rule Token */
     fun token(): String = token.getRequired("token")
 
-    /** The state of the Auth Rule */
-    fun state(): AuthRuleState = state.getRequired("state")
-
-    /** Whether the Auth Rule applies to all authorizations on the card program. */
-    fun programLevel(): Boolean = programLevel.getRequired("program_level")
-
-    /** Card tokens to which the Auth Rule applies. */
-    fun cardTokens(): List<String> = cardTokens.getRequired("card_tokens")
-
-    /** Card tokens to which the Auth Rule does not apply. */
-    fun excludedCardTokens(): Optional<List<String>> =
-        Optional.ofNullable(excludedCardTokens.getNullable("excluded_card_tokens"))
-
     /** Account tokens to which the Auth Rule applies. */
     fun accountTokens(): List<String> = accountTokens.getRequired("account_tokens")
 
-    /** The type of Auth Rule */
-    fun type(): AuthRuleType = type.getRequired("type")
+    /** Card tokens to which the Auth Rule applies. */
+    fun cardTokens(): List<String> = cardTokens.getRequired("card_tokens")
 
     fun currentVersion(): Optional<CurrentVersion> =
         Optional.ofNullable(currentVersion.getNullable("current_version"))
@@ -92,28 +79,27 @@ private constructor(
     /** Auth Rule Name */
     fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
-    /** Auth Rule Token */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    /** Whether the Auth Rule applies to all authorizations on the card program. */
+    fun programLevel(): Boolean = programLevel.getRequired("program_level")
 
     /** The state of the Auth Rule */
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
+    fun state(): AuthRuleState = state.getRequired("state")
 
-    /** Whether the Auth Rule applies to all authorizations on the card program. */
-    @JsonProperty("program_level") @ExcludeMissing fun _programLevel() = programLevel
-
-    /** Card tokens to which the Auth Rule applies. */
-    @JsonProperty("card_tokens") @ExcludeMissing fun _cardTokens() = cardTokens
+    /** The type of Auth Rule */
+    fun type(): AuthRuleType = type.getRequired("type")
 
     /** Card tokens to which the Auth Rule does not apply. */
-    @JsonProperty("excluded_card_tokens")
-    @ExcludeMissing
-    fun _excludedCardTokens() = excludedCardTokens
+    fun excludedCardTokens(): Optional<List<String>> =
+        Optional.ofNullable(excludedCardTokens.getNullable("excluded_card_tokens"))
+
+    /** Auth Rule Token */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /** Account tokens to which the Auth Rule applies. */
     @JsonProperty("account_tokens") @ExcludeMissing fun _accountTokens() = accountTokens
 
-    /** The type of Auth Rule */
-    @JsonProperty("type") @ExcludeMissing fun _type() = type
+    /** Card tokens to which the Auth Rule applies. */
+    @JsonProperty("card_tokens") @ExcludeMissing fun _cardTokens() = cardTokens
 
     @JsonProperty("current_version") @ExcludeMissing fun _currentVersion() = currentVersion
 
@@ -121,6 +107,20 @@ private constructor(
 
     /** Auth Rule Name */
     @JsonProperty("name") @ExcludeMissing fun _name() = name
+
+    /** Whether the Auth Rule applies to all authorizations on the card program. */
+    @JsonProperty("program_level") @ExcludeMissing fun _programLevel() = programLevel
+
+    /** The state of the Auth Rule */
+    @JsonProperty("state") @ExcludeMissing fun _state() = state
+
+    /** The type of Auth Rule */
+    @JsonProperty("type") @ExcludeMissing fun _type() = type
+
+    /** Card tokens to which the Auth Rule does not apply. */
+    @JsonProperty("excluded_card_tokens")
+    @ExcludeMissing
+    fun _excludedCardTokens() = excludedCardTokens
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -131,15 +131,15 @@ private constructor(
     fun validate(): V2UpdateResponse = apply {
         if (!validated) {
             token()
-            state()
-            programLevel()
-            cardTokens()
-            excludedCardTokens()
             accountTokens()
-            type()
+            cardTokens()
             currentVersion().map { it.validate() }
             draftVersion().map { it.validate() }
             name()
+            programLevel()
+            state()
+            type()
+            excludedCardTokens()
             validated = true
         }
     }
@@ -154,29 +154,29 @@ private constructor(
     class Builder {
 
         private var token: JsonField<String> = JsonMissing.of()
-        private var state: JsonField<AuthRuleState> = JsonMissing.of()
-        private var programLevel: JsonField<Boolean> = JsonMissing.of()
-        private var cardTokens: JsonField<List<String>> = JsonMissing.of()
-        private var excludedCardTokens: JsonField<List<String>> = JsonMissing.of()
         private var accountTokens: JsonField<List<String>> = JsonMissing.of()
-        private var type: JsonField<AuthRuleType> = JsonMissing.of()
+        private var cardTokens: JsonField<List<String>> = JsonMissing.of()
         private var currentVersion: JsonField<CurrentVersion> = JsonMissing.of()
         private var draftVersion: JsonField<DraftVersion> = JsonMissing.of()
         private var name: JsonField<String> = JsonMissing.of()
+        private var programLevel: JsonField<Boolean> = JsonMissing.of()
+        private var state: JsonField<AuthRuleState> = JsonMissing.of()
+        private var type: JsonField<AuthRuleType> = JsonMissing.of()
+        private var excludedCardTokens: JsonField<List<String>> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(v2UpdateResponse: V2UpdateResponse) = apply {
             token = v2UpdateResponse.token
-            state = v2UpdateResponse.state
-            programLevel = v2UpdateResponse.programLevel
-            cardTokens = v2UpdateResponse.cardTokens
-            excludedCardTokens = v2UpdateResponse.excludedCardTokens
             accountTokens = v2UpdateResponse.accountTokens
-            type = v2UpdateResponse.type
+            cardTokens = v2UpdateResponse.cardTokens
             currentVersion = v2UpdateResponse.currentVersion
             draftVersion = v2UpdateResponse.draftVersion
             name = v2UpdateResponse.name
+            programLevel = v2UpdateResponse.programLevel
+            state = v2UpdateResponse.state
+            type = v2UpdateResponse.type
+            excludedCardTokens = v2UpdateResponse.excludedCardTokens
             additionalProperties = v2UpdateResponse.additionalProperties.toMutableMap()
         }
 
@@ -186,35 +186,6 @@ private constructor(
         /** Auth Rule Token */
         fun token(token: JsonField<String>) = apply { this.token = token }
 
-        /** The state of the Auth Rule */
-        fun state(state: AuthRuleState) = state(JsonField.of(state))
-
-        /** The state of the Auth Rule */
-        fun state(state: JsonField<AuthRuleState>) = apply { this.state = state }
-
-        /** Whether the Auth Rule applies to all authorizations on the card program. */
-        fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
-
-        /** Whether the Auth Rule applies to all authorizations on the card program. */
-        fun programLevel(programLevel: JsonField<Boolean>) = apply {
-            this.programLevel = programLevel
-        }
-
-        /** Card tokens to which the Auth Rule applies. */
-        fun cardTokens(cardTokens: List<String>) = cardTokens(JsonField.of(cardTokens))
-
-        /** Card tokens to which the Auth Rule applies. */
-        fun cardTokens(cardTokens: JsonField<List<String>>) = apply { this.cardTokens = cardTokens }
-
-        /** Card tokens to which the Auth Rule does not apply. */
-        fun excludedCardTokens(excludedCardTokens: List<String>) =
-            excludedCardTokens(JsonField.of(excludedCardTokens))
-
-        /** Card tokens to which the Auth Rule does not apply. */
-        fun excludedCardTokens(excludedCardTokens: JsonField<List<String>>) = apply {
-            this.excludedCardTokens = excludedCardTokens
-        }
-
         /** Account tokens to which the Auth Rule applies. */
         fun accountTokens(accountTokens: List<String>) = accountTokens(JsonField.of(accountTokens))
 
@@ -223,11 +194,11 @@ private constructor(
             this.accountTokens = accountTokens
         }
 
-        /** The type of Auth Rule */
-        fun type(type: AuthRuleType) = type(JsonField.of(type))
+        /** Card tokens to which the Auth Rule applies. */
+        fun cardTokens(cardTokens: List<String>) = cardTokens(JsonField.of(cardTokens))
 
-        /** The type of Auth Rule */
-        fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
+        /** Card tokens to which the Auth Rule applies. */
+        fun cardTokens(cardTokens: JsonField<List<String>>) = apply { this.cardTokens = cardTokens }
 
         fun currentVersion(currentVersion: CurrentVersion) =
             currentVersion(JsonField.of(currentVersion))
@@ -247,6 +218,35 @@ private constructor(
 
         /** Auth Rule Name */
         fun name(name: JsonField<String>) = apply { this.name = name }
+
+        /** Whether the Auth Rule applies to all authorizations on the card program. */
+        fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
+
+        /** Whether the Auth Rule applies to all authorizations on the card program. */
+        fun programLevel(programLevel: JsonField<Boolean>) = apply {
+            this.programLevel = programLevel
+        }
+
+        /** The state of the Auth Rule */
+        fun state(state: AuthRuleState) = state(JsonField.of(state))
+
+        /** The state of the Auth Rule */
+        fun state(state: JsonField<AuthRuleState>) = apply { this.state = state }
+
+        /** The type of Auth Rule */
+        fun type(type: AuthRuleType) = type(JsonField.of(type))
+
+        /** The type of Auth Rule */
+        fun type(type: JsonField<AuthRuleType>) = apply { this.type = type }
+
+        /** Card tokens to which the Auth Rule does not apply. */
+        fun excludedCardTokens(excludedCardTokens: List<String>) =
+            excludedCardTokens(JsonField.of(excludedCardTokens))
+
+        /** Card tokens to which the Auth Rule does not apply. */
+        fun excludedCardTokens(excludedCardTokens: JsonField<List<String>>) = apply {
+            this.excludedCardTokens = excludedCardTokens
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -270,15 +270,15 @@ private constructor(
         fun build(): V2UpdateResponse =
             V2UpdateResponse(
                 token,
-                state,
-                programLevel,
-                cardTokens.map { it.toImmutable() },
-                excludedCardTokens.map { it.toImmutable() },
                 accountTokens.map { it.toImmutable() },
-                type,
+                cardTokens.map { it.toImmutable() },
                 currentVersion,
                 draftVersion,
                 name,
+                programLevel,
+                state,
+                type,
+                excludedCardTokens.map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }
@@ -2368,15 +2368,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is V2UpdateResponse && token == other.token && state == other.state && programLevel == other.programLevel && cardTokens == other.cardTokens && excludedCardTokens == other.excludedCardTokens && accountTokens == other.accountTokens && type == other.type && currentVersion == other.currentVersion && draftVersion == other.draftVersion && name == other.name && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is V2UpdateResponse && token == other.token && accountTokens == other.accountTokens && cardTokens == other.cardTokens && currentVersion == other.currentVersion && draftVersion == other.draftVersion && name == other.name && programLevel == other.programLevel && state == other.state && type == other.type && excludedCardTokens == other.excludedCardTokens && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, state, programLevel, cardTokens, excludedCardTokens, accountTokens, type, currentVersion, draftVersion, name, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, accountTokens, cardTokens, currentVersion, draftVersion, name, programLevel, state, type, excludedCardTokens, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "V2UpdateResponse{token=$token, state=$state, programLevel=$programLevel, cardTokens=$cardTokens, excludedCardTokens=$excludedCardTokens, accountTokens=$accountTokens, type=$type, currentVersion=$currentVersion, draftVersion=$draftVersion, name=$name, additionalProperties=$additionalProperties}"
+        "V2UpdateResponse{token=$token, accountTokens=$accountTokens, cardTokens=$cardTokens, currentVersion=$currentVersion, draftVersion=$draftVersion, name=$name, programLevel=$programLevel, state=$state, type=$type, excludedCardTokens=$excludedCardTokens, additionalProperties=$additionalProperties}"
 }
