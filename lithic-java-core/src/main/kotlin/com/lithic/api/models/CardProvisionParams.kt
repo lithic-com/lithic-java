@@ -174,44 +174,85 @@ constructor(
              * PEM format with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted.
              * Provided by the device's wallet.
              */
-            fun certificate(certificate: String) = apply { this.certificate = certificate }
+            fun certificate(certificate: String?) = apply { this.certificate = certificate }
+
+            /**
+             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
+             * `activationData` in the response. Apple's public leaf certificate. Base64 encoded in
+             * PEM format with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted.
+             * Provided by the device's wallet.
+             */
+            fun certificate(certificate: Optional<String>) = certificate(certificate.orElse(null))
 
             /**
              * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
              * on the Visa network. Stable device identification set by the wallet provider.
              */
-            fun clientDeviceId(clientDeviceId: String) = apply {
+            fun clientDeviceId(clientDeviceId: String?) = apply {
                 this.clientDeviceId = clientDeviceId
+            }
+
+            /**
+             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
+             * on the Visa network. Stable device identification set by the wallet provider.
+             */
+            fun clientDeviceId(clientDeviceId: Optional<String>) =
+                clientDeviceId(clientDeviceId.orElse(null))
+
+            /**
+             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
+             * on the Visa network. Consumer ID that identifies the wallet account holder entity.
+             */
+            fun clientWalletAccountId(clientWalletAccountId: String?) = apply {
+                this.clientWalletAccountId = clientWalletAccountId
             }
 
             /**
              * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
              * on the Visa network. Consumer ID that identifies the wallet account holder entity.
              */
-            fun clientWalletAccountId(clientWalletAccountId: String) = apply {
-                this.clientWalletAccountId = clientWalletAccountId
-            }
+            fun clientWalletAccountId(clientWalletAccountId: Optional<String>) =
+                clientWalletAccountId(clientWalletAccountId.orElse(null))
 
             /** Name of digital wallet provider. */
-            fun digitalWallet(digitalWallet: DigitalWallet) = apply {
+            fun digitalWallet(digitalWallet: DigitalWallet?) = apply {
                 this.digitalWallet = digitalWallet
             }
 
-            /**
-             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
-             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
-             * wallet.
-             */
-            fun nonce(nonce: String) = apply { this.nonce = nonce }
+            /** Name of digital wallet provider. */
+            fun digitalWallet(digitalWallet: Optional<DigitalWallet>) =
+                digitalWallet(digitalWallet.orElse(null))
 
             /**
              * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
              * `activationData` in the response. Base64 cryptographic nonce provided by the device's
              * wallet.
              */
-            fun nonceSignature(nonceSignature: String) = apply {
+            fun nonce(nonce: String?) = apply { this.nonce = nonce }
+
+            /**
+             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
+             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
+             * wallet.
+             */
+            fun nonce(nonce: Optional<String>) = nonce(nonce.orElse(null))
+
+            /**
+             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
+             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
+             * wallet.
+             */
+            fun nonceSignature(nonceSignature: String?) = apply {
                 this.nonceSignature = nonceSignature
             }
+
+            /**
+             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
+             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
+             * wallet.
+             */
+            fun nonceSignature(nonceSignature: Optional<String>) =
+                nonceSignature(nonceSignature.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -293,38 +334,77 @@ constructor(
          * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
          * wallet.
          */
-        fun certificate(certificate: String) = apply { body.certificate(certificate) }
+        fun certificate(certificate: String?) = apply { body.certificate(certificate) }
+
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Apple's public leaf certificate. Base64 encoded in PEM format with
+         * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
+         * wallet.
+         */
+        fun certificate(certificate: Optional<String>) = certificate(certificate.orElse(null))
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Stable device identification set by the wallet provider.
          */
-        fun clientDeviceId(clientDeviceId: String) = apply { body.clientDeviceId(clientDeviceId) }
+        fun clientDeviceId(clientDeviceId: String?) = apply { body.clientDeviceId(clientDeviceId) }
+
+        /**
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
+         * the Visa network. Stable device identification set by the wallet provider.
+         */
+        fun clientDeviceId(clientDeviceId: Optional<String>) =
+            clientDeviceId(clientDeviceId.orElse(null))
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Consumer ID that identifies the wallet account holder entity.
          */
-        fun clientWalletAccountId(clientWalletAccountId: String) = apply {
+        fun clientWalletAccountId(clientWalletAccountId: String?) = apply {
             body.clientWalletAccountId(clientWalletAccountId)
         }
 
+        /**
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
+         * the Visa network. Consumer ID that identifies the wallet account holder entity.
+         */
+        fun clientWalletAccountId(clientWalletAccountId: Optional<String>) =
+            clientWalletAccountId(clientWalletAccountId.orElse(null))
+
         /** Name of digital wallet provider. */
-        fun digitalWallet(digitalWallet: DigitalWallet) = apply {
+        fun digitalWallet(digitalWallet: DigitalWallet?) = apply {
             body.digitalWallet(digitalWallet)
         }
 
-        /**
-         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
-         * in the response. Base64 cryptographic nonce provided by the device's wallet.
-         */
-        fun nonce(nonce: String) = apply { body.nonce(nonce) }
+        /** Name of digital wallet provider. */
+        fun digitalWallet(digitalWallet: Optional<DigitalWallet>) =
+            digitalWallet(digitalWallet.orElse(null))
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        fun nonceSignature(nonceSignature: String) = apply { body.nonceSignature(nonceSignature) }
+        fun nonce(nonce: String?) = apply { body.nonce(nonce) }
+
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         */
+        fun nonce(nonce: Optional<String>) = nonce(nonce.orElse(null))
+
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         */
+        fun nonceSignature(nonceSignature: String?) = apply { body.nonceSignature(nonceSignature) }
+
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         */
+        fun nonceSignature(nonceSignature: Optional<String>) =
+            nonceSignature(nonceSignature.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

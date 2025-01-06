@@ -102,9 +102,18 @@ constructor(
              * to use. See
              * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
-            fun digitalCardArtToken(digitalCardArtToken: String) = apply {
+            fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
                 this.digitalCardArtToken = digitalCardArtToken
             }
+
+            /**
+             * Specifies the digital card art to be displayed in the user’s digital wallet for a
+             * tokenization. This artwork must be approved by the network and configured by Lithic
+             * to use. See
+             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+             */
+            fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
+                digitalCardArtToken(digitalCardArtToken.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -187,9 +196,18 @@ constructor(
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        fun digitalCardArtToken(digitalCardArtToken: String) = apply {
+        fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
             body.digitalCardArtToken(digitalCardArtToken)
         }
+
+        /**
+         * Specifies the digital card art to be displayed in the user’s digital wallet for a
+         * tokenization. This artwork must be approved by the network and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         */
+        fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
+            digitalCardArtToken(digitalCardArtToken.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

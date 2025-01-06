@@ -113,14 +113,22 @@ constructor(
             }
 
             /** Decline reason */
-            fun declineReason(declineReason: SupportedSimulationDeclineReasons) = apply {
+            fun declineReason(declineReason: SupportedSimulationDeclineReasons?) = apply {
                 this.declineReason = declineReason
             }
 
+            /** Decline reason */
+            fun declineReason(declineReason: Optional<SupportedSimulationDeclineReasons>) =
+                declineReason(declineReason.orElse(null))
+
             /** Return Reason Code */
-            fun returnReasonCode(returnReasonCode: String) = apply {
+            fun returnReasonCode(returnReasonCode: String?) = apply {
                 this.returnReasonCode = returnReasonCode
             }
+
+            /** Return Reason Code */
+            fun returnReasonCode(returnReasonCode: Optional<String>) =
+                returnReasonCode(returnReasonCode.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -197,14 +205,22 @@ constructor(
         fun eventType(eventType: SupportedSimulationTypes) = apply { body.eventType(eventType) }
 
         /** Decline reason */
-        fun declineReason(declineReason: SupportedSimulationDeclineReasons) = apply {
+        fun declineReason(declineReason: SupportedSimulationDeclineReasons?) = apply {
             body.declineReason(declineReason)
         }
 
+        /** Decline reason */
+        fun declineReason(declineReason: Optional<SupportedSimulationDeclineReasons>) =
+            declineReason(declineReason.orElse(null))
+
         /** Return Reason Code */
-        fun returnReasonCode(returnReasonCode: String) = apply {
+        fun returnReasonCode(returnReasonCode: String?) = apply {
             body.returnReasonCode(returnReasonCode)
         }
+
+        /** Return Reason Code */
+        fun returnReasonCode(returnReasonCode: Optional<String>) =
+            returnReasonCode(returnReasonCode.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

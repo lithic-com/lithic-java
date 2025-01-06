@@ -137,34 +137,68 @@ constructor(
          * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
+        fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created after the specified time will be
+         * included. UTC time zone.
+         */
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.orElse(null))
 
         /** Financial Transaction category to be returned. */
-        fun category(category: Category) = apply { this.category = category }
+        fun category(category: Category?) = apply { this.category = category }
+
+        /** Financial Transaction category to be returned. */
+        fun category(category: Optional<Category>) = category(category.orElse(null))
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: OffsetDateTime) = apply { this.end = end }
+        fun end(end: OffsetDateTime?) = apply { this.end = end }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created before the specified time will be
+         * included. UTC time zone.
+         */
+        fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
+        fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
+
+        /**
+         * A cursor representing an item's token before which a page of results should end. Used to
+         * retrieve the previous page of results before this item.
+         */
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
 
         /** Financial Transaction result to be returned. */
-        fun result(result: Result) = apply { this.result = result }
+        fun result(result: Result?) = apply { this.result = result }
+
+        /** Financial Transaction result to be returned. */
+        fun result(result: Optional<Result>) = result(result.orElse(null))
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
          * retrieve the next page of results after this item.
          */
-        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
+        fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
+
+        /**
+         * A cursor representing an item's token after which a page of results should begin. Used to
+         * retrieve the next page of results after this item.
+         */
+        fun startingAfter(startingAfter: Optional<String>) =
+            startingAfter(startingAfter.orElse(null))
 
         /** Financial Transaction status to be returned. */
-        fun status(status: Status) = apply { this.status = status }
+        fun status(status: Status?) = apply { this.status = status }
+
+        /** Financial Transaction status to be returned. */
+        fun status(status: Optional<Status>) = status(status.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

@@ -129,22 +129,43 @@ constructor(
              * users of businesses. Pass the account_token of the enrolled business associated with
              * the AUTHORIZED_USER in this field.
              */
-            fun businessAccountToken(businessAccountToken: String) = apply {
+            fun businessAccountToken(businessAccountToken: String?) = apply {
                 this.businessAccountToken = businessAccountToken
             }
+
+            /**
+             * Only applicable for customers using the KYC-Exempt workflow to enroll authorized
+             * users of businesses. Pass the account_token of the enrolled business associated with
+             * the AUTHORIZED_USER in this field.
+             */
+            fun businessAccountToken(businessAccountToken: Optional<String>) =
+                businessAccountToken(businessAccountToken.orElse(null))
 
             /**
              * Account holder's email address. The primary purpose of this field is for cardholder
              * identification and verification during the digital wallet tokenization process.
              */
-            fun email(email: String) = apply { this.email = email }
+            fun email(email: String?) = apply { this.email = email }
+
+            /**
+             * Account holder's email address. The primary purpose of this field is for cardholder
+             * identification and verification during the digital wallet tokenization process.
+             */
+            fun email(email: Optional<String>) = email(email.orElse(null))
 
             /**
              * Account holder's phone number, entered in E.164 format. The primary purpose of this
              * field is for cardholder identification and verification during the digital wallet
              * tokenization process.
              */
-            fun phoneNumber(phoneNumber: String) = apply { this.phoneNumber = phoneNumber }
+            fun phoneNumber(phoneNumber: String?) = apply { this.phoneNumber = phoneNumber }
+
+            /**
+             * Account holder's phone number, entered in E.164 format. The primary purpose of this
+             * field is for cardholder identification and verification during the digital wallet
+             * tokenization process.
+             */
+            fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -224,22 +245,43 @@ constructor(
          * businesses. Pass the account_token of the enrolled business associated with the
          * AUTHORIZED_USER in this field.
          */
-        fun businessAccountToken(businessAccountToken: String) = apply {
+        fun businessAccountToken(businessAccountToken: String?) = apply {
             body.businessAccountToken(businessAccountToken)
         }
+
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        fun businessAccountToken(businessAccountToken: Optional<String>) =
+            businessAccountToken(businessAccountToken.orElse(null))
 
         /**
          * Account holder's email address. The primary purpose of this field is for cardholder
          * identification and verification during the digital wallet tokenization process.
          */
-        fun email(email: String) = apply { body.email(email) }
+        fun email(email: String?) = apply { body.email(email) }
+
+        /**
+         * Account holder's email address. The primary purpose of this field is for cardholder
+         * identification and verification during the digital wallet tokenization process.
+         */
+        fun email(email: Optional<String>) = email(email.orElse(null))
 
         /**
          * Account holder's phone number, entered in E.164 format. The primary purpose of this field
          * is for cardholder identification and verification during the digital wallet tokenization
          * process.
          */
-        fun phoneNumber(phoneNumber: String) = apply { body.phoneNumber(phoneNumber) }
+        fun phoneNumber(phoneNumber: String?) = apply { body.phoneNumber(phoneNumber) }
+
+        /**
+         * Account holder's phone number, entered in E.164 format. The primary purpose of this field
+         * is for cardholder identification and verification during the digital wallet tokenization
+         * process.
+         */
+        fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

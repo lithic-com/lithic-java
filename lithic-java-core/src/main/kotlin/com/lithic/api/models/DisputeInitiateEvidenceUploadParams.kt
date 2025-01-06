@@ -86,7 +86,10 @@ constructor(
             }
 
             /** Filename of the evidence. */
-            fun filename(filename: String) = apply { this.filename = filename }
+            fun filename(filename: String?) = apply { this.filename = filename }
+
+            /** Filename of the evidence. */
+            fun filename(filename: Optional<String>) = filename(filename.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -159,7 +162,10 @@ constructor(
         fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
 
         /** Filename of the evidence. */
-        fun filename(filename: String) = apply { body.filename(filename) }
+        fun filename(filename: String?) = apply { body.filename(filename) }
+
+        /** Filename of the evidence. */
+        fun filename(filename: Optional<String>) = filename(filename.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

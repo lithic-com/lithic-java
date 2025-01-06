@@ -84,9 +84,12 @@ constructor(
                     externalBankAccountRetryPrenoteBody.additionalProperties.toMutableMap()
             }
 
-            fun financialAccountToken(financialAccountToken: String) = apply {
+            fun financialAccountToken(financialAccountToken: String?) = apply {
                 this.financialAccountToken = financialAccountToken
             }
+
+            fun financialAccountToken(financialAccountToken: Optional<String>) =
+                financialAccountToken(financialAccountToken.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -164,9 +167,12 @@ constructor(
             this.externalBankAccountToken = externalBankAccountToken
         }
 
-        fun financialAccountToken(financialAccountToken: String) = apply {
+        fun financialAccountToken(financialAccountToken: String?) = apply {
             body.financialAccountToken(financialAccountToken)
         }
+
+        fun financialAccountToken(financialAccountToken: Optional<String>) =
+            financialAccountToken(financialAccountToken.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

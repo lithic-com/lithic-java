@@ -607,9 +607,13 @@ constructor(
             fun programLevel(programLevel: Boolean) = apply { this.programLevel = programLevel }
 
             /** Card tokens to which the Auth Rule does not apply. */
-            fun excludedCardTokens(excludedCardTokens: List<String>) = apply {
-                this.excludedCardTokens = excludedCardTokens.toMutableList()
+            fun excludedCardTokens(excludedCardTokens: List<String>?) = apply {
+                this.excludedCardTokens = excludedCardTokens?.toMutableList()
             }
+
+            /** Card tokens to which the Auth Rule does not apply. */
+            fun excludedCardTokens(excludedCardTokens: Optional<List<String>>) =
+                excludedCardTokens(excludedCardTokens.orElse(null))
 
             /** Card tokens to which the Auth Rule does not apply. */
             fun addExcludedCardToken(excludedCardToken: String) = apply {

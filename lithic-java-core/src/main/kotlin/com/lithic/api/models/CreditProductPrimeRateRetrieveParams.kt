@@ -83,10 +83,18 @@ constructor(
         }
 
         /** The effective date that the prime rates ends before */
-        fun endingBefore(endingBefore: LocalDate) = apply { this.endingBefore = endingBefore }
+        fun endingBefore(endingBefore: LocalDate?) = apply { this.endingBefore = endingBefore }
+
+        /** The effective date that the prime rates ends before */
+        fun endingBefore(endingBefore: Optional<LocalDate>) =
+            endingBefore(endingBefore.orElse(null))
 
         /** The effective date that the prime rate starts after */
-        fun startingAfter(startingAfter: LocalDate) = apply { this.startingAfter = startingAfter }
+        fun startingAfter(startingAfter: LocalDate?) = apply { this.startingAfter = startingAfter }
+
+        /** The effective date that the prime rate starts after */
+        fun startingAfter(startingAfter: Optional<LocalDate>) =
+            startingAfter(startingAfter.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

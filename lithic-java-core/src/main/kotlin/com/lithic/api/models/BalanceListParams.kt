@@ -91,20 +91,35 @@ constructor(
         }
 
         /** List balances for all financial accounts of a given account_token. */
-        fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+        fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+
+        /** List balances for all financial accounts of a given account_token. */
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
 
         /** UTC date and time of the balances to retrieve. Defaults to latest available balances */
-        fun balanceDate(balanceDate: OffsetDateTime) = apply { this.balanceDate = balanceDate }
+        fun balanceDate(balanceDate: OffsetDateTime?) = apply { this.balanceDate = balanceDate }
+
+        /** UTC date and time of the balances to retrieve. Defaults to latest available balances */
+        fun balanceDate(balanceDate: Optional<OffsetDateTime>) =
+            balanceDate(balanceDate.orElse(null))
 
         /** List balances for all financial accounts of a given business_account_token. */
-        fun businessAccountToken(businessAccountToken: String) = apply {
+        fun businessAccountToken(businessAccountToken: String?) = apply {
             this.businessAccountToken = businessAccountToken
         }
 
+        /** List balances for all financial accounts of a given business_account_token. */
+        fun businessAccountToken(businessAccountToken: Optional<String>) =
+            businessAccountToken(businessAccountToken.orElse(null))
+
         /** List balances for a given Financial Account type. */
-        fun financialAccountType(financialAccountType: FinancialAccountType) = apply {
+        fun financialAccountType(financialAccountType: FinancialAccountType?) = apply {
             this.financialAccountType = financialAccountType
         }
+
+        /** List balances for a given Financial Account type. */
+        fun financialAccountType(financialAccountType: Optional<FinancialAccountType>) =
+            financialAccountType(financialAccountType.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

@@ -414,7 +414,16 @@ constructor(
              * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
              * [Managing Your Program](doc:managing-your-program) for more information.
              */
-            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+            fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+
+            /**
+             * Globally unique identifier for the account that the card will be associated with.
+             * Required for programs enrolling users using the
+             * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+             * [Managing Your Program](doc:managing-your-program) for more information.
+             */
+            fun accountToken(accountToken: Optional<String>) =
+                accountToken(accountToken.orElse(null))
 
             /**
              * For card programs with more than one BIN range. This must be configured with Lithic
@@ -423,11 +432,23 @@ constructor(
              * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
              * creating cards on specific card programs.
              */
-            fun cardProgramToken(cardProgramToken: String) = apply {
+            fun cardProgramToken(cardProgramToken: String?) = apply {
                 this.cardProgramToken = cardProgramToken
             }
 
-            fun carrier(carrier: Carrier) = apply { this.carrier = carrier }
+            /**
+             * For card programs with more than one BIN range. This must be configured with Lithic
+             * before use. Identifies the card program/BIN range under which to create the card. If
+             * omitted, will utilize the program's default `card_program_token`. In Sandbox, use
+             * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
+             * creating cards on specific card programs.
+             */
+            fun cardProgramToken(cardProgramToken: Optional<String>) =
+                cardProgramToken(cardProgramToken.orElse(null))
+
+            fun carrier(carrier: Carrier?) = apply { this.carrier = carrier }
+
+            fun carrier(carrier: Optional<Carrier>) = carrier(carrier.orElse(null))
 
             /**
              * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -435,37 +456,74 @@ constructor(
              * use. See
              * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
-            fun digitalCardArtToken(digitalCardArtToken: String) = apply {
+            fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
                 this.digitalCardArtToken = digitalCardArtToken
             }
+
+            /**
+             * Specifies the digital card art to be displayed in the user’s digital wallet after
+             * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+             * use. See
+             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+             */
+            fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
+                digitalCardArtToken(digitalCardArtToken.orElse(null))
 
             /**
              * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
              * expiration date will be generated.
              */
-            fun expMonth(expMonth: String) = apply { this.expMonth = expMonth }
+            fun expMonth(expMonth: String?) = apply { this.expMonth = expMonth }
+
+            /**
+             * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+             * expiration date will be generated.
+             */
+            fun expMonth(expMonth: Optional<String>) = expMonth(expMonth.orElse(null))
 
             /**
              * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
              * expiration date will be generated.
              */
-            fun expYear(expYear: String) = apply { this.expYear = expYear }
+            fun expYear(expYear: String?) = apply { this.expYear = expYear }
+
+            /**
+             * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+             * expiration date will be generated.
+             */
+            fun expYear(expYear: Optional<String>) = expYear(expYear.orElse(null))
 
             /** Friendly name to identify the card. */
-            fun memo(memo: String) = apply { this.memo = memo }
+            fun memo(memo: String?) = apply { this.memo = memo }
+
+            /** Friendly name to identify the card. */
+            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
 
             /**
              * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`.
              * See [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
              */
-            fun pin(pin: String) = apply { this.pin = pin }
+            fun pin(pin: String?) = apply { this.pin = pin }
+
+            /**
+             * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`.
+             * See [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+             */
+            fun pin(pin: Optional<String>) = pin(pin.orElse(null))
 
             /**
              * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic
              * before use. Specifies the configuration (i.e., physical card art) that the card
              * should be manufactured with.
              */
-            fun productId(productId: String) = apply { this.productId = productId }
+            fun productId(productId: String?) = apply { this.productId = productId }
+
+            /**
+             * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic
+             * before use. Specifies the configuration (i.e., physical card art) that the card
+             * should be manufactured with.
+             */
+            fun productId(productId: Optional<String>) = productId(productId.orElse(null))
 
             /**
              * Restricted field limited to select use cases. Lithic will reach out directly if this
@@ -474,8 +532,27 @@ constructor(
              * `replacement_for` is specified and this field is omitted, the replacement card's
              * account will be inferred from the card being replaced.
              */
-            fun replacementAccountToken(replacementAccountToken: String) = apply {
+            fun replacementAccountToken(replacementAccountToken: String?) = apply {
                 this.replacementAccountToken = replacementAccountToken
+            }
+
+            /**
+             * Restricted field limited to select use cases. Lithic will reach out directly if this
+             * field should be used. Globally unique identifier for the replacement card's account.
+             * If this field is specified, `replacement_for` must also be specified. If
+             * `replacement_for` is specified and this field is omitted, the replacement card's
+             * account will be inferred from the card being replaced.
+             */
+            fun replacementAccountToken(replacementAccountToken: Optional<String>) =
+                replacementAccountToken(replacementAccountToken.orElse(null))
+
+            /**
+             * Globally unique identifier for the card that this card will replace. If the card type
+             * is `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL`
+             * it will be replaced by a `VIRTUAL` card.
+             */
+            fun replacementFor(replacementFor: String?) = apply {
+                this.replacementFor = replacementFor
             }
 
             /**
@@ -483,12 +560,30 @@ constructor(
              * is `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL`
              * it will be replaced by a `VIRTUAL` card.
              */
-            fun replacementFor(replacementFor: String) = apply {
-                this.replacementFor = replacementFor
+            fun replacementFor(replacementFor: Optional<String>) =
+                replacementFor(replacementFor.orElse(null))
+
+            fun shippingAddress(shippingAddress: ShippingAddress?) = apply {
+                this.shippingAddress = shippingAddress
             }
 
-            fun shippingAddress(shippingAddress: ShippingAddress) = apply {
-                this.shippingAddress = shippingAddress
+            fun shippingAddress(shippingAddress: Optional<ShippingAddress>) =
+                shippingAddress(shippingAddress.orElse(null))
+
+            /**
+             * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
+             * besides `STANDARD` require additional permissions.
+             * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+             *   tracking
+             * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+             * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
+             * - `2_DAY` - FedEx 2-day shipping, with tracking
+             * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
+             *   tracking
+             */
+            fun shippingMethod(shippingMethod: ShippingMethod?) = apply {
+                this.shippingMethod = shippingMethod
             }
 
             /**
@@ -503,9 +598,8 @@ constructor(
              * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
              *   tracking
              */
-            fun shippingMethod(shippingMethod: ShippingMethod) = apply {
-                this.shippingMethod = shippingMethod
-            }
+            fun shippingMethod(shippingMethod: Optional<ShippingMethod>) =
+                shippingMethod(shippingMethod.orElse(null))
 
             /**
              * Amount (in cents) to limit approved authorizations. Transaction requests above the
@@ -513,7 +607,25 @@ constructor(
              * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
              * will result in declined transactions due to checks against the card limit.
              */
-            fun spendLimit(spendLimit: Long) = apply { this.spendLimit = spendLimit }
+            fun spendLimit(spendLimit: Long?) = apply { this.spendLimit = spendLimit }
+
+            /**
+             * Amount (in cents) to limit approved authorizations. Transaction requests above the
+             * spend limit will be declined. Note that a spend limit of 0 is effectively no limit,
+             * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
+             * will result in declined transactions due to checks against the card limit.
+             */
+            fun spendLimit(spendLimit: Long) = spendLimit(spendLimit as Long?)
+
+            /**
+             * Amount (in cents) to limit approved authorizations. Transaction requests above the
+             * spend limit will be declined. Note that a spend limit of 0 is effectively no limit,
+             * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
+             * will result in declined transactions due to checks against the card limit.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun spendLimit(spendLimit: Optional<Long>) =
+                spendLimit(spendLimit.orElse(null) as Long?)
 
             /**
              * Spend limit duration values:
@@ -528,9 +640,25 @@ constructor(
              * - `TRANSACTION` - Card will authorize multiple transactions if each individual
              *   transaction is under the spend limit.
              */
-            fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
+            fun spendLimitDuration(spendLimitDuration: SpendLimitDuration?) = apply {
                 this.spendLimitDuration = spendLimitDuration
             }
+
+            /**
+             * Spend limit duration values:
+             * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
+             *   year.
+             * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
+             *   the card.
+             * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
+             *   month. To support recurring monthly payments, which can occur on different day
+             *   every month, the time window we consider for monthly velocity starts 6 days after
+             *   the current calendar date one month prior.
+             * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+             *   transaction is under the spend limit.
+             */
+            fun spendLimitDuration(spendLimitDuration: Optional<SpendLimitDuration>) =
+                spendLimitDuration(spendLimitDuration.orElse(null))
 
             /**
              * Card state values:
@@ -538,7 +666,15 @@ constructor(
              *   parameters).
              * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
-            fun state(state: State) = apply { this.state = state }
+            fun state(state: State?) = apply { this.state = state }
+
+            /**
+             * Card state values:
+             * - `OPEN` - Card will approve authorizations (if they match card and account
+             *   parameters).
+             * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+             */
+            fun state(state: Optional<State>) = state(state.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -644,7 +780,15 @@ constructor(
          * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
          * [Managing Your Program](doc:managing-your-program) for more information.
          */
-        fun accountToken(accountToken: String) = apply { body.accountToken(accountToken) }
+        fun accountToken(accountToken: String?) = apply { body.accountToken(accountToken) }
+
+        /**
+         * Globally unique identifier for the account that the card will be associated with.
+         * Required for programs enrolling users using the
+         * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+         * [Managing Your Program](doc:managing-your-program) for more information.
+         */
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
 
         /**
          * For card programs with more than one BIN range. This must be configured with Lithic
@@ -653,11 +797,23 @@ constructor(
          * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
          * creating cards on specific card programs.
          */
-        fun cardProgramToken(cardProgramToken: String) = apply {
+        fun cardProgramToken(cardProgramToken: String?) = apply {
             body.cardProgramToken(cardProgramToken)
         }
 
-        fun carrier(carrier: Carrier) = apply { body.carrier(carrier) }
+        /**
+         * For card programs with more than one BIN range. This must be configured with Lithic
+         * before use. Identifies the card program/BIN range under which to create the card. If
+         * omitted, will utilize the program's default `card_program_token`. In Sandbox, use
+         * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
+         * creating cards on specific card programs.
+         */
+        fun cardProgramToken(cardProgramToken: Optional<String>) =
+            cardProgramToken(cardProgramToken.orElse(null))
+
+        fun carrier(carrier: Carrier?) = apply { body.carrier(carrier) }
+
+        fun carrier(carrier: Optional<Carrier>) = carrier(carrier.orElse(null))
 
         /**
          * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -665,37 +821,74 @@ constructor(
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        fun digitalCardArtToken(digitalCardArtToken: String) = apply {
+        fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
             body.digitalCardArtToken(digitalCardArtToken)
         }
+
+        /**
+         * Specifies the digital card art to be displayed in the user’s digital wallet after
+         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         */
+        fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
+            digitalCardArtToken(digitalCardArtToken.orElse(null))
 
         /**
          * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date will be generated.
          */
-        fun expMonth(expMonth: String) = apply { body.expMonth(expMonth) }
+        fun expMonth(expMonth: String?) = apply { body.expMonth(expMonth) }
+
+        /**
+         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date will be generated.
+         */
+        fun expMonth(expMonth: Optional<String>) = expMonth(expMonth.orElse(null))
 
         /**
          * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date will be generated.
          */
-        fun expYear(expYear: String) = apply { body.expYear(expYear) }
+        fun expYear(expYear: String?) = apply { body.expYear(expYear) }
+
+        /**
+         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date will be generated.
+         */
+        fun expYear(expYear: Optional<String>) = expYear(expYear.orElse(null))
 
         /** Friendly name to identify the card. */
-        fun memo(memo: String) = apply { body.memo(memo) }
+        fun memo(memo: String?) = apply { body.memo(memo) }
+
+        /** Friendly name to identify the card. */
+        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
 
         /**
          * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
-        fun pin(pin: String) = apply { body.pin(pin) }
+        fun pin(pin: String?) = apply { body.pin(pin) }
+
+        /**
+         * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
+         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+         */
+        fun pin(pin: Optional<String>) = pin(pin.orElse(null))
 
         /**
          * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
          * use. Specifies the configuration (i.e., physical card art) that the card should be
          * manufactured with.
          */
-        fun productId(productId: String) = apply { body.productId(productId) }
+        fun productId(productId: String?) = apply { body.productId(productId) }
+
+        /**
+         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
+         * use. Specifies the configuration (i.e., physical card art) that the card should be
+         * manufactured with.
+         */
+        fun productId(productId: Optional<String>) = productId(productId.orElse(null))
 
         /**
          * Restricted field limited to select use cases. Lithic will reach out directly if this
@@ -704,19 +897,55 @@ constructor(
          * is specified and this field is omitted, the replacement card's account will be inferred
          * from the card being replaced.
          */
-        fun replacementAccountToken(replacementAccountToken: String) = apply {
+        fun replacementAccountToken(replacementAccountToken: String?) = apply {
             body.replacementAccountToken(replacementAccountToken)
         }
+
+        /**
+         * Restricted field limited to select use cases. Lithic will reach out directly if this
+         * field should be used. Globally unique identifier for the replacement card's account. If
+         * this field is specified, `replacement_for` must also be specified. If `replacement_for`
+         * is specified and this field is omitted, the replacement card's account will be inferred
+         * from the card being replaced.
+         */
+        fun replacementAccountToken(replacementAccountToken: Optional<String>) =
+            replacementAccountToken(replacementAccountToken.orElse(null))
 
         /**
          * Globally unique identifier for the card that this card will replace. If the card type is
          * `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL` it
          * will be replaced by a `VIRTUAL` card.
          */
-        fun replacementFor(replacementFor: String) = apply { body.replacementFor(replacementFor) }
+        fun replacementFor(replacementFor: String?) = apply { body.replacementFor(replacementFor) }
 
-        fun shippingAddress(shippingAddress: ShippingAddress) = apply {
+        /**
+         * Globally unique identifier for the card that this card will replace. If the card type is
+         * `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL` it
+         * will be replaced by a `VIRTUAL` card.
+         */
+        fun replacementFor(replacementFor: Optional<String>) =
+            replacementFor(replacementFor.orElse(null))
+
+        fun shippingAddress(shippingAddress: ShippingAddress?) = apply {
             body.shippingAddress(shippingAddress)
+        }
+
+        fun shippingAddress(shippingAddress: Optional<ShippingAddress>) =
+            shippingAddress(shippingAddress.orElse(null))
+
+        /**
+         * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
+         * besides `STANDARD` require additional permissions.
+         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+         *   tracking
+         * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+         * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
+         * - `2_DAY` - FedEx 2-day shipping, with tracking
+         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+         */
+        fun shippingMethod(shippingMethod: ShippingMethod?) = apply {
+            body.shippingMethod(shippingMethod)
         }
 
         /**
@@ -730,9 +959,8 @@ constructor(
          * - `2_DAY` - FedEx 2-day shipping, with tracking
          * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
          */
-        fun shippingMethod(shippingMethod: ShippingMethod) = apply {
-            body.shippingMethod(shippingMethod)
-        }
+        fun shippingMethod(shippingMethod: Optional<ShippingMethod>) =
+            shippingMethod(shippingMethod.orElse(null))
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -740,7 +968,24 @@ constructor(
          * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
          * declined transactions due to checks against the card limit.
          */
-        fun spendLimit(spendLimit: Long) = apply { body.spendLimit(spendLimit) }
+        fun spendLimit(spendLimit: Long?) = apply { body.spendLimit(spendLimit) }
+
+        /**
+         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
+         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
+         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
+         * declined transactions due to checks against the card limit.
+         */
+        fun spendLimit(spendLimit: Long) = spendLimit(spendLimit as Long?)
+
+        /**
+         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
+         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
+         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
+         * declined transactions due to checks against the card limit.
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun spendLimit(spendLimit: Optional<Long>) = spendLimit(spendLimit.orElse(null) as Long?)
 
         /**
          * Spend limit duration values:
@@ -754,16 +999,38 @@ constructor(
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
          *   transaction is under the spend limit.
          */
-        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
+        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration?) = apply {
             body.spendLimitDuration(spendLimitDuration)
         }
+
+        /**
+         * Spend limit duration values:
+         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
+         *   card.
+         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
+         *   To support recurring monthly payments, which can occur on different day every month,
+         *   the time window we consider for monthly velocity starts 6 days after the current
+         *   calendar date one month prior.
+         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+         *   transaction is under the spend limit.
+         */
+        fun spendLimitDuration(spendLimitDuration: Optional<SpendLimitDuration>) =
+            spendLimitDuration(spendLimitDuration.orElse(null))
 
         /**
          * Card state values:
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        fun state(state: State) = apply { body.state(state) }
+        fun state(state: State?) = apply { body.state(state) }
+
+        /**
+         * Card state values:
+         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+         */
+        fun state(state: Optional<State>) = state(state.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

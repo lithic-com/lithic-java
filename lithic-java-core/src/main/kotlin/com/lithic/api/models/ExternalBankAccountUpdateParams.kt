@@ -160,33 +160,63 @@ constructor(
                 }
 
             /** Address */
-            fun address(address: ExternalBankAccountAddress) = apply { this.address = address }
+            fun address(address: ExternalBankAccountAddress?) = apply { this.address = address }
+
+            /** Address */
+            fun address(address: Optional<ExternalBankAccountAddress>) =
+                address(address.orElse(null))
 
             /** Optional field that helps identify bank accounts in receipts */
-            fun companyId(companyId: String) = apply { this.companyId = companyId }
+            fun companyId(companyId: String?) = apply { this.companyId = companyId }
+
+            /** Optional field that helps identify bank accounts in receipts */
+            fun companyId(companyId: Optional<String>) = companyId(companyId.orElse(null))
 
             /** Date of Birth of the Individual that owns the external bank account */
-            fun dob(dob: LocalDate) = apply { this.dob = dob }
+            fun dob(dob: LocalDate?) = apply { this.dob = dob }
+
+            /** Date of Birth of the Individual that owns the external bank account */
+            fun dob(dob: Optional<LocalDate>) = dob(dob.orElse(null))
 
             /** Doing Business As */
-            fun doingBusinessAs(doingBusinessAs: String) = apply {
+            fun doingBusinessAs(doingBusinessAs: String?) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
+            /** Doing Business As */
+            fun doingBusinessAs(doingBusinessAs: Optional<String>) =
+                doingBusinessAs(doingBusinessAs.orElse(null))
+
             /** The nickname for this External Bank Account */
-            fun name(name: String) = apply { this.name = name }
+            fun name(name: String?) = apply { this.name = name }
+
+            /** The nickname for this External Bank Account */
+            fun name(name: Optional<String>) = name(name.orElse(null))
 
             /**
              * Legal Name of the business or individual who owns the external account. This will
              * appear in statements
              */
-            fun owner(owner: String) = apply { this.owner = owner }
+            fun owner(owner: String?) = apply { this.owner = owner }
+
+            /**
+             * Legal Name of the business or individual who owns the external account. This will
+             * appear in statements
+             */
+            fun owner(owner: Optional<String>) = owner(owner.orElse(null))
 
             /** Owner Type */
-            fun ownerType(ownerType: OwnerType) = apply { this.ownerType = ownerType }
+            fun ownerType(ownerType: OwnerType?) = apply { this.ownerType = ownerType }
+
+            /** Owner Type */
+            fun ownerType(ownerType: Optional<OwnerType>) = ownerType(ownerType.orElse(null))
 
             /** User Defined ID */
-            fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
+            fun userDefinedId(userDefinedId: String?) = apply { this.userDefinedId = userDefinedId }
+
+            /** User Defined ID */
+            fun userDefinedId(userDefinedId: Optional<String>) =
+                userDefinedId(userDefinedId.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -270,33 +300,62 @@ constructor(
         }
 
         /** Address */
-        fun address(address: ExternalBankAccountAddress) = apply { body.address(address) }
+        fun address(address: ExternalBankAccountAddress?) = apply { body.address(address) }
+
+        /** Address */
+        fun address(address: Optional<ExternalBankAccountAddress>) = address(address.orElse(null))
 
         /** Optional field that helps identify bank accounts in receipts */
-        fun companyId(companyId: String) = apply { body.companyId(companyId) }
+        fun companyId(companyId: String?) = apply { body.companyId(companyId) }
+
+        /** Optional field that helps identify bank accounts in receipts */
+        fun companyId(companyId: Optional<String>) = companyId(companyId.orElse(null))
 
         /** Date of Birth of the Individual that owns the external bank account */
-        fun dob(dob: LocalDate) = apply { body.dob(dob) }
+        fun dob(dob: LocalDate?) = apply { body.dob(dob) }
+
+        /** Date of Birth of the Individual that owns the external bank account */
+        fun dob(dob: Optional<LocalDate>) = dob(dob.orElse(null))
 
         /** Doing Business As */
-        fun doingBusinessAs(doingBusinessAs: String) = apply {
+        fun doingBusinessAs(doingBusinessAs: String?) = apply {
             body.doingBusinessAs(doingBusinessAs)
         }
 
+        /** Doing Business As */
+        fun doingBusinessAs(doingBusinessAs: Optional<String>) =
+            doingBusinessAs(doingBusinessAs.orElse(null))
+
         /** The nickname for this External Bank Account */
-        fun name(name: String) = apply { body.name(name) }
+        fun name(name: String?) = apply { body.name(name) }
+
+        /** The nickname for this External Bank Account */
+        fun name(name: Optional<String>) = name(name.orElse(null))
 
         /**
          * Legal Name of the business or individual who owns the external account. This will appear
          * in statements
          */
-        fun owner(owner: String) = apply { body.owner(owner) }
+        fun owner(owner: String?) = apply { body.owner(owner) }
+
+        /**
+         * Legal Name of the business or individual who owns the external account. This will appear
+         * in statements
+         */
+        fun owner(owner: Optional<String>) = owner(owner.orElse(null))
 
         /** Owner Type */
-        fun ownerType(ownerType: OwnerType) = apply { body.ownerType(ownerType) }
+        fun ownerType(ownerType: OwnerType?) = apply { body.ownerType(ownerType) }
+
+        /** Owner Type */
+        fun ownerType(ownerType: Optional<OwnerType>) = ownerType(ownerType.orElse(null))
 
         /** User Defined ID */
-        fun userDefinedId(userDefinedId: String) = apply { body.userDefinedId(userDefinedId) }
+        fun userDefinedId(userDefinedId: String?) = apply { body.userDefinedId(userDefinedId) }
+
+        /** User Defined ID */
+        fun userDefinedId(userDefinedId: Optional<String>) =
+            userDefinedId(userDefinedId.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

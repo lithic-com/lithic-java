@@ -141,46 +141,95 @@ constructor(
          * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
+        fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
 
-        fun businessAccountToken(businessAccountToken: String) = apply {
+        /**
+         * Date string in RFC 3339 format. Only entries created after the specified time will be
+         * included. UTC time zone.
+         */
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.orElse(null))
+
+        fun businessAccountToken(businessAccountToken: String?) = apply {
             this.businessAccountToken = businessAccountToken
         }
 
+        fun businessAccountToken(businessAccountToken: Optional<String>) =
+            businessAccountToken(businessAccountToken.orElse(null))
+
         /** Management operation category to be returned. */
-        fun category(category: ManagementOperationCategory) = apply { this.category = category }
+        fun category(category: ManagementOperationCategory?) = apply { this.category = category }
+
+        /** Management operation category to be returned. */
+        fun category(category: Optional<ManagementOperationCategory>) =
+            category(category.orElse(null))
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: OffsetDateTime) = apply { this.end = end }
+        fun end(end: OffsetDateTime?) = apply { this.end = end }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created before the specified time will be
+         * included. UTC time zone.
+         */
+        fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
+        fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
+
+        /**
+         * A cursor representing an item's token before which a page of results should end. Used to
+         * retrieve the previous page of results before this item.
+         */
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
 
         /**
          * Globally unique identifier for the financial account. Accepted type dependent on the
          * program's use case.
          */
-        fun financialAccountToken(financialAccountToken: String) = apply {
+        fun financialAccountToken(financialAccountToken: String?) = apply {
             this.financialAccountToken = financialAccountToken
         }
 
+        /**
+         * Globally unique identifier for the financial account. Accepted type dependent on the
+         * program's use case.
+         */
+        fun financialAccountToken(financialAccountToken: Optional<String>) =
+            financialAccountToken(financialAccountToken.orElse(null))
+
         /** Page size (for pagination). */
-        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
+        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
+
+        /** Page size (for pagination). */
+        fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
+
+        /** Page size (for pagination). */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.orElse(null) as Long?)
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
          * retrieve the next page of results after this item.
          */
-        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
+        fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
+
+        /**
+         * A cursor representing an item's token after which a page of results should begin. Used to
+         * retrieve the next page of results after this item.
+         */
+        fun startingAfter(startingAfter: Optional<String>) =
+            startingAfter(startingAfter.orElse(null))
 
         /** Management operation status to be returned. */
-        fun status(status: TransactionStatus) = apply { this.status = status }
+        fun status(status: TransactionStatus?) = apply { this.status = status }
+
+        /** Management operation status to be returned. */
+        fun status(status: Optional<TransactionStatus>) = status(status.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

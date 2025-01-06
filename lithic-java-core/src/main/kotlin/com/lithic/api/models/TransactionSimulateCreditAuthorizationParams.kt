@@ -147,12 +147,23 @@ constructor(
              * listed in ISO 18245. Supported merchant category codes can be found
              * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
              */
-            fun mcc(mcc: String) = apply { this.mcc = mcc }
+            fun mcc(mcc: String?) = apply { this.mcc = mcc }
+
+            /**
+             * Merchant category code for the transaction to be simulated. A four-digit number
+             * listed in ISO 18245. Supported merchant category codes can be found
+             * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+             */
+            fun mcc(mcc: Optional<String>) = mcc(mcc.orElse(null))
 
             /** Unique identifier to identify the payment card acceptor. */
-            fun merchantAcceptorId(merchantAcceptorId: String) = apply {
+            fun merchantAcceptorId(merchantAcceptorId: String?) = apply {
                 this.merchantAcceptorId = merchantAcceptorId
             }
+
+            /** Unique identifier to identify the payment card acceptor. */
+            fun merchantAcceptorId(merchantAcceptorId: Optional<String>) =
+                merchantAcceptorId(merchantAcceptorId.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -247,12 +258,23 @@ constructor(
          * ISO 18245. Supported merchant category codes can be found
          * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
          */
-        fun mcc(mcc: String) = apply { body.mcc(mcc) }
+        fun mcc(mcc: String?) = apply { body.mcc(mcc) }
+
+        /**
+         * Merchant category code for the transaction to be simulated. A four-digit number listed in
+         * ISO 18245. Supported merchant category codes can be found
+         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         */
+        fun mcc(mcc: Optional<String>) = mcc(mcc.orElse(null))
 
         /** Unique identifier to identify the payment card acceptor. */
-        fun merchantAcceptorId(merchantAcceptorId: String) = apply {
+        fun merchantAcceptorId(merchantAcceptorId: String?) = apply {
             body.merchantAcceptorId(merchantAcceptorId)
         }
+
+        /** Unique identifier to identify the payment card acceptor. */
+        fun merchantAcceptorId(merchantAcceptorId: Optional<String>) =
+            merchantAcceptorId(merchantAcceptorId.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
