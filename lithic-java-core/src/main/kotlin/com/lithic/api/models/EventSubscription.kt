@@ -23,19 +23,22 @@ import java.util.Optional
 class EventSubscription
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("description")
     @ExcludeMissing
     private val description: JsonField<String> = JsonMissing.of(),
     @JsonProperty("disabled")
     @ExcludeMissing
     private val disabled: JsonField<Boolean> = JsonMissing.of(),
+    @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
     @JsonProperty("event_types")
     @ExcludeMissing
     private val eventTypes: JsonField<List<EventType>> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /** Globally unique identifier. */
+    fun token(): String = token.getRequired("token")
 
     /** A description of the subscription. */
     fun description(): String = description.getRequired("description")
@@ -43,13 +46,13 @@ private constructor(
     /** Whether the subscription is disabled. */
     fun disabled(): Boolean = disabled.getRequired("disabled")
 
+    fun url(): String = url.getRequired("url")
+
     fun eventTypes(): Optional<List<EventType>> =
         Optional.ofNullable(eventTypes.getNullable("event_types"))
 
     /** Globally unique identifier. */
-    fun token(): String = token.getRequired("token")
-
-    fun url(): String = url.getRequired("url")
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /** A description of the subscription. */
     @JsonProperty("description") @ExcludeMissing fun _description() = description
@@ -57,12 +60,9 @@ private constructor(
     /** Whether the subscription is disabled. */
     @JsonProperty("disabled") @ExcludeMissing fun _disabled() = disabled
 
-    @JsonProperty("event_types") @ExcludeMissing fun _eventTypes() = eventTypes
-
-    /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
     @JsonProperty("url") @ExcludeMissing fun _url() = url
+
+    @JsonProperty("event_types") @ExcludeMissing fun _eventTypes() = eventTypes
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -72,11 +72,11 @@ private constructor(
 
     fun validate(): EventSubscription = apply {
         if (!validated) {
+            token()
             description()
             disabled()
-            eventTypes()
-            token()
             url()
+            eventTypes()
             validated = true
         }
     }
@@ -90,22 +90,28 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
         private var description: JsonField<String> = JsonMissing.of()
         private var disabled: JsonField<Boolean> = JsonMissing.of()
-        private var eventTypes: JsonField<List<EventType>> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
         private var url: JsonField<String> = JsonMissing.of()
+        private var eventTypes: JsonField<List<EventType>> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(eventSubscription: EventSubscription) = apply {
+            token = eventSubscription.token
             description = eventSubscription.description
             disabled = eventSubscription.disabled
-            eventTypes = eventSubscription.eventTypes
-            token = eventSubscription.token
             url = eventSubscription.url
+            eventTypes = eventSubscription.eventTypes
             additionalProperties = eventSubscription.additionalProperties.toMutableMap()
         }
+
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** A description of the subscription. */
         fun description(description: String) = description(JsonField.of(description))
@@ -119,21 +125,15 @@ private constructor(
         /** Whether the subscription is disabled. */
         fun disabled(disabled: JsonField<Boolean>) = apply { this.disabled = disabled }
 
+        fun url(url: String) = url(JsonField.of(url))
+
+        fun url(url: JsonField<String>) = apply { this.url = url }
+
         fun eventTypes(eventTypes: List<EventType>) = eventTypes(JsonField.of(eventTypes))
 
         fun eventTypes(eventTypes: JsonField<List<EventType>>) = apply {
             this.eventTypes = eventTypes
         }
-
-        /** Globally unique identifier. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** Globally unique identifier. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
-
-        fun url(url: String) = url(JsonField.of(url))
-
-        fun url(url: JsonField<String>) = apply { this.url = url }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -156,11 +156,11 @@ private constructor(
 
         fun build(): EventSubscription =
             EventSubscription(
+                token,
                 description,
                 disabled,
-                eventTypes.map { it.toImmutable() },
-                token,
                 url,
+                eventTypes.map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }
@@ -473,15 +473,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EventSubscription && description == other.description && disabled == other.disabled && eventTypes == other.eventTypes && token == other.token && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is EventSubscription && token == other.token && description == other.description && disabled == other.disabled && url == other.url && eventTypes == other.eventTypes && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(description, disabled, eventTypes, token, url, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, description, disabled, url, eventTypes, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "EventSubscription{description=$description, disabled=$disabled, eventTypes=$eventTypes, token=$token, url=$url, additionalProperties=$additionalProperties}"
+        "EventSubscription{token=$token, description=$description, disabled=$disabled, url=$url, eventTypes=$eventTypes, additionalProperties=$additionalProperties}"
 }

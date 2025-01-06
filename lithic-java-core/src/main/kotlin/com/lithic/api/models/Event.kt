@@ -23,6 +23,7 @@ import java.util.Objects
 class Event
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("created")
     @ExcludeMissing
     private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -32,9 +33,11 @@ private constructor(
     @JsonProperty("payload")
     @ExcludeMissing
     private val payload: JsonField<Payload> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /** Globally unique identifier. */
+    fun token(): String = token.getRequired("token")
 
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
@@ -76,7 +79,7 @@ private constructor(
     fun payload(): Payload = payload.getRequired("payload")
 
     /** Globally unique identifier. */
-    fun token(): String = token.getRequired("token")
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
@@ -117,9 +120,6 @@ private constructor(
 
     @JsonProperty("payload") @ExcludeMissing fun _payload() = payload
 
-    /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -128,10 +128,10 @@ private constructor(
 
     fun validate(): Event = apply {
         if (!validated) {
+            token()
             created()
             eventType()
             payload().validate()
-            token()
             validated = true
         }
     }
@@ -145,20 +145,26 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var eventType: JsonField<EventType> = JsonMissing.of()
         private var payload: JsonField<Payload> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(event: Event) = apply {
+            token = event.token
             created = event.created
             eventType = event.eventType
             payload = event.payload
-            token = event.token
             additionalProperties = event.additionalProperties.toMutableMap()
         }
+
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
          * An RFC 3339 timestamp for when the event was created. UTC time zone.
@@ -242,12 +248,6 @@ private constructor(
 
         fun payload(payload: JsonField<Payload>) = apply { this.payload = payload }
 
-        /** Globally unique identifier. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** Globally unique identifier. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
-
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -269,10 +269,10 @@ private constructor(
 
         fun build(): Event =
             Event(
+                token,
                 created,
                 eventType,
                 payload,
-                token,
                 additionalProperties.toImmutable(),
             )
     }
@@ -660,15 +660,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Event && created == other.created && eventType == other.eventType && payload == other.payload && token == other.token && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Event && token == other.token && created == other.created && eventType == other.eventType && payload == other.payload && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(created, eventType, payload, token, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, created, eventType, payload, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Event{created=$created, eventType=$eventType, payload=$payload, token=$token, additionalProperties=$additionalProperties}"
+        "Event{token=$token, created=$created, eventType=$eventType, payload=$payload, additionalProperties=$additionalProperties}"
 }

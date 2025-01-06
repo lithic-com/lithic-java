@@ -23,24 +23,39 @@ import java.util.Optional
 class Card
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("account_token")
     @ExcludeMissing
     private val accountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("auth_rule_tokens")
-    @ExcludeMissing
-    private val authRuleTokens: JsonField<List<String>> = JsonMissing.of(),
     @JsonProperty("card_program_token")
     @ExcludeMissing
     private val cardProgramToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("replacement_for")
-    @ExcludeMissing
-    private val replacementFor: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("cardholder_currency")
-    @ExcludeMissing
-    private val cardholderCurrency: JsonField<String> = JsonMissing.of(),
     @JsonProperty("created")
     @ExcludeMissing
     private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("funding")
+    @ExcludeMissing
+    private val funding: JsonField<FundingAccount> = JsonMissing.of(),
+    @JsonProperty("last_four")
+    @ExcludeMissing
+    private val lastFour: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("pin_status")
+    @ExcludeMissing
+    private val pinStatus: JsonField<PinStatus> = JsonMissing.of(),
+    @JsonProperty("spend_limit")
+    @ExcludeMissing
+    private val spendLimit: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("spend_limit_duration")
+    @ExcludeMissing
+    private val spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of(),
+    @JsonProperty("state") @ExcludeMissing private val state: JsonField<State> = JsonMissing.of(),
+    @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
+    @JsonProperty("auth_rule_tokens")
+    @ExcludeMissing
+    private val authRuleTokens: JsonField<List<String>> = JsonMissing.of(),
+    @JsonProperty("cardholder_currency")
+    @ExcludeMissing
+    private val cardholderCurrency: JsonField<String> = JsonMissing.of(),
     @JsonProperty("cvv") @ExcludeMissing private val cvv: JsonField<String> = JsonMissing.of(),
     @JsonProperty("digital_card_art_token")
     @ExcludeMissing
@@ -51,123 +66,45 @@ private constructor(
     @JsonProperty("exp_year")
     @ExcludeMissing
     private val expYear: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("funding")
-    @ExcludeMissing
-    private val funding: JsonField<FundingAccount> = JsonMissing.of(),
     @JsonProperty("hostname")
     @ExcludeMissing
     private val hostname: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("last_four")
-    @ExcludeMissing
-    private val lastFour: JsonField<String> = JsonMissing.of(),
     @JsonProperty("memo") @ExcludeMissing private val memo: JsonField<String> = JsonMissing.of(),
     @JsonProperty("pan") @ExcludeMissing private val pan: JsonField<String> = JsonMissing.of(),
     @JsonProperty("pending_commands")
     @ExcludeMissing
     private val pendingCommands: JsonField<List<String>> = JsonMissing.of(),
-    @JsonProperty("pin_status")
-    @ExcludeMissing
-    private val pinStatus: JsonField<PinStatus> = JsonMissing.of(),
     @JsonProperty("product_id")
     @ExcludeMissing
     private val productId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("spend_limit")
+    @JsonProperty("replacement_for")
     @ExcludeMissing
-    private val spendLimit: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("spend_limit_duration")
-    @ExcludeMissing
-    private val spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of(),
-    @JsonProperty("state") @ExcludeMissing private val state: JsonField<State> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
+    private val replacementFor: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /** Globally unique identifier. */
+    fun token(): String = token.getRequired("token")
 
     /** Globally unique identifier for the account to which the card belongs. */
     fun accountToken(): String = accountToken.getRequired("account_token")
 
-    /**
-     * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
-     * deprecated and will no longer be populated in the `Card` object. The key will be removed from
-     * the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
-     * information instead.
-     */
-    fun authRuleTokens(): Optional<List<String>> =
-        Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
-
     /** Globally unique identifier for the card program on which the card exists. */
     fun cardProgramToken(): String = cardProgramToken.getRequired("card_program_token")
-
-    /**
-     * If the card is a replacement for another card, the globally unique identifier for the card
-     * that was replaced.
-     */
-    fun replacementFor(): Optional<String> =
-        Optional.ofNullable(replacementFor.getNullable("replacement_for"))
-
-    /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
-    fun cardholderCurrency(): Optional<String> =
-        Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
 
     /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    /** Three digit cvv printed on the back of the card. */
-    fun cvv(): Optional<String> = Optional.ofNullable(cvv.getNullable("cvv"))
-
-    /**
-     * Specifies the digital card art to be displayed in the user’s digital wallet after
-     * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
-     * See
-     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
-     */
-    fun digitalCardArtToken(): Optional<String> =
-        Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
-
-    /** Two digit (MM) expiry month. */
-    fun expMonth(): Optional<String> = Optional.ofNullable(expMonth.getNullable("exp_month"))
-
-    /** Four digit (yyyy) expiry year. */
-    fun expYear(): Optional<String> = Optional.ofNullable(expYear.getNullable("exp_year"))
-
     /** Deprecated: Funding account for the card. */
     fun funding(): FundingAccount = funding.getRequired("funding")
 
-    /** Hostname of card’s locked merchant (will be empty if not applicable). */
-    fun hostname(): Optional<String> = Optional.ofNullable(hostname.getNullable("hostname"))
-
     /** Last four digits of the card number. */
     fun lastFour(): String = lastFour.getRequired("last_four")
-
-    /** Friendly name to identify the card. */
-    fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
-
-    /**
-     * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to have
-     * PAN returned as a field in production. Please contact
-     * [support@lithic.com](mailto:support@lithic.com) for questions.
-     */
-    fun pan(): Optional<String> = Optional.ofNullable(pan.getNullable("pan"))
-
-    /**
-     * Indicates if there are offline PIN changes pending card interaction with an offline PIN
-     * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued in
-     * markets supporting offline PINs.
-     */
-    fun pendingCommands(): Optional<List<String>> =
-        Optional.ofNullable(pendingCommands.getNullable("pending_commands"))
 
     /**
      * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
      */
     fun pinStatus(): PinStatus = pinStatus.getRequired("pin_status")
-
-    /**
-     * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before use.
-     * Specifies the configuration (i.e., physical card art) that the card should be manufactured
-     * with.
-     */
-    fun productId(): Optional<String> = Optional.ofNullable(productId.getNullable("product_id"))
 
     /**
      * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -208,9 +145,6 @@ private constructor(
      */
     fun state(): State = state.getRequired("state")
 
-    /** Globally unique identifier. */
-    fun token(): String = token.getRequired("token")
-
     /**
      * Card types:
      * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
@@ -227,36 +161,21 @@ private constructor(
      */
     fun type(): Type = type.getRequired("type")
 
-    /** Globally unique identifier for the account to which the card belongs. */
-    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
-
     /**
      * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
      * deprecated and will no longer be populated in the `Card` object. The key will be removed from
      * the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
      * information instead.
      */
-    @JsonProperty("auth_rule_tokens") @ExcludeMissing fun _authRuleTokens() = authRuleTokens
-
-    /** Globally unique identifier for the card program on which the card exists. */
-    @JsonProperty("card_program_token") @ExcludeMissing fun _cardProgramToken() = cardProgramToken
-
-    /**
-     * If the card is a replacement for another card, the globally unique identifier for the card
-     * that was replaced.
-     */
-    @JsonProperty("replacement_for") @ExcludeMissing fun _replacementFor() = replacementFor
+    fun authRuleTokens(): Optional<List<String>> =
+        Optional.ofNullable(authRuleTokens.getNullable("auth_rule_tokens"))
 
     /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
-    @JsonProperty("cardholder_currency")
-    @ExcludeMissing
-    fun _cardholderCurrency() = cardholderCurrency
-
-    /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    fun cardholderCurrency(): Optional<String> =
+        Optional.ofNullable(cardholderCurrency.getNullable("cardholder_currency"))
 
     /** Three digit cvv printed on the back of the card. */
-    @JsonProperty("cvv") @ExcludeMissing fun _cvv() = cvv
+    fun cvv(): Optional<String> = Optional.ofNullable(cvv.getNullable("cvv"))
 
     /**
      * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -264,53 +183,72 @@ private constructor(
      * See
      * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
      */
-    @JsonProperty("digital_card_art_token")
-    @ExcludeMissing
-    fun _digitalCardArtToken() = digitalCardArtToken
+    fun digitalCardArtToken(): Optional<String> =
+        Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
 
     /** Two digit (MM) expiry month. */
-    @JsonProperty("exp_month") @ExcludeMissing fun _expMonth() = expMonth
+    fun expMonth(): Optional<String> = Optional.ofNullable(expMonth.getNullable("exp_month"))
 
     /** Four digit (yyyy) expiry year. */
-    @JsonProperty("exp_year") @ExcludeMissing fun _expYear() = expYear
-
-    /** Deprecated: Funding account for the card. */
-    @JsonProperty("funding") @ExcludeMissing fun _funding() = funding
+    fun expYear(): Optional<String> = Optional.ofNullable(expYear.getNullable("exp_year"))
 
     /** Hostname of card’s locked merchant (will be empty if not applicable). */
-    @JsonProperty("hostname") @ExcludeMissing fun _hostname() = hostname
-
-    /** Last four digits of the card number. */
-    @JsonProperty("last_four") @ExcludeMissing fun _lastFour() = lastFour
+    fun hostname(): Optional<String> = Optional.ofNullable(hostname.getNullable("hostname"))
 
     /** Friendly name to identify the card. */
-    @JsonProperty("memo") @ExcludeMissing fun _memo() = memo
+    fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
 
     /**
      * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to have
      * PAN returned as a field in production. Please contact
      * [support@lithic.com](mailto:support@lithic.com) for questions.
      */
-    @JsonProperty("pan") @ExcludeMissing fun _pan() = pan
+    fun pan(): Optional<String> = Optional.ofNullable(pan.getNullable("pan"))
 
     /**
      * Indicates if there are offline PIN changes pending card interaction with an offline PIN
      * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued in
      * markets supporting offline PINs.
      */
-    @JsonProperty("pending_commands") @ExcludeMissing fun _pendingCommands() = pendingCommands
-
-    /**
-     * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
-     */
-    @JsonProperty("pin_status") @ExcludeMissing fun _pinStatus() = pinStatus
+    fun pendingCommands(): Optional<List<String>> =
+        Optional.ofNullable(pendingCommands.getNullable("pending_commands"))
 
     /**
      * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before use.
      * Specifies the configuration (i.e., physical card art) that the card should be manufactured
      * with.
      */
-    @JsonProperty("product_id") @ExcludeMissing fun _productId() = productId
+    fun productId(): Optional<String> = Optional.ofNullable(productId.getNullable("product_id"))
+
+    /**
+     * If the card is a replacement for another card, the globally unique identifier for the card
+     * that was replaced.
+     */
+    fun replacementFor(): Optional<String> =
+        Optional.ofNullable(replacementFor.getNullable("replacement_for"))
+
+    /** Globally unique identifier. */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
+
+    /** Globally unique identifier for the account to which the card belongs. */
+    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
+
+    /** Globally unique identifier for the card program on which the card exists. */
+    @JsonProperty("card_program_token") @ExcludeMissing fun _cardProgramToken() = cardProgramToken
+
+    /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
+
+    /** Deprecated: Funding account for the card. */
+    @JsonProperty("funding") @ExcludeMissing fun _funding() = funding
+
+    /** Last four digits of the card number. */
+    @JsonProperty("last_four") @ExcludeMissing fun _lastFour() = lastFour
+
+    /**
+     * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
+     */
+    @JsonProperty("pin_status") @ExcludeMissing fun _pinStatus() = pinStatus
 
     /**
      * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -352,9 +290,6 @@ private constructor(
      */
     @JsonProperty("state") @ExcludeMissing fun _state() = state
 
-    /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
     /**
      * Card types:
      * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
@@ -371,6 +306,71 @@ private constructor(
      */
     @JsonProperty("type") @ExcludeMissing fun _type() = type
 
+    /**
+     * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
+     * deprecated and will no longer be populated in the `Card` object. The key will be removed from
+     * the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
+     * information instead.
+     */
+    @JsonProperty("auth_rule_tokens") @ExcludeMissing fun _authRuleTokens() = authRuleTokens
+
+    /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+    @JsonProperty("cardholder_currency")
+    @ExcludeMissing
+    fun _cardholderCurrency() = cardholderCurrency
+
+    /** Three digit cvv printed on the back of the card. */
+    @JsonProperty("cvv") @ExcludeMissing fun _cvv() = cvv
+
+    /**
+     * Specifies the digital card art to be displayed in the user’s digital wallet after
+     * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
+     * See
+     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     */
+    @JsonProperty("digital_card_art_token")
+    @ExcludeMissing
+    fun _digitalCardArtToken() = digitalCardArtToken
+
+    /** Two digit (MM) expiry month. */
+    @JsonProperty("exp_month") @ExcludeMissing fun _expMonth() = expMonth
+
+    /** Four digit (yyyy) expiry year. */
+    @JsonProperty("exp_year") @ExcludeMissing fun _expYear() = expYear
+
+    /** Hostname of card’s locked merchant (will be empty if not applicable). */
+    @JsonProperty("hostname") @ExcludeMissing fun _hostname() = hostname
+
+    /** Friendly name to identify the card. */
+    @JsonProperty("memo") @ExcludeMissing fun _memo() = memo
+
+    /**
+     * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to have
+     * PAN returned as a field in production. Please contact
+     * [support@lithic.com](mailto:support@lithic.com) for questions.
+     */
+    @JsonProperty("pan") @ExcludeMissing fun _pan() = pan
+
+    /**
+     * Indicates if there are offline PIN changes pending card interaction with an offline PIN
+     * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued in
+     * markets supporting offline PINs.
+     */
+    @JsonProperty("pending_commands") @ExcludeMissing fun _pendingCommands() = pendingCommands
+
+    /**
+     * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before use.
+     * Specifies the configuration (i.e., physical card art) that the card should be manufactured
+     * with.
+     */
+    @JsonProperty("product_id") @ExcludeMissing fun _productId() = productId
+
+    /**
+     * If the card is a replacement for another card, the globally unique identifier for the card
+     * that was replaced.
+     */
+    @JsonProperty("replacement_for") @ExcludeMissing fun _replacementFor() = replacementFor
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -379,29 +379,29 @@ private constructor(
 
     fun validate(): Card = apply {
         if (!validated) {
+            token()
             accountToken()
-            authRuleTokens()
             cardProgramToken()
-            replacementFor()
-            cardholderCurrency()
             created()
+            funding().validate()
+            lastFour()
+            pinStatus()
+            spendLimit()
+            spendLimitDuration()
+            state()
+            type()
+            authRuleTokens()
+            cardholderCurrency()
             cvv()
             digitalCardArtToken()
             expMonth()
             expYear()
-            funding().validate()
             hostname()
-            lastFour()
             memo()
             pan()
             pendingCommands()
-            pinStatus()
             productId()
-            spendLimit()
-            spendLimitDuration()
-            state()
-            token()
-            type()
+            replacementFor()
             validated = true
         }
     }
@@ -415,58 +415,64 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
         private var accountToken: JsonField<String> = JsonMissing.of()
-        private var authRuleTokens: JsonField<List<String>> = JsonMissing.of()
         private var cardProgramToken: JsonField<String> = JsonMissing.of()
-        private var replacementFor: JsonField<String> = JsonMissing.of()
-        private var cardholderCurrency: JsonField<String> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var funding: JsonField<FundingAccount> = JsonMissing.of()
+        private var lastFour: JsonField<String> = JsonMissing.of()
+        private var pinStatus: JsonField<PinStatus> = JsonMissing.of()
+        private var spendLimit: JsonField<Long> = JsonMissing.of()
+        private var spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of()
+        private var state: JsonField<State> = JsonMissing.of()
+        private var type: JsonField<Type> = JsonMissing.of()
+        private var authRuleTokens: JsonField<List<String>> = JsonMissing.of()
+        private var cardholderCurrency: JsonField<String> = JsonMissing.of()
         private var cvv: JsonField<String> = JsonMissing.of()
         private var digitalCardArtToken: JsonField<String> = JsonMissing.of()
         private var expMonth: JsonField<String> = JsonMissing.of()
         private var expYear: JsonField<String> = JsonMissing.of()
-        private var funding: JsonField<FundingAccount> = JsonMissing.of()
         private var hostname: JsonField<String> = JsonMissing.of()
-        private var lastFour: JsonField<String> = JsonMissing.of()
         private var memo: JsonField<String> = JsonMissing.of()
         private var pan: JsonField<String> = JsonMissing.of()
         private var pendingCommands: JsonField<List<String>> = JsonMissing.of()
-        private var pinStatus: JsonField<PinStatus> = JsonMissing.of()
         private var productId: JsonField<String> = JsonMissing.of()
-        private var spendLimit: JsonField<Long> = JsonMissing.of()
-        private var spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of()
-        private var state: JsonField<State> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
-        private var type: JsonField<Type> = JsonMissing.of()
+        private var replacementFor: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(card: Card) = apply {
+            token = card.token
             accountToken = card.accountToken
-            authRuleTokens = card.authRuleTokens
             cardProgramToken = card.cardProgramToken
-            replacementFor = card.replacementFor
-            cardholderCurrency = card.cardholderCurrency
             created = card.created
+            funding = card.funding
+            lastFour = card.lastFour
+            pinStatus = card.pinStatus
+            spendLimit = card.spendLimit
+            spendLimitDuration = card.spendLimitDuration
+            state = card.state
+            type = card.type
+            authRuleTokens = card.authRuleTokens
+            cardholderCurrency = card.cardholderCurrency
             cvv = card.cvv
             digitalCardArtToken = card.digitalCardArtToken
             expMonth = card.expMonth
             expYear = card.expYear
-            funding = card.funding
             hostname = card.hostname
-            lastFour = card.lastFour
             memo = card.memo
             pan = card.pan
             pendingCommands = card.pendingCommands
-            pinStatus = card.pinStatus
             productId = card.productId
-            spendLimit = card.spendLimit
-            spendLimitDuration = card.spendLimitDuration
-            state = card.state
-            token = card.token
-            type = card.type
+            replacementFor = card.replacementFor
             additionalProperties = card.additionalProperties.toMutableMap()
         }
+
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier for the account to which the card belongs. */
         fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
@@ -474,25 +480,6 @@ private constructor(
         /** Globally unique identifier for the account to which the card belongs. */
         fun accountToken(accountToken: JsonField<String>) = apply {
             this.accountToken = accountToken
-        }
-
-        /**
-         * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
-         * deprecated and will no longer be populated in the `Card` object. The key will be removed
-         * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
-         * information instead.
-         */
-        fun authRuleTokens(authRuleTokens: List<String>) =
-            authRuleTokens(JsonField.of(authRuleTokens))
-
-        /**
-         * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
-         * deprecated and will no longer be populated in the `Card` object. The key will be removed
-         * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
-         * information instead.
-         */
-        fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {
-            this.authRuleTokens = authRuleTokens
         }
 
         /** Globally unique identifier for the card program on which the card exists. */
@@ -504,71 +491,11 @@ private constructor(
             this.cardProgramToken = cardProgramToken
         }
 
-        /**
-         * If the card is a replacement for another card, the globally unique identifier for the
-         * card that was replaced.
-         */
-        fun replacementFor(replacementFor: String) = replacementFor(JsonField.of(replacementFor))
-
-        /**
-         * If the card is a replacement for another card, the globally unique identifier for the
-         * card that was replaced.
-         */
-        fun replacementFor(replacementFor: JsonField<String>) = apply {
-            this.replacementFor = replacementFor
-        }
-
-        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
-        fun cardholderCurrency(cardholderCurrency: String) =
-            cardholderCurrency(JsonField.of(cardholderCurrency))
-
-        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
-        fun cardholderCurrency(cardholderCurrency: JsonField<String>) = apply {
-            this.cardholderCurrency = cardholderCurrency
-        }
-
         /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
         fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
         /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
-
-        /** Three digit cvv printed on the back of the card. */
-        fun cvv(cvv: String) = cvv(JsonField.of(cvv))
-
-        /** Three digit cvv printed on the back of the card. */
-        fun cvv(cvv: JsonField<String>) = apply { this.cvv = cvv }
-
-        /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet after
-         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-         * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
-         */
-        fun digitalCardArtToken(digitalCardArtToken: String) =
-            digitalCardArtToken(JsonField.of(digitalCardArtToken))
-
-        /**
-         * Specifies the digital card art to be displayed in the user’s digital wallet after
-         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-         * use. See
-         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
-         */
-        fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
-            this.digitalCardArtToken = digitalCardArtToken
-        }
-
-        /** Two digit (MM) expiry month. */
-        fun expMonth(expMonth: String) = expMonth(JsonField.of(expMonth))
-
-        /** Two digit (MM) expiry month. */
-        fun expMonth(expMonth: JsonField<String>) = apply { this.expMonth = expMonth }
-
-        /** Four digit (yyyy) expiry year. */
-        fun expYear(expYear: String) = expYear(JsonField.of(expYear))
-
-        /** Four digit (yyyy) expiry year. */
-        fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
 
         /** Deprecated: Funding account for the card. */
         fun funding(funding: FundingAccount) = funding(JsonField.of(funding))
@@ -576,54 +503,11 @@ private constructor(
         /** Deprecated: Funding account for the card. */
         fun funding(funding: JsonField<FundingAccount>) = apply { this.funding = funding }
 
-        /** Hostname of card’s locked merchant (will be empty if not applicable). */
-        fun hostname(hostname: String) = hostname(JsonField.of(hostname))
-
-        /** Hostname of card’s locked merchant (will be empty if not applicable). */
-        fun hostname(hostname: JsonField<String>) = apply { this.hostname = hostname }
-
         /** Last four digits of the card number. */
         fun lastFour(lastFour: String) = lastFour(JsonField.of(lastFour))
 
         /** Last four digits of the card number. */
         fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
-
-        /** Friendly name to identify the card. */
-        fun memo(memo: String) = memo(JsonField.of(memo))
-
-        /** Friendly name to identify the card. */
-        fun memo(memo: JsonField<String>) = apply { this.memo = memo }
-
-        /**
-         * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to
-         * have PAN returned as a field in production. Please contact
-         * [support@lithic.com](mailto:support@lithic.com) for questions.
-         */
-        fun pan(pan: String) = pan(JsonField.of(pan))
-
-        /**
-         * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to
-         * have PAN returned as a field in production. Please contact
-         * [support@lithic.com](mailto:support@lithic.com) for questions.
-         */
-        fun pan(pan: JsonField<String>) = apply { this.pan = pan }
-
-        /**
-         * Indicates if there are offline PIN changes pending card interaction with an offline PIN
-         * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued
-         * in markets supporting offline PINs.
-         */
-        fun pendingCommands(pendingCommands: List<String>) =
-            pendingCommands(JsonField.of(pendingCommands))
-
-        /**
-         * Indicates if there are offline PIN changes pending card interaction with an offline PIN
-         * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued
-         * in markets supporting offline PINs.
-         */
-        fun pendingCommands(pendingCommands: JsonField<List<String>>) = apply {
-            this.pendingCommands = pendingCommands
-        }
 
         /**
          * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
@@ -636,20 +520,6 @@ private constructor(
          * attempts).
          */
         fun pinStatus(pinStatus: JsonField<PinStatus>) = apply { this.pinStatus = pinStatus }
-
-        /**
-         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
-         * use. Specifies the configuration (i.e., physical card art) that the card should be
-         * manufactured with.
-         */
-        fun productId(productId: String) = productId(JsonField.of(productId))
-
-        /**
-         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
-         * use. Specifies the configuration (i.e., physical card art) that the card should be
-         * manufactured with.
-         */
-        fun productId(productId: JsonField<String>) = apply { this.productId = productId }
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -736,12 +606,6 @@ private constructor(
          */
         fun state(state: JsonField<State>) = apply { this.state = state }
 
-        /** Globally unique identifier. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** Globally unique identifier. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
-
         /**
          * Card types:
          * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
@@ -776,6 +640,142 @@ private constructor(
          */
         fun type(type: JsonField<Type>) = apply { this.type = type }
 
+        /**
+         * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
+         * deprecated and will no longer be populated in the `Card` object. The key will be removed
+         * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
+         * information instead.
+         */
+        fun authRuleTokens(authRuleTokens: List<String>) =
+            authRuleTokens(JsonField.of(authRuleTokens))
+
+        /**
+         * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
+         * deprecated and will no longer be populated in the `Card` object. The key will be removed
+         * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
+         * information instead.
+         */
+        fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {
+            this.authRuleTokens = authRuleTokens
+        }
+
+        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+        fun cardholderCurrency(cardholderCurrency: String) =
+            cardholderCurrency(JsonField.of(cardholderCurrency))
+
+        /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
+        fun cardholderCurrency(cardholderCurrency: JsonField<String>) = apply {
+            this.cardholderCurrency = cardholderCurrency
+        }
+
+        /** Three digit cvv printed on the back of the card. */
+        fun cvv(cvv: String) = cvv(JsonField.of(cvv))
+
+        /** Three digit cvv printed on the back of the card. */
+        fun cvv(cvv: JsonField<String>) = apply { this.cvv = cvv }
+
+        /**
+         * Specifies the digital card art to be displayed in the user’s digital wallet after
+         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         */
+        fun digitalCardArtToken(digitalCardArtToken: String) =
+            digitalCardArtToken(JsonField.of(digitalCardArtToken))
+
+        /**
+         * Specifies the digital card art to be displayed in the user’s digital wallet after
+         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         */
+        fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
+            this.digitalCardArtToken = digitalCardArtToken
+        }
+
+        /** Two digit (MM) expiry month. */
+        fun expMonth(expMonth: String) = expMonth(JsonField.of(expMonth))
+
+        /** Two digit (MM) expiry month. */
+        fun expMonth(expMonth: JsonField<String>) = apply { this.expMonth = expMonth }
+
+        /** Four digit (yyyy) expiry year. */
+        fun expYear(expYear: String) = expYear(JsonField.of(expYear))
+
+        /** Four digit (yyyy) expiry year. */
+        fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
+
+        /** Hostname of card’s locked merchant (will be empty if not applicable). */
+        fun hostname(hostname: String) = hostname(JsonField.of(hostname))
+
+        /** Hostname of card’s locked merchant (will be empty if not applicable). */
+        fun hostname(hostname: JsonField<String>) = apply { this.hostname = hostname }
+
+        /** Friendly name to identify the card. */
+        fun memo(memo: String) = memo(JsonField.of(memo))
+
+        /** Friendly name to identify the card. */
+        fun memo(memo: JsonField<String>) = apply { this.memo = memo }
+
+        /**
+         * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to
+         * have PAN returned as a field in production. Please contact
+         * [support@lithic.com](mailto:support@lithic.com) for questions.
+         */
+        fun pan(pan: String) = pan(JsonField.of(pan))
+
+        /**
+         * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to
+         * have PAN returned as a field in production. Please contact
+         * [support@lithic.com](mailto:support@lithic.com) for questions.
+         */
+        fun pan(pan: JsonField<String>) = apply { this.pan = pan }
+
+        /**
+         * Indicates if there are offline PIN changes pending card interaction with an offline PIN
+         * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued
+         * in markets supporting offline PINs.
+         */
+        fun pendingCommands(pendingCommands: List<String>) =
+            pendingCommands(JsonField.of(pendingCommands))
+
+        /**
+         * Indicates if there are offline PIN changes pending card interaction with an offline PIN
+         * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued
+         * in markets supporting offline PINs.
+         */
+        fun pendingCommands(pendingCommands: JsonField<List<String>>) = apply {
+            this.pendingCommands = pendingCommands
+        }
+
+        /**
+         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
+         * use. Specifies the configuration (i.e., physical card art) that the card should be
+         * manufactured with.
+         */
+        fun productId(productId: String) = productId(JsonField.of(productId))
+
+        /**
+         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
+         * use. Specifies the configuration (i.e., physical card art) that the card should be
+         * manufactured with.
+         */
+        fun productId(productId: JsonField<String>) = apply { this.productId = productId }
+
+        /**
+         * If the card is a replacement for another card, the globally unique identifier for the
+         * card that was replaced.
+         */
+        fun replacementFor(replacementFor: String) = replacementFor(JsonField.of(replacementFor))
+
+        /**
+         * If the card is a replacement for another card, the globally unique identifier for the
+         * card that was replaced.
+         */
+        fun replacementFor(replacementFor: JsonField<String>) = apply {
+            this.replacementFor = replacementFor
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -797,29 +797,29 @@ private constructor(
 
         fun build(): Card =
             Card(
+                token,
                 accountToken,
-                authRuleTokens.map { it.toImmutable() },
                 cardProgramToken,
-                replacementFor,
-                cardholderCurrency,
                 created,
+                funding,
+                lastFour,
+                pinStatus,
+                spendLimit,
+                spendLimitDuration,
+                state,
+                type,
+                authRuleTokens.map { it.toImmutable() },
+                cardholderCurrency,
                 cvv,
                 digitalCardArtToken,
                 expMonth,
                 expYear,
-                funding,
                 hostname,
-                lastFour,
                 memo,
                 pan,
                 pendingCommands.map { it.toImmutable() },
-                pinStatus,
                 productId,
-                spendLimit,
-                spendLimitDuration,
-                state,
-                token,
-                type,
+                replacementFor,
                 additionalProperties.toImmutable(),
             )
     }
@@ -829,32 +829,31 @@ private constructor(
     class FundingAccount
     @JsonCreator
     private constructor(
-        @JsonProperty("account_name")
+        @JsonProperty("token")
         @ExcludeMissing
-        private val accountName: JsonField<String> = JsonMissing.of(),
+        private val token: JsonField<String> = JsonMissing.of(),
         @JsonProperty("created")
         @ExcludeMissing
         private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("last_four")
         @ExcludeMissing
         private val lastFour: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("nickname")
-        @ExcludeMissing
-        private val nickname: JsonField<String> = JsonMissing.of(),
         @JsonProperty("state")
         @ExcludeMissing
         private val state: JsonField<State> = JsonMissing.of(),
-        @JsonProperty("token")
-        @ExcludeMissing
-        private val token: JsonField<String> = JsonMissing.of(),
         @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
+        @JsonProperty("account_name")
+        @ExcludeMissing
+        private val accountName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("nickname")
+        @ExcludeMissing
+        private val nickname: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        /** Account name identifying the funding source. This may be `null`. */
-        fun accountName(): Optional<String> =
-            Optional.ofNullable(accountName.getNullable("account_name"))
+        /** A globally unique identifier for this FundingAccount. */
+        fun token(): String = token.getRequired("token")
 
         /**
          * An RFC 3339 string representing when this funding source was added to the Lithic account.
@@ -868,9 +867,6 @@ private constructor(
          */
         fun lastFour(): String = lastFour.getRequired("last_four")
 
-        /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
-        fun nickname(): Optional<String> = Optional.ofNullable(nickname.getNullable("nickname"))
-
         /**
          * State of funding source.
          *
@@ -882,9 +878,6 @@ private constructor(
          */
         fun state(): State = state.getRequired("state")
 
-        /** A globally unique identifier for this FundingAccount. */
-        fun token(): String = token.getRequired("token")
-
         /**
          * Types of funding source:
          * - `DEPOSITORY_CHECKING` - Bank checking account.
@@ -893,7 +886,14 @@ private constructor(
         fun type(): Type = type.getRequired("type")
 
         /** Account name identifying the funding source. This may be `null`. */
-        @JsonProperty("account_name") @ExcludeMissing fun _accountName() = accountName
+        fun accountName(): Optional<String> =
+            Optional.ofNullable(accountName.getNullable("account_name"))
+
+        /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
+        fun nickname(): Optional<String> = Optional.ofNullable(nickname.getNullable("nickname"))
+
+        /** A globally unique identifier for this FundingAccount. */
+        @JsonProperty("token") @ExcludeMissing fun _token() = token
 
         /**
          * An RFC 3339 string representing when this funding source was added to the Lithic account.
@@ -907,9 +907,6 @@ private constructor(
          */
         @JsonProperty("last_four") @ExcludeMissing fun _lastFour() = lastFour
 
-        /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
-        @JsonProperty("nickname") @ExcludeMissing fun _nickname() = nickname
-
         /**
          * State of funding source.
          *
@@ -921,15 +918,18 @@ private constructor(
          */
         @JsonProperty("state") @ExcludeMissing fun _state() = state
 
-        /** A globally unique identifier for this FundingAccount. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
-
         /**
          * Types of funding source:
          * - `DEPOSITORY_CHECKING` - Bank checking account.
          * - `DEPOSITORY_SAVINGS` - Bank savings account.
          */
         @JsonProperty("type") @ExcludeMissing fun _type() = type
+
+        /** Account name identifying the funding source. This may be `null`. */
+        @JsonProperty("account_name") @ExcludeMissing fun _accountName() = accountName
+
+        /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
+        @JsonProperty("nickname") @ExcludeMissing fun _nickname() = nickname
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -939,13 +939,13 @@ private constructor(
 
         fun validate(): FundingAccount = apply {
             if (!validated) {
-                accountName()
+                token()
                 created()
                 lastFour()
-                nickname()
                 state()
-                token()
                 type()
+                accountName()
+                nickname()
                 validated = true
             }
         }
@@ -959,34 +959,32 @@ private constructor(
 
         class Builder {
 
-            private var accountName: JsonField<String> = JsonMissing.of()
+            private var token: JsonField<String> = JsonMissing.of()
             private var created: JsonField<OffsetDateTime> = JsonMissing.of()
             private var lastFour: JsonField<String> = JsonMissing.of()
-            private var nickname: JsonField<String> = JsonMissing.of()
             private var state: JsonField<State> = JsonMissing.of()
-            private var token: JsonField<String> = JsonMissing.of()
             private var type: JsonField<Type> = JsonMissing.of()
+            private var accountName: JsonField<String> = JsonMissing.of()
+            private var nickname: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(fundingAccount: FundingAccount) = apply {
-                accountName = fundingAccount.accountName
+                token = fundingAccount.token
                 created = fundingAccount.created
                 lastFour = fundingAccount.lastFour
-                nickname = fundingAccount.nickname
                 state = fundingAccount.state
-                token = fundingAccount.token
                 type = fundingAccount.type
+                accountName = fundingAccount.accountName
+                nickname = fundingAccount.nickname
                 additionalProperties = fundingAccount.additionalProperties.toMutableMap()
             }
 
-            /** Account name identifying the funding source. This may be `null`. */
-            fun accountName(accountName: String) = accountName(JsonField.of(accountName))
+            /** A globally unique identifier for this FundingAccount. */
+            fun token(token: String) = token(JsonField.of(token))
 
-            /** Account name identifying the funding source. This may be `null`. */
-            fun accountName(accountName: JsonField<String>) = apply {
-                this.accountName = accountName
-            }
+            /** A globally unique identifier for this FundingAccount. */
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
              * An RFC 3339 string representing when this funding source was added to the Lithic
@@ -1012,12 +1010,6 @@ private constructor(
              */
             fun lastFour(lastFour: JsonField<String>) = apply { this.lastFour = lastFour }
 
-            /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
-            fun nickname(nickname: String) = nickname(JsonField.of(nickname))
-
-            /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
-            fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
-
             /**
              * State of funding source.
              *
@@ -1042,12 +1034,6 @@ private constructor(
              */
             fun state(state: JsonField<State>) = apply { this.state = state }
 
-            /** A globally unique identifier for this FundingAccount. */
-            fun token(token: String) = token(JsonField.of(token))
-
-            /** A globally unique identifier for this FundingAccount. */
-            fun token(token: JsonField<String>) = apply { this.token = token }
-
             /**
              * Types of funding source:
              * - `DEPOSITORY_CHECKING` - Bank checking account.
@@ -1061,6 +1047,20 @@ private constructor(
              * - `DEPOSITORY_SAVINGS` - Bank savings account.
              */
             fun type(type: JsonField<Type>) = apply { this.type = type }
+
+            /** Account name identifying the funding source. This may be `null`. */
+            fun accountName(accountName: String) = accountName(JsonField.of(accountName))
+
+            /** Account name identifying the funding source. This may be `null`. */
+            fun accountName(accountName: JsonField<String>) = apply {
+                this.accountName = accountName
+            }
+
+            /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
+            fun nickname(nickname: String) = nickname(JsonField.of(nickname))
+
+            /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
+            fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1083,13 +1083,13 @@ private constructor(
 
             fun build(): FundingAccount =
                 FundingAccount(
-                    accountName,
+                    token,
                     created,
                     lastFour,
-                    nickname,
                     state,
-                    token,
                     type,
+                    accountName,
+                    nickname,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -1219,17 +1219,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is FundingAccount && accountName == other.accountName && created == other.created && lastFour == other.lastFour && nickname == other.nickname && state == other.state && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is FundingAccount && token == other.token && created == other.created && lastFour == other.lastFour && state == other.state && type == other.type && accountName == other.accountName && nickname == other.nickname && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(accountName, created, lastFour, nickname, state, token, type, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(token, created, lastFour, state, type, accountName, nickname, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "FundingAccount{accountName=$accountName, created=$created, lastFour=$lastFour, nickname=$nickname, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
+            "FundingAccount{token=$token, created=$created, lastFour=$lastFour, state=$state, type=$type, accountName=$accountName, nickname=$nickname, additionalProperties=$additionalProperties}"
     }
 
     class PinStatus
@@ -1456,15 +1456,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Card && accountToken == other.accountToken && authRuleTokens == other.authRuleTokens && cardProgramToken == other.cardProgramToken && replacementFor == other.replacementFor && cardholderCurrency == other.cardholderCurrency && created == other.created && cvv == other.cvv && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && funding == other.funding && hostname == other.hostname && lastFour == other.lastFour && memo == other.memo && pan == other.pan && pendingCommands == other.pendingCommands && pinStatus == other.pinStatus && productId == other.productId && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Card && token == other.token && accountToken == other.accountToken && cardProgramToken == other.cardProgramToken && created == other.created && funding == other.funding && lastFour == other.lastFour && pinStatus == other.pinStatus && spendLimit == other.spendLimit && spendLimitDuration == other.spendLimitDuration && state == other.state && type == other.type && authRuleTokens == other.authRuleTokens && cardholderCurrency == other.cardholderCurrency && cvv == other.cvv && digitalCardArtToken == other.digitalCardArtToken && expMonth == other.expMonth && expYear == other.expYear && hostname == other.hostname && memo == other.memo && pan == other.pan && pendingCommands == other.pendingCommands && productId == other.productId && replacementFor == other.replacementFor && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(accountToken, authRuleTokens, cardProgramToken, replacementFor, cardholderCurrency, created, cvv, digitalCardArtToken, expMonth, expYear, funding, hostname, lastFour, memo, pan, pendingCommands, pinStatus, productId, spendLimit, spendLimitDuration, state, token, type, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, accountToken, cardProgramToken, created, funding, lastFour, pinStatus, spendLimit, spendLimitDuration, state, type, authRuleTokens, cardholderCurrency, cvv, digitalCardArtToken, expMonth, expYear, hostname, memo, pan, pendingCommands, productId, replacementFor, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Card{accountToken=$accountToken, authRuleTokens=$authRuleTokens, cardProgramToken=$cardProgramToken, replacementFor=$replacementFor, cardholderCurrency=$cardholderCurrency, created=$created, cvv=$cvv, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, funding=$funding, hostname=$hostname, lastFour=$lastFour, memo=$memo, pan=$pan, pendingCommands=$pendingCommands, pinStatus=$pinStatus, productId=$productId, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, token=$token, type=$type, additionalProperties=$additionalProperties}"
+        "Card{token=$token, accountToken=$accountToken, cardProgramToken=$cardProgramToken, created=$created, funding=$funding, lastFour=$lastFour, pinStatus=$pinStatus, spendLimit=$spendLimit, spendLimitDuration=$spendLimitDuration, state=$state, type=$type, authRuleTokens=$authRuleTokens, cardholderCurrency=$cardholderCurrency, cvv=$cvv, digitalCardArtToken=$digitalCardArtToken, expMonth=$expMonth, expYear=$expYear, hostname=$hostname, memo=$memo, pan=$pan, pendingCommands=$pendingCommands, productId=$productId, replacementFor=$replacementFor, additionalProperties=$additionalProperties}"
 }

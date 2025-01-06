@@ -25,13 +25,7 @@ private constructor(
     @JsonProperty("address")
     @ExcludeMissing
     private val address: JsonField<Address> = JsonMissing.of(),
-    @JsonProperty("business_account_token")
-    @ExcludeMissing
-    private val businessAccountToken: JsonField<String> = JsonMissing.of(),
     @JsonProperty("email") @ExcludeMissing private val email: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("external_id")
-    @ExcludeMissing
-    private val externalId: JsonField<String> = JsonMissing.of(),
     @JsonProperty("first_name")
     @ExcludeMissing
     private val firstName: JsonField<String> = JsonMissing.of(),
@@ -47,6 +41,12 @@ private constructor(
     @JsonProperty("workflow")
     @ExcludeMissing
     private val workflow: JsonField<Workflow> = JsonMissing.of(),
+    @JsonProperty("business_account_token")
+    @ExcludeMissing
+    private val businessAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("external_id")
+    @ExcludeMissing
+    private val externalId: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
@@ -56,19 +56,8 @@ private constructor(
      */
     fun address(): Address = address.getRequired("address")
 
-    /**
-     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-     * businesses. Pass the account_token of the enrolled business associated with the
-     * AUTHORIZED_USER in this field.
-     */
-    fun businessAccountToken(): Optional<String> =
-        Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
-
     /** The KYC Exempt user's email */
     fun email(): String = email.getRequired("email")
-
-    /** A user provided id that can be used to link an account holder with an external system */
-    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
 
     /** The KYC Exempt user's first name */
     fun firstName(): String = firstName.getRequired("first_name")
@@ -86,25 +75,24 @@ private constructor(
     fun workflow(): Workflow = workflow.getRequired("workflow")
 
     /**
+     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+     * businesses. Pass the account_token of the enrolled business associated with the
+     * AUTHORIZED_USER in this field.
+     */
+    fun businessAccountToken(): Optional<String> =
+        Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
+
+    /** A user provided id that can be used to link an account holder with an external system */
+    fun externalId(): Optional<String> = Optional.ofNullable(externalId.getNullable("external_id"))
+
+    /**
      * KYC Exempt user's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
      * APO/FPO are acceptable.
      */
     @JsonProperty("address") @ExcludeMissing fun _address() = address
 
-    /**
-     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-     * businesses. Pass the account_token of the enrolled business associated with the
-     * AUTHORIZED_USER in this field.
-     */
-    @JsonProperty("business_account_token")
-    @ExcludeMissing
-    fun _businessAccountToken() = businessAccountToken
-
     /** The KYC Exempt user's email */
     @JsonProperty("email") @ExcludeMissing fun _email() = email
-
-    /** A user provided id that can be used to link an account holder with an external system */
-    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
 
     /** The KYC Exempt user's first name */
     @JsonProperty("first_name") @ExcludeMissing fun _firstName() = firstName
@@ -121,6 +109,18 @@ private constructor(
     /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
     @JsonProperty("workflow") @ExcludeMissing fun _workflow() = workflow
 
+    /**
+     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+     * businesses. Pass the account_token of the enrolled business associated with the
+     * AUTHORIZED_USER in this field.
+     */
+    @JsonProperty("business_account_token")
+    @ExcludeMissing
+    fun _businessAccountToken() = businessAccountToken
+
+    /** A user provided id that can be used to link an account holder with an external system */
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -130,14 +130,14 @@ private constructor(
     fun validate(): KycExempt = apply {
         if (!validated) {
             address().validate()
-            businessAccountToken()
             email()
-            externalId()
             firstName()
             kycExemptionType()
             lastName()
             phoneNumber()
             workflow()
+            businessAccountToken()
+            externalId()
             validated = true
         }
     }
@@ -152,27 +152,27 @@ private constructor(
     class Builder {
 
         private var address: JsonField<Address> = JsonMissing.of()
-        private var businessAccountToken: JsonField<String> = JsonMissing.of()
         private var email: JsonField<String> = JsonMissing.of()
-        private var externalId: JsonField<String> = JsonMissing.of()
         private var firstName: JsonField<String> = JsonMissing.of()
         private var kycExemptionType: JsonField<KycExemptionType> = JsonMissing.of()
         private var lastName: JsonField<String> = JsonMissing.of()
         private var phoneNumber: JsonField<String> = JsonMissing.of()
         private var workflow: JsonField<Workflow> = JsonMissing.of()
+        private var businessAccountToken: JsonField<String> = JsonMissing.of()
+        private var externalId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(kycExempt: KycExempt) = apply {
             address = kycExempt.address
-            businessAccountToken = kycExempt.businessAccountToken
             email = kycExempt.email
-            externalId = kycExempt.externalId
             firstName = kycExempt.firstName
             kycExemptionType = kycExempt.kycExemptionType
             lastName = kycExempt.lastName
             phoneNumber = kycExempt.phoneNumber
             workflow = kycExempt.workflow
+            businessAccountToken = kycExempt.businessAccountToken
+            externalId = kycExempt.externalId
             additionalProperties = kycExempt.additionalProperties.toMutableMap()
         }
 
@@ -188,34 +188,11 @@ private constructor(
          */
         fun address(address: JsonField<Address>) = apply { this.address = address }
 
-        /**
-         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-         * businesses. Pass the account_token of the enrolled business associated with the
-         * AUTHORIZED_USER in this field.
-         */
-        fun businessAccountToken(businessAccountToken: String) =
-            businessAccountToken(JsonField.of(businessAccountToken))
-
-        /**
-         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
-         * businesses. Pass the account_token of the enrolled business associated with the
-         * AUTHORIZED_USER in this field.
-         */
-        fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
-            this.businessAccountToken = businessAccountToken
-        }
-
         /** The KYC Exempt user's email */
         fun email(email: String) = email(JsonField.of(email))
 
         /** The KYC Exempt user's email */
         fun email(email: JsonField<String>) = apply { this.email = email }
-
-        /** A user provided id that can be used to link an account holder with an external system */
-        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
-
-        /** A user provided id that can be used to link an account holder with an external system */
-        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
 
         /** The KYC Exempt user's first name */
         fun firstName(firstName: String) = firstName(JsonField.of(firstName))
@@ -250,6 +227,29 @@ private constructor(
         /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
         fun workflow(workflow: JsonField<Workflow>) = apply { this.workflow = workflow }
 
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        fun businessAccountToken(businessAccountToken: String) =
+            businessAccountToken(JsonField.of(businessAccountToken))
+
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
+            this.businessAccountToken = businessAccountToken
+        }
+
+        /** A user provided id that can be used to link an account holder with an external system */
+        fun externalId(externalId: String) = externalId(JsonField.of(externalId))
+
+        /** A user provided id that can be used to link an account holder with an external system */
+        fun externalId(externalId: JsonField<String>) = apply { this.externalId = externalId }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -272,14 +272,14 @@ private constructor(
         fun build(): KycExempt =
             KycExempt(
                 address,
-                businessAccountToken,
                 email,
-                externalId,
                 firstName,
                 kycExemptionType,
                 lastName,
                 phoneNumber,
                 workflow,
+                businessAccountToken,
+                externalId,
                 additionalProperties.toImmutable(),
             )
     }
@@ -397,15 +397,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is KycExempt && address == other.address && businessAccountToken == other.businessAccountToken && email == other.email && externalId == other.externalId && firstName == other.firstName && kycExemptionType == other.kycExemptionType && lastName == other.lastName && phoneNumber == other.phoneNumber && workflow == other.workflow && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is KycExempt && address == other.address && email == other.email && firstName == other.firstName && kycExemptionType == other.kycExemptionType && lastName == other.lastName && phoneNumber == other.phoneNumber && workflow == other.workflow && businessAccountToken == other.businessAccountToken && externalId == other.externalId && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(address, businessAccountToken, email, externalId, firstName, kycExemptionType, lastName, phoneNumber, workflow, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(address, email, firstName, kycExemptionType, lastName, phoneNumber, workflow, businessAccountToken, externalId, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "KycExempt{address=$address, businessAccountToken=$businessAccountToken, email=$email, externalId=$externalId, firstName=$firstName, kycExemptionType=$kycExemptionType, lastName=$lastName, phoneNumber=$phoneNumber, workflow=$workflow, additionalProperties=$additionalProperties}"
+        "KycExempt{address=$address, email=$email, firstName=$firstName, kycExemptionType=$kycExemptionType, lastName=$lastName, phoneNumber=$phoneNumber, workflow=$workflow, businessAccountToken=$businessAccountToken, externalId=$externalId, additionalProperties=$additionalProperties}"
 }

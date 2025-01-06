@@ -339,8 +339,8 @@ constructor(
     class Merchant
     @JsonCreator
     private constructor(
-        @JsonProperty("country") private val country: String,
         @JsonProperty("id") private val id: String,
+        @JsonProperty("country") private val country: String,
         @JsonProperty("mcc") private val mcc: String,
         @JsonProperty("name") private val name: String,
         @JsonAnySetter
@@ -348,15 +348,15 @@ constructor(
     ) {
 
         /**
-         * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g. USA)
-         */
-        @JsonProperty("country") fun country(): String = country
-
-        /**
          * Unique identifier to identify the payment card acceptor. Corresponds to
          * `merchant_acceptor_id` in authorization.
          */
         @JsonProperty("id") fun id(): String = id
+
+        /**
+         * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g. USA)
+         */
+        @JsonProperty("country") fun country(): String = country
 
         /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
@@ -381,32 +381,32 @@ constructor(
 
         class Builder {
 
-            private var country: String? = null
             private var id: String? = null
+            private var country: String? = null
             private var mcc: String? = null
             private var name: String? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(merchant: Merchant) = apply {
-                country = merchant.country
                 id = merchant.id
+                country = merchant.country
                 mcc = merchant.mcc
                 name = merchant.name
                 additionalProperties = merchant.additionalProperties.toMutableMap()
             }
 
             /**
-             * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g.
-             * USA)
-             */
-            fun country(country: String) = apply { this.country = country }
-
-            /**
              * Unique identifier to identify the payment card acceptor. Corresponds to
              * `merchant_acceptor_id` in authorization.
              */
             fun id(id: String) = apply { this.id = id }
+
+            /**
+             * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g.
+             * USA)
+             */
+            fun country(country: String) = apply { this.country = country }
 
             /**
              * Merchant category code for the transaction to be simulated. A four-digit number
@@ -439,8 +439,8 @@ constructor(
 
             fun build(): Merchant =
                 Merchant(
-                    checkNotNull(country) { "`country` is required but was not set" },
                     checkNotNull(id) { "`id` is required but was not set" },
+                    checkNotNull(country) { "`country` is required but was not set" },
                     checkNotNull(mcc) { "`mcc` is required but was not set" },
                     checkNotNull(name) { "`name` is required but was not set" },
                     additionalProperties.toImmutable(),
@@ -452,17 +452,17 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Merchant && country == other.country && id == other.id && mcc == other.mcc && name == other.name && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Merchant && id == other.id && country == other.country && mcc == other.mcc && name == other.name && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(country, id, mcc, name, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(id, country, mcc, name, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Merchant{country=$country, id=$id, mcc=$mcc, name=$name, additionalProperties=$additionalProperties}"
+            "Merchant{id=$id, country=$country, mcc=$mcc, name=$name, additionalProperties=$additionalProperties}"
     }
 
     @NoAutoDetect
