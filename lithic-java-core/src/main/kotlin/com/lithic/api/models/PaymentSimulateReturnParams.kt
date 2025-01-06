@@ -86,9 +86,13 @@ constructor(
             fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
 
             /** Return Reason Code */
-            fun returnReasonCode(returnReasonCode: String) = apply {
+            fun returnReasonCode(returnReasonCode: String?) = apply {
                 this.returnReasonCode = returnReasonCode
             }
+
+            /** Return Reason Code */
+            fun returnReasonCode(returnReasonCode: Optional<String>) =
+                returnReasonCode(returnReasonCode.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -160,9 +164,13 @@ constructor(
         fun paymentToken(paymentToken: String) = apply { body.paymentToken(paymentToken) }
 
         /** Return Reason Code */
-        fun returnReasonCode(returnReasonCode: String) = apply {
+        fun returnReasonCode(returnReasonCode: String?) = apply {
             body.returnReasonCode(returnReasonCode)
         }
+
+        /** Return Reason Code */
+        fun returnReasonCode(returnReasonCode: Optional<String>) =
+            returnReasonCode(returnReasonCode.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

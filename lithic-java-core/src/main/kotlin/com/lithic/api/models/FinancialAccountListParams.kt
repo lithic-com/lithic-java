@@ -74,15 +74,25 @@ constructor(
         }
 
         /** List financial accounts for a given account_token or business_account_token */
-        fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+        fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+
+        /** List financial accounts for a given account_token or business_account_token */
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
 
         /** List financial accounts for a given business_account_token */
-        fun businessAccountToken(businessAccountToken: String) = apply {
+        fun businessAccountToken(businessAccountToken: String?) = apply {
             this.businessAccountToken = businessAccountToken
         }
 
+        /** List financial accounts for a given business_account_token */
+        fun businessAccountToken(businessAccountToken: Optional<String>) =
+            businessAccountToken(businessAccountToken.orElse(null))
+
         /** List financial accounts of a given type */
-        fun type(type: Type) = apply { this.type = type }
+        fun type(type: Type?) = apply { this.type = type }
+
+        /** List financial accounts of a given type */
+        fun type(type: Optional<Type>) = type(type.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

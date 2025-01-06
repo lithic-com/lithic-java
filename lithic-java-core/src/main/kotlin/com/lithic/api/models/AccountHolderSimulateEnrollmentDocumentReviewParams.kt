@@ -131,9 +131,13 @@ constructor(
             fun status(status: Status) = apply { this.status = status }
 
             /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
-            fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: List<String>) = apply {
-                this.acceptedEntityStatusReasons = acceptedEntityStatusReasons.toMutableList()
+            fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: List<String>?) = apply {
+                this.acceptedEntityStatusReasons = acceptedEntityStatusReasons?.toMutableList()
             }
+
+            /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+            fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: Optional<List<String>>) =
+                acceptedEntityStatusReasons(acceptedEntityStatusReasons.orElse(null))
 
             /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
             fun addAcceptedEntityStatusReason(acceptedEntityStatusReason: String) = apply {
@@ -147,9 +151,16 @@ constructor(
              * Status reason that will be associated with the simulated account holder status. Only
              * required for a `REJECTED` status or `PARTIAL_APPROVAL` status.
              */
-            fun statusReason(statusReason: DocumentUploadStatusReasons) = apply {
+            fun statusReason(statusReason: DocumentUploadStatusReasons?) = apply {
                 this.statusReason = statusReason
             }
+
+            /**
+             * Status reason that will be associated with the simulated account holder status. Only
+             * required for a `REJECTED` status or `PARTIAL_APPROVAL` status.
+             */
+            fun statusReason(statusReason: Optional<DocumentUploadStatusReasons>) =
+                statusReason(statusReason.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -237,9 +248,13 @@ constructor(
         fun status(status: Status) = apply { body.status(status) }
 
         /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
-        fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: List<String>) = apply {
+        fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: List<String>?) = apply {
             body.acceptedEntityStatusReasons(acceptedEntityStatusReasons)
         }
+
+        /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
+        fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: Optional<List<String>>) =
+            acceptedEntityStatusReasons(acceptedEntityStatusReasons.orElse(null))
 
         /** A list of status reasons associated with a KYB account holder in PENDING_REVIEW */
         fun addAcceptedEntityStatusReason(acceptedEntityStatusReason: String) = apply {
@@ -250,9 +265,16 @@ constructor(
          * Status reason that will be associated with the simulated account holder status. Only
          * required for a `REJECTED` status or `PARTIAL_APPROVAL` status.
          */
-        fun statusReason(statusReason: DocumentUploadStatusReasons) = apply {
+        fun statusReason(statusReason: DocumentUploadStatusReasons?) = apply {
             body.statusReason(statusReason)
         }
+
+        /**
+         * Status reason that will be associated with the simulated account holder status. Only
+         * required for a `REJECTED` status or `PARTIAL_APPROVAL` status.
+         */
+        fun statusReason(statusReason: Optional<DocumentUploadStatusReasons>) =
+            statusReason(statusReason.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

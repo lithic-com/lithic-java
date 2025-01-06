@@ -107,7 +107,10 @@ constructor(
             }
 
             /** Auth Rule Name */
-            fun name(name: String) = apply { this.name = name }
+            fun name(name: String?) = apply { this.name = name }
+
+            /** Auth Rule Name */
+            fun name(name: Optional<String>) = name(name.orElse(null))
 
             /**
              * The desired state of the Auth Rule.
@@ -116,7 +119,16 @@ constructor(
              * time. If you need to (re-)activate an Auth Rule the /promote endpoint should be used
              * to promote a draft to the currently active version.
              */
-            fun state(state: State) = apply { this.state = state }
+            fun state(state: State?) = apply { this.state = state }
+
+            /**
+             * The desired state of the Auth Rule.
+             *
+             * Note that only deactivating an Auth Rule through this endpoint is supported at this
+             * time. If you need to (re-)activate an Auth Rule the /promote endpoint should be used
+             * to promote a draft to the currently active version.
+             */
+            fun state(state: Optional<State>) = state(state.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -189,7 +201,10 @@ constructor(
         fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
 
         /** Auth Rule Name */
-        fun name(name: String) = apply { body.name(name) }
+        fun name(name: String?) = apply { body.name(name) }
+
+        /** Auth Rule Name */
+        fun name(name: Optional<String>) = name(name.orElse(null))
 
         /**
          * The desired state of the Auth Rule.
@@ -198,7 +213,16 @@ constructor(
          * If you need to (re-)activate an Auth Rule the /promote endpoint should be used to promote
          * a draft to the currently active version.
          */
-        fun state(state: State) = apply { body.state(state) }
+        fun state(state: State?) = apply { body.state(state) }
+
+        /**
+         * The desired state of the Auth Rule.
+         *
+         * Note that only deactivating an Auth Rule through this endpoint is supported at this time.
+         * If you need to (re-)activate an Auth Rule the /promote endpoint should be used to promote
+         * a draft to the currently active version.
+         */
+        fun state(state: Optional<State>) = state(state.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

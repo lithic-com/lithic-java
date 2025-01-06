@@ -103,11 +103,16 @@ constructor(
                 this.effectiveDate = effectiveDate
             }
 
-            fun memo(memo: String) = apply { this.memo = memo }
+            fun memo(memo: String?) = apply { this.memo = memo }
 
-            fun progressTo(progressTo: ExternalPaymentProgressTo) = apply {
+            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+
+            fun progressTo(progressTo: ExternalPaymentProgressTo?) = apply {
                 this.progressTo = progressTo
             }
+
+            fun progressTo(progressTo: Optional<ExternalPaymentProgressTo>) =
+                progressTo(progressTo.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -184,11 +189,16 @@ constructor(
 
         fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
-        fun memo(memo: String) = apply { body.memo(memo) }
+        fun memo(memo: String?) = apply { body.memo(memo) }
 
-        fun progressTo(progressTo: ExternalPaymentProgressTo) = apply {
+        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+
+        fun progressTo(progressTo: ExternalPaymentProgressTo?) = apply {
             body.progressTo(progressTo)
         }
+
+        fun progressTo(progressTo: Optional<ExternalPaymentProgressTo>) =
+            progressTo(progressTo.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

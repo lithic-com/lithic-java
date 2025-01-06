@@ -104,13 +104,25 @@ constructor(
          * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
+        fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created after the specified time will be
+         * included. UTC time zone.
+         */
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.orElse(null))
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: OffsetDateTime) = apply { this.end = end }
+        fun end(end: OffsetDateTime?) = apply { this.end = end }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created before the specified time will be
+         * included. UTC time zone.
+         */
+        fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

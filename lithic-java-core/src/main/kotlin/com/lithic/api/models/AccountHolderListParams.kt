@@ -156,59 +156,121 @@ constructor(
          * Date string in RFC 3339 format. Only entries created after the specified time will be
          * included. UTC time zone.
          */
-        fun begin(begin: OffsetDateTime) = apply { this.begin = begin }
+        fun begin(begin: OffsetDateTime?) = apply { this.begin = begin }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created after the specified time will be
+         * included. UTC time zone.
+         */
+        fun begin(begin: Optional<OffsetDateTime>) = begin(begin.orElse(null))
 
         /**
          * Email address of the account holder. The query must be an exact match, case insensitive.
          */
-        fun email(email: String) = apply { this.email = email }
+        fun email(email: String?) = apply { this.email = email }
+
+        /**
+         * Email address of the account holder. The query must be an exact match, case insensitive.
+         */
+        fun email(email: Optional<String>) = email(email.orElse(null))
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified time will be
          * included. UTC time zone.
          */
-        fun end(end: OffsetDateTime) = apply { this.end = end }
+        fun end(end: OffsetDateTime?) = apply { this.end = end }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created before the specified time will be
+         * included. UTC time zone.
+         */
+        fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
+        fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
+
+        /**
+         * A cursor representing an item's token before which a page of results should end. Used to
+         * retrieve the previous page of results before this item.
+         */
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
 
         /** If applicable, represents the external_id associated with the account_holder. */
-        fun externalId(externalId: String) = apply { this.externalId = externalId }
+        fun externalId(externalId: String?) = apply { this.externalId = externalId }
+
+        /** If applicable, represents the external_id associated with the account_holder. */
+        fun externalId(externalId: Optional<String>) = externalId(externalId.orElse(null))
 
         /**
          * (Individual Account Holders only) The first name of the account holder. The query is case
          * insensitive and supports partial matches.
          */
-        fun firstName(firstName: String) = apply { this.firstName = firstName }
+        fun firstName(firstName: String?) = apply { this.firstName = firstName }
+
+        /**
+         * (Individual Account Holders only) The first name of the account holder. The query is case
+         * insensitive and supports partial matches.
+         */
+        fun firstName(firstName: Optional<String>) = firstName(firstName.orElse(null))
 
         /**
          * (Individual Account Holders only) The last name of the account holder. The query is case
          * insensitive and supports partial matches.
          */
-        fun lastName(lastName: String) = apply { this.lastName = lastName }
+        fun lastName(lastName: String?) = apply { this.lastName = lastName }
+
+        /**
+         * (Individual Account Holders only) The last name of the account holder. The query is case
+         * insensitive and supports partial matches.
+         */
+        fun lastName(lastName: Optional<String>) = lastName(lastName.orElse(null))
 
         /**
          * (Business Account Holders only) The legal business name of the account holder. The query
          * is case insensitive and supports partial matches.
          */
-        fun legalBusinessName(legalBusinessName: String) = apply {
+        fun legalBusinessName(legalBusinessName: String?) = apply {
             this.legalBusinessName = legalBusinessName
         }
 
+        /**
+         * (Business Account Holders only) The legal business name of the account holder. The query
+         * is case insensitive and supports partial matches.
+         */
+        fun legalBusinessName(legalBusinessName: Optional<String>) =
+            legalBusinessName(legalBusinessName.orElse(null))
+
         /** The number of account_holders to limit the response to. */
-        fun limit(limit: Long) = apply { this.limit = limit }
+        fun limit(limit: Long?) = apply { this.limit = limit }
+
+        /** The number of account_holders to limit the response to. */
+        fun limit(limit: Long) = limit(limit as Long?)
+
+        /** The number of account_holders to limit the response to. */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun limit(limit: Optional<Long>) = limit(limit.orElse(null) as Long?)
 
         /** Phone number of the account holder. The query must be an exact match. */
-        fun phoneNumber(phoneNumber: String) = apply { this.phoneNumber = phoneNumber }
+        fun phoneNumber(phoneNumber: String?) = apply { this.phoneNumber = phoneNumber }
+
+        /** Phone number of the account holder. The query must be an exact match. */
+        fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.orElse(null))
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
          * retrieve the next page of results after this item.
          */
-        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
+        fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
+
+        /**
+         * A cursor representing an item's token after which a page of results should begin. Used to
+         * retrieve the next page of results after this item.
+         */
+        fun startingAfter(startingAfter: Optional<String>) =
+            startingAfter(startingAfter.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

@@ -116,19 +116,35 @@ constructor(
                         .toMutableMap()
             }
 
-            fun creditLimit(creditLimit: Long) = apply { this.creditLimit = creditLimit }
+            fun creditLimit(creditLimit: Long?) = apply { this.creditLimit = creditLimit }
+
+            fun creditLimit(creditLimit: Long) = creditLimit(creditLimit as Long?)
+
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun creditLimit(creditLimit: Optional<Long>) =
+                creditLimit(creditLimit.orElse(null) as Long?)
 
             /** Globally unique identifier for the credit product */
-            fun creditProductToken(creditProductToken: String) = apply {
+            fun creditProductToken(creditProductToken: String?) = apply {
                 this.creditProductToken = creditProductToken
             }
 
-            fun externalBankAccountToken(externalBankAccountToken: String) = apply {
+            /** Globally unique identifier for the credit product */
+            fun creditProductToken(creditProductToken: Optional<String>) =
+                creditProductToken(creditProductToken.orElse(null))
+
+            fun externalBankAccountToken(externalBankAccountToken: String?) = apply {
                 this.externalBankAccountToken = externalBankAccountToken
             }
 
+            fun externalBankAccountToken(externalBankAccountToken: Optional<String>) =
+                externalBankAccountToken(externalBankAccountToken.orElse(null))
+
             /** Tier to assign to a financial account */
-            fun tier(tier: String) = apply { this.tier = tier }
+            fun tier(tier: String?) = apply { this.tier = tier }
+
+            /** Tier to assign to a financial account */
+            fun tier(tier: Optional<String>) = tier(tier.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -211,19 +227,35 @@ constructor(
             this.financialAccountToken = financialAccountToken
         }
 
-        fun creditLimit(creditLimit: Long) = apply { body.creditLimit(creditLimit) }
+        fun creditLimit(creditLimit: Long?) = apply { body.creditLimit(creditLimit) }
+
+        fun creditLimit(creditLimit: Long) = creditLimit(creditLimit as Long?)
+
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun creditLimit(creditLimit: Optional<Long>) =
+            creditLimit(creditLimit.orElse(null) as Long?)
 
         /** Globally unique identifier for the credit product */
-        fun creditProductToken(creditProductToken: String) = apply {
+        fun creditProductToken(creditProductToken: String?) = apply {
             body.creditProductToken(creditProductToken)
         }
 
-        fun externalBankAccountToken(externalBankAccountToken: String) = apply {
+        /** Globally unique identifier for the credit product */
+        fun creditProductToken(creditProductToken: Optional<String>) =
+            creditProductToken(creditProductToken.orElse(null))
+
+        fun externalBankAccountToken(externalBankAccountToken: String?) = apply {
             body.externalBankAccountToken(externalBankAccountToken)
         }
 
+        fun externalBankAccountToken(externalBankAccountToken: Optional<String>) =
+            externalBankAccountToken(externalBankAccountToken.orElse(null))
+
         /** Tier to assign to a financial account */
-        fun tier(tier: String) = apply { body.tier(tier) }
+        fun tier(tier: String?) = apply { body.tier(tier) }
+
+        /** Tier to assign to a financial account */
+        fun tier(tier: Optional<String>) = tier(tier.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

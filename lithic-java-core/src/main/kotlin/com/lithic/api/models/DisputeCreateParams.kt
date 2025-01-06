@@ -126,12 +126,20 @@ constructor(
             }
 
             /** Date the customer filed the dispute */
-            fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
+            fun customerFiledDate(customerFiledDate: OffsetDateTime?) = apply {
                 this.customerFiledDate = customerFiledDate
             }
 
+            /** Date the customer filed the dispute */
+            fun customerFiledDate(customerFiledDate: Optional<OffsetDateTime>) =
+                customerFiledDate(customerFiledDate.orElse(null))
+
             /** Customer description of dispute */
-            fun customerNote(customerNote: String) = apply { this.customerNote = customerNote }
+            fun customerNote(customerNote: String?) = apply { this.customerNote = customerNote }
+
+            /** Customer description of dispute */
+            fun customerNote(customerNote: Optional<String>) =
+                customerNote(customerNote.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -216,12 +224,19 @@ constructor(
         }
 
         /** Date the customer filed the dispute */
-        fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
+        fun customerFiledDate(customerFiledDate: OffsetDateTime?) = apply {
             body.customerFiledDate(customerFiledDate)
         }
 
+        /** Date the customer filed the dispute */
+        fun customerFiledDate(customerFiledDate: Optional<OffsetDateTime>) =
+            customerFiledDate(customerFiledDate.orElse(null))
+
         /** Customer description of dispute */
-        fun customerNote(customerNote: String) = apply { body.customerNote(customerNote) }
+        fun customerNote(customerNote: String?) = apply { body.customerNote(customerNote) }
+
+        /** Customer description of dispute */
+        fun customerNote(customerNote: Optional<String>) = customerNote(customerNote.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

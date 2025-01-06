@@ -608,31 +608,67 @@ constructor(
              * accounts that are associated with the program, account_token field returned will be
              * null
              */
-            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+            fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+
+            /**
+             * Indicates which Lithic account the external account is associated with. For external
+             * accounts that are associated with the program, account_token field returned will be
+             * null
+             */
+            fun accountToken(accountToken: Optional<String>) =
+                accountToken(accountToken.orElse(null))
 
             /** Address */
-            fun address(address: ExternalBankAccountAddress) = apply { this.address = address }
+            fun address(address: ExternalBankAccountAddress?) = apply { this.address = address }
+
+            /** Address */
+            fun address(address: Optional<ExternalBankAccountAddress>) =
+                address(address.orElse(null))
 
             /** Optional field that helps identify bank accounts in receipts */
-            fun companyId(companyId: String) = apply { this.companyId = companyId }
+            fun companyId(companyId: String?) = apply { this.companyId = companyId }
+
+            /** Optional field that helps identify bank accounts in receipts */
+            fun companyId(companyId: Optional<String>) = companyId(companyId.orElse(null))
 
             /** Date of Birth of the Individual that owns the external bank account */
-            fun dob(dob: LocalDate) = apply { this.dob = dob }
+            fun dob(dob: LocalDate?) = apply { this.dob = dob }
+
+            /** Date of Birth of the Individual that owns the external bank account */
+            fun dob(dob: Optional<LocalDate>) = dob(dob.orElse(null))
 
             /** Doing Business As */
-            fun doingBusinessAs(doingBusinessAs: String) = apply {
+            fun doingBusinessAs(doingBusinessAs: String?) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
+            /** Doing Business As */
+            fun doingBusinessAs(doingBusinessAs: Optional<String>) =
+                doingBusinessAs(doingBusinessAs.orElse(null))
+
             /** The nickname for this External Bank Account */
-            fun name(name: String) = apply { this.name = name }
+            fun name(name: String?) = apply { this.name = name }
+
+            /** The nickname for this External Bank Account */
+            fun name(name: Optional<String>) = name(name.orElse(null))
 
             /** User Defined ID */
-            fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
+            fun userDefinedId(userDefinedId: String?) = apply { this.userDefinedId = userDefinedId }
 
-            fun verificationEnforcement(verificationEnforcement: Boolean) = apply {
+            /** User Defined ID */
+            fun userDefinedId(userDefinedId: Optional<String>) =
+                userDefinedId(userDefinedId.orElse(null))
+
+            fun verificationEnforcement(verificationEnforcement: Boolean?) = apply {
                 this.verificationEnforcement = verificationEnforcement
             }
+
+            fun verificationEnforcement(verificationEnforcement: Boolean) =
+                verificationEnforcement(verificationEnforcement as Boolean?)
+
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun verificationEnforcement(verificationEnforcement: Optional<Boolean>) =
+                verificationEnforcement(verificationEnforcement.orElse(null) as Boolean?)
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -872,21 +908,43 @@ constructor(
              * accounts that are associated with the program, account_token field returned will be
              * null
              */
-            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+            fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+
+            /**
+             * Indicates which Lithic account the external account is associated with. For external
+             * accounts that are associated with the program, account_token field returned will be
+             * null
+             */
+            fun accountToken(accountToken: Optional<String>) =
+                accountToken(accountToken.orElse(null))
 
             /** Optional field that helps identify bank accounts in receipts */
-            fun companyId(companyId: String) = apply { this.companyId = companyId }
+            fun companyId(companyId: String?) = apply { this.companyId = companyId }
+
+            /** Optional field that helps identify bank accounts in receipts */
+            fun companyId(companyId: Optional<String>) = companyId(companyId.orElse(null))
 
             /** Date of Birth of the Individual that owns the external bank account */
-            fun dob(dob: LocalDate) = apply { this.dob = dob }
+            fun dob(dob: LocalDate?) = apply { this.dob = dob }
+
+            /** Date of Birth of the Individual that owns the external bank account */
+            fun dob(dob: Optional<LocalDate>) = dob(dob.orElse(null))
 
             /** Doing Business As */
-            fun doingBusinessAs(doingBusinessAs: String) = apply {
+            fun doingBusinessAs(doingBusinessAs: String?) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
+            /** Doing Business As */
+            fun doingBusinessAs(doingBusinessAs: Optional<String>) =
+                doingBusinessAs(doingBusinessAs.orElse(null))
+
             /** User Defined ID */
-            fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
+            fun userDefinedId(userDefinedId: String?) = apply { this.userDefinedId = userDefinedId }
+
+            /** User Defined ID */
+            fun userDefinedId(userDefinedId: Optional<String>) =
+                userDefinedId(userDefinedId.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1120,27 +1178,56 @@ constructor(
              * accounts that are associated with the program, account_token field returned will be
              * null
              */
-            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+            fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+
+            /**
+             * Indicates which Lithic account the external account is associated with. For external
+             * accounts that are associated with the program, account_token field returned will be
+             * null
+             */
+            fun accountToken(accountToken: Optional<String>) =
+                accountToken(accountToken.orElse(null))
 
             /** Address */
-            fun address(address: ExternalBankAccountAddress) = apply { this.address = address }
+            fun address(address: ExternalBankAccountAddress?) = apply { this.address = address }
+
+            /** Address */
+            fun address(address: Optional<ExternalBankAccountAddress>) =
+                address(address.orElse(null))
 
             /** Optional field that helps identify bank accounts in receipts */
-            fun companyId(companyId: String) = apply { this.companyId = companyId }
+            fun companyId(companyId: String?) = apply { this.companyId = companyId }
+
+            /** Optional field that helps identify bank accounts in receipts */
+            fun companyId(companyId: Optional<String>) = companyId(companyId.orElse(null))
 
             /** Date of Birth of the Individual that owns the external bank account */
-            fun dob(dob: LocalDate) = apply { this.dob = dob }
+            fun dob(dob: LocalDate?) = apply { this.dob = dob }
+
+            /** Date of Birth of the Individual that owns the external bank account */
+            fun dob(dob: Optional<LocalDate>) = dob(dob.orElse(null))
 
             /** Doing Business As */
-            fun doingBusinessAs(doingBusinessAs: String) = apply {
+            fun doingBusinessAs(doingBusinessAs: String?) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
+            /** Doing Business As */
+            fun doingBusinessAs(doingBusinessAs: Optional<String>) =
+                doingBusinessAs(doingBusinessAs.orElse(null))
+
             /** The nickname for this External Bank Account */
-            fun name(name: String) = apply { this.name = name }
+            fun name(name: String?) = apply { this.name = name }
+
+            /** The nickname for this External Bank Account */
+            fun name(name: Optional<String>) = name(name.orElse(null))
 
             /** User Defined ID */
-            fun userDefinedId(userDefinedId: String) = apply { this.userDefinedId = userDefinedId }
+            fun userDefinedId(userDefinedId: String?) = apply { this.userDefinedId = userDefinedId }
+
+            /** User Defined ID */
+            fun userDefinedId(userDefinedId: Optional<String>) =
+                userDefinedId(userDefinedId.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
