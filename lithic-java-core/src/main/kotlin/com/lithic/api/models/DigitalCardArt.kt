@@ -23,6 +23,7 @@ import java.util.Optional
 class DigitalCardArt
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("card_program_token")
     @ExcludeMissing
     private val cardProgramToken: JsonField<String> = JsonMissing.of(),
@@ -32,18 +33,20 @@ private constructor(
     @JsonProperty("description")
     @ExcludeMissing
     private val description: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("is_card_program_default")
-    @ExcludeMissing
-    private val isCardProgramDefault: JsonField<Boolean> = JsonMissing.of(),
     @JsonProperty("is_enabled")
     @ExcludeMissing
     private val isEnabled: JsonField<Boolean> = JsonMissing.of(),
     @JsonProperty("network")
     @ExcludeMissing
     private val network: JsonField<Network> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("is_card_program_default")
+    @ExcludeMissing
+    private val isCardProgramDefault: JsonField<Boolean> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /** Globally unique identifier for the card art. */
+    fun token(): String = token.getRequired("token")
 
     /** Globally unique identifier for the card program. */
     fun cardProgramToken(): String = cardProgramToken.getRequired("card_program_token")
@@ -54,18 +57,18 @@ private constructor(
     /** Description of the card art. */
     fun description(): String = description.getRequired("description")
 
-    /** Whether the card art is the default card art to be added upon tokenization. */
-    fun isCardProgramDefault(): Optional<Boolean> =
-        Optional.ofNullable(isCardProgramDefault.getNullable("is_card_program_default"))
-
     /** Whether the card art is enabled. */
     fun isEnabled(): Boolean = isEnabled.getRequired("is_enabled")
 
     /** Card network. */
     fun network(): Network = network.getRequired("network")
 
+    /** Whether the card art is the default card art to be added upon tokenization. */
+    fun isCardProgramDefault(): Optional<Boolean> =
+        Optional.ofNullable(isCardProgramDefault.getNullable("is_card_program_default"))
+
     /** Globally unique identifier for the card art. */
-    fun token(): String = token.getRequired("token")
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /** Globally unique identifier for the card program. */
     @JsonProperty("card_program_token") @ExcludeMissing fun _cardProgramToken() = cardProgramToken
@@ -76,19 +79,16 @@ private constructor(
     /** Description of the card art. */
     @JsonProperty("description") @ExcludeMissing fun _description() = description
 
-    /** Whether the card art is the default card art to be added upon tokenization. */
-    @JsonProperty("is_card_program_default")
-    @ExcludeMissing
-    fun _isCardProgramDefault() = isCardProgramDefault
-
     /** Whether the card art is enabled. */
     @JsonProperty("is_enabled") @ExcludeMissing fun _isEnabled() = isEnabled
 
     /** Card network. */
     @JsonProperty("network") @ExcludeMissing fun _network() = network
 
-    /** Globally unique identifier for the card art. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    /** Whether the card art is the default card art to be added upon tokenization. */
+    @JsonProperty("is_card_program_default")
+    @ExcludeMissing
+    fun _isCardProgramDefault() = isCardProgramDefault
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -98,13 +98,13 @@ private constructor(
 
     fun validate(): DigitalCardArt = apply {
         if (!validated) {
+            token()
             cardProgramToken()
             created()
             description()
-            isCardProgramDefault()
             isEnabled()
             network()
-            token()
+            isCardProgramDefault()
             validated = true
         }
     }
@@ -118,26 +118,32 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
         private var cardProgramToken: JsonField<String> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var description: JsonField<String> = JsonMissing.of()
-        private var isCardProgramDefault: JsonField<Boolean> = JsonMissing.of()
         private var isEnabled: JsonField<Boolean> = JsonMissing.of()
         private var network: JsonField<Network> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
+        private var isCardProgramDefault: JsonField<Boolean> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(digitalCardArt: DigitalCardArt) = apply {
+            token = digitalCardArt.token
             cardProgramToken = digitalCardArt.cardProgramToken
             created = digitalCardArt.created
             description = digitalCardArt.description
-            isCardProgramDefault = digitalCardArt.isCardProgramDefault
             isEnabled = digitalCardArt.isEnabled
             network = digitalCardArt.network
-            token = digitalCardArt.token
+            isCardProgramDefault = digitalCardArt.isCardProgramDefault
             additionalProperties = digitalCardArt.additionalProperties.toMutableMap()
         }
+
+        /** Globally unique identifier for the card art. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier for the card art. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Globally unique identifier for the card program. */
         fun cardProgramToken(cardProgramToken: String) =
@@ -160,15 +166,6 @@ private constructor(
         /** Description of the card art. */
         fun description(description: JsonField<String>) = apply { this.description = description }
 
-        /** Whether the card art is the default card art to be added upon tokenization. */
-        fun isCardProgramDefault(isCardProgramDefault: Boolean) =
-            isCardProgramDefault(JsonField.of(isCardProgramDefault))
-
-        /** Whether the card art is the default card art to be added upon tokenization. */
-        fun isCardProgramDefault(isCardProgramDefault: JsonField<Boolean>) = apply {
-            this.isCardProgramDefault = isCardProgramDefault
-        }
-
         /** Whether the card art is enabled. */
         fun isEnabled(isEnabled: Boolean) = isEnabled(JsonField.of(isEnabled))
 
@@ -181,11 +178,14 @@ private constructor(
         /** Card network. */
         fun network(network: JsonField<Network>) = apply { this.network = network }
 
-        /** Globally unique identifier for the card art. */
-        fun token(token: String) = token(JsonField.of(token))
+        /** Whether the card art is the default card art to be added upon tokenization. */
+        fun isCardProgramDefault(isCardProgramDefault: Boolean) =
+            isCardProgramDefault(JsonField.of(isCardProgramDefault))
 
-        /** Globally unique identifier for the card art. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
+        /** Whether the card art is the default card art to be added upon tokenization. */
+        fun isCardProgramDefault(isCardProgramDefault: JsonField<Boolean>) = apply {
+            this.isCardProgramDefault = isCardProgramDefault
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -208,13 +208,13 @@ private constructor(
 
         fun build(): DigitalCardArt =
             DigitalCardArt(
+                token,
                 cardProgramToken,
                 created,
                 description,
-                isCardProgramDefault,
                 isEnabled,
                 network,
-                token,
+                isCardProgramDefault,
                 additionalProperties.toImmutable(),
             )
     }
@@ -281,15 +281,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DigitalCardArt && cardProgramToken == other.cardProgramToken && created == other.created && description == other.description && isCardProgramDefault == other.isCardProgramDefault && isEnabled == other.isEnabled && network == other.network && token == other.token && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is DigitalCardArt && token == other.token && cardProgramToken == other.cardProgramToken && created == other.created && description == other.description && isEnabled == other.isEnabled && network == other.network && isCardProgramDefault == other.isCardProgramDefault && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(cardProgramToken, created, description, isCardProgramDefault, isEnabled, network, token, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, cardProgramToken, created, description, isEnabled, network, isCardProgramDefault, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DigitalCardArt{cardProgramToken=$cardProgramToken, created=$created, description=$description, isCardProgramDefault=$isCardProgramDefault, isEnabled=$isEnabled, network=$network, token=$token, additionalProperties=$additionalProperties}"
+        "DigitalCardArt{token=$token, cardProgramToken=$cardProgramToken, created=$created, description=$description, isEnabled=$isEnabled, network=$network, isCardProgramDefault=$isCardProgramDefault, additionalProperties=$additionalProperties}"
 }

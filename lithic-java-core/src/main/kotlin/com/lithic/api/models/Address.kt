@@ -23,9 +23,6 @@ private constructor(
     @JsonProperty("address1")
     @ExcludeMissing
     private val address1: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("address2")
-    @ExcludeMissing
-    private val address2: JsonField<String> = JsonMissing.of(),
     @JsonProperty("city") @ExcludeMissing private val city: JsonField<String> = JsonMissing.of(),
     @JsonProperty("country")
     @ExcludeMissing
@@ -34,14 +31,14 @@ private constructor(
     @ExcludeMissing
     private val postalCode: JsonField<String> = JsonMissing.of(),
     @JsonProperty("state") @ExcludeMissing private val state: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("address2")
+    @ExcludeMissing
+    private val address2: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     /** Valid deliverable address (no PO boxes). */
     fun address1(): String = address1.getRequired("address1")
-
-    /** Unit or apartment number (if applicable). */
-    fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
 
     /** Name of city. */
     fun city(): String = city.getRequired("city")
@@ -65,11 +62,11 @@ private constructor(
      */
     fun state(): String = state.getRequired("state")
 
+    /** Unit or apartment number (if applicable). */
+    fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
+
     /** Valid deliverable address (no PO boxes). */
     @JsonProperty("address1") @ExcludeMissing fun _address1() = address1
-
-    /** Unit or apartment number (if applicable). */
-    @JsonProperty("address2") @ExcludeMissing fun _address2() = address2
 
     /** Name of city. */
     @JsonProperty("city") @ExcludeMissing fun _city() = city
@@ -93,6 +90,9 @@ private constructor(
      */
     @JsonProperty("state") @ExcludeMissing fun _state() = state
 
+    /** Unit or apartment number (if applicable). */
+    @JsonProperty("address2") @ExcludeMissing fun _address2() = address2
+
     @JsonAnyGetter
     @ExcludeMissing
     fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
@@ -102,11 +102,11 @@ private constructor(
     fun validate(): Address = apply {
         if (!validated) {
             address1()
-            address2()
             city()
             country()
             postalCode()
             state()
+            address2()
             validated = true
         }
     }
@@ -121,21 +121,21 @@ private constructor(
     class Builder {
 
         private var address1: JsonField<String> = JsonMissing.of()
-        private var address2: JsonField<String> = JsonMissing.of()
         private var city: JsonField<String> = JsonMissing.of()
         private var country: JsonField<String> = JsonMissing.of()
         private var postalCode: JsonField<String> = JsonMissing.of()
         private var state: JsonField<String> = JsonMissing.of()
+        private var address2: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(address: Address) = apply {
             address1 = address.address1
-            address2 = address.address2
             city = address.city
             country = address.country
             postalCode = address.postalCode
             state = address.state
+            address2 = address.address2
             additionalProperties = address.additionalProperties.toMutableMap()
         }
 
@@ -144,12 +144,6 @@ private constructor(
 
         /** Valid deliverable address (no PO boxes). */
         fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
-
-        /** Unit or apartment number (if applicable). */
-        fun address2(address2: String) = address2(JsonField.of(address2))
-
-        /** Unit or apartment number (if applicable). */
-        fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
 
         /** Name of city. */
         fun city(city: String) = city(JsonField.of(city))
@@ -195,6 +189,12 @@ private constructor(
          */
         fun state(state: JsonField<String>) = apply { this.state = state }
 
+        /** Unit or apartment number (if applicable). */
+        fun address2(address2: String) = address2(JsonField.of(address2))
+
+        /** Unit or apartment number (if applicable). */
+        fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -217,11 +217,11 @@ private constructor(
         fun build(): Address =
             Address(
                 address1,
-                address2,
                 city,
                 country,
                 postalCode,
                 state,
+                address2,
                 additionalProperties.toImmutable(),
             )
     }
@@ -231,15 +231,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Address && address1 == other.address1 && address2 == other.address2 && city == other.city && country == other.country && postalCode == other.postalCode && state == other.state && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Address && address1 == other.address1 && city == other.city && country == other.country && postalCode == other.postalCode && state == other.state && address2 == other.address2 && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(address1, address2, city, country, postalCode, state, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(address1, city, country, postalCode, state, address2, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Address{address1=$address1, address2=$address2, city=$city, country=$country, postalCode=$postalCode, state=$state, additionalProperties=$additionalProperties}"
+        "Address{address1=$address1, city=$city, country=$country, postalCode=$postalCode, state=$state, address2=$address2, additionalProperties=$additionalProperties}"
 }

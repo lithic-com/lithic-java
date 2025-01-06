@@ -23,6 +23,7 @@ import java.util.Objects
 class MessageAttempt
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("created")
     @ExcludeMissing
     private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -41,10 +42,12 @@ private constructor(
     @JsonProperty("status")
     @ExcludeMissing
     private val status: JsonField<Status> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /** Globally unique identifier. */
+    fun token(): String = token.getRequired("token")
 
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
@@ -69,10 +72,10 @@ private constructor(
     /** The status of the event attempt. */
     fun status(): Status = status.getRequired("status")
 
-    /** Globally unique identifier. */
-    fun token(): String = token.getRequired("token")
-
     fun url(): String = url.getRequired("url")
+
+    /** Globally unique identifier. */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
@@ -100,9 +103,6 @@ private constructor(
     /** The status of the event attempt. */
     @JsonProperty("status") @ExcludeMissing fun _status() = status
 
-    /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
     @JsonProperty("url") @ExcludeMissing fun _url() = url
 
     @JsonAnyGetter
@@ -113,13 +113,13 @@ private constructor(
 
     fun validate(): MessageAttempt = apply {
         if (!validated) {
+            token()
             created()
             eventSubscriptionToken()
             eventToken()
             response()
             responseStatusCode()
             status()
-            token()
             url()
             validated = true
         }
@@ -134,28 +134,34 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var eventSubscriptionToken: JsonField<String> = JsonMissing.of()
         private var eventToken: JsonField<String> = JsonMissing.of()
         private var response: JsonField<String> = JsonMissing.of()
         private var responseStatusCode: JsonField<Long> = JsonMissing.of()
         private var status: JsonField<Status> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
         private var url: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(messageAttempt: MessageAttempt) = apply {
+            token = messageAttempt.token
             created = messageAttempt.created
             eventSubscriptionToken = messageAttempt.eventSubscriptionToken
             eventToken = messageAttempt.eventToken
             response = messageAttempt.response
             responseStatusCode = messageAttempt.responseStatusCode
             status = messageAttempt.status
-            token = messageAttempt.token
             url = messageAttempt.url
             additionalProperties = messageAttempt.additionalProperties.toMutableMap()
         }
+
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /**
          * An RFC 3339 timestamp for when the event was created. UTC time zone.
@@ -207,12 +213,6 @@ private constructor(
         /** The status of the event attempt. */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
-        /** Globally unique identifier. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** Globally unique identifier. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
-
         fun url(url: String) = url(JsonField.of(url))
 
         fun url(url: JsonField<String>) = apply { this.url = url }
@@ -238,13 +238,13 @@ private constructor(
 
         fun build(): MessageAttempt =
             MessageAttempt(
+                token,
                 created,
                 eventSubscriptionToken,
                 eventToken,
                 response,
                 responseStatusCode,
                 status,
-                token,
                 url,
                 additionalProperties.toImmutable(),
             )
@@ -324,15 +324,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is MessageAttempt && created == other.created && eventSubscriptionToken == other.eventSubscriptionToken && eventToken == other.eventToken && response == other.response && responseStatusCode == other.responseStatusCode && status == other.status && token == other.token && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is MessageAttempt && token == other.token && created == other.created && eventSubscriptionToken == other.eventSubscriptionToken && eventToken == other.eventToken && response == other.response && responseStatusCode == other.responseStatusCode && status == other.status && url == other.url && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(created, eventSubscriptionToken, eventToken, response, responseStatusCode, status, token, url, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, created, eventSubscriptionToken, eventToken, response, responseStatusCode, status, url, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "MessageAttempt{created=$created, eventSubscriptionToken=$eventSubscriptionToken, eventToken=$eventToken, response=$response, responseStatusCode=$responseStatusCode, status=$status, token=$token, url=$url, additionalProperties=$additionalProperties}"
+        "MessageAttempt{token=$token, created=$created, eventSubscriptionToken=$eventSubscriptionToken, eventToken=$eventToken, response=$response, responseStatusCode=$responseStatusCode, status=$status, url=$url, additionalProperties=$additionalProperties}"
 }

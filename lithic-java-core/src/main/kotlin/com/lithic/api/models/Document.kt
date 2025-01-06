@@ -344,55 +344,36 @@ private constructor(
     class RequiredDocumentUpload
     @JsonCreator
     private constructor(
-        @JsonProperty("image_type")
-        @ExcludeMissing
-        private val imageType: JsonField<ImageType> = JsonMissing.of(),
-        @JsonProperty("status")
-        @ExcludeMissing
-        private val status: JsonField<DocumentUploadStatus> = JsonMissing.of(),
-        @JsonProperty("status_reasons")
-        @ExcludeMissing
-        private val statusReasons: JsonField<List<DocumentUploadStatusReasons>> = JsonMissing.of(),
-        @JsonProperty("upload_url")
-        @ExcludeMissing
-        private val uploadUrl: JsonField<String> = JsonMissing.of(),
         @JsonProperty("token")
         @ExcludeMissing
         private val token: JsonField<String> = JsonMissing.of(),
         @JsonProperty("accepted_entity_status_reasons")
         @ExcludeMissing
         private val acceptedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of(),
-        @JsonProperty("rejected_entity_status_reasons")
-        @ExcludeMissing
-        private val rejectedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of(),
         @JsonProperty("created")
         @ExcludeMissing
         private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("image_type")
+        @ExcludeMissing
+        private val imageType: JsonField<ImageType> = JsonMissing.of(),
+        @JsonProperty("rejected_entity_status_reasons")
+        @ExcludeMissing
+        private val rejectedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("status")
+        @ExcludeMissing
+        private val status: JsonField<DocumentUploadStatus> = JsonMissing.of(),
+        @JsonProperty("status_reasons")
+        @ExcludeMissing
+        private val statusReasons: JsonField<List<DocumentUploadStatusReasons>> = JsonMissing.of(),
         @JsonProperty("updated")
         @ExcludeMissing
         private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("upload_url")
+        @ExcludeMissing
+        private val uploadUrl: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
-
-        /** Type of image to upload. */
-        fun imageType(): ImageType = imageType.getRequired("image_type")
-
-        /** Status of an account holder's document upload. */
-        fun status(): DocumentUploadStatus = status.getRequired("status")
-
-        /** Reasons for document image upload status. */
-        fun statusReasons(): List<DocumentUploadStatusReasons> =
-            statusReasons.getRequired("status_reasons")
-
-        /**
-         * URL to upload document image to.
-         *
-         * Note that the upload URLs expire after 7 days. If an upload URL expires, you can refresh
-         * the URLs by retrieving the document upload from `GET
-         * /account_holders/{account_holder_token}/documents`.
-         */
-        fun uploadUrl(): String = uploadUrl.getRequired("upload_url")
 
         /** Globally unique identifier for the document upload. */
         fun token(): String = token.getRequired("token")
@@ -404,6 +385,12 @@ private constructor(
         fun acceptedEntityStatusReasons(): List<String> =
             acceptedEntityStatusReasons.getRequired("accepted_entity_status_reasons")
 
+        /** When the document upload was created */
+        fun created(): OffsetDateTime = created.getRequired("created")
+
+        /** Type of image to upload. */
+        fun imageType(): ImageType = imageType.getRequired("image_type")
+
         /**
          * A list of status reasons associated with a KYB account holder that have not been
          * satisfied by the document upload
@@ -411,20 +398,15 @@ private constructor(
         fun rejectedEntityStatusReasons(): List<String> =
             rejectedEntityStatusReasons.getRequired("rejected_entity_status_reasons")
 
-        /** When the document upload was created */
-        fun created(): OffsetDateTime = created.getRequired("created")
+        /** Status of an account holder's document upload. */
+        fun status(): DocumentUploadStatus = status.getRequired("status")
+
+        /** Reasons for document image upload status. */
+        fun statusReasons(): List<DocumentUploadStatusReasons> =
+            statusReasons.getRequired("status_reasons")
 
         /** When the document upload was last updated */
         fun updated(): OffsetDateTime = updated.getRequired("updated")
-
-        /** Type of image to upload. */
-        @JsonProperty("image_type") @ExcludeMissing fun _imageType() = imageType
-
-        /** Status of an account holder's document upload. */
-        @JsonProperty("status") @ExcludeMissing fun _status() = status
-
-        /** Reasons for document image upload status. */
-        @JsonProperty("status_reasons") @ExcludeMissing fun _statusReasons() = statusReasons
 
         /**
          * URL to upload document image to.
@@ -433,7 +415,7 @@ private constructor(
          * the URLs by retrieving the document upload from `GET
          * /account_holders/{account_holder_token}/documents`.
          */
-        @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl() = uploadUrl
+        fun uploadUrl(): String = uploadUrl.getRequired("upload_url")
 
         /** Globally unique identifier for the document upload. */
         @JsonProperty("token") @ExcludeMissing fun _token() = token
@@ -446,6 +428,12 @@ private constructor(
         @ExcludeMissing
         fun _acceptedEntityStatusReasons() = acceptedEntityStatusReasons
 
+        /** When the document upload was created */
+        @JsonProperty("created") @ExcludeMissing fun _created() = created
+
+        /** Type of image to upload. */
+        @JsonProperty("image_type") @ExcludeMissing fun _imageType() = imageType
+
         /**
          * A list of status reasons associated with a KYB account holder that have not been
          * satisfied by the document upload
@@ -454,11 +442,23 @@ private constructor(
         @ExcludeMissing
         fun _rejectedEntityStatusReasons() = rejectedEntityStatusReasons
 
-        /** When the document upload was created */
-        @JsonProperty("created") @ExcludeMissing fun _created() = created
+        /** Status of an account holder's document upload. */
+        @JsonProperty("status") @ExcludeMissing fun _status() = status
+
+        /** Reasons for document image upload status. */
+        @JsonProperty("status_reasons") @ExcludeMissing fun _statusReasons() = statusReasons
 
         /** When the document upload was last updated */
         @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+
+        /**
+         * URL to upload document image to.
+         *
+         * Note that the upload URLs expire after 7 days. If an upload URL expires, you can refresh
+         * the URLs by retrieving the document upload from `GET
+         * /account_holders/{account_holder_token}/documents`.
+         */
+        @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl() = uploadUrl
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -468,15 +468,15 @@ private constructor(
 
         fun validate(): RequiredDocumentUpload = apply {
             if (!validated) {
-                imageType()
-                status()
-                statusReasons()
-                uploadUrl()
                 token()
                 acceptedEntityStatusReasons()
-                rejectedEntityStatusReasons()
                 created()
+                imageType()
+                rejectedEntityStatusReasons()
+                status()
+                statusReasons()
                 updated()
+                uploadUrl()
                 validated = true
             }
         }
@@ -490,70 +490,31 @@ private constructor(
 
         class Builder {
 
+            private var token: JsonField<String> = JsonMissing.of()
+            private var acceptedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of()
+            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
             private var imageType: JsonField<ImageType> = JsonMissing.of()
+            private var rejectedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of()
             private var status: JsonField<DocumentUploadStatus> = JsonMissing.of()
             private var statusReasons: JsonField<List<DocumentUploadStatusReasons>> =
                 JsonMissing.of()
-            private var uploadUrl: JsonField<String> = JsonMissing.of()
-            private var token: JsonField<String> = JsonMissing.of()
-            private var acceptedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of()
-            private var rejectedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of()
-            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
             private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var uploadUrl: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(requiredDocumentUpload: RequiredDocumentUpload) = apply {
-                imageType = requiredDocumentUpload.imageType
-                status = requiredDocumentUpload.status
-                statusReasons = requiredDocumentUpload.statusReasons
-                uploadUrl = requiredDocumentUpload.uploadUrl
                 token = requiredDocumentUpload.token
                 acceptedEntityStatusReasons = requiredDocumentUpload.acceptedEntityStatusReasons
-                rejectedEntityStatusReasons = requiredDocumentUpload.rejectedEntityStatusReasons
                 created = requiredDocumentUpload.created
+                imageType = requiredDocumentUpload.imageType
+                rejectedEntityStatusReasons = requiredDocumentUpload.rejectedEntityStatusReasons
+                status = requiredDocumentUpload.status
+                statusReasons = requiredDocumentUpload.statusReasons
                 updated = requiredDocumentUpload.updated
+                uploadUrl = requiredDocumentUpload.uploadUrl
                 additionalProperties = requiredDocumentUpload.additionalProperties.toMutableMap()
             }
-
-            /** Type of image to upload. */
-            fun imageType(imageType: ImageType) = imageType(JsonField.of(imageType))
-
-            /** Type of image to upload. */
-            fun imageType(imageType: JsonField<ImageType>) = apply { this.imageType = imageType }
-
-            /** Status of an account holder's document upload. */
-            fun status(status: DocumentUploadStatus) = status(JsonField.of(status))
-
-            /** Status of an account holder's document upload. */
-            fun status(status: JsonField<DocumentUploadStatus>) = apply { this.status = status }
-
-            /** Reasons for document image upload status. */
-            fun statusReasons(statusReasons: List<DocumentUploadStatusReasons>) =
-                statusReasons(JsonField.of(statusReasons))
-
-            /** Reasons for document image upload status. */
-            fun statusReasons(statusReasons: JsonField<List<DocumentUploadStatusReasons>>) = apply {
-                this.statusReasons = statusReasons
-            }
-
-            /**
-             * URL to upload document image to.
-             *
-             * Note that the upload URLs expire after 7 days. If an upload URL expires, you can
-             * refresh the URLs by retrieving the document upload from `GET
-             * /account_holders/{account_holder_token}/documents`.
-             */
-            fun uploadUrl(uploadUrl: String) = uploadUrl(JsonField.of(uploadUrl))
-
-            /**
-             * URL to upload document image to.
-             *
-             * Note that the upload URLs expire after 7 days. If an upload URL expires, you can
-             * refresh the URLs by retrieving the document upload from `GET
-             * /account_holders/{account_holder_token}/documents`.
-             */
-            fun uploadUrl(uploadUrl: JsonField<String>) = apply { this.uploadUrl = uploadUrl }
 
             /** Globally unique identifier for the document upload. */
             fun token(token: String) = token(JsonField.of(token))
@@ -577,6 +538,18 @@ private constructor(
                     this.acceptedEntityStatusReasons = acceptedEntityStatusReasons
                 }
 
+            /** When the document upload was created */
+            fun created(created: OffsetDateTime) = created(JsonField.of(created))
+
+            /** When the document upload was created */
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+            /** Type of image to upload. */
+            fun imageType(imageType: ImageType) = imageType(JsonField.of(imageType))
+
+            /** Type of image to upload. */
+            fun imageType(imageType: JsonField<ImageType>) = apply { this.imageType = imageType }
+
             /**
              * A list of status reasons associated with a KYB account holder that have not been
              * satisfied by the document upload
@@ -593,17 +566,44 @@ private constructor(
                     this.rejectedEntityStatusReasons = rejectedEntityStatusReasons
                 }
 
-            /** When the document upload was created */
-            fun created(created: OffsetDateTime) = created(JsonField.of(created))
+            /** Status of an account holder's document upload. */
+            fun status(status: DocumentUploadStatus) = status(JsonField.of(status))
 
-            /** When the document upload was created */
-            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+            /** Status of an account holder's document upload. */
+            fun status(status: JsonField<DocumentUploadStatus>) = apply { this.status = status }
+
+            /** Reasons for document image upload status. */
+            fun statusReasons(statusReasons: List<DocumentUploadStatusReasons>) =
+                statusReasons(JsonField.of(statusReasons))
+
+            /** Reasons for document image upload status. */
+            fun statusReasons(statusReasons: JsonField<List<DocumentUploadStatusReasons>>) = apply {
+                this.statusReasons = statusReasons
+            }
 
             /** When the document upload was last updated */
             fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
             /** When the document upload was last updated */
             fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+
+            /**
+             * URL to upload document image to.
+             *
+             * Note that the upload URLs expire after 7 days. If an upload URL expires, you can
+             * refresh the URLs by retrieving the document upload from `GET
+             * /account_holders/{account_holder_token}/documents`.
+             */
+            fun uploadUrl(uploadUrl: String) = uploadUrl(JsonField.of(uploadUrl))
+
+            /**
+             * URL to upload document image to.
+             *
+             * Note that the upload URLs expire after 7 days. If an upload URL expires, you can
+             * refresh the URLs by retrieving the document upload from `GET
+             * /account_holders/{account_holder_token}/documents`.
+             */
+            fun uploadUrl(uploadUrl: JsonField<String>) = apply { this.uploadUrl = uploadUrl }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -626,15 +626,15 @@ private constructor(
 
             fun build(): RequiredDocumentUpload =
                 RequiredDocumentUpload(
-                    imageType,
-                    status,
-                    statusReasons.map { it.toImmutable() },
-                    uploadUrl,
                     token,
                     acceptedEntityStatusReasons.map { it.toImmutable() },
-                    rejectedEntityStatusReasons.map { it.toImmutable() },
                     created,
+                    imageType,
+                    rejectedEntityStatusReasons.map { it.toImmutable() },
+                    status,
+                    statusReasons.map { it.toImmutable() },
                     updated,
+                    uploadUrl,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -894,17 +894,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is RequiredDocumentUpload && imageType == other.imageType && status == other.status && statusReasons == other.statusReasons && uploadUrl == other.uploadUrl && token == other.token && acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && rejectedEntityStatusReasons == other.rejectedEntityStatusReasons && created == other.created && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is RequiredDocumentUpload && token == other.token && acceptedEntityStatusReasons == other.acceptedEntityStatusReasons && created == other.created && imageType == other.imageType && rejectedEntityStatusReasons == other.rejectedEntityStatusReasons && status == other.status && statusReasons == other.statusReasons && updated == other.updated && uploadUrl == other.uploadUrl && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(imageType, status, statusReasons, uploadUrl, token, acceptedEntityStatusReasons, rejectedEntityStatusReasons, created, updated, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(token, acceptedEntityStatusReasons, created, imageType, rejectedEntityStatusReasons, status, statusReasons, updated, uploadUrl, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "RequiredDocumentUpload{imageType=$imageType, status=$status, statusReasons=$statusReasons, uploadUrl=$uploadUrl, token=$token, acceptedEntityStatusReasons=$acceptedEntityStatusReasons, rejectedEntityStatusReasons=$rejectedEntityStatusReasons, created=$created, updated=$updated, additionalProperties=$additionalProperties}"
+            "RequiredDocumentUpload{token=$token, acceptedEntityStatusReasons=$acceptedEntityStatusReasons, created=$created, imageType=$imageType, rejectedEntityStatusReasons=$rejectedEntityStatusReasons, status=$status, statusReasons=$statusReasons, updated=$updated, uploadUrl=$uploadUrl, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
