@@ -93,15 +93,26 @@ constructor(
         }
 
         /** UTC date of the balance to retrieve. Defaults to latest available balance */
-        fun balanceDate(balanceDate: OffsetDateTime) = apply { this.balanceDate = balanceDate }
+        fun balanceDate(balanceDate: OffsetDateTime?) = apply { this.balanceDate = balanceDate }
+
+        /** UTC date of the balance to retrieve. Defaults to latest available balance */
+        fun balanceDate(balanceDate: Optional<OffsetDateTime>) =
+            balanceDate(balanceDate.orElse(null))
 
         /**
          * Balance after a given financial event occured. For example, passing the event_token of a
          * $5 CARD_CLEARING financial event will return a balance decreased by $5
          */
-        fun lastTransactionEventToken(lastTransactionEventToken: String) = apply {
+        fun lastTransactionEventToken(lastTransactionEventToken: String?) = apply {
             this.lastTransactionEventToken = lastTransactionEventToken
         }
+
+        /**
+         * Balance after a given financial event occured. For example, passing the event_token of a
+         * $5 CARD_CLEARING financial event will return a balance decreased by $5
+         */
+        fun lastTransactionEventToken(lastTransactionEventToken: Optional<String>) =
+            lastTransactionEventToken(lastTransactionEventToken.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

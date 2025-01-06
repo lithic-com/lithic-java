@@ -154,10 +154,19 @@ constructor(
              * Customer-provided token that will serve as an idempotency token. This token will
              * become the transaction token.
              */
-            fun token(token: String) = apply { this.token = token }
+            fun token(token: String?) = apply { this.token = token }
+
+            /**
+             * Customer-provided token that will serve as an idempotency token. This token will
+             * become the transaction token.
+             */
+            fun token(token: Optional<String>) = token(token.orElse(null))
 
             /** Optional descriptor for the transfer. */
-            fun memo(memo: String) = apply { this.memo = memo }
+            fun memo(memo: String?) = apply { this.memo = memo }
+
+            /** Optional descriptor for the transfer. */
+            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -250,10 +259,19 @@ constructor(
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        fun token(token: String) = apply { body.token(token) }
+        fun token(token: String?) = apply { body.token(token) }
+
+        /**
+         * Customer-provided token that will serve as an idempotency token. This token will become
+         * the transaction token.
+         */
+        fun token(token: Optional<String>) = token(token.orElse(null))
 
         /** Optional descriptor for the transfer. */
-        fun memo(memo: String) = apply { body.memo(memo) }
+        fun memo(memo: String?) = apply { body.memo(memo) }
+
+        /** Optional descriptor for the transfer. */
+        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

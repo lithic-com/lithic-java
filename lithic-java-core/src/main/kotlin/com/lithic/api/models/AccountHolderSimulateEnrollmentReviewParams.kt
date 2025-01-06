@@ -106,20 +106,34 @@ constructor(
             }
 
             /** The account holder which to perform the simulation upon. */
-            fun accountHolderToken(accountHolderToken: String) = apply {
+            fun accountHolderToken(accountHolderToken: String?) = apply {
                 this.accountHolderToken = accountHolderToken
             }
 
+            /** The account holder which to perform the simulation upon. */
+            fun accountHolderToken(accountHolderToken: Optional<String>) =
+                accountHolderToken(accountHolderToken.orElse(null))
+
             /** An account holder's status for use within the simulation. */
-            fun status(status: Status) = apply { this.status = status }
+            fun status(status: Status?) = apply { this.status = status }
+
+            /** An account holder's status for use within the simulation. */
+            fun status(status: Optional<Status>) = status(status.orElse(null))
 
             /**
              * Status reason that will be associated with the simulated account holder status. Only
              * required for a `REJECTED` status.
              */
-            fun statusReasons(statusReasons: List<StatusReason>) = apply {
-                this.statusReasons = statusReasons.toMutableList()
+            fun statusReasons(statusReasons: List<StatusReason>?) = apply {
+                this.statusReasons = statusReasons?.toMutableList()
             }
+
+            /**
+             * Status reason that will be associated with the simulated account holder status. Only
+             * required for a `REJECTED` status.
+             */
+            fun statusReasons(statusReasons: Optional<List<StatusReason>>) =
+                statusReasons(statusReasons.orElse(null))
 
             /**
              * Status reason that will be associated with the simulated account holder status. Only
@@ -202,20 +216,34 @@ constructor(
         }
 
         /** The account holder which to perform the simulation upon. */
-        fun accountHolderToken(accountHolderToken: String) = apply {
+        fun accountHolderToken(accountHolderToken: String?) = apply {
             body.accountHolderToken(accountHolderToken)
         }
 
+        /** The account holder which to perform the simulation upon. */
+        fun accountHolderToken(accountHolderToken: Optional<String>) =
+            accountHolderToken(accountHolderToken.orElse(null))
+
         /** An account holder's status for use within the simulation. */
-        fun status(status: Status) = apply { body.status(status) }
+        fun status(status: Status?) = apply { body.status(status) }
+
+        /** An account holder's status for use within the simulation. */
+        fun status(status: Optional<Status>) = status(status.orElse(null))
 
         /**
          * Status reason that will be associated with the simulated account holder status. Only
          * required for a `REJECTED` status.
          */
-        fun statusReasons(statusReasons: List<StatusReason>) = apply {
+        fun statusReasons(statusReasons: List<StatusReason>?) = apply {
             body.statusReasons(statusReasons)
         }
+
+        /**
+         * Status reason that will be associated with the simulated account holder status. Only
+         * required for a `REJECTED` status.
+         */
+        fun statusReasons(statusReasons: Optional<List<StatusReason>>) =
+            statusReasons(statusReasons.orElse(null))
 
         /**
          * Status reason that will be associated with the simulated account holder status. Only

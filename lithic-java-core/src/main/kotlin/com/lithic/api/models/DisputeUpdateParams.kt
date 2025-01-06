@@ -116,18 +116,36 @@ constructor(
             }
 
             /** Amount to dispute */
-            fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long?) = apply { this.amount = amount }
+
+            /** Amount to dispute */
+            fun amount(amount: Long) = amount(amount as Long?)
+
+            /** Amount to dispute */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun amount(amount: Optional<Long>) = amount(amount.orElse(null) as Long?)
 
             /** Date the customer filed the dispute */
-            fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
+            fun customerFiledDate(customerFiledDate: OffsetDateTime?) = apply {
                 this.customerFiledDate = customerFiledDate
             }
 
+            /** Date the customer filed the dispute */
+            fun customerFiledDate(customerFiledDate: Optional<OffsetDateTime>) =
+                customerFiledDate(customerFiledDate.orElse(null))
+
             /** Customer description of dispute */
-            fun customerNote(customerNote: String) = apply { this.customerNote = customerNote }
+            fun customerNote(customerNote: String?) = apply { this.customerNote = customerNote }
+
+            /** Customer description of dispute */
+            fun customerNote(customerNote: Optional<String>) =
+                customerNote(customerNote.orElse(null))
 
             /** Reason for dispute */
-            fun reason(reason: Reason) = apply { this.reason = reason }
+            fun reason(reason: Reason?) = apply { this.reason = reason }
+
+            /** Reason for dispute */
+            fun reason(reason: Optional<Reason>) = reason(reason.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -202,18 +220,35 @@ constructor(
         fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
 
         /** Amount to dispute */
-        fun amount(amount: Long) = apply { body.amount(amount) }
+        fun amount(amount: Long?) = apply { body.amount(amount) }
+
+        /** Amount to dispute */
+        fun amount(amount: Long) = amount(amount as Long?)
+
+        /** Amount to dispute */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun amount(amount: Optional<Long>) = amount(amount.orElse(null) as Long?)
 
         /** Date the customer filed the dispute */
-        fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
+        fun customerFiledDate(customerFiledDate: OffsetDateTime?) = apply {
             body.customerFiledDate(customerFiledDate)
         }
 
+        /** Date the customer filed the dispute */
+        fun customerFiledDate(customerFiledDate: Optional<OffsetDateTime>) =
+            customerFiledDate(customerFiledDate.orElse(null))
+
         /** Customer description of dispute */
-        fun customerNote(customerNote: String) = apply { body.customerNote(customerNote) }
+        fun customerNote(customerNote: String?) = apply { body.customerNote(customerNote) }
+
+        /** Customer description of dispute */
+        fun customerNote(customerNote: Optional<String>) = customerNote(customerNote.orElse(null))
 
         /** Reason for dispute */
-        fun reason(reason: Reason) = apply { body.reason(reason) }
+        fun reason(reason: Reason?) = apply { body.reason(reason) }
+
+        /** Reason for dispute */
+        fun reason(reason: Optional<Reason>) = reason(reason.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

@@ -115,7 +115,20 @@ constructor(
              * Amount (in cents) to void. Typically this will match the amount in the original
              * authorization, but can be less.
              */
-            fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long?) = apply { this.amount = amount }
+
+            /**
+             * Amount (in cents) to void. Typically this will match the amount in the original
+             * authorization, but can be less.
+             */
+            fun amount(amount: Long) = amount(amount as Long?)
+
+            /**
+             * Amount (in cents) to void. Typically this will match the amount in the original
+             * authorization, but can be less.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun amount(amount: Optional<Long>) = amount(amount.orElse(null) as Long?)
 
             /**
              * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
@@ -123,7 +136,15 @@ constructor(
              *   Lithic.
              * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
              */
-            fun type(type: Type) = apply { this.type = type }
+            fun type(type: Type?) = apply { this.type = type }
+
+            /**
+             * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
+             * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by
+             *   Lithic.
+             * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+             */
+            fun type(type: Optional<Type>) = type(type.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -200,14 +221,34 @@ constructor(
          * Amount (in cents) to void. Typically this will match the amount in the original
          * authorization, but can be less.
          */
-        fun amount(amount: Long) = apply { body.amount(amount) }
+        fun amount(amount: Long?) = apply { body.amount(amount) }
+
+        /**
+         * Amount (in cents) to void. Typically this will match the amount in the original
+         * authorization, but can be less.
+         */
+        fun amount(amount: Long) = amount(amount as Long?)
+
+        /**
+         * Amount (in cents) to void. Typically this will match the amount in the original
+         * authorization, but can be less.
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun amount(amount: Optional<Long>) = amount(amount.orElse(null) as Long?)
 
         /**
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
          * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
          */
-        fun type(type: Type) = apply { body.type(type) }
+        fun type(type: Type?) = apply { body.type(type) }
+
+        /**
+         * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
+         * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
+         * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+         */
+        fun type(type: Optional<Type>) = type(type.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

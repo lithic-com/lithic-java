@@ -85,7 +85,13 @@ constructor(
              * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
              * responded with a CHALLENGE_REQUESTED status.
              */
-            fun token(token: String) = apply { this.token = token }
+            fun token(token: String?) = apply { this.token = token }
+
+            /**
+             * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
+             * responded with a CHALLENGE_REQUESTED status.
+             */
+            fun token(token: Optional<String>) = token(token.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -158,7 +164,13 @@ constructor(
          * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
          * responded with a CHALLENGE_REQUESTED status.
          */
-        fun token(token: String) = apply { body.token(token) }
+        fun token(token: String?) = apply { body.token(token) }
+
+        /**
+         * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
+         * responded with a CHALLENGE_REQUESTED status.
+         */
+        fun token(token: Optional<String>) = token(token.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

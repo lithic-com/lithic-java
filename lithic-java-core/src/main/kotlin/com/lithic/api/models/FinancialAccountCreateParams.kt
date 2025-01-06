@@ -110,11 +110,20 @@ constructor(
 
             fun type(type: Type) = apply { this.type = type }
 
-            fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
+            fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
 
-            fun isForBenefitOf(isForBenefitOf: Boolean) = apply {
+            fun accountToken(accountToken: Optional<String>) =
+                accountToken(accountToken.orElse(null))
+
+            fun isForBenefitOf(isForBenefitOf: Boolean?) = apply {
                 this.isForBenefitOf = isForBenefitOf
             }
+
+            fun isForBenefitOf(isForBenefitOf: Boolean) = isForBenefitOf(isForBenefitOf as Boolean?)
+
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun isForBenefitOf(isForBenefitOf: Optional<Boolean>) =
+                isForBenefitOf(isForBenefitOf.orElse(null) as Boolean?)
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -186,15 +195,26 @@ constructor(
             additionalQueryParams = financialAccountCreateParams.additionalQueryParams.toBuilder()
         }
 
-        fun idempotencyKey(idempotencyKey: String) = apply { this.idempotencyKey = idempotencyKey }
+        fun idempotencyKey(idempotencyKey: String?) = apply { this.idempotencyKey = idempotencyKey }
+
+        fun idempotencyKey(idempotencyKey: Optional<String>) =
+            idempotencyKey(idempotencyKey.orElse(null))
 
         fun nickname(nickname: String) = apply { body.nickname(nickname) }
 
         fun type(type: Type) = apply { body.type(type) }
 
-        fun accountToken(accountToken: String) = apply { body.accountToken(accountToken) }
+        fun accountToken(accountToken: String?) = apply { body.accountToken(accountToken) }
 
-        fun isForBenefitOf(isForBenefitOf: Boolean) = apply { body.isForBenefitOf(isForBenefitOf) }
+        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
+
+        fun isForBenefitOf(isForBenefitOf: Boolean?) = apply { body.isForBenefitOf(isForBenefitOf) }
+
+        fun isForBenefitOf(isForBenefitOf: Boolean) = isForBenefitOf(isForBenefitOf as Boolean?)
+
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun isForBenefitOf(isForBenefitOf: Optional<Boolean>) =
+            isForBenefitOf(isForBenefitOf.orElse(null) as Boolean?)
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

@@ -215,25 +215,50 @@ constructor(
              * use. See
              * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
-            fun digitalCardArtToken(digitalCardArtToken: String) = apply {
+            fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
                 this.digitalCardArtToken = digitalCardArtToken
             }
 
+            /**
+             * Specifies the digital card art to be displayed in the user’s digital wallet after
+             * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+             * use. See
+             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+             */
+            fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
+                digitalCardArtToken(digitalCardArtToken.orElse(null))
+
             /** Friendly name to identify the card. */
-            fun memo(memo: String) = apply { this.memo = memo }
+            fun memo(memo: String?) = apply { this.memo = memo }
+
+            /** Friendly name to identify the card. */
+            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
 
             /**
              * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
              * `VIRTUAL`. Changing PIN also resets PIN status to `OK`. See
              * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
              */
-            fun pin(pin: String) = apply { this.pin = pin }
+            fun pin(pin: String?) = apply { this.pin = pin }
+
+            /**
+             * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
+             * `VIRTUAL`. Changing PIN also resets PIN status to `OK`. See
+             * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+             */
+            fun pin(pin: Optional<String>) = pin(pin.orElse(null))
 
             /**
              * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
              * attempts). Can only be set to `OK` to unblock a card.
              */
-            fun pinStatus(pinStatus: PinStatus) = apply { this.pinStatus = pinStatus }
+            fun pinStatus(pinStatus: PinStatus?) = apply { this.pinStatus = pinStatus }
+
+            /**
+             * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
+             * attempts). Can only be set to `OK` to unblock a card.
+             */
+            fun pinStatus(pinStatus: Optional<PinStatus>) = pinStatus(pinStatus.orElse(null))
 
             /**
              * Amount (in cents) to limit approved authorizations. Transaction requests above the
@@ -241,7 +266,25 @@ constructor(
              * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
              * will result in declined transactions due to checks against the card limit.
              */
-            fun spendLimit(spendLimit: Long) = apply { this.spendLimit = spendLimit }
+            fun spendLimit(spendLimit: Long?) = apply { this.spendLimit = spendLimit }
+
+            /**
+             * Amount (in cents) to limit approved authorizations. Transaction requests above the
+             * spend limit will be declined. Note that a spend limit of 0 is effectively no limit,
+             * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
+             * will result in declined transactions due to checks against the card limit.
+             */
+            fun spendLimit(spendLimit: Long) = spendLimit(spendLimit as Long?)
+
+            /**
+             * Amount (in cents) to limit approved authorizations. Transaction requests above the
+             * spend limit will be declined. Note that a spend limit of 0 is effectively no limit,
+             * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
+             * will result in declined transactions due to checks against the card limit.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun spendLimit(spendLimit: Optional<Long>) =
+                spendLimit(spendLimit.orElse(null) as Long?)
 
             /**
              * Spend limit duration values:
@@ -256,9 +299,25 @@ constructor(
              * - `TRANSACTION` - Card will authorize multiple transactions if each individual
              *   transaction is under the spend limit.
              */
-            fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
+            fun spendLimitDuration(spendLimitDuration: SpendLimitDuration?) = apply {
                 this.spendLimitDuration = spendLimitDuration
             }
+
+            /**
+             * Spend limit duration values:
+             * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
+             *   year.
+             * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
+             *   the card.
+             * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
+             *   month. To support recurring monthly payments, which can occur on different day
+             *   every month, the time window we consider for monthly velocity starts 6 days after
+             *   the current calendar date one month prior.
+             * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+             *   transaction is under the spend limit.
+             */
+            fun spendLimitDuration(spendLimitDuration: Optional<SpendLimitDuration>) =
+                spendLimitDuration(spendLimitDuration.orElse(null))
 
             /**
              * Card state values:
@@ -268,7 +327,17 @@ constructor(
              *   parameters).
              * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
-            fun state(state: State) = apply { this.state = state }
+            fun state(state: State?) = apply { this.state = state }
+
+            /**
+             * Card state values:
+             * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be
+             *   undone.
+             * - `OPEN` - Card will approve authorizations (if they match card and account
+             *   parameters).
+             * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+             */
+            fun state(state: Optional<State>) = state(state.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -351,25 +420,50 @@ constructor(
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        fun digitalCardArtToken(digitalCardArtToken: String) = apply {
+        fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
             body.digitalCardArtToken(digitalCardArtToken)
         }
 
+        /**
+         * Specifies the digital card art to be displayed in the user’s digital wallet after
+         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         */
+        fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
+            digitalCardArtToken(digitalCardArtToken.orElse(null))
+
         /** Friendly name to identify the card. */
-        fun memo(memo: String) = apply { body.memo(memo) }
+        fun memo(memo: String?) = apply { body.memo(memo) }
+
+        /** Friendly name to identify the card. */
+        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
 
         /**
          * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
          * Changing PIN also resets PIN status to `OK`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
-        fun pin(pin: String) = apply { body.pin(pin) }
+        fun pin(pin: String?) = apply { body.pin(pin) }
+
+        /**
+         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
+         * Changing PIN also resets PIN status to `OK`. See
+         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+         */
+        fun pin(pin: Optional<String>) = pin(pin.orElse(null))
 
         /**
          * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
          * attempts). Can only be set to `OK` to unblock a card.
          */
-        fun pinStatus(pinStatus: PinStatus) = apply { body.pinStatus(pinStatus) }
+        fun pinStatus(pinStatus: PinStatus?) = apply { body.pinStatus(pinStatus) }
+
+        /**
+         * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
+         * attempts). Can only be set to `OK` to unblock a card.
+         */
+        fun pinStatus(pinStatus: Optional<PinStatus>) = pinStatus(pinStatus.orElse(null))
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -377,7 +471,24 @@ constructor(
          * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
          * declined transactions due to checks against the card limit.
          */
-        fun spendLimit(spendLimit: Long) = apply { body.spendLimit(spendLimit) }
+        fun spendLimit(spendLimit: Long?) = apply { body.spendLimit(spendLimit) }
+
+        /**
+         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
+         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
+         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
+         * declined transactions due to checks against the card limit.
+         */
+        fun spendLimit(spendLimit: Long) = spendLimit(spendLimit as Long?)
+
+        /**
+         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
+         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
+         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
+         * declined transactions due to checks against the card limit.
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun spendLimit(spendLimit: Optional<Long>) = spendLimit(spendLimit.orElse(null) as Long?)
 
         /**
          * Spend limit duration values:
@@ -391,9 +502,24 @@ constructor(
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
          *   transaction is under the spend limit.
          */
-        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
+        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration?) = apply {
             body.spendLimitDuration(spendLimitDuration)
         }
+
+        /**
+         * Spend limit duration values:
+         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
+         *   card.
+         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
+         *   To support recurring monthly payments, which can occur on different day every month,
+         *   the time window we consider for monthly velocity starts 6 days after the current
+         *   calendar date one month prior.
+         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+         *   transaction is under the spend limit.
+         */
+        fun spendLimitDuration(spendLimitDuration: Optional<SpendLimitDuration>) =
+            spendLimitDuration(spendLimitDuration.orElse(null))
 
         /**
          * Card state values:
@@ -401,7 +527,15 @@ constructor(
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        fun state(state: State) = apply { body.state(state) }
+        fun state(state: State?) = apply { body.state(state) }
+
+        /**
+         * Card state values:
+         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
+         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+         */
+        fun state(state: Optional<State>) = state(state.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

@@ -94,10 +94,16 @@ constructor(
             }
 
             /** The end time of the backtest. */
-            fun end(end: OffsetDateTime) = apply { this.end = end }
+            fun end(end: OffsetDateTime?) = apply { this.end = end }
+
+            /** The end time of the backtest. */
+            fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
 
             /** The start time of the backtest. */
-            fun start(start: OffsetDateTime) = apply { this.start = start }
+            fun start(start: OffsetDateTime?) = apply { this.start = start }
+
+            /** The start time of the backtest. */
+            fun start(start: Optional<OffsetDateTime>) = start(start.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -171,10 +177,16 @@ constructor(
         fun authRuleToken(authRuleToken: String) = apply { this.authRuleToken = authRuleToken }
 
         /** The end time of the backtest. */
-        fun end(end: OffsetDateTime) = apply { body.end(end) }
+        fun end(end: OffsetDateTime?) = apply { body.end(end) }
+
+        /** The end time of the backtest. */
+        fun end(end: Optional<OffsetDateTime>) = end(end.orElse(null))
 
         /** The start time of the backtest. */
-        fun start(start: OffsetDateTime) = apply { body.start(start) }
+        fun start(start: OffsetDateTime?) = apply { body.start(start) }
+
+        /** The start time of the backtest. */
+        fun start(start: Optional<OffsetDateTime>) = start(start.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

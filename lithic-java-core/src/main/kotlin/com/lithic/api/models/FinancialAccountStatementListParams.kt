@@ -129,33 +129,74 @@ constructor(
          * Date string in RFC 3339 format. Only entries created after the specified date will be
          * included.
          */
-        fun begin(begin: LocalDate) = apply { this.begin = begin }
+        fun begin(begin: LocalDate?) = apply { this.begin = begin }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created after the specified date will be
+         * included.
+         */
+        fun begin(begin: Optional<LocalDate>) = begin(begin.orElse(null))
 
         /**
          * Date string in RFC 3339 format. Only entries created before the specified date will be
          * included.
          */
-        fun end(end: LocalDate) = apply { this.end = end }
+        fun end(end: LocalDate?) = apply { this.end = end }
+
+        /**
+         * Date string in RFC 3339 format. Only entries created before the specified date will be
+         * included.
+         */
+        fun end(end: Optional<LocalDate>) = end(end.orElse(null))
 
         /**
          * A cursor representing an item's token before which a page of results should end. Used to
          * retrieve the previous page of results before this item.
          */
-        fun endingBefore(endingBefore: String) = apply { this.endingBefore = endingBefore }
+        fun endingBefore(endingBefore: String?) = apply { this.endingBefore = endingBefore }
+
+        /**
+         * A cursor representing an item's token before which a page of results should end. Used to
+         * retrieve the previous page of results before this item.
+         */
+        fun endingBefore(endingBefore: Optional<String>) = endingBefore(endingBefore.orElse(null))
 
         /** Whether to include the initial statement. It is not included by default. */
-        fun includeInitialStatements(includeInitialStatements: Boolean) = apply {
+        fun includeInitialStatements(includeInitialStatements: Boolean?) = apply {
             this.includeInitialStatements = includeInitialStatements
         }
 
+        /** Whether to include the initial statement. It is not included by default. */
+        fun includeInitialStatements(includeInitialStatements: Boolean) =
+            includeInitialStatements(includeInitialStatements as Boolean?)
+
+        /** Whether to include the initial statement. It is not included by default. */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun includeInitialStatements(includeInitialStatements: Optional<Boolean>) =
+            includeInitialStatements(includeInitialStatements.orElse(null) as Boolean?)
+
         /** Page size (for pagination). */
-        fun pageSize(pageSize: Long) = apply { this.pageSize = pageSize }
+        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
+
+        /** Page size (for pagination). */
+        fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
+
+        /** Page size (for pagination). */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.orElse(null) as Long?)
 
         /**
          * A cursor representing an item's token after which a page of results should begin. Used to
          * retrieve the next page of results after this item.
          */
-        fun startingAfter(startingAfter: String) = apply { this.startingAfter = startingAfter }
+        fun startingAfter(startingAfter: String?) = apply { this.startingAfter = startingAfter }
+
+        /**
+         * A cursor representing an item's token after which a page of results should begin. Used to
+         * retrieve the next page of results after this item.
+         */
+        fun startingAfter(startingAfter: Optional<String>) =
+            startingAfter(startingAfter.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

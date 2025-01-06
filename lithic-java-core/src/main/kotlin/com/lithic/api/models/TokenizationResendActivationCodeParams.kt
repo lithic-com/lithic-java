@@ -104,9 +104,17 @@ constructor(
              * authentication code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
              * "EMAIL_TO_CARDHOLDER_ADDRESS"
              */
-            fun activationMethodType(activationMethodType: ActivationMethodType) = apply {
+            fun activationMethodType(activationMethodType: ActivationMethodType?) = apply {
                 this.activationMethodType = activationMethodType
             }
+
+            /**
+             * The communication method that the user has selected to use to receive the
+             * authentication code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
+             * "EMAIL_TO_CARDHOLDER_ADDRESS"
+             */
+            fun activationMethodType(activationMethodType: Optional<ActivationMethodType>) =
+                activationMethodType(activationMethodType.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -188,9 +196,17 @@ constructor(
          * code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
          * "EMAIL_TO_CARDHOLDER_ADDRESS"
          */
-        fun activationMethodType(activationMethodType: ActivationMethodType) = apply {
+        fun activationMethodType(activationMethodType: ActivationMethodType?) = apply {
             body.activationMethodType(activationMethodType)
         }
+
+        /**
+         * The communication method that the user has selected to use to receive the authentication
+         * code. Supported Values: Sms = "TEXT_TO_CARDHOLDER_NUMBER". Email =
+         * "EMAIL_TO_CARDHOLDER_ADDRESS"
+         */
+        fun activationMethodType(activationMethodType: Optional<ActivationMethodType>) =
+            activationMethodType(activationMethodType.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()

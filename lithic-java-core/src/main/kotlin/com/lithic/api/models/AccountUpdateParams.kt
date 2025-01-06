@@ -164,8 +164,34 @@ constructor(
              * Amount (in cents) for the account's daily spend limit. By default the daily spend
              * limit is set to $1,250.
              */
-            fun dailySpendLimit(dailySpendLimit: Long) = apply {
+            fun dailySpendLimit(dailySpendLimit: Long?) = apply {
                 this.dailySpendLimit = dailySpendLimit
+            }
+
+            /**
+             * Amount (in cents) for the account's daily spend limit. By default the daily spend
+             * limit is set to $1,250.
+             */
+            fun dailySpendLimit(dailySpendLimit: Long) = dailySpendLimit(dailySpendLimit as Long?)
+
+            /**
+             * Amount (in cents) for the account's daily spend limit. By default the daily spend
+             * limit is set to $1,250.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun dailySpendLimit(dailySpendLimit: Optional<Long>) =
+                dailySpendLimit(dailySpendLimit.orElse(null) as Long?)
+
+            /**
+             * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached,
+             * no transactions will be accepted on any card created for this account until the limit
+             * is updated. Note that a spend limit of 0 is effectively no limit, and should only be
+             * used to reset or remove a prior limit. Only a limit of 1 or above will result in
+             * declined transactions due to checks against the account limit. This behavior differs
+             * from the daily spend limit and the monthly spend limit.
+             */
+            fun lifetimeSpendLimit(lifetimeSpendLimit: Long?) = apply {
+                this.lifetimeSpendLimit = lifetimeSpendLimit
             }
 
             /**
@@ -176,20 +202,49 @@ constructor(
              * declined transactions due to checks against the account limit. This behavior differs
              * from the daily spend limit and the monthly spend limit.
              */
-            fun lifetimeSpendLimit(lifetimeSpendLimit: Long) = apply {
-                this.lifetimeSpendLimit = lifetimeSpendLimit
+            fun lifetimeSpendLimit(lifetimeSpendLimit: Long) =
+                lifetimeSpendLimit(lifetimeSpendLimit as Long?)
+
+            /**
+             * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached,
+             * no transactions will be accepted on any card created for this account until the limit
+             * is updated. Note that a spend limit of 0 is effectively no limit, and should only be
+             * used to reset or remove a prior limit. Only a limit of 1 or above will result in
+             * declined transactions due to checks against the account limit. This behavior differs
+             * from the daily spend limit and the monthly spend limit.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun lifetimeSpendLimit(lifetimeSpendLimit: Optional<Long>) =
+                lifetimeSpendLimit(lifetimeSpendLimit.orElse(null) as Long?)
+
+            /**
+             * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
+             * limit is set to $5,000.
+             */
+            fun monthlySpendLimit(monthlySpendLimit: Long?) = apply {
+                this.monthlySpendLimit = monthlySpendLimit
             }
 
             /**
              * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
              * limit is set to $5,000.
              */
-            fun monthlySpendLimit(monthlySpendLimit: Long) = apply {
-                this.monthlySpendLimit = monthlySpendLimit
-            }
+            fun monthlySpendLimit(monthlySpendLimit: Long) =
+                monthlySpendLimit(monthlySpendLimit as Long?)
+
+            /**
+             * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
+             * limit is set to $5,000.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun monthlySpendLimit(monthlySpendLimit: Optional<Long>) =
+                monthlySpendLimit(monthlySpendLimit.orElse(null) as Long?)
 
             /** Account states. */
-            fun state(state: State) = apply { this.state = state }
+            fun state(state: State?) = apply { this.state = state }
+
+            /** Account states. */
+            fun state(state: Optional<State>) = state(state.orElse(null))
 
             /**
              * Address used during Address Verification Service (AVS) checks during transactions if
@@ -197,9 +252,18 @@ constructor(
              * supported by Authorization Rules. The field will be removed from the schema in a
              * future release.
              */
-            fun verificationAddress(verificationAddress: VerificationAddress) = apply {
+            fun verificationAddress(verificationAddress: VerificationAddress?) = apply {
                 this.verificationAddress = verificationAddress
             }
+
+            /**
+             * Address used during Address Verification Service (AVS) checks during transactions if
+             * enabled via Auth Rules. This field is deprecated as AVS checks are no longer
+             * supported by Authorization Rules. The field will be removed from the schema in a
+             * future release.
+             */
+            fun verificationAddress(verificationAddress: Optional<VerificationAddress>) =
+                verificationAddress(verificationAddress.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -278,7 +342,23 @@ constructor(
          * Amount (in cents) for the account's daily spend limit. By default the daily spend limit
          * is set to $1,250.
          */
-        fun dailySpendLimit(dailySpendLimit: Long) = apply { body.dailySpendLimit(dailySpendLimit) }
+        fun dailySpendLimit(dailySpendLimit: Long?) = apply {
+            body.dailySpendLimit(dailySpendLimit)
+        }
+
+        /**
+         * Amount (in cents) for the account's daily spend limit. By default the daily spend limit
+         * is set to $1,250.
+         */
+        fun dailySpendLimit(dailySpendLimit: Long) = dailySpendLimit(dailySpendLimit as Long?)
+
+        /**
+         * Amount (in cents) for the account's daily spend limit. By default the daily spend limit
+         * is set to $1,250.
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun dailySpendLimit(dailySpendLimit: Optional<Long>) =
+            dailySpendLimit(dailySpendLimit.orElse(null) as Long?)
 
         /**
          * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached, no
@@ -288,29 +368,78 @@ constructor(
          * transactions due to checks against the account limit. This behavior differs from the
          * daily spend limit and the monthly spend limit.
          */
-        fun lifetimeSpendLimit(lifetimeSpendLimit: Long) = apply {
+        fun lifetimeSpendLimit(lifetimeSpendLimit: Long?) = apply {
             body.lifetimeSpendLimit(lifetimeSpendLimit)
+        }
+
+        /**
+         * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached, no
+         * transactions will be accepted on any card created for this account until the limit is
+         * updated. Note that a spend limit of 0 is effectively no limit, and should only be used to
+         * reset or remove a prior limit. Only a limit of 1 or above will result in declined
+         * transactions due to checks against the account limit. This behavior differs from the
+         * daily spend limit and the monthly spend limit.
+         */
+        fun lifetimeSpendLimit(lifetimeSpendLimit: Long) =
+            lifetimeSpendLimit(lifetimeSpendLimit as Long?)
+
+        /**
+         * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached, no
+         * transactions will be accepted on any card created for this account until the limit is
+         * updated. Note that a spend limit of 0 is effectively no limit, and should only be used to
+         * reset or remove a prior limit. Only a limit of 1 or above will result in declined
+         * transactions due to checks against the account limit. This behavior differs from the
+         * daily spend limit and the monthly spend limit.
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun lifetimeSpendLimit(lifetimeSpendLimit: Optional<Long>) =
+            lifetimeSpendLimit(lifetimeSpendLimit.orElse(null) as Long?)
+
+        /**
+         * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
+         * limit is set to $5,000.
+         */
+        fun monthlySpendLimit(monthlySpendLimit: Long?) = apply {
+            body.monthlySpendLimit(monthlySpendLimit)
         }
 
         /**
          * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
          * limit is set to $5,000.
          */
-        fun monthlySpendLimit(monthlySpendLimit: Long) = apply {
-            body.monthlySpendLimit(monthlySpendLimit)
-        }
+        fun monthlySpendLimit(monthlySpendLimit: Long) =
+            monthlySpendLimit(monthlySpendLimit as Long?)
+
+        /**
+         * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
+         * limit is set to $5,000.
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun monthlySpendLimit(monthlySpendLimit: Optional<Long>) =
+            monthlySpendLimit(monthlySpendLimit.orElse(null) as Long?)
 
         /** Account states. */
-        fun state(state: State) = apply { body.state(state) }
+        fun state(state: State?) = apply { body.state(state) }
+
+        /** Account states. */
+        fun state(state: Optional<State>) = state(state.orElse(null))
 
         /**
          * Address used during Address Verification Service (AVS) checks during transactions if
          * enabled via Auth Rules. This field is deprecated as AVS checks are no longer supported by
          * Authorization Rules. The field will be removed from the schema in a future release.
          */
-        fun verificationAddress(verificationAddress: VerificationAddress) = apply {
+        fun verificationAddress(verificationAddress: VerificationAddress?) = apply {
             body.verificationAddress(verificationAddress)
         }
+
+        /**
+         * Address used during Address Verification Service (AVS) checks during transactions if
+         * enabled via Auth Rules. This field is deprecated as AVS checks are no longer supported by
+         * Authorization Rules. The field will be removed from the schema in a future release.
+         */
+        fun verificationAddress(verificationAddress: Optional<VerificationAddress>) =
+            verificationAddress(verificationAddress.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -559,17 +688,29 @@ constructor(
                 additionalProperties = verificationAddress.additionalProperties.toMutableMap()
             }
 
-            fun address1(address1: String) = apply { this.address1 = address1 }
+            fun address1(address1: String?) = apply { this.address1 = address1 }
 
-            fun address2(address2: String) = apply { this.address2 = address2 }
+            fun address1(address1: Optional<String>) = address1(address1.orElse(null))
 
-            fun city(city: String) = apply { this.city = city }
+            fun address2(address2: String?) = apply { this.address2 = address2 }
 
-            fun country(country: String) = apply { this.country = country }
+            fun address2(address2: Optional<String>) = address2(address2.orElse(null))
 
-            fun postalCode(postalCode: String) = apply { this.postalCode = postalCode }
+            fun city(city: String?) = apply { this.city = city }
 
-            fun state(state: String) = apply { this.state = state }
+            fun city(city: Optional<String>) = city(city.orElse(null))
+
+            fun country(country: String?) = apply { this.country = country }
+
+            fun country(country: Optional<String>) = country(country.orElse(null))
+
+            fun postalCode(postalCode: String?) = apply { this.postalCode = postalCode }
+
+            fun postalCode(postalCode: Optional<String>) = postalCode(postalCode.orElse(null))
+
+            fun state(state: String?) = apply { this.state = state }
+
+            fun state(state: Optional<String>) = state(state.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
