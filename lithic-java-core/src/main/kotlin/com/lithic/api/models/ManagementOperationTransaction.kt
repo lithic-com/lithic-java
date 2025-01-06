@@ -25,100 +25,100 @@ class ManagementOperationTransaction
 @JsonCreator
 private constructor(
     @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("result")
-    @ExcludeMissing
-    private val result: JsonField<TransactionResult> = JsonMissing.of(),
     @JsonProperty("category")
     @ExcludeMissing
     private val category: JsonField<ManagementOperationCategory> = JsonMissing.of(),
-    @JsonProperty("status")
-    @ExcludeMissing
-    private val status: JsonField<TransactionStatus> = JsonMissing.of(),
-    @JsonProperty("settled_amount")
-    @ExcludeMissing
-    private val settledAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("pending_amount")
-    @ExcludeMissing
-    private val pendingAmount: JsonField<Long> = JsonMissing.of(),
-    @JsonProperty("currency")
-    @ExcludeMissing
-    private val currency: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("events")
-    @ExcludeMissing
-    private val events: JsonField<List<ManagementOperationEvent>> = JsonMissing.of(),
     @JsonProperty("created")
     @ExcludeMissing
     private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("currency")
+    @ExcludeMissing
+    private val currency: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("direction")
+    @ExcludeMissing
+    private val direction: JsonField<ManagementOperationDirection> = JsonMissing.of(),
+    @JsonProperty("events")
+    @ExcludeMissing
+    private val events: JsonField<List<ManagementOperationEvent>> = JsonMissing.of(),
+    @JsonProperty("financial_account_token")
+    @ExcludeMissing
+    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("pending_amount")
+    @ExcludeMissing
+    private val pendingAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("result")
+    @ExcludeMissing
+    private val result: JsonField<TransactionResult> = JsonMissing.of(),
+    @JsonProperty("settled_amount")
+    @ExcludeMissing
+    private val settledAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("status")
+    @ExcludeMissing
+    private val status: JsonField<TransactionStatus> = JsonMissing.of(),
     @JsonProperty("updated")
     @ExcludeMissing
     private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
     @JsonProperty("user_defined_id")
     @ExcludeMissing
     private val userDefinedId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("financial_account_token")
-    @ExcludeMissing
-    private val financialAccountToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("direction")
-    @ExcludeMissing
-    private val direction: JsonField<ManagementOperationDirection> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
     fun token(): String = token.getRequired("token")
 
-    fun result(): TransactionResult = result.getRequired("result")
-
     fun category(): ManagementOperationCategory = category.getRequired("category")
 
-    fun status(): TransactionStatus = status.getRequired("status")
-
-    fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
-
-    fun pendingAmount(): Long = pendingAmount.getRequired("pending_amount")
+    fun created(): OffsetDateTime = created.getRequired("created")
 
     fun currency(): String = currency.getRequired("currency")
 
+    fun direction(): ManagementOperationDirection = direction.getRequired("direction")
+
     fun events(): List<ManagementOperationEvent> = events.getRequired("events")
 
-    fun created(): OffsetDateTime = created.getRequired("created")
+    fun financialAccountToken(): String =
+        financialAccountToken.getRequired("financial_account_token")
+
+    fun pendingAmount(): Long = pendingAmount.getRequired("pending_amount")
+
+    fun result(): TransactionResult = result.getRequired("result")
+
+    fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
+
+    fun status(): TransactionStatus = status.getRequired("status")
 
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
     fun userDefinedId(): Optional<String> =
         Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
 
-    fun financialAccountToken(): String =
-        financialAccountToken.getRequired("financial_account_token")
-
-    fun direction(): ManagementOperationDirection = direction.getRequired("direction")
-
     @JsonProperty("token") @ExcludeMissing fun _token() = token
-
-    @JsonProperty("result") @ExcludeMissing fun _result() = result
 
     @JsonProperty("category") @ExcludeMissing fun _category() = category
 
-    @JsonProperty("status") @ExcludeMissing fun _status() = status
-
-    @JsonProperty("settled_amount") @ExcludeMissing fun _settledAmount() = settledAmount
-
-    @JsonProperty("pending_amount") @ExcludeMissing fun _pendingAmount() = pendingAmount
+    @JsonProperty("created") @ExcludeMissing fun _created() = created
 
     @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
 
+    @JsonProperty("direction") @ExcludeMissing fun _direction() = direction
+
     @JsonProperty("events") @ExcludeMissing fun _events() = events
-
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
-
-    @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
-
-    @JsonProperty("user_defined_id") @ExcludeMissing fun _userDefinedId() = userDefinedId
 
     @JsonProperty("financial_account_token")
     @ExcludeMissing
     fun _financialAccountToken() = financialAccountToken
 
-    @JsonProperty("direction") @ExcludeMissing fun _direction() = direction
+    @JsonProperty("pending_amount") @ExcludeMissing fun _pendingAmount() = pendingAmount
+
+    @JsonProperty("result") @ExcludeMissing fun _result() = result
+
+    @JsonProperty("settled_amount") @ExcludeMissing fun _settledAmount() = settledAmount
+
+    @JsonProperty("status") @ExcludeMissing fun _status() = status
+
+    @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+
+    @JsonProperty("user_defined_id") @ExcludeMissing fun _userDefinedId() = userDefinedId
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -129,18 +129,18 @@ private constructor(
     fun validate(): ManagementOperationTransaction = apply {
         if (!validated) {
             token()
-            result()
             category()
-            status()
-            settledAmount()
-            pendingAmount()
-            currency()
-            events().forEach { it.validate() }
             created()
+            currency()
+            direction()
+            events().forEach { it.validate() }
+            financialAccountToken()
+            pendingAmount()
+            result()
+            settledAmount()
+            status()
             updated()
             userDefinedId()
-            financialAccountToken()
-            direction()
             validated = true
         }
     }
@@ -155,35 +155,35 @@ private constructor(
     class Builder {
 
         private var token: JsonField<String> = JsonMissing.of()
-        private var result: JsonField<TransactionResult> = JsonMissing.of()
         private var category: JsonField<ManagementOperationCategory> = JsonMissing.of()
-        private var status: JsonField<TransactionStatus> = JsonMissing.of()
-        private var settledAmount: JsonField<Long> = JsonMissing.of()
-        private var pendingAmount: JsonField<Long> = JsonMissing.of()
-        private var currency: JsonField<String> = JsonMissing.of()
-        private var events: JsonField<List<ManagementOperationEvent>> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var currency: JsonField<String> = JsonMissing.of()
+        private var direction: JsonField<ManagementOperationDirection> = JsonMissing.of()
+        private var events: JsonField<List<ManagementOperationEvent>> = JsonMissing.of()
+        private var financialAccountToken: JsonField<String> = JsonMissing.of()
+        private var pendingAmount: JsonField<Long> = JsonMissing.of()
+        private var result: JsonField<TransactionResult> = JsonMissing.of()
+        private var settledAmount: JsonField<Long> = JsonMissing.of()
+        private var status: JsonField<TransactionStatus> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
         private var userDefinedId: JsonField<String> = JsonMissing.of()
-        private var financialAccountToken: JsonField<String> = JsonMissing.of()
-        private var direction: JsonField<ManagementOperationDirection> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(managementOperationTransaction: ManagementOperationTransaction) = apply {
             token = managementOperationTransaction.token
-            result = managementOperationTransaction.result
             category = managementOperationTransaction.category
-            status = managementOperationTransaction.status
-            settledAmount = managementOperationTransaction.settledAmount
-            pendingAmount = managementOperationTransaction.pendingAmount
-            currency = managementOperationTransaction.currency
-            events = managementOperationTransaction.events
             created = managementOperationTransaction.created
+            currency = managementOperationTransaction.currency
+            direction = managementOperationTransaction.direction
+            events = managementOperationTransaction.events
+            financialAccountToken = managementOperationTransaction.financialAccountToken
+            pendingAmount = managementOperationTransaction.pendingAmount
+            result = managementOperationTransaction.result
+            settledAmount = managementOperationTransaction.settledAmount
+            status = managementOperationTransaction.status
             updated = managementOperationTransaction.updated
             userDefinedId = managementOperationTransaction.userDefinedId
-            financialAccountToken = managementOperationTransaction.financialAccountToken
-            direction = managementOperationTransaction.direction
             additionalProperties =
                 managementOperationTransaction.additionalProperties.toMutableMap()
         }
@@ -192,54 +192,30 @@ private constructor(
 
         fun token(token: JsonField<String>) = apply { this.token = token }
 
-        fun result(result: TransactionResult) = result(JsonField.of(result))
-
-        fun result(result: JsonField<TransactionResult>) = apply { this.result = result }
-
         fun category(category: ManagementOperationCategory) = category(JsonField.of(category))
 
         fun category(category: JsonField<ManagementOperationCategory>) = apply {
             this.category = category
         }
 
-        fun status(status: TransactionStatus) = status(JsonField.of(status))
+        fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-        fun status(status: JsonField<TransactionStatus>) = apply { this.status = status }
-
-        fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
-
-        fun settledAmount(settledAmount: JsonField<Long>) = apply {
-            this.settledAmount = settledAmount
-        }
-
-        fun pendingAmount(pendingAmount: Long) = pendingAmount(JsonField.of(pendingAmount))
-
-        fun pendingAmount(pendingAmount: JsonField<Long>) = apply {
-            this.pendingAmount = pendingAmount
-        }
+        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         fun currency(currency: String) = currency(JsonField.of(currency))
 
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
+        fun direction(direction: ManagementOperationDirection) = direction(JsonField.of(direction))
+
+        fun direction(direction: JsonField<ManagementOperationDirection>) = apply {
+            this.direction = direction
+        }
+
         fun events(events: List<ManagementOperationEvent>) = events(JsonField.of(events))
 
         fun events(events: JsonField<List<ManagementOperationEvent>>) = apply {
             this.events = events
-        }
-
-        fun created(created: OffsetDateTime) = created(JsonField.of(created))
-
-        fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
-
-        fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
-
-        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
-
-        fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
-
-        fun userDefinedId(userDefinedId: JsonField<String>) = apply {
-            this.userDefinedId = userDefinedId
         }
 
         fun financialAccountToken(financialAccountToken: String) =
@@ -249,10 +225,34 @@ private constructor(
             this.financialAccountToken = financialAccountToken
         }
 
-        fun direction(direction: ManagementOperationDirection) = direction(JsonField.of(direction))
+        fun pendingAmount(pendingAmount: Long) = pendingAmount(JsonField.of(pendingAmount))
 
-        fun direction(direction: JsonField<ManagementOperationDirection>) = apply {
-            this.direction = direction
+        fun pendingAmount(pendingAmount: JsonField<Long>) = apply {
+            this.pendingAmount = pendingAmount
+        }
+
+        fun result(result: TransactionResult) = result(JsonField.of(result))
+
+        fun result(result: JsonField<TransactionResult>) = apply { this.result = result }
+
+        fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
+
+        fun settledAmount(settledAmount: JsonField<Long>) = apply {
+            this.settledAmount = settledAmount
+        }
+
+        fun status(status: TransactionStatus) = status(JsonField.of(status))
+
+        fun status(status: JsonField<TransactionStatus>) = apply { this.status = status }
+
+        fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
+
+        fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+
+        fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
+
+        fun userDefinedId(userDefinedId: JsonField<String>) = apply {
+            this.userDefinedId = userDefinedId
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -277,18 +277,18 @@ private constructor(
         fun build(): ManagementOperationTransaction =
             ManagementOperationTransaction(
                 token,
-                result,
                 category,
-                status,
-                settledAmount,
-                pendingAmount,
-                currency,
-                events.map { it.toImmutable() },
                 created,
+                currency,
+                direction,
+                events.map { it.toImmutable() },
+                financialAccountToken,
+                pendingAmount,
+                result,
+                settledAmount,
+                status,
                 updated,
                 userDefinedId,
-                financialAccountToken,
-                direction,
                 additionalProperties.toImmutable(),
             )
     }
@@ -425,73 +425,73 @@ private constructor(
     class ManagementOperationEvent
     @JsonCreator
     private constructor(
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
         @JsonProperty("amount")
         @ExcludeMissing
         private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("created")
+        @ExcludeMissing
+        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("detailed_results")
+        @ExcludeMissing
+        private val detailedResults: JsonField<List<DetailedResults>> = JsonMissing.of(),
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("memo")
+        @ExcludeMissing
+        private val memo: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("result")
+        @ExcludeMissing
+        private val result: JsonField<TransactionResult> = JsonMissing.of(),
         @JsonProperty("type")
         @ExcludeMissing
         private val type: JsonField<ManagementOperationEventType> = JsonMissing.of(),
         @JsonProperty("subtype")
         @ExcludeMissing
         private val subtype: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("result")
-        @ExcludeMissing
-        private val result: JsonField<TransactionResult> = JsonMissing.of(),
-        @JsonProperty("detailed_results")
-        @ExcludeMissing
-        private val detailedResults: JsonField<List<DetailedResults>> = JsonMissing.of(),
-        @JsonProperty("created")
-        @ExcludeMissing
-        private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("token")
-        @ExcludeMissing
-        private val token: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("memo")
-        @ExcludeMissing
-        private val memo: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("effective_date")
-        @ExcludeMissing
-        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        fun token(): String = token.getRequired("token")
+
         fun amount(): Long = amount.getRequired("amount")
+
+        fun created(): OffsetDateTime = created.getRequired("created")
+
+        fun detailedResults(): List<DetailedResults> =
+            detailedResults.getRequired("detailed_results")
+
+        fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
+
+        fun memo(): String = memo.getRequired("memo")
+
+        fun result(): TransactionResult = result.getRequired("result")
 
         fun type(): ManagementOperationEventType = type.getRequired("type")
 
         fun subtype(): Optional<String> = Optional.ofNullable(subtype.getNullable("subtype"))
 
-        fun result(): TransactionResult = result.getRequired("result")
-
-        fun detailedResults(): List<DetailedResults> =
-            detailedResults.getRequired("detailed_results")
-
-        fun created(): OffsetDateTime = created.getRequired("created")
-
-        fun token(): String = token.getRequired("token")
-
-        fun memo(): String = memo.getRequired("memo")
-
-        fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
+        @JsonProperty("token") @ExcludeMissing fun _token() = token
 
         @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+
+        @JsonProperty("created") @ExcludeMissing fun _created() = created
+
+        @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
+
+        @JsonProperty("effective_date") @ExcludeMissing fun _effectiveDate() = effectiveDate
+
+        @JsonProperty("memo") @ExcludeMissing fun _memo() = memo
+
+        @JsonProperty("result") @ExcludeMissing fun _result() = result
 
         @JsonProperty("type") @ExcludeMissing fun _type() = type
 
         @JsonProperty("subtype") @ExcludeMissing fun _subtype() = subtype
-
-        @JsonProperty("result") @ExcludeMissing fun _result() = result
-
-        @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
-
-        @JsonProperty("created") @ExcludeMissing fun _created() = created
-
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
-
-        @JsonProperty("memo") @ExcludeMissing fun _memo() = memo
-
-        @JsonProperty("effective_date") @ExcludeMissing fun _effectiveDate() = effectiveDate
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -501,15 +501,15 @@ private constructor(
 
         fun validate(): ManagementOperationEvent = apply {
             if (!validated) {
+                token()
                 amount()
+                created()
+                detailedResults()
+                effectiveDate()
+                memo()
+                result()
                 type()
                 subtype()
-                result()
-                detailedResults()
-                created()
-                token()
-                memo()
-                effectiveDate()
                 validated = true
             }
         }
@@ -523,46 +523,42 @@ private constructor(
 
         class Builder {
 
+            private var token: JsonField<String> = JsonMissing.of()
             private var amount: JsonField<Long> = JsonMissing.of()
+            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var detailedResults: JsonField<List<DetailedResults>> = JsonMissing.of()
+            private var effectiveDate: JsonField<LocalDate> = JsonMissing.of()
+            private var memo: JsonField<String> = JsonMissing.of()
+            private var result: JsonField<TransactionResult> = JsonMissing.of()
             private var type: JsonField<ManagementOperationEventType> = JsonMissing.of()
             private var subtype: JsonField<String> = JsonMissing.of()
-            private var result: JsonField<TransactionResult> = JsonMissing.of()
-            private var detailedResults: JsonField<List<DetailedResults>> = JsonMissing.of()
-            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var token: JsonField<String> = JsonMissing.of()
-            private var memo: JsonField<String> = JsonMissing.of()
-            private var effectiveDate: JsonField<LocalDate> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(managementOperationEvent: ManagementOperationEvent) = apply {
+                token = managementOperationEvent.token
                 amount = managementOperationEvent.amount
+                created = managementOperationEvent.created
+                detailedResults = managementOperationEvent.detailedResults
+                effectiveDate = managementOperationEvent.effectiveDate
+                memo = managementOperationEvent.memo
+                result = managementOperationEvent.result
                 type = managementOperationEvent.type
                 subtype = managementOperationEvent.subtype
-                result = managementOperationEvent.result
-                detailedResults = managementOperationEvent.detailedResults
-                created = managementOperationEvent.created
-                token = managementOperationEvent.token
-                memo = managementOperationEvent.memo
-                effectiveDate = managementOperationEvent.effectiveDate
                 additionalProperties = managementOperationEvent.additionalProperties.toMutableMap()
             }
+
+            fun token(token: String) = token(JsonField.of(token))
+
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             fun amount(amount: Long) = amount(JsonField.of(amount))
 
             fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-            fun type(type: ManagementOperationEventType) = type(JsonField.of(type))
+            fun created(created: OffsetDateTime) = created(JsonField.of(created))
 
-            fun type(type: JsonField<ManagementOperationEventType>) = apply { this.type = type }
-
-            fun subtype(subtype: String) = subtype(JsonField.of(subtype))
-
-            fun subtype(subtype: JsonField<String>) = apply { this.subtype = subtype }
-
-            fun result(result: TransactionResult) = result(JsonField.of(result))
-
-            fun result(result: JsonField<TransactionResult>) = apply { this.result = result }
+            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
             fun detailedResults(detailedResults: List<DetailedResults>) =
                 detailedResults(JsonField.of(detailedResults))
@@ -571,23 +567,27 @@ private constructor(
                 this.detailedResults = detailedResults
             }
 
-            fun created(created: OffsetDateTime) = created(JsonField.of(created))
-
-            fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
-
-            fun token(token: String) = token(JsonField.of(token))
-
-            fun token(token: JsonField<String>) = apply { this.token = token }
-
-            fun memo(memo: String) = memo(JsonField.of(memo))
-
-            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
-
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
 
             fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
+
+            fun memo(memo: String) = memo(JsonField.of(memo))
+
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
+
+            fun result(result: TransactionResult) = result(JsonField.of(result))
+
+            fun result(result: JsonField<TransactionResult>) = apply { this.result = result }
+
+            fun type(type: ManagementOperationEventType) = type(JsonField.of(type))
+
+            fun type(type: JsonField<ManagementOperationEventType>) = apply { this.type = type }
+
+            fun subtype(subtype: String) = subtype(JsonField.of(subtype))
+
+            fun subtype(subtype: JsonField<String>) = apply { this.subtype = subtype }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -610,15 +610,15 @@ private constructor(
 
             fun build(): ManagementOperationEvent =
                 ManagementOperationEvent(
+                    token,
                     amount,
+                    created,
+                    detailedResults.map { it.toImmutable() },
+                    effectiveDate,
+                    memo,
+                    result,
                     type,
                     subtype,
-                    result,
-                    detailedResults.map { it.toImmutable() },
-                    created,
-                    token,
-                    memo,
-                    effectiveDate,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -868,17 +868,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is ManagementOperationEvent && amount == other.amount && type == other.type && subtype == other.subtype && result == other.result && detailedResults == other.detailedResults && created == other.created && token == other.token && memo == other.memo && effectiveDate == other.effectiveDate && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is ManagementOperationEvent && token == other.token && amount == other.amount && created == other.created && detailedResults == other.detailedResults && effectiveDate == other.effectiveDate && memo == other.memo && result == other.result && type == other.type && subtype == other.subtype && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, type, subtype, result, detailedResults, created, token, memo, effectiveDate, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(token, amount, created, detailedResults, effectiveDate, memo, result, type, subtype, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "ManagementOperationEvent{amount=$amount, type=$type, subtype=$subtype, result=$result, detailedResults=$detailedResults, created=$created, token=$token, memo=$memo, effectiveDate=$effectiveDate, additionalProperties=$additionalProperties}"
+            "ManagementOperationEvent{token=$token, amount=$amount, created=$created, detailedResults=$detailedResults, effectiveDate=$effectiveDate, memo=$memo, result=$result, type=$type, subtype=$subtype, additionalProperties=$additionalProperties}"
     }
 
     class TransactionResult
@@ -1018,15 +1018,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ManagementOperationTransaction && token == other.token && result == other.result && category == other.category && status == other.status && settledAmount == other.settledAmount && pendingAmount == other.pendingAmount && currency == other.currency && events == other.events && created == other.created && updated == other.updated && userDefinedId == other.userDefinedId && financialAccountToken == other.financialAccountToken && direction == other.direction && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is ManagementOperationTransaction && token == other.token && category == other.category && created == other.created && currency == other.currency && direction == other.direction && events == other.events && financialAccountToken == other.financialAccountToken && pendingAmount == other.pendingAmount && result == other.result && settledAmount == other.settledAmount && status == other.status && updated == other.updated && userDefinedId == other.userDefinedId && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(token, result, category, status, settledAmount, pendingAmount, currency, events, created, updated, userDefinedId, financialAccountToken, direction, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, category, created, currency, direction, events, financialAccountToken, pendingAmount, result, settledAmount, status, updated, userDefinedId, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ManagementOperationTransaction{token=$token, result=$result, category=$category, status=$status, settledAmount=$settledAmount, pendingAmount=$pendingAmount, currency=$currency, events=$events, created=$created, updated=$updated, userDefinedId=$userDefinedId, financialAccountToken=$financialAccountToken, direction=$direction, additionalProperties=$additionalProperties}"
+        "ManagementOperationTransaction{token=$token, category=$category, created=$created, currency=$currency, direction=$direction, events=$events, financialAccountToken=$financialAccountToken, pendingAmount=$pendingAmount, result=$result, settledAmount=$settledAmount, status=$status, updated=$updated, userDefinedId=$userDefinedId, additionalProperties=$additionalProperties}"
 }

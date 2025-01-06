@@ -20,27 +20,27 @@ import java.util.Optional
 class TransactionSimulateAuthorizationAdviceResponse
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("debugging_request_id")
     @ExcludeMissing
     private val debuggingRequestId: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /** A unique token to reference this transaction. */
+    fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
 
     /** Debugging request ID to share with Lithic Support team. */
     fun debuggingRequestId(): Optional<String> =
         Optional.ofNullable(debuggingRequestId.getNullable("debugging_request_id"))
 
     /** A unique token to reference this transaction. */
-    fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /** Debugging request ID to share with Lithic Support team. */
     @JsonProperty("debugging_request_id")
     @ExcludeMissing
     fun _debuggingRequestId() = debuggingRequestId
-
-    /** A unique token to reference this transaction. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -50,8 +50,8 @@ private constructor(
 
     fun validate(): TransactionSimulateAuthorizationAdviceResponse = apply {
         if (!validated) {
-            debuggingRequestId()
             token()
+            debuggingRequestId()
             validated = true
         }
     }
@@ -65,8 +65,8 @@ private constructor(
 
     class Builder {
 
-        private var debuggingRequestId: JsonField<String> = JsonMissing.of()
         private var token: JsonField<String> = JsonMissing.of()
+        private var debuggingRequestId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -74,11 +74,17 @@ private constructor(
             transactionSimulateAuthorizationAdviceResponse:
                 TransactionSimulateAuthorizationAdviceResponse
         ) = apply {
-            debuggingRequestId = transactionSimulateAuthorizationAdviceResponse.debuggingRequestId
             token = transactionSimulateAuthorizationAdviceResponse.token
+            debuggingRequestId = transactionSimulateAuthorizationAdviceResponse.debuggingRequestId
             additionalProperties =
                 transactionSimulateAuthorizationAdviceResponse.additionalProperties.toMutableMap()
         }
+
+        /** A unique token to reference this transaction. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** A unique token to reference this transaction. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Debugging request ID to share with Lithic Support team. */
         fun debuggingRequestId(debuggingRequestId: String) =
@@ -88,12 +94,6 @@ private constructor(
         fun debuggingRequestId(debuggingRequestId: JsonField<String>) = apply {
             this.debuggingRequestId = debuggingRequestId
         }
-
-        /** A unique token to reference this transaction. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** A unique token to reference this transaction. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -116,8 +116,8 @@ private constructor(
 
         fun build(): TransactionSimulateAuthorizationAdviceResponse =
             TransactionSimulateAuthorizationAdviceResponse(
-                debuggingRequestId,
                 token,
+                debuggingRequestId,
                 additionalProperties.toImmutable(),
             )
     }
@@ -127,15 +127,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is TransactionSimulateAuthorizationAdviceResponse && debuggingRequestId == other.debuggingRequestId && token == other.token && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is TransactionSimulateAuthorizationAdviceResponse && token == other.token && debuggingRequestId == other.debuggingRequestId && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(debuggingRequestId, token, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, debuggingRequestId, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "TransactionSimulateAuthorizationAdviceResponse{debuggingRequestId=$debuggingRequestId, token=$token, additionalProperties=$additionalProperties}"
+        "TransactionSimulateAuthorizationAdviceResponse{token=$token, debuggingRequestId=$debuggingRequestId, additionalProperties=$additionalProperties}"
 }

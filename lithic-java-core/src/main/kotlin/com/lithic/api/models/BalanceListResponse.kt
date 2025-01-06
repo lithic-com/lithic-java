@@ -23,6 +23,7 @@ import java.util.Objects
 class BalanceListResponse
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("available_amount")
     @ExcludeMissing
     private val availableAmount: JsonField<Long> = JsonMissing.of(),
@@ -32,8 +33,6 @@ private constructor(
     @JsonProperty("currency")
     @ExcludeMissing
     private val currency: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
     @JsonProperty("last_transaction_event_token")
     @ExcludeMissing
     private val lastTransactionEventToken: JsonField<String> = JsonMissing.of(),
@@ -46,11 +45,15 @@ private constructor(
     @JsonProperty("total_amount")
     @ExcludeMissing
     private val totalAmount: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
     @JsonProperty("updated")
     @ExcludeMissing
     private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /** Globally unique identifier for the financial account that holds this balance. */
+    fun token(): String = token.getRequired("token")
 
     /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
     fun availableAmount(): Long = availableAmount.getRequired("available_amount")
@@ -60,12 +63,6 @@ private constructor(
 
     /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
     fun currency(): String = currency.getRequired("currency")
-
-    /** Globally unique identifier for the financial account that holds this balance. */
-    fun token(): String = token.getRequired("token")
-
-    /** Type of financial account. */
-    fun type(): Type = type.getRequired("type")
 
     /**
      * Globally unique identifier for the last financial transaction event that impacted this
@@ -89,8 +86,14 @@ private constructor(
      */
     fun totalAmount(): Long = totalAmount.getRequired("total_amount")
 
+    /** Type of financial account. */
+    fun type(): Type = type.getRequired("type")
+
     /** Date and time for when the balance was last updated. */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
+
+    /** Globally unique identifier for the financial account that holds this balance. */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
 
     /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
     @JsonProperty("available_amount") @ExcludeMissing fun _availableAmount() = availableAmount
@@ -100,12 +103,6 @@ private constructor(
 
     /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
     @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
-
-    /** Globally unique identifier for the financial account that holds this balance. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
-    /** Type of financial account. */
-    @JsonProperty("type") @ExcludeMissing fun _type() = type
 
     /**
      * Globally unique identifier for the last financial transaction event that impacted this
@@ -132,6 +129,9 @@ private constructor(
      */
     @JsonProperty("total_amount") @ExcludeMissing fun _totalAmount() = totalAmount
 
+    /** Type of financial account. */
+    @JsonProperty("type") @ExcludeMissing fun _type() = type
+
     /** Date and time for when the balance was last updated. */
     @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
 
@@ -143,15 +143,15 @@ private constructor(
 
     fun validate(): BalanceListResponse = apply {
         if (!validated) {
+            token()
             availableAmount()
             created()
             currency()
-            token()
-            type()
             lastTransactionEventToken()
             lastTransactionToken()
             pendingAmount()
             totalAmount()
+            type()
             updated()
             validated = true
         }
@@ -166,32 +166,38 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
         private var availableAmount: JsonField<Long> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var currency: JsonField<String> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
-        private var type: JsonField<Type> = JsonMissing.of()
         private var lastTransactionEventToken: JsonField<String> = JsonMissing.of()
         private var lastTransactionToken: JsonField<String> = JsonMissing.of()
         private var pendingAmount: JsonField<Long> = JsonMissing.of()
         private var totalAmount: JsonField<Long> = JsonMissing.of()
+        private var type: JsonField<Type> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(balanceListResponse: BalanceListResponse) = apply {
+            token = balanceListResponse.token
             availableAmount = balanceListResponse.availableAmount
             created = balanceListResponse.created
             currency = balanceListResponse.currency
-            token = balanceListResponse.token
-            type = balanceListResponse.type
             lastTransactionEventToken = balanceListResponse.lastTransactionEventToken
             lastTransactionToken = balanceListResponse.lastTransactionToken
             pendingAmount = balanceListResponse.pendingAmount
             totalAmount = balanceListResponse.totalAmount
+            type = balanceListResponse.type
             updated = balanceListResponse.updated
             additionalProperties = balanceListResponse.additionalProperties.toMutableMap()
         }
+
+        /** Globally unique identifier for the financial account that holds this balance. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier for the financial account that holds this balance. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
 
         /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
         fun availableAmount(availableAmount: Long) = availableAmount(JsonField.of(availableAmount))
@@ -212,18 +218,6 @@ private constructor(
 
         /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
-
-        /** Globally unique identifier for the financial account that holds this balance. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** Globally unique identifier for the financial account that holds this balance. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
-
-        /** Type of financial account. */
-        fun type(type: Type) = type(JsonField.of(type))
-
-        /** Type of financial account. */
-        fun type(type: JsonField<Type>) = apply { this.type = type }
 
         /**
          * Globally unique identifier for the last financial transaction event that impacted this
@@ -279,6 +273,12 @@ private constructor(
          */
         fun totalAmount(totalAmount: JsonField<Long>) = apply { this.totalAmount = totalAmount }
 
+        /** Type of financial account. */
+        fun type(type: Type) = type(JsonField.of(type))
+
+        /** Type of financial account. */
+        fun type(type: JsonField<Type>) = apply { this.type = type }
+
         /** Date and time for when the balance was last updated. */
         fun updated(updated: OffsetDateTime) = updated(JsonField.of(updated))
 
@@ -306,15 +306,15 @@ private constructor(
 
         fun build(): BalanceListResponse =
             BalanceListResponse(
+                token,
                 availableAmount,
                 created,
                 currency,
-                token,
-                type,
                 lastTransactionEventToken,
                 lastTransactionToken,
                 pendingAmount,
                 totalAmount,
+                type,
                 updated,
                 additionalProperties.toImmutable(),
             )
@@ -388,15 +388,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is BalanceListResponse && availableAmount == other.availableAmount && created == other.created && currency == other.currency && token == other.token && type == other.type && lastTransactionEventToken == other.lastTransactionEventToken && lastTransactionToken == other.lastTransactionToken && pendingAmount == other.pendingAmount && totalAmount == other.totalAmount && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is BalanceListResponse && token == other.token && availableAmount == other.availableAmount && created == other.created && currency == other.currency && lastTransactionEventToken == other.lastTransactionEventToken && lastTransactionToken == other.lastTransactionToken && pendingAmount == other.pendingAmount && totalAmount == other.totalAmount && type == other.type && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(availableAmount, created, currency, token, type, lastTransactionEventToken, lastTransactionToken, pendingAmount, totalAmount, updated, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, availableAmount, created, currency, lastTransactionEventToken, lastTransactionToken, pendingAmount, totalAmount, type, updated, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "BalanceListResponse{availableAmount=$availableAmount, created=$created, currency=$currency, token=$token, type=$type, lastTransactionEventToken=$lastTransactionEventToken, lastTransactionToken=$lastTransactionToken, pendingAmount=$pendingAmount, totalAmount=$totalAmount, updated=$updated, additionalProperties=$additionalProperties}"
+        "BalanceListResponse{token=$token, availableAmount=$availableAmount, created=$created, currency=$currency, lastTransactionEventToken=$lastTransactionEventToken, lastTransactionToken=$lastTransactionToken, pendingAmount=$pendingAmount, totalAmount=$totalAmount, type=$type, updated=$updated, additionalProperties=$additionalProperties}"
 }

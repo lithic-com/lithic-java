@@ -382,9 +382,9 @@ constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("account_tokens") private val accountTokens: List<String>,
-        @JsonProperty("type") private val type: AuthRuleType?,
-        @JsonProperty("parameters") private val parameters: Parameters?,
         @JsonProperty("name") private val name: String?,
+        @JsonProperty("parameters") private val parameters: Parameters?,
+        @JsonProperty("type") private val type: AuthRuleType?,
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -392,15 +392,15 @@ constructor(
         /** Account tokens to which the Auth Rule applies. */
         @JsonProperty("account_tokens") fun accountTokens(): List<String> = accountTokens
 
-        /** The type of Auth Rule */
-        @JsonProperty("type") fun type(): Optional<AuthRuleType> = Optional.ofNullable(type)
+        /** Auth Rule Name */
+        @JsonProperty("name") fun name(): Optional<String> = Optional.ofNullable(name)
 
         /** Parameters for the current version of the Auth Rule */
         @JsonProperty("parameters")
         fun parameters(): Optional<Parameters> = Optional.ofNullable(parameters)
 
-        /** Auth Rule Name */
-        @JsonProperty("name") fun name(): Optional<String> = Optional.ofNullable(name)
+        /** The type of Auth Rule */
+        @JsonProperty("type") fun type(): Optional<AuthRuleType> = Optional.ofNullable(type)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -416,9 +416,9 @@ constructor(
         class Builder {
 
             private var accountTokens: MutableList<String>? = null
-            private var type: AuthRuleType? = null
-            private var parameters: Parameters? = null
             private var name: String? = null
+            private var parameters: Parameters? = null
+            private var type: AuthRuleType? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -426,9 +426,9 @@ constructor(
                 createAuthRuleRequestAccountTokens: CreateAuthRuleRequestAccountTokens
             ) = apply {
                 accountTokens = createAuthRuleRequestAccountTokens.accountTokens.toMutableList()
-                type = createAuthRuleRequestAccountTokens.type
-                parameters = createAuthRuleRequestAccountTokens.parameters
                 name = createAuthRuleRequestAccountTokens.name
+                parameters = createAuthRuleRequestAccountTokens.parameters
+                type = createAuthRuleRequestAccountTokens.type
                 additionalProperties =
                     createAuthRuleRequestAccountTokens.additionalProperties.toMutableMap()
             }
@@ -443,8 +443,8 @@ constructor(
                 accountTokens = (accountTokens ?: mutableListOf()).apply { add(accountToken) }
             }
 
-            /** The type of Auth Rule */
-            fun type(type: AuthRuleType) = apply { this.type = type }
+            /** Auth Rule Name */
+            fun name(name: String) = apply { this.name = name }
 
             /** Parameters for the current version of the Auth Rule */
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
@@ -459,8 +459,8 @@ constructor(
                 this.parameters = Parameters.ofVelocityLimitParams(velocityLimitParams)
             }
 
-            /** Auth Rule Name */
-            fun name(name: String) = apply { this.name = name }
+            /** The type of Auth Rule */
+            fun type(type: AuthRuleType) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -485,9 +485,9 @@ constructor(
                 CreateAuthRuleRequestAccountTokens(
                     checkNotNull(accountTokens) { "`accountTokens` is required but was not set" }
                         .toImmutable(),
-                    type,
-                    parameters,
                     name,
+                    parameters,
+                    type,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -1276,17 +1276,17 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CreateAuthRuleRequestAccountTokens && accountTokens == other.accountTokens && type == other.type && parameters == other.parameters && name == other.name && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CreateAuthRuleRequestAccountTokens && accountTokens == other.accountTokens && name == other.name && parameters == other.parameters && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(accountTokens, type, parameters, name, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(accountTokens, name, parameters, type, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CreateAuthRuleRequestAccountTokens{accountTokens=$accountTokens, type=$type, parameters=$parameters, name=$name, additionalProperties=$additionalProperties}"
+            "CreateAuthRuleRequestAccountTokens{accountTokens=$accountTokens, name=$name, parameters=$parameters, type=$type, additionalProperties=$additionalProperties}"
     }
 
     @NoAutoDetect
@@ -1294,9 +1294,9 @@ constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("card_tokens") private val cardTokens: List<String>,
-        @JsonProperty("type") private val type: AuthRuleType?,
-        @JsonProperty("parameters") private val parameters: Parameters?,
         @JsonProperty("name") private val name: String?,
+        @JsonProperty("parameters") private val parameters: Parameters?,
+        @JsonProperty("type") private val type: AuthRuleType?,
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -1304,15 +1304,15 @@ constructor(
         /** Card tokens to which the Auth Rule applies. */
         @JsonProperty("card_tokens") fun cardTokens(): List<String> = cardTokens
 
-        /** The type of Auth Rule */
-        @JsonProperty("type") fun type(): Optional<AuthRuleType> = Optional.ofNullable(type)
+        /** Auth Rule Name */
+        @JsonProperty("name") fun name(): Optional<String> = Optional.ofNullable(name)
 
         /** Parameters for the current version of the Auth Rule */
         @JsonProperty("parameters")
         fun parameters(): Optional<Parameters> = Optional.ofNullable(parameters)
 
-        /** Auth Rule Name */
-        @JsonProperty("name") fun name(): Optional<String> = Optional.ofNullable(name)
+        /** The type of Auth Rule */
+        @JsonProperty("type") fun type(): Optional<AuthRuleType> = Optional.ofNullable(type)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -1328,18 +1328,18 @@ constructor(
         class Builder {
 
             private var cardTokens: MutableList<String>? = null
-            private var type: AuthRuleType? = null
-            private var parameters: Parameters? = null
             private var name: String? = null
+            private var parameters: Parameters? = null
+            private var type: AuthRuleType? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(createAuthRuleRequestCardTokens: CreateAuthRuleRequestCardTokens) =
                 apply {
                     cardTokens = createAuthRuleRequestCardTokens.cardTokens.toMutableList()
-                    type = createAuthRuleRequestCardTokens.type
-                    parameters = createAuthRuleRequestCardTokens.parameters
                     name = createAuthRuleRequestCardTokens.name
+                    parameters = createAuthRuleRequestCardTokens.parameters
+                    type = createAuthRuleRequestCardTokens.type
                     additionalProperties =
                         createAuthRuleRequestCardTokens.additionalProperties.toMutableMap()
                 }
@@ -1354,8 +1354,8 @@ constructor(
                 cardTokens = (cardTokens ?: mutableListOf()).apply { add(cardToken) }
             }
 
-            /** The type of Auth Rule */
-            fun type(type: AuthRuleType) = apply { this.type = type }
+            /** Auth Rule Name */
+            fun name(name: String) = apply { this.name = name }
 
             /** Parameters for the current version of the Auth Rule */
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
@@ -1370,8 +1370,8 @@ constructor(
                 this.parameters = Parameters.ofVelocityLimitParams(velocityLimitParams)
             }
 
-            /** Auth Rule Name */
-            fun name(name: String) = apply { this.name = name }
+            /** The type of Auth Rule */
+            fun type(type: AuthRuleType) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -1396,9 +1396,9 @@ constructor(
                 CreateAuthRuleRequestCardTokens(
                     checkNotNull(cardTokens) { "`cardTokens` is required but was not set" }
                         .toImmutable(),
-                    type,
-                    parameters,
                     name,
+                    parameters,
+                    type,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -2187,17 +2187,17 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CreateAuthRuleRequestCardTokens && cardTokens == other.cardTokens && type == other.type && parameters == other.parameters && name == other.name && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CreateAuthRuleRequestCardTokens && cardTokens == other.cardTokens && name == other.name && parameters == other.parameters && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(cardTokens, type, parameters, name, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(cardTokens, name, parameters, type, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CreateAuthRuleRequestCardTokens{cardTokens=$cardTokens, type=$type, parameters=$parameters, name=$name, additionalProperties=$additionalProperties}"
+            "CreateAuthRuleRequestCardTokens{cardTokens=$cardTokens, name=$name, parameters=$parameters, type=$type, additionalProperties=$additionalProperties}"
     }
 
     @NoAutoDetect
@@ -2206,9 +2206,9 @@ constructor(
     private constructor(
         @JsonProperty("program_level") private val programLevel: Boolean,
         @JsonProperty("excluded_card_tokens") private val excludedCardTokens: List<String>?,
-        @JsonProperty("type") private val type: AuthRuleType?,
-        @JsonProperty("parameters") private val parameters: Parameters?,
         @JsonProperty("name") private val name: String?,
+        @JsonProperty("parameters") private val parameters: Parameters?,
+        @JsonProperty("type") private val type: AuthRuleType?,
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -2220,15 +2220,15 @@ constructor(
         @JsonProperty("excluded_card_tokens")
         fun excludedCardTokens(): Optional<List<String>> = Optional.ofNullable(excludedCardTokens)
 
-        /** The type of Auth Rule */
-        @JsonProperty("type") fun type(): Optional<AuthRuleType> = Optional.ofNullable(type)
+        /** Auth Rule Name */
+        @JsonProperty("name") fun name(): Optional<String> = Optional.ofNullable(name)
 
         /** Parameters for the current version of the Auth Rule */
         @JsonProperty("parameters")
         fun parameters(): Optional<Parameters> = Optional.ofNullable(parameters)
 
-        /** Auth Rule Name */
-        @JsonProperty("name") fun name(): Optional<String> = Optional.ofNullable(name)
+        /** The type of Auth Rule */
+        @JsonProperty("type") fun type(): Optional<AuthRuleType> = Optional.ofNullable(type)
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -2245,9 +2245,9 @@ constructor(
 
             private var programLevel: Boolean? = null
             private var excludedCardTokens: MutableList<String>? = null
-            private var type: AuthRuleType? = null
-            private var parameters: Parameters? = null
             private var name: String? = null
+            private var parameters: Parameters? = null
+            private var type: AuthRuleType? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -2257,9 +2257,9 @@ constructor(
                 programLevel = createAuthRuleRequestProgramLevel.programLevel
                 excludedCardTokens =
                     createAuthRuleRequestProgramLevel.excludedCardTokens?.toMutableList()
-                type = createAuthRuleRequestProgramLevel.type
-                parameters = createAuthRuleRequestProgramLevel.parameters
                 name = createAuthRuleRequestProgramLevel.name
+                parameters = createAuthRuleRequestProgramLevel.parameters
+                type = createAuthRuleRequestProgramLevel.type
                 additionalProperties =
                     createAuthRuleRequestProgramLevel.additionalProperties.toMutableMap()
             }
@@ -2278,8 +2278,8 @@ constructor(
                     (excludedCardTokens ?: mutableListOf()).apply { add(excludedCardToken) }
             }
 
-            /** The type of Auth Rule */
-            fun type(type: AuthRuleType) = apply { this.type = type }
+            /** Auth Rule Name */
+            fun name(name: String) = apply { this.name = name }
 
             /** Parameters for the current version of the Auth Rule */
             fun parameters(parameters: Parameters) = apply { this.parameters = parameters }
@@ -2294,8 +2294,8 @@ constructor(
                 this.parameters = Parameters.ofVelocityLimitParams(velocityLimitParams)
             }
 
-            /** Auth Rule Name */
-            fun name(name: String) = apply { this.name = name }
+            /** The type of Auth Rule */
+            fun type(type: AuthRuleType) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -2320,9 +2320,9 @@ constructor(
                 CreateAuthRuleRequestProgramLevel(
                     checkNotNull(programLevel) { "`programLevel` is required but was not set" },
                     excludedCardTokens?.toImmutable(),
-                    type,
-                    parameters,
                     name,
+                    parameters,
+                    type,
                     additionalProperties.toImmutable(),
                 )
         }
@@ -3111,17 +3111,17 @@ constructor(
                 return true
             }
 
-            return /* spotless:off */ other is CreateAuthRuleRequestProgramLevel && programLevel == other.programLevel && excludedCardTokens == other.excludedCardTokens && type == other.type && parameters == other.parameters && name == other.name && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is CreateAuthRuleRequestProgramLevel && programLevel == other.programLevel && excludedCardTokens == other.excludedCardTokens && name == other.name && parameters == other.parameters && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(programLevel, excludedCardTokens, type, parameters, name, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(programLevel, excludedCardTokens, name, parameters, type, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "CreateAuthRuleRequestProgramLevel{programLevel=$programLevel, excludedCardTokens=$excludedCardTokens, type=$type, parameters=$parameters, name=$name, additionalProperties=$additionalProperties}"
+            "CreateAuthRuleRequestProgramLevel{programLevel=$programLevel, excludedCardTokens=$excludedCardTokens, name=$name, parameters=$parameters, type=$type, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

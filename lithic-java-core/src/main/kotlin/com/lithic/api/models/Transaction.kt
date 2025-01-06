@@ -23,15 +23,16 @@ import java.util.Optional
 class Transaction
 @JsonCreator
 private constructor(
+    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    private val accountToken: JsonField<String> = JsonMissing.of(),
     @JsonProperty("acquirer_fee")
     @ExcludeMissing
     private val acquirerFee: JsonField<Long> = JsonMissing.of(),
     @JsonProperty("acquirer_reference_number")
     @ExcludeMissing
     private val acquirerReferenceNumber: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("account_token")
-    @ExcludeMissing
-    private val accountToken: JsonField<String> = JsonMissing.of(),
     @JsonProperty("amount") @ExcludeMissing private val amount: JsonField<Long> = JsonMissing.of(),
     @JsonProperty("amounts")
     @ExcludeMissing
@@ -52,9 +53,6 @@ private constructor(
     @JsonProperty("created")
     @ExcludeMissing
     private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-    @JsonProperty("events")
-    @ExcludeMissing
-    private val events: JsonField<List<TransactionEvent>> = JsonMissing.of(),
     @JsonProperty("merchant")
     @ExcludeMissing
     private val merchant: JsonField<Merchant> = JsonMissing.of(),
@@ -73,25 +71,33 @@ private constructor(
     @JsonProperty("network_risk_score")
     @ExcludeMissing
     private val networkRiskScore: JsonField<Long> = JsonMissing.of(),
+    @JsonProperty("pos") @ExcludeMissing private val pos: JsonField<Pos> = JsonMissing.of(),
     @JsonProperty("result")
     @ExcludeMissing
     private val result: JsonField<DeclineResult> = JsonMissing.of(),
-    @JsonProperty("pos") @ExcludeMissing private val pos: JsonField<Pos> = JsonMissing.of(),
     @JsonProperty("settled_amount")
     @ExcludeMissing
     private val settledAmount: JsonField<Long> = JsonMissing.of(),
     @JsonProperty("status")
     @ExcludeMissing
     private val status: JsonField<Status> = JsonMissing.of(),
-    @JsonProperty("token") @ExcludeMissing private val token: JsonField<String> = JsonMissing.of(),
     @JsonProperty("token_info")
     @ExcludeMissing
     private val tokenInfo: JsonField<TokenInfo> = JsonMissing.of(),
     @JsonProperty("updated")
     @ExcludeMissing
     private val updated: JsonField<OffsetDateTime> = JsonMissing.of(),
+    @JsonProperty("events")
+    @ExcludeMissing
+    private val events: JsonField<List<TransactionEvent>> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
+
+    /** Globally unique identifier. */
+    fun token(): String = token.getRequired("token")
+
+    /** The token for the account associated with this transaction. */
+    fun accountToken(): String = accountToken.getRequired("account_token")
 
     /**
      * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
@@ -106,9 +112,6 @@ private constructor(
      */
     fun acquirerReferenceNumber(): Optional<String> =
         Optional.ofNullable(acquirerReferenceNumber.getNullable("acquirer_reference_number"))
-
-    /** The token for the account associated with this transaction. */
-    fun accountToken(): String = accountToken.getRequired("account_token")
 
     /**
      * When the transaction is pending, this represents the authorization amount of the transaction
@@ -141,9 +144,6 @@ private constructor(
     /** Date and time when the transaction first occurred. UTC time zone. */
     fun created(): OffsetDateTime = created.getRequired("created")
 
-    fun events(): Optional<List<TransactionEvent>> =
-        Optional.ofNullable(events.getNullable("events"))
-
     fun merchant(): Merchant = merchant.getRequired("merchant")
 
     /** Analogous to the 'amount', but in the merchant currency. */
@@ -175,9 +175,9 @@ private constructor(
     fun networkRiskScore(): Optional<Long> =
         Optional.ofNullable(networkRiskScore.getNullable("network_risk_score"))
 
-    fun result(): DeclineResult = result.getRequired("result")
-
     fun pos(): Pos = pos.getRequired("pos")
+
+    fun result(): DeclineResult = result.getRequired("result")
 
     /** The settled amount of the transaction in the settlement currency. */
     fun settledAmount(): Long = settledAmount.getRequired("settled_amount")
@@ -185,13 +185,19 @@ private constructor(
     /** Status of the transaction. */
     fun status(): Status = status.getRequired("status")
 
-    /** Globally unique identifier. */
-    fun token(): String = token.getRequired("token")
-
     fun tokenInfo(): Optional<TokenInfo> = Optional.ofNullable(tokenInfo.getNullable("token_info"))
 
     /** Date and time when the transaction last updated. UTC time zone. */
     fun updated(): OffsetDateTime = updated.getRequired("updated")
+
+    fun events(): Optional<List<TransactionEvent>> =
+        Optional.ofNullable(events.getNullable("events"))
+
+    /** Globally unique identifier. */
+    @JsonProperty("token") @ExcludeMissing fun _token() = token
+
+    /** The token for the account associated with this transaction. */
+    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
 
     /**
      * Fee assessed by the merchant and paid for by the cardholder in the smallest unit of the
@@ -207,9 +213,6 @@ private constructor(
     @JsonProperty("acquirer_reference_number")
     @ExcludeMissing
     fun _acquirerReferenceNumber() = acquirerReferenceNumber
-
-    /** The token for the account associated with this transaction. */
-    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
 
     /**
      * When the transaction is pending, this represents the authorization amount of the transaction
@@ -243,8 +246,6 @@ private constructor(
     /** Date and time when the transaction first occurred. UTC time zone. */
     @JsonProperty("created") @ExcludeMissing fun _created() = created
 
-    @JsonProperty("events") @ExcludeMissing fun _events() = events
-
     @JsonProperty("merchant") @ExcludeMissing fun _merchant() = merchant
 
     /** Analogous to the 'amount', but in the merchant currency. */
@@ -273,9 +274,9 @@ private constructor(
      */
     @JsonProperty("network_risk_score") @ExcludeMissing fun _networkRiskScore() = networkRiskScore
 
-    @JsonProperty("result") @ExcludeMissing fun _result() = result
-
     @JsonProperty("pos") @ExcludeMissing fun _pos() = pos
+
+    @JsonProperty("result") @ExcludeMissing fun _result() = result
 
     /** The settled amount of the transaction in the settlement currency. */
     @JsonProperty("settled_amount") @ExcludeMissing fun _settledAmount() = settledAmount
@@ -283,13 +284,12 @@ private constructor(
     /** Status of the transaction. */
     @JsonProperty("status") @ExcludeMissing fun _status() = status
 
-    /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
-
     @JsonProperty("token_info") @ExcludeMissing fun _tokenInfo() = tokenInfo
 
     /** Date and time when the transaction last updated. UTC time zone. */
     @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+
+    @JsonProperty("events") @ExcludeMissing fun _events() = events
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -299,9 +299,10 @@ private constructor(
 
     fun validate(): Transaction = apply {
         if (!validated) {
+            token()
+            accountToken()
             acquirerFee()
             acquirerReferenceNumber()
-            accountToken()
             amount()
             amounts().validate()
             authorizationAmount()
@@ -310,20 +311,19 @@ private constructor(
             cardToken()
             cardholderAuthentication().map { it.validate() }
             created()
-            events().map { it.forEach { it.validate() } }
             merchant().validate()
             merchantAmount()
             merchantAuthorizationAmount()
             merchantCurrency()
             network()
             networkRiskScore()
-            result()
             pos().validate()
+            result()
             settledAmount()
             status()
-            token()
             tokenInfo().map { it.validate() }
             updated()
+            events().map { it.forEach { it.validate() } }
             validated = true
         }
     }
@@ -337,9 +337,10 @@ private constructor(
 
     class Builder {
 
+        private var token: JsonField<String> = JsonMissing.of()
+        private var accountToken: JsonField<String> = JsonMissing.of()
         private var acquirerFee: JsonField<Long> = JsonMissing.of()
         private var acquirerReferenceNumber: JsonField<String> = JsonMissing.of()
-        private var accountToken: JsonField<String> = JsonMissing.of()
         private var amount: JsonField<Long> = JsonMissing.of()
         private var amounts: JsonField<TransactionAmounts> = JsonMissing.of()
         private var authorizationAmount: JsonField<Long> = JsonMissing.of()
@@ -348,27 +349,27 @@ private constructor(
         private var cardToken: JsonField<String> = JsonMissing.of()
         private var cardholderAuthentication: JsonField<CardholderAuthentication> = JsonMissing.of()
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var events: JsonField<List<TransactionEvent>> = JsonMissing.of()
         private var merchant: JsonField<Merchant> = JsonMissing.of()
         private var merchantAmount: JsonField<Long> = JsonMissing.of()
         private var merchantAuthorizationAmount: JsonField<Long> = JsonMissing.of()
         private var merchantCurrency: JsonField<String> = JsonMissing.of()
         private var network: JsonField<Network> = JsonMissing.of()
         private var networkRiskScore: JsonField<Long> = JsonMissing.of()
-        private var result: JsonField<DeclineResult> = JsonMissing.of()
         private var pos: JsonField<Pos> = JsonMissing.of()
+        private var result: JsonField<DeclineResult> = JsonMissing.of()
         private var settledAmount: JsonField<Long> = JsonMissing.of()
         private var status: JsonField<Status> = JsonMissing.of()
-        private var token: JsonField<String> = JsonMissing.of()
         private var tokenInfo: JsonField<TokenInfo> = JsonMissing.of()
         private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var events: JsonField<List<TransactionEvent>> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(transaction: Transaction) = apply {
+            token = transaction.token
+            accountToken = transaction.accountToken
             acquirerFee = transaction.acquirerFee
             acquirerReferenceNumber = transaction.acquirerReferenceNumber
-            accountToken = transaction.accountToken
             amount = transaction.amount
             amounts = transaction.amounts
             authorizationAmount = transaction.authorizationAmount
@@ -377,21 +378,34 @@ private constructor(
             cardToken = transaction.cardToken
             cardholderAuthentication = transaction.cardholderAuthentication
             created = transaction.created
-            events = transaction.events
             merchant = transaction.merchant
             merchantAmount = transaction.merchantAmount
             merchantAuthorizationAmount = transaction.merchantAuthorizationAmount
             merchantCurrency = transaction.merchantCurrency
             network = transaction.network
             networkRiskScore = transaction.networkRiskScore
-            result = transaction.result
             pos = transaction.pos
+            result = transaction.result
             settledAmount = transaction.settledAmount
             status = transaction.status
-            token = transaction.token
             tokenInfo = transaction.tokenInfo
             updated = transaction.updated
+            events = transaction.events
             additionalProperties = transaction.additionalProperties.toMutableMap()
+        }
+
+        /** Globally unique identifier. */
+        fun token(token: String) = token(JsonField.of(token))
+
+        /** Globally unique identifier. */
+        fun token(token: JsonField<String>) = apply { this.token = token }
+
+        /** The token for the account associated with this transaction. */
+        fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
+
+        /** The token for the account associated with this transaction. */
+        fun accountToken(accountToken: JsonField<String>) = apply {
+            this.accountToken = accountToken
         }
 
         /**
@@ -421,14 +435,6 @@ private constructor(
          */
         fun acquirerReferenceNumber(acquirerReferenceNumber: JsonField<String>) = apply {
             this.acquirerReferenceNumber = acquirerReferenceNumber
-        }
-
-        /** The token for the account associated with this transaction. */
-        fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
-
-        /** The token for the account associated with this transaction. */
-        fun accountToken(accountToken: JsonField<String>) = apply {
-            this.accountToken = accountToken
         }
 
         /**
@@ -496,10 +502,6 @@ private constructor(
         /** Date and time when the transaction first occurred. UTC time zone. */
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
-        fun events(events: List<TransactionEvent>) = events(JsonField.of(events))
-
-        fun events(events: JsonField<List<TransactionEvent>>) = apply { this.events = events }
-
         fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
 
         fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
@@ -563,13 +565,13 @@ private constructor(
             this.networkRiskScore = networkRiskScore
         }
 
-        fun result(result: DeclineResult) = result(JsonField.of(result))
-
-        fun result(result: JsonField<DeclineResult>) = apply { this.result = result }
-
         fun pos(pos: Pos) = pos(JsonField.of(pos))
 
         fun pos(pos: JsonField<Pos>) = apply { this.pos = pos }
+
+        fun result(result: DeclineResult) = result(JsonField.of(result))
+
+        fun result(result: JsonField<DeclineResult>) = apply { this.result = result }
 
         /** The settled amount of the transaction in the settlement currency. */
         fun settledAmount(settledAmount: Long) = settledAmount(JsonField.of(settledAmount))
@@ -585,12 +587,6 @@ private constructor(
         /** Status of the transaction. */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
-        /** Globally unique identifier. */
-        fun token(token: String) = token(JsonField.of(token))
-
-        /** Globally unique identifier. */
-        fun token(token: JsonField<String>) = apply { this.token = token }
-
         fun tokenInfo(tokenInfo: TokenInfo) = tokenInfo(JsonField.of(tokenInfo))
 
         fun tokenInfo(tokenInfo: JsonField<TokenInfo>) = apply { this.tokenInfo = tokenInfo }
@@ -600,6 +596,10 @@ private constructor(
 
         /** Date and time when the transaction last updated. UTC time zone. */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
+
+        fun events(events: List<TransactionEvent>) = events(JsonField.of(events))
+
+        fun events(events: JsonField<List<TransactionEvent>>) = apply { this.events = events }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -622,9 +622,10 @@ private constructor(
 
         fun build(): Transaction =
             Transaction(
+                token,
+                accountToken,
                 acquirerFee,
                 acquirerReferenceNumber,
-                accountToken,
                 amount,
                 amounts,
                 authorizationAmount,
@@ -633,20 +634,19 @@ private constructor(
                 cardToken,
                 cardholderAuthentication,
                 created,
-                events.map { it.toImmutable() },
                 merchant,
                 merchantAmount,
                 merchantAuthorizationAmount,
                 merchantCurrency,
                 network,
                 networkRiskScore,
-                result,
                 pos,
+                result,
                 settledAmount,
                 status,
-                token,
                 tokenInfo,
                 updated,
+                events.map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }
@@ -4250,6 +4250,9 @@ private constructor(
     class TransactionEvent
     @JsonCreator
     private constructor(
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
         @JsonProperty("amount")
         @ExcludeMissing
         private val amount: JsonField<Long> = JsonMissing.of(),
@@ -4259,28 +4262,28 @@ private constructor(
         @JsonProperty("created")
         @ExcludeMissing
         private val created: JsonField<OffsetDateTime> = JsonMissing.of(),
-        @JsonProperty("network_info")
-        @ExcludeMissing
-        private val networkInfo: JsonField<NetworkInfo> = JsonMissing.of(),
         @JsonProperty("detailed_results")
         @ExcludeMissing
         private val detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of(),
-        @JsonProperty("rule_results")
-        @ExcludeMissing
-        private val ruleResults: JsonField<List<RuleResult>> = JsonMissing.of(),
         @JsonProperty("effective_polarity")
         @ExcludeMissing
         private val effectivePolarity: JsonField<EffectivePolarity> = JsonMissing.of(),
+        @JsonProperty("network_info")
+        @ExcludeMissing
+        private val networkInfo: JsonField<NetworkInfo> = JsonMissing.of(),
         @JsonProperty("result")
         @ExcludeMissing
         private val result: JsonField<DeclineResult> = JsonMissing.of(),
-        @JsonProperty("token")
+        @JsonProperty("rule_results")
         @ExcludeMissing
-        private val token: JsonField<String> = JsonMissing.of(),
+        private val ruleResults: JsonField<List<RuleResult>> = JsonMissing.of(),
         @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
+
+        /** Transaction event identifier. */
+        fun token(): String = token.getRequired("token")
 
         /** Amount of the event in the settlement currency. */
         fun amount(): Long = amount.getRequired("amount")
@@ -4289,6 +4292,13 @@ private constructor(
 
         /** RFC 3339 date and time this event entered the system. UTC time zone. */
         fun created(): OffsetDateTime = created.getRequired("created")
+
+        fun detailedResults(): List<DetailedResult> =
+            detailedResults.getRequired("detailed_results")
+
+        /** Indicates whether the transaction event is a credit or debit to the account. */
+        fun effectivePolarity(): EffectivePolarity =
+            effectivePolarity.getRequired("effective_polarity")
 
         /**
          * Information provided by the card network in each event. This includes common identifiers
@@ -4301,22 +4311,15 @@ private constructor(
         fun networkInfo(): Optional<NetworkInfo> =
             Optional.ofNullable(networkInfo.getNullable("network_info"))
 
-        fun detailedResults(): List<DetailedResult> =
-            detailedResults.getRequired("detailed_results")
+        fun result(): DeclineResult = result.getRequired("result")
 
         fun ruleResults(): List<RuleResult> = ruleResults.getRequired("rule_results")
 
-        /** Indicates whether the transaction event is a credit or debit to the account. */
-        fun effectivePolarity(): EffectivePolarity =
-            effectivePolarity.getRequired("effective_polarity")
-
-        fun result(): DeclineResult = result.getRequired("result")
-
-        /** Transaction event identifier. */
-        fun token(): String = token.getRequired("token")
-
         /** Type of transaction event */
         fun type(): Type = type.getRequired("type")
+
+        /** Transaction event identifier. */
+        @JsonProperty("token") @ExcludeMissing fun _token() = token
 
         /** Amount of the event in the settlement currency. */
         @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
@@ -4325,6 +4328,13 @@ private constructor(
 
         /** RFC 3339 date and time this event entered the system. UTC time zone. */
         @JsonProperty("created") @ExcludeMissing fun _created() = created
+
+        @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
+
+        /** Indicates whether the transaction event is a credit or debit to the account. */
+        @JsonProperty("effective_polarity")
+        @ExcludeMissing
+        fun _effectivePolarity() = effectivePolarity
 
         /**
          * Information provided by the card network in each event. This includes common identifiers
@@ -4336,19 +4346,9 @@ private constructor(
          */
         @JsonProperty("network_info") @ExcludeMissing fun _networkInfo() = networkInfo
 
-        @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
-
-        @JsonProperty("rule_results") @ExcludeMissing fun _ruleResults() = ruleResults
-
-        /** Indicates whether the transaction event is a credit or debit to the account. */
-        @JsonProperty("effective_polarity")
-        @ExcludeMissing
-        fun _effectivePolarity() = effectivePolarity
-
         @JsonProperty("result") @ExcludeMissing fun _result() = result
 
-        /** Transaction event identifier. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
+        @JsonProperty("rule_results") @ExcludeMissing fun _ruleResults() = ruleResults
 
         /** Type of transaction event */
         @JsonProperty("type") @ExcludeMissing fun _type() = type
@@ -4361,15 +4361,15 @@ private constructor(
 
         fun validate(): TransactionEvent = apply {
             if (!validated) {
+                token()
                 amount()
                 amounts().validate()
                 created()
-                networkInfo().map { it.validate() }
                 detailedResults()
-                ruleResults().forEach { it.validate() }
                 effectivePolarity()
+                networkInfo().map { it.validate() }
                 result()
-                token()
+                ruleResults().forEach { it.validate() }
                 type()
                 validated = true
             }
@@ -4384,32 +4384,38 @@ private constructor(
 
         class Builder {
 
+            private var token: JsonField<String> = JsonMissing.of()
             private var amount: JsonField<Long> = JsonMissing.of()
             private var amounts: JsonField<TransactionEventAmounts> = JsonMissing.of()
             private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var networkInfo: JsonField<NetworkInfo> = JsonMissing.of()
             private var detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of()
-            private var ruleResults: JsonField<List<RuleResult>> = JsonMissing.of()
             private var effectivePolarity: JsonField<EffectivePolarity> = JsonMissing.of()
+            private var networkInfo: JsonField<NetworkInfo> = JsonMissing.of()
             private var result: JsonField<DeclineResult> = JsonMissing.of()
-            private var token: JsonField<String> = JsonMissing.of()
+            private var ruleResults: JsonField<List<RuleResult>> = JsonMissing.of()
             private var type: JsonField<Type> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(transactionEvent: TransactionEvent) = apply {
+                token = transactionEvent.token
                 amount = transactionEvent.amount
                 amounts = transactionEvent.amounts
                 created = transactionEvent.created
-                networkInfo = transactionEvent.networkInfo
                 detailedResults = transactionEvent.detailedResults
-                ruleResults = transactionEvent.ruleResults
                 effectivePolarity = transactionEvent.effectivePolarity
+                networkInfo = transactionEvent.networkInfo
                 result = transactionEvent.result
-                token = transactionEvent.token
+                ruleResults = transactionEvent.ruleResults
                 type = transactionEvent.type
                 additionalProperties = transactionEvent.additionalProperties.toMutableMap()
             }
+
+            /** Transaction event identifier. */
+            fun token(token: String) = token(JsonField.of(token))
+
+            /** Transaction event identifier. */
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Amount of the event in the settlement currency. */
             fun amount(amount: Long) = amount(JsonField.of(amount))
@@ -4428,6 +4434,22 @@ private constructor(
 
             /** RFC 3339 date and time this event entered the system. UTC time zone. */
             fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
+
+            fun detailedResults(detailedResults: List<DetailedResult>) =
+                detailedResults(JsonField.of(detailedResults))
+
+            fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
+                this.detailedResults = detailedResults
+            }
+
+            /** Indicates whether the transaction event is a credit or debit to the account. */
+            fun effectivePolarity(effectivePolarity: EffectivePolarity) =
+                effectivePolarity(JsonField.of(effectivePolarity))
+
+            /** Indicates whether the transaction event is a credit or debit to the account. */
+            fun effectivePolarity(effectivePolarity: JsonField<EffectivePolarity>) = apply {
+                this.effectivePolarity = effectivePolarity
+            }
 
             /**
              * Information provided by the card network in each event. This includes common
@@ -4451,37 +4473,15 @@ private constructor(
                 this.networkInfo = networkInfo
             }
 
-            fun detailedResults(detailedResults: List<DetailedResult>) =
-                detailedResults(JsonField.of(detailedResults))
+            fun result(result: DeclineResult) = result(JsonField.of(result))
 
-            fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
-                this.detailedResults = detailedResults
-            }
+            fun result(result: JsonField<DeclineResult>) = apply { this.result = result }
 
             fun ruleResults(ruleResults: List<RuleResult>) = ruleResults(JsonField.of(ruleResults))
 
             fun ruleResults(ruleResults: JsonField<List<RuleResult>>) = apply {
                 this.ruleResults = ruleResults
             }
-
-            /** Indicates whether the transaction event is a credit or debit to the account. */
-            fun effectivePolarity(effectivePolarity: EffectivePolarity) =
-                effectivePolarity(JsonField.of(effectivePolarity))
-
-            /** Indicates whether the transaction event is a credit or debit to the account. */
-            fun effectivePolarity(effectivePolarity: JsonField<EffectivePolarity>) = apply {
-                this.effectivePolarity = effectivePolarity
-            }
-
-            fun result(result: DeclineResult) = result(JsonField.of(result))
-
-            fun result(result: JsonField<DeclineResult>) = apply { this.result = result }
-
-            /** Transaction event identifier. */
-            fun token(token: String) = token(JsonField.of(token))
-
-            /** Transaction event identifier. */
-            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Type of transaction event */
             fun type(type: Type) = type(JsonField.of(type))
@@ -4510,15 +4510,15 @@ private constructor(
 
             fun build(): TransactionEvent =
                 TransactionEvent(
+                    token,
                     amount,
                     amounts,
                     created,
-                    networkInfo,
                     detailedResults.map { it.toImmutable() },
-                    ruleResults.map { it.toImmutable() },
                     effectivePolarity,
+                    networkInfo,
                     result,
-                    token,
+                    ruleResults.map { it.toImmutable() },
                     type,
                     additionalProperties.toImmutable(),
                 )
@@ -6320,15 +6320,15 @@ private constructor(
             @JsonProperty("auth_rule_token")
             @ExcludeMissing
             private val authRuleToken: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("result")
-            @ExcludeMissing
-            private val result: JsonField<DetailedResult> = JsonMissing.of(),
-            @JsonProperty("name")
-            @ExcludeMissing
-            private val name: JsonField<String> = JsonMissing.of(),
             @JsonProperty("explanation")
             @ExcludeMissing
             private val explanation: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("name")
+            @ExcludeMissing
+            private val name: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("result")
+            @ExcludeMissing
+            private val result: JsonField<DetailedResult> = JsonMissing.of(),
             @JsonAnySetter
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
@@ -6342,15 +6342,15 @@ private constructor(
             fun authRuleToken(): Optional<String> =
                 Optional.ofNullable(authRuleToken.getNullable("auth_rule_token"))
 
-            /** The detailed_result associated with this rule's decline. */
-            fun result(): DetailedResult = result.getRequired("result")
+            /** A human-readable explanation outlining the motivation for the rule's decline. */
+            fun explanation(): Optional<String> =
+                Optional.ofNullable(explanation.getNullable("explanation"))
 
             /** The name for the rule, if any was configured. */
             fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
-            /** A human-readable explanation outlining the motivation for the rule's decline. */
-            fun explanation(): Optional<String> =
-                Optional.ofNullable(explanation.getNullable("explanation"))
+            /** The detailed_result associated with this rule's decline. */
+            fun result(): DetailedResult = result.getRequired("result")
 
             /**
              * The Auth Rule Token associated with the rule from which the decline originated. If
@@ -6360,14 +6360,14 @@ private constructor(
              */
             @JsonProperty("auth_rule_token") @ExcludeMissing fun _authRuleToken() = authRuleToken
 
-            /** The detailed_result associated with this rule's decline. */
-            @JsonProperty("result") @ExcludeMissing fun _result() = result
+            /** A human-readable explanation outlining the motivation for the rule's decline. */
+            @JsonProperty("explanation") @ExcludeMissing fun _explanation() = explanation
 
             /** The name for the rule, if any was configured. */
             @JsonProperty("name") @ExcludeMissing fun _name() = name
 
-            /** A human-readable explanation outlining the motivation for the rule's decline. */
-            @JsonProperty("explanation") @ExcludeMissing fun _explanation() = explanation
+            /** The detailed_result associated with this rule's decline. */
+            @JsonProperty("result") @ExcludeMissing fun _result() = result
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -6378,9 +6378,9 @@ private constructor(
             fun validate(): RuleResult = apply {
                 if (!validated) {
                     authRuleToken()
-                    result()
-                    name()
                     explanation()
+                    name()
+                    result()
                     validated = true
                 }
             }
@@ -6395,17 +6395,17 @@ private constructor(
             class Builder {
 
                 private var authRuleToken: JsonField<String> = JsonMissing.of()
-                private var result: JsonField<DetailedResult> = JsonMissing.of()
-                private var name: JsonField<String> = JsonMissing.of()
                 private var explanation: JsonField<String> = JsonMissing.of()
+                private var name: JsonField<String> = JsonMissing.of()
+                private var result: JsonField<DetailedResult> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(ruleResult: RuleResult) = apply {
                     authRuleToken = ruleResult.authRuleToken
-                    result = ruleResult.result
-                    name = ruleResult.name
                     explanation = ruleResult.explanation
+                    name = ruleResult.name
+                    result = ruleResult.result
                     additionalProperties = ruleResult.additionalProperties.toMutableMap()
                 }
 
@@ -6428,18 +6428,6 @@ private constructor(
                     this.authRuleToken = authRuleToken
                 }
 
-                /** The detailed_result associated with this rule's decline. */
-                fun result(result: DetailedResult) = result(JsonField.of(result))
-
-                /** The detailed_result associated with this rule's decline. */
-                fun result(result: JsonField<DetailedResult>) = apply { this.result = result }
-
-                /** The name for the rule, if any was configured. */
-                fun name(name: String) = name(JsonField.of(name))
-
-                /** The name for the rule, if any was configured. */
-                fun name(name: JsonField<String>) = apply { this.name = name }
-
                 /** A human-readable explanation outlining the motivation for the rule's decline. */
                 fun explanation(explanation: String) = explanation(JsonField.of(explanation))
 
@@ -6447,6 +6435,18 @@ private constructor(
                 fun explanation(explanation: JsonField<String>) = apply {
                     this.explanation = explanation
                 }
+
+                /** The name for the rule, if any was configured. */
+                fun name(name: String) = name(JsonField.of(name))
+
+                /** The name for the rule, if any was configured. */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                /** The detailed_result associated with this rule's decline. */
+                fun result(result: DetailedResult) = result(JsonField.of(result))
+
+                /** The detailed_result associated with this rule's decline. */
+                fun result(result: JsonField<DetailedResult>) = apply { this.result = result }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                     this.additionalProperties.clear()
@@ -6473,9 +6473,9 @@ private constructor(
                 fun build(): RuleResult =
                     RuleResult(
                         authRuleToken,
-                        result,
-                        name,
                         explanation,
+                        name,
+                        result,
                         additionalProperties.toImmutable(),
                     )
             }
@@ -6876,17 +6876,17 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is RuleResult && authRuleToken == other.authRuleToken && result == other.result && name == other.name && explanation == other.explanation && additionalProperties == other.additionalProperties /* spotless:on */
+                return /* spotless:off */ other is RuleResult && authRuleToken == other.authRuleToken && explanation == other.explanation && name == other.name && result == other.result && additionalProperties == other.additionalProperties /* spotless:on */
             }
 
             /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(authRuleToken, result, name, explanation, additionalProperties) }
+            private val hashCode: Int by lazy { Objects.hash(authRuleToken, explanation, name, result, additionalProperties) }
             /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
             override fun toString() =
-                "RuleResult{authRuleToken=$authRuleToken, result=$result, name=$name, explanation=$explanation, additionalProperties=$additionalProperties}"
+                "RuleResult{authRuleToken=$authRuleToken, explanation=$explanation, name=$name, result=$result, additionalProperties=$additionalProperties}"
         }
 
         class Type
@@ -7023,17 +7023,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionEvent && amount == other.amount && amounts == other.amounts && created == other.created && networkInfo == other.networkInfo && detailedResults == other.detailedResults && ruleResults == other.ruleResults && effectivePolarity == other.effectivePolarity && result == other.result && token == other.token && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is TransactionEvent && token == other.token && amount == other.amount && amounts == other.amounts && created == other.created && detailedResults == other.detailedResults && effectivePolarity == other.effectivePolarity && networkInfo == other.networkInfo && result == other.result && ruleResults == other.ruleResults && type == other.type && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, amounts, created, networkInfo, detailedResults, ruleResults, effectivePolarity, result, token, type, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(token, amount, amounts, created, detailedResults, effectivePolarity, networkInfo, result, ruleResults, type, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "TransactionEvent{amount=$amount, amounts=$amounts, created=$created, networkInfo=$networkInfo, detailedResults=$detailedResults, ruleResults=$ruleResults, effectivePolarity=$effectivePolarity, result=$result, token=$token, type=$type, additionalProperties=$additionalProperties}"
+            "TransactionEvent{token=$token, amount=$amount, amounts=$amounts, created=$created, detailedResults=$detailedResults, effectivePolarity=$effectivePolarity, networkInfo=$networkInfo, result=$result, ruleResults=$ruleResults, type=$type, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -7041,15 +7041,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Transaction && acquirerFee == other.acquirerFee && acquirerReferenceNumber == other.acquirerReferenceNumber && accountToken == other.accountToken && amount == other.amount && amounts == other.amounts && authorizationAmount == other.authorizationAmount && authorizationCode == other.authorizationCode && avs == other.avs && cardToken == other.cardToken && cardholderAuthentication == other.cardholderAuthentication && created == other.created && events == other.events && merchant == other.merchant && merchantAmount == other.merchantAmount && merchantAuthorizationAmount == other.merchantAuthorizationAmount && merchantCurrency == other.merchantCurrency && network == other.network && networkRiskScore == other.networkRiskScore && result == other.result && pos == other.pos && settledAmount == other.settledAmount && status == other.status && token == other.token && tokenInfo == other.tokenInfo && updated == other.updated && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Transaction && token == other.token && accountToken == other.accountToken && acquirerFee == other.acquirerFee && acquirerReferenceNumber == other.acquirerReferenceNumber && amount == other.amount && amounts == other.amounts && authorizationAmount == other.authorizationAmount && authorizationCode == other.authorizationCode && avs == other.avs && cardToken == other.cardToken && cardholderAuthentication == other.cardholderAuthentication && created == other.created && merchant == other.merchant && merchantAmount == other.merchantAmount && merchantAuthorizationAmount == other.merchantAuthorizationAmount && merchantCurrency == other.merchantCurrency && network == other.network && networkRiskScore == other.networkRiskScore && pos == other.pos && result == other.result && settledAmount == other.settledAmount && status == other.status && tokenInfo == other.tokenInfo && updated == other.updated && events == other.events && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(acquirerFee, acquirerReferenceNumber, accountToken, amount, amounts, authorizationAmount, authorizationCode, avs, cardToken, cardholderAuthentication, created, events, merchant, merchantAmount, merchantAuthorizationAmount, merchantCurrency, network, networkRiskScore, result, pos, settledAmount, status, token, tokenInfo, updated, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(token, accountToken, acquirerFee, acquirerReferenceNumber, amount, amounts, authorizationAmount, authorizationCode, avs, cardToken, cardholderAuthentication, created, merchant, merchantAmount, merchantAuthorizationAmount, merchantCurrency, network, networkRiskScore, pos, result, settledAmount, status, tokenInfo, updated, events, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Transaction{acquirerFee=$acquirerFee, acquirerReferenceNumber=$acquirerReferenceNumber, accountToken=$accountToken, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, authorizationCode=$authorizationCode, avs=$avs, cardToken=$cardToken, cardholderAuthentication=$cardholderAuthentication, created=$created, events=$events, merchant=$merchant, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, network=$network, networkRiskScore=$networkRiskScore, result=$result, pos=$pos, settledAmount=$settledAmount, status=$status, token=$token, tokenInfo=$tokenInfo, updated=$updated, additionalProperties=$additionalProperties}"
+        "Transaction{token=$token, accountToken=$accountToken, acquirerFee=$acquirerFee, acquirerReferenceNumber=$acquirerReferenceNumber, amount=$amount, amounts=$amounts, authorizationAmount=$authorizationAmount, authorizationCode=$authorizationCode, avs=$avs, cardToken=$cardToken, cardholderAuthentication=$cardholderAuthentication, created=$created, merchant=$merchant, merchantAmount=$merchantAmount, merchantAuthorizationAmount=$merchantAuthorizationAmount, merchantCurrency=$merchantCurrency, network=$network, networkRiskScore=$networkRiskScore, pos=$pos, result=$result, settledAmount=$settledAmount, status=$status, tokenInfo=$tokenInfo, updated=$updated, events=$events, additionalProperties=$additionalProperties}"
 }

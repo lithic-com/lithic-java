@@ -22,12 +22,12 @@ private constructor(
     @JsonProperty("entity_token")
     @ExcludeMissing
     private val entityToken: JsonField<String> = JsonMissing.of(),
-    @JsonProperty("valid_documents")
-    @ExcludeMissing
-    private val validDocuments: JsonField<List<String>> = JsonMissing.of(),
     @JsonProperty("status_reasons")
     @ExcludeMissing
     private val statusReasons: JsonField<List<String>> = JsonMissing.of(),
+    @JsonProperty("valid_documents")
+    @ExcludeMissing
+    private val validDocuments: JsonField<List<String>> = JsonMissing.of(),
     @JsonAnySetter private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
 ) {
 
@@ -35,27 +35,27 @@ private constructor(
     fun entityToken(): String = entityToken.getRequired("entity_token")
 
     /**
-     * A list of valid documents that will satisfy the KYC requirements for the specified entity.
-     */
-    fun validDocuments(): List<String> = validDocuments.getRequired("valid_documents")
-
-    /**
      * rovides the status reasons that will be satisfied by providing one of the valid documents.
      */
     fun statusReasons(): List<String> = statusReasons.getRequired("status_reasons")
+
+    /**
+     * A list of valid documents that will satisfy the KYC requirements for the specified entity.
+     */
+    fun validDocuments(): List<String> = validDocuments.getRequired("valid_documents")
 
     /** Globally unique identifier for an entity. */
     @JsonProperty("entity_token") @ExcludeMissing fun _entityToken() = entityToken
 
     /**
-     * A list of valid documents that will satisfy the KYC requirements for the specified entity.
-     */
-    @JsonProperty("valid_documents") @ExcludeMissing fun _validDocuments() = validDocuments
-
-    /**
      * rovides the status reasons that will be satisfied by providing one of the valid documents.
      */
     @JsonProperty("status_reasons") @ExcludeMissing fun _statusReasons() = statusReasons
+
+    /**
+     * A list of valid documents that will satisfy the KYC requirements for the specified entity.
+     */
+    @JsonProperty("valid_documents") @ExcludeMissing fun _validDocuments() = validDocuments
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -66,8 +66,8 @@ private constructor(
     fun validate(): RequiredDocument = apply {
         if (!validated) {
             entityToken()
-            validDocuments()
             statusReasons()
+            validDocuments()
             validated = true
         }
     }
@@ -82,15 +82,15 @@ private constructor(
     class Builder {
 
         private var entityToken: JsonField<String> = JsonMissing.of()
-        private var validDocuments: JsonField<List<String>> = JsonMissing.of()
         private var statusReasons: JsonField<List<String>> = JsonMissing.of()
+        private var validDocuments: JsonField<List<String>> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(requiredDocument: RequiredDocument) = apply {
             entityToken = requiredDocument.entityToken
-            validDocuments = requiredDocument.validDocuments
             statusReasons = requiredDocument.statusReasons
+            validDocuments = requiredDocument.validDocuments
             additionalProperties = requiredDocument.additionalProperties.toMutableMap()
         }
 
@@ -99,6 +99,20 @@ private constructor(
 
         /** Globally unique identifier for an entity. */
         fun entityToken(entityToken: JsonField<String>) = apply { this.entityToken = entityToken }
+
+        /**
+         * rovides the status reasons that will be satisfied by providing one of the valid
+         * documents.
+         */
+        fun statusReasons(statusReasons: List<String>) = statusReasons(JsonField.of(statusReasons))
+
+        /**
+         * rovides the status reasons that will be satisfied by providing one of the valid
+         * documents.
+         */
+        fun statusReasons(statusReasons: JsonField<List<String>>) = apply {
+            this.statusReasons = statusReasons
+        }
 
         /**
          * A list of valid documents that will satisfy the KYC requirements for the specified
@@ -113,20 +127,6 @@ private constructor(
          */
         fun validDocuments(validDocuments: JsonField<List<String>>) = apply {
             this.validDocuments = validDocuments
-        }
-
-        /**
-         * rovides the status reasons that will be satisfied by providing one of the valid
-         * documents.
-         */
-        fun statusReasons(statusReasons: List<String>) = statusReasons(JsonField.of(statusReasons))
-
-        /**
-         * rovides the status reasons that will be satisfied by providing one of the valid
-         * documents.
-         */
-        fun statusReasons(statusReasons: JsonField<List<String>>) = apply {
-            this.statusReasons = statusReasons
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -151,8 +151,8 @@ private constructor(
         fun build(): RequiredDocument =
             RequiredDocument(
                 entityToken,
-                validDocuments.map { it.toImmutable() },
                 statusReasons.map { it.toImmutable() },
+                validDocuments.map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }
@@ -162,15 +162,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is RequiredDocument && entityToken == other.entityToken && validDocuments == other.validDocuments && statusReasons == other.statusReasons && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is RequiredDocument && entityToken == other.entityToken && statusReasons == other.statusReasons && validDocuments == other.validDocuments && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(entityToken, validDocuments, statusReasons, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(entityToken, statusReasons, validDocuments, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "RequiredDocument{entityToken=$entityToken, validDocuments=$validDocuments, statusReasons=$statusReasons, additionalProperties=$additionalProperties}"
+        "RequiredDocument{entityToken=$entityToken, statusReasons=$statusReasons, validDocuments=$validDocuments, additionalProperties=$additionalProperties}"
 }
