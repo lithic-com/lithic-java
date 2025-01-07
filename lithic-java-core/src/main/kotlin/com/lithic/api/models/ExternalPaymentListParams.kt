@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/** List external payments */
 class ExternalPaymentListParams
 constructor(
     private val begin: OffsetDateTime?,

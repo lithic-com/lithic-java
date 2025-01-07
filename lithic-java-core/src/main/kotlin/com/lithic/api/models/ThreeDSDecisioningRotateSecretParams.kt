@@ -10,6 +10,12 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Generate a new 3DS Decisioning HMAC secret key. The old secret key will be deactivated 24 hours
+ * after a successful request to this endpoint. Make a
+ * [`GET /three_ds_decisioning/secret`](https://docs.lithic.com/reference/getthreedsdecisioningsecret)
+ * request to retrieve the new secret key.
+ */
 class ThreeDSDecisioningRotateSecretParams
 constructor(
     private val additionalHeaders: Headers,

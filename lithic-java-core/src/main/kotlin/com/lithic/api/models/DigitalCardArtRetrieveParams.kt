@@ -7,6 +7,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/** Get digital card art by token. */
 class DigitalCardArtRetrieveParams
 constructor(
     private val digitalCardArtToken: String,

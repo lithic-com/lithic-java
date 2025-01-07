@@ -15,6 +15,7 @@ import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
+/** Simulates a release of a Payment. */
 class PaymentSimulateReleaseParams
 constructor(
     private val body: PaymentSimulateReleaseBody,

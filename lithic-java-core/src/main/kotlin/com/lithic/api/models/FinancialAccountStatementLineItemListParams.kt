@@ -8,6 +8,7 @@ import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 import java.util.Optional
 
+/** List the line items for a given statement within a given financial account. */
 class FinancialAccountStatementLineItemListParams
 constructor(
     private val financialAccountToken: String,

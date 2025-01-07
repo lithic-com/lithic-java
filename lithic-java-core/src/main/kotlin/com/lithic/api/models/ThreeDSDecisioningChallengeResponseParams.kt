@@ -15,6 +15,7 @@ import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
+/** Card program's response to a 3DS Challenge Request (CReq) */
 class ThreeDSDecisioningChallengeResponseParams
 constructor(
     private val body: ThreeDSDecisioningChallengeResponseBody,

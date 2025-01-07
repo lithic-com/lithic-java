@@ -19,6 +19,14 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Allow your cardholders to directly add payment cards to the device's digital wallet (e.g. Apple
+ * Pay) with one touch from your app.
+ *
+ * This requires some additional setup and configuration. Please
+ * [Contact Us](https://lithic.com/contact) or your Customer Success representative for more
+ * information.
+ */
 class CardProvisionParams
 constructor(
     private val cardToken: String,

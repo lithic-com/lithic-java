@@ -20,6 +20,7 @@ import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 
+/** Create management operation */
 class ManagementOperationCreateParams
 constructor(
     private val body: ManagementOperationCreateBody,

@@ -16,6 +16,7 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/** Retry external bank account micro deposit verification. */
 class ExternalBankAccountRetryMicroDepositsParams
 constructor(
     private val externalBankAccountToken: String,

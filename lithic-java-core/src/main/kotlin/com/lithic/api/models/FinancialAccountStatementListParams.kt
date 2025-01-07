@@ -9,6 +9,7 @@ import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 
+/** List the statements for a given financial account. */
 class FinancialAccountStatementListParams
 constructor(
     private val financialAccountToken: String,

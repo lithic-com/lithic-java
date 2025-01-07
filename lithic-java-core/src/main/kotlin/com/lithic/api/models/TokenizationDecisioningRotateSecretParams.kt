@@ -10,6 +10,10 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Generate a new Tokenization Decisioning secret key. The old Tokenization Decisioning secret key
+ * will be deactivated 24 hours after a successful request to this endpoint.
+ */
 class TokenizationDecisioningRotateSecretParams
 constructor(
     private val additionalHeaders: Headers,

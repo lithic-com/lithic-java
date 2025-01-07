@@ -7,6 +7,12 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/**
+ * Get a Card's available spend limit, which is based on the spend limit configured on the Card and
+ * the amount already spent over the spend limit's duration. For example, if the Card has a monthly
+ * spend limit of $1000 configured, and has spent $600 in the last month, the available spend limit
+ * returned would be $400.
+ */
 class CardRetrieveSpendLimitsParams
 constructor(
     private val cardToken: String,

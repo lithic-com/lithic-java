@@ -16,6 +16,11 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Simulates a 3DS authentication challenge request from the payment network as if it came from an
+ * ACS. Requires being configured for 3DS Customer Decisioning, and enrolled with Lithic's Challenge
+ * solution.
+ */
 class ThreeDSDecisioningSimulateChallengeParams
 constructor(
     private val body: ThreeDSDecisioningSimulateChallengeBody,

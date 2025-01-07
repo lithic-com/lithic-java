@@ -17,6 +17,7 @@ import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 
+/** Update the external bank account by token. */
 class ExternalBankAccountUpdateParams
 constructor(
     private val externalBankAccountToken: String,

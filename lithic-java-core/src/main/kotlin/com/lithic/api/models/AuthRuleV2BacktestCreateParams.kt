@@ -17,6 +17,29 @@ import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Initiates a request to asynchronously generate a backtest for an authorization rule. During
+ * backtesting, both the active version (if one exists) and the draft version of the Authorization
+ * Rule are evaluated by replaying historical transaction data against the rule's conditions. This
+ * process allows customers to simulate and understand the effects of proposed rule changes before
+ * deployment. The generated backtest report provides detailed results showing whether the draft
+ * version of the Auth Rule would have approved or declined historical transactions which were
+ * processed during the backtest period. These reports help evaluate how changes to rule
+ * configurations might affect overall transaction approval rates.
+ *
+ * The generated backtest report will be delivered asynchronously through a webhook with
+ * `event_type` = `auth_rules.backtest_report.created`. See the docs on setting up
+ * [webhook subscriptions](https://docs.lithic.com/docs/events-api). It is also possible to request
+ * backtest reports on-demand through the
+ * `/v2/auth_rules/{auth_rule_token}/backtests/{auth_rule_backtest_token}` endpoint.
+ *
+ * Lithic currently supports backtesting for `CONDITIONAL_BLOCK` rules. Backtesting for
+ * `VELOCITY_LIMIT` rules is generally not supported. In specific cases (i.e. where Lithic has
+ * pre-calculated the requested velocity metrics for historical transactions), a backtest may be
+ * feasible. However, such cases are uncommon and customers should not anticipate support for
+ * velocity backtests under most configurations. If a historical transaction does not feature the
+ * required inputs to evaluate the rule, then it will not be included in the final backtest report.
+ */
 class AuthRuleV2BacktestCreateParams
 constructor(
     private val authRuleToken: String,

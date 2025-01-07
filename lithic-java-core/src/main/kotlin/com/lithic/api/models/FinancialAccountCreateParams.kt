@@ -19,6 +19,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/** Create a new financial account */
 class FinancialAccountCreateParams
 constructor(
     private val idempotencyKey: String?,

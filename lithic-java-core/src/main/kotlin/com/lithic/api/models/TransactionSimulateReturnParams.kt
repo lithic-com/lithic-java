@@ -15,6 +15,10 @@ import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
+/**
+ * Returns, or refunds, an amount back to a card. Returns simulated via this endpoint clear
+ * immediately, without prior authorization, and result in a `SETTLED` transaction status.
+ */
 class TransactionSimulateReturnParams
 constructor(
     private val body: TransactionSimulateReturnBody,

@@ -10,6 +10,15 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * This endpoint is used to ask the card network to activate a tokenization. A successful response
+ * indicates that the request was successfully delivered to the card network. When the card network
+ * activates the tokenization, the state will be updated and a tokenization.updated event will be
+ * sent. The endpoint may only be used on digital wallet tokenizations with status `INACTIVE`,
+ * `PENDING_ACTIVATION`, or `PENDING_2FA`. This will put the tokenization in an active state, and
+ * transactions will be allowed. Reach out at [lithic.com/contact](https://lithic.com/contact) for
+ * more information.
+ */
 class TokenizationActivateParams
 constructor(
     private val tokenizationToken: String,

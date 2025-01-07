@@ -20,6 +20,7 @@ import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
+/** Initiate a dispute. */
 class DisputeCreateParams
 constructor(
     private val body: DisputeCreateBody,

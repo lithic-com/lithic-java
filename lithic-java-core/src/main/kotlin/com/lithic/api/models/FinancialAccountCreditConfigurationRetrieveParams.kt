@@ -7,6 +7,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/** Get an Account's credit configuration */
 class FinancialAccountCreditConfigurationRetrieveParams
 constructor(
     private val financialAccountToken: String,

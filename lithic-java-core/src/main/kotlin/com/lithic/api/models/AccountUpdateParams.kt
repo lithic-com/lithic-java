@@ -19,6 +19,11 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Update account configuration such as state or spend limits. Can only be run on accounts that are
+ * part of the program managed by this API key. Accounts that are in the `PAUSED` state will not be
+ * able to transact or create new cards.
+ */
 class AccountUpdateParams
 constructor(
     private val accountToken: String,

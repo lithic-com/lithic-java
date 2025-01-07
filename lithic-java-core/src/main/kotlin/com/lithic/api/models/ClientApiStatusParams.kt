@@ -7,6 +7,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/** Status of api */
 class ClientApiStatusParams
 constructor(
     private val additionalHeaders: Headers,

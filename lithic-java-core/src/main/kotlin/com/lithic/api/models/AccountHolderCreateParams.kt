@@ -20,6 +20,13 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Run an individual or business's information through the Customer Identification Program (CIP).
+ * All calls to this endpoint will return an immediate response - though in some cases, the response
+ * may indicate the enrollment is under review or further action will be needed to complete the
+ * account enrollment process. This endpoint can only be used on accounts that are part of the
+ * program that the calling API key manages.
+ */
 class AccountHolderCreateParams
 constructor(
     private val body: AccountHolderCreateBody,

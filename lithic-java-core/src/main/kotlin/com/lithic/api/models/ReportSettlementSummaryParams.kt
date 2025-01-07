@@ -8,6 +8,7 @@ import com.lithic.api.core.http.QueryParams
 import java.time.LocalDate
 import java.util.Objects
 
+/** Get the settlement report for a specified report date. Not available in sandbox. */
 class ReportSettlementSummaryParams
 constructor(
     private val reportDate: LocalDate,

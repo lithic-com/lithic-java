@@ -7,6 +7,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/** Get tokenization */
 class TokenizationRetrieveParams
 constructor(
     private val tokenizationToken: String,

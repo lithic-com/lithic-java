@@ -20,6 +20,7 @@ import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 
+/** Create external payment */
 class ExternalPaymentCreateParams
 constructor(
     private val body: ExternalPaymentCreateBody,

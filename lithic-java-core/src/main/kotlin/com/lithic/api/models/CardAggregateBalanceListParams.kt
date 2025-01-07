@@ -8,6 +8,7 @@ import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 import java.util.Optional
 
+/** Get the aggregated card balance across all end-user accounts. */
 class CardAggregateBalanceListParams
 constructor(
     private val accountToken: String?,

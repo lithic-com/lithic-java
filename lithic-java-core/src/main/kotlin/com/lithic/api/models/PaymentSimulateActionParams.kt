@@ -19,6 +19,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/** Simulate payment lifecycle event */
 class PaymentSimulateActionParams
 constructor(
     private val paymentToken: String,
