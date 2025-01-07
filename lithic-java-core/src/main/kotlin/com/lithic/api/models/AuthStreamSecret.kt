@@ -30,7 +30,7 @@ private constructor(
     fun secret(): Optional<String> = Optional.ofNullable(secret.getNullable("secret"))
 
     /** The shared HMAC ASA secret */
-    @JsonProperty("secret") @ExcludeMissing fun _secret() = secret
+    @JsonProperty("secret") @ExcludeMissing fun _secret(): JsonField<String> = secret
 
     @JsonAnyGetter
     @ExcludeMissing

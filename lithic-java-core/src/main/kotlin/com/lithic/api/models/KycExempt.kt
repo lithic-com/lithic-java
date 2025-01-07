@@ -89,25 +89,29 @@ private constructor(
      * KYC Exempt user's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
      * APO/FPO are acceptable.
      */
-    @JsonProperty("address") @ExcludeMissing fun _address() = address
+    @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<Address> = address
 
     /** The KYC Exempt user's email */
-    @JsonProperty("email") @ExcludeMissing fun _email() = email
+    @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
     /** The KYC Exempt user's first name */
-    @JsonProperty("first_name") @ExcludeMissing fun _firstName() = firstName
+    @JsonProperty("first_name") @ExcludeMissing fun _firstName(): JsonField<String> = firstName
 
     /** Specifies the type of KYC Exempt user */
-    @JsonProperty("kyc_exemption_type") @ExcludeMissing fun _kycExemptionType() = kycExemptionType
+    @JsonProperty("kyc_exemption_type")
+    @ExcludeMissing
+    fun _kycExemptionType(): JsonField<KycExemptionType> = kycExemptionType
 
     /** The KYC Exempt user's last name */
-    @JsonProperty("last_name") @ExcludeMissing fun _lastName() = lastName
+    @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
 
     /** The KYC Exempt user's phone number */
-    @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
+    @JsonProperty("phone_number")
+    @ExcludeMissing
+    fun _phoneNumber(): JsonField<String> = phoneNumber
 
     /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
-    @JsonProperty("workflow") @ExcludeMissing fun _workflow() = workflow
+    @JsonProperty("workflow") @ExcludeMissing fun _workflow(): JsonField<Workflow> = workflow
 
     /**
      * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
@@ -116,10 +120,10 @@ private constructor(
      */
     @JsonProperty("business_account_token")
     @ExcludeMissing
-    fun _businessAccountToken() = businessAccountToken
+    fun _businessAccountToken(): JsonField<String> = businessAccountToken
 
     /** A user provided id that can be used to link an account holder with an external system */
-    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId(): JsonField<String> = externalId
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -151,13 +155,13 @@ private constructor(
 
     class Builder {
 
-        private var address: JsonField<Address> = JsonMissing.of()
-        private var email: JsonField<String> = JsonMissing.of()
-        private var firstName: JsonField<String> = JsonMissing.of()
-        private var kycExemptionType: JsonField<KycExemptionType> = JsonMissing.of()
-        private var lastName: JsonField<String> = JsonMissing.of()
-        private var phoneNumber: JsonField<String> = JsonMissing.of()
-        private var workflow: JsonField<Workflow> = JsonMissing.of()
+        private var address: JsonField<Address>? = null
+        private var email: JsonField<String>? = null
+        private var firstName: JsonField<String>? = null
+        private var kycExemptionType: JsonField<KycExemptionType>? = null
+        private var lastName: JsonField<String>? = null
+        private var phoneNumber: JsonField<String>? = null
+        private var workflow: JsonField<Workflow>? = null
         private var businessAccountToken: JsonField<String> = JsonMissing.of()
         private var externalId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -271,13 +275,13 @@ private constructor(
 
         fun build(): KycExempt =
             KycExempt(
-                address,
-                email,
-                firstName,
-                kycExemptionType,
-                lastName,
-                phoneNumber,
-                workflow,
+                checkNotNull(address) { "`address` is required but was not set" },
+                checkNotNull(email) { "`email` is required but was not set" },
+                checkNotNull(firstName) { "`firstName` is required but was not set" },
+                checkNotNull(kycExemptionType) { "`kycExemptionType` is required but was not set" },
+                checkNotNull(lastName) { "`lastName` is required but was not set" },
+                checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
+                checkNotNull(workflow) { "`workflow` is required but was not set" },
                 businessAccountToken,
                 externalId,
                 additionalProperties.toImmutable(),

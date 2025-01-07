@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -48,11 +49,31 @@ constructor(
 
     fun userDefinedId(): Optional<String> = body.userDefinedId()
 
+    fun _amount(): JsonField<Long> = body._amount()
+
+    fun _category(): JsonField<ManagementOperationCategory> = body._category()
+
+    fun _direction(): JsonField<ManagementOperationDirection> = body._direction()
+
+    fun _effectiveDate(): JsonField<LocalDate> = body._effectiveDate()
+
+    fun _eventType(): JsonField<ManagementOperationEventType> = body._eventType()
+
+    fun _financialAccountToken(): JsonField<String> = body._financialAccountToken()
+
+    fun _token(): JsonField<String> = body._token()
+
+    fun _memo(): JsonField<String> = body._memo()
+
+    fun _subtype(): JsonField<String> = body._subtype()
+
+    fun _userDefinedId(): JsonField<String> = body._userDefinedId()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): ManagementOperationCreateBody = body
 
@@ -64,45 +85,115 @@ constructor(
     class ManagementOperationCreateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("amount") private val amount: Long,
-        @JsonProperty("category") private val category: ManagementOperationCategory,
-        @JsonProperty("direction") private val direction: ManagementOperationDirection,
-        @JsonProperty("effective_date") private val effectiveDate: LocalDate,
-        @JsonProperty("event_type") private val eventType: ManagementOperationEventType,
-        @JsonProperty("financial_account_token") private val financialAccountToken: String,
-        @JsonProperty("token") private val token: String?,
-        @JsonProperty("memo") private val memo: String?,
-        @JsonProperty("subtype") private val subtype: String?,
-        @JsonProperty("user_defined_id") private val userDefinedId: String?,
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("category")
+        @ExcludeMissing
+        private val category: JsonField<ManagementOperationCategory> = JsonMissing.of(),
+        @JsonProperty("direction")
+        @ExcludeMissing
+        private val direction: JsonField<ManagementOperationDirection> = JsonMissing.of(),
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("event_type")
+        @ExcludeMissing
+        private val eventType: JsonField<ManagementOperationEventType> = JsonMissing.of(),
+        @JsonProperty("financial_account_token")
+        @ExcludeMissing
+        private val financialAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("memo")
+        @ExcludeMissing
+        private val memo: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("subtype")
+        @ExcludeMissing
+        private val subtype: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("user_defined_id")
+        @ExcludeMissing
+        private val userDefinedId: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        @JsonProperty("amount") fun amount(): Long = amount
+        fun amount(): Long = amount.getRequired("amount")
 
-        @JsonProperty("category") fun category(): ManagementOperationCategory = category
+        fun category(): ManagementOperationCategory = category.getRequired("category")
 
-        @JsonProperty("direction") fun direction(): ManagementOperationDirection = direction
+        fun direction(): ManagementOperationDirection = direction.getRequired("direction")
 
-        @JsonProperty("effective_date") fun effectiveDate(): LocalDate = effectiveDate
+        fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
 
-        @JsonProperty("event_type") fun eventType(): ManagementOperationEventType = eventType
+        fun eventType(): ManagementOperationEventType = eventType.getRequired("event_type")
+
+        fun financialAccountToken(): String =
+            financialAccountToken.getRequired("financial_account_token")
+
+        fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+
+        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+
+        fun subtype(): Optional<String> = Optional.ofNullable(subtype.getNullable("subtype"))
+
+        fun userDefinedId(): Optional<String> =
+            Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
+
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+        @JsonProperty("category")
+        @ExcludeMissing
+        fun _category(): JsonField<ManagementOperationCategory> = category
+
+        @JsonProperty("direction")
+        @ExcludeMissing
+        fun _direction(): JsonField<ManagementOperationDirection> = direction
+
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
+
+        @JsonProperty("event_type")
+        @ExcludeMissing
+        fun _eventType(): JsonField<ManagementOperationEventType> = eventType
 
         @JsonProperty("financial_account_token")
-        fun financialAccountToken(): String = financialAccountToken
+        @ExcludeMissing
+        fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
-        @JsonProperty("token") fun token(): Optional<String> = Optional.ofNullable(token)
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
+        @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
-        @JsonProperty("subtype") fun subtype(): Optional<String> = Optional.ofNullable(subtype)
+        @JsonProperty("subtype") @ExcludeMissing fun _subtype(): JsonField<String> = subtype
 
         @JsonProperty("user_defined_id")
-        fun userDefinedId(): Optional<String> = Optional.ofNullable(userDefinedId)
+        @ExcludeMissing
+        fun _userDefinedId(): JsonField<String> = userDefinedId
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): ManagementOperationCreateBody = apply {
+            if (!validated) {
+                amount()
+                category()
+                direction()
+                effectiveDate()
+                eventType()
+                financialAccountToken()
+                token()
+                memo()
+                subtype()
+                userDefinedId()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -113,16 +204,16 @@ constructor(
 
         class Builder {
 
-            private var amount: Long? = null
-            private var category: ManagementOperationCategory? = null
-            private var direction: ManagementOperationDirection? = null
-            private var effectiveDate: LocalDate? = null
-            private var eventType: ManagementOperationEventType? = null
-            private var financialAccountToken: String? = null
-            private var token: String? = null
-            private var memo: String? = null
-            private var subtype: String? = null
-            private var userDefinedId: String? = null
+            private var amount: JsonField<Long>? = null
+            private var category: JsonField<ManagementOperationCategory>? = null
+            private var direction: JsonField<ManagementOperationDirection>? = null
+            private var effectiveDate: JsonField<LocalDate>? = null
+            private var eventType: JsonField<ManagementOperationEventType>? = null
+            private var financialAccountToken: JsonField<String>? = null
+            private var token: JsonField<String> = JsonMissing.of()
+            private var memo: JsonField<String> = JsonMissing.of()
+            private var subtype: JsonField<String> = JsonMissing.of()
+            private var userDefinedId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -142,42 +233,60 @@ constructor(
                         managementOperationCreateBody.additionalProperties.toMutableMap()
                 }
 
-            fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = amount(JsonField.of(amount))
 
-            fun category(category: ManagementOperationCategory) = apply { this.category = category }
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-            fun direction(direction: ManagementOperationDirection) = apply {
+            fun category(category: ManagementOperationCategory) = category(JsonField.of(category))
+
+            fun category(category: JsonField<ManagementOperationCategory>) = apply {
+                this.category = category
+            }
+
+            fun direction(direction: ManagementOperationDirection) =
+                direction(JsonField.of(direction))
+
+            fun direction(direction: JsonField<ManagementOperationDirection>) = apply {
                 this.direction = direction
             }
 
-            fun effectiveDate(effectiveDate: LocalDate) = apply {
+            fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
+
+            fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
 
-            fun eventType(eventType: ManagementOperationEventType) = apply {
+            fun eventType(eventType: ManagementOperationEventType) =
+                eventType(JsonField.of(eventType))
+
+            fun eventType(eventType: JsonField<ManagementOperationEventType>) = apply {
                 this.eventType = eventType
             }
 
-            fun financialAccountToken(financialAccountToken: String) = apply {
+            fun financialAccountToken(financialAccountToken: String) =
+                financialAccountToken(JsonField.of(financialAccountToken))
+
+            fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
                 this.financialAccountToken = financialAccountToken
             }
 
-            fun token(token: String?) = apply { this.token = token }
+            fun token(token: String) = token(JsonField.of(token))
 
-            fun token(token: Optional<String>) = token(token.orElse(null))
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
-            fun memo(memo: String?) = apply { this.memo = memo }
+            fun memo(memo: String) = memo(JsonField.of(memo))
 
-            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
-            fun subtype(subtype: String?) = apply { this.subtype = subtype }
+            fun subtype(subtype: String) = subtype(JsonField.of(subtype))
 
-            fun subtype(subtype: Optional<String>) = subtype(subtype.orElse(null))
+            fun subtype(subtype: JsonField<String>) = apply { this.subtype = subtype }
 
-            fun userDefinedId(userDefinedId: String?) = apply { this.userDefinedId = userDefinedId }
+            fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
-            fun userDefinedId(userDefinedId: Optional<String>) =
-                userDefinedId(userDefinedId.orElse(null))
+            fun userDefinedId(userDefinedId: JsonField<String>) = apply {
+                this.userDefinedId = userDefinedId
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -260,34 +369,76 @@ constructor(
 
         fun amount(amount: Long) = apply { body.amount(amount) }
 
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
+
         fun category(category: ManagementOperationCategory) = apply { body.category(category) }
+
+        fun category(category: JsonField<ManagementOperationCategory>) = apply {
+            body.category(category)
+        }
 
         fun direction(direction: ManagementOperationDirection) = apply { body.direction(direction) }
 
+        fun direction(direction: JsonField<ManagementOperationDirection>) = apply {
+            body.direction(direction)
+        }
+
         fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
+        fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
+            body.effectiveDate(effectiveDate)
+        }
+
         fun eventType(eventType: ManagementOperationEventType) = apply { body.eventType(eventType) }
+
+        fun eventType(eventType: JsonField<ManagementOperationEventType>) = apply {
+            body.eventType(eventType)
+        }
 
         fun financialAccountToken(financialAccountToken: String) = apply {
             body.financialAccountToken(financialAccountToken)
         }
 
-        fun token(token: String?) = apply { body.token(token) }
+        fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
+            body.financialAccountToken(financialAccountToken)
+        }
 
-        fun token(token: Optional<String>) = token(token.orElse(null))
+        fun token(token: String) = apply { body.token(token) }
 
-        fun memo(memo: String?) = apply { body.memo(memo) }
+        fun token(token: JsonField<String>) = apply { body.token(token) }
 
-        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+        fun memo(memo: String) = apply { body.memo(memo) }
 
-        fun subtype(subtype: String?) = apply { body.subtype(subtype) }
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
-        fun subtype(subtype: Optional<String>) = subtype(subtype.orElse(null))
+        fun subtype(subtype: String) = apply { body.subtype(subtype) }
 
-        fun userDefinedId(userDefinedId: String?) = apply { body.userDefinedId(userDefinedId) }
+        fun subtype(subtype: JsonField<String>) = apply { body.subtype(subtype) }
 
-        fun userDefinedId(userDefinedId: Optional<String>) =
-            userDefinedId(userDefinedId.orElse(null))
+        fun userDefinedId(userDefinedId: String) = apply { body.userDefinedId(userDefinedId) }
+
+        fun userDefinedId(userDefinedId: JsonField<String>) = apply {
+            body.userDefinedId(userDefinedId)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -385,25 +536,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ManagementOperationCreateParams =

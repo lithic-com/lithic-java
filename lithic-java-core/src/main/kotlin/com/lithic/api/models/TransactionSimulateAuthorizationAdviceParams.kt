@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -35,11 +37,20 @@ constructor(
      */
     fun amount(): Long = body.amount()
 
+    /** The transaction token returned from the /v1/simulate/authorize. response. */
+    fun _token(): JsonField<String> = body._token()
+
+    /**
+     * Amount (in cents) to authorize. This amount will override the transaction's amount that was
+     * originally set by /v1/simulate/authorize.
+     */
+    fun _amount(): JsonField<Long> = body._amount()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): TransactionSimulateAuthorizationAdviceBody = body
 
@@ -51,24 +62,47 @@ constructor(
     class TransactionSimulateAuthorizationAdviceBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("token") private val token: String,
-        @JsonProperty("amount") private val amount: Long,
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The transaction token returned from the /v1/simulate/authorize. response. */
-        @JsonProperty("token") fun token(): String = token
+        fun token(): String = token.getRequired("token")
 
         /**
          * Amount (in cents) to authorize. This amount will override the transaction's amount that
          * was originally set by /v1/simulate/authorize.
          */
-        @JsonProperty("amount") fun amount(): Long = amount
+        fun amount(): Long = amount.getRequired("amount")
+
+        /** The transaction token returned from the /v1/simulate/authorize. response. */
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+        /**
+         * Amount (in cents) to authorize. This amount will override the transaction's amount that
+         * was originally set by /v1/simulate/authorize.
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): TransactionSimulateAuthorizationAdviceBody = apply {
+            if (!validated) {
+                token()
+                amount()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -79,8 +113,8 @@ constructor(
 
         class Builder {
 
-            private var token: String? = null
-            private var amount: Long? = null
+            private var token: JsonField<String>? = null
+            private var amount: JsonField<Long>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -95,13 +129,22 @@ constructor(
             }
 
             /** The transaction token returned from the /v1/simulate/authorize. response. */
-            fun token(token: String) = apply { this.token = token }
+            fun token(token: String) = token(JsonField.of(token))
+
+            /** The transaction token returned from the /v1/simulate/authorize. response. */
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
              * Amount (in cents) to authorize. This amount will override the transaction's amount
              * that was originally set by /v1/simulate/authorize.
              */
-            fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = amount(JsonField.of(amount))
+
+            /**
+             * Amount (in cents) to authorize. This amount will override the transaction's amount
+             * that was originally set by /v1/simulate/authorize.
+             */
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -178,11 +221,39 @@ constructor(
         /** The transaction token returned from the /v1/simulate/authorize. response. */
         fun token(token: String) = apply { body.token(token) }
 
+        /** The transaction token returned from the /v1/simulate/authorize. response. */
+        fun token(token: JsonField<String>) = apply { body.token(token) }
+
         /**
          * Amount (in cents) to authorize. This amount will override the transaction's amount that
          * was originally set by /v1/simulate/authorize.
          */
         fun amount(amount: Long) = apply { body.amount(amount) }
+
+        /**
+         * Amount (in cents) to authorize. This amount will override the transaction's amount that
+         * was originally set by /v1/simulate/authorize.
+         */
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -280,25 +351,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransactionSimulateAuthorizationAdviceParams =

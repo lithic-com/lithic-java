@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -36,11 +38,21 @@ constructor(
     /** Whether the Cardholder has Approved or Declined the issued Challenge */
     fun challengeResponse(): ChallengeResult = body.challengeResponse()
 
+    /**
+     * Globally unique identifier for the 3DS authentication. This token is sent as part of the
+     * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
+     * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
+     */
+    fun _token(): JsonField<String> = body._token()
+
+    /** Whether the Cardholder has Approved or Declined the issued Challenge */
+    fun _challengeResponse(): JsonField<ChallengeResult> = body._challengeResponse()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): ThreeDSDecisioningSimulateChallengeResponseBody = body
 
@@ -52,8 +64,12 @@ constructor(
     class ThreeDSDecisioningSimulateChallengeResponseBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("token") private val token: String,
-        @JsonProperty("challenge_response") private val challengeResponse: ChallengeResult,
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("challenge_response")
+        @ExcludeMissing
+        private val challengeResponse: JsonField<ChallengeResult> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -63,15 +79,37 @@ constructor(
          * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
          * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
          */
-        @JsonProperty("token") fun token(): String = token
+        fun token(): String = token.getRequired("token")
+
+        /** Whether the Cardholder has Approved or Declined the issued Challenge */
+        fun challengeResponse(): ChallengeResult =
+            challengeResponse.getRequired("challenge_response")
+
+        /**
+         * Globally unique identifier for the 3DS authentication. This token is sent as part of the
+         * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
+         * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
+         */
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /** Whether the Cardholder has Approved or Declined the issued Challenge */
         @JsonProperty("challenge_response")
-        fun challengeResponse(): ChallengeResult = challengeResponse
+        @ExcludeMissing
+        fun _challengeResponse(): JsonField<ChallengeResult> = challengeResponse
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): ThreeDSDecisioningSimulateChallengeResponseBody = apply {
+            if (!validated) {
+                token()
+                challengeResponse()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -82,8 +120,8 @@ constructor(
 
         class Builder {
 
-            private var token: String? = null
-            private var challengeResponse: ChallengeResult? = null
+            private var token: JsonField<String>? = null
+            private var challengeResponse: JsonField<ChallengeResult>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -104,10 +142,21 @@ constructor(
              * the initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
              * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
              */
-            fun token(token: String) = apply { this.token = token }
+            fun token(token: String) = token(JsonField.of(token))
+
+            /**
+             * Globally unique identifier for the 3DS authentication. This token is sent as part of
+             * the initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
+             * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
+             */
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Whether the Cardholder has Approved or Declined the issued Challenge */
-            fun challengeResponse(challengeResponse: ChallengeResult) = apply {
+            fun challengeResponse(challengeResponse: ChallengeResult) =
+                challengeResponse(JsonField.of(challengeResponse))
+
+            /** Whether the Cardholder has Approved or Declined the issued Challenge */
+            fun challengeResponse(challengeResponse: JsonField<ChallengeResult>) = apply {
                 this.challengeResponse = challengeResponse
             }
 
@@ -192,9 +241,40 @@ constructor(
          */
         fun token(token: String) = apply { body.token(token) }
 
+        /**
+         * Globally unique identifier for the 3DS authentication. This token is sent as part of the
+         * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
+         * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
+         */
+        fun token(token: JsonField<String>) = apply { body.token(token) }
+
         /** Whether the Cardholder has Approved or Declined the issued Challenge */
         fun challengeResponse(challengeResponse: ChallengeResult) = apply {
             body.challengeResponse(challengeResponse)
+        }
+
+        /** Whether the Cardholder has Approved or Declined the issued Challenge */
+        fun challengeResponse(challengeResponse: JsonField<ChallengeResult>) = apply {
+            body.challengeResponse(challengeResponse)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -293,25 +373,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ThreeDSDecisioningSimulateChallengeResponseParams =

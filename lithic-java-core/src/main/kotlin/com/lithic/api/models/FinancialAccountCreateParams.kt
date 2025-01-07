@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -38,11 +39,19 @@ constructor(
 
     fun isForBenefitOf(): Optional<Boolean> = body.isForBenefitOf()
 
+    fun _nickname(): JsonField<String> = body._nickname()
+
+    fun _type(): JsonField<Type> = body._type()
+
+    fun _accountToken(): JsonField<String> = body._accountToken()
+
+    fun _isForBenefitOf(): JsonField<Boolean> = body._isForBenefitOf()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): FinancialAccountCreateBody = body
 
@@ -60,27 +69,57 @@ constructor(
     class FinancialAccountCreateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("nickname") private val nickname: String,
-        @JsonProperty("type") private val type: Type,
-        @JsonProperty("account_token") private val accountToken: String?,
-        @JsonProperty("is_for_benefit_of") private val isForBenefitOf: Boolean?,
+        @JsonProperty("nickname")
+        @ExcludeMissing
+        private val nickname: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
+        @JsonProperty("account_token")
+        @ExcludeMissing
+        private val accountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("is_for_benefit_of")
+        @ExcludeMissing
+        private val isForBenefitOf: JsonField<Boolean> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        @JsonProperty("nickname") fun nickname(): String = nickname
+        fun nickname(): String = nickname.getRequired("nickname")
 
-        @JsonProperty("type") fun type(): Type = type
+        fun type(): Type = type.getRequired("type")
+
+        fun accountToken(): Optional<String> =
+            Optional.ofNullable(accountToken.getNullable("account_token"))
+
+        fun isForBenefitOf(): Optional<Boolean> =
+            Optional.ofNullable(isForBenefitOf.getNullable("is_for_benefit_of"))
+
+        @JsonProperty("nickname") @ExcludeMissing fun _nickname(): JsonField<String> = nickname
+
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         @JsonProperty("account_token")
-        fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
+        @ExcludeMissing
+        fun _accountToken(): JsonField<String> = accountToken
 
         @JsonProperty("is_for_benefit_of")
-        fun isForBenefitOf(): Optional<Boolean> = Optional.ofNullable(isForBenefitOf)
+        @ExcludeMissing
+        fun _isForBenefitOf(): JsonField<Boolean> = isForBenefitOf
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): FinancialAccountCreateBody = apply {
+            if (!validated) {
+                nickname()
+                type()
+                accountToken()
+                isForBenefitOf()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -91,10 +130,10 @@ constructor(
 
         class Builder {
 
-            private var nickname: String? = null
-            private var type: Type? = null
-            private var accountToken: String? = null
-            private var isForBenefitOf: Boolean? = null
+            private var nickname: JsonField<String>? = null
+            private var type: JsonField<Type>? = null
+            private var accountToken: JsonField<String> = JsonMissing.of()
+            private var isForBenefitOf: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -107,24 +146,26 @@ constructor(
                     financialAccountCreateBody.additionalProperties.toMutableMap()
             }
 
-            fun nickname(nickname: String) = apply { this.nickname = nickname }
+            fun nickname(nickname: String) = nickname(JsonField.of(nickname))
 
-            fun type(type: Type) = apply { this.type = type }
+            fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
 
-            fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+            fun type(type: Type) = type(JsonField.of(type))
 
-            fun accountToken(accountToken: Optional<String>) =
-                accountToken(accountToken.orElse(null))
+            fun type(type: JsonField<Type>) = apply { this.type = type }
 
-            fun isForBenefitOf(isForBenefitOf: Boolean?) = apply {
-                this.isForBenefitOf = isForBenefitOf
+            fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
+
+            fun accountToken(accountToken: JsonField<String>) = apply {
+                this.accountToken = accountToken
             }
 
-            fun isForBenefitOf(isForBenefitOf: Boolean) = isForBenefitOf(isForBenefitOf as Boolean?)
+            fun isForBenefitOf(isForBenefitOf: Boolean) =
+                isForBenefitOf(JsonField.of(isForBenefitOf))
 
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-            fun isForBenefitOf(isForBenefitOf: Optional<Boolean>) =
-                isForBenefitOf(isForBenefitOf.orElse(null) as Boolean?)
+            fun isForBenefitOf(isForBenefitOf: JsonField<Boolean>) = apply {
+                this.isForBenefitOf = isForBenefitOf
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -203,19 +244,42 @@ constructor(
 
         fun nickname(nickname: String) = apply { body.nickname(nickname) }
 
+        fun nickname(nickname: JsonField<String>) = apply { body.nickname(nickname) }
+
         fun type(type: Type) = apply { body.type(type) }
 
-        fun accountToken(accountToken: String?) = apply { body.accountToken(accountToken) }
+        fun type(type: JsonField<Type>) = apply { body.type(type) }
 
-        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
+        fun accountToken(accountToken: String) = apply { body.accountToken(accountToken) }
 
-        fun isForBenefitOf(isForBenefitOf: Boolean?) = apply { body.isForBenefitOf(isForBenefitOf) }
+        fun accountToken(accountToken: JsonField<String>) = apply {
+            body.accountToken(accountToken)
+        }
 
-        fun isForBenefitOf(isForBenefitOf: Boolean) = isForBenefitOf(isForBenefitOf as Boolean?)
+        fun isForBenefitOf(isForBenefitOf: Boolean) = apply { body.isForBenefitOf(isForBenefitOf) }
 
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun isForBenefitOf(isForBenefitOf: Optional<Boolean>) =
-            isForBenefitOf(isForBenefitOf.orElse(null) as Boolean?)
+        fun isForBenefitOf(isForBenefitOf: JsonField<Boolean>) = apply {
+            body.isForBenefitOf(isForBenefitOf)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -313,25 +377,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): FinancialAccountCreateParams =

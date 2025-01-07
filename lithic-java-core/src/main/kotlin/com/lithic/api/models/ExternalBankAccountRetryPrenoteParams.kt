@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -29,11 +31,13 @@ constructor(
 
     fun financialAccountToken(): Optional<String> = body.financialAccountToken()
 
+    fun _financialAccountToken(): JsonField<String> = body._financialAccountToken()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): ExternalBankAccountRetryPrenoteBody = body
 
@@ -52,17 +56,32 @@ constructor(
     class ExternalBankAccountRetryPrenoteBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("financial_account_token") private val financialAccountToken: String?,
+        @JsonProperty("financial_account_token")
+        @ExcludeMissing
+        private val financialAccountToken: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        fun financialAccountToken(): Optional<String> =
+            Optional.ofNullable(financialAccountToken.getNullable("financial_account_token"))
+
         @JsonProperty("financial_account_token")
-        fun financialAccountToken(): Optional<String> = Optional.ofNullable(financialAccountToken)
+        @ExcludeMissing
+        fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): ExternalBankAccountRetryPrenoteBody = apply {
+            if (!validated) {
+                financialAccountToken()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -73,7 +92,7 @@ constructor(
 
         class Builder {
 
-            private var financialAccountToken: String? = null
+            private var financialAccountToken: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -85,12 +104,12 @@ constructor(
                     externalBankAccountRetryPrenoteBody.additionalProperties.toMutableMap()
             }
 
-            fun financialAccountToken(financialAccountToken: String?) = apply {
+            fun financialAccountToken(financialAccountToken: String) =
+                financialAccountToken(JsonField.of(financialAccountToken))
+
+            fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
                 this.financialAccountToken = financialAccountToken
             }
-
-            fun financialAccountToken(financialAccountToken: Optional<String>) =
-                financialAccountToken(financialAccountToken.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -168,12 +187,32 @@ constructor(
             this.externalBankAccountToken = externalBankAccountToken
         }
 
-        fun financialAccountToken(financialAccountToken: String?) = apply {
+        fun financialAccountToken(financialAccountToken: String) = apply {
             body.financialAccountToken(financialAccountToken)
         }
 
-        fun financialAccountToken(financialAccountToken: Optional<String>) =
-            financialAccountToken(financialAccountToken.orElse(null))
+        fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
+            body.financialAccountToken(financialAccountToken)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -271,25 +310,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ExternalBankAccountRetryPrenoteParams =

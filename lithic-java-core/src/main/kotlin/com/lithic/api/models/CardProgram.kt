@@ -68,24 +68,28 @@ private constructor(
         Optional.ofNullable(settlementCurrencies.getNullable("settlement_currencies"))
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Timestamp of when the card program was created. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** The name of the card program. */
-    @JsonProperty("name") @ExcludeMissing fun _name() = name
+    @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
     /** The first digits of the card number that this card program ends with. */
-    @JsonProperty("pan_range_end") @ExcludeMissing fun _panRangeEnd() = panRangeEnd
+    @JsonProperty("pan_range_end")
+    @ExcludeMissing
+    fun _panRangeEnd(): JsonField<String> = panRangeEnd
 
     /** The first digits of the card number that this card program starts with. */
-    @JsonProperty("pan_range_start") @ExcludeMissing fun _panRangeStart() = panRangeStart
+    @JsonProperty("pan_range_start")
+    @ExcludeMissing
+    fun _panRangeStart(): JsonField<String> = panRangeStart
 
     /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
     @JsonProperty("cardholder_currency")
     @ExcludeMissing
-    fun _cardholderCurrency() = cardholderCurrency
+    fun _cardholderCurrency(): JsonField<String> = cardholderCurrency
 
     /**
      * List of 3-digit alphabetic ISO 4217 codes for the currencies that the card program supports
@@ -93,7 +97,7 @@ private constructor(
      */
     @JsonProperty("settlement_currencies")
     @ExcludeMissing
-    fun _settlementCurrencies() = settlementCurrencies
+    fun _settlementCurrencies(): JsonField<List<String>> = settlementCurrencies
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -123,13 +127,13 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var name: JsonField<String> = JsonMissing.of()
-        private var panRangeEnd: JsonField<String> = JsonMissing.of()
-        private var panRangeStart: JsonField<String> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var name: JsonField<String>? = null
+        private var panRangeEnd: JsonField<String>? = null
+        private var panRangeStart: JsonField<String>? = null
         private var cardholderCurrency: JsonField<String> = JsonMissing.of()
-        private var settlementCurrencies: JsonField<List<String>> = JsonMissing.of()
+        private var settlementCurrencies: JsonField<MutableList<String>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -140,7 +144,7 @@ private constructor(
             panRangeEnd = cardProgram.panRangeEnd
             panRangeStart = cardProgram.panRangeStart
             cardholderCurrency = cardProgram.cardholderCurrency
-            settlementCurrencies = cardProgram.settlementCurrencies
+            settlementCurrencies = cardProgram.settlementCurrencies.map { it.toMutableList() }
             additionalProperties = cardProgram.additionalProperties.toMutableMap()
         }
 
@@ -197,7 +201,24 @@ private constructor(
          * supports for settlement.
          */
         fun settlementCurrencies(settlementCurrencies: JsonField<List<String>>) = apply {
-            this.settlementCurrencies = settlementCurrencies
+            this.settlementCurrencies = settlementCurrencies.map { it.toMutableList() }
+        }
+
+        /**
+         * List of 3-digit alphabetic ISO 4217 codes for the currencies that the card program
+         * supports for settlement.
+         */
+        fun addSettlementCurrency(settlementCurrency: String) = apply {
+            settlementCurrencies =
+                (settlementCurrencies ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(settlementCurrency)
+                }
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -221,13 +242,13 @@ private constructor(
 
         fun build(): CardProgram =
             CardProgram(
-                token,
-                created,
-                name,
-                panRangeEnd,
-                panRangeStart,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(name) { "`name` is required but was not set" },
+                checkNotNull(panRangeEnd) { "`panRangeEnd` is required but was not set" },
+                checkNotNull(panRangeStart) { "`panRangeStart` is required but was not set" },
                 cardholderCurrency,
-                settlementCurrencies.map { it.toImmutable() },
+                (settlementCurrencies ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }

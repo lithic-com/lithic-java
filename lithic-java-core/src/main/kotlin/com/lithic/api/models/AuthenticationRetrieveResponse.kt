@@ -163,61 +163,73 @@ private constructor(
         Optional.ofNullable(transaction.getNullable("transaction"))
 
     /** Globally unique identifier for the 3DS authentication. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
      * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
      * `acctType`.
      */
-    @JsonProperty("account_type") @ExcludeMissing fun _accountType() = accountType
+    @JsonProperty("account_type")
+    @ExcludeMissing
+    fun _accountType(): JsonField<AccountType> = accountType
 
     /** Indicates the outcome of the 3DS authentication process. */
     @JsonProperty("authentication_result")
     @ExcludeMissing
-    fun _authenticationResult() = authenticationResult
+    fun _authenticationResult(): JsonField<AuthenticationResult> = authenticationResult
 
     /**
      * Indicates whether the expiration date provided by the cardholder during checkout matches
      * Lithic's record of the card's expiration date.
      */
-    @JsonProperty("card_expiry_check") @ExcludeMissing fun _cardExpiryCheck() = cardExpiryCheck
+    @JsonProperty("card_expiry_check")
+    @ExcludeMissing
+    fun _cardExpiryCheck(): JsonField<CardExpiryCheck> = cardExpiryCheck
 
     /** Globally unique identifier for the card on which the 3DS authentication has occurred. */
-    @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
+    @JsonProperty("card_token") @ExcludeMissing fun _cardToken(): JsonField<String> = cardToken
 
     /** Object containing data about the cardholder provided during the transaction. */
-    @JsonProperty("cardholder") @ExcludeMissing fun _cardholder() = cardholder
+    @JsonProperty("cardholder")
+    @ExcludeMissing
+    fun _cardholder(): JsonField<Cardholder> = cardholder
 
     /** Channel in which the authentication occurs. Maps to EMV 3DS field deviceChannel. */
-    @JsonProperty("channel") @ExcludeMissing fun _channel() = channel
+    @JsonProperty("channel") @ExcludeMissing fun _channel(): JsonField<Channel> = channel
 
     /** Date and time when the authentication was created in Lithic's system. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** Entity that made the authentication decision. */
-    @JsonProperty("decision_made_by") @ExcludeMissing fun _decisionMadeBy() = decisionMadeBy
+    @JsonProperty("decision_made_by")
+    @ExcludeMissing
+    fun _decisionMadeBy(): JsonField<DecisionMadeBy> = decisionMadeBy
 
     /** Object containing data about the merchant involved in the e-commerce transaction. */
-    @JsonProperty("merchant") @ExcludeMissing fun _merchant() = merchant
+    @JsonProperty("merchant") @ExcludeMissing fun _merchant(): JsonField<Merchant> = merchant
 
     /**
      * Either PAYMENT_AUTHENTICATION or NON_PAYMENT_AUTHENTICATION. For NON_PAYMENT_AUTHENTICATION,
      * additional_data and transaction fields are not populated.
      */
-    @JsonProperty("message_category") @ExcludeMissing fun _messageCategory() = messageCategory
+    @JsonProperty("message_category")
+    @ExcludeMissing
+    fun _messageCategory(): JsonField<MessageCategory> = messageCategory
 
     /**
      * Object containing additional data about the 3DS request that is beyond the EMV 3DS standard
      * spec (e.g., specific fields that only certain card networks send but are not required across
      * all 3DS requests).
      */
-    @JsonProperty("additional_data") @ExcludeMissing fun _additionalData() = additionalData
+    @JsonProperty("additional_data")
+    @ExcludeMissing
+    fun _additionalData(): JsonField<AdditionalData> = additionalData
 
     /**
      * Object containing data about the app used in the e-commerce transaction. Present if the
      * channel is 'APP_BASED'.
      */
-    @JsonProperty("app") @ExcludeMissing fun _app() = app
+    @JsonProperty("app") @ExcludeMissing fun _app(): JsonField<App> = app
 
     /**
      * Type of authentication request - i.e., the type of transaction or interaction is causing the
@@ -226,13 +238,14 @@ private constructor(
      */
     @JsonProperty("authentication_request_type")
     @ExcludeMissing
-    fun _authenticationRequestType() = authenticationRequestType
+    fun _authenticationRequestType(): JsonField<AuthenticationRequestType> =
+        authenticationRequestType
 
     /**
      * Object containing data about the browser used in the e-commerce transaction. Present if the
      * channel is 'BROWSER'.
      */
-    @JsonProperty("browser") @ExcludeMissing fun _browser() = browser
+    @JsonProperty("browser") @ExcludeMissing fun _browser(): JsonField<Browser> = browser
 
     /**
      * Type of 3DS Requestor Initiated (3RI) request i.e., a 3DS authentication that takes place at
@@ -242,13 +255,15 @@ private constructor(
      */
     @JsonProperty("three_ri_request_type")
     @ExcludeMissing
-    fun _threeRiRequestType() = threeRiRequestType
+    fun _threeRiRequestType(): JsonField<ThreeRiRequestType> = threeRiRequestType
 
     /**
      * Object containing data about the e-commerce transaction for which the merchant is requesting
      * authentication.
      */
-    @JsonProperty("transaction") @ExcludeMissing fun _transaction() = transaction
+    @JsonProperty("transaction")
+    @ExcludeMissing
+    fun _transaction(): JsonField<Transaction> = transaction
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -288,17 +303,17 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var accountType: JsonField<AccountType> = JsonMissing.of()
-        private var authenticationResult: JsonField<AuthenticationResult> = JsonMissing.of()
-        private var cardExpiryCheck: JsonField<CardExpiryCheck> = JsonMissing.of()
-        private var cardToken: JsonField<String> = JsonMissing.of()
-        private var cardholder: JsonField<Cardholder> = JsonMissing.of()
-        private var channel: JsonField<Channel> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var decisionMadeBy: JsonField<DecisionMadeBy> = JsonMissing.of()
-        private var merchant: JsonField<Merchant> = JsonMissing.of()
-        private var messageCategory: JsonField<MessageCategory> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var accountType: JsonField<AccountType>? = null
+        private var authenticationResult: JsonField<AuthenticationResult>? = null
+        private var cardExpiryCheck: JsonField<CardExpiryCheck>? = null
+        private var cardToken: JsonField<String>? = null
+        private var cardholder: JsonField<Cardholder>? = null
+        private var channel: JsonField<Channel>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var decisionMadeBy: JsonField<DecisionMadeBy>? = null
+        private var merchant: JsonField<Merchant>? = null
+        private var messageCategory: JsonField<MessageCategory>? = null
         private var additionalData: JsonField<AdditionalData> = JsonMissing.of()
         private var app: JsonField<App> = JsonMissing.of()
         private var authenticationRequestType: JsonField<AuthenticationRequestType> =
@@ -341,7 +356,13 @@ private constructor(
          * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
          * `acctType`.
          */
-        fun accountType(accountType: AccountType) = accountType(JsonField.of(accountType))
+        fun accountType(accountType: AccountType?) = accountType(JsonField.ofNullable(accountType))
+
+        /**
+         * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
+         * `acctType`.
+         */
+        fun accountType(accountType: Optional<AccountType>) = accountType(accountType.orElse(null))
 
         /**
          * Type of account/card that is being used for the transaction. Maps to EMV 3DS field
@@ -352,8 +373,12 @@ private constructor(
         }
 
         /** Indicates the outcome of the 3DS authentication process. */
-        fun authenticationResult(authenticationResult: AuthenticationResult) =
-            authenticationResult(JsonField.of(authenticationResult))
+        fun authenticationResult(authenticationResult: AuthenticationResult?) =
+            authenticationResult(JsonField.ofNullable(authenticationResult))
+
+        /** Indicates the outcome of the 3DS authentication process. */
+        fun authenticationResult(authenticationResult: Optional<AuthenticationResult>) =
+            authenticationResult(authenticationResult.orElse(null))
 
         /** Indicates the outcome of the 3DS authentication process. */
         fun authenticationResult(authenticationResult: JsonField<AuthenticationResult>) = apply {
@@ -400,8 +425,12 @@ private constructor(
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Entity that made the authentication decision. */
-        fun decisionMadeBy(decisionMadeBy: DecisionMadeBy) =
-            decisionMadeBy(JsonField.of(decisionMadeBy))
+        fun decisionMadeBy(decisionMadeBy: DecisionMadeBy?) =
+            decisionMadeBy(JsonField.ofNullable(decisionMadeBy))
+
+        /** Entity that made the authentication decision. */
+        fun decisionMadeBy(decisionMadeBy: Optional<DecisionMadeBy>) =
+            decisionMadeBy(decisionMadeBy.orElse(null))
 
         /** Entity that made the authentication decision. */
         fun decisionMadeBy(decisionMadeBy: JsonField<DecisionMadeBy>) = apply {
@@ -434,8 +463,16 @@ private constructor(
          * standard spec (e.g., specific fields that only certain card networks send but are not
          * required across all 3DS requests).
          */
-        fun additionalData(additionalData: AdditionalData) =
-            additionalData(JsonField.of(additionalData))
+        fun additionalData(additionalData: AdditionalData?) =
+            additionalData(JsonField.ofNullable(additionalData))
+
+        /**
+         * Object containing additional data about the 3DS request that is beyond the EMV 3DS
+         * standard spec (e.g., specific fields that only certain card networks send but are not
+         * required across all 3DS requests).
+         */
+        fun additionalData(additionalData: Optional<AdditionalData>) =
+            additionalData(additionalData.orElse(null))
 
         /**
          * Object containing additional data about the 3DS request that is beyond the EMV 3DS
@@ -463,8 +500,17 @@ private constructor(
          * the merchant to request an authentication. Maps to EMV 3DS field
          * threeDSRequestorAuthenticationInd.
          */
-        fun authenticationRequestType(authenticationRequestType: AuthenticationRequestType) =
-            authenticationRequestType(JsonField.of(authenticationRequestType))
+        fun authenticationRequestType(authenticationRequestType: AuthenticationRequestType?) =
+            authenticationRequestType(JsonField.ofNullable(authenticationRequestType))
+
+        /**
+         * Type of authentication request - i.e., the type of transaction or interaction is causing
+         * the merchant to request an authentication. Maps to EMV 3DS field
+         * threeDSRequestorAuthenticationInd.
+         */
+        fun authenticationRequestType(
+            authenticationRequestType: Optional<AuthenticationRequestType>
+        ) = authenticationRequestType(authenticationRequestType.orElse(null))
 
         /**
          * Type of authentication request - i.e., the type of transaction or interaction is causing
@@ -493,8 +539,17 @@ private constructor(
          * this is where a merchant is authenticating before billing for a recurring transaction
          * such as a pay TV subscription or a utility bill. Maps to EMV 3DS field threeRIInd.
          */
-        fun threeRiRequestType(threeRiRequestType: ThreeRiRequestType) =
-            threeRiRequestType(JsonField.of(threeRiRequestType))
+        fun threeRiRequestType(threeRiRequestType: ThreeRiRequestType?) =
+            threeRiRequestType(JsonField.ofNullable(threeRiRequestType))
+
+        /**
+         * Type of 3DS Requestor Initiated (3RI) request i.e., a 3DS authentication that takes place
+         * at the initiation of the merchant rather than the cardholder. The most common example of
+         * this is where a merchant is authenticating before billing for a recurring transaction
+         * such as a pay TV subscription or a utility bill. Maps to EMV 3DS field threeRIInd.
+         */
+        fun threeRiRequestType(threeRiRequestType: Optional<ThreeRiRequestType>) =
+            threeRiRequestType(threeRiRequestType.orElse(null))
 
         /**
          * Type of 3DS Requestor Initiated (3RI) request i.e., a 3DS authentication that takes place
@@ -510,7 +565,13 @@ private constructor(
          * Object containing data about the e-commerce transaction for which the merchant is
          * requesting authentication.
          */
-        fun transaction(transaction: Transaction) = transaction(JsonField.of(transaction))
+        fun transaction(transaction: Transaction?) = transaction(JsonField.ofNullable(transaction))
+
+        /**
+         * Object containing data about the e-commerce transaction for which the merchant is
+         * requesting authentication.
+         */
+        fun transaction(transaction: Optional<Transaction>) = transaction(transaction.orElse(null))
 
         /**
          * Object containing data about the e-commerce transaction for which the merchant is
@@ -541,17 +602,19 @@ private constructor(
 
         fun build(): AuthenticationRetrieveResponse =
             AuthenticationRetrieveResponse(
-                token,
-                accountType,
-                authenticationResult,
-                cardExpiryCheck,
-                cardToken,
-                cardholder,
-                channel,
-                created,
-                decisionMadeBy,
-                merchant,
-                messageCategory,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(accountType) { "`accountType` is required but was not set" },
+                checkNotNull(authenticationResult) {
+                    "`authenticationResult` is required but was not set"
+                },
+                checkNotNull(cardExpiryCheck) { "`cardExpiryCheck` is required but was not set" },
+                checkNotNull(cardToken) { "`cardToken` is required but was not set" },
+                checkNotNull(cardholder) { "`cardholder` is required but was not set" },
+                checkNotNull(channel) { "`channel` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(decisionMadeBy) { "`decisionMadeBy` is required but was not set" },
+                checkNotNull(merchant) { "`merchant` is required but was not set" },
+                checkNotNull(messageCategory) { "`messageCategory` is required but was not set" },
                 additionalData,
                 app,
                 authenticationRequestType,
@@ -831,25 +894,31 @@ private constructor(
          * directly in the 3DS request and is not determined by Lithic. Maps to EMV 3DS field
          * addrMatch.
          */
-        @JsonProperty("address_match") @ExcludeMissing fun _addressMatch() = addressMatch
+        @JsonProperty("address_match")
+        @ExcludeMissing
+        fun _addressMatch(): JsonField<Boolean> = addressMatch
 
         /** Object containing data on the billing address provided during the transaction. */
-        @JsonProperty("billing_address") @ExcludeMissing fun _billingAddress() = billingAddress
+        @JsonProperty("billing_address")
+        @ExcludeMissing
+        fun _billingAddress(): JsonField<ThreeDSAddress> = billingAddress
 
         /**
          * Email address that is either provided by the cardholder or is on file with the merchant
          * in a 3RI request. Maps to EMV 3DS field email.
          */
-        @JsonProperty("email") @ExcludeMissing fun _email() = email
+        @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
         /** Name of the cardholder. Maps to EMV 3DS field cardholderName. */
-        @JsonProperty("name") @ExcludeMissing fun _name() = name
+        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
         /**
          * Home phone number provided by the cardholder. Maps to EMV 3DS fields homePhone.cc and
          * homePhone.subscriber.
          */
-        @JsonProperty("phone_number_home") @ExcludeMissing fun _phoneNumberHome() = phoneNumberHome
+        @JsonProperty("phone_number_home")
+        @ExcludeMissing
+        fun _phoneNumberHome(): JsonField<String> = phoneNumberHome
 
         /**
          * Mobile/cell phone number provided by the cardholder. Maps to EMV 3DS fields
@@ -857,16 +926,20 @@ private constructor(
          */
         @JsonProperty("phone_number_mobile")
         @ExcludeMissing
-        fun _phoneNumberMobile() = phoneNumberMobile
+        fun _phoneNumberMobile(): JsonField<String> = phoneNumberMobile
 
         /**
          * Work phone number provided by the cardholder. Maps to EMV 3DS fields workPhone.cc and
          * workPhone.subscriber.
          */
-        @JsonProperty("phone_number_work") @ExcludeMissing fun _phoneNumberWork() = phoneNumberWork
+        @JsonProperty("phone_number_work")
+        @ExcludeMissing
+        fun _phoneNumberWork(): JsonField<String> = phoneNumberWork
 
         /** Object containing data on the shipping address provided during the transaction. */
-        @JsonProperty("shipping_address") @ExcludeMissing fun _shippingAddress() = shippingAddress
+        @JsonProperty("shipping_address")
+        @ExcludeMissing
+        fun _shippingAddress(): JsonField<ThreeDSAddress> = shippingAddress
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -926,7 +999,26 @@ private constructor(
              * provided directly in the 3DS request and is not determined by Lithic. Maps to EMV 3DS
              * field addrMatch.
              */
-            fun addressMatch(addressMatch: Boolean) = addressMatch(JsonField.of(addressMatch))
+            fun addressMatch(addressMatch: Boolean?) =
+                addressMatch(JsonField.ofNullable(addressMatch))
+
+            /**
+             * Indicates whether the shipping address and billing address provided by the cardholder
+             * are the same. This value - and assessment of whether the addresses match - is
+             * provided directly in the 3DS request and is not determined by Lithic. Maps to EMV 3DS
+             * field addrMatch.
+             */
+            fun addressMatch(addressMatch: Boolean) = addressMatch(addressMatch as Boolean?)
+
+            /**
+             * Indicates whether the shipping address and billing address provided by the cardholder
+             * are the same. This value - and assessment of whether the addresses match - is
+             * provided directly in the 3DS request and is not determined by Lithic. Maps to EMV 3DS
+             * field addrMatch.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun addressMatch(addressMatch: Optional<Boolean>) =
+                addressMatch(addressMatch.orElse(null) as Boolean?)
 
             /**
              * Indicates whether the shipping address and billing address provided by the cardholder
@@ -951,7 +1043,13 @@ private constructor(
              * Email address that is either provided by the cardholder or is on file with the
              * merchant in a 3RI request. Maps to EMV 3DS field email.
              */
-            fun email(email: String) = email(JsonField.of(email))
+            fun email(email: String?) = email(JsonField.ofNullable(email))
+
+            /**
+             * Email address that is either provided by the cardholder or is on file with the
+             * merchant in a 3RI request. Maps to EMV 3DS field email.
+             */
+            fun email(email: Optional<String>) = email(email.orElse(null))
 
             /**
              * Email address that is either provided by the cardholder or is on file with the
@@ -960,7 +1058,10 @@ private constructor(
             fun email(email: JsonField<String>) = apply { this.email = email }
 
             /** Name of the cardholder. Maps to EMV 3DS field cardholderName. */
-            fun name(name: String) = name(JsonField.of(name))
+            fun name(name: String?) = name(JsonField.ofNullable(name))
+
+            /** Name of the cardholder. Maps to EMV 3DS field cardholderName. */
+            fun name(name: Optional<String>) = name(name.orElse(null))
 
             /** Name of the cardholder. Maps to EMV 3DS field cardholderName. */
             fun name(name: JsonField<String>) = apply { this.name = name }
@@ -969,8 +1070,15 @@ private constructor(
              * Home phone number provided by the cardholder. Maps to EMV 3DS fields homePhone.cc and
              * homePhone.subscriber.
              */
-            fun phoneNumberHome(phoneNumberHome: String) =
-                phoneNumberHome(JsonField.of(phoneNumberHome))
+            fun phoneNumberHome(phoneNumberHome: String?) =
+                phoneNumberHome(JsonField.ofNullable(phoneNumberHome))
+
+            /**
+             * Home phone number provided by the cardholder. Maps to EMV 3DS fields homePhone.cc and
+             * homePhone.subscriber.
+             */
+            fun phoneNumberHome(phoneNumberHome: Optional<String>) =
+                phoneNumberHome(phoneNumberHome.orElse(null))
 
             /**
              * Home phone number provided by the cardholder. Maps to EMV 3DS fields homePhone.cc and
@@ -984,8 +1092,15 @@ private constructor(
              * Mobile/cell phone number provided by the cardholder. Maps to EMV 3DS fields
              * mobilePhone.cc and mobilePhone.subscriber.
              */
-            fun phoneNumberMobile(phoneNumberMobile: String) =
-                phoneNumberMobile(JsonField.of(phoneNumberMobile))
+            fun phoneNumberMobile(phoneNumberMobile: String?) =
+                phoneNumberMobile(JsonField.ofNullable(phoneNumberMobile))
+
+            /**
+             * Mobile/cell phone number provided by the cardholder. Maps to EMV 3DS fields
+             * mobilePhone.cc and mobilePhone.subscriber.
+             */
+            fun phoneNumberMobile(phoneNumberMobile: Optional<String>) =
+                phoneNumberMobile(phoneNumberMobile.orElse(null))
 
             /**
              * Mobile/cell phone number provided by the cardholder. Maps to EMV 3DS fields
@@ -999,8 +1114,15 @@ private constructor(
              * Work phone number provided by the cardholder. Maps to EMV 3DS fields workPhone.cc and
              * workPhone.subscriber.
              */
-            fun phoneNumberWork(phoneNumberWork: String) =
-                phoneNumberWork(JsonField.of(phoneNumberWork))
+            fun phoneNumberWork(phoneNumberWork: String?) =
+                phoneNumberWork(JsonField.ofNullable(phoneNumberWork))
+
+            /**
+             * Work phone number provided by the cardholder. Maps to EMV 3DS fields workPhone.cc and
+             * workPhone.subscriber.
+             */
+            fun phoneNumberWork(phoneNumberWork: Optional<String>) =
+                phoneNumberWork(phoneNumberWork.orElse(null))
 
             /**
              * Work phone number provided by the cardholder. Maps to EMV 3DS fields workPhone.cc and
@@ -1102,25 +1224,27 @@ private constructor(
                 Optional.ofNullable(postalCode.getNullable("postal_code"))
 
             /** First line of the street address provided by the cardholder. */
-            @JsonProperty("address1") @ExcludeMissing fun _address1() = address1
+            @JsonProperty("address1") @ExcludeMissing fun _address1(): JsonField<String> = address1
 
             /** Second line of the street address provided by the cardholder. */
-            @JsonProperty("address2") @ExcludeMissing fun _address2() = address2
+            @JsonProperty("address2") @ExcludeMissing fun _address2(): JsonField<String> = address2
 
             /** Third line of the street address provided by the cardholder. */
-            @JsonProperty("address3") @ExcludeMissing fun _address3() = address3
+            @JsonProperty("address3") @ExcludeMissing fun _address3(): JsonField<String> = address3
 
             /** City of the address provided by the cardholder. */
-            @JsonProperty("city") @ExcludeMissing fun _city() = city
+            @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
 
             /**
              * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g.
              * USA)
              */
-            @JsonProperty("country") @ExcludeMissing fun _country() = country
+            @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
             /** Postal code (e.g., ZIP code) of the address provided by the cardholder */
-            @JsonProperty("postal_code") @ExcludeMissing fun _postalCode() = postalCode
+            @JsonProperty("postal_code")
+            @ExcludeMissing
+            fun _postalCode(): JsonField<String> = postalCode
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -1169,25 +1293,37 @@ private constructor(
                 }
 
                 /** First line of the street address provided by the cardholder. */
-                fun address1(address1: String) = address1(JsonField.of(address1))
+                fun address1(address1: String?) = address1(JsonField.ofNullable(address1))
+
+                /** First line of the street address provided by the cardholder. */
+                fun address1(address1: Optional<String>) = address1(address1.orElse(null))
 
                 /** First line of the street address provided by the cardholder. */
                 fun address1(address1: JsonField<String>) = apply { this.address1 = address1 }
 
                 /** Second line of the street address provided by the cardholder. */
-                fun address2(address2: String) = address2(JsonField.of(address2))
+                fun address2(address2: String?) = address2(JsonField.ofNullable(address2))
+
+                /** Second line of the street address provided by the cardholder. */
+                fun address2(address2: Optional<String>) = address2(address2.orElse(null))
 
                 /** Second line of the street address provided by the cardholder. */
                 fun address2(address2: JsonField<String>) = apply { this.address2 = address2 }
 
                 /** Third line of the street address provided by the cardholder. */
-                fun address3(address3: String) = address3(JsonField.of(address3))
+                fun address3(address3: String?) = address3(JsonField.ofNullable(address3))
+
+                /** Third line of the street address provided by the cardholder. */
+                fun address3(address3: Optional<String>) = address3(address3.orElse(null))
 
                 /** Third line of the street address provided by the cardholder. */
                 fun address3(address3: JsonField<String>) = apply { this.address3 = address3 }
 
                 /** City of the address provided by the cardholder. */
-                fun city(city: String) = city(JsonField.of(city))
+                fun city(city: String?) = city(JsonField.ofNullable(city))
+
+                /** City of the address provided by the cardholder. */
+                fun city(city: Optional<String>) = city(city.orElse(null))
 
                 /** City of the address provided by the cardholder. */
                 fun city(city: JsonField<String>) = apply { this.city = city }
@@ -1196,7 +1332,13 @@ private constructor(
                  * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format
                  * (e.g. USA)
                  */
-                fun country(country: String) = country(JsonField.of(country))
+                fun country(country: String?) = country(JsonField.ofNullable(country))
+
+                /**
+                 * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format
+                 * (e.g. USA)
+                 */
+                fun country(country: Optional<String>) = country(country.orElse(null))
 
                 /**
                  * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format
@@ -1205,7 +1347,10 @@ private constructor(
                 fun country(country: JsonField<String>) = apply { this.country = country }
 
                 /** Postal code (e.g., ZIP code) of the address provided by the cardholder */
-                fun postalCode(postalCode: String) = postalCode(JsonField.of(postalCode))
+                fun postalCode(postalCode: String?) = postalCode(JsonField.ofNullable(postalCode))
+
+                /** Postal code (e.g., ZIP code) of the address provided by the cardholder */
+                fun postalCode(postalCode: Optional<String>) = postalCode(postalCode.orElse(null))
 
                 /** Postal code (e.g., ZIP code) of the address provided by the cardholder */
                 fun postalCode(postalCode: JsonField<String>) = apply {
@@ -1471,28 +1616,30 @@ private constructor(
          * Merchant identifier as assigned by the acquirer. Maps to EMV 3DS field
          * acquirerMerchantId.
          */
-        @JsonProperty("id") @ExcludeMissing fun _id() = id
+        @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
         /**
          * Country code of the merchant requesting 3DS authentication. Maps to EMV 3DS field
          * merchantCountryCode.
          */
-        @JsonProperty("country") @ExcludeMissing fun _country() = country
+        @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
         /**
          * Merchant category code assigned to the merchant that describes its business activity
          * type. Maps to EMV 3DS field mcc.
          */
-        @JsonProperty("mcc") @ExcludeMissing fun _mcc() = mcc
+        @JsonProperty("mcc") @ExcludeMissing fun _mcc(): JsonField<String> = mcc
 
         /** Name of the merchant. Maps to EMV 3DS field merchantName. */
-        @JsonProperty("name") @ExcludeMissing fun _name() = name
+        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
         /**
          * Object containing additional data indicating additional risk factors related to the
          * e-commerce transaction.
          */
-        @JsonProperty("risk_indicator") @ExcludeMissing fun _riskIndicator() = riskIndicator
+        @JsonProperty("risk_indicator")
+        @ExcludeMissing
+        fun _riskIndicator(): JsonField<RiskIndicator> = riskIndicator
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -1520,11 +1667,11 @@ private constructor(
 
         class Builder {
 
-            private var id: JsonField<String> = JsonMissing.of()
-            private var country: JsonField<String> = JsonMissing.of()
-            private var mcc: JsonField<String> = JsonMissing.of()
-            private var name: JsonField<String> = JsonMissing.of()
-            private var riskIndicator: JsonField<RiskIndicator> = JsonMissing.of()
+            private var id: JsonField<String>? = null
+            private var country: JsonField<String>? = null
+            private var mcc: JsonField<String>? = null
+            private var name: JsonField<String>? = null
+            private var riskIndicator: JsonField<RiskIndicator>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -1615,11 +1762,11 @@ private constructor(
 
             fun build(): Merchant =
                 Merchant(
-                    id,
-                    country,
-                    mcc,
-                    name,
-                    riskIndicator,
+                    checkNotNull(id) { "`id` is required but was not set" },
+                    checkNotNull(country) { "`country` is required but was not set" },
+                    checkNotNull(mcc) { "`mcc` is required but was not set" },
+                    checkNotNull(name) { "`name` is required but was not set" },
+                    checkNotNull(riskIndicator) { "`riskIndicator` is required but was not set" },
                     additionalProperties.toImmutable(),
                 )
         }
@@ -1733,26 +1880,30 @@ private constructor(
              */
             @JsonProperty("delivery_email_address")
             @ExcludeMissing
-            fun _deliveryEmailAddress() = deliveryEmailAddress
+            fun _deliveryEmailAddress(): JsonField<String> = deliveryEmailAddress
 
             /**
              * The delivery time frame for the merchandise. Maps to EMV 3DS field deliveryTimeframe.
              */
             @JsonProperty("delivery_time_frame")
             @ExcludeMissing
-            fun _deliveryTimeFrame() = deliveryTimeFrame
+            fun _deliveryTimeFrame(): JsonField<DeliveryTimeFrame> = deliveryTimeFrame
 
             /**
              * In prepaid or gift card purchase transactions, purchase amount total in major units
              * (e.g., a purchase of USD $205.10 would be 205). Maps to EMV 3DS field giftCardAmount.
              */
-            @JsonProperty("gift_card_amount") @ExcludeMissing fun _giftCardAmount() = giftCardAmount
+            @JsonProperty("gift_card_amount")
+            @ExcludeMissing
+            fun _giftCardAmount(): JsonField<Long> = giftCardAmount
 
             /**
              * In prepaid or gift card purchase transactions, count of individual prepaid or gift
              * cards/codes purchased. Maps to EMV 3DS field giftCardCount.
              */
-            @JsonProperty("gift_card_count") @ExcludeMissing fun _giftCardCount() = giftCardCount
+            @JsonProperty("gift_card_count")
+            @ExcludeMissing
+            fun _giftCardCount(): JsonField<Long> = giftCardCount
 
             /**
              * In prepaid or gift card purchase transactions, currency code of the gift card. Maps
@@ -1760,7 +1911,7 @@ private constructor(
              */
             @JsonProperty("gift_card_currency")
             @ExcludeMissing
-            fun _giftCardCurrency() = giftCardCurrency
+            fun _giftCardCurrency(): JsonField<String> = giftCardCurrency
 
             /**
              * Indicates whether the purchase is for merchandise that is available now or at a
@@ -1768,7 +1919,7 @@ private constructor(
              */
             @JsonProperty("order_availability")
             @ExcludeMissing
-            fun _orderAvailability() = orderAvailability
+            fun _orderAvailability(): JsonField<OrderAvailability> = orderAvailability
 
             /**
              * In pre-order purchase transactions, the expected date that the merchandise will be
@@ -1776,13 +1927,15 @@ private constructor(
              */
             @JsonProperty("pre_order_available_date")
             @ExcludeMissing
-            fun _preOrderAvailableDate() = preOrderAvailableDate
+            fun _preOrderAvailableDate(): JsonField<OffsetDateTime> = preOrderAvailableDate
 
             /**
              * Indicates whether the cardholder is reordering previously purchased merchandise. Maps
              * to EMV 3DS field reorderItemsInd.
              */
-            @JsonProperty("reorder_items") @ExcludeMissing fun _reorderItems() = reorderItems
+            @JsonProperty("reorder_items")
+            @ExcludeMissing
+            fun _reorderItems(): JsonField<ReorderItems> = reorderItems
 
             /**
              * Shipping method that the cardholder chose for the transaction. If purchase includes
@@ -1790,7 +1943,9 @@ private constructor(
              * includes digital goods, this indicator is used to describe the most expensive item
              * purchased. Maps to EMV 3DS field shipIndicator.
              */
-            @JsonProperty("shipping_method") @ExcludeMissing fun _shippingMethod() = shippingMethod
+            @JsonProperty("shipping_method")
+            @ExcludeMissing
+            fun _shippingMethod(): JsonField<ShippingMethod> = shippingMethod
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -1851,8 +2006,15 @@ private constructor(
                  * In transactions with electronic delivery, email address to which merchandise is
                  * delivered. Maps to EMV 3DS field deliveryEmailAddress.
                  */
-                fun deliveryEmailAddress(deliveryEmailAddress: String) =
-                    deliveryEmailAddress(JsonField.of(deliveryEmailAddress))
+                fun deliveryEmailAddress(deliveryEmailAddress: String?) =
+                    deliveryEmailAddress(JsonField.ofNullable(deliveryEmailAddress))
+
+                /**
+                 * In transactions with electronic delivery, email address to which merchandise is
+                 * delivered. Maps to EMV 3DS field deliveryEmailAddress.
+                 */
+                fun deliveryEmailAddress(deliveryEmailAddress: Optional<String>) =
+                    deliveryEmailAddress(deliveryEmailAddress.orElse(null))
 
                 /**
                  * In transactions with electronic delivery, email address to which merchandise is
@@ -1866,8 +2028,15 @@ private constructor(
                  * The delivery time frame for the merchandise. Maps to EMV 3DS field
                  * deliveryTimeframe.
                  */
-                fun deliveryTimeFrame(deliveryTimeFrame: DeliveryTimeFrame) =
-                    deliveryTimeFrame(JsonField.of(deliveryTimeFrame))
+                fun deliveryTimeFrame(deliveryTimeFrame: DeliveryTimeFrame?) =
+                    deliveryTimeFrame(JsonField.ofNullable(deliveryTimeFrame))
+
+                /**
+                 * The delivery time frame for the merchandise. Maps to EMV 3DS field
+                 * deliveryTimeframe.
+                 */
+                fun deliveryTimeFrame(deliveryTimeFrame: Optional<DeliveryTimeFrame>) =
+                    deliveryTimeFrame(deliveryTimeFrame.orElse(null))
 
                 /**
                  * The delivery time frame for the merchandise. Maps to EMV 3DS field
@@ -1882,8 +2051,24 @@ private constructor(
                  * units (e.g., a purchase of USD $205.10 would be 205). Maps to EMV 3DS field
                  * giftCardAmount.
                  */
-                fun giftCardAmount(giftCardAmount: Long) =
-                    giftCardAmount(JsonField.of(giftCardAmount))
+                fun giftCardAmount(giftCardAmount: Long?) =
+                    giftCardAmount(JsonField.ofNullable(giftCardAmount))
+
+                /**
+                 * In prepaid or gift card purchase transactions, purchase amount total in major
+                 * units (e.g., a purchase of USD $205.10 would be 205). Maps to EMV 3DS field
+                 * giftCardAmount.
+                 */
+                fun giftCardAmount(giftCardAmount: Long) = giftCardAmount(giftCardAmount as Long?)
+
+                /**
+                 * In prepaid or gift card purchase transactions, purchase amount total in major
+                 * units (e.g., a purchase of USD $205.10 would be 205). Maps to EMV 3DS field
+                 * giftCardAmount.
+                 */
+                @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+                fun giftCardAmount(giftCardAmount: Optional<Long>) =
+                    giftCardAmount(giftCardAmount.orElse(null) as Long?)
 
                 /**
                  * In prepaid or gift card purchase transactions, purchase amount total in major
@@ -1898,7 +2083,22 @@ private constructor(
                  * In prepaid or gift card purchase transactions, count of individual prepaid or
                  * gift cards/codes purchased. Maps to EMV 3DS field giftCardCount.
                  */
-                fun giftCardCount(giftCardCount: Long) = giftCardCount(JsonField.of(giftCardCount))
+                fun giftCardCount(giftCardCount: Long?) =
+                    giftCardCount(JsonField.ofNullable(giftCardCount))
+
+                /**
+                 * In prepaid or gift card purchase transactions, count of individual prepaid or
+                 * gift cards/codes purchased. Maps to EMV 3DS field giftCardCount.
+                 */
+                fun giftCardCount(giftCardCount: Long) = giftCardCount(giftCardCount as Long?)
+
+                /**
+                 * In prepaid or gift card purchase transactions, count of individual prepaid or
+                 * gift cards/codes purchased. Maps to EMV 3DS field giftCardCount.
+                 */
+                @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+                fun giftCardCount(giftCardCount: Optional<Long>) =
+                    giftCardCount(giftCardCount.orElse(null) as Long?)
 
                 /**
                  * In prepaid or gift card purchase transactions, count of individual prepaid or
@@ -1912,8 +2112,15 @@ private constructor(
                  * In prepaid or gift card purchase transactions, currency code of the gift card.
                  * Maps to EMV 3DS field giftCardCurr.
                  */
-                fun giftCardCurrency(giftCardCurrency: String) =
-                    giftCardCurrency(JsonField.of(giftCardCurrency))
+                fun giftCardCurrency(giftCardCurrency: String?) =
+                    giftCardCurrency(JsonField.ofNullable(giftCardCurrency))
+
+                /**
+                 * In prepaid or gift card purchase transactions, currency code of the gift card.
+                 * Maps to EMV 3DS field giftCardCurr.
+                 */
+                fun giftCardCurrency(giftCardCurrency: Optional<String>) =
+                    giftCardCurrency(giftCardCurrency.orElse(null))
 
                 /**
                  * In prepaid or gift card purchase transactions, currency code of the gift card.
@@ -1927,8 +2134,15 @@ private constructor(
                  * Indicates whether the purchase is for merchandise that is available now or at a
                  * future date. Maps to EMV 3DS field preOrderPurchaseInd.
                  */
-                fun orderAvailability(orderAvailability: OrderAvailability) =
-                    orderAvailability(JsonField.of(orderAvailability))
+                fun orderAvailability(orderAvailability: OrderAvailability?) =
+                    orderAvailability(JsonField.ofNullable(orderAvailability))
+
+                /**
+                 * Indicates whether the purchase is for merchandise that is available now or at a
+                 * future date. Maps to EMV 3DS field preOrderPurchaseInd.
+                 */
+                fun orderAvailability(orderAvailability: Optional<OrderAvailability>) =
+                    orderAvailability(orderAvailability.orElse(null))
 
                 /**
                  * Indicates whether the purchase is for merchandise that is available now or at a
@@ -1942,8 +2156,15 @@ private constructor(
                  * In pre-order purchase transactions, the expected date that the merchandise will
                  * be available. Maps to EMV 3DS field preOrderDate.
                  */
-                fun preOrderAvailableDate(preOrderAvailableDate: OffsetDateTime) =
-                    preOrderAvailableDate(JsonField.of(preOrderAvailableDate))
+                fun preOrderAvailableDate(preOrderAvailableDate: OffsetDateTime?) =
+                    preOrderAvailableDate(JsonField.ofNullable(preOrderAvailableDate))
+
+                /**
+                 * In pre-order purchase transactions, the expected date that the merchandise will
+                 * be available. Maps to EMV 3DS field preOrderDate.
+                 */
+                fun preOrderAvailableDate(preOrderAvailableDate: Optional<OffsetDateTime>) =
+                    preOrderAvailableDate(preOrderAvailableDate.orElse(null))
 
                 /**
                  * In pre-order purchase transactions, the expected date that the merchandise will
@@ -1958,8 +2179,15 @@ private constructor(
                  * Indicates whether the cardholder is reordering previously purchased merchandise.
                  * Maps to EMV 3DS field reorderItemsInd.
                  */
-                fun reorderItems(reorderItems: ReorderItems) =
-                    reorderItems(JsonField.of(reorderItems))
+                fun reorderItems(reorderItems: ReorderItems?) =
+                    reorderItems(JsonField.ofNullable(reorderItems))
+
+                /**
+                 * Indicates whether the cardholder is reordering previously purchased merchandise.
+                 * Maps to EMV 3DS field reorderItemsInd.
+                 */
+                fun reorderItems(reorderItems: Optional<ReorderItems>) =
+                    reorderItems(reorderItems.orElse(null))
 
                 /**
                  * Indicates whether the cardholder is reordering previously purchased merchandise.
@@ -1975,8 +2203,17 @@ private constructor(
                  * purchase only includes digital goods, this indicator is used to describe the most
                  * expensive item purchased. Maps to EMV 3DS field shipIndicator.
                  */
-                fun shippingMethod(shippingMethod: ShippingMethod) =
-                    shippingMethod(JsonField.of(shippingMethod))
+                fun shippingMethod(shippingMethod: ShippingMethod?) =
+                    shippingMethod(JsonField.ofNullable(shippingMethod))
+
+                /**
+                 * Shipping method that the cardholder chose for the transaction. If purchase
+                 * includes one or more item, this indicator is used for the physical goods; if the
+                 * purchase only includes digital goods, this indicator is used to describe the most
+                 * expensive item purchased. Maps to EMV 3DS field shipIndicator.
+                 */
+                fun shippingMethod(shippingMethod: Optional<ShippingMethod>) =
+                    shippingMethod(shippingMethod.orElse(null))
 
                 /**
                  * Shipping method that the cardholder chose for the transaction. If purchase
@@ -2440,7 +2677,9 @@ private constructor(
          * Mastercard only: Indicates whether the network would have considered the authentication
          * request to be low risk or not.
          */
-        @JsonProperty("network_decision") @ExcludeMissing fun _networkDecision() = networkDecision
+        @JsonProperty("network_decision")
+        @ExcludeMissing
+        fun _networkDecision(): JsonField<NetworkDecision> = networkDecision
 
         /**
          * Mastercard only: Assessment by the network of the authentication risk level, with a
@@ -2448,7 +2687,7 @@ private constructor(
          */
         @JsonProperty("network_risk_score")
         @ExcludeMissing
-        fun _networkRiskScore() = networkRiskScore
+        fun _networkRiskScore(): JsonField<Long> = networkRiskScore
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -2488,8 +2727,15 @@ private constructor(
              * Mastercard only: Indicates whether the network would have considered the
              * authentication request to be low risk or not.
              */
-            fun networkDecision(networkDecision: NetworkDecision) =
-                networkDecision(JsonField.of(networkDecision))
+            fun networkDecision(networkDecision: NetworkDecision?) =
+                networkDecision(JsonField.ofNullable(networkDecision))
+
+            /**
+             * Mastercard only: Indicates whether the network would have considered the
+             * authentication request to be low risk or not.
+             */
+            fun networkDecision(networkDecision: Optional<NetworkDecision>) =
+                networkDecision(networkDecision.orElse(null))
 
             /**
              * Mastercard only: Indicates whether the network would have considered the
@@ -2503,8 +2749,23 @@ private constructor(
              * Mastercard only: Assessment by the network of the authentication risk level, with a
              * higher value indicating a higher amount of risk.
              */
+            fun networkRiskScore(networkRiskScore: Long?) =
+                networkRiskScore(JsonField.ofNullable(networkRiskScore))
+
+            /**
+             * Mastercard only: Assessment by the network of the authentication risk level, with a
+             * higher value indicating a higher amount of risk.
+             */
             fun networkRiskScore(networkRiskScore: Long) =
-                networkRiskScore(JsonField.of(networkRiskScore))
+                networkRiskScore(networkRiskScore as Long?)
+
+            /**
+             * Mastercard only: Assessment by the network of the authentication risk level, with a
+             * higher value indicating a higher amount of risk.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun networkRiskScore(networkRiskScore: Optional<Long>) =
+                networkRiskScore(networkRiskScore.orElse(null) as Long?)
 
             /**
              * Mastercard only: Assessment by the network of the authentication risk level, with a
@@ -2649,13 +2910,15 @@ private constructor(
          * Device information gathered from the cardholder's device - JSON name/value pairs that is
          * Base64url encoded. Maps to EMV 3DS field deviceInfo.
          */
-        @JsonProperty("device_info") @ExcludeMissing fun _deviceInfo() = deviceInfo
+        @JsonProperty("device_info")
+        @ExcludeMissing
+        fun _deviceInfo(): JsonField<String> = deviceInfo
 
         /**
          * External IP address used by the app generating the 3DS authentication request. Maps to
          * EMV 3DS field appIp.
          */
-        @JsonProperty("ip") @ExcludeMissing fun _ip() = ip
+        @JsonProperty("ip") @ExcludeMissing fun _ip(): JsonField<String> = ip
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -2695,7 +2958,13 @@ private constructor(
              * Device information gathered from the cardholder's device - JSON name/value pairs that
              * is Base64url encoded. Maps to EMV 3DS field deviceInfo.
              */
-            fun deviceInfo(deviceInfo: String) = deviceInfo(JsonField.of(deviceInfo))
+            fun deviceInfo(deviceInfo: String?) = deviceInfo(JsonField.ofNullable(deviceInfo))
+
+            /**
+             * Device information gathered from the cardholder's device - JSON name/value pairs that
+             * is Base64url encoded. Maps to EMV 3DS field deviceInfo.
+             */
+            fun deviceInfo(deviceInfo: Optional<String>) = deviceInfo(deviceInfo.orElse(null))
 
             /**
              * Device information gathered from the cardholder's device - JSON name/value pairs that
@@ -2935,13 +3204,15 @@ private constructor(
          * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
          * merchant or digital wallet). Maps to EMV 3DS field browserIP.
          */
-        @JsonProperty("ip") @ExcludeMissing fun _ip() = ip
+        @JsonProperty("ip") @ExcludeMissing fun _ip(): JsonField<String> = ip
 
         /**
          * Indicates whether the cardholder's browser has the ability to execute Java. Maps to EMV
          * 3DS field browserJavaEnabled.
          */
-        @JsonProperty("java_enabled") @ExcludeMissing fun _javaEnabled() = javaEnabled
+        @JsonProperty("java_enabled")
+        @ExcludeMissing
+        fun _javaEnabled(): JsonField<Boolean> = javaEnabled
 
         /**
          * Indicates whether the cardholder's browser has the ability to execute JavaScript. Maps to
@@ -2949,23 +3220,23 @@ private constructor(
          */
         @JsonProperty("javascript_enabled")
         @ExcludeMissing
-        fun _javascriptEnabled() = javascriptEnabled
+        fun _javascriptEnabled(): JsonField<Boolean> = javascriptEnabled
 
         /**
          * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
          * browserLanguage.
          */
-        @JsonProperty("language") @ExcludeMissing fun _language() = language
+        @JsonProperty("language") @ExcludeMissing fun _language(): JsonField<String> = language
 
         /**
          * Time zone of the cardholder's browser offset in minutes between UTC and the cardholder
          * browser's local time. The offset is positive if the local time is behind UTC and negative
          * if it is ahead. Maps to EMV 3DS field browserTz.
          */
-        @JsonProperty("time_zone") @ExcludeMissing fun _timeZone() = timeZone
+        @JsonProperty("time_zone") @ExcludeMissing fun _timeZone(): JsonField<String> = timeZone
 
         /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
-        @JsonProperty("user_agent") @ExcludeMissing fun _userAgent() = userAgent
+        @JsonProperty("user_agent") @ExcludeMissing fun _userAgent(): JsonField<String> = userAgent
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -3017,7 +3288,13 @@ private constructor(
              * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
              * merchant or digital wallet). Maps to EMV 3DS field browserIP.
              */
-            fun ip(ip: String) = ip(JsonField.of(ip))
+            fun ip(ip: String?) = ip(JsonField.ofNullable(ip))
+
+            /**
+             * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
+             * merchant or digital wallet). Maps to EMV 3DS field browserIP.
+             */
+            fun ip(ip: Optional<String>) = ip(ip.orElse(null))
 
             /**
              * IP address of the browser as returned by the HTTP headers to the 3DS requestor (e.g.,
@@ -3029,7 +3306,21 @@ private constructor(
              * Indicates whether the cardholder's browser has the ability to execute Java. Maps to
              * EMV 3DS field browserJavaEnabled.
              */
-            fun javaEnabled(javaEnabled: Boolean) = javaEnabled(JsonField.of(javaEnabled))
+            fun javaEnabled(javaEnabled: Boolean?) = javaEnabled(JsonField.ofNullable(javaEnabled))
+
+            /**
+             * Indicates whether the cardholder's browser has the ability to execute Java. Maps to
+             * EMV 3DS field browserJavaEnabled.
+             */
+            fun javaEnabled(javaEnabled: Boolean) = javaEnabled(javaEnabled as Boolean?)
+
+            /**
+             * Indicates whether the cardholder's browser has the ability to execute Java. Maps to
+             * EMV 3DS field browserJavaEnabled.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun javaEnabled(javaEnabled: Optional<Boolean>) =
+                javaEnabled(javaEnabled.orElse(null) as Boolean?)
 
             /**
              * Indicates whether the cardholder's browser has the ability to execute Java. Maps to
@@ -3043,8 +3334,23 @@ private constructor(
              * Indicates whether the cardholder's browser has the ability to execute JavaScript.
              * Maps to EMV 3DS field browserJavascriptEnabled.
              */
+            fun javascriptEnabled(javascriptEnabled: Boolean?) =
+                javascriptEnabled(JsonField.ofNullable(javascriptEnabled))
+
+            /**
+             * Indicates whether the cardholder's browser has the ability to execute JavaScript.
+             * Maps to EMV 3DS field browserJavascriptEnabled.
+             */
             fun javascriptEnabled(javascriptEnabled: Boolean) =
-                javascriptEnabled(JsonField.of(javascriptEnabled))
+                javascriptEnabled(javascriptEnabled as Boolean?)
+
+            /**
+             * Indicates whether the cardholder's browser has the ability to execute JavaScript.
+             * Maps to EMV 3DS field browserJavascriptEnabled.
+             */
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun javascriptEnabled(javascriptEnabled: Optional<Boolean>) =
+                javascriptEnabled(javascriptEnabled.orElse(null) as Boolean?)
 
             /**
              * Indicates whether the cardholder's browser has the ability to execute JavaScript.
@@ -3058,7 +3364,13 @@ private constructor(
              * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
              * browserLanguage.
              */
-            fun language(language: String) = language(JsonField.of(language))
+            fun language(language: String?) = language(JsonField.ofNullable(language))
+
+            /**
+             * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
+             * browserLanguage.
+             */
+            fun language(language: Optional<String>) = language(language.orElse(null))
 
             /**
              * Language of the cardholder's browser as defined in IETF BCP47. Maps to EMV 3DS field
@@ -3071,7 +3383,14 @@ private constructor(
              * cardholder browser's local time. The offset is positive if the local time is behind
              * UTC and negative if it is ahead. Maps to EMV 3DS field browserTz.
              */
-            fun timeZone(timeZone: String) = timeZone(JsonField.of(timeZone))
+            fun timeZone(timeZone: String?) = timeZone(JsonField.ofNullable(timeZone))
+
+            /**
+             * Time zone of the cardholder's browser offset in minutes between UTC and the
+             * cardholder browser's local time. The offset is positive if the local time is behind
+             * UTC and negative if it is ahead. Maps to EMV 3DS field browserTz.
+             */
+            fun timeZone(timeZone: Optional<String>) = timeZone(timeZone.orElse(null))
 
             /**
              * Time zone of the cardholder's browser offset in minutes between UTC and the
@@ -3081,7 +3400,10 @@ private constructor(
             fun timeZone(timeZone: JsonField<String>) = apply { this.timeZone = timeZone }
 
             /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
-            fun userAgent(userAgent: String) = userAgent(JsonField.of(userAgent))
+            fun userAgent(userAgent: String?) = userAgent(JsonField.ofNullable(userAgent))
+
+            /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
+            fun userAgent(userAgent: Optional<String>) = userAgent(userAgent.orElse(null))
 
             /** Content of the HTTP user-agent header. Maps to EMV 3DS field browserUserAgent. */
             fun userAgent(userAgent: JsonField<String>) = apply { this.userAgent = userAgent }
@@ -3332,10 +3654,10 @@ private constructor(
          * Amount of the purchase in minor units of currency with all punctuation removed. Maps to
          * EMV 3DS field purchaseAmount.
          */
-        @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Double> = amount
 
         /** Currency of the purchase. Maps to EMV 3DS field purchaseCurrency. */
-        @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+        @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
         /**
          * Minor units of currency, as specified in ISO 4217 currency exponent. Maps to EMV 3DS
@@ -3343,19 +3665,21 @@ private constructor(
          */
         @JsonProperty("currency_exponent")
         @ExcludeMissing
-        fun _currencyExponent() = currencyExponent
+        fun _currencyExponent(): JsonField<Double> = currencyExponent
 
         /**
          * Date and time when the authentication was generated by the merchant/acquirer's 3DS
          * server. Maps to EMV 3DS field purchaseDate.
          */
-        @JsonProperty("date_time") @ExcludeMissing fun _dateTime() = dateTime
+        @JsonProperty("date_time")
+        @ExcludeMissing
+        fun _dateTime(): JsonField<OffsetDateTime> = dateTime
 
         /**
          * Type of the transaction for which a 3DS authentication request is occurring. Maps to EMV
          * 3DS field transType.
          */
-        @JsonProperty("type") @ExcludeMissing fun _type() = type
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -3383,11 +3707,11 @@ private constructor(
 
         class Builder {
 
-            private var amount: JsonField<Double> = JsonMissing.of()
-            private var currency: JsonField<String> = JsonMissing.of()
-            private var currencyExponent: JsonField<Double> = JsonMissing.of()
-            private var dateTime: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var type: JsonField<Type> = JsonMissing.of()
+            private var amount: JsonField<Double>? = null
+            private var currency: JsonField<String>? = null
+            private var currencyExponent: JsonField<Double>? = null
+            private var dateTime: JsonField<OffsetDateTime>? = null
+            private var type: JsonField<Type>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -3449,7 +3773,13 @@ private constructor(
              * Type of the transaction for which a 3DS authentication request is occurring. Maps to
              * EMV 3DS field transType.
              */
-            fun type(type: Type) = type(JsonField.of(type))
+            fun type(type: Type?) = type(JsonField.ofNullable(type))
+
+            /**
+             * Type of the transaction for which a 3DS authentication request is occurring. Maps to
+             * EMV 3DS field transType.
+             */
+            fun type(type: Optional<Type>) = type(type.orElse(null))
 
             /**
              * Type of the transaction for which a 3DS authentication request is occurring. Maps to
@@ -3478,11 +3808,13 @@ private constructor(
 
             fun build(): Transaction =
                 Transaction(
-                    amount,
-                    currency,
-                    currencyExponent,
-                    dateTime,
-                    type,
+                    checkNotNull(amount) { "`amount` is required but was not set" },
+                    checkNotNull(currency) { "`currency` is required but was not set" },
+                    checkNotNull(currencyExponent) {
+                        "`currencyExponent` is required but was not set"
+                    },
+                    checkNotNull(dateTime) { "`dateTime` is required but was not set" },
+                    checkNotNull(type) { "`type` is required but was not set" },
                     additionalProperties.toImmutable(),
                 )
         }

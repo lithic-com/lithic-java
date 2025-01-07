@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -35,11 +37,20 @@ constructor(
     /** Sixteen digit card number. */
     fun pan(): String = body.pan()
 
+    /** Amount (in cents) to authorize. */
+    fun _amount(): JsonField<Long> = body._amount()
+
+    /** Merchant descriptor. */
+    fun _descriptor(): JsonField<String> = body._descriptor()
+
+    /** Sixteen digit card number. */
+    fun _pan(): JsonField<String> = body._pan()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): TransactionSimulateReturnBody = body
 
@@ -51,25 +62,51 @@ constructor(
     class TransactionSimulateReturnBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("amount") private val amount: Long,
-        @JsonProperty("descriptor") private val descriptor: String,
-        @JsonProperty("pan") private val pan: String,
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("descriptor")
+        @ExcludeMissing
+        private val descriptor: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("pan") @ExcludeMissing private val pan: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Amount (in cents) to authorize. */
-        @JsonProperty("amount") fun amount(): Long = amount
+        fun amount(): Long = amount.getRequired("amount")
 
         /** Merchant descriptor. */
-        @JsonProperty("descriptor") fun descriptor(): String = descriptor
+        fun descriptor(): String = descriptor.getRequired("descriptor")
 
         /** Sixteen digit card number. */
-        @JsonProperty("pan") fun pan(): String = pan
+        fun pan(): String = pan.getRequired("pan")
+
+        /** Amount (in cents) to authorize. */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+        /** Merchant descriptor. */
+        @JsonProperty("descriptor")
+        @ExcludeMissing
+        fun _descriptor(): JsonField<String> = descriptor
+
+        /** Sixteen digit card number. */
+        @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): TransactionSimulateReturnBody = apply {
+            if (!validated) {
+                amount()
+                descriptor()
+                pan()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -80,9 +117,9 @@ constructor(
 
         class Builder {
 
-            private var amount: Long? = null
-            private var descriptor: String? = null
-            private var pan: String? = null
+            private var amount: JsonField<Long>? = null
+            private var descriptor: JsonField<String>? = null
+            private var pan: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -96,13 +133,22 @@ constructor(
                 }
 
             /** Amount (in cents) to authorize. */
-            fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = amount(JsonField.of(amount))
+
+            /** Amount (in cents) to authorize. */
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Merchant descriptor. */
-            fun descriptor(descriptor: String) = apply { this.descriptor = descriptor }
+            fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
+
+            /** Merchant descriptor. */
+            fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
             /** Sixteen digit card number. */
-            fun pan(pan: String) = apply { this.pan = pan }
+            fun pan(pan: String) = pan(JsonField.of(pan))
+
+            /** Sixteen digit card number. */
+            fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -177,11 +223,39 @@ constructor(
         /** Amount (in cents) to authorize. */
         fun amount(amount: Long) = apply { body.amount(amount) }
 
+        /** Amount (in cents) to authorize. */
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
+
         /** Merchant descriptor. */
         fun descriptor(descriptor: String) = apply { body.descriptor(descriptor) }
 
+        /** Merchant descriptor. */
+        fun descriptor(descriptor: JsonField<String>) = apply { body.descriptor(descriptor) }
+
         /** Sixteen digit card number. */
         fun pan(pan: String) = apply { body.pan(pan) }
+
+        /** Sixteen digit card number. */
+        fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -279,25 +353,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransactionSimulateReturnParams =

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -43,11 +44,26 @@ constructor(
     /** Customer description of dispute */
     fun customerNote(): Optional<String> = body.customerNote()
 
+    /** Amount to dispute */
+    fun _amount(): JsonField<Long> = body._amount()
+
+    /** Reason for dispute */
+    fun _reason(): JsonField<Reason> = body._reason()
+
+    /** Transaction to dispute */
+    fun _transactionToken(): JsonField<String> = body._transactionToken()
+
+    /** Date the customer filed the dispute */
+    fun _customerFiledDate(): JsonField<OffsetDateTime> = body._customerFiledDate()
+
+    /** Customer description of dispute */
+    fun _customerNote(): JsonField<String> = body._customerNote()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): DisputeCreateBody = body
 
@@ -59,35 +75,79 @@ constructor(
     class DisputeCreateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("amount") private val amount: Long,
-        @JsonProperty("reason") private val reason: Reason,
-        @JsonProperty("transaction_token") private val transactionToken: String,
-        @JsonProperty("customer_filed_date") private val customerFiledDate: OffsetDateTime?,
-        @JsonProperty("customer_note") private val customerNote: String?,
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("reason")
+        @ExcludeMissing
+        private val reason: JsonField<Reason> = JsonMissing.of(),
+        @JsonProperty("transaction_token")
+        @ExcludeMissing
+        private val transactionToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("customer_filed_date")
+        @ExcludeMissing
+        private val customerFiledDate: JsonField<OffsetDateTime> = JsonMissing.of(),
+        @JsonProperty("customer_note")
+        @ExcludeMissing
+        private val customerNote: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Amount to dispute */
-        @JsonProperty("amount") fun amount(): Long = amount
+        fun amount(): Long = amount.getRequired("amount")
 
         /** Reason for dispute */
-        @JsonProperty("reason") fun reason(): Reason = reason
+        fun reason(): Reason = reason.getRequired("reason")
 
         /** Transaction to dispute */
-        @JsonProperty("transaction_token") fun transactionToken(): String = transactionToken
+        fun transactionToken(): String = transactionToken.getRequired("transaction_token")
+
+        /** Date the customer filed the dispute */
+        fun customerFiledDate(): Optional<OffsetDateTime> =
+            Optional.ofNullable(customerFiledDate.getNullable("customer_filed_date"))
+
+        /** Customer description of dispute */
+        fun customerNote(): Optional<String> =
+            Optional.ofNullable(customerNote.getNullable("customer_note"))
+
+        /** Amount to dispute */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+        /** Reason for dispute */
+        @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<Reason> = reason
+
+        /** Transaction to dispute */
+        @JsonProperty("transaction_token")
+        @ExcludeMissing
+        fun _transactionToken(): JsonField<String> = transactionToken
 
         /** Date the customer filed the dispute */
         @JsonProperty("customer_filed_date")
-        fun customerFiledDate(): Optional<OffsetDateTime> = Optional.ofNullable(customerFiledDate)
+        @ExcludeMissing
+        fun _customerFiledDate(): JsonField<OffsetDateTime> = customerFiledDate
 
         /** Customer description of dispute */
         @JsonProperty("customer_note")
-        fun customerNote(): Optional<String> = Optional.ofNullable(customerNote)
+        @ExcludeMissing
+        fun _customerNote(): JsonField<String> = customerNote
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): DisputeCreateBody = apply {
+            if (!validated) {
+                amount()
+                reason()
+                transactionToken()
+                customerFiledDate()
+                customerNote()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -98,11 +158,11 @@ constructor(
 
         class Builder {
 
-            private var amount: Long? = null
-            private var reason: Reason? = null
-            private var transactionToken: String? = null
-            private var customerFiledDate: OffsetDateTime? = null
-            private var customerNote: String? = null
+            private var amount: JsonField<Long>? = null
+            private var reason: JsonField<Reason>? = null
+            private var transactionToken: JsonField<String>? = null
+            private var customerFiledDate: JsonField<OffsetDateTime> = JsonMissing.of()
+            private var customerNote: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -116,31 +176,42 @@ constructor(
             }
 
             /** Amount to dispute */
-            fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = amount(JsonField.of(amount))
+
+            /** Amount to dispute */
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Reason for dispute */
-            fun reason(reason: Reason) = apply { this.reason = reason }
+            fun reason(reason: Reason) = reason(JsonField.of(reason))
+
+            /** Reason for dispute */
+            fun reason(reason: JsonField<Reason>) = apply { this.reason = reason }
 
             /** Transaction to dispute */
-            fun transactionToken(transactionToken: String) = apply {
+            fun transactionToken(transactionToken: String) =
+                transactionToken(JsonField.of(transactionToken))
+
+            /** Transaction to dispute */
+            fun transactionToken(transactionToken: JsonField<String>) = apply {
                 this.transactionToken = transactionToken
             }
 
             /** Date the customer filed the dispute */
-            fun customerFiledDate(customerFiledDate: OffsetDateTime?) = apply {
+            fun customerFiledDate(customerFiledDate: OffsetDateTime) =
+                customerFiledDate(JsonField.of(customerFiledDate))
+
+            /** Date the customer filed the dispute */
+            fun customerFiledDate(customerFiledDate: JsonField<OffsetDateTime>) = apply {
                 this.customerFiledDate = customerFiledDate
             }
 
-            /** Date the customer filed the dispute */
-            fun customerFiledDate(customerFiledDate: Optional<OffsetDateTime>) =
-                customerFiledDate(customerFiledDate.orElse(null))
+            /** Customer description of dispute */
+            fun customerNote(customerNote: String) = customerNote(JsonField.of(customerNote))
 
             /** Customer description of dispute */
-            fun customerNote(customerNote: String?) = apply { this.customerNote = customerNote }
-
-            /** Customer description of dispute */
-            fun customerNote(customerNote: Optional<String>) =
-                customerNote(customerNote.orElse(null))
+            fun customerNote(customerNote: JsonField<String>) = apply {
+                this.customerNote = customerNote
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -216,28 +287,61 @@ constructor(
         /** Amount to dispute */
         fun amount(amount: Long) = apply { body.amount(amount) }
 
+        /** Amount to dispute */
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
+
         /** Reason for dispute */
         fun reason(reason: Reason) = apply { body.reason(reason) }
+
+        /** Reason for dispute */
+        fun reason(reason: JsonField<Reason>) = apply { body.reason(reason) }
 
         /** Transaction to dispute */
         fun transactionToken(transactionToken: String) = apply {
             body.transactionToken(transactionToken)
         }
 
+        /** Transaction to dispute */
+        fun transactionToken(transactionToken: JsonField<String>) = apply {
+            body.transactionToken(transactionToken)
+        }
+
         /** Date the customer filed the dispute */
-        fun customerFiledDate(customerFiledDate: OffsetDateTime?) = apply {
+        fun customerFiledDate(customerFiledDate: OffsetDateTime) = apply {
             body.customerFiledDate(customerFiledDate)
         }
 
         /** Date the customer filed the dispute */
-        fun customerFiledDate(customerFiledDate: Optional<OffsetDateTime>) =
-            customerFiledDate(customerFiledDate.orElse(null))
+        fun customerFiledDate(customerFiledDate: JsonField<OffsetDateTime>) = apply {
+            body.customerFiledDate(customerFiledDate)
+        }
 
         /** Customer description of dispute */
-        fun customerNote(customerNote: String?) = apply { body.customerNote(customerNote) }
+        fun customerNote(customerNote: String) = apply { body.customerNote(customerNote) }
 
         /** Customer description of dispute */
-        fun customerNote(customerNote: Optional<String>) = customerNote(customerNote.orElse(null))
+        fun customerNote(customerNote: JsonField<String>) = apply {
+            body.customerNote(customerNote)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -335,25 +439,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): DisputeCreateParams =

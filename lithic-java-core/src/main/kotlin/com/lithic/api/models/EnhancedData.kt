@@ -53,17 +53,19 @@ private constructor(
     fun transactionToken(): String = transactionToken.getRequired("transaction_token")
 
     /** A unique identifier for the enhanced commercial data. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    @JsonProperty("common") @ExcludeMissing fun _common() = common
+    @JsonProperty("common") @ExcludeMissing fun _common(): JsonField<CommonData> = common
 
     /** The token of the event that the enhanced data is associated with. */
-    @JsonProperty("event_token") @ExcludeMissing fun _eventToken() = eventToken
+    @JsonProperty("event_token") @ExcludeMissing fun _eventToken(): JsonField<String> = eventToken
 
-    @JsonProperty("fleet") @ExcludeMissing fun _fleet() = fleet
+    @JsonProperty("fleet") @ExcludeMissing fun _fleet(): JsonField<List<Fleet>> = fleet
 
     /** The token of the transaction that the enhanced data is associated with. */
-    @JsonProperty("transaction_token") @ExcludeMissing fun _transactionToken() = transactionToken
+    @JsonProperty("transaction_token")
+    @ExcludeMissing
+    fun _transactionToken(): JsonField<String> = transactionToken
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -91,11 +93,11 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var common: JsonField<CommonData> = JsonMissing.of()
-        private var eventToken: JsonField<String> = JsonMissing.of()
-        private var fleet: JsonField<List<Fleet>> = JsonMissing.of()
-        private var transactionToken: JsonField<String> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var common: JsonField<CommonData>? = null
+        private var eventToken: JsonField<String>? = null
+        private var fleet: JsonField<MutableList<Fleet>>? = null
+        private var transactionToken: JsonField<String>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -103,7 +105,7 @@ private constructor(
             token = enhancedData.token
             common = enhancedData.common
             eventToken = enhancedData.eventToken
-            fleet = enhancedData.fleet
+            fleet = enhancedData.fleet.map { it.toMutableList() }
             transactionToken = enhancedData.transactionToken
             additionalProperties = enhancedData.additionalProperties.toMutableMap()
         }
@@ -126,7 +128,22 @@ private constructor(
 
         fun fleet(fleet: List<Fleet>) = fleet(JsonField.of(fleet))
 
-        fun fleet(fleet: JsonField<List<Fleet>>) = apply { this.fleet = fleet }
+        fun fleet(fleet: JsonField<List<Fleet>>) = apply {
+            this.fleet = fleet.map { it.toMutableList() }
+        }
+
+        fun addFleet(fleet: Fleet) = apply {
+            this.fleet =
+                (this.fleet ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(fleet)
+                }
+        }
 
         /** The token of the transaction that the enhanced data is associated with. */
         fun transactionToken(transactionToken: String) =
@@ -158,11 +175,12 @@ private constructor(
 
         fun build(): EnhancedData =
             EnhancedData(
-                token,
-                common,
-                eventToken,
-                fleet.map { it.toImmutable() },
-                transactionToken,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(common) { "`common` is required but was not set" },
+                checkNotNull(eventToken) { "`eventToken` is required but was not set" },
+                checkNotNull(fleet) { "`fleet` is required but was not set" }
+                    .map { it.toImmutable() },
+                checkNotNull(transactionToken) { "`transactionToken` is required but was not set" },
                 additionalProperties.toImmutable(),
             )
     }
@@ -204,22 +222,26 @@ private constructor(
         fun orderDate(): Optional<LocalDate> =
             Optional.ofNullable(orderDate.getNullable("order_date"))
 
-        @JsonProperty("line_items") @ExcludeMissing fun _lineItems() = lineItems
+        @JsonProperty("line_items")
+        @ExcludeMissing
+        fun _lineItems(): JsonField<List<LineItem>> = lineItems
 
-        @JsonProperty("tax") @ExcludeMissing fun _tax() = tax
+        @JsonProperty("tax") @ExcludeMissing fun _tax(): JsonField<TaxData> = tax
 
         /** A customer identifier. */
         @JsonProperty("customer_reference_number")
         @ExcludeMissing
-        fun _customerReferenceNumber() = customerReferenceNumber
+        fun _customerReferenceNumber(): JsonField<String> = customerReferenceNumber
 
         /** A merchant identifier. */
         @JsonProperty("merchant_reference_number")
         @ExcludeMissing
-        fun _merchantReferenceNumber() = merchantReferenceNumber
+        fun _merchantReferenceNumber(): JsonField<String> = merchantReferenceNumber
 
         /** The date of the order. */
-        @JsonProperty("order_date") @ExcludeMissing fun _orderDate() = orderDate
+        @JsonProperty("order_date")
+        @ExcludeMissing
+        fun _orderDate(): JsonField<LocalDate> = orderDate
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -247,8 +269,8 @@ private constructor(
 
         class Builder {
 
-            private var lineItems: JsonField<List<LineItem>> = JsonMissing.of()
-            private var tax: JsonField<TaxData> = JsonMissing.of()
+            private var lineItems: JsonField<MutableList<LineItem>>? = null
+            private var tax: JsonField<TaxData>? = null
             private var customerReferenceNumber: JsonField<String> = JsonMissing.of()
             private var merchantReferenceNumber: JsonField<String> = JsonMissing.of()
             private var orderDate: JsonField<LocalDate> = JsonMissing.of()
@@ -256,7 +278,7 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(commonData: CommonData) = apply {
-                lineItems = commonData.lineItems
+                lineItems = commonData.lineItems.map { it.toMutableList() }
                 tax = commonData.tax
                 customerReferenceNumber = commonData.customerReferenceNumber
                 merchantReferenceNumber = commonData.merchantReferenceNumber
@@ -267,7 +289,20 @@ private constructor(
             fun lineItems(lineItems: List<LineItem>) = lineItems(JsonField.of(lineItems))
 
             fun lineItems(lineItems: JsonField<List<LineItem>>) = apply {
-                this.lineItems = lineItems
+                this.lineItems = lineItems.map { it.toMutableList() }
+            }
+
+            fun addLineItem(lineItem: LineItem) = apply {
+                lineItems =
+                    (lineItems ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(lineItem)
+                    }
             }
 
             fun tax(tax: TaxData) = tax(JsonField.of(tax))
@@ -319,8 +354,9 @@ private constructor(
 
             fun build(): CommonData =
                 CommonData(
-                    lineItems.map { it.toImmutable() },
-                    tax,
+                    checkNotNull(lineItems) { "`lineItems` is required but was not set" }
+                        .map { it.toImmutable() },
+                    checkNotNull(tax) { "`tax` is required but was not set" },
                     customerReferenceNumber,
                     merchantReferenceNumber,
                     orderDate,
@@ -364,16 +400,20 @@ private constructor(
             fun quantity(): Optional<Double> = Optional.ofNullable(quantity.getNullable("quantity"))
 
             /** The price of the item purchased in merchant currency. */
-            @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+            @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Double> = amount
 
             /** A human-readable description of the item. */
-            @JsonProperty("description") @ExcludeMissing fun _description() = description
+            @JsonProperty("description")
+            @ExcludeMissing
+            fun _description(): JsonField<String> = description
 
             /** An identifier for the item purchased. */
-            @JsonProperty("product_code") @ExcludeMissing fun _productCode() = productCode
+            @JsonProperty("product_code")
+            @ExcludeMissing
+            fun _productCode(): JsonField<String> = productCode
 
             /** The quantity of the item purchased. */
-            @JsonProperty("quantity") @ExcludeMissing fun _quantity() = quantity
+            @JsonProperty("quantity") @ExcludeMissing fun _quantity(): JsonField<Double> = quantity
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -522,13 +562,17 @@ private constructor(
                 Optional.ofNullable(merchantTaxId.getNullable("merchant_tax_id"))
 
             /** The amount of tax collected. */
-            @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+            @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
             /** A flag indicating whether the transaction is tax exempt or not. */
-            @JsonProperty("exempt") @ExcludeMissing fun _exempt() = exempt
+            @JsonProperty("exempt")
+            @ExcludeMissing
+            fun _exempt(): JsonField<TaxExemptIndicator> = exempt
 
             /** The tax ID of the merchant. */
-            @JsonProperty("merchant_tax_id") @ExcludeMissing fun _merchantTaxId() = merchantTaxId
+            @JsonProperty("merchant_tax_id")
+            @ExcludeMissing
+            fun _merchantTaxId(): JsonField<String> = merchantTaxId
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -770,27 +814,35 @@ private constructor(
         fun vehicleNumber(): Optional<String> =
             Optional.ofNullable(vehicleNumber.getNullable("vehicle_number"))
 
-        @JsonProperty("amount_totals") @ExcludeMissing fun _amountTotals() = amountTotals
+        @JsonProperty("amount_totals")
+        @ExcludeMissing
+        fun _amountTotals(): JsonField<AmountTotals> = amountTotals
 
-        @JsonProperty("fuel") @ExcludeMissing fun _fuel() = fuel
+        @JsonProperty("fuel") @ExcludeMissing fun _fuel(): JsonField<FuelData> = fuel
 
         /**
          * The driver number entered into the terminal at the time of sale, with leading zeros
          * stripped.
          */
-        @JsonProperty("driver_number") @ExcludeMissing fun _driverNumber() = driverNumber
+        @JsonProperty("driver_number")
+        @ExcludeMissing
+        fun _driverNumber(): JsonField<String> = driverNumber
 
         /** The odometer reading entered into the terminal at the time of sale. */
-        @JsonProperty("odometer") @ExcludeMissing fun _odometer() = odometer
+        @JsonProperty("odometer") @ExcludeMissing fun _odometer(): JsonField<Long> = odometer
 
         /** The type of fuel service. */
-        @JsonProperty("service_type") @ExcludeMissing fun _serviceType() = serviceType
+        @JsonProperty("service_type")
+        @ExcludeMissing
+        fun _serviceType(): JsonField<ServiceType> = serviceType
 
         /**
          * The vehicle number entered into the terminal at the time of sale, with leading zeros
          * stripped.
          */
-        @JsonProperty("vehicle_number") @ExcludeMissing fun _vehicleNumber() = vehicleNumber
+        @JsonProperty("vehicle_number")
+        @ExcludeMissing
+        fun _vehicleNumber(): JsonField<String> = vehicleNumber
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -819,8 +871,8 @@ private constructor(
 
         class Builder {
 
-            private var amountTotals: JsonField<AmountTotals> = JsonMissing.of()
-            private var fuel: JsonField<FuelData> = JsonMissing.of()
+            private var amountTotals: JsonField<AmountTotals>? = null
+            private var fuel: JsonField<FuelData>? = null
             private var driverNumber: JsonField<String> = JsonMissing.of()
             private var odometer: JsonField<Long> = JsonMissing.of()
             private var serviceType: JsonField<ServiceType> = JsonMissing.of()
@@ -911,8 +963,8 @@ private constructor(
 
             fun build(): Fleet =
                 Fleet(
-                    amountTotals,
-                    fuel,
+                    checkNotNull(amountTotals) { "`amountTotals` is required but was not set" },
+                    checkNotNull(fuel) { "`fuel` is required but was not set" },
                     driverNumber,
                     odometer,
                     serviceType,
@@ -949,13 +1001,15 @@ private constructor(
             fun netSale(): Optional<Long> = Optional.ofNullable(netSale.getNullable("net_sale"))
 
             /** The discount applied to the gross sale amount. */
-            @JsonProperty("discount") @ExcludeMissing fun _discount() = discount
+            @JsonProperty("discount") @ExcludeMissing fun _discount(): JsonField<Long> = discount
 
             /** The gross sale amount. */
-            @JsonProperty("gross_sale") @ExcludeMissing fun _grossSale() = grossSale
+            @JsonProperty("gross_sale")
+            @ExcludeMissing
+            fun _grossSale(): JsonField<Long> = grossSale
 
             /** The amount after discount. */
-            @JsonProperty("net_sale") @ExcludeMissing fun _netSale() = netSale
+            @JsonProperty("net_sale") @ExcludeMissing fun _netSale(): JsonField<Long> = netSale
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -1096,16 +1150,20 @@ private constructor(
                 Optional.ofNullable(unitPrice.getNullable("unit_price"))
 
             /** The quantity of fuel purchased. */
-            @JsonProperty("quantity") @ExcludeMissing fun _quantity() = quantity
+            @JsonProperty("quantity") @ExcludeMissing fun _quantity(): JsonField<Double> = quantity
 
             /** The type of fuel purchased. */
-            @JsonProperty("type") @ExcludeMissing fun _type() = type
+            @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<FuelType> = type
 
             /** Unit of measure for fuel disbursement. */
-            @JsonProperty("unit_of_measure") @ExcludeMissing fun _unitOfMeasure() = unitOfMeasure
+            @JsonProperty("unit_of_measure")
+            @ExcludeMissing
+            fun _unitOfMeasure(): JsonField<FuelUnitOfMeasure> = unitOfMeasure
 
             /** The price per unit of fuel. */
-            @JsonProperty("unit_price") @ExcludeMissing fun _unitPrice() = unitPrice
+            @JsonProperty("unit_price")
+            @ExcludeMissing
+            fun _unitPrice(): JsonField<Long> = unitPrice
 
             @JsonAnyGetter
             @ExcludeMissing

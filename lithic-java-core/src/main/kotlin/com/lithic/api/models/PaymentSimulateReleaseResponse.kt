@@ -46,15 +46,15 @@ private constructor(
     /** Debugging Request Id */
     @JsonProperty("debugging_request_id")
     @ExcludeMissing
-    fun _debuggingRequestId() = debuggingRequestId
+    fun _debuggingRequestId(): JsonField<String> = debuggingRequestId
 
     /** Request Result */
-    @JsonProperty("result") @ExcludeMissing fun _result() = result
+    @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
 
     /** Transaction Event Token */
     @JsonProperty("transaction_event_token")
     @ExcludeMissing
-    fun _transactionEventToken() = transactionEventToken
+    fun _transactionEventToken(): JsonField<String> = transactionEventToken
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -80,9 +80,9 @@ private constructor(
 
     class Builder {
 
-        private var debuggingRequestId: JsonField<String> = JsonMissing.of()
-        private var result: JsonField<Result> = JsonMissing.of()
-        private var transactionEventToken: JsonField<String> = JsonMissing.of()
+        private var debuggingRequestId: JsonField<String>? = null
+        private var result: JsonField<Result>? = null
+        private var transactionEventToken: JsonField<String>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -139,9 +139,13 @@ private constructor(
 
         fun build(): PaymentSimulateReleaseResponse =
             PaymentSimulateReleaseResponse(
-                debuggingRequestId,
-                result,
-                transactionEventToken,
+                checkNotNull(debuggingRequestId) {
+                    "`debuggingRequestId` is required but was not set"
+                },
+                checkNotNull(result) { "`result` is required but was not set" },
+                checkNotNull(transactionEventToken) {
+                    "`transactionEventToken` is required but was not set"
+                },
                 additionalProperties.toImmutable(),
             )
     }

@@ -159,66 +159,78 @@ private constructor(
         Optional.ofNullable(feeDescription.getNullable("fee_description"))
 
     /** Globally unique identifier denoting the Settlement Detail. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa). */
-    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    fun _accountToken(): JsonField<String> = accountToken
 
     /**
      * Globally unique identifier denoting the card program that the associated Transaction occurred
      * on.
      */
-    @JsonProperty("card_program_token") @ExcludeMissing fun _cardProgramToken() = cardProgramToken
+    @JsonProperty("card_program_token")
+    @ExcludeMissing
+    fun _cardProgramToken(): JsonField<String> = cardProgramToken
 
     /** Globally unique identifier denoting the card that the associated Transaction occurred on. */
-    @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
+    @JsonProperty("card_token") @ExcludeMissing fun _cardToken(): JsonField<String> = cardToken
 
     /** Date and time when the transaction first occurred. UTC time zone. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** Three-digit alphabetic ISO 4217 code. */
-    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+    @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /** The total gross amount of disputes settlements. */
     @JsonProperty("disputes_gross_amount")
     @ExcludeMissing
-    fun _disputesGrossAmount() = disputesGrossAmount
+    fun _disputesGrossAmount(): JsonField<Long> = disputesGrossAmount
 
     /** Globally unique identifiers denoting the Events associated with this settlement. */
-    @JsonProperty("event_tokens") @ExcludeMissing fun _eventTokens() = eventTokens
+    @JsonProperty("event_tokens")
+    @ExcludeMissing
+    fun _eventTokens(): JsonField<List<String>> = eventTokens
 
     /** The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa). */
-    @JsonProperty("institution") @ExcludeMissing fun _institution() = institution
+    @JsonProperty("institution") @ExcludeMissing fun _institution(): JsonField<String> = institution
 
     /** The total amount of interchange in six-digit extended precision. */
     @JsonProperty("interchange_fee_extended_precision")
     @ExcludeMissing
-    fun _interchangeFeeExtendedPrecision() = interchangeFeeExtendedPrecision
+    fun _interchangeFeeExtendedPrecision(): JsonField<Long> = interchangeFeeExtendedPrecision
 
     /** The total amount of interchange. */
     @JsonProperty("interchange_gross_amount")
     @ExcludeMissing
-    fun _interchangeGrossAmount() = interchangeGrossAmount
+    fun _interchangeGrossAmount(): JsonField<Long> = interchangeGrossAmount
 
     /** Card network where the transaction took place. */
-    @JsonProperty("network") @ExcludeMissing fun _network() = network
+    @JsonProperty("network") @ExcludeMissing fun _network(): JsonField<Network> = network
 
     /** The total gross amount of other fees by type. */
-    @JsonProperty("other_fees_details") @ExcludeMissing fun _otherFeesDetails() = otherFeesDetails
+    @JsonProperty("other_fees_details")
+    @ExcludeMissing
+    fun _otherFeesDetails(): JsonField<OtherFeesDetails> = otherFeesDetails
 
     /** Total amount of gross other fees outside of interchange. */
     @JsonProperty("other_fees_gross_amount")
     @ExcludeMissing
-    fun _otherFeesGrossAmount() = otherFeesGrossAmount
+    fun _otherFeesGrossAmount(): JsonField<Long> = otherFeesGrossAmount
 
     /** Date of when the report was first generated. */
-    @JsonProperty("report_date") @ExcludeMissing fun _reportDate() = reportDate
+    @JsonProperty("report_date") @ExcludeMissing fun _reportDate(): JsonField<String> = reportDate
 
     /** Date of when money movement is triggered for the transaction. */
-    @JsonProperty("settlement_date") @ExcludeMissing fun _settlementDate() = settlementDate
+    @JsonProperty("settlement_date")
+    @ExcludeMissing
+    fun _settlementDate(): JsonField<String> = settlementDate
 
     /** Globally unique identifier denoting the associated Transaction object. */
-    @JsonProperty("transaction_token") @ExcludeMissing fun _transactionToken() = transactionToken
+    @JsonProperty("transaction_token")
+    @ExcludeMissing
+    fun _transactionToken(): JsonField<String> = transactionToken
 
     /**
      * The total amount of settlement impacting transactions (excluding interchange, fees, and
@@ -226,16 +238,18 @@ private constructor(
      */
     @JsonProperty("transactions_gross_amount")
     @ExcludeMissing
-    fun _transactionsGrossAmount() = transactionsGrossAmount
+    fun _transactionsGrossAmount(): JsonField<Long> = transactionsGrossAmount
 
     /** The type of settlement record. */
-    @JsonProperty("type") @ExcludeMissing fun _type() = type
+    @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
     /** Date and time when the transaction first occurred. UTC time zone. */
-    @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+    @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
     /** Network's description of a fee, only present on records with type `FEE`. */
-    @JsonProperty("fee_description") @ExcludeMissing fun _feeDescription() = feeDescription
+    @JsonProperty("fee_description")
+    @ExcludeMissing
+    fun _feeDescription(): JsonField<String> = feeDescription
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -279,26 +293,26 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var accountToken: JsonField<String> = JsonMissing.of()
-        private var cardProgramToken: JsonField<String> = JsonMissing.of()
-        private var cardToken: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var currency: JsonField<String> = JsonMissing.of()
-        private var disputesGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var eventTokens: JsonField<List<String>> = JsonMissing.of()
-        private var institution: JsonField<String> = JsonMissing.of()
-        private var interchangeFeeExtendedPrecision: JsonField<Long> = JsonMissing.of()
-        private var interchangeGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var network: JsonField<Network> = JsonMissing.of()
-        private var otherFeesDetails: JsonField<OtherFeesDetails> = JsonMissing.of()
-        private var otherFeesGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var reportDate: JsonField<String> = JsonMissing.of()
-        private var settlementDate: JsonField<String> = JsonMissing.of()
-        private var transactionToken: JsonField<String> = JsonMissing.of()
-        private var transactionsGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var type: JsonField<Type> = JsonMissing.of()
-        private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var accountToken: JsonField<String>? = null
+        private var cardProgramToken: JsonField<String>? = null
+        private var cardToken: JsonField<String>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var currency: JsonField<String>? = null
+        private var disputesGrossAmount: JsonField<Long>? = null
+        private var eventTokens: JsonField<MutableList<String>>? = null
+        private var institution: JsonField<String>? = null
+        private var interchangeFeeExtendedPrecision: JsonField<Long>? = null
+        private var interchangeGrossAmount: JsonField<Long>? = null
+        private var network: JsonField<Network>? = null
+        private var otherFeesDetails: JsonField<OtherFeesDetails>? = null
+        private var otherFeesGrossAmount: JsonField<Long>? = null
+        private var reportDate: JsonField<String>? = null
+        private var settlementDate: JsonField<String>? = null
+        private var transactionToken: JsonField<String>? = null
+        private var transactionsGrossAmount: JsonField<Long>? = null
+        private var type: JsonField<Type>? = null
+        private var updated: JsonField<OffsetDateTime>? = null
         private var feeDescription: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -311,7 +325,7 @@ private constructor(
             created = settlementDetail.created
             currency = settlementDetail.currency
             disputesGrossAmount = settlementDetail.disputesGrossAmount
-            eventTokens = settlementDetail.eventTokens
+            eventTokens = settlementDetail.eventTokens.map { it.toMutableList() }
             institution = settlementDetail.institution
             interchangeFeeExtendedPrecision = settlementDetail.interchangeFeeExtendedPrecision
             interchangeGrossAmount = settlementDetail.interchangeGrossAmount
@@ -397,7 +411,21 @@ private constructor(
 
         /** Globally unique identifiers denoting the Events associated with this settlement. */
         fun eventTokens(eventTokens: JsonField<List<String>>) = apply {
-            this.eventTokens = eventTokens
+            this.eventTokens = eventTokens.map { it.toMutableList() }
+        }
+
+        /** Globally unique identifiers denoting the Events associated with this settlement. */
+        fun addEventToken(eventToken: String) = apply {
+            eventTokens =
+                (eventTokens ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(eventToken)
+                }
         }
 
         /**
@@ -532,26 +560,37 @@ private constructor(
 
         fun build(): SettlementDetail =
             SettlementDetail(
-                token,
-                accountToken,
-                cardProgramToken,
-                cardToken,
-                created,
-                currency,
-                disputesGrossAmount,
-                eventTokens.map { it.toImmutable() },
-                institution,
-                interchangeFeeExtendedPrecision,
-                interchangeGrossAmount,
-                network,
-                otherFeesDetails,
-                otherFeesGrossAmount,
-                reportDate,
-                settlementDate,
-                transactionToken,
-                transactionsGrossAmount,
-                type,
-                updated,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(accountToken) { "`accountToken` is required but was not set" },
+                checkNotNull(cardProgramToken) { "`cardProgramToken` is required but was not set" },
+                checkNotNull(cardToken) { "`cardToken` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(currency) { "`currency` is required but was not set" },
+                checkNotNull(disputesGrossAmount) {
+                    "`disputesGrossAmount` is required but was not set"
+                },
+                checkNotNull(eventTokens) { "`eventTokens` is required but was not set" }
+                    .map { it.toImmutable() },
+                checkNotNull(institution) { "`institution` is required but was not set" },
+                checkNotNull(interchangeFeeExtendedPrecision) {
+                    "`interchangeFeeExtendedPrecision` is required but was not set"
+                },
+                checkNotNull(interchangeGrossAmount) {
+                    "`interchangeGrossAmount` is required but was not set"
+                },
+                checkNotNull(network) { "`network` is required but was not set" },
+                checkNotNull(otherFeesDetails) { "`otherFeesDetails` is required but was not set" },
+                checkNotNull(otherFeesGrossAmount) {
+                    "`otherFeesGrossAmount` is required but was not set"
+                },
+                checkNotNull(reportDate) { "`reportDate` is required but was not set" },
+                checkNotNull(settlementDate) { "`settlementDate` is required but was not set" },
+                checkNotNull(transactionToken) { "`transactionToken` is required but was not set" },
+                checkNotNull(transactionsGrossAmount) {
+                    "`transactionsGrossAmount` is required but was not set"
+                },
+                checkNotNull(type) { "`type` is required but was not set" },
+                checkNotNull(updated) { "`updated` is required but was not set" },
                 feeDescription,
                 additionalProperties.toImmutable(),
             )
@@ -644,7 +683,7 @@ private constructor(
 
         fun isa(): Optional<Long> = Optional.ofNullable(isa.getNullable("ISA"))
 
-        @JsonProperty("ISA") @ExcludeMissing fun _isa() = isa
+        @JsonProperty("ISA") @ExcludeMissing fun _isa(): JsonField<Long> = isa
 
         @JsonAnyGetter
         @ExcludeMissing

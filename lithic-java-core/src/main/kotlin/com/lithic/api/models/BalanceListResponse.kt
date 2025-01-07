@@ -93,16 +93,18 @@ private constructor(
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
     /** Globally unique identifier for the financial account that holds this balance. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Funds available for spend in the currency's smallest unit (e.g., cents for USD) */
-    @JsonProperty("available_amount") @ExcludeMissing fun _availableAmount() = availableAmount
+    @JsonProperty("available_amount")
+    @ExcludeMissing
+    fun _availableAmount(): JsonField<Long> = availableAmount
 
     /** Date and time for when the balance was first created. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** 3-digit alphabetic ISO 4217 code for the local currency of the balance. */
-    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+    @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /**
      * Globally unique identifier for the last financial transaction event that impacted this
@@ -110,30 +112,32 @@ private constructor(
      */
     @JsonProperty("last_transaction_event_token")
     @ExcludeMissing
-    fun _lastTransactionEventToken() = lastTransactionEventToken
+    fun _lastTransactionEventToken(): JsonField<String> = lastTransactionEventToken
 
     /** Globally unique identifier for the last financial transaction that impacted this balance. */
     @JsonProperty("last_transaction_token")
     @ExcludeMissing
-    fun _lastTransactionToken() = lastTransactionToken
+    fun _lastTransactionToken(): JsonField<String> = lastTransactionToken
 
     /**
      * Funds not available for spend due to card authorizations or pending ACH release. Shown in the
      * currency's smallest unit (e.g., cents for USD).
      */
-    @JsonProperty("pending_amount") @ExcludeMissing fun _pendingAmount() = pendingAmount
+    @JsonProperty("pending_amount")
+    @ExcludeMissing
+    fun _pendingAmount(): JsonField<Long> = pendingAmount
 
     /**
      * The sum of available and pending balance in the currency's smallest unit (e.g., cents for
      * USD).
      */
-    @JsonProperty("total_amount") @ExcludeMissing fun _totalAmount() = totalAmount
+    @JsonProperty("total_amount") @ExcludeMissing fun _totalAmount(): JsonField<Long> = totalAmount
 
     /** Type of financial account. */
-    @JsonProperty("type") @ExcludeMissing fun _type() = type
+    @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
     /** Date and time for when the balance was last updated. */
-    @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+    @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -166,16 +170,16 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var availableAmount: JsonField<Long> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var currency: JsonField<String> = JsonMissing.of()
-        private var lastTransactionEventToken: JsonField<String> = JsonMissing.of()
-        private var lastTransactionToken: JsonField<String> = JsonMissing.of()
-        private var pendingAmount: JsonField<Long> = JsonMissing.of()
-        private var totalAmount: JsonField<Long> = JsonMissing.of()
-        private var type: JsonField<Type> = JsonMissing.of()
-        private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var availableAmount: JsonField<Long>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var currency: JsonField<String>? = null
+        private var lastTransactionEventToken: JsonField<String>? = null
+        private var lastTransactionToken: JsonField<String>? = null
+        private var pendingAmount: JsonField<Long>? = null
+        private var totalAmount: JsonField<Long>? = null
+        private var type: JsonField<Type>? = null
+        private var updated: JsonField<OffsetDateTime>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -306,16 +310,20 @@ private constructor(
 
         fun build(): BalanceListResponse =
             BalanceListResponse(
-                token,
-                availableAmount,
-                created,
-                currency,
-                lastTransactionEventToken,
-                lastTransactionToken,
-                pendingAmount,
-                totalAmount,
-                type,
-                updated,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(availableAmount) { "`availableAmount` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(currency) { "`currency` is required but was not set" },
+                checkNotNull(lastTransactionEventToken) {
+                    "`lastTransactionEventToken` is required but was not set"
+                },
+                checkNotNull(lastTransactionToken) {
+                    "`lastTransactionToken` is required but was not set"
+                },
+                checkNotNull(pendingAmount) { "`pendingAmount` is required but was not set" },
+                checkNotNull(totalAmount) { "`totalAmount` is required but was not set" },
+                checkNotNull(type) { "`type` is required but was not set" },
+                checkNotNull(updated) { "`updated` is required but was not set" },
                 additionalProperties.toImmutable(),
             )
     }

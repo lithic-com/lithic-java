@@ -29,7 +29,9 @@ private constructor(
     fun reportToken(): Optional<String> =
         Optional.ofNullable(reportToken.getNullable("report_token"))
 
-    @JsonProperty("report_token") @ExcludeMissing fun _reportToken() = reportToken
+    @JsonProperty("report_token")
+    @ExcludeMissing
+    fun _reportToken(): JsonField<String> = reportToken
 
     @JsonAnyGetter
     @ExcludeMissing

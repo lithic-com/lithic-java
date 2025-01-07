@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -45,11 +47,26 @@ constructor(
      */
     fun amount(): Optional<Long> = body.amount()
 
+    /** The transaction token returned from the /v1/simulate/authorize response. */
+    fun _token(): JsonField<String> = body._token()
+
+    /**
+     * Amount (in cents) to clear. Typically this will match the amount in the original
+     * authorization, but can be higher or lower. The sign of this amount will automatically match
+     * the sign of the original authorization's amount. For example, entering 100 in this field will
+     * result in a -100 amount in the transaction, if the original authorization is a credit
+     * authorization.
+     *
+     * If `amount` is not set, the full amount of the transaction will be cleared. Transactions that
+     * have already cleared, either partially or fully, cannot be cleared again using this endpoint.
+     */
+    fun _amount(): JsonField<Long> = body._amount()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): TransactionSimulateClearingBody = body
 
@@ -61,14 +78,18 @@ constructor(
     class TransactionSimulateClearingBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("token") private val token: String,
-        @JsonProperty("amount") private val amount: Long?,
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
-        @JsonProperty("token") fun token(): String = token
+        fun token(): String = token.getRequired("token")
 
         /**
          * Amount (in cents) to clear. Typically this will match the amount in the original
@@ -81,11 +102,37 @@ constructor(
          * that have already cleared, either partially or fully, cannot be cleared again using this
          * endpoint.
          */
-        @JsonProperty("amount") fun amount(): Optional<Long> = Optional.ofNullable(amount)
+        fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
+
+        /** The transaction token returned from the /v1/simulate/authorize response. */
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+        /**
+         * Amount (in cents) to clear. Typically this will match the amount in the original
+         * authorization, but can be higher or lower. The sign of this amount will automatically
+         * match the sign of the original authorization's amount. For example, entering 100 in this
+         * field will result in a -100 amount in the transaction, if the original authorization is a
+         * credit authorization.
+         *
+         * If `amount` is not set, the full amount of the transaction will be cleared. Transactions
+         * that have already cleared, either partially or fully, cannot be cleared again using this
+         * endpoint.
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): TransactionSimulateClearingBody = apply {
+            if (!validated) {
+                token()
+                amount()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -96,8 +143,8 @@ constructor(
 
         class Builder {
 
-            private var token: String? = null
-            private var amount: Long? = null
+            private var token: JsonField<String>? = null
+            private var amount: JsonField<Long> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -110,7 +157,10 @@ constructor(
                 }
 
             /** The transaction token returned from the /v1/simulate/authorize response. */
-            fun token(token: String) = apply { this.token = token }
+            fun token(token: String) = token(JsonField.of(token))
+
+            /** The transaction token returned from the /v1/simulate/authorize response. */
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
              * Amount (in cents) to clear. Typically this will match the amount in the original
@@ -123,7 +173,7 @@ constructor(
              * Transactions that have already cleared, either partially or fully, cannot be cleared
              * again using this endpoint.
              */
-            fun amount(amount: Long?) = apply { this.amount = amount }
+            fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /**
              * Amount (in cents) to clear. Typically this will match the amount in the original
@@ -136,21 +186,7 @@ constructor(
              * Transactions that have already cleared, either partially or fully, cannot be cleared
              * again using this endpoint.
              */
-            fun amount(amount: Long) = amount(amount as Long?)
-
-            /**
-             * Amount (in cents) to clear. Typically this will match the amount in the original
-             * authorization, but can be higher or lower. The sign of this amount will automatically
-             * match the sign of the original authorization's amount. For example, entering 100 in
-             * this field will result in a -100 amount in the transaction, if the original
-             * authorization is a credit authorization.
-             *
-             * If `amount` is not set, the full amount of the transaction will be cleared.
-             * Transactions that have already cleared, either partially or fully, cannot be cleared
-             * again using this endpoint.
-             */
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-            fun amount(amount: Optional<Long>) = amount(amount.orElse(null) as Long?)
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -224,18 +260,8 @@ constructor(
         /** The transaction token returned from the /v1/simulate/authorize response. */
         fun token(token: String) = apply { body.token(token) }
 
-        /**
-         * Amount (in cents) to clear. Typically this will match the amount in the original
-         * authorization, but can be higher or lower. The sign of this amount will automatically
-         * match the sign of the original authorization's amount. For example, entering 100 in this
-         * field will result in a -100 amount in the transaction, if the original authorization is a
-         * credit authorization.
-         *
-         * If `amount` is not set, the full amount of the transaction will be cleared. Transactions
-         * that have already cleared, either partially or fully, cannot be cleared again using this
-         * endpoint.
-         */
-        fun amount(amount: Long?) = apply { body.amount(amount) }
+        /** The transaction token returned from the /v1/simulate/authorize response. */
+        fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /**
          * Amount (in cents) to clear. Typically this will match the amount in the original
@@ -248,7 +274,7 @@ constructor(
          * that have already cleared, either partially or fully, cannot be cleared again using this
          * endpoint.
          */
-        fun amount(amount: Long) = amount(amount as Long?)
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
          * Amount (in cents) to clear. Typically this will match the amount in the original
@@ -261,8 +287,26 @@ constructor(
          * that have already cleared, either partially or fully, cannot be cleared again using this
          * endpoint.
          */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun amount(amount: Optional<Long>) = amount(amount.orElse(null) as Long?)
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -360,25 +404,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransactionSimulateClearingParams =

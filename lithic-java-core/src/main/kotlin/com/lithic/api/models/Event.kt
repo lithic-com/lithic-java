@@ -79,14 +79,14 @@ private constructor(
     fun payload(): Payload = payload.getRequired("payload")
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
      *
      * If no timezone is specified, UTC will be used.
      */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
      * Event types:
@@ -116,9 +116,9 @@ private constructor(
      * - `digital_wallet.tokenization_updated` - Notification that a digital wallet tokenization's
      *   status has changed.
      */
-    @JsonProperty("event_type") @ExcludeMissing fun _eventType() = eventType
+    @JsonProperty("event_type") @ExcludeMissing fun _eventType(): JsonField<EventType> = eventType
 
-    @JsonProperty("payload") @ExcludeMissing fun _payload() = payload
+    @JsonProperty("payload") @ExcludeMissing fun _payload(): JsonField<Payload> = payload
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -145,10 +145,10 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var eventType: JsonField<EventType> = JsonMissing.of()
-        private var payload: JsonField<Payload> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var eventType: JsonField<EventType>? = null
+        private var payload: JsonField<Payload>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -269,10 +269,10 @@ private constructor(
 
         fun build(): Event =
             Event(
-                token,
-                created,
-                eventType,
-                payload,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(eventType) { "`eventType` is required but was not set" },
+                checkNotNull(payload) { "`payload` is required but was not set" },
                 additionalProperties.toImmutable(),
             )
     }

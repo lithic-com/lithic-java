@@ -36,7 +36,7 @@ private constructor(
      * authorization. This token is used in /v1/three_ds_decisioning/simulate/challenge_response to
      * Approve or Decline the authentication
      */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     @JsonAnyGetter
     @ExcludeMissing

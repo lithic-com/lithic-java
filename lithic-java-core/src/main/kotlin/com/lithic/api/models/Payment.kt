@@ -145,55 +145,61 @@ private constructor(
         Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Payment category */
-    @JsonProperty("category") @ExcludeMissing fun _category() = category
+    @JsonProperty("category") @ExcludeMissing fun _category(): JsonField<Category> = category
 
     /** Date and time when the payment first occurred. UTC time zone. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** 3-digit alphabetic ISO 4217 code for the settling currency of the payment. */
-    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+    @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /** A string that provides a description of the payment; may be useful to display to users. */
-    @JsonProperty("descriptor") @ExcludeMissing fun _descriptor() = descriptor
+    @JsonProperty("descriptor") @ExcludeMissing fun _descriptor(): JsonField<String> = descriptor
 
-    @JsonProperty("direction") @ExcludeMissing fun _direction() = direction
+    @JsonProperty("direction") @ExcludeMissing fun _direction(): JsonField<Direction> = direction
 
     /** A list of all payment events that have modified this payment. */
-    @JsonProperty("events") @ExcludeMissing fun _events() = events
+    @JsonProperty("events") @ExcludeMissing fun _events(): JsonField<List<PaymentEvent>> = events
 
     @JsonProperty("external_bank_account_token")
     @ExcludeMissing
-    fun _externalBankAccountToken() = externalBankAccountToken
+    fun _externalBankAccountToken(): JsonField<String> = externalBankAccountToken
 
     @JsonProperty("financial_account_token")
     @ExcludeMissing
-    fun _financialAccountToken() = financialAccountToken
+    fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
-    @JsonProperty("method") @ExcludeMissing fun _method() = method
+    @JsonProperty("method") @ExcludeMissing fun _method(): JsonField<Method> = method
 
-    @JsonProperty("method_attributes") @ExcludeMissing fun _methodAttributes() = methodAttributes
+    @JsonProperty("method_attributes")
+    @ExcludeMissing
+    fun _methodAttributes(): JsonField<PaymentMethodAttributes> = methodAttributes
 
     /**
      * Pending amount of the payment in the currency's smallest unit (e.g., cents). The value of
      * this field will go to zero over time once the payment is settled.
      */
-    @JsonProperty("pending_amount") @ExcludeMissing fun _pendingAmount() = pendingAmount
+    @JsonProperty("pending_amount")
+    @ExcludeMissing
+    fun _pendingAmount(): JsonField<Long> = pendingAmount
 
     /**
      * APPROVED payments were successful while DECLINED payments were declined by Lithic or
      * returned.
      */
-    @JsonProperty("result") @ExcludeMissing fun _result() = result
+    @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
 
     /**
      * Amount of the payment that has been settled in the currency's smallest unit (e.g., cents).
      */
-    @JsonProperty("settled_amount") @ExcludeMissing fun _settledAmount() = settledAmount
+    @JsonProperty("settled_amount")
+    @ExcludeMissing
+    fun _settledAmount(): JsonField<Long> = settledAmount
 
-    @JsonProperty("source") @ExcludeMissing fun _source() = source
+    @JsonProperty("source") @ExcludeMissing fun _source(): JsonField<Source> = source
 
     /**
      * Status types:
@@ -203,12 +209,14 @@ private constructor(
      * - `RETURNED` - The payment has been returned.
      * - `SETTLED` - The payment is completed.
      */
-    @JsonProperty("status") @ExcludeMissing fun _status() = status
+    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
     /** Date and time when the financial transaction was last updated. UTC time zone. */
-    @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+    @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
-    @JsonProperty("user_defined_id") @ExcludeMissing fun _userDefinedId() = userDefinedId
+    @JsonProperty("user_defined_id")
+    @ExcludeMissing
+    fun _userDefinedId(): JsonField<String> = userDefinedId
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -249,24 +257,24 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var category: JsonField<Category> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var currency: JsonField<String> = JsonMissing.of()
-        private var descriptor: JsonField<String> = JsonMissing.of()
-        private var direction: JsonField<Direction> = JsonMissing.of()
-        private var events: JsonField<List<PaymentEvent>> = JsonMissing.of()
-        private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
-        private var financialAccountToken: JsonField<String> = JsonMissing.of()
-        private var method: JsonField<Method> = JsonMissing.of()
-        private var methodAttributes: JsonField<PaymentMethodAttributes> = JsonMissing.of()
-        private var pendingAmount: JsonField<Long> = JsonMissing.of()
-        private var result: JsonField<Result> = JsonMissing.of()
-        private var settledAmount: JsonField<Long> = JsonMissing.of()
-        private var source: JsonField<Source> = JsonMissing.of()
-        private var status: JsonField<Status> = JsonMissing.of()
-        private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var userDefinedId: JsonField<String> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var category: JsonField<Category>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var currency: JsonField<String>? = null
+        private var descriptor: JsonField<String>? = null
+        private var direction: JsonField<Direction>? = null
+        private var events: JsonField<MutableList<PaymentEvent>>? = null
+        private var externalBankAccountToken: JsonField<String>? = null
+        private var financialAccountToken: JsonField<String>? = null
+        private var method: JsonField<Method>? = null
+        private var methodAttributes: JsonField<PaymentMethodAttributes>? = null
+        private var pendingAmount: JsonField<Long>? = null
+        private var result: JsonField<Result>? = null
+        private var settledAmount: JsonField<Long>? = null
+        private var source: JsonField<Source>? = null
+        private var status: JsonField<Status>? = null
+        private var updated: JsonField<OffsetDateTime>? = null
+        private var userDefinedId: JsonField<String>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -277,7 +285,7 @@ private constructor(
             currency = payment.currency
             descriptor = payment.descriptor
             direction = payment.direction
-            events = payment.events
+            events = payment.events.map { it.toMutableList() }
             externalBankAccountToken = payment.externalBankAccountToken
             financialAccountToken = payment.financialAccountToken
             method = payment.method
@@ -334,10 +342,29 @@ private constructor(
         fun events(events: List<PaymentEvent>) = events(JsonField.of(events))
 
         /** A list of all payment events that have modified this payment. */
-        fun events(events: JsonField<List<PaymentEvent>>) = apply { this.events = events }
+        fun events(events: JsonField<List<PaymentEvent>>) = apply {
+            this.events = events.map { it.toMutableList() }
+        }
 
-        fun externalBankAccountToken(externalBankAccountToken: String) =
-            externalBankAccountToken(JsonField.of(externalBankAccountToken))
+        /** A list of all payment events that have modified this payment. */
+        fun addEvent(event: PaymentEvent) = apply {
+            events =
+                (events ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(event)
+                }
+        }
+
+        fun externalBankAccountToken(externalBankAccountToken: String?) =
+            externalBankAccountToken(JsonField.ofNullable(externalBankAccountToken))
+
+        fun externalBankAccountToken(externalBankAccountToken: Optional<String>) =
+            externalBankAccountToken(externalBankAccountToken.orElse(null))
 
         fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
             this.externalBankAccountToken = externalBankAccountToken
@@ -431,7 +458,11 @@ private constructor(
         /** Date and time when the financial transaction was last updated. UTC time zone. */
         fun updated(updated: JsonField<OffsetDateTime>) = apply { this.updated = updated }
 
-        fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
+        fun userDefinedId(userDefinedId: String?) =
+            userDefinedId(JsonField.ofNullable(userDefinedId))
+
+        fun userDefinedId(userDefinedId: Optional<String>) =
+            userDefinedId(userDefinedId.orElse(null))
 
         fun userDefinedId(userDefinedId: JsonField<String>) = apply {
             this.userDefinedId = userDefinedId
@@ -458,24 +489,29 @@ private constructor(
 
         fun build(): Payment =
             Payment(
-                token,
-                category,
-                created,
-                currency,
-                descriptor,
-                direction,
-                events.map { it.toImmutable() },
-                externalBankAccountToken,
-                financialAccountToken,
-                method,
-                methodAttributes,
-                pendingAmount,
-                result,
-                settledAmount,
-                source,
-                status,
-                updated,
-                userDefinedId,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(category) { "`category` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(currency) { "`currency` is required but was not set" },
+                checkNotNull(descriptor) { "`descriptor` is required but was not set" },
+                checkNotNull(direction) { "`direction` is required but was not set" },
+                checkNotNull(events) { "`events` is required but was not set" }
+                    .map { it.toImmutable() },
+                checkNotNull(externalBankAccountToken) {
+                    "`externalBankAccountToken` is required but was not set"
+                },
+                checkNotNull(financialAccountToken) {
+                    "`financialAccountToken` is required but was not set"
+                },
+                checkNotNull(method) { "`method` is required but was not set" },
+                checkNotNull(methodAttributes) { "`methodAttributes` is required but was not set" },
+                checkNotNull(pendingAmount) { "`pendingAmount` is required but was not set" },
+                checkNotNull(result) { "`result` is required but was not set" },
+                checkNotNull(settledAmount) { "`settledAmount` is required but was not set" },
+                checkNotNull(source) { "`source` is required but was not set" },
+                checkNotNull(status) { "`status` is required but was not set" },
+                checkNotNull(updated) { "`updated` is required but was not set" },
+                checkNotNull(userDefinedId) { "`userDefinedId` is required but was not set" },
                 additionalProperties.toImmutable(),
             )
     }
@@ -656,22 +692,22 @@ private constructor(
             Optional.ofNullable(detailedResults.getNullable("detailed_results"))
 
         /** Globally unique identifier. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
          * (e.g., cents).
          */
-        @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
         /** Date and time when the financial event occurred. UTC time zone. */
-        @JsonProperty("created") @ExcludeMissing fun _created() = created
+        @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
         /**
          * APPROVED financial events were successful while DECLINED financial events were declined
          * by user, Lithic, or the network.
          */
-        @JsonProperty("result") @ExcludeMissing fun _result() = result
+        @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
 
         /**
          * Event types:
@@ -690,10 +726,12 @@ private constructor(
          * - `ACH_RECEIPT_SETTLED` - ACH receipt funds have settled.
          * - `ACH_RECEIPT_RELEASED` - ACH receipt released from pending to available balance.
          */
-        @JsonProperty("type") @ExcludeMissing fun _type() = type
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<PaymentEventType> = type
 
         /** More detailed reasons for the event */
-        @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
+        @JsonProperty("detailed_results")
+        @ExcludeMissing
+        fun _detailedResults(): JsonField<List<DetailedResult>> = detailedResults
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -722,12 +760,12 @@ private constructor(
 
         class Builder {
 
-            private var token: JsonField<String> = JsonMissing.of()
-            private var amount: JsonField<Long> = JsonMissing.of()
-            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var result: JsonField<Result> = JsonMissing.of()
-            private var type: JsonField<PaymentEventType> = JsonMissing.of()
-            private var detailedResults: JsonField<List<DetailedResult>> = JsonMissing.of()
+            private var token: JsonField<String>? = null
+            private var amount: JsonField<Long>? = null
+            private var created: JsonField<OffsetDateTime>? = null
+            private var result: JsonField<Result>? = null
+            private var type: JsonField<PaymentEventType>? = null
+            private var detailedResults: JsonField<MutableList<DetailedResult>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -737,7 +775,7 @@ private constructor(
                 created = paymentEvent.created
                 result = paymentEvent.result
                 type = paymentEvent.type
-                detailedResults = paymentEvent.detailedResults
+                detailedResults = paymentEvent.detailedResults.map { it.toMutableList() }
                 additionalProperties = paymentEvent.additionalProperties.toMutableMap()
             }
 
@@ -823,7 +861,21 @@ private constructor(
 
             /** More detailed reasons for the event */
             fun detailedResults(detailedResults: JsonField<List<DetailedResult>>) = apply {
-                this.detailedResults = detailedResults
+                this.detailedResults = detailedResults.map { it.toMutableList() }
+            }
+
+            /** More detailed reasons for the event */
+            fun addDetailedResult(detailedResult: DetailedResult) = apply {
+                detailedResults =
+                    (detailedResults ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(detailedResult)
+                    }
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -847,12 +899,12 @@ private constructor(
 
             fun build(): PaymentEvent =
                 PaymentEvent(
-                    token,
-                    amount,
-                    created,
-                    result,
-                    type,
-                    detailedResults.map { it.toImmutable() },
+                    checkNotNull(token) { "`token` is required but was not set" },
+                    checkNotNull(amount) { "`amount` is required but was not set" },
+                    checkNotNull(created) { "`created` is required but was not set" },
+                    checkNotNull(result) { "`result` is required but was not set" },
+                    checkNotNull(type) { "`type` is required but was not set" },
+                    (detailedResults ?: JsonMissing.of()).map { it.toImmutable() },
                     additionalProperties.toImmutable(),
                 )
         }
@@ -1216,21 +1268,23 @@ private constructor(
 
         fun traceNumbers(): List<String?> = traceNumbers.getRequired("trace_numbers")
 
-        @JsonProperty("company_id") @ExcludeMissing fun _companyId() = companyId
+        @JsonProperty("company_id") @ExcludeMissing fun _companyId(): JsonField<String> = companyId
 
         @JsonProperty("receipt_routing_number")
         @ExcludeMissing
-        fun _receiptRoutingNumber() = receiptRoutingNumber
+        fun _receiptRoutingNumber(): JsonField<String> = receiptRoutingNumber
 
-        @JsonProperty("retries") @ExcludeMissing fun _retries() = retries
+        @JsonProperty("retries") @ExcludeMissing fun _retries(): JsonField<Long> = retries
 
         @JsonProperty("return_reason_code")
         @ExcludeMissing
-        fun _returnReasonCode() = returnReasonCode
+        fun _returnReasonCode(): JsonField<String> = returnReasonCode
 
-        @JsonProperty("sec_code") @ExcludeMissing fun _secCode() = secCode
+        @JsonProperty("sec_code") @ExcludeMissing fun _secCode(): JsonField<SecCode> = secCode
 
-        @JsonProperty("trace_numbers") @ExcludeMissing fun _traceNumbers() = traceNumbers
+        @JsonProperty("trace_numbers")
+        @ExcludeMissing
+        fun _traceNumbers(): JsonField<List<String?>> = traceNumbers
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -1259,12 +1313,12 @@ private constructor(
 
         class Builder {
 
-            private var companyId: JsonField<String> = JsonMissing.of()
-            private var receiptRoutingNumber: JsonField<String> = JsonMissing.of()
-            private var retries: JsonField<Long> = JsonMissing.of()
-            private var returnReasonCode: JsonField<String> = JsonMissing.of()
-            private var secCode: JsonField<SecCode> = JsonMissing.of()
-            private var traceNumbers: JsonField<List<String?>> = JsonMissing.of()
+            private var companyId: JsonField<String>? = null
+            private var receiptRoutingNumber: JsonField<String>? = null
+            private var retries: JsonField<Long>? = null
+            private var returnReasonCode: JsonField<String>? = null
+            private var secCode: JsonField<SecCode>? = null
+            private var traceNumbers: JsonField<MutableList<String?>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -1274,27 +1328,40 @@ private constructor(
                 retries = paymentMethodAttributes.retries
                 returnReasonCode = paymentMethodAttributes.returnReasonCode
                 secCode = paymentMethodAttributes.secCode
-                traceNumbers = paymentMethodAttributes.traceNumbers
+                traceNumbers = paymentMethodAttributes.traceNumbers.map { it.toMutableList() }
                 additionalProperties = paymentMethodAttributes.additionalProperties.toMutableMap()
             }
 
-            fun companyId(companyId: String) = companyId(JsonField.of(companyId))
+            fun companyId(companyId: String?) = companyId(JsonField.ofNullable(companyId))
+
+            fun companyId(companyId: Optional<String>) = companyId(companyId.orElse(null))
 
             fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
 
-            fun receiptRoutingNumber(receiptRoutingNumber: String) =
-                receiptRoutingNumber(JsonField.of(receiptRoutingNumber))
+            fun receiptRoutingNumber(receiptRoutingNumber: String?) =
+                receiptRoutingNumber(JsonField.ofNullable(receiptRoutingNumber))
+
+            fun receiptRoutingNumber(receiptRoutingNumber: Optional<String>) =
+                receiptRoutingNumber(receiptRoutingNumber.orElse(null))
 
             fun receiptRoutingNumber(receiptRoutingNumber: JsonField<String>) = apply {
                 this.receiptRoutingNumber = receiptRoutingNumber
             }
 
-            fun retries(retries: Long) = retries(JsonField.of(retries))
+            fun retries(retries: Long?) = retries(JsonField.ofNullable(retries))
+
+            fun retries(retries: Long) = retries(retries as Long?)
+
+            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+            fun retries(retries: Optional<Long>) = retries(retries.orElse(null) as Long?)
 
             fun retries(retries: JsonField<Long>) = apply { this.retries = retries }
 
-            fun returnReasonCode(returnReasonCode: String) =
-                returnReasonCode(JsonField.of(returnReasonCode))
+            fun returnReasonCode(returnReasonCode: String?) =
+                returnReasonCode(JsonField.ofNullable(returnReasonCode))
+
+            fun returnReasonCode(returnReasonCode: Optional<String>) =
+                returnReasonCode(returnReasonCode.orElse(null))
 
             fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
                 this.returnReasonCode = returnReasonCode
@@ -1307,7 +1374,20 @@ private constructor(
             fun traceNumbers(traceNumbers: List<String?>) = traceNumbers(JsonField.of(traceNumbers))
 
             fun traceNumbers(traceNumbers: JsonField<List<String?>>) = apply {
-                this.traceNumbers = traceNumbers
+                this.traceNumbers = traceNumbers.map { it.toMutableList() }
+            }
+
+            fun addTraceNumber(traceNumber: String) = apply {
+                traceNumbers =
+                    (traceNumbers ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(traceNumber)
+                    }
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -1331,12 +1411,17 @@ private constructor(
 
             fun build(): PaymentMethodAttributes =
                 PaymentMethodAttributes(
-                    companyId,
-                    receiptRoutingNumber,
-                    retries,
-                    returnReasonCode,
-                    secCode,
-                    traceNumbers.map { it.toImmutable() },
+                    checkNotNull(companyId) { "`companyId` is required but was not set" },
+                    checkNotNull(receiptRoutingNumber) {
+                        "`receiptRoutingNumber` is required but was not set"
+                    },
+                    checkNotNull(retries) { "`retries` is required but was not set" },
+                    checkNotNull(returnReasonCode) {
+                        "`returnReasonCode` is required but was not set"
+                    },
+                    checkNotNull(secCode) { "`secCode` is required but was not set" },
+                    checkNotNull(traceNumbers) { "`traceNumbers` is required but was not set" }
+                        .map { it.toImmutable() },
                     additionalProperties.toImmutable(),
                 )
         }

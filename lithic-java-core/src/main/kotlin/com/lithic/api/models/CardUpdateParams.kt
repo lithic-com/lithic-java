@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -87,11 +88,64 @@ constructor(
      */
     fun state(): Optional<State> = body.state()
 
+    /**
+     * Specifies the digital card art to be displayed in the user’s digital wallet after
+     * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
+     * See
+     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     */
+    fun _digitalCardArtToken(): JsonField<String> = body._digitalCardArtToken()
+
+    /** Friendly name to identify the card. */
+    fun _memo(): JsonField<String> = body._memo()
+
+    /**
+     * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
+     * Changing PIN also resets PIN status to `OK`. See
+     * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+     */
+    fun _pin(): JsonField<String> = body._pin()
+
+    /**
+     * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
+     * Can only be set to `OK` to unblock a card.
+     */
+    fun _pinStatus(): JsonField<PinStatus> = body._pinStatus()
+
+    /**
+     * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
+     * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should only
+     * be used to reset or remove a prior limit. Only a limit of 1 or above will result in declined
+     * transactions due to checks against the card limit.
+     */
+    fun _spendLimit(): JsonField<Long> = body._spendLimit()
+
+    /**
+     * Spend limit duration values:
+     * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
+     * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
+     *   support recurring monthly payments, which can occur on different day every month, the time
+     *   window we consider for monthly velocity starts 6 days after the current calendar date one
+     *   month prior.
+     * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
+     *   under the spend limit.
+     */
+    fun _spendLimitDuration(): JsonField<SpendLimitDuration> = body._spendLimitDuration()
+
+    /**
+     * Card state values:
+     * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
+     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     */
+    fun _state(): JsonField<State> = body._state()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): CardUpdateBody = body
 
@@ -110,13 +164,25 @@ constructor(
     class CardUpdateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("digital_card_art_token") private val digitalCardArtToken: String?,
-        @JsonProperty("memo") private val memo: String?,
-        @JsonProperty("pin") private val pin: String?,
-        @JsonProperty("pin_status") private val pinStatus: PinStatus?,
-        @JsonProperty("spend_limit") private val spendLimit: Long?,
-        @JsonProperty("spend_limit_duration") private val spendLimitDuration: SpendLimitDuration?,
-        @JsonProperty("state") private val state: State?,
+        @JsonProperty("digital_card_art_token")
+        @ExcludeMissing
+        private val digitalCardArtToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("memo")
+        @ExcludeMissing
+        private val memo: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("pin") @ExcludeMissing private val pin: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("pin_status")
+        @ExcludeMissing
+        private val pinStatus: JsonField<PinStatus> = JsonMissing.of(),
+        @JsonProperty("spend_limit")
+        @ExcludeMissing
+        private val spendLimit: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("spend_limit_duration")
+        @ExcludeMissing
+        private val spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of(),
+        @JsonProperty("state")
+        @ExcludeMissing
+        private val state: JsonField<State> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -127,25 +193,25 @@ constructor(
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        @JsonProperty("digital_card_art_token")
-        fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken)
+        fun digitalCardArtToken(): Optional<String> =
+            Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
 
         /** Friendly name to identify the card. */
-        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
+        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
 
         /**
          * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
          * Changing PIN also resets PIN status to `OK`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
-        @JsonProperty("pin") fun pin(): Optional<String> = Optional.ofNullable(pin)
+        fun pin(): Optional<String> = Optional.ofNullable(pin.getNullable("pin"))
 
         /**
          * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
          * attempts). Can only be set to `OK` to unblock a card.
          */
-        @JsonProperty("pin_status")
-        fun pinStatus(): Optional<PinStatus> = Optional.ofNullable(pinStatus)
+        fun pinStatus(): Optional<PinStatus> =
+            Optional.ofNullable(pinStatus.getNullable("pin_status"))
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -153,8 +219,67 @@ constructor(
          * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
          * declined transactions due to checks against the card limit.
          */
-        @JsonProperty("spend_limit")
-        fun spendLimit(): Optional<Long> = Optional.ofNullable(spendLimit)
+        fun spendLimit(): Optional<Long> =
+            Optional.ofNullable(spendLimit.getNullable("spend_limit"))
+
+        /**
+         * Spend limit duration values:
+         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
+         *   card.
+         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
+         *   To support recurring monthly payments, which can occur on different day every month,
+         *   the time window we consider for monthly velocity starts 6 days after the current
+         *   calendar date one month prior.
+         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+         *   transaction is under the spend limit.
+         */
+        fun spendLimitDuration(): Optional<SpendLimitDuration> =
+            Optional.ofNullable(spendLimitDuration.getNullable("spend_limit_duration"))
+
+        /**
+         * Card state values:
+         * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be undone.
+         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+         */
+        fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+
+        /**
+         * Specifies the digital card art to be displayed in the user’s digital wallet after
+         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         */
+        @JsonProperty("digital_card_art_token")
+        @ExcludeMissing
+        fun _digitalCardArtToken(): JsonField<String> = digitalCardArtToken
+
+        /** Friendly name to identify the card. */
+        @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
+
+        /**
+         * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
+         * Changing PIN also resets PIN status to `OK`. See
+         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+         */
+        @JsonProperty("pin") @ExcludeMissing fun _pin(): JsonField<String> = pin
+
+        /**
+         * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
+         * attempts). Can only be set to `OK` to unblock a card.
+         */
+        @JsonProperty("pin_status")
+        @ExcludeMissing
+        fun _pinStatus(): JsonField<PinStatus> = pinStatus
+
+        /**
+         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
+         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
+         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
+         * declined transactions due to checks against the card limit.
+         */
+        @JsonProperty("spend_limit") @ExcludeMissing fun _spendLimit(): JsonField<Long> = spendLimit
 
         /**
          * Spend limit duration values:
@@ -169,8 +294,8 @@ constructor(
          *   transaction is under the spend limit.
          */
         @JsonProperty("spend_limit_duration")
-        fun spendLimitDuration(): Optional<SpendLimitDuration> =
-            Optional.ofNullable(spendLimitDuration)
+        @ExcludeMissing
+        fun _spendLimitDuration(): JsonField<SpendLimitDuration> = spendLimitDuration
 
         /**
          * Card state values:
@@ -178,11 +303,26 @@ constructor(
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        @JsonProperty("state") fun state(): Optional<State> = Optional.ofNullable(state)
+        @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): CardUpdateBody = apply {
+            if (!validated) {
+                digitalCardArtToken()
+                memo()
+                pin()
+                pinStatus()
+                spendLimit()
+                spendLimitDuration()
+                state()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -193,13 +333,13 @@ constructor(
 
         class Builder {
 
-            private var digitalCardArtToken: String? = null
-            private var memo: String? = null
-            private var pin: String? = null
-            private var pinStatus: PinStatus? = null
-            private var spendLimit: Long? = null
-            private var spendLimitDuration: SpendLimitDuration? = null
-            private var state: State? = null
+            private var digitalCardArtToken: JsonField<String> = JsonMissing.of()
+            private var memo: JsonField<String> = JsonMissing.of()
+            private var pin: JsonField<String> = JsonMissing.of()
+            private var pinStatus: JsonField<PinStatus> = JsonMissing.of()
+            private var spendLimit: JsonField<Long> = JsonMissing.of()
+            private var spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of()
+            private var state: JsonField<State> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -220,9 +360,8 @@ constructor(
              * use. See
              * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
-            fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
-                this.digitalCardArtToken = digitalCardArtToken
-            }
+            fun digitalCardArtToken(digitalCardArtToken: String) =
+                digitalCardArtToken(JsonField.of(digitalCardArtToken))
 
             /**
              * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -230,40 +369,41 @@ constructor(
              * use. See
              * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
-            fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
-                digitalCardArtToken(digitalCardArtToken.orElse(null))
+            fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
+                this.digitalCardArtToken = digitalCardArtToken
+            }
 
             /** Friendly name to identify the card. */
-            fun memo(memo: String?) = apply { this.memo = memo }
+            fun memo(memo: String) = memo(JsonField.of(memo))
 
             /** Friendly name to identify the card. */
-            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             /**
              * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
              * `VIRTUAL`. Changing PIN also resets PIN status to `OK`. See
              * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
              */
-            fun pin(pin: String?) = apply { this.pin = pin }
+            fun pin(pin: String) = pin(JsonField.of(pin))
 
             /**
              * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and
              * `VIRTUAL`. Changing PIN also resets PIN status to `OK`. See
              * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
              */
-            fun pin(pin: Optional<String>) = pin(pin.orElse(null))
+            fun pin(pin: JsonField<String>) = apply { this.pin = pin }
 
             /**
              * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
              * attempts). Can only be set to `OK` to unblock a card.
              */
-            fun pinStatus(pinStatus: PinStatus?) = apply { this.pinStatus = pinStatus }
+            fun pinStatus(pinStatus: PinStatus) = pinStatus(JsonField.of(pinStatus))
 
             /**
              * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
              * attempts). Can only be set to `OK` to unblock a card.
              */
-            fun pinStatus(pinStatus: Optional<PinStatus>) = pinStatus(pinStatus.orElse(null))
+            fun pinStatus(pinStatus: JsonField<PinStatus>) = apply { this.pinStatus = pinStatus }
 
             /**
              * Amount (in cents) to limit approved authorizations. Transaction requests above the
@@ -271,7 +411,7 @@ constructor(
              * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
              * will result in declined transactions due to checks against the card limit.
              */
-            fun spendLimit(spendLimit: Long?) = apply { this.spendLimit = spendLimit }
+            fun spendLimit(spendLimit: Long) = spendLimit(JsonField.of(spendLimit))
 
             /**
              * Amount (in cents) to limit approved authorizations. Transaction requests above the
@@ -279,17 +419,7 @@ constructor(
              * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
              * will result in declined transactions due to checks against the card limit.
              */
-            fun spendLimit(spendLimit: Long) = spendLimit(spendLimit as Long?)
-
-            /**
-             * Amount (in cents) to limit approved authorizations. Transaction requests above the
-             * spend limit will be declined. Note that a spend limit of 0 is effectively no limit,
-             * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
-             * will result in declined transactions due to checks against the card limit.
-             */
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-            fun spendLimit(spendLimit: Optional<Long>) =
-                spendLimit(spendLimit.orElse(null) as Long?)
+            fun spendLimit(spendLimit: JsonField<Long>) = apply { this.spendLimit = spendLimit }
 
             /**
              * Spend limit duration values:
@@ -304,25 +434,35 @@ constructor(
              * - `TRANSACTION` - Card will authorize multiple transactions if each individual
              *   transaction is under the spend limit.
              */
-            fun spendLimitDuration(spendLimitDuration: SpendLimitDuration?) = apply {
+            fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) =
+                spendLimitDuration(JsonField.of(spendLimitDuration))
+
+            /**
+             * Spend limit duration values:
+             * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
+             *   year.
+             * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
+             *   the card.
+             * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
+             *   month. To support recurring monthly payments, which can occur on different day
+             *   every month, the time window we consider for monthly velocity starts 6 days after
+             *   the current calendar date one month prior.
+             * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+             *   transaction is under the spend limit.
+             */
+            fun spendLimitDuration(spendLimitDuration: JsonField<SpendLimitDuration>) = apply {
                 this.spendLimitDuration = spendLimitDuration
             }
 
             /**
-             * Spend limit duration values:
-             * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
-             *   year.
-             * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
-             *   the card.
-             * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
-             *   month. To support recurring monthly payments, which can occur on different day
-             *   every month, the time window we consider for monthly velocity starts 6 days after
-             *   the current calendar date one month prior.
-             * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-             *   transaction is under the spend limit.
+             * Card state values:
+             * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be
+             *   undone.
+             * - `OPEN` - Card will approve authorizations (if they match card and account
+             *   parameters).
+             * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
-            fun spendLimitDuration(spendLimitDuration: Optional<SpendLimitDuration>) =
-                spendLimitDuration(spendLimitDuration.orElse(null))
+            fun state(state: State) = state(JsonField.of(state))
 
             /**
              * Card state values:
@@ -332,17 +472,7 @@ constructor(
              *   parameters).
              * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
-            fun state(state: State?) = apply { this.state = state }
-
-            /**
-             * Card state values:
-             * - `CLOSED` - Card will no longer approve authorizations. Closing a card cannot be
-             *   undone.
-             * - `OPEN` - Card will approve authorizations (if they match card and account
-             *   parameters).
-             * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
-             */
-            fun state(state: Optional<State>) = state(state.orElse(null))
+            fun state(state: JsonField<State>) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -425,7 +555,7 @@ constructor(
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
+        fun digitalCardArtToken(digitalCardArtToken: String) = apply {
             body.digitalCardArtToken(digitalCardArtToken)
         }
 
@@ -435,40 +565,41 @@ constructor(
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
-            digitalCardArtToken(digitalCardArtToken.orElse(null))
+        fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
+            body.digitalCardArtToken(digitalCardArtToken)
+        }
 
         /** Friendly name to identify the card. */
-        fun memo(memo: String?) = apply { body.memo(memo) }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         /** Friendly name to identify the card. */
-        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         /**
          * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
          * Changing PIN also resets PIN status to `OK`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
-        fun pin(pin: String?) = apply { body.pin(pin) }
+        fun pin(pin: String) = apply { body.pin(pin) }
 
         /**
          * Encrypted PIN block (in base64). Only applies to cards of type `PHYSICAL` and `VIRTUAL`.
          * Changing PIN also resets PIN status to `OK`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
-        fun pin(pin: Optional<String>) = pin(pin.orElse(null))
+        fun pin(pin: JsonField<String>) = apply { body.pin(pin) }
 
         /**
          * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
          * attempts). Can only be set to `OK` to unblock a card.
          */
-        fun pinStatus(pinStatus: PinStatus?) = apply { body.pinStatus(pinStatus) }
+        fun pinStatus(pinStatus: PinStatus) = apply { body.pinStatus(pinStatus) }
 
         /**
          * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect
          * attempts). Can only be set to `OK` to unblock a card.
          */
-        fun pinStatus(pinStatus: Optional<PinStatus>) = pinStatus(pinStatus.orElse(null))
+        fun pinStatus(pinStatus: JsonField<PinStatus>) = apply { body.pinStatus(pinStatus) }
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -476,7 +607,7 @@ constructor(
          * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
          * declined transactions due to checks against the card limit.
          */
-        fun spendLimit(spendLimit: Long?) = apply { body.spendLimit(spendLimit) }
+        fun spendLimit(spendLimit: Long) = apply { body.spendLimit(spendLimit) }
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -484,16 +615,7 @@ constructor(
          * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
          * declined transactions due to checks against the card limit.
          */
-        fun spendLimit(spendLimit: Long) = spendLimit(spendLimit as Long?)
-
-        /**
-         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
-         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
-         * declined transactions due to checks against the card limit.
-         */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun spendLimit(spendLimit: Optional<Long>) = spendLimit(spendLimit.orElse(null) as Long?)
+        fun spendLimit(spendLimit: JsonField<Long>) = apply { body.spendLimit(spendLimit) }
 
         /**
          * Spend limit duration values:
@@ -507,7 +629,7 @@ constructor(
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
          *   transaction is under the spend limit.
          */
-        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration?) = apply {
+        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
             body.spendLimitDuration(spendLimitDuration)
         }
 
@@ -523,8 +645,9 @@ constructor(
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
          *   transaction is under the spend limit.
          */
-        fun spendLimitDuration(spendLimitDuration: Optional<SpendLimitDuration>) =
-            spendLimitDuration(spendLimitDuration.orElse(null))
+        fun spendLimitDuration(spendLimitDuration: JsonField<SpendLimitDuration>) = apply {
+            body.spendLimitDuration(spendLimitDuration)
+        }
 
         /**
          * Card state values:
@@ -532,7 +655,7 @@ constructor(
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        fun state(state: State?) = apply { body.state(state) }
+        fun state(state: State) = apply { body.state(state) }
 
         /**
          * Card state values:
@@ -540,7 +663,26 @@ constructor(
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        fun state(state: Optional<State>) = state(state.orElse(null))
+        fun state(state: JsonField<State>) = apply { body.state(state) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -638,25 +780,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): CardUpdateParams =

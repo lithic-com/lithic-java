@@ -49,17 +49,17 @@ private constructor(
 
     fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
 
-    @JsonProperty("address1") @ExcludeMissing fun _address1() = address1
+    @JsonProperty("address1") @ExcludeMissing fun _address1(): JsonField<String> = address1
 
-    @JsonProperty("city") @ExcludeMissing fun _city() = city
+    @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
 
-    @JsonProperty("country") @ExcludeMissing fun _country() = country
+    @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
-    @JsonProperty("postal_code") @ExcludeMissing fun _postalCode() = postalCode
+    @JsonProperty("postal_code") @ExcludeMissing fun _postalCode(): JsonField<String> = postalCode
 
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
+    @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
 
-    @JsonProperty("address2") @ExcludeMissing fun _address2() = address2
+    @JsonProperty("address2") @ExcludeMissing fun _address2(): JsonField<String> = address2
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -88,11 +88,11 @@ private constructor(
 
     class Builder {
 
-        private var address1: JsonField<String> = JsonMissing.of()
-        private var city: JsonField<String> = JsonMissing.of()
-        private var country: JsonField<String> = JsonMissing.of()
-        private var postalCode: JsonField<String> = JsonMissing.of()
-        private var state: JsonField<String> = JsonMissing.of()
+        private var address1: JsonField<String>? = null
+        private var city: JsonField<String>? = null
+        private var country: JsonField<String>? = null
+        private var postalCode: JsonField<String>? = null
+        private var state: JsonField<String>? = null
         private var address2: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -152,11 +152,11 @@ private constructor(
 
         fun build(): ExternalBankAccountAddress =
             ExternalBankAccountAddress(
-                address1,
-                city,
-                country,
-                postalCode,
-                state,
+                checkNotNull(address1) { "`address1` is required but was not set" },
+                checkNotNull(city) { "`city` is required but was not set" },
+                checkNotNull(country) { "`country` is required but was not set" },
+                checkNotNull(postalCode) { "`postalCode` is required but was not set" },
+                checkNotNull(state) { "`state` is required but was not set" },
                 address2,
                 additionalProperties.toImmutable(),
             )

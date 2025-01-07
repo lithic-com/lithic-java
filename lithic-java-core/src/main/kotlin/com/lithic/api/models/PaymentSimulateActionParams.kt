@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -39,11 +40,20 @@ constructor(
     /** Return Reason Code */
     fun returnReasonCode(): Optional<String> = body.returnReasonCode()
 
+    /** Event Type */
+    fun _eventType(): JsonField<SupportedSimulationTypes> = body._eventType()
+
+    /** Decline reason */
+    fun _declineReason(): JsonField<SupportedSimulationDeclineReasons> = body._declineReason()
+
+    /** Return Reason Code */
+    fun _returnReasonCode(): JsonField<String> = body._returnReasonCode()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): PaymentSimulateActionBody = body
 
@@ -62,29 +72,59 @@ constructor(
     class PaymentSimulateActionBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("event_type") private val eventType: SupportedSimulationTypes,
+        @JsonProperty("event_type")
+        @ExcludeMissing
+        private val eventType: JsonField<SupportedSimulationTypes> = JsonMissing.of(),
         @JsonProperty("decline_reason")
-        private val declineReason: SupportedSimulationDeclineReasons?,
-        @JsonProperty("return_reason_code") private val returnReasonCode: String?,
+        @ExcludeMissing
+        private val declineReason: JsonField<SupportedSimulationDeclineReasons> = JsonMissing.of(),
+        @JsonProperty("return_reason_code")
+        @ExcludeMissing
+        private val returnReasonCode: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Event Type */
-        @JsonProperty("event_type") fun eventType(): SupportedSimulationTypes = eventType
+        fun eventType(): SupportedSimulationTypes = eventType.getRequired("event_type")
+
+        /** Decline reason */
+        fun declineReason(): Optional<SupportedSimulationDeclineReasons> =
+            Optional.ofNullable(declineReason.getNullable("decline_reason"))
+
+        /** Return Reason Code */
+        fun returnReasonCode(): Optional<String> =
+            Optional.ofNullable(returnReasonCode.getNullable("return_reason_code"))
+
+        /** Event Type */
+        @JsonProperty("event_type")
+        @ExcludeMissing
+        fun _eventType(): JsonField<SupportedSimulationTypes> = eventType
 
         /** Decline reason */
         @JsonProperty("decline_reason")
-        fun declineReason(): Optional<SupportedSimulationDeclineReasons> =
-            Optional.ofNullable(declineReason)
+        @ExcludeMissing
+        fun _declineReason(): JsonField<SupportedSimulationDeclineReasons> = declineReason
 
         /** Return Reason Code */
         @JsonProperty("return_reason_code")
-        fun returnReasonCode(): Optional<String> = Optional.ofNullable(returnReasonCode)
+        @ExcludeMissing
+        fun _returnReasonCode(): JsonField<String> = returnReasonCode
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): PaymentSimulateActionBody = apply {
+            if (!validated) {
+                eventType()
+                declineReason()
+                returnReasonCode()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -95,9 +135,10 @@ constructor(
 
         class Builder {
 
-            private var eventType: SupportedSimulationTypes? = null
-            private var declineReason: SupportedSimulationDeclineReasons? = null
-            private var returnReasonCode: String? = null
+            private var eventType: JsonField<SupportedSimulationTypes>? = null
+            private var declineReason: JsonField<SupportedSimulationDeclineReasons> =
+                JsonMissing.of()
+            private var returnReasonCode: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -109,27 +150,30 @@ constructor(
             }
 
             /** Event Type */
-            fun eventType(eventType: SupportedSimulationTypes) = apply {
+            fun eventType(eventType: SupportedSimulationTypes) = eventType(JsonField.of(eventType))
+
+            /** Event Type */
+            fun eventType(eventType: JsonField<SupportedSimulationTypes>) = apply {
                 this.eventType = eventType
             }
 
             /** Decline reason */
-            fun declineReason(declineReason: SupportedSimulationDeclineReasons?) = apply {
+            fun declineReason(declineReason: SupportedSimulationDeclineReasons) =
+                declineReason(JsonField.of(declineReason))
+
+            /** Decline reason */
+            fun declineReason(declineReason: JsonField<SupportedSimulationDeclineReasons>) = apply {
                 this.declineReason = declineReason
             }
 
-            /** Decline reason */
-            fun declineReason(declineReason: Optional<SupportedSimulationDeclineReasons>) =
-                declineReason(declineReason.orElse(null))
+            /** Return Reason Code */
+            fun returnReasonCode(returnReasonCode: String) =
+                returnReasonCode(JsonField.of(returnReasonCode))
 
             /** Return Reason Code */
-            fun returnReasonCode(returnReasonCode: String?) = apply {
+            fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
                 this.returnReasonCode = returnReasonCode
             }
-
-            /** Return Reason Code */
-            fun returnReasonCode(returnReasonCode: Optional<String>) =
-                returnReasonCode(returnReasonCode.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -205,23 +249,49 @@ constructor(
         /** Event Type */
         fun eventType(eventType: SupportedSimulationTypes) = apply { body.eventType(eventType) }
 
+        /** Event Type */
+        fun eventType(eventType: JsonField<SupportedSimulationTypes>) = apply {
+            body.eventType(eventType)
+        }
+
         /** Decline reason */
-        fun declineReason(declineReason: SupportedSimulationDeclineReasons?) = apply {
+        fun declineReason(declineReason: SupportedSimulationDeclineReasons) = apply {
             body.declineReason(declineReason)
         }
 
         /** Decline reason */
-        fun declineReason(declineReason: Optional<SupportedSimulationDeclineReasons>) =
-            declineReason(declineReason.orElse(null))
+        fun declineReason(declineReason: JsonField<SupportedSimulationDeclineReasons>) = apply {
+            body.declineReason(declineReason)
+        }
 
         /** Return Reason Code */
-        fun returnReasonCode(returnReasonCode: String?) = apply {
+        fun returnReasonCode(returnReasonCode: String) = apply {
             body.returnReasonCode(returnReasonCode)
         }
 
         /** Return Reason Code */
-        fun returnReasonCode(returnReasonCode: Optional<String>) =
-            returnReasonCode(returnReasonCode.orElse(null))
+        fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
+            body.returnReasonCode(returnReasonCode)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -319,25 +389,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): PaymentSimulateActionParams =

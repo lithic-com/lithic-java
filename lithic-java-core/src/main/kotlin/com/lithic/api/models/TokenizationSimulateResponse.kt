@@ -28,7 +28,7 @@ private constructor(
 
     fun data(): Optional<List<Tokenization>> = Optional.ofNullable(data.getNullable("data"))
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<Tokenization>> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -52,18 +52,33 @@ private constructor(
 
     class Builder {
 
-        private var data: JsonField<List<Tokenization>> = JsonMissing.of()
+        private var data: JsonField<MutableList<Tokenization>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(tokenizationSimulateResponse: TokenizationSimulateResponse) = apply {
-            data = tokenizationSimulateResponse.data
+            data = tokenizationSimulateResponse.data.map { it.toMutableList() }
             additionalProperties = tokenizationSimulateResponse.additionalProperties.toMutableMap()
         }
 
         fun data(data: List<Tokenization>) = data(JsonField.of(data))
 
-        fun data(data: JsonField<List<Tokenization>>) = apply { this.data = data }
+        fun data(data: JsonField<List<Tokenization>>) = apply {
+            this.data = data.map { it.toMutableList() }
+        }
+
+        fun addData(data: Tokenization) = apply {
+            this.data =
+                (this.data ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(data)
+                }
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -86,7 +101,7 @@ private constructor(
 
         fun build(): TokenizationSimulateResponse =
             TokenizationSimulateResponse(
-                data.map { it.toImmutable() },
+                (data ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toImmutable()
             )
     }

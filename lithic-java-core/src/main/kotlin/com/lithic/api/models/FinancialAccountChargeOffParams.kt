@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -32,11 +33,14 @@ constructor(
     /** Reason for the financial account being marked as Charged Off */
     fun reason(): ChargedOffReason = body.reason()
 
+    /** Reason for the financial account being marked as Charged Off */
+    fun _reason(): JsonField<ChargedOffReason> = body._reason()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): FinancialAccountChargeOffBody = body
 
@@ -55,17 +59,31 @@ constructor(
     class FinancialAccountChargeOffBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("reason") private val reason: ChargedOffReason,
+        @JsonProperty("reason")
+        @ExcludeMissing
+        private val reason: JsonField<ChargedOffReason> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Reason for the financial account being marked as Charged Off */
-        @JsonProperty("reason") fun reason(): ChargedOffReason = reason
+        fun reason(): ChargedOffReason = reason.getRequired("reason")
+
+        /** Reason for the financial account being marked as Charged Off */
+        @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<ChargedOffReason> = reason
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): FinancialAccountChargeOffBody = apply {
+            if (!validated) {
+                reason()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -76,7 +94,7 @@ constructor(
 
         class Builder {
 
-            private var reason: ChargedOffReason? = null
+            private var reason: JsonField<ChargedOffReason>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -88,7 +106,10 @@ constructor(
                 }
 
             /** Reason for the financial account being marked as Charged Off */
-            fun reason(reason: ChargedOffReason) = apply { this.reason = reason }
+            fun reason(reason: ChargedOffReason) = reason(JsonField.of(reason))
+
+            /** Reason for the financial account being marked as Charged Off */
+            fun reason(reason: JsonField<ChargedOffReason>) = apply { this.reason = reason }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -166,6 +187,28 @@ constructor(
 
         /** Reason for the financial account being marked as Charged Off */
         fun reason(reason: ChargedOffReason) = apply { body.reason(reason) }
+
+        /** Reason for the financial account being marked as Charged Off */
+        fun reason(reason: JsonField<ChargedOffReason>) = apply { body.reason(reason) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -263,25 +306,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): FinancialAccountChargeOffParams =

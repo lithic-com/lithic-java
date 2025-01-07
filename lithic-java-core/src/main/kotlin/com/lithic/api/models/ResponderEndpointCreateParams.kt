@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -33,11 +34,17 @@ constructor(
     /** The URL for the responder endpoint (must be http(s)). */
     fun url(): Optional<String> = body.url()
 
+    /** The type of the endpoint. */
+    fun _type(): JsonField<Type> = body._type()
+
+    /** The URL for the responder endpoint (must be http(s)). */
+    fun _url(): JsonField<String> = body._url()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): ResponderEndpointCreateBody = body
 
@@ -49,21 +56,37 @@ constructor(
     class ResponderEndpointCreateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("type") private val type: Type?,
-        @JsonProperty("url") private val url: String?,
+        @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
+        @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The type of the endpoint. */
-        @JsonProperty("type") fun type(): Optional<Type> = Optional.ofNullable(type)
+        fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
 
         /** The URL for the responder endpoint (must be http(s)). */
-        @JsonProperty("url") fun url(): Optional<String> = Optional.ofNullable(url)
+        fun url(): Optional<String> = Optional.ofNullable(url.getNullable("url"))
+
+        /** The type of the endpoint. */
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+        /** The URL for the responder endpoint (must be http(s)). */
+        @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): ResponderEndpointCreateBody = apply {
+            if (!validated) {
+                type()
+                url()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -74,8 +97,8 @@ constructor(
 
         class Builder {
 
-            private var type: Type? = null
-            private var url: String? = null
+            private var type: JsonField<Type> = JsonMissing.of()
+            private var url: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -87,16 +110,16 @@ constructor(
             }
 
             /** The type of the endpoint. */
-            fun type(type: Type?) = apply { this.type = type }
+            fun type(type: Type) = type(JsonField.of(type))
 
             /** The type of the endpoint. */
-            fun type(type: Optional<Type>) = type(type.orElse(null))
+            fun type(type: JsonField<Type>) = apply { this.type = type }
 
             /** The URL for the responder endpoint (must be http(s)). */
-            fun url(url: String?) = apply { this.url = url }
+            fun url(url: String) = url(JsonField.of(url))
 
             /** The URL for the responder endpoint (must be http(s)). */
-            fun url(url: Optional<String>) = url(url.orElse(null))
+            fun url(url: JsonField<String>) = apply { this.url = url }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -166,16 +189,35 @@ constructor(
         }
 
         /** The type of the endpoint. */
-        fun type(type: Type?) = apply { body.type(type) }
+        fun type(type: Type) = apply { body.type(type) }
 
         /** The type of the endpoint. */
-        fun type(type: Optional<Type>) = type(type.orElse(null))
+        fun type(type: JsonField<Type>) = apply { body.type(type) }
 
         /** The URL for the responder endpoint (must be http(s)). */
-        fun url(url: String?) = apply { body.url(url) }
+        fun url(url: String) = apply { body.url(url) }
 
         /** The URL for the responder endpoint (must be http(s)). */
-        fun url(url: Optional<String>) = url(url.orElse(null))
+        fun url(url: JsonField<String>) = apply { body.url(url) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -273,25 +315,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ResponderEndpointCreateParams =

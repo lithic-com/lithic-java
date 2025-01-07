@@ -36,10 +36,10 @@ private constructor(
     fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
     /** List of prime rates */
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<InterestRate>> = data
 
     /** Whether there are more prime rates */
-    @JsonProperty("has_more") @ExcludeMissing fun _hasMore() = hasMore
+    @JsonProperty("has_more") @ExcludeMissing fun _hasMore(): JsonField<Boolean> = hasMore
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -64,13 +64,13 @@ private constructor(
 
     class Builder {
 
-        private var data: JsonField<List<InterestRate>> = JsonMissing.of()
-        private var hasMore: JsonField<Boolean> = JsonMissing.of()
+        private var data: JsonField<MutableList<InterestRate>>? = null
+        private var hasMore: JsonField<Boolean>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(primeRateRetrieveResponse: PrimeRateRetrieveResponse) = apply {
-            data = primeRateRetrieveResponse.data
+            data = primeRateRetrieveResponse.data.map { it.toMutableList() }
             hasMore = primeRateRetrieveResponse.hasMore
             additionalProperties = primeRateRetrieveResponse.additionalProperties.toMutableMap()
         }
@@ -79,7 +79,23 @@ private constructor(
         fun data(data: List<InterestRate>) = data(JsonField.of(data))
 
         /** List of prime rates */
-        fun data(data: JsonField<List<InterestRate>>) = apply { this.data = data }
+        fun data(data: JsonField<List<InterestRate>>) = apply {
+            this.data = data.map { it.toMutableList() }
+        }
+
+        /** List of prime rates */
+        fun addData(data: InterestRate) = apply {
+            this.data =
+                (this.data ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(data)
+                }
+        }
 
         /** Whether there are more prime rates */
         fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
@@ -108,8 +124,9 @@ private constructor(
 
         fun build(): PrimeRateRetrieveResponse =
             PrimeRateRetrieveResponse(
-                data.map { it.toImmutable() },
-                hasMore,
+                checkNotNull(data) { "`data` is required but was not set" }
+                    .map { it.toImmutable() },
+                checkNotNull(hasMore) { "`hasMore` is required but was not set" },
                 additionalProperties.toImmutable(),
             )
     }
@@ -135,10 +152,12 @@ private constructor(
         fun rate(): String = rate.getRequired("rate")
 
         /** Date the rate goes into effect */
-        @JsonProperty("effective_date") @ExcludeMissing fun _effectiveDate() = effectiveDate
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
 
         /** The rate in decimal format */
-        @JsonProperty("rate") @ExcludeMissing fun _rate() = rate
+        @JsonProperty("rate") @ExcludeMissing fun _rate(): JsonField<String> = rate
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -163,8 +182,8 @@ private constructor(
 
         class Builder {
 
-            private var effectiveDate: JsonField<LocalDate> = JsonMissing.of()
-            private var rate: JsonField<String> = JsonMissing.of()
+            private var effectiveDate: JsonField<LocalDate>? = null
+            private var rate: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -209,8 +228,8 @@ private constructor(
 
             fun build(): InterestRate =
                 InterestRate(
-                    effectiveDate,
-                    rate,
+                    checkNotNull(effectiveDate) { "`effectiveDate` is required but was not set" },
+                    checkNotNull(rate) { "`rate` is required but was not set" },
                     additionalProperties.toImmutable(),
                 )
         }

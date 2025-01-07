@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -35,11 +37,14 @@ constructor(
     /** Filename of the evidence. */
     fun filename(): Optional<String> = body.filename()
 
+    /** Filename of the evidence. */
+    fun _filename(): JsonField<String> = body._filename()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): DisputeInitiateEvidenceUploadBody = body
 
@@ -58,17 +63,31 @@ constructor(
     class DisputeInitiateEvidenceUploadBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("filename") private val filename: String?,
+        @JsonProperty("filename")
+        @ExcludeMissing
+        private val filename: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Filename of the evidence. */
-        @JsonProperty("filename") fun filename(): Optional<String> = Optional.ofNullable(filename)
+        fun filename(): Optional<String> = Optional.ofNullable(filename.getNullable("filename"))
+
+        /** Filename of the evidence. */
+        @JsonProperty("filename") @ExcludeMissing fun _filename(): JsonField<String> = filename
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): DisputeInitiateEvidenceUploadBody = apply {
+            if (!validated) {
+                filename()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -79,7 +98,7 @@ constructor(
 
         class Builder {
 
-            private var filename: String? = null
+            private var filename: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -92,10 +111,10 @@ constructor(
             }
 
             /** Filename of the evidence. */
-            fun filename(filename: String?) = apply { this.filename = filename }
+            fun filename(filename: String) = filename(JsonField.of(filename))
 
             /** Filename of the evidence. */
-            fun filename(filename: Optional<String>) = filename(filename.orElse(null))
+            fun filename(filename: JsonField<String>) = apply { this.filename = filename }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -168,10 +187,29 @@ constructor(
         fun disputeToken(disputeToken: String) = apply { this.disputeToken = disputeToken }
 
         /** Filename of the evidence. */
-        fun filename(filename: String?) = apply { body.filename(filename) }
+        fun filename(filename: String) = apply { body.filename(filename) }
 
         /** Filename of the evidence. */
-        fun filename(filename: Optional<String>) = filename(filename.orElse(null))
+        fun filename(filename: JsonField<String>) = apply { body.filename(filename) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -269,25 +307,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): DisputeInitiateEvidenceUploadParams =

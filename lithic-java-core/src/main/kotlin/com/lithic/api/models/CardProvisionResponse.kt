@@ -31,7 +31,7 @@ private constructor(
 
     @JsonProperty("provisioning_payload")
     @ExcludeMissing
-    fun _provisioningPayload() = provisioningPayload
+    fun _provisioningPayload(): JsonField<String> = provisioningPayload
 
     @JsonAnyGetter
     @ExcludeMissing
