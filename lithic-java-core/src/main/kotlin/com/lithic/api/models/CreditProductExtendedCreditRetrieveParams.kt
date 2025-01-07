@@ -7,6 +7,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/** Get the extended credit for a given credit product under a program */
 class CreditProductExtendedCreditRetrieveParams
 constructor(
     private val creditProductToken: String,

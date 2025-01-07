@@ -10,6 +10,15 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * This endpoint is used to ask the card network to deactivate a tokenization. A successful response
+ * indicates that the request was successfully delivered to the card network. When the card network
+ * deactivates the tokenization, the state will be updated and a tokenization.updated event will be
+ * sent. Authorizations attempted with a deactivated tokenization will be blocked and will not be
+ * forwarded to Lithic from the network. Deactivating the token is a permanent operation. If the
+ * target is a digital wallet tokenization, it will be removed from its device. Reach out at
+ * [lithic.com/contact](https://lithic.com/contact) for more information.
+ */
 class TokenizationDeactivateParams
 constructor(
     private val tokenizationToken: String,

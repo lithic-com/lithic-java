@@ -19,6 +19,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/** Updates an authorization rule's properties */
 class AuthRuleV2UpdateParams
 constructor(
     private val authRuleToken: String,

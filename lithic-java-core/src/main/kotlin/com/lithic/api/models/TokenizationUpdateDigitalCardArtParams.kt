@@ -16,6 +16,15 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * This endpoint is used update the digital card art for a digital wallet tokenization. A successful
+ * response indicates that the card network has updated the tokenization's art, and the
+ * tokenization's `digital_cart_art_token` field was updated. The endpoint may not be used on
+ * tokenizations with status `DEACTIVATED`. Note that this updates the art for one specific
+ * tokenization, not all tokenizations for a card. New tokenizations for a card will be created with
+ * the art referenced in the card object's `digital_card_art_token` field. Reach out at
+ * [lithic.com/contact](https://lithic.com/contact) for more information.
+ */
 class TokenizationUpdateDigitalCardArtParams
 constructor(
     private val tokenizationToken: String,

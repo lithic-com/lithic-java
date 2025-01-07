@@ -12,6 +12,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/** Retrieve information on your financial accounts including routing and account number. */
 class FinancialAccountListParams
 constructor(
     private val accountToken: String?,

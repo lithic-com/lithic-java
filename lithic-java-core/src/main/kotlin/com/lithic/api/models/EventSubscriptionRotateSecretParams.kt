@@ -10,6 +10,10 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Rotate the secret for an event subscription. The previous secret will be valid for the next 24
+ * hours.
+ */
 class EventSubscriptionRotateSecretParams
 constructor(
     private val eventSubscriptionToken: String,

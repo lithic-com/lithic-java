@@ -7,6 +7,10 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/**
+ * Get a specific card transaction. All amounts are in the smallest unit of their respective
+ * currency (e.g., cents for USD).
+ */
 class TransactionRetrieveParams
 constructor(
     private val transactionToken: String,

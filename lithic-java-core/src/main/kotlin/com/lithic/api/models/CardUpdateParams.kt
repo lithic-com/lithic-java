@@ -19,6 +19,11 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Update the specified properties of the card. Unsupplied properties will remain unchanged.
+ *
+ * _Note: setting a card to a `CLOSED` state is a final action that cannot be undone._
+ */
 class CardUpdateParams
 constructor(
     private val cardToken: String,

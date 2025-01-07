@@ -7,6 +7,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/** Get a specific statement for a given financial account. */
 class FinancialAccountStatementRetrieveParams
 constructor(
     private val financialAccountToken: String,

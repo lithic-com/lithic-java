@@ -15,6 +15,12 @@ import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
+/**
+ * Get card configuration such as spend limit and state. Customers must be PCI compliant to use this
+ * endpoint. Please contact [support@lithic.com](mailto:support@lithic.com) for questions. _Note:
+ * this is a `POST` endpoint because it is more secure to send sensitive data in a request body than
+ * in a URL._
+ */
 class CardSearchByPanParams
 constructor(
     private val body: CardSearchByPanBody,

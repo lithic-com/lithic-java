@@ -7,6 +7,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/** Get an event subscription. */
 class EventSubscriptionRetrieveParams
 constructor(
     private val eventSubscriptionToken: String,

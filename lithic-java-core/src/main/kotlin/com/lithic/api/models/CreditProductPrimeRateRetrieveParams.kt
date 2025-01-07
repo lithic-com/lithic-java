@@ -9,6 +9,7 @@ import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 
+/** Get Credit Product Prime Rates */
 class CreditProductPrimeRateRetrieveParams
 constructor(
     private val creditProductToken: String,

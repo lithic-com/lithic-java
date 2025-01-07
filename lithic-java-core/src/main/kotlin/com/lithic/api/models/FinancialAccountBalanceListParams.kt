@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/** Get the balances for a given financial account. */
 class FinancialAccountBalanceListParams
 constructor(
     private val financialAccountToken: String,

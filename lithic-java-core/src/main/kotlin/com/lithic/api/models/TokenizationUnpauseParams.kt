@@ -10,6 +10,14 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * This endpoint is used to ask the card network to unpause a tokenization. A successful response
+ * indicates that the request was successfully delivered to the card network. When the card network
+ * unpauses the tokenization, the state will be updated and a tokenization.updated event will be
+ * sent. The endpoint may only be used on tokenizations with status `PAUSED`. This will put the
+ * tokenization in an active state, and transactions may resume. Reach out at
+ * [lithic.com/contact](https://lithic.com/contact) for more information.
+ */
 class TokenizationUnpauseParams
 constructor(
     private val tokenizationToken: String,

@@ -20,6 +20,7 @@ import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 
+/** Settle external payment */
 class ExternalPaymentSettleParams
 constructor(
     private val externalPaymentToken: String,

@@ -16,6 +16,12 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Use this endpoint to upload evidences for the dispute. It will return a URL to upload your
+ * documents to. The URL will expire in 30 minutes.
+ *
+ * Uploaded documents must either be a `jpg`, `png` or `pdf` file, and each must be less than 5 GiB.
+ */
 class DisputeInitiateEvidenceUploadParams
 constructor(
     private val disputeToken: String,

@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/** List account configurations. */
 class AccountListParams
 constructor(
     private val begin: OffsetDateTime?,

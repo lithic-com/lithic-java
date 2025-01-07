@@ -9,6 +9,7 @@ import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 
+/** List details. */
 class ReportSettlementListDetailsParams
 constructor(
     private val reportDate: LocalDate,

@@ -7,6 +7,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/** Get account configuration such as spend limits. */
 class AccountRetrieveParams
 constructor(
     private val accountToken: String,

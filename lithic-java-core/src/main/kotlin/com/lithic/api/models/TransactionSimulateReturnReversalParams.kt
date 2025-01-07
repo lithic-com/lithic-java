@@ -15,6 +15,10 @@ import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
+/**
+ * Reverses a return, i.e. a credit transaction with a `SETTLED` status. Returns can be financial
+ * credit authorizations, or credit authorizations that have cleared.
+ */
 class TransactionSimulateReturnReversalParams
 constructor(
     private val body: TransactionSimulateReturnReversalBody,

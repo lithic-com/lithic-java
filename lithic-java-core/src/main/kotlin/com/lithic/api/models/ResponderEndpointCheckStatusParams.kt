@@ -11,6 +11,7 @@ import com.lithic.api.core.http.QueryParams
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
+/** Check the status of a responder endpoint */
 class ResponderEndpointCheckStatusParams
 constructor(
     private val type: Type,

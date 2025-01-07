@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/** List the financial transactions for a given financial account. */
 class FinancialTransactionListParams
 constructor(
     private val financialAccountToken: String,

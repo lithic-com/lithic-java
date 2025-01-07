@@ -19,6 +19,13 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Creates a new card with the same card token and PAN, but updated expiry and CVC2 code. The
+ * original card will keep working for card-present transactions until the new card is activated.
+ * For card-not-present transactions, the original card details (expiry, CVC2) will also keep
+ * working until the new card is activated. Applies to card types `PHYSICAL` and `VIRTUAL`. A card
+ * can be replaced or renewed a total of 8 times.
+ */
 class CardRenewParams
 constructor(
     private val cardToken: String,
