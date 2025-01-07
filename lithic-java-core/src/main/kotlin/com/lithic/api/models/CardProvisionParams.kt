@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -71,11 +72,45 @@ constructor(
      */
     fun nonceSignature(): Optional<String> = body.nonceSignature()
 
+    /**
+     * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
+     * the response. Apple's public leaf certificate. Base64 encoded in PEM format with headers
+     * `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's wallet.
+     */
+    fun _certificate(): JsonField<String> = body._certificate()
+
+    /**
+     * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on the
+     * Visa network. Stable device identification set by the wallet provider.
+     */
+    fun _clientDeviceId(): JsonField<String> = body._clientDeviceId()
+
+    /**
+     * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on the
+     * Visa network. Consumer ID that identifies the wallet account holder entity.
+     */
+    fun _clientWalletAccountId(): JsonField<String> = body._clientWalletAccountId()
+
+    /** Name of digital wallet provider. */
+    fun _digitalWallet(): JsonField<DigitalWallet> = body._digitalWallet()
+
+    /**
+     * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
+     * the response. Base64 cryptographic nonce provided by the device's wallet.
+     */
+    fun _nonce(): JsonField<String> = body._nonce()
+
+    /**
+     * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData` in
+     * the response. Base64 cryptographic nonce provided by the device's wallet.
+     */
+    fun _nonceSignature(): JsonField<String> = body._nonceSignature()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): CardProvisionBody = body
 
@@ -94,12 +129,24 @@ constructor(
     class CardProvisionBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("certificate") private val certificate: String?,
-        @JsonProperty("client_device_id") private val clientDeviceId: String?,
-        @JsonProperty("client_wallet_account_id") private val clientWalletAccountId: String?,
-        @JsonProperty("digital_wallet") private val digitalWallet: DigitalWallet?,
-        @JsonProperty("nonce") private val nonce: String?,
-        @JsonProperty("nonce_signature") private val nonceSignature: String?,
+        @JsonProperty("certificate")
+        @ExcludeMissing
+        private val certificate: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("client_device_id")
+        @ExcludeMissing
+        private val clientDeviceId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("client_wallet_account_id")
+        @ExcludeMissing
+        private val clientWalletAccountId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("digital_wallet")
+        @ExcludeMissing
+        private val digitalWallet: JsonField<DigitalWallet> = JsonMissing.of(),
+        @JsonProperty("nonce")
+        @ExcludeMissing
+        private val nonce: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("nonce_signature")
+        @ExcludeMissing
+        private val nonceSignature: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -110,43 +157,102 @@ constructor(
          * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
          * wallet.
          */
+        fun certificate(): Optional<String> =
+            Optional.ofNullable(certificate.getNullable("certificate"))
+
+        /**
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
+         * the Visa network. Stable device identification set by the wallet provider.
+         */
+        fun clientDeviceId(): Optional<String> =
+            Optional.ofNullable(clientDeviceId.getNullable("client_device_id"))
+
+        /**
+         * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
+         * the Visa network. Consumer ID that identifies the wallet account holder entity.
+         */
+        fun clientWalletAccountId(): Optional<String> =
+            Optional.ofNullable(clientWalletAccountId.getNullable("client_wallet_account_id"))
+
+        /** Name of digital wallet provider. */
+        fun digitalWallet(): Optional<DigitalWallet> =
+            Optional.ofNullable(digitalWallet.getNullable("digital_wallet"))
+
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         */
+        fun nonce(): Optional<String> = Optional.ofNullable(nonce.getNullable("nonce"))
+
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Base64 cryptographic nonce provided by the device's wallet.
+         */
+        fun nonceSignature(): Optional<String> =
+            Optional.ofNullable(nonceSignature.getNullable("nonce_signature"))
+
+        /**
+         * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
+         * in the response. Apple's public leaf certificate. Base64 encoded in PEM format with
+         * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
+         * wallet.
+         */
         @JsonProperty("certificate")
-        fun certificate(): Optional<String> = Optional.ofNullable(certificate)
+        @ExcludeMissing
+        fun _certificate(): JsonField<String> = certificate
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Stable device identification set by the wallet provider.
          */
         @JsonProperty("client_device_id")
-        fun clientDeviceId(): Optional<String> = Optional.ofNullable(clientDeviceId)
+        @ExcludeMissing
+        fun _clientDeviceId(): JsonField<String> = clientDeviceId
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Consumer ID that identifies the wallet account holder entity.
          */
         @JsonProperty("client_wallet_account_id")
-        fun clientWalletAccountId(): Optional<String> = Optional.ofNullable(clientWalletAccountId)
+        @ExcludeMissing
+        fun _clientWalletAccountId(): JsonField<String> = clientWalletAccountId
 
         /** Name of digital wallet provider. */
         @JsonProperty("digital_wallet")
-        fun digitalWallet(): Optional<DigitalWallet> = Optional.ofNullable(digitalWallet)
+        @ExcludeMissing
+        fun _digitalWallet(): JsonField<DigitalWallet> = digitalWallet
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        @JsonProperty("nonce") fun nonce(): Optional<String> = Optional.ofNullable(nonce)
+        @JsonProperty("nonce") @ExcludeMissing fun _nonce(): JsonField<String> = nonce
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
         @JsonProperty("nonce_signature")
-        fun nonceSignature(): Optional<String> = Optional.ofNullable(nonceSignature)
+        @ExcludeMissing
+        fun _nonceSignature(): JsonField<String> = nonceSignature
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): CardProvisionBody = apply {
+            if (!validated) {
+                certificate()
+                clientDeviceId()
+                clientWalletAccountId()
+                digitalWallet()
+                nonce()
+                nonceSignature()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -157,12 +263,12 @@ constructor(
 
         class Builder {
 
-            private var certificate: String? = null
-            private var clientDeviceId: String? = null
-            private var clientWalletAccountId: String? = null
-            private var digitalWallet: DigitalWallet? = null
-            private var nonce: String? = null
-            private var nonceSignature: String? = null
+            private var certificate: JsonField<String> = JsonMissing.of()
+            private var clientDeviceId: JsonField<String> = JsonMissing.of()
+            private var clientWalletAccountId: JsonField<String> = JsonMissing.of()
+            private var digitalWallet: JsonField<DigitalWallet> = JsonMissing.of()
+            private var nonce: JsonField<String> = JsonMissing.of()
+            private var nonceSignature: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -182,7 +288,7 @@ constructor(
              * PEM format with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted.
              * Provided by the device's wallet.
              */
-            fun certificate(certificate: String?) = apply { this.certificate = certificate }
+            fun certificate(certificate: String) = certificate(JsonField.of(certificate))
 
             /**
              * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
@@ -190,77 +296,79 @@ constructor(
              * PEM format with headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted.
              * Provided by the device's wallet.
              */
-            fun certificate(certificate: Optional<String>) = certificate(certificate.orElse(null))
+            fun certificate(certificate: JsonField<String>) = apply {
+                this.certificate = certificate
+            }
 
             /**
              * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
              * on the Visa network. Stable device identification set by the wallet provider.
              */
-            fun clientDeviceId(clientDeviceId: String?) = apply {
+            fun clientDeviceId(clientDeviceId: String) =
+                clientDeviceId(JsonField.of(clientDeviceId))
+
+            /**
+             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
+             * on the Visa network. Stable device identification set by the wallet provider.
+             */
+            fun clientDeviceId(clientDeviceId: JsonField<String>) = apply {
                 this.clientDeviceId = clientDeviceId
             }
 
             /**
              * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
-             * on the Visa network. Stable device identification set by the wallet provider.
+             * on the Visa network. Consumer ID that identifies the wallet account holder entity.
              */
-            fun clientDeviceId(clientDeviceId: Optional<String>) =
-                clientDeviceId(clientDeviceId.orElse(null))
+            fun clientWalletAccountId(clientWalletAccountId: String) =
+                clientWalletAccountId(JsonField.of(clientWalletAccountId))
 
             /**
              * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
              * on the Visa network. Consumer ID that identifies the wallet account holder entity.
              */
-            fun clientWalletAccountId(clientWalletAccountId: String?) = apply {
+            fun clientWalletAccountId(clientWalletAccountId: JsonField<String>) = apply {
                 this.clientWalletAccountId = clientWalletAccountId
             }
 
-            /**
-             * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is
-             * on the Visa network. Consumer ID that identifies the wallet account holder entity.
-             */
-            fun clientWalletAccountId(clientWalletAccountId: Optional<String>) =
-                clientWalletAccountId(clientWalletAccountId.orElse(null))
+            /** Name of digital wallet provider. */
+            fun digitalWallet(digitalWallet: DigitalWallet) =
+                digitalWallet(JsonField.of(digitalWallet))
 
             /** Name of digital wallet provider. */
-            fun digitalWallet(digitalWallet: DigitalWallet?) = apply {
+            fun digitalWallet(digitalWallet: JsonField<DigitalWallet>) = apply {
                 this.digitalWallet = digitalWallet
             }
 
-            /** Name of digital wallet provider. */
-            fun digitalWallet(digitalWallet: Optional<DigitalWallet>) =
-                digitalWallet(digitalWallet.orElse(null))
+            /**
+             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
+             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
+             * wallet.
+             */
+            fun nonce(nonce: String) = nonce(JsonField.of(nonce))
 
             /**
              * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
              * `activationData` in the response. Base64 cryptographic nonce provided by the device's
              * wallet.
              */
-            fun nonce(nonce: String?) = apply { this.nonce = nonce }
+            fun nonce(nonce: JsonField<String>) = apply { this.nonce = nonce }
 
             /**
              * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
              * `activationData` in the response. Base64 cryptographic nonce provided by the device's
              * wallet.
              */
-            fun nonce(nonce: Optional<String>) = nonce(nonce.orElse(null))
+            fun nonceSignature(nonceSignature: String) =
+                nonceSignature(JsonField.of(nonceSignature))
 
             /**
              * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
              * `activationData` in the response. Base64 cryptographic nonce provided by the device's
              * wallet.
              */
-            fun nonceSignature(nonceSignature: String?) = apply {
+            fun nonceSignature(nonceSignature: JsonField<String>) = apply {
                 this.nonceSignature = nonceSignature
             }
-
-            /**
-             * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only
-             * `activationData` in the response. Base64 cryptographic nonce provided by the device's
-             * wallet.
-             */
-            fun nonceSignature(nonceSignature: Optional<String>) =
-                nonceSignature(nonceSignature.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -342,7 +450,7 @@ constructor(
          * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
          * wallet.
          */
-        fun certificate(certificate: String?) = apply { body.certificate(certificate) }
+        fun certificate(certificate: String) = apply { body.certificate(certificate) }
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
@@ -350,26 +458,27 @@ constructor(
          * headers `(-----BEGIN CERTIFICATE-----)` and trailers omitted. Provided by the device's
          * wallet.
          */
-        fun certificate(certificate: Optional<String>) = certificate(certificate.orElse(null))
+        fun certificate(certificate: JsonField<String>) = apply { body.certificate(certificate) }
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Stable device identification set by the wallet provider.
          */
-        fun clientDeviceId(clientDeviceId: String?) = apply { body.clientDeviceId(clientDeviceId) }
+        fun clientDeviceId(clientDeviceId: String) = apply { body.clientDeviceId(clientDeviceId) }
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Stable device identification set by the wallet provider.
          */
-        fun clientDeviceId(clientDeviceId: Optional<String>) =
-            clientDeviceId(clientDeviceId.orElse(null))
+        fun clientDeviceId(clientDeviceId: JsonField<String>) = apply {
+            body.clientDeviceId(clientDeviceId)
+        }
 
         /**
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Consumer ID that identifies the wallet account holder entity.
          */
-        fun clientWalletAccountId(clientWalletAccountId: String?) = apply {
+        fun clientWalletAccountId(clientWalletAccountId: String) = apply {
             body.clientWalletAccountId(clientWalletAccountId)
         }
 
@@ -377,42 +486,64 @@ constructor(
          * Only applicable if `digital_wallet` is `GOOGLE_PAY` or `SAMSUNG_PAY` and the card is on
          * the Visa network. Consumer ID that identifies the wallet account holder entity.
          */
-        fun clientWalletAccountId(clientWalletAccountId: Optional<String>) =
-            clientWalletAccountId(clientWalletAccountId.orElse(null))
+        fun clientWalletAccountId(clientWalletAccountId: JsonField<String>) = apply {
+            body.clientWalletAccountId(clientWalletAccountId)
+        }
 
         /** Name of digital wallet provider. */
-        fun digitalWallet(digitalWallet: DigitalWallet?) = apply {
+        fun digitalWallet(digitalWallet: DigitalWallet) = apply {
             body.digitalWallet(digitalWallet)
         }
 
         /** Name of digital wallet provider. */
-        fun digitalWallet(digitalWallet: Optional<DigitalWallet>) =
-            digitalWallet(digitalWallet.orElse(null))
+        fun digitalWallet(digitalWallet: JsonField<DigitalWallet>) = apply {
+            body.digitalWallet(digitalWallet)
+        }
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        fun nonce(nonce: String?) = apply { body.nonce(nonce) }
+        fun nonce(nonce: String) = apply { body.nonce(nonce) }
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        fun nonce(nonce: Optional<String>) = nonce(nonce.orElse(null))
+        fun nonce(nonce: JsonField<String>) = apply { body.nonce(nonce) }
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        fun nonceSignature(nonceSignature: String?) = apply { body.nonceSignature(nonceSignature) }
+        fun nonceSignature(nonceSignature: String) = apply { body.nonceSignature(nonceSignature) }
 
         /**
          * Only applicable if `digital_wallet` is `APPLE_PAY`. Omit to receive only `activationData`
          * in the response. Base64 cryptographic nonce provided by the device's wallet.
          */
-        fun nonceSignature(nonceSignature: Optional<String>) =
-            nonceSignature(nonceSignature.orElse(null))
+        fun nonceSignature(nonceSignature: JsonField<String>) = apply {
+            body.nonceSignature(nonceSignature)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -510,25 +641,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): CardProvisionParams =

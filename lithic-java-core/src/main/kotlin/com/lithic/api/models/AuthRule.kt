@@ -93,41 +93,55 @@ private constructor(
         Optional.ofNullable(programLevel.getNullable("program_level"))
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Indicates whether the Auth Rule is ACTIVE or INACTIVE */
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
+    @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
     /**
      * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note that
      * only this field or `card_tokens` can be provided for a given Auth Rule.
      */
-    @JsonProperty("account_tokens") @ExcludeMissing fun _accountTokens() = accountTokens
+    @JsonProperty("account_tokens")
+    @ExcludeMissing
+    fun _accountTokens(): JsonField<List<String>> = accountTokens
 
     /**
      * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a list of
      * countries in which all transactions are blocked; "allowing" those countries in an Auth Rule
      * does not override the Lithic-wide restrictions.
      */
-    @JsonProperty("allowed_countries") @ExcludeMissing fun _allowedCountries() = allowedCountries
+    @JsonProperty("allowed_countries")
+    @ExcludeMissing
+    fun _allowedCountries(): JsonField<List<String>> = allowedCountries
 
     /** Merchant category codes for which the Auth Rule permits transactions. */
-    @JsonProperty("allowed_mcc") @ExcludeMissing fun _allowedMcc() = allowedMcc
+    @JsonProperty("allowed_mcc")
+    @ExcludeMissing
+    fun _allowedMcc(): JsonField<List<String>> = allowedMcc
 
     /** Countries in which the Auth Rule automatically declines transactions. */
-    @JsonProperty("blocked_countries") @ExcludeMissing fun _blockedCountries() = blockedCountries
+    @JsonProperty("blocked_countries")
+    @ExcludeMissing
+    fun _blockedCountries(): JsonField<List<String>> = blockedCountries
 
     /** Merchant category codes for which the Auth Rule automatically declines transactions. */
-    @JsonProperty("blocked_mcc") @ExcludeMissing fun _blockedMcc() = blockedMcc
+    @JsonProperty("blocked_mcc")
+    @ExcludeMissing
+    fun _blockedMcc(): JsonField<List<String>> = blockedMcc
 
     /**
      * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that only
      * this field or `account_tokens` can be provided for a given Auth Rule.
      */
-    @JsonProperty("card_tokens") @ExcludeMissing fun _cardTokens() = cardTokens
+    @JsonProperty("card_tokens")
+    @ExcludeMissing
+    fun _cardTokens(): JsonField<List<String>> = cardTokens
 
     /** Boolean indicating whether the Auth Rule is applied at the program level. */
-    @JsonProperty("program_level") @ExcludeMissing fun _programLevel() = programLevel
+    @JsonProperty("program_level")
+    @ExcludeMissing
+    fun _programLevel(): JsonField<Boolean> = programLevel
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -159,14 +173,14 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var state: JsonField<State> = JsonMissing.of()
-        private var accountTokens: JsonField<List<String>> = JsonMissing.of()
-        private var allowedCountries: JsonField<List<String>> = JsonMissing.of()
-        private var allowedMcc: JsonField<List<String>> = JsonMissing.of()
-        private var blockedCountries: JsonField<List<String>> = JsonMissing.of()
-        private var blockedMcc: JsonField<List<String>> = JsonMissing.of()
-        private var cardTokens: JsonField<List<String>> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var state: JsonField<State>? = null
+        private var accountTokens: JsonField<MutableList<String>>? = null
+        private var allowedCountries: JsonField<MutableList<String>>? = null
+        private var allowedMcc: JsonField<MutableList<String>>? = null
+        private var blockedCountries: JsonField<MutableList<String>>? = null
+        private var blockedMcc: JsonField<MutableList<String>>? = null
+        private var cardTokens: JsonField<MutableList<String>>? = null
         private var programLevel: JsonField<Boolean> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -174,12 +188,12 @@ private constructor(
         internal fun from(authRule: AuthRule) = apply {
             token = authRule.token
             state = authRule.state
-            accountTokens = authRule.accountTokens
-            allowedCountries = authRule.allowedCountries
-            allowedMcc = authRule.allowedMcc
-            blockedCountries = authRule.blockedCountries
-            blockedMcc = authRule.blockedMcc
-            cardTokens = authRule.cardTokens
+            accountTokens = authRule.accountTokens.map { it.toMutableList() }
+            allowedCountries = authRule.allowedCountries.map { it.toMutableList() }
+            allowedMcc = authRule.allowedMcc.map { it.toMutableList() }
+            blockedCountries = authRule.blockedCountries.map { it.toMutableList() }
+            blockedMcc = authRule.blockedMcc.map { it.toMutableList() }
+            cardTokens = authRule.cardTokens.map { it.toMutableList() }
             programLevel = authRule.programLevel
             additionalProperties = authRule.additionalProperties.toMutableMap()
         }
@@ -207,7 +221,24 @@ private constructor(
          * that only this field or `card_tokens` can be provided for a given Auth Rule.
          */
         fun accountTokens(accountTokens: JsonField<List<String>>) = apply {
-            this.accountTokens = accountTokens
+            this.accountTokens = accountTokens.map { it.toMutableList() }
+        }
+
+        /**
+         * Array of account_token(s) identifying the accounts that the Auth Rule applies to. Note
+         * that only this field or `card_tokens` can be provided for a given Auth Rule.
+         */
+        fun addAccountToken(accountToken: String) = apply {
+            accountTokens =
+                (accountTokens ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(accountToken)
+                }
         }
 
         /**
@@ -224,14 +255,48 @@ private constructor(
          * Rule does not override the Lithic-wide restrictions.
          */
         fun allowedCountries(allowedCountries: JsonField<List<String>>) = apply {
-            this.allowedCountries = allowedCountries
+            this.allowedCountries = allowedCountries.map { it.toMutableList() }
+        }
+
+        /**
+         * Countries in which the Auth Rule permits transactions. Note that Lithic maintains a list
+         * of countries in which all transactions are blocked; "allowing" those countries in an Auth
+         * Rule does not override the Lithic-wide restrictions.
+         */
+        fun addAllowedCountry(allowedCountry: String) = apply {
+            allowedCountries =
+                (allowedCountries ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(allowedCountry)
+                }
         }
 
         /** Merchant category codes for which the Auth Rule permits transactions. */
         fun allowedMcc(allowedMcc: List<String>) = allowedMcc(JsonField.of(allowedMcc))
 
         /** Merchant category codes for which the Auth Rule permits transactions. */
-        fun allowedMcc(allowedMcc: JsonField<List<String>>) = apply { this.allowedMcc = allowedMcc }
+        fun allowedMcc(allowedMcc: JsonField<List<String>>) = apply {
+            this.allowedMcc = allowedMcc.map { it.toMutableList() }
+        }
+
+        /** Merchant category codes for which the Auth Rule permits transactions. */
+        fun addAllowedMcc(allowedMcc: String) = apply {
+            this.allowedMcc =
+                (this.allowedMcc ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(allowedMcc)
+                }
+        }
 
         /** Countries in which the Auth Rule automatically declines transactions. */
         fun blockedCountries(blockedCountries: List<String>) =
@@ -239,14 +304,44 @@ private constructor(
 
         /** Countries in which the Auth Rule automatically declines transactions. */
         fun blockedCountries(blockedCountries: JsonField<List<String>>) = apply {
-            this.blockedCountries = blockedCountries
+            this.blockedCountries = blockedCountries.map { it.toMutableList() }
+        }
+
+        /** Countries in which the Auth Rule automatically declines transactions. */
+        fun addBlockedCountry(blockedCountry: String) = apply {
+            blockedCountries =
+                (blockedCountries ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(blockedCountry)
+                }
         }
 
         /** Merchant category codes for which the Auth Rule automatically declines transactions. */
         fun blockedMcc(blockedMcc: List<String>) = blockedMcc(JsonField.of(blockedMcc))
 
         /** Merchant category codes for which the Auth Rule automatically declines transactions. */
-        fun blockedMcc(blockedMcc: JsonField<List<String>>) = apply { this.blockedMcc = blockedMcc }
+        fun blockedMcc(blockedMcc: JsonField<List<String>>) = apply {
+            this.blockedMcc = blockedMcc.map { it.toMutableList() }
+        }
+
+        /** Merchant category codes for which the Auth Rule automatically declines transactions. */
+        fun addBlockedMcc(blockedMcc: String) = apply {
+            this.blockedMcc =
+                (this.blockedMcc ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(blockedMcc)
+                }
+        }
 
         /**
          * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
@@ -258,7 +353,26 @@ private constructor(
          * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
          * only this field or `account_tokens` can be provided for a given Auth Rule.
          */
-        fun cardTokens(cardTokens: JsonField<List<String>>) = apply { this.cardTokens = cardTokens }
+        fun cardTokens(cardTokens: JsonField<List<String>>) = apply {
+            this.cardTokens = cardTokens.map { it.toMutableList() }
+        }
+
+        /**
+         * Array of card_token(s) identifying the cards that the Auth Rule applies to. Note that
+         * only this field or `account_tokens` can be provided for a given Auth Rule.
+         */
+        fun addCardToken(cardToken: String) = apply {
+            cardTokens =
+                (cardTokens ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(cardToken)
+                }
+        }
 
         /** Boolean indicating whether the Auth Rule is applied at the program level. */
         fun programLevel(programLevel: Boolean) = programLevel(JsonField.of(programLevel))
@@ -289,14 +403,14 @@ private constructor(
 
         fun build(): AuthRule =
             AuthRule(
-                token,
-                state,
-                accountTokens.map { it.toImmutable() },
-                allowedCountries.map { it.toImmutable() },
-                allowedMcc.map { it.toImmutable() },
-                blockedCountries.map { it.toImmutable() },
-                blockedMcc.map { it.toImmutable() },
-                cardTokens.map { it.toImmutable() },
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(state) { "`state` is required but was not set" },
+                (accountTokens ?: JsonMissing.of()).map { it.toImmutable() },
+                (allowedCountries ?: JsonMissing.of()).map { it.toImmutable() },
+                (allowedMcc ?: JsonMissing.of()).map { it.toImmutable() },
+                (blockedCountries ?: JsonMissing.of()).map { it.toImmutable() },
+                (blockedMcc ?: JsonMissing.of()).map { it.toImmutable() },
+                (cardTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 programLevel,
                 additionalProperties.toImmutable(),
             )

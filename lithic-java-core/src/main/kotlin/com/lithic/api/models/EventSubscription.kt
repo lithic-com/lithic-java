@@ -52,17 +52,19 @@ private constructor(
         Optional.ofNullable(eventTypes.getNullable("event_types"))
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** A description of the subscription. */
-    @JsonProperty("description") @ExcludeMissing fun _description() = description
+    @JsonProperty("description") @ExcludeMissing fun _description(): JsonField<String> = description
 
     /** Whether the subscription is disabled. */
-    @JsonProperty("disabled") @ExcludeMissing fun _disabled() = disabled
+    @JsonProperty("disabled") @ExcludeMissing fun _disabled(): JsonField<Boolean> = disabled
 
-    @JsonProperty("url") @ExcludeMissing fun _url() = url
+    @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
-    @JsonProperty("event_types") @ExcludeMissing fun _eventTypes() = eventTypes
+    @JsonProperty("event_types")
+    @ExcludeMissing
+    fun _eventTypes(): JsonField<List<EventType>> = eventTypes
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -90,11 +92,11 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var description: JsonField<String> = JsonMissing.of()
-        private var disabled: JsonField<Boolean> = JsonMissing.of()
-        private var url: JsonField<String> = JsonMissing.of()
-        private var eventTypes: JsonField<List<EventType>> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var description: JsonField<String>? = null
+        private var disabled: JsonField<Boolean>? = null
+        private var url: JsonField<String>? = null
+        private var eventTypes: JsonField<MutableList<EventType>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -103,7 +105,7 @@ private constructor(
             description = eventSubscription.description
             disabled = eventSubscription.disabled
             url = eventSubscription.url
-            eventTypes = eventSubscription.eventTypes
+            eventTypes = eventSubscription.eventTypes.map { it.toMutableList() }
             additionalProperties = eventSubscription.additionalProperties.toMutableMap()
         }
 
@@ -129,10 +131,25 @@ private constructor(
 
         fun url(url: JsonField<String>) = apply { this.url = url }
 
-        fun eventTypes(eventTypes: List<EventType>) = eventTypes(JsonField.of(eventTypes))
+        fun eventTypes(eventTypes: List<EventType>?) = eventTypes(JsonField.ofNullable(eventTypes))
+
+        fun eventTypes(eventTypes: Optional<List<EventType>>) = eventTypes(eventTypes.orElse(null))
 
         fun eventTypes(eventTypes: JsonField<List<EventType>>) = apply {
-            this.eventTypes = eventTypes
+            this.eventTypes = eventTypes.map { it.toMutableList() }
+        }
+
+        fun addEventType(eventType: EventType) = apply {
+            eventTypes =
+                (eventTypes ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(eventType)
+                }
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -156,11 +173,11 @@ private constructor(
 
         fun build(): EventSubscription =
             EventSubscription(
-                token,
-                description,
-                disabled,
-                url,
-                eventTypes.map { it.toImmutable() },
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(description) { "`description` is required but was not set" },
+                checkNotNull(disabled) { "`disabled` is required but was not set" },
+                checkNotNull(url) { "`url` is required but was not set" },
+                (eventTypes ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }

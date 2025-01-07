@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -46,11 +47,29 @@ constructor(
 
     fun userDefinedId(): Optional<String> = body.userDefinedId()
 
+    fun _amount(): JsonField<Long> = body._amount()
+
+    fun _category(): JsonField<ExternalPaymentCategory> = body._category()
+
+    fun _effectiveDate(): JsonField<LocalDate> = body._effectiveDate()
+
+    fun _financialAccountToken(): JsonField<String> = body._financialAccountToken()
+
+    fun _paymentType(): JsonField<ExternalPaymentDirection> = body._paymentType()
+
+    fun _token(): JsonField<String> = body._token()
+
+    fun _memo(): JsonField<String> = body._memo()
+
+    fun _progressTo(): JsonField<ExternalPaymentProgressTo> = body._progressTo()
+
+    fun _userDefinedId(): JsonField<String> = body._userDefinedId()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): ExternalPaymentCreateBody = body
 
@@ -62,43 +81,108 @@ constructor(
     class ExternalPaymentCreateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("amount") private val amount: Long,
-        @JsonProperty("category") private val category: ExternalPaymentCategory,
-        @JsonProperty("effective_date") private val effectiveDate: LocalDate,
-        @JsonProperty("financial_account_token") private val financialAccountToken: String,
-        @JsonProperty("payment_type") private val paymentType: ExternalPaymentDirection,
-        @JsonProperty("token") private val token: String?,
-        @JsonProperty("memo") private val memo: String?,
-        @JsonProperty("progress_to") private val progressTo: ExternalPaymentProgressTo?,
-        @JsonProperty("user_defined_id") private val userDefinedId: String?,
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("category")
+        @ExcludeMissing
+        private val category: JsonField<ExternalPaymentCategory> = JsonMissing.of(),
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("financial_account_token")
+        @ExcludeMissing
+        private val financialAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("payment_type")
+        @ExcludeMissing
+        private val paymentType: JsonField<ExternalPaymentDirection> = JsonMissing.of(),
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("memo")
+        @ExcludeMissing
+        private val memo: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("progress_to")
+        @ExcludeMissing
+        private val progressTo: JsonField<ExternalPaymentProgressTo> = JsonMissing.of(),
+        @JsonProperty("user_defined_id")
+        @ExcludeMissing
+        private val userDefinedId: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        @JsonProperty("amount") fun amount(): Long = amount
+        fun amount(): Long = amount.getRequired("amount")
 
-        @JsonProperty("category") fun category(): ExternalPaymentCategory = category
+        fun category(): ExternalPaymentCategory = category.getRequired("category")
 
-        @JsonProperty("effective_date") fun effectiveDate(): LocalDate = effectiveDate
+        fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
+
+        fun financialAccountToken(): String =
+            financialAccountToken.getRequired("financial_account_token")
+
+        fun paymentType(): ExternalPaymentDirection = paymentType.getRequired("payment_type")
+
+        fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+
+        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+
+        fun progressTo(): Optional<ExternalPaymentProgressTo> =
+            Optional.ofNullable(progressTo.getNullable("progress_to"))
+
+        fun userDefinedId(): Optional<String> =
+            Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
+
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+        @JsonProperty("category")
+        @ExcludeMissing
+        fun _category(): JsonField<ExternalPaymentCategory> = category
+
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
 
         @JsonProperty("financial_account_token")
-        fun financialAccountToken(): String = financialAccountToken
+        @ExcludeMissing
+        fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
-        @JsonProperty("payment_type") fun paymentType(): ExternalPaymentDirection = paymentType
+        @JsonProperty("payment_type")
+        @ExcludeMissing
+        fun _paymentType(): JsonField<ExternalPaymentDirection> = paymentType
 
-        @JsonProperty("token") fun token(): Optional<String> = Optional.ofNullable(token)
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
+        @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
         @JsonProperty("progress_to")
-        fun progressTo(): Optional<ExternalPaymentProgressTo> = Optional.ofNullable(progressTo)
+        @ExcludeMissing
+        fun _progressTo(): JsonField<ExternalPaymentProgressTo> = progressTo
 
         @JsonProperty("user_defined_id")
-        fun userDefinedId(): Optional<String> = Optional.ofNullable(userDefinedId)
+        @ExcludeMissing
+        fun _userDefinedId(): JsonField<String> = userDefinedId
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): ExternalPaymentCreateBody = apply {
+            if (!validated) {
+                amount()
+                category()
+                effectiveDate()
+                financialAccountToken()
+                paymentType()
+                token()
+                memo()
+                progressTo()
+                userDefinedId()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -109,15 +193,15 @@ constructor(
 
         class Builder {
 
-            private var amount: Long? = null
-            private var category: ExternalPaymentCategory? = null
-            private var effectiveDate: LocalDate? = null
-            private var financialAccountToken: String? = null
-            private var paymentType: ExternalPaymentDirection? = null
-            private var token: String? = null
-            private var memo: String? = null
-            private var progressTo: ExternalPaymentProgressTo? = null
-            private var userDefinedId: String? = null
+            private var amount: JsonField<Long>? = null
+            private var category: JsonField<ExternalPaymentCategory>? = null
+            private var effectiveDate: JsonField<LocalDate>? = null
+            private var financialAccountToken: JsonField<String>? = null
+            private var paymentType: JsonField<ExternalPaymentDirection>? = null
+            private var token: JsonField<String> = JsonMissing.of()
+            private var memo: JsonField<String> = JsonMissing.of()
+            private var progressTo: JsonField<ExternalPaymentProgressTo> = JsonMissing.of()
+            private var userDefinedId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -134,41 +218,56 @@ constructor(
                 additionalProperties = externalPaymentCreateBody.additionalProperties.toMutableMap()
             }
 
-            fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = amount(JsonField.of(amount))
 
-            fun category(category: ExternalPaymentCategory) = apply { this.category = category }
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
-            fun effectiveDate(effectiveDate: LocalDate) = apply {
+            fun category(category: ExternalPaymentCategory) = category(JsonField.of(category))
+
+            fun category(category: JsonField<ExternalPaymentCategory>) = apply {
+                this.category = category
+            }
+
+            fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
+
+            fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
 
-            fun financialAccountToken(financialAccountToken: String) = apply {
+            fun financialAccountToken(financialAccountToken: String) =
+                financialAccountToken(JsonField.of(financialAccountToken))
+
+            fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
                 this.financialAccountToken = financialAccountToken
             }
 
-            fun paymentType(paymentType: ExternalPaymentDirection) = apply {
+            fun paymentType(paymentType: ExternalPaymentDirection) =
+                paymentType(JsonField.of(paymentType))
+
+            fun paymentType(paymentType: JsonField<ExternalPaymentDirection>) = apply {
                 this.paymentType = paymentType
             }
 
-            fun token(token: String?) = apply { this.token = token }
+            fun token(token: String) = token(JsonField.of(token))
 
-            fun token(token: Optional<String>) = token(token.orElse(null))
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
-            fun memo(memo: String?) = apply { this.memo = memo }
+            fun memo(memo: String) = memo(JsonField.of(memo))
 
-            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
-            fun progressTo(progressTo: ExternalPaymentProgressTo?) = apply {
+            fun progressTo(progressTo: ExternalPaymentProgressTo) =
+                progressTo(JsonField.of(progressTo))
+
+            fun progressTo(progressTo: JsonField<ExternalPaymentProgressTo>) = apply {
                 this.progressTo = progressTo
             }
 
-            fun progressTo(progressTo: Optional<ExternalPaymentProgressTo>) =
-                progressTo(progressTo.orElse(null))
+            fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
-            fun userDefinedId(userDefinedId: String?) = apply { this.userDefinedId = userDefinedId }
-
-            fun userDefinedId(userDefinedId: Optional<String>) =
-                userDefinedId(userDefinedId.orElse(null))
+            fun userDefinedId(userDefinedId: JsonField<String>) = apply {
+                this.userDefinedId = userDefinedId
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -247,11 +346,25 @@ constructor(
 
         fun amount(amount: Long) = apply { body.amount(amount) }
 
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
+
         fun category(category: ExternalPaymentCategory) = apply { body.category(category) }
+
+        fun category(category: JsonField<ExternalPaymentCategory>) = apply {
+            body.category(category)
+        }
 
         fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
+        fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
+            body.effectiveDate(effectiveDate)
+        }
+
         fun financialAccountToken(financialAccountToken: String) = apply {
+            body.financialAccountToken(financialAccountToken)
+        }
+
+        fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
             body.financialAccountToken(financialAccountToken)
         }
 
@@ -259,25 +372,50 @@ constructor(
             body.paymentType(paymentType)
         }
 
-        fun token(token: String?) = apply { body.token(token) }
+        fun paymentType(paymentType: JsonField<ExternalPaymentDirection>) = apply {
+            body.paymentType(paymentType)
+        }
 
-        fun token(token: Optional<String>) = token(token.orElse(null))
+        fun token(token: String) = apply { body.token(token) }
 
-        fun memo(memo: String?) = apply { body.memo(memo) }
+        fun token(token: JsonField<String>) = apply { body.token(token) }
 
-        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+        fun memo(memo: String) = apply { body.memo(memo) }
 
-        fun progressTo(progressTo: ExternalPaymentProgressTo?) = apply {
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
+
+        fun progressTo(progressTo: ExternalPaymentProgressTo) = apply {
             body.progressTo(progressTo)
         }
 
-        fun progressTo(progressTo: Optional<ExternalPaymentProgressTo>) =
-            progressTo(progressTo.orElse(null))
+        fun progressTo(progressTo: JsonField<ExternalPaymentProgressTo>) = apply {
+            body.progressTo(progressTo)
+        }
 
-        fun userDefinedId(userDefinedId: String?) = apply { body.userDefinedId(userDefinedId) }
+        fun userDefinedId(userDefinedId: String) = apply { body.userDefinedId(userDefinedId) }
 
-        fun userDefinedId(userDefinedId: Optional<String>) =
-            userDefinedId(userDefinedId.orElse(null))
+        fun userDefinedId(userDefinedId: JsonField<String>) = apply {
+            body.userDefinedId(userDefinedId)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -375,25 +513,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ExternalPaymentCreateParams =

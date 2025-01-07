@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -52,11 +53,17 @@ constructor(
     /** Globally unique identifier for the entity. */
     fun entityToken(): String = body.entityToken()
 
+    /** The type of document to upload */
+    fun _documentType(): JsonField<DocumentType> = body._documentType()
+
+    /** Globally unique identifier for the entity. */
+    fun _entityToken(): JsonField<String> = body._entityToken()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): AccountHolderUploadDocumentBody = body
 
@@ -75,21 +82,45 @@ constructor(
     class AccountHolderUploadDocumentBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("document_type") private val documentType: DocumentType,
-        @JsonProperty("entity_token") private val entityToken: String,
+        @JsonProperty("document_type")
+        @ExcludeMissing
+        private val documentType: JsonField<DocumentType> = JsonMissing.of(),
+        @JsonProperty("entity_token")
+        @ExcludeMissing
+        private val entityToken: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The type of document to upload */
-        @JsonProperty("document_type") fun documentType(): DocumentType = documentType
+        fun documentType(): DocumentType = documentType.getRequired("document_type")
 
         /** Globally unique identifier for the entity. */
-        @JsonProperty("entity_token") fun entityToken(): String = entityToken
+        fun entityToken(): String = entityToken.getRequired("entity_token")
+
+        /** The type of document to upload */
+        @JsonProperty("document_type")
+        @ExcludeMissing
+        fun _documentType(): JsonField<DocumentType> = documentType
+
+        /** Globally unique identifier for the entity. */
+        @JsonProperty("entity_token")
+        @ExcludeMissing
+        fun _entityToken(): JsonField<String> = entityToken
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): AccountHolderUploadDocumentBody = apply {
+            if (!validated) {
+                documentType()
+                entityToken()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -100,8 +131,8 @@ constructor(
 
         class Builder {
 
-            private var documentType: DocumentType? = null
-            private var entityToken: String? = null
+            private var documentType: JsonField<DocumentType>? = null
+            private var entityToken: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -114,12 +145,20 @@ constructor(
                 }
 
             /** The type of document to upload */
-            fun documentType(documentType: DocumentType) = apply {
+            fun documentType(documentType: DocumentType) = documentType(JsonField.of(documentType))
+
+            /** The type of document to upload */
+            fun documentType(documentType: JsonField<DocumentType>) = apply {
                 this.documentType = documentType
             }
 
             /** Globally unique identifier for the entity. */
-            fun entityToken(entityToken: String) = apply { this.entityToken = entityToken }
+            fun entityToken(entityToken: String) = entityToken(JsonField.of(entityToken))
+
+            /** Globally unique identifier for the entity. */
+            fun entityToken(entityToken: JsonField<String>) = apply {
+                this.entityToken = entityToken
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -199,8 +238,35 @@ constructor(
         /** The type of document to upload */
         fun documentType(documentType: DocumentType) = apply { body.documentType(documentType) }
 
+        /** The type of document to upload */
+        fun documentType(documentType: JsonField<DocumentType>) = apply {
+            body.documentType(documentType)
+        }
+
         /** Globally unique identifier for the entity. */
         fun entityToken(entityToken: String) = apply { body.entityToken(entityToken) }
+
+        /** Globally unique identifier for the entity. */
+        fun entityToken(entityToken: JsonField<String>) = apply { body.entityToken(entityToken) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -298,25 +364,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): AccountHolderUploadDocumentParams =

@@ -28,7 +28,7 @@ private constructor(
 
     fun data(): Optional<List<Document>> = Optional.ofNullable(data.getNullable("data"))
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<Document>> = data
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -52,20 +52,35 @@ private constructor(
 
     class Builder {
 
-        private var data: JsonField<List<Document>> = JsonMissing.of()
+        private var data: JsonField<MutableList<Document>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(accountHolderListDocumentsResponse: AccountHolderListDocumentsResponse) =
             apply {
-                data = accountHolderListDocumentsResponse.data
+                data = accountHolderListDocumentsResponse.data.map { it.toMutableList() }
                 additionalProperties =
                     accountHolderListDocumentsResponse.additionalProperties.toMutableMap()
             }
 
         fun data(data: List<Document>) = data(JsonField.of(data))
 
-        fun data(data: JsonField<List<Document>>) = apply { this.data = data }
+        fun data(data: JsonField<List<Document>>) = apply {
+            this.data = data.map { it.toMutableList() }
+        }
+
+        fun addData(data: Document) = apply {
+            this.data =
+                (this.data ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(data)
+                }
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -88,7 +103,7 @@ private constructor(
 
         fun build(): AccountHolderListDocumentsResponse =
             AccountHolderListDocumentsResponse(
-                data.map { it.toImmutable() },
+                (data ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toImmutable()
             )
     }

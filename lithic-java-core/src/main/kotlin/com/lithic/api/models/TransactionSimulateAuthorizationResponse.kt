@@ -41,12 +41,12 @@ private constructor(
      * A unique token to reference this transaction with later calls to void or clear the
      * authorization.
      */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Debugging request ID to share with Lithic Support team. */
     @JsonProperty("debugging_request_id")
     @ExcludeMissing
-    fun _debuggingRequestId() = debuggingRequestId
+    fun _debuggingRequestId(): JsonField<String> = debuggingRequestId
 
     @JsonAnyGetter
     @ExcludeMissing

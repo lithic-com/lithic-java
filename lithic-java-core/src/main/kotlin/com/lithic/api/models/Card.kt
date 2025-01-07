@@ -228,33 +228,37 @@ private constructor(
         Optional.ofNullable(replacementFor.getNullable("replacement_for"))
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Globally unique identifier for the account to which the card belongs. */
-    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    fun _accountToken(): JsonField<String> = accountToken
 
     /** Globally unique identifier for the card program on which the card exists. */
-    @JsonProperty("card_program_token") @ExcludeMissing fun _cardProgramToken() = cardProgramToken
+    @JsonProperty("card_program_token")
+    @ExcludeMissing
+    fun _cardProgramToken(): JsonField<String> = cardProgramToken
 
     /** An RFC 3339 timestamp for when the card was created. UTC time zone. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** Deprecated: Funding account for the card. */
-    @JsonProperty("funding") @ExcludeMissing fun _funding() = funding
+    @JsonProperty("funding") @ExcludeMissing fun _funding(): JsonField<FundingAccount> = funding
 
     /** Last four digits of the card number. */
-    @JsonProperty("last_four") @ExcludeMissing fun _lastFour() = lastFour
+    @JsonProperty("last_four") @ExcludeMissing fun _lastFour(): JsonField<String> = lastFour
 
     /**
      * Indicates if a card is blocked due a PIN status issue (e.g. excessive incorrect attempts).
      */
-    @JsonProperty("pin_status") @ExcludeMissing fun _pinStatus() = pinStatus
+    @JsonProperty("pin_status") @ExcludeMissing fun _pinStatus(): JsonField<PinStatus> = pinStatus
 
     /**
      * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
      * limit will be declined.
      */
-    @JsonProperty("spend_limit") @ExcludeMissing fun _spendLimit() = spendLimit
+    @JsonProperty("spend_limit") @ExcludeMissing fun _spendLimit(): JsonField<Long> = spendLimit
 
     /**
      * Spend limit duration values:
@@ -269,7 +273,7 @@ private constructor(
      */
     @JsonProperty("spend_limit_duration")
     @ExcludeMissing
-    fun _spendLimitDuration() = spendLimitDuration
+    fun _spendLimitDuration(): JsonField<SpendLimitDuration> = spendLimitDuration
 
     /**
      * Card state values:
@@ -288,7 +292,7 @@ private constructor(
      *
      * In sandbox, the same daily batch fulfillment occurs, but no cards are actually manufactured.
      */
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
+    @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
     /**
      * Card types:
@@ -304,7 +308,7 @@ private constructor(
      * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
      *   instead.
      */
-    @JsonProperty("type") @ExcludeMissing fun _type() = type
+    @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
     /**
      * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
@@ -312,15 +316,17 @@ private constructor(
      * the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
      * information instead.
      */
-    @JsonProperty("auth_rule_tokens") @ExcludeMissing fun _authRuleTokens() = authRuleTokens
+    @JsonProperty("auth_rule_tokens")
+    @ExcludeMissing
+    fun _authRuleTokens(): JsonField<List<String>> = authRuleTokens
 
     /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
     @JsonProperty("cardholder_currency")
     @ExcludeMissing
-    fun _cardholderCurrency() = cardholderCurrency
+    fun _cardholderCurrency(): JsonField<String> = cardholderCurrency
 
     /** Three digit cvv printed on the back of the card. */
-    @JsonProperty("cvv") @ExcludeMissing fun _cvv() = cvv
+    @JsonProperty("cvv") @ExcludeMissing fun _cvv(): JsonField<String> = cvv
 
     /**
      * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -330,46 +336,50 @@ private constructor(
      */
     @JsonProperty("digital_card_art_token")
     @ExcludeMissing
-    fun _digitalCardArtToken() = digitalCardArtToken
+    fun _digitalCardArtToken(): JsonField<String> = digitalCardArtToken
 
     /** Two digit (MM) expiry month. */
-    @JsonProperty("exp_month") @ExcludeMissing fun _expMonth() = expMonth
+    @JsonProperty("exp_month") @ExcludeMissing fun _expMonth(): JsonField<String> = expMonth
 
     /** Four digit (yyyy) expiry year. */
-    @JsonProperty("exp_year") @ExcludeMissing fun _expYear() = expYear
+    @JsonProperty("exp_year") @ExcludeMissing fun _expYear(): JsonField<String> = expYear
 
     /** Hostname of card’s locked merchant (will be empty if not applicable). */
-    @JsonProperty("hostname") @ExcludeMissing fun _hostname() = hostname
+    @JsonProperty("hostname") @ExcludeMissing fun _hostname(): JsonField<String> = hostname
 
     /** Friendly name to identify the card. */
-    @JsonProperty("memo") @ExcludeMissing fun _memo() = memo
+    @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
     /**
      * Primary Account Number (PAN) (i.e. the card number). Customers must be PCI compliant to have
      * PAN returned as a field in production. Please contact
      * [support@lithic.com](mailto:support@lithic.com) for questions.
      */
-    @JsonProperty("pan") @ExcludeMissing fun _pan() = pan
+    @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
 
     /**
      * Indicates if there are offline PIN changes pending card interaction with an offline PIN
      * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued in
      * markets supporting offline PINs.
      */
-    @JsonProperty("pending_commands") @ExcludeMissing fun _pendingCommands() = pendingCommands
+    @JsonProperty("pending_commands")
+    @ExcludeMissing
+    fun _pendingCommands(): JsonField<List<String>> = pendingCommands
 
     /**
      * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before use.
      * Specifies the configuration (i.e., physical card art) that the card should be manufactured
      * with.
      */
-    @JsonProperty("product_id") @ExcludeMissing fun _productId() = productId
+    @JsonProperty("product_id") @ExcludeMissing fun _productId(): JsonField<String> = productId
 
     /**
      * If the card is a replacement for another card, the globally unique identifier for the card
      * that was replaced.
      */
-    @JsonProperty("replacement_for") @ExcludeMissing fun _replacementFor() = replacementFor
+    @JsonProperty("replacement_for")
+    @ExcludeMissing
+    fun _replacementFor(): JsonField<String> = replacementFor
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -415,18 +425,18 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var accountToken: JsonField<String> = JsonMissing.of()
-        private var cardProgramToken: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var funding: JsonField<FundingAccount> = JsonMissing.of()
-        private var lastFour: JsonField<String> = JsonMissing.of()
-        private var pinStatus: JsonField<PinStatus> = JsonMissing.of()
-        private var spendLimit: JsonField<Long> = JsonMissing.of()
-        private var spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of()
-        private var state: JsonField<State> = JsonMissing.of()
-        private var type: JsonField<Type> = JsonMissing.of()
-        private var authRuleTokens: JsonField<List<String>> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var accountToken: JsonField<String>? = null
+        private var cardProgramToken: JsonField<String>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var funding: JsonField<FundingAccount>? = null
+        private var lastFour: JsonField<String>? = null
+        private var pinStatus: JsonField<PinStatus>? = null
+        private var spendLimit: JsonField<Long>? = null
+        private var spendLimitDuration: JsonField<SpendLimitDuration>? = null
+        private var state: JsonField<State>? = null
+        private var type: JsonField<Type>? = null
+        private var authRuleTokens: JsonField<MutableList<String>>? = null
         private var cardholderCurrency: JsonField<String> = JsonMissing.of()
         private var cvv: JsonField<String> = JsonMissing.of()
         private var digitalCardArtToken: JsonField<String> = JsonMissing.of()
@@ -435,7 +445,7 @@ private constructor(
         private var hostname: JsonField<String> = JsonMissing.of()
         private var memo: JsonField<String> = JsonMissing.of()
         private var pan: JsonField<String> = JsonMissing.of()
-        private var pendingCommands: JsonField<List<String>> = JsonMissing.of()
+        private var pendingCommands: JsonField<MutableList<String>>? = null
         private var productId: JsonField<String> = JsonMissing.of()
         private var replacementFor: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -453,7 +463,7 @@ private constructor(
             spendLimitDuration = card.spendLimitDuration
             state = card.state
             type = card.type
-            authRuleTokens = card.authRuleTokens
+            authRuleTokens = card.authRuleTokens.map { it.toMutableList() }
             cardholderCurrency = card.cardholderCurrency
             cvv = card.cvv
             digitalCardArtToken = card.digitalCardArtToken
@@ -462,7 +472,7 @@ private constructor(
             hostname = card.hostname
             memo = card.memo
             pan = card.pan
-            pendingCommands = card.pendingCommands
+            pendingCommands = card.pendingCommands.map { it.toMutableList() }
             productId = card.productId
             replacementFor = card.replacementFor
             additionalProperties = card.additionalProperties.toMutableMap()
@@ -656,7 +666,26 @@ private constructor(
          * information instead.
          */
         fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {
-            this.authRuleTokens = authRuleTokens
+            this.authRuleTokens = authRuleTokens.map { it.toMutableList() }
+        }
+
+        /**
+         * List of identifiers for the Auth Rule(s) that are applied on the card. This field is
+         * deprecated and will no longer be populated in the `Card` object. The key will be removed
+         * from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth Rule
+         * information instead.
+         */
+        fun addAuthRuleToken(authRuleToken: String) = apply {
+            authRuleTokens =
+                (authRuleTokens ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(authRuleToken)
+                }
         }
 
         /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
@@ -745,7 +774,25 @@ private constructor(
          * in markets supporting offline PINs.
          */
         fun pendingCommands(pendingCommands: JsonField<List<String>>) = apply {
-            this.pendingCommands = pendingCommands
+            this.pendingCommands = pendingCommands.map { it.toMutableList() }
+        }
+
+        /**
+         * Indicates if there are offline PIN changes pending card interaction with an offline PIN
+         * terminal. Possible commands are: CHANGE_PIN, UNBLOCK_PIN. Applicable only to cards issued
+         * in markets supporting offline PINs.
+         */
+        fun addPendingCommand(pendingCommand: String) = apply {
+            pendingCommands =
+                (pendingCommands ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(pendingCommand)
+                }
         }
 
         /**
@@ -766,7 +813,15 @@ private constructor(
          * If the card is a replacement for another card, the globally unique identifier for the
          * card that was replaced.
          */
-        fun replacementFor(replacementFor: String) = replacementFor(JsonField.of(replacementFor))
+        fun replacementFor(replacementFor: String?) =
+            replacementFor(JsonField.ofNullable(replacementFor))
+
+        /**
+         * If the card is a replacement for another card, the globally unique identifier for the
+         * card that was replaced.
+         */
+        fun replacementFor(replacementFor: Optional<String>) =
+            replacementFor(replacementFor.orElse(null))
 
         /**
          * If the card is a replacement for another card, the globally unique identifier for the
@@ -797,18 +852,20 @@ private constructor(
 
         fun build(): Card =
             Card(
-                token,
-                accountToken,
-                cardProgramToken,
-                created,
-                funding,
-                lastFour,
-                pinStatus,
-                spendLimit,
-                spendLimitDuration,
-                state,
-                type,
-                authRuleTokens.map { it.toImmutable() },
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(accountToken) { "`accountToken` is required but was not set" },
+                checkNotNull(cardProgramToken) { "`cardProgramToken` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(funding) { "`funding` is required but was not set" },
+                checkNotNull(lastFour) { "`lastFour` is required but was not set" },
+                checkNotNull(pinStatus) { "`pinStatus` is required but was not set" },
+                checkNotNull(spendLimit) { "`spendLimit` is required but was not set" },
+                checkNotNull(spendLimitDuration) {
+                    "`spendLimitDuration` is required but was not set"
+                },
+                checkNotNull(state) { "`state` is required but was not set" },
+                checkNotNull(type) { "`type` is required but was not set" },
+                (authRuleTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 cardholderCurrency,
                 cvv,
                 digitalCardArtToken,
@@ -817,7 +874,7 @@ private constructor(
                 hostname,
                 memo,
                 pan,
-                pendingCommands.map { it.toImmutable() },
+                (pendingCommands ?: JsonMissing.of()).map { it.toImmutable() },
                 productId,
                 replacementFor,
                 additionalProperties.toImmutable(),
@@ -893,19 +950,19 @@ private constructor(
         fun nickname(): Optional<String> = Optional.ofNullable(nickname.getNullable("nickname"))
 
         /** A globally unique identifier for this FundingAccount. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
          * An RFC 3339 string representing when this funding source was added to the Lithic account.
          * This may be `null`. UTC time zone.
          */
-        @JsonProperty("created") @ExcludeMissing fun _created() = created
+        @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
         /**
          * The last 4 digits of the account (e.g. bank account, debit card) associated with this
          * FundingAccount. This may be null.
          */
-        @JsonProperty("last_four") @ExcludeMissing fun _lastFour() = lastFour
+        @JsonProperty("last_four") @ExcludeMissing fun _lastFour(): JsonField<String> = lastFour
 
         /**
          * State of funding source.
@@ -916,20 +973,22 @@ private constructor(
          *   verification.
          * - `DELETED` - The founding account has been deleted.
          */
-        @JsonProperty("state") @ExcludeMissing fun _state() = state
+        @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
         /**
          * Types of funding source:
          * - `DEPOSITORY_CHECKING` - Bank checking account.
          * - `DEPOSITORY_SAVINGS` - Bank savings account.
          */
-        @JsonProperty("type") @ExcludeMissing fun _type() = type
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         /** Account name identifying the funding source. This may be `null`. */
-        @JsonProperty("account_name") @ExcludeMissing fun _accountName() = accountName
+        @JsonProperty("account_name")
+        @ExcludeMissing
+        fun _accountName(): JsonField<String> = accountName
 
         /** The nickname given to the `FundingAccount` or `null` if it has no nickname. */
-        @JsonProperty("nickname") @ExcludeMissing fun _nickname() = nickname
+        @JsonProperty("nickname") @ExcludeMissing fun _nickname(): JsonField<String> = nickname
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -959,11 +1018,11 @@ private constructor(
 
         class Builder {
 
-            private var token: JsonField<String> = JsonMissing.of()
-            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var lastFour: JsonField<String> = JsonMissing.of()
-            private var state: JsonField<State> = JsonMissing.of()
-            private var type: JsonField<Type> = JsonMissing.of()
+            private var token: JsonField<String>? = null
+            private var created: JsonField<OffsetDateTime>? = null
+            private var lastFour: JsonField<String>? = null
+            private var state: JsonField<State>? = null
+            private var type: JsonField<Type>? = null
             private var accountName: JsonField<String> = JsonMissing.of()
             private var nickname: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -1083,11 +1142,11 @@ private constructor(
 
             fun build(): FundingAccount =
                 FundingAccount(
-                    token,
-                    created,
-                    lastFour,
-                    state,
-                    type,
+                    checkNotNull(token) { "`token` is required but was not set" },
+                    checkNotNull(created) { "`created` is required but was not set" },
+                    checkNotNull(lastFour) { "`lastFour` is required but was not set" },
+                    checkNotNull(state) { "`state` is required but was not set" },
+                    checkNotNull(type) { "`type` is required but was not set" },
                     accountName,
                     nickname,
                     additionalProperties.toImmutable(),

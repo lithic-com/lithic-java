@@ -15,6 +15,7 @@ class TransactionTest {
                 .token("c30c2182-1e69-4e0d-b40f-eec0d2a19123")
                 .accountToken("db3942f0-0627-4887-a190-1ea83b46d091")
                 .acquirerFee(0L)
+                .acquirerReferenceNumber(null)
                 .amount(1800L)
                 .amounts(
                     Transaction.TransactionAmounts.builder()
@@ -56,6 +57,7 @@ class TransactionTest {
                 .cardToken("aac502f9-aecc-458a-954e-4bcf6edb6123")
                 .cardholderAuthentication(
                     Transaction.CardholderAuthentication.builder()
+                        ._3dsVersion(null)
                         .acquirerExemption(
                             Transaction.CardholderAuthentication.AcquirerExemption
                                 .AUTHENTICATION_OUTAGE_EXCEPTION
@@ -178,6 +180,7 @@ class TransactionTest {
                                 Transaction.TransactionEvent.NetworkInfo.builder()
                                     .acquirer(
                                         Transaction.TransactionEvent.NetworkInfo.Acquirer.builder()
+                                            .acquirerReferenceNumber(null)
                                             .retrievalReferenceNumber("064386558597")
                                             .build()
                                     )
@@ -185,6 +188,7 @@ class TransactionTest {
                                         Transaction.TransactionEvent.NetworkInfo.Mastercard
                                             .builder()
                                             .banknetReferenceNumber("U1HSCJ")
+                                            .switchSerialNumber(null)
                                             .build()
                                     )
                                     .visa(
@@ -220,6 +224,7 @@ class TransactionTest {
         assertThat(transaction.token()).isEqualTo("c30c2182-1e69-4e0d-b40f-eec0d2a19123")
         assertThat(transaction.accountToken()).isEqualTo("db3942f0-0627-4887-a190-1ea83b46d091")
         assertThat(transaction.acquirerFee()).contains(0L)
+        assertThat(transaction.acquirerReferenceNumber()).isEmpty
         assertThat(transaction.amount()).isEqualTo(1800L)
         assertThat(transaction.amounts())
             .isEqualTo(
@@ -261,6 +266,7 @@ class TransactionTest {
         assertThat(transaction.cardholderAuthentication())
             .contains(
                 Transaction.CardholderAuthentication.builder()
+                    ._3dsVersion(null)
                     .acquirerExemption(
                         Transaction.CardholderAuthentication.AcquirerExemption
                             .AUTHENTICATION_OUTAGE_EXCEPTION
@@ -380,12 +386,14 @@ class TransactionTest {
                         Transaction.TransactionEvent.NetworkInfo.builder()
                             .acquirer(
                                 Transaction.TransactionEvent.NetworkInfo.Acquirer.builder()
+                                    .acquirerReferenceNumber(null)
                                     .retrievalReferenceNumber("064386558597")
                                     .build()
                             )
                             .mastercard(
                                 Transaction.TransactionEvent.NetworkInfo.Mastercard.builder()
                                     .banknetReferenceNumber("U1HSCJ")
+                                    .switchSerialNumber(null)
                                     .build()
                             )
                             .visa(

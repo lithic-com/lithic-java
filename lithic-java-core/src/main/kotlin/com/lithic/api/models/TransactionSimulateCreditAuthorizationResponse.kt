@@ -35,12 +35,12 @@ private constructor(
         Optional.ofNullable(debuggingRequestId.getNullable("debugging_request_id"))
 
     /** A unique token to reference this transaction. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Debugging request ID to share with Lithic Support team. */
     @JsonProperty("debugging_request_id")
     @ExcludeMissing
-    fun _debuggingRequestId() = debuggingRequestId
+    fun _debuggingRequestId(): JsonField<String> = debuggingRequestId
 
     @JsonAnyGetter
     @ExcludeMissing

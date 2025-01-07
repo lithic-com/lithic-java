@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -48,11 +49,27 @@ constructor(
      */
     fun type(): Optional<Type> = body.type()
 
+    /** The transaction token returned from the /v1/simulate/authorize response. */
+    fun _token(): JsonField<String> = body._token()
+
+    /**
+     * Amount (in cents) to void. Typically this will match the amount in the original
+     * authorization, but can be less.
+     */
+    fun _amount(): JsonField<Long> = body._amount()
+
+    /**
+     * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
+     * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
+     * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+     */
+    fun _type(): JsonField<Type> = body._type()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): TransactionSimulateVoidBody = body
 
@@ -64,32 +81,63 @@ constructor(
     class TransactionSimulateVoidBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("token") private val token: String,
-        @JsonProperty("amount") private val amount: Long?,
-        @JsonProperty("type") private val type: Type?,
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The transaction token returned from the /v1/simulate/authorize response. */
-        @JsonProperty("token") fun token(): String = token
+        fun token(): String = token.getRequired("token")
 
         /**
          * Amount (in cents) to void. Typically this will match the amount in the original
          * authorization, but can be less.
          */
-        @JsonProperty("amount") fun amount(): Optional<Long> = Optional.ofNullable(amount)
+        fun amount(): Optional<Long> = Optional.ofNullable(amount.getNullable("amount"))
 
         /**
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
          * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
          */
-        @JsonProperty("type") fun type(): Optional<Type> = Optional.ofNullable(type)
+        fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
+
+        /** The transaction token returned from the /v1/simulate/authorize response. */
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+        /**
+         * Amount (in cents) to void. Typically this will match the amount in the original
+         * authorization, but can be less.
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+        /**
+         * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
+         * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
+         * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
+         */
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): TransactionSimulateVoidBody = apply {
+            if (!validated) {
+                token()
+                amount()
+                type()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -100,9 +148,9 @@ constructor(
 
         class Builder {
 
-            private var token: String? = null
-            private var amount: Long? = null
-            private var type: Type? = null
+            private var token: JsonField<String>? = null
+            private var amount: JsonField<Long> = JsonMissing.of()
+            private var type: JsonField<Type> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -115,26 +163,22 @@ constructor(
             }
 
             /** The transaction token returned from the /v1/simulate/authorize response. */
-            fun token(token: String) = apply { this.token = token }
+            fun token(token: String) = token(JsonField.of(token))
+
+            /** The transaction token returned from the /v1/simulate/authorize response. */
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /**
              * Amount (in cents) to void. Typically this will match the amount in the original
              * authorization, but can be less.
              */
-            fun amount(amount: Long?) = apply { this.amount = amount }
+            fun amount(amount: Long) = amount(JsonField.of(amount))
 
             /**
              * Amount (in cents) to void. Typically this will match the amount in the original
              * authorization, but can be less.
              */
-            fun amount(amount: Long) = amount(amount as Long?)
-
-            /**
-             * Amount (in cents) to void. Typically this will match the amount in the original
-             * authorization, but can be less.
-             */
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-            fun amount(amount: Optional<Long>) = amount(amount.orElse(null) as Long?)
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /**
              * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
@@ -142,7 +186,7 @@ constructor(
              *   Lithic.
              * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
              */
-            fun type(type: Type?) = apply { this.type = type }
+            fun type(type: Type) = type(JsonField.of(type))
 
             /**
              * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
@@ -150,7 +194,7 @@ constructor(
              *   Lithic.
              * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
              */
-            fun type(type: Optional<Type>) = type(type.orElse(null))
+            fun type(type: JsonField<Type>) = apply { this.type = type }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -223,38 +267,53 @@ constructor(
         /** The transaction token returned from the /v1/simulate/authorize response. */
         fun token(token: String) = apply { body.token(token) }
 
-        /**
-         * Amount (in cents) to void. Typically this will match the amount in the original
-         * authorization, but can be less.
-         */
-        fun amount(amount: Long?) = apply { body.amount(amount) }
+        /** The transaction token returned from the /v1/simulate/authorize response. */
+        fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /**
          * Amount (in cents) to void. Typically this will match the amount in the original
          * authorization, but can be less.
          */
-        fun amount(amount: Long) = amount(amount as Long?)
+        fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
          * Amount (in cents) to void. Typically this will match the amount in the original
          * authorization, but can be less.
          */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun amount(amount: Optional<Long>) = amount(amount.orElse(null) as Long?)
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
 
         /**
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
          * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
          */
-        fun type(type: Type?) = apply { body.type(type) }
+        fun type(type: Type) = apply { body.type(type) }
 
         /**
          * Type of event to simulate. Defaults to `AUTHORIZATION_REVERSAL`.
          * - `AUTHORIZATION_EXPIRY` indicates authorization has expired and been reversed by Lithic.
          * - `AUTHORIZATION_REVERSAL` indicates authorization was reversed by the merchant.
          */
-        fun type(type: Optional<Type>) = type(type.orElse(null))
+        fun type(type: JsonField<Type>) = apply { body.type(type) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -352,25 +411,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransactionSimulateVoidParams =

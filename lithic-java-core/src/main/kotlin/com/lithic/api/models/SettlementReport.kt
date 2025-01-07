@@ -116,15 +116,17 @@ private constructor(
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
     /** Date and time when the transaction first occurred. UTC time zone. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
      * Three-digit alphabetic ISO 4217 code. (This field is deprecated and will be removed in a
      * future version of the API.)
      */
-    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+    @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
-    @JsonProperty("details") @ExcludeMissing fun _details() = details
+    @JsonProperty("details")
+    @ExcludeMissing
+    fun _details(): JsonField<List<SettlementSummaryDetails>> = details
 
     /**
      * The total gross amount of disputes settlements. (This field is deprecated and will be removed
@@ -133,7 +135,7 @@ private constructor(
      */
     @JsonProperty("disputes_gross_amount")
     @ExcludeMissing
-    fun _disputesGrossAmount() = disputesGrossAmount
+    fun _disputesGrossAmount(): JsonField<Long> = disputesGrossAmount
 
     /**
      * The total amount of interchange. (This field is deprecated and will be removed in a future
@@ -142,10 +144,10 @@ private constructor(
      */
     @JsonProperty("interchange_gross_amount")
     @ExcludeMissing
-    fun _interchangeGrossAmount() = interchangeGrossAmount
+    fun _interchangeGrossAmount(): JsonField<Long> = interchangeGrossAmount
 
     /** Indicates that all data expected on the given report date is available. */
-    @JsonProperty("is_complete") @ExcludeMissing fun _isComplete() = isComplete
+    @JsonProperty("is_complete") @ExcludeMissing fun _isComplete(): JsonField<Boolean> = isComplete
 
     /**
      * Total amount of gross other fees outside of interchange. (This field is deprecated and will
@@ -154,10 +156,10 @@ private constructor(
      */
     @JsonProperty("other_fees_gross_amount")
     @ExcludeMissing
-    fun _otherFeesGrossAmount() = otherFeesGrossAmount
+    fun _otherFeesGrossAmount(): JsonField<Long> = otherFeesGrossAmount
 
     /** Date of when the report was first generated. */
-    @JsonProperty("report_date") @ExcludeMissing fun _reportDate() = reportDate
+    @JsonProperty("report_date") @ExcludeMissing fun _reportDate(): JsonField<String> = reportDate
 
     /**
      * The total net amount of cash moved. (net value of settled_gross_amount, interchange, fees).
@@ -165,7 +167,9 @@ private constructor(
      * total amounts, Lithic recommends that customers sum the relevant settlement amounts found
      * within `details`.)
      */
-    @JsonProperty("settled_net_amount") @ExcludeMissing fun _settledNetAmount() = settledNetAmount
+    @JsonProperty("settled_net_amount")
+    @ExcludeMissing
+    fun _settledNetAmount(): JsonField<Long> = settledNetAmount
 
     /**
      * The total amount of settlement impacting transactions (excluding interchange, fees, and
@@ -175,10 +179,10 @@ private constructor(
      */
     @JsonProperty("transactions_gross_amount")
     @ExcludeMissing
-    fun _transactionsGrossAmount() = transactionsGrossAmount
+    fun _transactionsGrossAmount(): JsonField<Long> = transactionsGrossAmount
 
     /** Date and time when the transaction first occurred. UTC time zone. */
-    @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+    @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -212,24 +216,24 @@ private constructor(
 
     class Builder {
 
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var currency: JsonField<String> = JsonMissing.of()
-        private var details: JsonField<List<SettlementSummaryDetails>> = JsonMissing.of()
-        private var disputesGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var interchangeGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var isComplete: JsonField<Boolean> = JsonMissing.of()
-        private var otherFeesGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var reportDate: JsonField<String> = JsonMissing.of()
-        private var settledNetAmount: JsonField<Long> = JsonMissing.of()
-        private var transactionsGrossAmount: JsonField<Long> = JsonMissing.of()
-        private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var created: JsonField<OffsetDateTime>? = null
+        private var currency: JsonField<String>? = null
+        private var details: JsonField<MutableList<SettlementSummaryDetails>>? = null
+        private var disputesGrossAmount: JsonField<Long>? = null
+        private var interchangeGrossAmount: JsonField<Long>? = null
+        private var isComplete: JsonField<Boolean>? = null
+        private var otherFeesGrossAmount: JsonField<Long>? = null
+        private var reportDate: JsonField<String>? = null
+        private var settledNetAmount: JsonField<Long>? = null
+        private var transactionsGrossAmount: JsonField<Long>? = null
+        private var updated: JsonField<OffsetDateTime>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(settlementReport: SettlementReport) = apply {
             created = settlementReport.created
             currency = settlementReport.currency
-            details = settlementReport.details
+            details = settlementReport.details.map { it.toMutableList() }
             disputesGrossAmount = settlementReport.disputesGrossAmount
             interchangeGrossAmount = settlementReport.interchangeGrossAmount
             isComplete = settlementReport.isComplete
@@ -262,7 +266,20 @@ private constructor(
         fun details(details: List<SettlementSummaryDetails>) = details(JsonField.of(details))
 
         fun details(details: JsonField<List<SettlementSummaryDetails>>) = apply {
-            this.details = details
+            this.details = details.map { it.toMutableList() }
+        }
+
+        fun addDetail(detail: SettlementSummaryDetails) = apply {
+            details =
+                (details ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(detail)
+                }
         }
 
         /**
@@ -393,17 +410,26 @@ private constructor(
 
         fun build(): SettlementReport =
             SettlementReport(
-                created,
-                currency,
-                details.map { it.toImmutable() },
-                disputesGrossAmount,
-                interchangeGrossAmount,
-                isComplete,
-                otherFeesGrossAmount,
-                reportDate,
-                settledNetAmount,
-                transactionsGrossAmount,
-                updated,
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(currency) { "`currency` is required but was not set" },
+                checkNotNull(details) { "`details` is required but was not set" }
+                    .map { it.toImmutable() },
+                checkNotNull(disputesGrossAmount) {
+                    "`disputesGrossAmount` is required but was not set"
+                },
+                checkNotNull(interchangeGrossAmount) {
+                    "`interchangeGrossAmount` is required but was not set"
+                },
+                checkNotNull(isComplete) { "`isComplete` is required but was not set" },
+                checkNotNull(otherFeesGrossAmount) {
+                    "`otherFeesGrossAmount` is required but was not set"
+                },
+                checkNotNull(reportDate) { "`reportDate` is required but was not set" },
+                checkNotNull(settledNetAmount) { "`settledNetAmount` is required but was not set" },
+                checkNotNull(transactionsGrossAmount) {
+                    "`transactionsGrossAmount` is required but was not set"
+                },
+                checkNotNull(updated) { "`updated` is required but was not set" },
                 additionalProperties.toImmutable(),
             )
     }
