@@ -16,6 +16,10 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Simulates a credit authorization advice from the card network. This message indicates that the
+ * network approved a credit authorization on your behalf.
+ */
 class TransactionSimulateCreditAuthorizationParams
 constructor(
     private val body: TransactionSimulateCreditAuthorizationBody,

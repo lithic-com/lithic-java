@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/** List management operations */
 class ManagementOperationListParams
 constructor(
     private val begin: OffsetDateTime?,

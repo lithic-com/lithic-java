@@ -19,6 +19,16 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * This endpoint is used to ask the card network to send another activation code to a cardholder
+ * that has already tried tokenizing a card. A successful response indicates that the request was
+ * successfully delivered to the card network. The endpoint may only be used on Mastercard digital
+ * wallet tokenizations with status `INACTIVE`, `PENDING_ACTIVATION`, or `PENDING_2FA`. The network
+ * will send a new activation code to the one of the contact methods provided in the initial
+ * tokenization flow. If a user fails to enter the code correctly 3 times, the contact method will
+ * not be eligible for resending the activation code, and the cardholder must restart the provision
+ * process. Reach out at [lithic.com/contact](https://lithic.com/contact) for more information.
+ */
 class TokenizationResendActivationCodeParams
 constructor(
     private val tokenizationToken: String,

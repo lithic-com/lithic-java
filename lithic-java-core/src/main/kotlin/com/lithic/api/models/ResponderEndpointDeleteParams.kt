@@ -14,6 +14,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/** Disenroll a responder endpoint */
 class ResponderEndpointDeleteParams
 constructor(
     private val type: Type,

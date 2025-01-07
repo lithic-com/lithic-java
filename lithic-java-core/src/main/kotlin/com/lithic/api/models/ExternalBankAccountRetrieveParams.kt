@@ -7,6 +7,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/** Get the external bank account by token. */
 class ExternalBankAccountRetrieveParams
 constructor(
     private val externalBankAccountToken: String,

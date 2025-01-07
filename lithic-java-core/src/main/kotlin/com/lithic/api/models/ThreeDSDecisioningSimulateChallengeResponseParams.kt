@@ -15,6 +15,10 @@ import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
+/**
+ * Endpoint for responding to a 3DS Challenge initiated by a call to
+ * /v1/three_ds_decisioning/simulate/challenge
+ */
 class ThreeDSDecisioningSimulateChallengeResponseParams
 constructor(
     private val body: ThreeDSDecisioningSimulateChallengeResponseBody,

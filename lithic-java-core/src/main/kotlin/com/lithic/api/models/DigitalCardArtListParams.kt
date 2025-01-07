@@ -8,6 +8,7 @@ import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 import java.util.Optional
 
+/** List digital card art. */
 class DigitalCardArtListParams
 constructor(
     private val endingBefore: String?,

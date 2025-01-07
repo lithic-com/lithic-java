@@ -7,6 +7,7 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/** Get a specific loan tape for a given financial account. */
 class FinancialAccountLoanTapeRetrieveParams
 constructor(
     private val financialAccountToken: String,

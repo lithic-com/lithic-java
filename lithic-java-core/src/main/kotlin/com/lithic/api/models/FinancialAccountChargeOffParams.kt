@@ -18,6 +18,7 @@ import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
+/** Update issuing account state to charged off */
 class FinancialAccountChargeOffParams
 constructor(
     private val financialAccountToken: String,

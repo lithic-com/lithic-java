@@ -7,6 +7,9 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/**
+ * Get L2/L3 enhanced commercial data associated with a transaction event. Not available in sandbox.
+ */
 class TransactionEventEnhancedCommercialDataRetrieveParams
 constructor(
     private val eventToken: String,

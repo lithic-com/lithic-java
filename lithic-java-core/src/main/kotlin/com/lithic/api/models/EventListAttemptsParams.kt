@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/** List all the message attempts for a given event. */
 class EventListAttemptsParams
 constructor(
     private val eventToken: String,

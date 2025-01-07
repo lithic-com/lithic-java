@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/** List all the payments for the provided search criteria. */
 class PaymentListParams
 constructor(
     private val accountToken: String?,

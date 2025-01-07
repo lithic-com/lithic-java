@@ -10,6 +10,7 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/** Delete an event subscription. */
 class EventSubscriptionDeleteParams
 constructor(
     private val eventSubscriptionToken: String,

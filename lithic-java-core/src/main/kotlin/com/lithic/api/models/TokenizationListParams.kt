@@ -13,6 +13,7 @@ import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 
+/** List card tokenizations */
 class TokenizationListParams
 constructor(
     private val accountToken: String?,

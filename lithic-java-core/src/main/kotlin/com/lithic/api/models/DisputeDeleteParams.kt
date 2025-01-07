@@ -10,6 +10,7 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/** Withdraw dispute. */
 class DisputeDeleteParams
 constructor(
     private val disputeToken: String,

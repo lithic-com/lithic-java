@@ -16,6 +16,7 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/** Transfer funds between two financial accounts or between a financial account and card */
 class TransferCreateParams
 constructor(
     private val body: TransferCreateBody,

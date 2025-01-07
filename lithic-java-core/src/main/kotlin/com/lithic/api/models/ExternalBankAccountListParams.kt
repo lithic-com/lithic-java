@@ -13,6 +13,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/** List all the external bank accounts for the provided search criteria. */
 class ExternalBankAccountListParams
 constructor(
     private val accountToken: String?,

@@ -31,6 +31,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
+/** Creates an external bank account within a program or Lithic account. */
 class ExternalBankAccountCreateParams
 constructor(
     private val body: ExternalBankAccountCreateBody,

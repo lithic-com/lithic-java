@@ -20,6 +20,7 @@ import java.time.OffsetDateTime
 import java.util.Objects
 import java.util.Optional
 
+/** Update dispute. Can only be modified if status is `NEW`. */
 class DisputeUpdateParams
 constructor(
     private val disputeToken: String,

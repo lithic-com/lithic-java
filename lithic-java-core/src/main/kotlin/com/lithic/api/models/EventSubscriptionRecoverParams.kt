@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/** Resend all failed messages since a given time. */
 class EventSubscriptionRecoverParams
 constructor(
     private val eventSubscriptionToken: String,

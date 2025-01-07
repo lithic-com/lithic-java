@@ -7,6 +7,23 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/**
+ * Returns the backtest results of an authorization rule (if available).
+ *
+ * Backtesting is an asynchronous process that requires time to complete. If a customer retrieves
+ * the backtest results using this endpoint before the report is fully generated, the response will
+ * return null for `results.current_version` and `results.draft_version`. Customers are advised to
+ * wait for the backtest creation process to complete (as indicated by the webhook event
+ * auth_rules.backtest_report.created) before retrieving results from this endpoint.
+ *
+ * Backtesting is an asynchronous process, while the backtest is being processed, results will not
+ * be available which will cause `results.current_version` and `results.draft_version` objects to
+ * contain `null`. The entries in `results` will also always represent the configuration of the rule
+ * at the time requests are made to this endpoint. For example, the results for `current_version` in
+ * the served backtest report will be consistent with which version of the rule is currently
+ * activated in the Auth Stream, regardless of which version of the rule was active in the Auth
+ * Stream at the time a backtest is requested.
+ */
 class AuthRuleV2BacktestRetrieveParams
 constructor(
     private val authRuleToken: String,

@@ -19,6 +19,12 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Voids a pending authorization. If `amount` is not set, the full amount will be voided. Can be
+ * used on partially voided transactions but not partially cleared transactions. _Simulating an
+ * authorization expiry on credit authorizations or credit authorization advice is not currently
+ * supported but will be added soon._
+ */
 class TransactionSimulateVoidParams
 constructor(
     private val body: TransactionSimulateVoidBody,

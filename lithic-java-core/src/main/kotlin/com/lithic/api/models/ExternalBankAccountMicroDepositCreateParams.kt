@@ -15,6 +15,7 @@ import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
+/** Verify the external bank account by providing the micro deposit amounts. */
 class ExternalBankAccountMicroDepositCreateParams
 constructor(
     private val externalBankAccountToken: String,

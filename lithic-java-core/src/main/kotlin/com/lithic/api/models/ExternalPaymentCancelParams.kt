@@ -17,6 +17,7 @@ import java.time.LocalDate
 import java.util.Objects
 import java.util.Optional
 
+/** Cancel external payment */
 class ExternalPaymentCancelParams
 constructor(
     private val externalPaymentToken: String,
