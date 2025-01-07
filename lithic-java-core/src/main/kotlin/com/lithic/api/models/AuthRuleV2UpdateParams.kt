@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -42,11 +43,23 @@ constructor(
      */
     fun state(): Optional<State> = body.state()
 
+    /** Auth Rule Name */
+    fun _name(): JsonField<String> = body._name()
+
+    /**
+     * The desired state of the Auth Rule.
+     *
+     * Note that only deactivating an Auth Rule through this endpoint is supported at this time. If
+     * you need to (re-)activate an Auth Rule the /promote endpoint should be used to promote a
+     * draft to the currently active version.
+     */
+    fun _state(): JsonField<State> = body._state()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): AuthRuleV2UpdateBody = body
 
@@ -65,14 +78,18 @@ constructor(
     class AuthRuleV2UpdateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("name") private val name: String?,
-        @JsonProperty("state") private val state: State?,
+        @JsonProperty("name")
+        @ExcludeMissing
+        private val name: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("state")
+        @ExcludeMissing
+        private val state: JsonField<State> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Auth Rule Name */
-        @JsonProperty("name") fun name(): Optional<String> = Optional.ofNullable(name)
+        fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
         /**
          * The desired state of the Auth Rule.
@@ -81,11 +98,33 @@ constructor(
          * If you need to (re-)activate an Auth Rule the /promote endpoint should be used to promote
          * a draft to the currently active version.
          */
-        @JsonProperty("state") fun state(): Optional<State> = Optional.ofNullable(state)
+        fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+
+        /** Auth Rule Name */
+        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+        /**
+         * The desired state of the Auth Rule.
+         *
+         * Note that only deactivating an Auth Rule through this endpoint is supported at this time.
+         * If you need to (re-)activate an Auth Rule the /promote endpoint should be used to promote
+         * a draft to the currently active version.
+         */
+        @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): AuthRuleV2UpdateBody = apply {
+            if (!validated) {
+                name()
+                state()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -96,8 +135,8 @@ constructor(
 
         class Builder {
 
-            private var name: String? = null
-            private var state: State? = null
+            private var name: JsonField<String> = JsonMissing.of()
+            private var state: JsonField<State> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -108,19 +147,13 @@ constructor(
             }
 
             /** Auth Rule Name */
-            fun name(name: String?) = apply { this.name = name }
+            fun name(name: String?) = name(JsonField.ofNullable(name))
 
             /** Auth Rule Name */
             fun name(name: Optional<String>) = name(name.orElse(null))
 
-            /**
-             * The desired state of the Auth Rule.
-             *
-             * Note that only deactivating an Auth Rule through this endpoint is supported at this
-             * time. If you need to (re-)activate an Auth Rule the /promote endpoint should be used
-             * to promote a draft to the currently active version.
-             */
-            fun state(state: State?) = apply { this.state = state }
+            /** Auth Rule Name */
+            fun name(name: JsonField<String>) = apply { this.name = name }
 
             /**
              * The desired state of the Auth Rule.
@@ -129,7 +162,16 @@ constructor(
              * time. If you need to (re-)activate an Auth Rule the /promote endpoint should be used
              * to promote a draft to the currently active version.
              */
-            fun state(state: Optional<State>) = state(state.orElse(null))
+            fun state(state: State) = state(JsonField.of(state))
+
+            /**
+             * The desired state of the Auth Rule.
+             *
+             * Note that only deactivating an Auth Rule through this endpoint is supported at this
+             * time. If you need to (re-)activate an Auth Rule the /promote endpoint should be used
+             * to promote a draft to the currently active version.
+             */
+            fun state(state: JsonField<State>) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -207,14 +249,8 @@ constructor(
         /** Auth Rule Name */
         fun name(name: Optional<String>) = name(name.orElse(null))
 
-        /**
-         * The desired state of the Auth Rule.
-         *
-         * Note that only deactivating an Auth Rule through this endpoint is supported at this time.
-         * If you need to (re-)activate an Auth Rule the /promote endpoint should be used to promote
-         * a draft to the currently active version.
-         */
-        fun state(state: State?) = apply { body.state(state) }
+        /** Auth Rule Name */
+        fun name(name: JsonField<String>) = apply { body.name(name) }
 
         /**
          * The desired state of the Auth Rule.
@@ -223,7 +259,35 @@ constructor(
          * If you need to (re-)activate an Auth Rule the /promote endpoint should be used to promote
          * a draft to the currently active version.
          */
-        fun state(state: Optional<State>) = state(state.orElse(null))
+        fun state(state: State) = apply { body.state(state) }
+
+        /**
+         * The desired state of the Auth Rule.
+         *
+         * Note that only deactivating an Auth Rule through this endpoint is supported at this time.
+         * If you need to (re-)activate an Auth Rule the /promote endpoint should be used to promote
+         * a draft to the currently active version.
+         */
+        fun state(state: JsonField<State>) = apply { body.state(state) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -321,25 +385,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): AuthRuleV2UpdateParams =

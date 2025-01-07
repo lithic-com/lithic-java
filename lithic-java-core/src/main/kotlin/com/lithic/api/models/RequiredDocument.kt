@@ -45,17 +45,23 @@ private constructor(
     fun validDocuments(): List<String> = validDocuments.getRequired("valid_documents")
 
     /** Globally unique identifier for an entity. */
-    @JsonProperty("entity_token") @ExcludeMissing fun _entityToken() = entityToken
+    @JsonProperty("entity_token")
+    @ExcludeMissing
+    fun _entityToken(): JsonField<String> = entityToken
 
     /**
      * rovides the status reasons that will be satisfied by providing one of the valid documents.
      */
-    @JsonProperty("status_reasons") @ExcludeMissing fun _statusReasons() = statusReasons
+    @JsonProperty("status_reasons")
+    @ExcludeMissing
+    fun _statusReasons(): JsonField<List<String>> = statusReasons
 
     /**
      * A list of valid documents that will satisfy the KYC requirements for the specified entity.
      */
-    @JsonProperty("valid_documents") @ExcludeMissing fun _validDocuments() = validDocuments
+    @JsonProperty("valid_documents")
+    @ExcludeMissing
+    fun _validDocuments(): JsonField<List<String>> = validDocuments
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -81,16 +87,16 @@ private constructor(
 
     class Builder {
 
-        private var entityToken: JsonField<String> = JsonMissing.of()
-        private var statusReasons: JsonField<List<String>> = JsonMissing.of()
-        private var validDocuments: JsonField<List<String>> = JsonMissing.of()
+        private var entityToken: JsonField<String>? = null
+        private var statusReasons: JsonField<MutableList<String>>? = null
+        private var validDocuments: JsonField<MutableList<String>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(requiredDocument: RequiredDocument) = apply {
             entityToken = requiredDocument.entityToken
-            statusReasons = requiredDocument.statusReasons
-            validDocuments = requiredDocument.validDocuments
+            statusReasons = requiredDocument.statusReasons.map { it.toMutableList() }
+            validDocuments = requiredDocument.validDocuments.map { it.toMutableList() }
             additionalProperties = requiredDocument.additionalProperties.toMutableMap()
         }
 
@@ -111,7 +117,24 @@ private constructor(
          * documents.
          */
         fun statusReasons(statusReasons: JsonField<List<String>>) = apply {
-            this.statusReasons = statusReasons
+            this.statusReasons = statusReasons.map { it.toMutableList() }
+        }
+
+        /**
+         * rovides the status reasons that will be satisfied by providing one of the valid
+         * documents.
+         */
+        fun addStatusReason(statusReason: String) = apply {
+            statusReasons =
+                (statusReasons ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(statusReason)
+                }
         }
 
         /**
@@ -126,7 +149,24 @@ private constructor(
          * entity.
          */
         fun validDocuments(validDocuments: JsonField<List<String>>) = apply {
-            this.validDocuments = validDocuments
+            this.validDocuments = validDocuments.map { it.toMutableList() }
+        }
+
+        /**
+         * A list of valid documents that will satisfy the KYC requirements for the specified
+         * entity.
+         */
+        fun addValidDocument(validDocument: String) = apply {
+            validDocuments =
+                (validDocuments ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(validDocument)
+                }
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -150,9 +190,11 @@ private constructor(
 
         fun build(): RequiredDocument =
             RequiredDocument(
-                entityToken,
-                statusReasons.map { it.toImmutable() },
-                validDocuments.map { it.toImmutable() },
+                checkNotNull(entityToken) { "`entityToken` is required but was not set" },
+                checkNotNull(statusReasons) { "`statusReasons` is required but was not set" }
+                    .map { it.toImmutable() },
+                checkNotNull(validDocuments) { "`validDocuments` is required but was not set" }
+                    .map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }

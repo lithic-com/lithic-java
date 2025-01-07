@@ -132,7 +132,7 @@ private constructor(
      */
     @JsonProperty("beneficial_owner_entities")
     @ExcludeMissing
-    fun _beneficialOwnerEntities() = beneficialOwnerEntities
+    fun _beneficialOwnerEntities(): JsonField<List<BusinessEntity>> = beneficialOwnerEntities
 
     /**
      * List of all direct and indirect individuals with >25% ownership in the company. If no entity
@@ -145,10 +145,12 @@ private constructor(
      */
     @JsonProperty("beneficial_owner_individuals")
     @ExcludeMissing
-    fun _beneficialOwnerIndividuals() = beneficialOwnerIndividuals
+    fun _beneficialOwnerIndividuals(): JsonField<List<KybIndividual>> = beneficialOwnerIndividuals
 
     /** Information for business for which the account is being opened and KYB is being run. */
-    @JsonProperty("business_entity") @ExcludeMissing fun _businessEntity() = businessEntity
+    @JsonProperty("business_entity")
+    @ExcludeMissing
+    fun _businessEntity(): JsonField<BusinessEntity> = businessEntity
 
     /**
      * An individual with significant responsibility for managing the legal entity (e.g., a Chief
@@ -159,23 +161,29 @@ private constructor(
      * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
      * (Section II) for more background.
      */
-    @JsonProperty("control_person") @ExcludeMissing fun _controlPerson() = controlPerson
+    @JsonProperty("control_person")
+    @ExcludeMissing
+    fun _controlPerson(): JsonField<KybIndividual> = controlPerson
 
     /** Short description of the company's line of business (i.e., what does the company do?). */
-    @JsonProperty("nature_of_business") @ExcludeMissing fun _natureOfBusiness() = natureOfBusiness
+    @JsonProperty("nature_of_business")
+    @ExcludeMissing
+    fun _natureOfBusiness(): JsonField<String> = natureOfBusiness
 
     /**
      * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
      * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation with
      * Lithic.
      */
-    @JsonProperty("tos_timestamp") @ExcludeMissing fun _tosTimestamp() = tosTimestamp
+    @JsonProperty("tos_timestamp")
+    @ExcludeMissing
+    fun _tosTimestamp(): JsonField<String> = tosTimestamp
 
     /** Specifies the type of KYB workflow to run. */
-    @JsonProperty("workflow") @ExcludeMissing fun _workflow() = workflow
+    @JsonProperty("workflow") @ExcludeMissing fun _workflow(): JsonField<Workflow> = workflow
 
     /** A user provided id that can be used to link an account holder with an external system */
-    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId(): JsonField<String> = externalId
 
     /**
      * An RFC 3339 timestamp indicating when precomputed KYC was completed on the business with a
@@ -185,10 +193,10 @@ private constructor(
      */
     @JsonProperty("kyb_passed_timestamp")
     @ExcludeMissing
-    fun _kybPassedTimestamp() = kybPassedTimestamp
+    fun _kybPassedTimestamp(): JsonField<String> = kybPassedTimestamp
 
     /** Company website URL. */
-    @JsonProperty("website_url") @ExcludeMissing fun _websiteUrl() = websiteUrl
+    @JsonProperty("website_url") @ExcludeMissing fun _websiteUrl(): JsonField<String> = websiteUrl
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -221,13 +229,13 @@ private constructor(
 
     class Builder {
 
-        private var beneficialOwnerEntities: JsonField<List<BusinessEntity>> = JsonMissing.of()
-        private var beneficialOwnerIndividuals: JsonField<List<KybIndividual>> = JsonMissing.of()
-        private var businessEntity: JsonField<BusinessEntity> = JsonMissing.of()
-        private var controlPerson: JsonField<KybIndividual> = JsonMissing.of()
-        private var natureOfBusiness: JsonField<String> = JsonMissing.of()
-        private var tosTimestamp: JsonField<String> = JsonMissing.of()
-        private var workflow: JsonField<Workflow> = JsonMissing.of()
+        private var beneficialOwnerEntities: JsonField<MutableList<BusinessEntity>>? = null
+        private var beneficialOwnerIndividuals: JsonField<MutableList<KybIndividual>>? = null
+        private var businessEntity: JsonField<BusinessEntity>? = null
+        private var controlPerson: JsonField<KybIndividual>? = null
+        private var natureOfBusiness: JsonField<String>? = null
+        private var tosTimestamp: JsonField<String>? = null
+        private var workflow: JsonField<Workflow>? = null
         private var externalId: JsonField<String> = JsonMissing.of()
         private var kybPassedTimestamp: JsonField<String> = JsonMissing.of()
         private var websiteUrl: JsonField<String> = JsonMissing.of()
@@ -235,8 +243,8 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(kyb: Kyb) = apply {
-            beneficialOwnerEntities = kyb.beneficialOwnerEntities
-            beneficialOwnerIndividuals = kyb.beneficialOwnerIndividuals
+            beneficialOwnerEntities = kyb.beneficialOwnerEntities.map { it.toMutableList() }
+            beneficialOwnerIndividuals = kyb.beneficialOwnerIndividuals.map { it.toMutableList() }
             businessEntity = kyb.businessEntity
             controlPerson = kyb.controlPerson
             natureOfBusiness = kyb.natureOfBusiness
@@ -271,8 +279,30 @@ private constructor(
          */
         fun beneficialOwnerEntities(beneficialOwnerEntities: JsonField<List<BusinessEntity>>) =
             apply {
-                this.beneficialOwnerEntities = beneficialOwnerEntities
+                this.beneficialOwnerEntities = beneficialOwnerEntities.map { it.toMutableList() }
             }
+
+        /**
+         * List of all entities with >25% ownership in the company. If no entity or individual
+         * owns >25% of the company, and the largest shareholder is an entity, please identify them
+         * in this field. See
+         * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
+         * (Section I) for more background. If no business owner is an entity, pass in an empty
+         * list. However, either this parameter or `beneficial_owner_individuals` must be populated.
+         * on entities that should be included.
+         */
+        fun addBeneficialOwnerEntity(beneficialOwnerEntity: BusinessEntity) = apply {
+            beneficialOwnerEntities =
+                (beneficialOwnerEntities ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(beneficialOwnerEntity)
+                }
+        }
 
         /**
          * List of all direct and indirect individuals with >25% ownership in the company. If no
@@ -297,8 +327,31 @@ private constructor(
          */
         fun beneficialOwnerIndividuals(beneficialOwnerIndividuals: JsonField<List<KybIndividual>>) =
             apply {
-                this.beneficialOwnerIndividuals = beneficialOwnerIndividuals
+                this.beneficialOwnerIndividuals =
+                    beneficialOwnerIndividuals.map { it.toMutableList() }
             }
+
+        /**
+         * List of all direct and indirect individuals with >25% ownership in the company. If no
+         * entity or individual owns >25% of the company, and the largest shareholder is an
+         * individual, please identify them in this field. See
+         * [FinCEN requirements](https://www.fincen.gov/sites/default/files/shared/CDD_Rev6.7_Sept_2017_Certificate.pdf)
+         * (Section I) for more background on individuals that should be included. If no individual
+         * is an entity, pass in an empty list. However, either this parameter or
+         * `beneficial_owner_entities` must be populated.
+         */
+        fun addBeneficialOwnerIndividual(beneficialOwnerIndividual: KybIndividual) = apply {
+            beneficialOwnerIndividuals =
+                (beneficialOwnerIndividuals ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(beneficialOwnerIndividual)
+                }
+        }
 
         /** Information for business for which the account is being opened and KYB is being run. */
         fun businessEntity(businessEntity: BusinessEntity) =
@@ -422,13 +475,19 @@ private constructor(
 
         fun build(): Kyb =
             Kyb(
-                beneficialOwnerEntities.map { it.toImmutable() },
-                beneficialOwnerIndividuals.map { it.toImmutable() },
-                businessEntity,
-                controlPerson,
-                natureOfBusiness,
-                tosTimestamp,
-                workflow,
+                checkNotNull(beneficialOwnerEntities) {
+                        "`beneficialOwnerEntities` is required but was not set"
+                    }
+                    .map { it.toImmutable() },
+                checkNotNull(beneficialOwnerIndividuals) {
+                        "`beneficialOwnerIndividuals` is required but was not set"
+                    }
+                    .map { it.toImmutable() },
+                checkNotNull(businessEntity) { "`businessEntity` is required but was not set" },
+                checkNotNull(controlPerson) { "`controlPerson` is required but was not set" },
+                checkNotNull(natureOfBusiness) { "`natureOfBusiness` is required but was not set" },
+                checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
+                checkNotNull(workflow) { "`workflow` is required but was not set" },
                 externalId,
                 kybPassedTimestamp,
                 websiteUrl,
@@ -495,30 +554,38 @@ private constructor(
          * Business's physical address - PO boxes, UPS drops, and FedEx drops are not acceptable;
          * APO/FPO are acceptable.
          */
-        @JsonProperty("address") @ExcludeMissing fun _address() = address
+        @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<Address> = address
 
         /**
          * Government-issued identification number. US Federal Employer Identification Numbers (EIN)
          * are currently supported, entered as full nine-digits, with or without hyphens.
          */
-        @JsonProperty("government_id") @ExcludeMissing fun _governmentId() = governmentId
+        @JsonProperty("government_id")
+        @ExcludeMissing
+        fun _governmentId(): JsonField<String> = governmentId
 
         /** Legal (formal) business name. */
         @JsonProperty("legal_business_name")
         @ExcludeMissing
-        fun _legalBusinessName() = legalBusinessName
+        fun _legalBusinessName(): JsonField<String> = legalBusinessName
 
         /** One or more of the business's phone number(s), entered as a list in E.164 format. */
-        @JsonProperty("phone_numbers") @ExcludeMissing fun _phoneNumbers() = phoneNumbers
+        @JsonProperty("phone_numbers")
+        @ExcludeMissing
+        fun _phoneNumbers(): JsonField<List<String>> = phoneNumbers
 
         /**
          * Any name that the business operates under that is not its legal business name (if
          * applicable).
          */
-        @JsonProperty("dba_business_name") @ExcludeMissing fun _dbaBusinessName() = dbaBusinessName
+        @JsonProperty("dba_business_name")
+        @ExcludeMissing
+        fun _dbaBusinessName(): JsonField<String> = dbaBusinessName
 
         /** Parent company name (if applicable). */
-        @JsonProperty("parent_company") @ExcludeMissing fun _parentCompany() = parentCompany
+        @JsonProperty("parent_company")
+        @ExcludeMissing
+        fun _parentCompany(): JsonField<String> = parentCompany
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -547,10 +614,10 @@ private constructor(
 
         class Builder {
 
-            private var address: JsonField<Address> = JsonMissing.of()
-            private var governmentId: JsonField<String> = JsonMissing.of()
-            private var legalBusinessName: JsonField<String> = JsonMissing.of()
-            private var phoneNumbers: JsonField<List<String>> = JsonMissing.of()
+            private var address: JsonField<Address>? = null
+            private var governmentId: JsonField<String>? = null
+            private var legalBusinessName: JsonField<String>? = null
+            private var phoneNumbers: JsonField<MutableList<String>>? = null
             private var dbaBusinessName: JsonField<String> = JsonMissing.of()
             private var parentCompany: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -560,7 +627,7 @@ private constructor(
                 address = businessEntity.address
                 governmentId = businessEntity.governmentId
                 legalBusinessName = businessEntity.legalBusinessName
-                phoneNumbers = businessEntity.phoneNumbers
+                phoneNumbers = businessEntity.phoneNumbers.map { it.toMutableList() }
                 dbaBusinessName = businessEntity.dbaBusinessName
                 parentCompany = businessEntity.parentCompany
                 additionalProperties = businessEntity.additionalProperties.toMutableMap()
@@ -606,7 +673,21 @@ private constructor(
 
             /** One or more of the business's phone number(s), entered as a list in E.164 format. */
             fun phoneNumbers(phoneNumbers: JsonField<List<String>>) = apply {
-                this.phoneNumbers = phoneNumbers
+                this.phoneNumbers = phoneNumbers.map { it.toMutableList() }
+            }
+
+            /** One or more of the business's phone number(s), entered as a list in E.164 format. */
+            fun addPhoneNumber(phoneNumber: String) = apply {
+                phoneNumbers =
+                    (phoneNumbers ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(phoneNumber)
+                    }
             }
 
             /**
@@ -653,10 +734,13 @@ private constructor(
 
             fun build(): BusinessEntity =
                 BusinessEntity(
-                    address,
-                    governmentId,
-                    legalBusinessName,
-                    phoneNumbers.map { it.toImmutable() },
+                    checkNotNull(address) { "`address` is required but was not set" },
+                    checkNotNull(governmentId) { "`governmentId` is required but was not set" },
+                    checkNotNull(legalBusinessName) {
+                        "`legalBusinessName` is required but was not set"
+                    },
+                    checkNotNull(phoneNumbers) { "`phoneNumbers` is required but was not set" }
+                        .map { it.toImmutable() },
                     dbaBusinessName,
                     parentCompany,
                     additionalProperties.toImmutable(),
@@ -746,19 +830,19 @@ private constructor(
          * Individual's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
          * APO/FPO are acceptable. Only USA addresses are currently supported.
          */
-        @JsonProperty("address") @ExcludeMissing fun _address() = address
+        @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<Address> = address
 
         /** Individual's date of birth, as an RFC 3339 date. */
-        @JsonProperty("dob") @ExcludeMissing fun _dob() = dob
+        @JsonProperty("dob") @ExcludeMissing fun _dob(): JsonField<String> = dob
 
         /**
          * Individual's email address. If utilizing Lithic for chargeback processing, this customer
          * email address may be used to communicate dispute status and resolution.
          */
-        @JsonProperty("email") @ExcludeMissing fun _email() = email
+        @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
         /** Individual's first name, as it appears on government-issued identity documents. */
-        @JsonProperty("first_name") @ExcludeMissing fun _firstName() = firstName
+        @JsonProperty("first_name") @ExcludeMissing fun _firstName(): JsonField<String> = firstName
 
         /**
          * Government-issued identification number (required for identity verification and
@@ -766,13 +850,17 @@ private constructor(
          * Taxpayer Identification Numbers (ITIN) are currently supported, entered as full
          * nine-digits, with or without hyphens
          */
-        @JsonProperty("government_id") @ExcludeMissing fun _governmentId() = governmentId
+        @JsonProperty("government_id")
+        @ExcludeMissing
+        fun _governmentId(): JsonField<String> = governmentId
 
         /** Individual's last name, as it appears on government-issued identity documents. */
-        @JsonProperty("last_name") @ExcludeMissing fun _lastName() = lastName
+        @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
 
         /** Individual's phone number, entered in E.164 format. */
-        @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
+        @JsonProperty("phone_number")
+        @ExcludeMissing
+        fun _phoneNumber(): JsonField<String> = phoneNumber
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -802,12 +890,12 @@ private constructor(
 
         class Builder {
 
-            private var address: JsonField<Address> = JsonMissing.of()
-            private var dob: JsonField<String> = JsonMissing.of()
-            private var email: JsonField<String> = JsonMissing.of()
-            private var firstName: JsonField<String> = JsonMissing.of()
-            private var governmentId: JsonField<String> = JsonMissing.of()
-            private var lastName: JsonField<String> = JsonMissing.of()
+            private var address: JsonField<Address>? = null
+            private var dob: JsonField<String>? = null
+            private var email: JsonField<String>? = null
+            private var firstName: JsonField<String>? = null
+            private var governmentId: JsonField<String>? = null
+            private var lastName: JsonField<String>? = null
             private var phoneNumber: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -912,12 +1000,12 @@ private constructor(
 
             fun build(): KybIndividual =
                 KybIndividual(
-                    address,
-                    dob,
-                    email,
-                    firstName,
-                    governmentId,
-                    lastName,
+                    checkNotNull(address) { "`address` is required but was not set" },
+                    checkNotNull(dob) { "`dob` is required but was not set" },
+                    checkNotNull(email) { "`email` is required but was not set" },
+                    checkNotNull(firstName) { "`firstName` is required but was not set" },
+                    checkNotNull(governmentId) { "`governmentId` is required but was not set" },
+                    checkNotNull(lastName) { "`lastName` is required but was not set" },
                     phoneNumber,
                     additionalProperties.toImmutable(),
                 )

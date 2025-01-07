@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -44,11 +45,24 @@ constructor(
      */
     fun cardExpiryCheck(): Optional<CardExpiryCheck> = body.cardExpiryCheck()
 
+    fun _merchant(): JsonField<Merchant> = body._merchant()
+
+    /** Sixteen digit card number. */
+    fun _pan(): JsonField<String> = body._pan()
+
+    fun _transaction(): JsonField<Transaction> = body._transaction()
+
+    /**
+     * When set will use the following values as part of the Simulated Authentication. When not set
+     * defaults to MATCH
+     */
+    fun _cardExpiryCheck(): JsonField<CardExpiryCheck> = body._cardExpiryCheck()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): ThreeDSAuthenticationSimulateBody = body
 
@@ -60,31 +74,66 @@ constructor(
     class ThreeDSAuthenticationSimulateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("merchant") private val merchant: Merchant,
-        @JsonProperty("pan") private val pan: String,
-        @JsonProperty("transaction") private val transaction: Transaction,
-        @JsonProperty("card_expiry_check") private val cardExpiryCheck: CardExpiryCheck?,
+        @JsonProperty("merchant")
+        @ExcludeMissing
+        private val merchant: JsonField<Merchant> = JsonMissing.of(),
+        @JsonProperty("pan") @ExcludeMissing private val pan: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("transaction")
+        @ExcludeMissing
+        private val transaction: JsonField<Transaction> = JsonMissing.of(),
+        @JsonProperty("card_expiry_check")
+        @ExcludeMissing
+        private val cardExpiryCheck: JsonField<CardExpiryCheck> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        @JsonProperty("merchant") fun merchant(): Merchant = merchant
+        fun merchant(): Merchant = merchant.getRequired("merchant")
 
         /** Sixteen digit card number. */
-        @JsonProperty("pan") fun pan(): String = pan
+        fun pan(): String = pan.getRequired("pan")
 
-        @JsonProperty("transaction") fun transaction(): Transaction = transaction
+        fun transaction(): Transaction = transaction.getRequired("transaction")
+
+        /**
+         * When set will use the following values as part of the Simulated Authentication. When not
+         * set defaults to MATCH
+         */
+        fun cardExpiryCheck(): Optional<CardExpiryCheck> =
+            Optional.ofNullable(cardExpiryCheck.getNullable("card_expiry_check"))
+
+        @JsonProperty("merchant") @ExcludeMissing fun _merchant(): JsonField<Merchant> = merchant
+
+        /** Sixteen digit card number. */
+        @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
+
+        @JsonProperty("transaction")
+        @ExcludeMissing
+        fun _transaction(): JsonField<Transaction> = transaction
 
         /**
          * When set will use the following values as part of the Simulated Authentication. When not
          * set defaults to MATCH
          */
         @JsonProperty("card_expiry_check")
-        fun cardExpiryCheck(): Optional<CardExpiryCheck> = Optional.ofNullable(cardExpiryCheck)
+        @ExcludeMissing
+        fun _cardExpiryCheck(): JsonField<CardExpiryCheck> = cardExpiryCheck
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): ThreeDSAuthenticationSimulateBody = apply {
+            if (!validated) {
+                merchant().validate()
+                pan()
+                transaction().validate()
+                cardExpiryCheck()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -95,10 +144,10 @@ constructor(
 
         class Builder {
 
-            private var merchant: Merchant? = null
-            private var pan: String? = null
-            private var transaction: Transaction? = null
-            private var cardExpiryCheck: CardExpiryCheck? = null
+            private var merchant: JsonField<Merchant>? = null
+            private var pan: JsonField<String>? = null
+            private var transaction: JsonField<Transaction>? = null
+            private var cardExpiryCheck: JsonField<CardExpiryCheck> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -113,27 +162,36 @@ constructor(
                     threeDSAuthenticationSimulateBody.additionalProperties.toMutableMap()
             }
 
-            fun merchant(merchant: Merchant) = apply { this.merchant = merchant }
+            fun merchant(merchant: Merchant) = merchant(JsonField.of(merchant))
+
+            fun merchant(merchant: JsonField<Merchant>) = apply { this.merchant = merchant }
 
             /** Sixteen digit card number. */
-            fun pan(pan: String) = apply { this.pan = pan }
+            fun pan(pan: String) = pan(JsonField.of(pan))
 
-            fun transaction(transaction: Transaction) = apply { this.transaction = transaction }
+            /** Sixteen digit card number. */
+            fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
-            /**
-             * When set will use the following values as part of the Simulated Authentication. When
-             * not set defaults to MATCH
-             */
-            fun cardExpiryCheck(cardExpiryCheck: CardExpiryCheck?) = apply {
-                this.cardExpiryCheck = cardExpiryCheck
+            fun transaction(transaction: Transaction) = transaction(JsonField.of(transaction))
+
+            fun transaction(transaction: JsonField<Transaction>) = apply {
+                this.transaction = transaction
             }
 
             /**
              * When set will use the following values as part of the Simulated Authentication. When
              * not set defaults to MATCH
              */
-            fun cardExpiryCheck(cardExpiryCheck: Optional<CardExpiryCheck>) =
-                cardExpiryCheck(cardExpiryCheck.orElse(null))
+            fun cardExpiryCheck(cardExpiryCheck: CardExpiryCheck) =
+                cardExpiryCheck(JsonField.of(cardExpiryCheck))
+
+            /**
+             * When set will use the following values as part of the Simulated Authentication. When
+             * not set defaults to MATCH
+             */
+            fun cardExpiryCheck(cardExpiryCheck: JsonField<CardExpiryCheck>) = apply {
+                this.cardExpiryCheck = cardExpiryCheck
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -209,16 +267,25 @@ constructor(
 
         fun merchant(merchant: Merchant) = apply { body.merchant(merchant) }
 
+        fun merchant(merchant: JsonField<Merchant>) = apply { body.merchant(merchant) }
+
         /** Sixteen digit card number. */
         fun pan(pan: String) = apply { body.pan(pan) }
 
+        /** Sixteen digit card number. */
+        fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
+
         fun transaction(transaction: Transaction) = apply { body.transaction(transaction) }
+
+        fun transaction(transaction: JsonField<Transaction>) = apply {
+            body.transaction(transaction)
+        }
 
         /**
          * When set will use the following values as part of the Simulated Authentication. When not
          * set defaults to MATCH
          */
-        fun cardExpiryCheck(cardExpiryCheck: CardExpiryCheck?) = apply {
+        fun cardExpiryCheck(cardExpiryCheck: CardExpiryCheck) = apply {
             body.cardExpiryCheck(cardExpiryCheck)
         }
 
@@ -226,8 +293,28 @@ constructor(
          * When set will use the following values as part of the Simulated Authentication. When not
          * set defaults to MATCH
          */
-        fun cardExpiryCheck(cardExpiryCheck: Optional<CardExpiryCheck>) =
-            cardExpiryCheck(cardExpiryCheck.orElse(null))
+        fun cardExpiryCheck(cardExpiryCheck: JsonField<CardExpiryCheck>) = apply {
+            body.cardExpiryCheck(cardExpiryCheck)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -327,25 +414,6 @@ constructor(
             additionalQueryParams.removeAll(keys)
         }
 
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
-        }
-
         fun build(): ThreeDSAuthenticationSimulateParams =
             ThreeDSAuthenticationSimulateParams(
                 body.build(),
@@ -358,10 +426,14 @@ constructor(
     class Merchant
     @JsonCreator
     private constructor(
-        @JsonProperty("id") private val id: String,
-        @JsonProperty("country") private val country: String,
-        @JsonProperty("mcc") private val mcc: String,
-        @JsonProperty("name") private val name: String,
+        @JsonProperty("id") @ExcludeMissing private val id: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("country")
+        @ExcludeMissing
+        private val country: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("mcc") @ExcludeMissing private val mcc: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("name")
+        @ExcludeMissing
+        private val name: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -370,26 +442,59 @@ constructor(
          * Unique identifier to identify the payment card acceptor. Corresponds to
          * `merchant_acceptor_id` in authorization.
          */
-        @JsonProperty("id") fun id(): String = id
+        fun id(): String = id.getRequired("id")
 
         /**
          * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g. USA)
          */
-        @JsonProperty("country") fun country(): String = country
+        fun country(): String = country.getRequired("country")
 
         /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
          * ISO 18245. Supported merchant category codes can be found
          * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
          */
-        @JsonProperty("mcc") fun mcc(): String = mcc
+        fun mcc(): String = mcc.getRequired("mcc")
 
         /** Merchant descriptor, corresponds to `descriptor` in authorization. */
-        @JsonProperty("name") fun name(): String = name
+        fun name(): String = name.getRequired("name")
+
+        /**
+         * Unique identifier to identify the payment card acceptor. Corresponds to
+         * `merchant_acceptor_id` in authorization.
+         */
+        @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
+
+        /**
+         * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g. USA)
+         */
+        @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
+
+        /**
+         * Merchant category code for the transaction to be simulated. A four-digit number listed in
+         * ISO 18245. Supported merchant category codes can be found
+         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         */
+        @JsonProperty("mcc") @ExcludeMissing fun _mcc(): JsonField<String> = mcc
+
+        /** Merchant descriptor, corresponds to `descriptor` in authorization. */
+        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): Merchant = apply {
+            if (!validated) {
+                id()
+                country()
+                mcc()
+                name()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -400,10 +505,10 @@ constructor(
 
         class Builder {
 
-            private var id: String? = null
-            private var country: String? = null
-            private var mcc: String? = null
-            private var name: String? = null
+            private var id: JsonField<String>? = null
+            private var country: JsonField<String>? = null
+            private var mcc: JsonField<String>? = null
+            private var name: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -419,23 +524,45 @@ constructor(
              * Unique identifier to identify the payment card acceptor. Corresponds to
              * `merchant_acceptor_id` in authorization.
              */
-            fun id(id: String) = apply { this.id = id }
+            fun id(id: String) = id(JsonField.of(id))
+
+            /**
+             * Unique identifier to identify the payment card acceptor. Corresponds to
+             * `merchant_acceptor_id` in authorization.
+             */
+            fun id(id: JsonField<String>) = apply { this.id = id }
 
             /**
              * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g.
              * USA)
              */
-            fun country(country: String) = apply { this.country = country }
+            fun country(country: String) = country(JsonField.of(country))
+
+            /**
+             * Country of the address provided by the cardholder in ISO 3166-1 alpha-3 format (e.g.
+             * USA)
+             */
+            fun country(country: JsonField<String>) = apply { this.country = country }
 
             /**
              * Merchant category code for the transaction to be simulated. A four-digit number
              * listed in ISO 18245. Supported merchant category codes can be found
              * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
              */
-            fun mcc(mcc: String) = apply { this.mcc = mcc }
+            fun mcc(mcc: String) = mcc(JsonField.of(mcc))
+
+            /**
+             * Merchant category code for the transaction to be simulated. A four-digit number
+             * listed in ISO 18245. Supported merchant category codes can be found
+             * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+             */
+            fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
 
             /** Merchant descriptor, corresponds to `descriptor` in authorization. */
-            fun name(name: String) = apply { this.name = name }
+            fun name(name: String) = name(JsonField.of(name))
+
+            /** Merchant descriptor, corresponds to `descriptor` in authorization. */
+            fun name(name: JsonField<String>) = apply { this.name = name }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -488,21 +615,41 @@ constructor(
     class Transaction
     @JsonCreator
     private constructor(
-        @JsonProperty("amount") private val amount: Long,
-        @JsonProperty("currency") private val currency: String,
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("currency")
+        @ExcludeMissing
+        private val currency: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Amount (in cents) to authenticate. */
-        @JsonProperty("amount") fun amount(): Long = amount
+        fun amount(): Long = amount.getRequired("amount")
 
         /** 3-digit alphabetic ISO 4217 currency code. */
-        @JsonProperty("currency") fun currency(): String = currency
+        fun currency(): String = currency.getRequired("currency")
+
+        /** Amount (in cents) to authenticate. */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+        /** 3-digit alphabetic ISO 4217 currency code. */
+        @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): Transaction = apply {
+            if (!validated) {
+                amount()
+                currency()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -513,8 +660,8 @@ constructor(
 
         class Builder {
 
-            private var amount: Long? = null
-            private var currency: String? = null
+            private var amount: JsonField<Long>? = null
+            private var currency: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -525,10 +672,16 @@ constructor(
             }
 
             /** Amount (in cents) to authenticate. */
-            fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = amount(JsonField.of(amount))
+
+            /** Amount (in cents) to authenticate. */
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** 3-digit alphabetic ISO 4217 currency code. */
-            fun currency(currency: String) = apply { this.currency = currency }
+            fun currency(currency: String) = currency(JsonField.of(currency))
+
+            /** 3-digit alphabetic ISO 4217 currency code. */
+            fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()

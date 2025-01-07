@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -42,11 +43,23 @@ constructor(
      */
     fun statusReasons(): Optional<List<StatusReason>> = body.statusReasons()
 
+    /** The account holder which to perform the simulation upon. */
+    fun _accountHolderToken(): JsonField<String> = body._accountHolderToken()
+
+    /** An account holder's status for use within the simulation. */
+    fun _status(): JsonField<Status> = body._status()
+
+    /**
+     * Status reason that will be associated with the simulated account holder status. Only required
+     * for a `REJECTED` status.
+     */
+    fun _statusReasons(): JsonField<List<StatusReason>> = body._statusReasons()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): AccountHolderSimulateEnrollmentReviewBody = body
 
@@ -58,30 +71,63 @@ constructor(
     class AccountHolderSimulateEnrollmentReviewBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("account_holder_token") private val accountHolderToken: String?,
-        @JsonProperty("status") private val status: Status?,
-        @JsonProperty("status_reasons") private val statusReasons: List<StatusReason>?,
+        @JsonProperty("account_holder_token")
+        @ExcludeMissing
+        private val accountHolderToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("status")
+        @ExcludeMissing
+        private val status: JsonField<Status> = JsonMissing.of(),
+        @JsonProperty("status_reasons")
+        @ExcludeMissing
+        private val statusReasons: JsonField<List<StatusReason>> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The account holder which to perform the simulation upon. */
-        @JsonProperty("account_holder_token")
-        fun accountHolderToken(): Optional<String> = Optional.ofNullable(accountHolderToken)
+        fun accountHolderToken(): Optional<String> =
+            Optional.ofNullable(accountHolderToken.getNullable("account_holder_token"))
 
         /** An account holder's status for use within the simulation. */
-        @JsonProperty("status") fun status(): Optional<Status> = Optional.ofNullable(status)
+        fun status(): Optional<Status> = Optional.ofNullable(status.getNullable("status"))
+
+        /**
+         * Status reason that will be associated with the simulated account holder status. Only
+         * required for a `REJECTED` status.
+         */
+        fun statusReasons(): Optional<List<StatusReason>> =
+            Optional.ofNullable(statusReasons.getNullable("status_reasons"))
+
+        /** The account holder which to perform the simulation upon. */
+        @JsonProperty("account_holder_token")
+        @ExcludeMissing
+        fun _accountHolderToken(): JsonField<String> = accountHolderToken
+
+        /** An account holder's status for use within the simulation. */
+        @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
         /**
          * Status reason that will be associated with the simulated account holder status. Only
          * required for a `REJECTED` status.
          */
         @JsonProperty("status_reasons")
-        fun statusReasons(): Optional<List<StatusReason>> = Optional.ofNullable(statusReasons)
+        @ExcludeMissing
+        fun _statusReasons(): JsonField<List<StatusReason>> = statusReasons
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): AccountHolderSimulateEnrollmentReviewBody = apply {
+            if (!validated) {
+                accountHolderToken()
+                status()
+                statusReasons()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -92,9 +138,9 @@ constructor(
 
         class Builder {
 
-            private var accountHolderToken: String? = null
-            private var status: Status? = null
-            private var statusReasons: MutableList<StatusReason>? = null
+            private var accountHolderToken: JsonField<String> = JsonMissing.of()
+            private var status: JsonField<Status> = JsonMissing.of()
+            private var statusReasons: JsonField<MutableList<StatusReason>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -104,47 +150,58 @@ constructor(
                 accountHolderToken = accountHolderSimulateEnrollmentReviewBody.accountHolderToken
                 status = accountHolderSimulateEnrollmentReviewBody.status
                 statusReasons =
-                    accountHolderSimulateEnrollmentReviewBody.statusReasons?.toMutableList()
+                    accountHolderSimulateEnrollmentReviewBody.statusReasons.map {
+                        it.toMutableList()
+                    }
                 additionalProperties =
                     accountHolderSimulateEnrollmentReviewBody.additionalProperties.toMutableMap()
             }
 
             /** The account holder which to perform the simulation upon. */
-            fun accountHolderToken(accountHolderToken: String?) = apply {
+            fun accountHolderToken(accountHolderToken: String) =
+                accountHolderToken(JsonField.of(accountHolderToken))
+
+            /** The account holder which to perform the simulation upon. */
+            fun accountHolderToken(accountHolderToken: JsonField<String>) = apply {
                 this.accountHolderToken = accountHolderToken
             }
 
-            /** The account holder which to perform the simulation upon. */
-            fun accountHolderToken(accountHolderToken: Optional<String>) =
-                accountHolderToken(accountHolderToken.orElse(null))
+            /** An account holder's status for use within the simulation. */
+            fun status(status: Status) = status(JsonField.of(status))
 
             /** An account holder's status for use within the simulation. */
-            fun status(status: Status?) = apply { this.status = status }
-
-            /** An account holder's status for use within the simulation. */
-            fun status(status: Optional<Status>) = status(status.orElse(null))
+            fun status(status: JsonField<Status>) = apply { this.status = status }
 
             /**
              * Status reason that will be associated with the simulated account holder status. Only
              * required for a `REJECTED` status.
              */
-            fun statusReasons(statusReasons: List<StatusReason>?) = apply {
-                this.statusReasons = statusReasons?.toMutableList()
+            fun statusReasons(statusReasons: List<StatusReason>) =
+                statusReasons(JsonField.of(statusReasons))
+
+            /**
+             * Status reason that will be associated with the simulated account holder status. Only
+             * required for a `REJECTED` status.
+             */
+            fun statusReasons(statusReasons: JsonField<List<StatusReason>>) = apply {
+                this.statusReasons = statusReasons.map { it.toMutableList() }
             }
-
-            /**
-             * Status reason that will be associated with the simulated account holder status. Only
-             * required for a `REJECTED` status.
-             */
-            fun statusReasons(statusReasons: Optional<List<StatusReason>>) =
-                statusReasons(statusReasons.orElse(null))
 
             /**
              * Status reason that will be associated with the simulated account holder status. Only
              * required for a `REJECTED` status.
              */
             fun addStatusReason(statusReason: StatusReason) = apply {
-                statusReasons = (statusReasons ?: mutableListOf()).apply { add(statusReason) }
+                statusReasons =
+                    (statusReasons ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(statusReason)
+                    }
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -170,7 +227,7 @@ constructor(
                 AccountHolderSimulateEnrollmentReviewBody(
                     accountHolderToken,
                     status,
-                    statusReasons?.toImmutable(),
+                    (statusReasons ?: JsonMissing.of()).map { it.toImmutable() },
                     additionalProperties.toImmutable(),
                 )
         }
@@ -220,25 +277,26 @@ constructor(
         }
 
         /** The account holder which to perform the simulation upon. */
-        fun accountHolderToken(accountHolderToken: String?) = apply {
+        fun accountHolderToken(accountHolderToken: String) = apply {
             body.accountHolderToken(accountHolderToken)
         }
 
         /** The account holder which to perform the simulation upon. */
-        fun accountHolderToken(accountHolderToken: Optional<String>) =
-            accountHolderToken(accountHolderToken.orElse(null))
+        fun accountHolderToken(accountHolderToken: JsonField<String>) = apply {
+            body.accountHolderToken(accountHolderToken)
+        }
 
         /** An account holder's status for use within the simulation. */
-        fun status(status: Status?) = apply { body.status(status) }
+        fun status(status: Status) = apply { body.status(status) }
 
         /** An account holder's status for use within the simulation. */
-        fun status(status: Optional<Status>) = status(status.orElse(null))
+        fun status(status: JsonField<Status>) = apply { body.status(status) }
 
         /**
          * Status reason that will be associated with the simulated account holder status. Only
          * required for a `REJECTED` status.
          */
-        fun statusReasons(statusReasons: List<StatusReason>?) = apply {
+        fun statusReasons(statusReasons: List<StatusReason>) = apply {
             body.statusReasons(statusReasons)
         }
 
@@ -246,8 +304,9 @@ constructor(
          * Status reason that will be associated with the simulated account holder status. Only
          * required for a `REJECTED` status.
          */
-        fun statusReasons(statusReasons: Optional<List<StatusReason>>) =
-            statusReasons(statusReasons.orElse(null))
+        fun statusReasons(statusReasons: JsonField<List<StatusReason>>) = apply {
+            body.statusReasons(statusReasons)
+        }
 
         /**
          * Status reason that will be associated with the simulated account holder status. Only
@@ -255,6 +314,25 @@ constructor(
          */
         fun addStatusReason(statusReason: StatusReason) = apply {
             body.addStatusReason(statusReason)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -353,25 +431,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): AccountHolderSimulateEnrollmentReviewParams =

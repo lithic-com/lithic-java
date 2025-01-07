@@ -30,7 +30,7 @@ private constructor(
     fun secret(): Optional<String> = Optional.ofNullable(secret.getNullable("secret"))
 
     /** The secret for the event subscription. */
-    @JsonProperty("secret") @ExcludeMissing fun _secret() = secret
+    @JsonProperty("secret") @ExcludeMissing fun _secret(): JsonField<String> = secret
 
     @JsonAnyGetter
     @ExcludeMissing

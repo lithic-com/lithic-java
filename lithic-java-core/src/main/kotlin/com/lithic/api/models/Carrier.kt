@@ -30,7 +30,7 @@ private constructor(
     fun qrCodeUrl(): Optional<String> = Optional.ofNullable(qrCodeUrl.getNullable("qr_code_url"))
 
     /** QR code url to display on the card carrier */
-    @JsonProperty("qr_code_url") @ExcludeMissing fun _qrCodeUrl() = qrCodeUrl
+    @JsonProperty("qr_code_url") @ExcludeMissing fun _qrCodeUrl(): JsonField<String> = qrCodeUrl
 
     @JsonAnyGetter
     @ExcludeMissing

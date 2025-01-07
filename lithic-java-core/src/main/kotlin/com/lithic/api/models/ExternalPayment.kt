@@ -92,33 +92,45 @@ private constructor(
     fun userDefinedId(): Optional<String> =
         Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
 
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-    @JsonProperty("category") @ExcludeMissing fun _category() = category
+    @JsonProperty("category")
+    @ExcludeMissing
+    fun _category(): JsonField<ExternalPaymentCategory> = category
 
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+    @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
-    @JsonProperty("events") @ExcludeMissing fun _events() = events
+    @JsonProperty("events")
+    @ExcludeMissing
+    fun _events(): JsonField<List<ExternalPaymentEvent>> = events
 
     @JsonProperty("financial_account_token")
     @ExcludeMissing
-    fun _financialAccountToken() = financialAccountToken
+    fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
-    @JsonProperty("payment_type") @ExcludeMissing fun _paymentType() = paymentType
+    @JsonProperty("payment_type")
+    @ExcludeMissing
+    fun _paymentType(): JsonField<ExternalPaymentDirection> = paymentType
 
-    @JsonProperty("pending_amount") @ExcludeMissing fun _pendingAmount() = pendingAmount
+    @JsonProperty("pending_amount")
+    @ExcludeMissing
+    fun _pendingAmount(): JsonField<Long> = pendingAmount
 
-    @JsonProperty("result") @ExcludeMissing fun _result() = result
+    @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<TransactionResult> = result
 
-    @JsonProperty("settled_amount") @ExcludeMissing fun _settledAmount() = settledAmount
+    @JsonProperty("settled_amount")
+    @ExcludeMissing
+    fun _settledAmount(): JsonField<Long> = settledAmount
 
-    @JsonProperty("status") @ExcludeMissing fun _status() = status
+    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<TransactionStatus> = status
 
-    @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+    @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
-    @JsonProperty("user_defined_id") @ExcludeMissing fun _userDefinedId() = userDefinedId
+    @JsonProperty("user_defined_id")
+    @ExcludeMissing
+    fun _userDefinedId(): JsonField<String> = userDefinedId
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -154,18 +166,18 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var category: JsonField<ExternalPaymentCategory> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var currency: JsonField<String> = JsonMissing.of()
-        private var events: JsonField<List<ExternalPaymentEvent>> = JsonMissing.of()
-        private var financialAccountToken: JsonField<String> = JsonMissing.of()
-        private var paymentType: JsonField<ExternalPaymentDirection> = JsonMissing.of()
-        private var pendingAmount: JsonField<Long> = JsonMissing.of()
-        private var result: JsonField<TransactionResult> = JsonMissing.of()
-        private var settledAmount: JsonField<Long> = JsonMissing.of()
-        private var status: JsonField<TransactionStatus> = JsonMissing.of()
-        private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var category: JsonField<ExternalPaymentCategory>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var currency: JsonField<String>? = null
+        private var events: JsonField<MutableList<ExternalPaymentEvent>>? = null
+        private var financialAccountToken: JsonField<String>? = null
+        private var paymentType: JsonField<ExternalPaymentDirection>? = null
+        private var pendingAmount: JsonField<Long>? = null
+        private var result: JsonField<TransactionResult>? = null
+        private var settledAmount: JsonField<Long>? = null
+        private var status: JsonField<TransactionStatus>? = null
+        private var updated: JsonField<OffsetDateTime>? = null
         private var userDefinedId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -175,7 +187,7 @@ private constructor(
             category = externalPayment.category
             created = externalPayment.created
             currency = externalPayment.currency
-            events = externalPayment.events
+            events = externalPayment.events.map { it.toMutableList() }
             financialAccountToken = externalPayment.financialAccountToken
             paymentType = externalPayment.paymentType
             pendingAmount = externalPayment.pendingAmount
@@ -207,7 +219,22 @@ private constructor(
 
         fun events(events: List<ExternalPaymentEvent>) = events(JsonField.of(events))
 
-        fun events(events: JsonField<List<ExternalPaymentEvent>>) = apply { this.events = events }
+        fun events(events: JsonField<List<ExternalPaymentEvent>>) = apply {
+            this.events = events.map { it.toMutableList() }
+        }
+
+        fun addEvent(event: ExternalPaymentEvent) = apply {
+            events =
+                (events ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(event)
+                }
+        }
 
         fun financialAccountToken(financialAccountToken: String) =
             financialAccountToken(JsonField.of(financialAccountToken))
@@ -274,18 +301,21 @@ private constructor(
 
         fun build(): ExternalPayment =
             ExternalPayment(
-                token,
-                category,
-                created,
-                currency,
-                events.map { it.toImmutable() },
-                financialAccountToken,
-                paymentType,
-                pendingAmount,
-                result,
-                settledAmount,
-                status,
-                updated,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(category) { "`category` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(currency) { "`currency` is required but was not set" },
+                checkNotNull(events) { "`events` is required but was not set" }
+                    .map { it.toImmutable() },
+                checkNotNull(financialAccountToken) {
+                    "`financialAccountToken` is required but was not set"
+                },
+                checkNotNull(paymentType) { "`paymentType` is required but was not set" },
+                checkNotNull(pendingAmount) { "`pendingAmount` is required but was not set" },
+                checkNotNull(result) { "`result` is required but was not set" },
+                checkNotNull(settledAmount) { "`settledAmount` is required but was not set" },
+                checkNotNull(status) { "`status` is required but was not set" },
+                checkNotNull(updated) { "`updated` is required but was not set" },
                 userDefinedId,
                 additionalProperties.toImmutable(),
             )
@@ -409,21 +439,27 @@ private constructor(
 
         fun type(): ExternalPaymentEventType = type.getRequired("type")
 
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
-        @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-        @JsonProperty("created") @ExcludeMissing fun _created() = created
+        @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
-        @JsonProperty("detailed_results") @ExcludeMissing fun _detailedResults() = detailedResults
+        @JsonProperty("detailed_results")
+        @ExcludeMissing
+        fun _detailedResults(): JsonField<List<DetailedResults>> = detailedResults
 
-        @JsonProperty("effective_date") @ExcludeMissing fun _effectiveDate() = effectiveDate
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
 
-        @JsonProperty("memo") @ExcludeMissing fun _memo() = memo
+        @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
-        @JsonProperty("result") @ExcludeMissing fun _result() = result
+        @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<TransactionResult> = result
 
-        @JsonProperty("type") @ExcludeMissing fun _type() = type
+        @JsonProperty("type")
+        @ExcludeMissing
+        fun _type(): JsonField<ExternalPaymentEventType> = type
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -454,14 +490,14 @@ private constructor(
 
         class Builder {
 
-            private var token: JsonField<String> = JsonMissing.of()
-            private var amount: JsonField<Long> = JsonMissing.of()
-            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var detailedResults: JsonField<List<DetailedResults>> = JsonMissing.of()
-            private var effectiveDate: JsonField<LocalDate> = JsonMissing.of()
-            private var memo: JsonField<String> = JsonMissing.of()
-            private var result: JsonField<TransactionResult> = JsonMissing.of()
-            private var type: JsonField<ExternalPaymentEventType> = JsonMissing.of()
+            private var token: JsonField<String>? = null
+            private var amount: JsonField<Long>? = null
+            private var created: JsonField<OffsetDateTime>? = null
+            private var detailedResults: JsonField<MutableList<DetailedResults>>? = null
+            private var effectiveDate: JsonField<LocalDate>? = null
+            private var memo: JsonField<String>? = null
+            private var result: JsonField<TransactionResult>? = null
+            private var type: JsonField<ExternalPaymentEventType>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -469,7 +505,7 @@ private constructor(
                 token = externalPaymentEvent.token
                 amount = externalPaymentEvent.amount
                 created = externalPaymentEvent.created
-                detailedResults = externalPaymentEvent.detailedResults
+                detailedResults = externalPaymentEvent.detailedResults.map { it.toMutableList() }
                 effectiveDate = externalPaymentEvent.effectiveDate
                 memo = externalPaymentEvent.memo
                 result = externalPaymentEvent.result
@@ -493,7 +529,20 @@ private constructor(
                 detailedResults(JsonField.of(detailedResults))
 
             fun detailedResults(detailedResults: JsonField<List<DetailedResults>>) = apply {
-                this.detailedResults = detailedResults
+                this.detailedResults = detailedResults.map { it.toMutableList() }
+            }
+
+            fun addDetailedResult(detailedResult: DetailedResults) = apply {
+                detailedResults =
+                    (detailedResults ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(detailedResult)
+                    }
             }
 
             fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
@@ -535,14 +584,17 @@ private constructor(
 
             fun build(): ExternalPaymentEvent =
                 ExternalPaymentEvent(
-                    token,
-                    amount,
-                    created,
-                    detailedResults.map { it.toImmutable() },
-                    effectiveDate,
-                    memo,
-                    result,
-                    type,
+                    checkNotNull(token) { "`token` is required but was not set" },
+                    checkNotNull(amount) { "`amount` is required but was not set" },
+                    checkNotNull(created) { "`created` is required but was not set" },
+                    checkNotNull(detailedResults) {
+                            "`detailedResults` is required but was not set"
+                        }
+                        .map { it.toImmutable() },
+                    checkNotNull(effectiveDate) { "`effectiveDate` is required but was not set" },
+                    checkNotNull(memo) { "`memo` is required but was not set" },
+                    checkNotNull(result) { "`result` is required but was not set" },
+                    checkNotNull(type) { "`type` is required but was not set" },
                     additionalProperties.toImmutable(),
                 )
         }

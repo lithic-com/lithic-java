@@ -99,37 +99,43 @@ private constructor(
         Optional.ofNullable(events.getNullable("events"))
 
     /** Globally unique identifier for a Tokenization */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** The account token associated with the card being tokenized. */
-    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    fun _accountToken(): JsonField<String> = accountToken
 
     /** The card token associated with the card being tokenized. */
-    @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
+    @JsonProperty("card_token") @ExcludeMissing fun _cardToken(): JsonField<String> = cardToken
 
     /** Date and time when the tokenization first occurred. UTC time zone. */
-    @JsonProperty("created_at") @ExcludeMissing fun _createdAt() = createdAt
+    @JsonProperty("created_at")
+    @ExcludeMissing
+    fun _createdAt(): JsonField<OffsetDateTime> = createdAt
 
     /** The status of the tokenization request */
-    @JsonProperty("status") @ExcludeMissing fun _status() = status
+    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
     /** The entity that requested the tokenization. Represents a Digital Wallet or merchant. */
     @JsonProperty("token_requestor_name")
     @ExcludeMissing
-    fun _tokenRequestorName() = tokenRequestorName
+    fun _tokenRequestorName(): JsonField<TokenRequestorName> = tokenRequestorName
 
     /** The network's unique reference for the tokenization. */
     @JsonProperty("token_unique_reference")
     @ExcludeMissing
-    fun _tokenUniqueReference() = tokenUniqueReference
+    fun _tokenUniqueReference(): JsonField<String> = tokenUniqueReference
 
     /** The channel through which the tokenization was made. */
     @JsonProperty("tokenization_channel")
     @ExcludeMissing
-    fun _tokenizationChannel() = tokenizationChannel
+    fun _tokenizationChannel(): JsonField<TokenizationChannel> = tokenizationChannel
 
     /** Latest date and time when the tokenization was updated. UTC time zone. */
-    @JsonProperty("updated_at") @ExcludeMissing fun _updatedAt() = updatedAt
+    @JsonProperty("updated_at")
+    @ExcludeMissing
+    fun _updatedAt(): JsonField<OffsetDateTime> = updatedAt
 
     /**
      * Specifies the digital card art displayed in the user’s digital wallet after tokenization.
@@ -138,10 +144,12 @@ private constructor(
      */
     @JsonProperty("digital_card_art_token")
     @ExcludeMissing
-    fun _digitalCardArtToken() = digitalCardArtToken
+    fun _digitalCardArtToken(): JsonField<String> = digitalCardArtToken
 
     /** A list of events related to the tokenization. */
-    @JsonProperty("events") @ExcludeMissing fun _events() = events
+    @JsonProperty("events")
+    @ExcludeMissing
+    fun _events(): JsonField<List<TokenizationEvent>> = events
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -175,17 +183,17 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var accountToken: JsonField<String> = JsonMissing.of()
-        private var cardToken: JsonField<String> = JsonMissing.of()
-        private var createdAt: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var status: JsonField<Status> = JsonMissing.of()
-        private var tokenRequestorName: JsonField<TokenRequestorName> = JsonMissing.of()
-        private var tokenUniqueReference: JsonField<String> = JsonMissing.of()
-        private var tokenizationChannel: JsonField<TokenizationChannel> = JsonMissing.of()
-        private var updatedAt: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var accountToken: JsonField<String>? = null
+        private var cardToken: JsonField<String>? = null
+        private var createdAt: JsonField<OffsetDateTime>? = null
+        private var status: JsonField<Status>? = null
+        private var tokenRequestorName: JsonField<TokenRequestorName>? = null
+        private var tokenUniqueReference: JsonField<String>? = null
+        private var tokenizationChannel: JsonField<TokenizationChannel>? = null
+        private var updatedAt: JsonField<OffsetDateTime>? = null
         private var digitalCardArtToken: JsonField<String> = JsonMissing.of()
-        private var events: JsonField<List<TokenizationEvent>> = JsonMissing.of()
+        private var events: JsonField<MutableList<TokenizationEvent>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -200,7 +208,7 @@ private constructor(
             tokenizationChannel = tokenization.tokenizationChannel
             updatedAt = tokenization.updatedAt
             digitalCardArtToken = tokenization.digitalCardArtToken
-            events = tokenization.events
+            events = tokenization.events.map { it.toMutableList() }
             additionalProperties = tokenization.additionalProperties.toMutableMap()
         }
 
@@ -292,7 +300,23 @@ private constructor(
         fun events(events: List<TokenizationEvent>) = events(JsonField.of(events))
 
         /** A list of events related to the tokenization. */
-        fun events(events: JsonField<List<TokenizationEvent>>) = apply { this.events = events }
+        fun events(events: JsonField<List<TokenizationEvent>>) = apply {
+            this.events = events.map { it.toMutableList() }
+        }
+
+        /** A list of events related to the tokenization. */
+        fun addEvent(event: TokenizationEvent) = apply {
+            events =
+                (events ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(event)
+                }
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -315,17 +339,23 @@ private constructor(
 
         fun build(): Tokenization =
             Tokenization(
-                token,
-                accountToken,
-                cardToken,
-                createdAt,
-                status,
-                tokenRequestorName,
-                tokenUniqueReference,
-                tokenizationChannel,
-                updatedAt,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(accountToken) { "`accountToken` is required but was not set" },
+                checkNotNull(cardToken) { "`cardToken` is required but was not set" },
+                checkNotNull(createdAt) { "`createdAt` is required but was not set" },
+                checkNotNull(status) { "`status` is required but was not set" },
+                checkNotNull(tokenRequestorName) {
+                    "`tokenRequestorName` is required but was not set"
+                },
+                checkNotNull(tokenUniqueReference) {
+                    "`tokenUniqueReference` is required but was not set"
+                },
+                checkNotNull(tokenizationChannel) {
+                    "`tokenizationChannel` is required but was not set"
+                },
+                checkNotNull(updatedAt) { "`updatedAt` is required but was not set" },
                 digitalCardArtToken,
-                events.map { it.toImmutable() },
+                (events ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }
@@ -617,16 +647,18 @@ private constructor(
         fun type(): Optional<Type> = Optional.ofNullable(type.getNullable("type"))
 
         /** Globally unique identifier for a Tokenization Event */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /** Date and time when the tokenization event first occurred. UTC time zone. */
-        @JsonProperty("created_at") @ExcludeMissing fun _createdAt() = createdAt
+        @JsonProperty("created_at")
+        @ExcludeMissing
+        fun _createdAt(): JsonField<OffsetDateTime> = createdAt
 
         /** Enum representing the result of the tokenization event */
-        @JsonProperty("result") @ExcludeMissing fun _result() = result
+        @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
 
         /** Enum representing the type of tokenization event that occurred */
-        @JsonProperty("type") @ExcludeMissing fun _type() = type
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         @JsonAnyGetter
         @ExcludeMissing

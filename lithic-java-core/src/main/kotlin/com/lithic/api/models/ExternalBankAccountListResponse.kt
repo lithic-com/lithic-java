@@ -176,82 +176,94 @@ private constructor(
      * program links an external bank account to more than one end-user or to both the program and
      * the end-user, then Lithic will return each record of the association
      */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
      * The country that the bank account is located in using ISO 3166-1. We will only accept USA
      * bank accounts e.g., USA
      */
-    @JsonProperty("country") @ExcludeMissing fun _country() = country
+    @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
     /** An ISO 8601 string representing when this funding source was added to the Lithic account. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** currency of the external account 3-digit alphabetic ISO 4217 code */
-    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+    @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /** The last 4 digits of the bank account. Derived by Lithic from the account number passed */
-    @JsonProperty("last_four") @ExcludeMissing fun _lastFour() = lastFour
+    @JsonProperty("last_four") @ExcludeMissing fun _lastFour(): JsonField<String> = lastFour
 
     /**
      * Legal Name of the business or individual who owns the external account. This will appear in
      * statements
      */
-    @JsonProperty("owner") @ExcludeMissing fun _owner() = owner
+    @JsonProperty("owner") @ExcludeMissing fun _owner(): JsonField<String> = owner
 
     /** Owner Type */
-    @JsonProperty("owner_type") @ExcludeMissing fun _ownerType() = ownerType
+    @JsonProperty("owner_type") @ExcludeMissing fun _ownerType(): JsonField<OwnerType> = ownerType
 
     /** Routing Number */
-    @JsonProperty("routing_number") @ExcludeMissing fun _routingNumber() = routingNumber
+    @JsonProperty("routing_number")
+    @ExcludeMissing
+    fun _routingNumber(): JsonField<String> = routingNumber
 
     /** Account State */
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
+    @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
     /** Account Type */
-    @JsonProperty("type") @ExcludeMissing fun _type() = type
+    @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
     /** The number of attempts at verification */
     @JsonProperty("verification_attempts")
     @ExcludeMissing
-    fun _verificationAttempts() = verificationAttempts
+    fun _verificationAttempts(): JsonField<Long> = verificationAttempts
 
     /** Verification Method */
     @JsonProperty("verification_method")
     @ExcludeMissing
-    fun _verificationMethod() = verificationMethod
+    fun _verificationMethod(): JsonField<VerificationMethod> = verificationMethod
 
     /** Verification State */
-    @JsonProperty("verification_state") @ExcludeMissing fun _verificationState() = verificationState
+    @JsonProperty("verification_state")
+    @ExcludeMissing
+    fun _verificationState(): JsonField<VerificationState> = verificationState
 
     /**
      * Indicates which Lithic account the external account is associated with. For external accounts
      * that are associated with the program, account_token field returned will be null
      */
-    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    fun _accountToken(): JsonField<String> = accountToken
 
     /** Address */
-    @JsonProperty("address") @ExcludeMissing fun _address() = address
+    @JsonProperty("address")
+    @ExcludeMissing
+    fun _address(): JsonField<ExternalBankAccountAddress> = address
 
     /** Optional field that helps identify bank accounts in receipts */
-    @JsonProperty("company_id") @ExcludeMissing fun _companyId() = companyId
+    @JsonProperty("company_id") @ExcludeMissing fun _companyId(): JsonField<String> = companyId
 
     /** Date of Birth of the Individual that owns the external bank account */
-    @JsonProperty("dob") @ExcludeMissing fun _dob() = dob
+    @JsonProperty("dob") @ExcludeMissing fun _dob(): JsonField<LocalDate> = dob
 
     /** Doing Business As */
-    @JsonProperty("doing_business_as") @ExcludeMissing fun _doingBusinessAs() = doingBusinessAs
+    @JsonProperty("doing_business_as")
+    @ExcludeMissing
+    fun _doingBusinessAs(): JsonField<String> = doingBusinessAs
 
     /** The financial account token of the operating account to fund the micro deposits */
     @JsonProperty("financial_account_token")
     @ExcludeMissing
-    fun _financialAccountToken() = financialAccountToken
+    fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
     /** The nickname for this External Bank Account */
-    @JsonProperty("name") @ExcludeMissing fun _name() = name
+    @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
     /** User Defined ID */
-    @JsonProperty("user_defined_id") @ExcludeMissing fun _userDefinedId() = userDefinedId
+    @JsonProperty("user_defined_id")
+    @ExcludeMissing
+    fun _userDefinedId(): JsonField<String> = userDefinedId
 
     /**
      * Optional free text description of the reason for the failed verification. For ACH
@@ -260,7 +272,7 @@ private constructor(
      */
     @JsonProperty("verification_failed_reason")
     @ExcludeMissing
-    fun _verificationFailedReason() = verificationFailedReason
+    fun _verificationFailedReason(): JsonField<String> = verificationFailedReason
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -305,19 +317,19 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var country: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var currency: JsonField<String> = JsonMissing.of()
-        private var lastFour: JsonField<String> = JsonMissing.of()
-        private var owner: JsonField<String> = JsonMissing.of()
-        private var ownerType: JsonField<OwnerType> = JsonMissing.of()
-        private var routingNumber: JsonField<String> = JsonMissing.of()
-        private var state: JsonField<State> = JsonMissing.of()
-        private var type: JsonField<Type> = JsonMissing.of()
-        private var verificationAttempts: JsonField<Long> = JsonMissing.of()
-        private var verificationMethod: JsonField<VerificationMethod> = JsonMissing.of()
-        private var verificationState: JsonField<VerificationState> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var country: JsonField<String>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var currency: JsonField<String>? = null
+        private var lastFour: JsonField<String>? = null
+        private var owner: JsonField<String>? = null
+        private var ownerType: JsonField<OwnerType>? = null
+        private var routingNumber: JsonField<String>? = null
+        private var state: JsonField<State>? = null
+        private var type: JsonField<Type>? = null
+        private var verificationAttempts: JsonField<Long>? = null
+        private var verificationMethod: JsonField<VerificationMethod>? = null
+        private var verificationState: JsonField<VerificationState>? = null
         private var accountToken: JsonField<String> = JsonMissing.of()
         private var address: JsonField<ExternalBankAccountAddress> = JsonMissing.of()
         private var companyId: JsonField<String> = JsonMissing.of()
@@ -579,19 +591,25 @@ private constructor(
 
         fun build(): ExternalBankAccountListResponse =
             ExternalBankAccountListResponse(
-                token,
-                country,
-                created,
-                currency,
-                lastFour,
-                owner,
-                ownerType,
-                routingNumber,
-                state,
-                type,
-                verificationAttempts,
-                verificationMethod,
-                verificationState,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(country) { "`country` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(currency) { "`currency` is required but was not set" },
+                checkNotNull(lastFour) { "`lastFour` is required but was not set" },
+                checkNotNull(owner) { "`owner` is required but was not set" },
+                checkNotNull(ownerType) { "`ownerType` is required but was not set" },
+                checkNotNull(routingNumber) { "`routingNumber` is required but was not set" },
+                checkNotNull(state) { "`state` is required but was not set" },
+                checkNotNull(type) { "`type` is required but was not set" },
+                checkNotNull(verificationAttempts) {
+                    "`verificationAttempts` is required but was not set"
+                },
+                checkNotNull(verificationMethod) {
+                    "`verificationMethod` is required but was not set"
+                },
+                checkNotNull(verificationState) {
+                    "`verificationState` is required but was not set"
+                },
                 accountToken,
                 address,
                 companyId,

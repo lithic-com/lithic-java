@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -28,11 +30,13 @@ constructor(
 
     fun microDeposits(): List<Long> = body.microDeposits()
 
+    fun _microDeposits(): JsonField<List<Long>> = body._microDeposits()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): ExternalBankAccountMicroDepositCreateBody = body
 
@@ -51,16 +55,31 @@ constructor(
     class ExternalBankAccountMicroDepositCreateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("micro_deposits") private val microDeposits: List<Long>,
+        @JsonProperty("micro_deposits")
+        @ExcludeMissing
+        private val microDeposits: JsonField<List<Long>> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        @JsonProperty("micro_deposits") fun microDeposits(): List<Long> = microDeposits
+        fun microDeposits(): List<Long> = microDeposits.getRequired("micro_deposits")
+
+        @JsonProperty("micro_deposits")
+        @ExcludeMissing
+        fun _microDeposits(): JsonField<List<Long>> = microDeposits
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): ExternalBankAccountMicroDepositCreateBody = apply {
+            if (!validated) {
+                microDeposits()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -71,7 +90,7 @@ constructor(
 
         class Builder {
 
-            private var microDeposits: MutableList<Long>? = null
+            private var microDeposits: JsonField<MutableList<Long>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -79,17 +98,31 @@ constructor(
                 externalBankAccountMicroDepositCreateBody: ExternalBankAccountMicroDepositCreateBody
             ) = apply {
                 microDeposits =
-                    externalBankAccountMicroDepositCreateBody.microDeposits.toMutableList()
+                    externalBankAccountMicroDepositCreateBody.microDeposits.map {
+                        it.toMutableList()
+                    }
                 additionalProperties =
                     externalBankAccountMicroDepositCreateBody.additionalProperties.toMutableMap()
             }
 
-            fun microDeposits(microDeposits: List<Long>) = apply {
-                this.microDeposits = microDeposits.toMutableList()
+            fun microDeposits(microDeposits: List<Long>) =
+                microDeposits(JsonField.of(microDeposits))
+
+            fun microDeposits(microDeposits: JsonField<List<Long>>) = apply {
+                this.microDeposits = microDeposits.map { it.toMutableList() }
             }
 
             fun addMicroDeposit(microDeposit: Long) = apply {
-                microDeposits = (microDeposits ?: mutableListOf()).apply { add(microDeposit) }
+                microDeposits =
+                    (microDeposits ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(microDeposit)
+                    }
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -114,7 +147,7 @@ constructor(
             fun build(): ExternalBankAccountMicroDepositCreateBody =
                 ExternalBankAccountMicroDepositCreateBody(
                     checkNotNull(microDeposits) { "`microDeposits` is required but was not set" }
-                        .toImmutable(),
+                        .map { it.toImmutable() },
                     additionalProperties.toImmutable()
                 )
         }
@@ -172,7 +205,30 @@ constructor(
 
         fun microDeposits(microDeposits: List<Long>) = apply { body.microDeposits(microDeposits) }
 
+        fun microDeposits(microDeposits: JsonField<List<Long>>) = apply {
+            body.microDeposits(microDeposits)
+        }
+
         fun addMicroDeposit(microDeposit: Long) = apply { body.addMicroDeposit(microDeposit) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -270,25 +326,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ExternalBankAccountMicroDepositCreateParams =

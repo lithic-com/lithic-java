@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -47,11 +49,31 @@ constructor(
      */
     fun phoneNumber(): Optional<String> = body.phoneNumber()
 
+    /**
+     * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+     * businesses. Pass the account_token of the enrolled business associated with the
+     * AUTHORIZED_USER in this field.
+     */
+    fun _businessAccountToken(): JsonField<String> = body._businessAccountToken()
+
+    /**
+     * Account holder's email address. The primary purpose of this field is for cardholder
+     * identification and verification during the digital wallet tokenization process.
+     */
+    fun _email(): JsonField<String> = body._email()
+
+    /**
+     * Account holder's phone number, entered in E.164 format. The primary purpose of this field is
+     * for cardholder identification and verification during the digital wallet tokenization
+     * process.
+     */
+    fun _phoneNumber(): JsonField<String> = body._phoneNumber()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): AccountHolderUpdateBody = body
 
@@ -70,9 +92,15 @@ constructor(
     class AccountHolderUpdateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("business_account_token") private val businessAccountToken: String?,
-        @JsonProperty("email") private val email: String?,
-        @JsonProperty("phone_number") private val phoneNumber: String?,
+        @JsonProperty("business_account_token")
+        @ExcludeMissing
+        private val businessAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("email")
+        @ExcludeMissing
+        private val email: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("phone_number")
+        @ExcludeMissing
+        private val phoneNumber: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -82,14 +110,37 @@ constructor(
          * businesses. Pass the account_token of the enrolled business associated with the
          * AUTHORIZED_USER in this field.
          */
-        @JsonProperty("business_account_token")
-        fun businessAccountToken(): Optional<String> = Optional.ofNullable(businessAccountToken)
+        fun businessAccountToken(): Optional<String> =
+            Optional.ofNullable(businessAccountToken.getNullable("business_account_token"))
 
         /**
          * Account holder's email address. The primary purpose of this field is for cardholder
          * identification and verification during the digital wallet tokenization process.
          */
-        @JsonProperty("email") fun email(): Optional<String> = Optional.ofNullable(email)
+        fun email(): Optional<String> = Optional.ofNullable(email.getNullable("email"))
+
+        /**
+         * Account holder's phone number, entered in E.164 format. The primary purpose of this field
+         * is for cardholder identification and verification during the digital wallet tokenization
+         * process.
+         */
+        fun phoneNumber(): Optional<String> =
+            Optional.ofNullable(phoneNumber.getNullable("phone_number"))
+
+        /**
+         * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
+         * businesses. Pass the account_token of the enrolled business associated with the
+         * AUTHORIZED_USER in this field.
+         */
+        @JsonProperty("business_account_token")
+        @ExcludeMissing
+        fun _businessAccountToken(): JsonField<String> = businessAccountToken
+
+        /**
+         * Account holder's email address. The primary purpose of this field is for cardholder
+         * identification and verification during the digital wallet tokenization process.
+         */
+        @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
         /**
          * Account holder's phone number, entered in E.164 format. The primary purpose of this field
@@ -97,11 +148,23 @@ constructor(
          * process.
          */
         @JsonProperty("phone_number")
-        fun phoneNumber(): Optional<String> = Optional.ofNullable(phoneNumber)
+        @ExcludeMissing
+        fun _phoneNumber(): JsonField<String> = phoneNumber
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): AccountHolderUpdateBody = apply {
+            if (!validated) {
+                businessAccountToken()
+                email()
+                phoneNumber()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -112,9 +175,9 @@ constructor(
 
         class Builder {
 
-            private var businessAccountToken: String? = null
-            private var email: String? = null
-            private var phoneNumber: String? = null
+            private var businessAccountToken: JsonField<String> = JsonMissing.of()
+            private var email: JsonField<String> = JsonMissing.of()
+            private var phoneNumber: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -130,43 +193,45 @@ constructor(
              * users of businesses. Pass the account_token of the enrolled business associated with
              * the AUTHORIZED_USER in this field.
              */
-            fun businessAccountToken(businessAccountToken: String?) = apply {
-                this.businessAccountToken = businessAccountToken
-            }
+            fun businessAccountToken(businessAccountToken: String) =
+                businessAccountToken(JsonField.of(businessAccountToken))
 
             /**
              * Only applicable for customers using the KYC-Exempt workflow to enroll authorized
              * users of businesses. Pass the account_token of the enrolled business associated with
              * the AUTHORIZED_USER in this field.
              */
-            fun businessAccountToken(businessAccountToken: Optional<String>) =
-                businessAccountToken(businessAccountToken.orElse(null))
+            fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
+                this.businessAccountToken = businessAccountToken
+            }
 
             /**
              * Account holder's email address. The primary purpose of this field is for cardholder
              * identification and verification during the digital wallet tokenization process.
              */
-            fun email(email: String?) = apply { this.email = email }
+            fun email(email: String) = email(JsonField.of(email))
 
             /**
              * Account holder's email address. The primary purpose of this field is for cardholder
              * identification and verification during the digital wallet tokenization process.
              */
-            fun email(email: Optional<String>) = email(email.orElse(null))
+            fun email(email: JsonField<String>) = apply { this.email = email }
 
             /**
              * Account holder's phone number, entered in E.164 format. The primary purpose of this
              * field is for cardholder identification and verification during the digital wallet
              * tokenization process.
              */
-            fun phoneNumber(phoneNumber: String?) = apply { this.phoneNumber = phoneNumber }
+            fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
             /**
              * Account holder's phone number, entered in E.164 format. The primary purpose of this
              * field is for cardholder identification and verification during the digital wallet
              * tokenization process.
              */
-            fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.orElse(null))
+            fun phoneNumber(phoneNumber: JsonField<String>) = apply {
+                this.phoneNumber = phoneNumber
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -246,7 +311,7 @@ constructor(
          * businesses. Pass the account_token of the enrolled business associated with the
          * AUTHORIZED_USER in this field.
          */
-        fun businessAccountToken(businessAccountToken: String?) = apply {
+        fun businessAccountToken(businessAccountToken: String) = apply {
             body.businessAccountToken(businessAccountToken)
         }
 
@@ -255,34 +320,54 @@ constructor(
          * businesses. Pass the account_token of the enrolled business associated with the
          * AUTHORIZED_USER in this field.
          */
-        fun businessAccountToken(businessAccountToken: Optional<String>) =
-            businessAccountToken(businessAccountToken.orElse(null))
+        fun businessAccountToken(businessAccountToken: JsonField<String>) = apply {
+            body.businessAccountToken(businessAccountToken)
+        }
 
         /**
          * Account holder's email address. The primary purpose of this field is for cardholder
          * identification and verification during the digital wallet tokenization process.
          */
-        fun email(email: String?) = apply { body.email(email) }
+        fun email(email: String) = apply { body.email(email) }
 
         /**
          * Account holder's email address. The primary purpose of this field is for cardholder
          * identification and verification during the digital wallet tokenization process.
          */
-        fun email(email: Optional<String>) = email(email.orElse(null))
+        fun email(email: JsonField<String>) = apply { body.email(email) }
 
         /**
          * Account holder's phone number, entered in E.164 format. The primary purpose of this field
          * is for cardholder identification and verification during the digital wallet tokenization
          * process.
          */
-        fun phoneNumber(phoneNumber: String?) = apply { body.phoneNumber(phoneNumber) }
+        fun phoneNumber(phoneNumber: String) = apply { body.phoneNumber(phoneNumber) }
 
         /**
          * Account holder's phone number, entered in E.164 format. The primary purpose of this field
          * is for cardholder identification and verification during the digital wallet tokenization
          * process.
          */
-        fun phoneNumber(phoneNumber: Optional<String>) = phoneNumber(phoneNumber.orElse(null))
+        fun phoneNumber(phoneNumber: JsonField<String>) = apply { body.phoneNumber(phoneNumber) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -380,25 +465,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): AccountHolderUpdateParams =

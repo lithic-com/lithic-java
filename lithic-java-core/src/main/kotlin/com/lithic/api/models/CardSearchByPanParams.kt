@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -31,11 +33,14 @@ constructor(
     /** The PAN for the card being retrieved. */
     fun pan(): String = body.pan()
 
+    /** The PAN for the card being retrieved. */
+    fun _pan(): JsonField<String> = body._pan()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): CardSearchByPanBody = body
 
@@ -47,17 +52,29 @@ constructor(
     class CardSearchByPanBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("pan") private val pan: String,
+        @JsonProperty("pan") @ExcludeMissing private val pan: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** The PAN for the card being retrieved. */
-        @JsonProperty("pan") fun pan(): String = pan
+        fun pan(): String = pan.getRequired("pan")
+
+        /** The PAN for the card being retrieved. */
+        @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): CardSearchByPanBody = apply {
+            if (!validated) {
+                pan()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -68,7 +85,7 @@ constructor(
 
         class Builder {
 
-            private var pan: String? = null
+            private var pan: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -78,7 +95,10 @@ constructor(
             }
 
             /** The PAN for the card being retrieved. */
-            fun pan(pan: String) = apply { this.pan = pan }
+            fun pan(pan: String) = pan(JsonField.of(pan))
+
+            /** The PAN for the card being retrieved. */
+            fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -147,6 +167,28 @@ constructor(
 
         /** The PAN for the card being retrieved. */
         fun pan(pan: String) = apply { body.pan(pan) }
+
+        /** The PAN for the card being retrieved. */
+        fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -244,25 +286,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): CardSearchByPanParams =

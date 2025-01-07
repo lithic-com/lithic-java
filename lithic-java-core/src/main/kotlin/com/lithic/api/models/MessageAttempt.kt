@@ -75,35 +75,35 @@ private constructor(
     fun url(): String = url.getRequired("url")
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
      * An RFC 3339 timestamp for when the event was created. UTC time zone.
      *
      * If no timezone is specified, UTC will be used.
      */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** Globally unique identifier. */
     @JsonProperty("event_subscription_token")
     @ExcludeMissing
-    fun _eventSubscriptionToken() = eventSubscriptionToken
+    fun _eventSubscriptionToken(): JsonField<String> = eventSubscriptionToken
 
     /** Globally unique identifier. */
-    @JsonProperty("event_token") @ExcludeMissing fun _eventToken() = eventToken
+    @JsonProperty("event_token") @ExcludeMissing fun _eventToken(): JsonField<String> = eventToken
 
     /** The response body from the event subscription's URL. */
-    @JsonProperty("response") @ExcludeMissing fun _response() = response
+    @JsonProperty("response") @ExcludeMissing fun _response(): JsonField<String> = response
 
     /** The response status code from the event subscription's URL. */
     @JsonProperty("response_status_code")
     @ExcludeMissing
-    fun _responseStatusCode() = responseStatusCode
+    fun _responseStatusCode(): JsonField<Long> = responseStatusCode
 
     /** The status of the event attempt. */
-    @JsonProperty("status") @ExcludeMissing fun _status() = status
+    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
-    @JsonProperty("url") @ExcludeMissing fun _url() = url
+    @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -134,14 +134,14 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var eventSubscriptionToken: JsonField<String> = JsonMissing.of()
-        private var eventToken: JsonField<String> = JsonMissing.of()
-        private var response: JsonField<String> = JsonMissing.of()
-        private var responseStatusCode: JsonField<Long> = JsonMissing.of()
-        private var status: JsonField<Status> = JsonMissing.of()
-        private var url: JsonField<String> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var eventSubscriptionToken: JsonField<String>? = null
+        private var eventToken: JsonField<String>? = null
+        private var response: JsonField<String>? = null
+        private var responseStatusCode: JsonField<Long>? = null
+        private var status: JsonField<Status>? = null
+        private var url: JsonField<String>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -238,14 +238,18 @@ private constructor(
 
         fun build(): MessageAttempt =
             MessageAttempt(
-                token,
-                created,
-                eventSubscriptionToken,
-                eventToken,
-                response,
-                responseStatusCode,
-                status,
-                url,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(eventSubscriptionToken) {
+                    "`eventSubscriptionToken` is required but was not set"
+                },
+                checkNotNull(eventToken) { "`eventToken` is required but was not set" },
+                checkNotNull(response) { "`response` is required but was not set" },
+                checkNotNull(responseStatusCode) {
+                    "`responseStatusCode` is required but was not set"
+                },
+                checkNotNull(status) { "`status` is required but was not set" },
+                checkNotNull(url) { "`url` is required but was not set" },
                 additionalProperties.toImmutable(),
             )
     }

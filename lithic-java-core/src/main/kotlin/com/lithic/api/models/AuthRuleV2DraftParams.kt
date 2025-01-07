@@ -18,6 +18,7 @@ import com.lithic.api.core.BaseSerializer
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.getOrThrow
@@ -48,11 +49,14 @@ constructor(
     /** Parameters for the current version of the Auth Rule */
     fun parameters(): Optional<Parameters> = body.parameters()
 
+    /** Parameters for the current version of the Auth Rule */
+    fun _parameters(): JsonField<Parameters> = body._parameters()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): AuthRuleV2DraftBody = body
 
@@ -71,18 +75,34 @@ constructor(
     class AuthRuleV2DraftBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("parameters") private val parameters: Parameters?,
+        @JsonProperty("parameters")
+        @ExcludeMissing
+        private val parameters: JsonField<Parameters> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Parameters for the current version of the Auth Rule */
+        fun parameters(): Optional<Parameters> =
+            Optional.ofNullable(parameters.getNullable("parameters"))
+
+        /** Parameters for the current version of the Auth Rule */
         @JsonProperty("parameters")
-        fun parameters(): Optional<Parameters> = Optional.ofNullable(parameters)
+        @ExcludeMissing
+        fun _parameters(): JsonField<Parameters> = parameters
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): AuthRuleV2DraftBody = apply {
+            if (!validated) {
+                parameters()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -93,7 +113,7 @@ constructor(
 
         class Builder {
 
-            private var parameters: Parameters? = null
+            private var parameters: JsonField<Parameters> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -103,20 +123,21 @@ constructor(
             }
 
             /** Parameters for the current version of the Auth Rule */
-            fun parameters(parameters: Parameters?) = apply { this.parameters = parameters }
+            fun parameters(parameters: Parameters?) = parameters(JsonField.ofNullable(parameters))
 
             /** Parameters for the current version of the Auth Rule */
             fun parameters(parameters: Optional<Parameters>) = parameters(parameters.orElse(null))
 
-            fun parameters(conditionalBlockParameters: Parameters.ConditionalBlockParameters) =
-                apply {
-                    this.parameters =
-                        Parameters.ofConditionalBlockParameters(conditionalBlockParameters)
-                }
-
-            fun parameters(velocityLimitParams: VelocityLimitParams) = apply {
-                this.parameters = Parameters.ofVelocityLimitParams(velocityLimitParams)
+            /** Parameters for the current version of the Auth Rule */
+            fun parameters(parameters: JsonField<Parameters>) = apply {
+                this.parameters = parameters
             }
+
+            fun parameters(conditionalBlockParameters: Parameters.ConditionalBlockParameters) =
+                parameters(Parameters.ofConditionalBlockParameters(conditionalBlockParameters))
+
+            fun parameters(velocityLimitParams: VelocityLimitParams) =
+                parameters(Parameters.ofVelocityLimitParams(velocityLimitParams))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -190,12 +211,34 @@ constructor(
         /** Parameters for the current version of the Auth Rule */
         fun parameters(parameters: Optional<Parameters>) = parameters(parameters.orElse(null))
 
+        /** Parameters for the current version of the Auth Rule */
+        fun parameters(parameters: JsonField<Parameters>) = apply { body.parameters(parameters) }
+
         fun parameters(conditionalBlockParameters: Parameters.ConditionalBlockParameters) = apply {
             body.parameters(conditionalBlockParameters)
         }
 
         fun parameters(velocityLimitParams: VelocityLimitParams) = apply {
             body.parameters(velocityLimitParams)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -296,25 +339,6 @@ constructor(
             additionalQueryParams.removeAll(keys)
         }
 
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
-        }
-
         fun build(): AuthRuleV2DraftParams =
             AuthRuleV2DraftParams(
                 checkNotNull(authRuleToken) { "`authRuleToken` is required but was not set" },
@@ -333,6 +357,8 @@ constructor(
         private val velocityLimitParams: VelocityLimitParams? = null,
         private val _json: JsonValue? = null,
     ) {
+
+        private var validated: Boolean = false
 
         fun conditionalBlockParameters(): Optional<ConditionalBlockParameters> =
             Optional.ofNullable(conditionalBlockParameters)
@@ -358,6 +384,17 @@ constructor(
                     visitor.visitConditionalBlockParameters(conditionalBlockParameters)
                 velocityLimitParams != null -> visitor.visitVelocityLimitParams(velocityLimitParams)
                 else -> visitor.unknown(_json)
+            }
+        }
+
+        fun validate(): Parameters = apply {
+            if (!validated) {
+                if (conditionalBlockParameters == null && velocityLimitParams == null) {
+                    throw LithicInvalidDataException("Unknown Parameters: $_json")
+                }
+                conditionalBlockParameters?.validate()
+                velocityLimitParams?.validate()
+                validated = true
             }
         }
 
@@ -411,12 +448,14 @@ constructor(
             override fun ObjectCodec.deserialize(node: JsonNode): Parameters {
                 val json = JsonValue.fromJsonNode(node)
 
-                tryDeserialize(node, jacksonTypeRef<ConditionalBlockParameters>())?.let {
-                    return Parameters(conditionalBlockParameters = it, _json = json)
-                }
-                tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>())?.let {
-                    return Parameters(velocityLimitParams = it, _json = json)
-                }
+                tryDeserialize(node, jacksonTypeRef<ConditionalBlockParameters>()) { it.validate() }
+                    ?.let {
+                        return Parameters(conditionalBlockParameters = it, _json = json)
+                    }
+                tryDeserialize(node, jacksonTypeRef<VelocityLimitParams>()) { it.validate() }
+                    ?.let {
+                        return Parameters(velocityLimitParams = it, _json = json)
+                    }
 
                 return Parameters(_json = json)
             }
@@ -444,16 +483,31 @@ constructor(
         class ConditionalBlockParameters
         @JsonCreator
         private constructor(
-            @JsonProperty("conditions") private val conditions: List<Condition>,
+            @JsonProperty("conditions")
+            @ExcludeMissing
+            private val conditions: JsonField<List<Condition>> = JsonMissing.of(),
             @JsonAnySetter
             private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
         ) {
 
-            @JsonProperty("conditions") fun conditions(): List<Condition> = conditions
+            fun conditions(): List<Condition> = conditions.getRequired("conditions")
+
+            @JsonProperty("conditions")
+            @ExcludeMissing
+            fun _conditions(): JsonField<List<Condition>> = conditions
 
             @JsonAnyGetter
             @ExcludeMissing
             fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+            private var validated: Boolean = false
+
+            fun validate(): ConditionalBlockParameters = apply {
+                if (!validated) {
+                    conditions().forEach { it.validate() }
+                    validated = true
+                }
+            }
 
             fun toBuilder() = Builder().from(this)
 
@@ -464,22 +518,33 @@ constructor(
 
             class Builder {
 
-                private var conditions: MutableList<Condition>? = null
+                private var conditions: JsonField<MutableList<Condition>>? = null
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                 @JvmSynthetic
                 internal fun from(conditionalBlockParameters: ConditionalBlockParameters) = apply {
-                    conditions = conditionalBlockParameters.conditions.toMutableList()
+                    conditions = conditionalBlockParameters.conditions.map { it.toMutableList() }
                     additionalProperties =
                         conditionalBlockParameters.additionalProperties.toMutableMap()
                 }
 
-                fun conditions(conditions: List<Condition>) = apply {
-                    this.conditions = conditions.toMutableList()
+                fun conditions(conditions: List<Condition>) = conditions(JsonField.of(conditions))
+
+                fun conditions(conditions: JsonField<List<Condition>>) = apply {
+                    this.conditions = conditions.map { it.toMutableList() }
                 }
 
                 fun addCondition(condition: Condition) = apply {
-                    conditions = (conditions ?: mutableListOf()).apply { add(condition) }
+                    conditions =
+                        (conditions ?: JsonField.of(mutableListOf())).apply {
+                            asKnown()
+                                .orElseThrow {
+                                    IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    )
+                                }
+                                .add(condition)
+                        }
                 }
 
                 fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -507,7 +572,7 @@ constructor(
                 fun build(): ConditionalBlockParameters =
                     ConditionalBlockParameters(
                         checkNotNull(conditions) { "`conditions` is required but was not set" }
-                            .toImmutable(),
+                            .map { it.toImmutable() },
                         additionalProperties.toImmutable()
                     )
             }
@@ -516,9 +581,15 @@ constructor(
             class Condition
             @JsonCreator
             private constructor(
-                @JsonProperty("attribute") private val attribute: Attribute?,
-                @JsonProperty("operation") private val operation: Operation?,
-                @JsonProperty("value") private val value: Value?,
+                @JsonProperty("attribute")
+                @ExcludeMissing
+                private val attribute: JsonField<Attribute> = JsonMissing.of(),
+                @JsonProperty("operation")
+                @ExcludeMissing
+                private val operation: JsonField<Operation> = JsonMissing.of(),
+                @JsonProperty("value")
+                @ExcludeMissing
+                private val value: JsonField<Value> = JsonMissing.of(),
                 @JsonAnySetter
                 private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
             ) {
@@ -559,19 +630,78 @@ constructor(
                  * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the
                  *   trailing 24 hours up and until the authorization.
                  */
+                fun attribute(): Optional<Attribute> =
+                    Optional.ofNullable(attribute.getNullable("attribute"))
+
+                /** The operation to apply to the attribute */
+                fun operation(): Optional<Operation> =
+                    Optional.ofNullable(operation.getNullable("operation"))
+
+                /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
+                fun value(): Optional<Value> = Optional.ofNullable(value.getNullable("value"))
+
+                /**
+                 * The attribute to target.
+                 *
+                 * The following attributes may be targeted:
+                 * - `MCC`: A four-digit number listed in ISO 18245. An MCC is used to classify a
+                 *   business by the types of goods or services it provides.
+                 * - `COUNTRY`: Country of entity of card acceptor. Possible values are: (1) all ISO
+                 *   3166-1 alpha-3 country codes, (2) QZZ for Kosovo, and (3) ANT for Netherlands
+                 *   Antilles.
+                 * - `CURRENCY`: 3-digit alphabetic ISO 4217 code for the merchant currency of the
+                 *   transaction.
+                 * - `MERCHANT_ID`: Unique alphanumeric identifier for the payment card acceptor
+                 *   (merchant).
+                 * - `DESCRIPTOR`: Short description of card acceptor.
+                 * - `LIABILITY_SHIFT`: Indicates whether chargeback liability shift to the issuer
+                 *   applies to the transaction. Valid values are `NONE`, `3DS_AUTHENTICATED`, or
+                 *   `TOKEN_AUTHENTICATED`.
+                 * - `PAN_ENTRY_MODE`: The method by which the cardholder's primary account number
+                 *   (PAN) was entered. Valid values are `AUTO_ENTRY`, `BAR_CODE`, `CONTACTLESS`,
+                 *   `ECOMMERCE`, `ERROR_KEYED`, `ERROR_MAGNETIC_STRIPE`, `ICC`, `KEY_ENTERED`,
+                 *   `MAGNETIC_STRIPE`, `MANUAL`, `OCR`, `SECURE_CARDLESS`, `UNSPECIFIED`,
+                 *   `UNKNOWN`, `CREDENTIAL_ON_FILE`, or `ECOMMERCE`.
+                 * - `TRANSACTION_AMOUNT`: The base transaction amount (in cents) plus the acquirer
+                 *   fee field in the settlement/cardholder billing currency. This is the amount the
+                 *   issuer should authorize against unless the issuer is paying the acquirer fee on
+                 *   behalf of the cardholder.
+                 * - `RISK_SCORE`: Network-provided score assessing risk level associated with a
+                 *   given authorization. Scores are on a range of 0-999, with 0 representing the
+                 *   lowest risk and 999 representing the highest risk. For Visa transactions, where
+                 *   the raw score has a range of 0-99, Lithic will normalize the score by
+                 *   multiplying the raw score by 10x.
+                 * - `CARD_TRANSACTION_COUNT_1H`: The number of transactions on the card in the
+                 *   trailing hour up and until the authorization.
+                 * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the
+                 *   trailing 24 hours up and until the authorization.
+                 */
                 @JsonProperty("attribute")
-                fun attribute(): Optional<Attribute> = Optional.ofNullable(attribute)
+                @ExcludeMissing
+                fun _attribute(): JsonField<Attribute> = attribute
 
                 /** The operation to apply to the attribute */
                 @JsonProperty("operation")
-                fun operation(): Optional<Operation> = Optional.ofNullable(operation)
+                @ExcludeMissing
+                fun _operation(): JsonField<Operation> = operation
 
                 /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                @JsonProperty("value") fun value(): Optional<Value> = Optional.ofNullable(value)
+                @JsonProperty("value") @ExcludeMissing fun _value(): JsonField<Value> = value
 
                 @JsonAnyGetter
                 @ExcludeMissing
                 fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+                private var validated: Boolean = false
+
+                fun validate(): Condition = apply {
+                    if (!validated) {
+                        attribute()
+                        operation()
+                        value()
+                        validated = true
+                    }
+                }
 
                 fun toBuilder() = Builder().from(this)
 
@@ -582,9 +712,9 @@ constructor(
 
                 class Builder {
 
-                    private var attribute: Attribute? = null
-                    private var operation: Operation? = null
-                    private var value: Value? = null
+                    private var attribute: JsonField<Attribute> = JsonMissing.of()
+                    private var operation: JsonField<Operation> = JsonMissing.of()
+                    private var value: JsonField<Value> = JsonMissing.of()
                     private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
                     @JvmSynthetic
@@ -631,7 +761,7 @@ constructor(
                      * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the
                      *   trailing 24 hours up and until the authorization.
                      */
-                    fun attribute(attribute: Attribute?) = apply { this.attribute = attribute }
+                    fun attribute(attribute: Attribute) = attribute(JsonField.of(attribute))
 
                     /**
                      * The attribute to target.
@@ -669,32 +799,32 @@ constructor(
                      * - `CARD_TRANSACTION_COUNT_24H`: The number of transactions on the card in the
                      *   trailing 24 hours up and until the authorization.
                      */
-                    fun attribute(attribute: Optional<Attribute>) =
-                        attribute(attribute.orElse(null))
+                    fun attribute(attribute: JsonField<Attribute>) = apply {
+                        this.attribute = attribute
+                    }
 
                     /** The operation to apply to the attribute */
-                    fun operation(operation: Operation?) = apply { this.operation = operation }
+                    fun operation(operation: Operation) = operation(JsonField.of(operation))
 
                     /** The operation to apply to the attribute */
-                    fun operation(operation: Optional<Operation>) =
-                        operation(operation.orElse(null))
+                    fun operation(operation: JsonField<Operation>) = apply {
+                        this.operation = operation
+                    }
 
                     /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                    fun value(value: Value?) = apply { this.value = value }
+                    fun value(value: Value) = value(JsonField.of(value))
 
                     /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                    fun value(value: Optional<Value>) = value(value.orElse(null))
+                    fun value(value: JsonField<Value>) = apply { this.value = value }
 
                     /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
-                    fun value(string: String) = apply { this.value = Value.ofString(string) }
+                    fun value(string: String) = value(Value.ofString(string))
 
                     /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
-                    fun value(integer: Long) = apply { this.value = Value.ofInteger(integer) }
+                    fun value(integer: Long) = value(Value.ofInteger(integer))
 
                     /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
-                    fun valueOfStrings(strings: List<String>) = apply {
-                        this.value = Value.ofStrings(strings)
-                    }
+                    fun valueOfStrings(strings: List<String>) = value(Value.ofStrings(strings))
 
                     fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                         this.additionalProperties.clear()
@@ -932,6 +1062,8 @@ constructor(
                     private val _json: JsonValue? = null,
                 ) {
 
+                    private var validated: Boolean = false
+
                     /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                     fun string(): Optional<String> = Optional.ofNullable(string)
                     /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
@@ -960,6 +1092,15 @@ constructor(
                             integer != null -> visitor.visitInteger(integer)
                             strings != null -> visitor.visitStrings(strings)
                             else -> visitor.unknown(_json)
+                        }
+                    }
+
+                    fun validate(): Value = apply {
+                        if (!validated) {
+                            if (string == null && integer == null && strings == null) {
+                                throw LithicInvalidDataException("Unknown Value: $_json")
+                            }
+                            validated = true
                         }
                     }
 

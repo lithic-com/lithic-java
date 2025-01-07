@@ -32,9 +32,9 @@ private constructor(
 
     fun hasMore(): Boolean = hasMore.getRequired("has_more")
 
-    @JsonProperty("data") @ExcludeMissing fun _data() = data
+    @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<List<Statement>> = data
 
-    @JsonProperty("has_more") @ExcludeMissing fun _hasMore() = hasMore
+    @JsonProperty("has_more") @ExcludeMissing fun _hasMore(): JsonField<Boolean> = hasMore
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -59,20 +59,35 @@ private constructor(
 
     class Builder {
 
-        private var data: JsonField<List<Statement>> = JsonMissing.of()
-        private var hasMore: JsonField<Boolean> = JsonMissing.of()
+        private var data: JsonField<MutableList<Statement>>? = null
+        private var hasMore: JsonField<Boolean>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(statements: Statements) = apply {
-            data = statements.data
+            data = statements.data.map { it.toMutableList() }
             hasMore = statements.hasMore
             additionalProperties = statements.additionalProperties.toMutableMap()
         }
 
         fun data(data: List<Statement>) = data(JsonField.of(data))
 
-        fun data(data: JsonField<List<Statement>>) = apply { this.data = data }
+        fun data(data: JsonField<List<Statement>>) = apply {
+            this.data = data.map { it.toMutableList() }
+        }
+
+        fun addData(data: Statement) = apply {
+            this.data =
+                (this.data ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(data)
+                }
+        }
 
         fun hasMore(hasMore: Boolean) = hasMore(JsonField.of(hasMore))
 
@@ -99,8 +114,9 @@ private constructor(
 
         fun build(): Statements =
             Statements(
-                data.map { it.toImmutable() },
-                hasMore,
+                checkNotNull(data) { "`data` is required but was not set" }
+                    .map { it.toImmutable() },
+                checkNotNull(hasMore) { "`hasMore` is required but was not set" },
                 additionalProperties.toImmutable(),
             )
     }

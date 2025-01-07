@@ -42,13 +42,15 @@ private constructor(
         simulationParameters.getRequired("simulation_parameters")
 
     /** Auth Rule Backtest Token */
-    @JsonProperty("backtest_token") @ExcludeMissing fun _backtestToken() = backtestToken
+    @JsonProperty("backtest_token")
+    @ExcludeMissing
+    fun _backtestToken(): JsonField<String> = backtestToken
 
-    @JsonProperty("results") @ExcludeMissing fun _results() = results
+    @JsonProperty("results") @ExcludeMissing fun _results(): JsonField<Results> = results
 
     @JsonProperty("simulation_parameters")
     @ExcludeMissing
-    fun _simulationParameters() = simulationParameters
+    fun _simulationParameters(): JsonField<SimulationParameters> = simulationParameters
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -74,9 +76,9 @@ private constructor(
 
     class Builder {
 
-        private var backtestToken: JsonField<String> = JsonMissing.of()
-        private var results: JsonField<Results> = JsonMissing.of()
-        private var simulationParameters: JsonField<SimulationParameters> = JsonMissing.of()
+        private var backtestToken: JsonField<String>? = null
+        private var results: JsonField<Results>? = null
+        private var simulationParameters: JsonField<SimulationParameters>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -127,9 +129,11 @@ private constructor(
 
         fun build(): BacktestResults =
             BacktestResults(
-                backtestToken,
-                results,
-                simulationParameters,
+                checkNotNull(backtestToken) { "`backtestToken` is required but was not set" },
+                checkNotNull(results) { "`results` is required but was not set" },
+                checkNotNull(simulationParameters) {
+                    "`simulationParameters` is required but was not set"
+                },
                 additionalProperties.toImmutable(),
             )
     }
@@ -154,9 +158,13 @@ private constructor(
         fun draftVersion(): Optional<RuleStats> =
             Optional.ofNullable(draftVersion.getNullable("draft_version"))
 
-        @JsonProperty("current_version") @ExcludeMissing fun _currentVersion() = currentVersion
+        @JsonProperty("current_version")
+        @ExcludeMissing
+        fun _currentVersion(): JsonField<RuleStats> = currentVersion
 
-        @JsonProperty("draft_version") @ExcludeMissing fun _draftVersion() = draftVersion
+        @JsonProperty("draft_version")
+        @ExcludeMissing
+        fun _draftVersion(): JsonField<RuleStats> = draftVersion
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -192,14 +200,21 @@ private constructor(
                 additionalProperties = results.additionalProperties.toMutableMap()
             }
 
-            fun currentVersion(currentVersion: RuleStats) =
-                currentVersion(JsonField.of(currentVersion))
+            fun currentVersion(currentVersion: RuleStats?) =
+                currentVersion(JsonField.ofNullable(currentVersion))
+
+            fun currentVersion(currentVersion: Optional<RuleStats>) =
+                currentVersion(currentVersion.orElse(null))
 
             fun currentVersion(currentVersion: JsonField<RuleStats>) = apply {
                 this.currentVersion = currentVersion
             }
 
-            fun draftVersion(draftVersion: RuleStats) = draftVersion(JsonField.of(draftVersion))
+            fun draftVersion(draftVersion: RuleStats?) =
+                draftVersion(JsonField.ofNullable(draftVersion))
+
+            fun draftVersion(draftVersion: Optional<RuleStats>) =
+                draftVersion(draftVersion.orElse(null))
 
             fun draftVersion(draftVersion: JsonField<RuleStats>) = apply {
                 this.draftVersion = draftVersion
@@ -280,22 +295,24 @@ private constructor(
              * period, or the number of transactions that would have been approved if the rule was
              * evaluated in shadow mode.
              */
-            @JsonProperty("approved") @ExcludeMissing fun _approved() = approved
+            @JsonProperty("approved") @ExcludeMissing fun _approved(): JsonField<Long> = approved
 
             /**
              * The total number of historical transactions declined by this rule during the backtest
              * period, or the number of transactions that would have been declined if the rule was
              * evaluated in shadow mode.
              */
-            @JsonProperty("declined") @ExcludeMissing fun _declined() = declined
+            @JsonProperty("declined") @ExcludeMissing fun _declined(): JsonField<Long> = declined
 
             /** Example authorization request events that would have been approved or declined. */
-            @JsonProperty("examples") @ExcludeMissing fun _examples() = examples
+            @JsonProperty("examples")
+            @ExcludeMissing
+            fun _examples(): JsonField<List<Example>> = examples
 
             /**
              * The version of the rule, this is incremented whenever the rule's parameters change.
              */
-            @JsonProperty("version") @ExcludeMissing fun _version() = version
+            @JsonProperty("version") @ExcludeMissing fun _version(): JsonField<Long> = version
 
             @JsonAnyGetter
             @ExcludeMissing
@@ -324,7 +341,7 @@ private constructor(
 
                 private var approved: JsonField<Long> = JsonMissing.of()
                 private var declined: JsonField<Long> = JsonMissing.of()
-                private var examples: JsonField<List<Example>> = JsonMissing.of()
+                private var examples: JsonField<MutableList<Example>>? = null
                 private var version: JsonField<Long> = JsonMissing.of()
                 private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -332,7 +349,7 @@ private constructor(
                 internal fun from(ruleStats: RuleStats) = apply {
                     approved = ruleStats.approved
                     declined = ruleStats.declined
-                    examples = ruleStats.examples
+                    examples = ruleStats.examples.map { it.toMutableList() }
                     version = ruleStats.version
                     additionalProperties = ruleStats.additionalProperties.toMutableMap()
                 }
@@ -374,7 +391,23 @@ private constructor(
                  * Example authorization request events that would have been approved or declined.
                  */
                 fun examples(examples: JsonField<List<Example>>) = apply {
-                    this.examples = examples
+                    this.examples = examples.map { it.toMutableList() }
+                }
+
+                /**
+                 * Example authorization request events that would have been approved or declined.
+                 */
+                fun addExample(example: Example) = apply {
+                    examples =
+                        (examples ?: JsonField.of(mutableListOf())).apply {
+                            asKnown()
+                                .orElseThrow {
+                                    IllegalStateException(
+                                        "Field was set to non-list type: ${javaClass.simpleName}"
+                                    )
+                                }
+                                .add(example)
+                        }
                 }
 
                 /**
@@ -415,7 +448,7 @@ private constructor(
                     RuleStats(
                         approved,
                         declined,
-                        examples.map { it.toImmutable() },
+                        (examples ?: JsonMissing.of()).map { it.toImmutable() },
                         version,
                         additionalProperties.toImmutable(),
                     )
@@ -451,13 +484,19 @@ private constructor(
                     Optional.ofNullable(timestamp.getNullable("timestamp"))
 
                 /** Whether the rule would have approved the authorization request. */
-                @JsonProperty("approved") @ExcludeMissing fun _approved() = approved
+                @JsonProperty("approved")
+                @ExcludeMissing
+                fun _approved(): JsonField<Boolean> = approved
 
                 /** The authorization request event token. */
-                @JsonProperty("event_token") @ExcludeMissing fun _eventToken() = eventToken
+                @JsonProperty("event_token")
+                @ExcludeMissing
+                fun _eventToken(): JsonField<String> = eventToken
 
                 /** The timestamp of the authorization request event. */
-                @JsonProperty("timestamp") @ExcludeMissing fun _timestamp() = timestamp
+                @JsonProperty("timestamp")
+                @ExcludeMissing
+                fun _timestamp(): JsonField<OffsetDateTime> = timestamp
 
                 @JsonAnyGetter
                 @ExcludeMissing
@@ -631,13 +670,15 @@ private constructor(
         fun start(): Optional<OffsetDateTime> = Optional.ofNullable(start.getNullable("start"))
 
         /** Auth Rule Token */
-        @JsonProperty("auth_rule_token") @ExcludeMissing fun _authRuleToken() = authRuleToken
+        @JsonProperty("auth_rule_token")
+        @ExcludeMissing
+        fun _authRuleToken(): JsonField<String> = authRuleToken
 
         /** The end time of the simulation. */
-        @JsonProperty("end") @ExcludeMissing fun _end() = end
+        @JsonProperty("end") @ExcludeMissing fun _end(): JsonField<OffsetDateTime> = end
 
         /** The start time of the simulation. */
-        @JsonProperty("start") @ExcludeMissing fun _start() = start
+        @JsonProperty("start") @ExcludeMissing fun _start(): JsonField<OffsetDateTime> = start
 
         @JsonAnyGetter
         @ExcludeMissing

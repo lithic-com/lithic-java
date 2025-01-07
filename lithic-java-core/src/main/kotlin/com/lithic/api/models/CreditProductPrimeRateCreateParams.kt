@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -34,11 +36,17 @@ constructor(
     /** The rate in decimal format */
     fun rate(): String = body.rate()
 
+    /** Date the rate goes into effect */
+    fun _effectiveDate(): JsonField<LocalDate> = body._effectiveDate()
+
+    /** The rate in decimal format */
+    fun _rate(): JsonField<String> = body._rate()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): CreditProductPrimeRateCreateBody = body
 
@@ -57,21 +65,43 @@ constructor(
     class CreditProductPrimeRateCreateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("effective_date") private val effectiveDate: LocalDate,
-        @JsonProperty("rate") private val rate: String,
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("rate")
+        @ExcludeMissing
+        private val rate: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Date the rate goes into effect */
-        @JsonProperty("effective_date") fun effectiveDate(): LocalDate = effectiveDate
+        fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
 
         /** The rate in decimal format */
-        @JsonProperty("rate") fun rate(): String = rate
+        fun rate(): String = rate.getRequired("rate")
+
+        /** Date the rate goes into effect */
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
+
+        /** The rate in decimal format */
+        @JsonProperty("rate") @ExcludeMissing fun _rate(): JsonField<String> = rate
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): CreditProductPrimeRateCreateBody = apply {
+            if (!validated) {
+                effectiveDate()
+                rate()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -82,8 +112,8 @@ constructor(
 
         class Builder {
 
-            private var effectiveDate: LocalDate? = null
-            private var rate: String? = null
+            private var effectiveDate: JsonField<LocalDate>? = null
+            private var rate: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -96,12 +126,18 @@ constructor(
                 }
 
             /** Date the rate goes into effect */
-            fun effectiveDate(effectiveDate: LocalDate) = apply {
+            fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
+
+            /** Date the rate goes into effect */
+            fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
 
             /** The rate in decimal format */
-            fun rate(rate: String) = apply { this.rate = rate }
+            fun rate(rate: String) = rate(JsonField.of(rate))
+
+            /** The rate in decimal format */
+            fun rate(rate: JsonField<String>) = apply { this.rate = rate }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -182,8 +218,35 @@ constructor(
         /** Date the rate goes into effect */
         fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
+        /** Date the rate goes into effect */
+        fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
+            body.effectiveDate(effectiveDate)
+        }
+
         /** The rate in decimal format */
         fun rate(rate: String) = apply { body.rate(rate) }
+
+        /** The rate in decimal format */
+        fun rate(rate: JsonField<String>) = apply { body.rate(rate) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -281,25 +344,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): CreditProductPrimeRateCreateParams =

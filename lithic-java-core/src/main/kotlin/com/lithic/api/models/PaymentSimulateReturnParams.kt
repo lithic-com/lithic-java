@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -30,11 +32,17 @@ constructor(
     /** Return Reason Code */
     fun returnReasonCode(): Optional<String> = body.returnReasonCode()
 
+    /** Payment Token */
+    fun _paymentToken(): JsonField<String> = body._paymentToken()
+
+    /** Return Reason Code */
+    fun _returnReasonCode(): JsonField<String> = body._returnReasonCode()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): PaymentSimulateReturnBody = body
 
@@ -46,22 +54,46 @@ constructor(
     class PaymentSimulateReturnBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("payment_token") private val paymentToken: String,
-        @JsonProperty("return_reason_code") private val returnReasonCode: String?,
+        @JsonProperty("payment_token")
+        @ExcludeMissing
+        private val paymentToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("return_reason_code")
+        @ExcludeMissing
+        private val returnReasonCode: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Payment Token */
-        @JsonProperty("payment_token") fun paymentToken(): String = paymentToken
+        fun paymentToken(): String = paymentToken.getRequired("payment_token")
+
+        /** Return Reason Code */
+        fun returnReasonCode(): Optional<String> =
+            Optional.ofNullable(returnReasonCode.getNullable("return_reason_code"))
+
+        /** Payment Token */
+        @JsonProperty("payment_token")
+        @ExcludeMissing
+        fun _paymentToken(): JsonField<String> = paymentToken
 
         /** Return Reason Code */
         @JsonProperty("return_reason_code")
-        fun returnReasonCode(): Optional<String> = Optional.ofNullable(returnReasonCode)
+        @ExcludeMissing
+        fun _returnReasonCode(): JsonField<String> = returnReasonCode
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): PaymentSimulateReturnBody = apply {
+            if (!validated) {
+                paymentToken()
+                returnReasonCode()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -72,8 +104,8 @@ constructor(
 
         class Builder {
 
-            private var paymentToken: String? = null
-            private var returnReasonCode: String? = null
+            private var paymentToken: JsonField<String>? = null
+            private var returnReasonCode: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -84,16 +116,21 @@ constructor(
             }
 
             /** Payment Token */
-            fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
+            fun paymentToken(paymentToken: String) = paymentToken(JsonField.of(paymentToken))
 
-            /** Return Reason Code */
-            fun returnReasonCode(returnReasonCode: String?) = apply {
-                this.returnReasonCode = returnReasonCode
+            /** Payment Token */
+            fun paymentToken(paymentToken: JsonField<String>) = apply {
+                this.paymentToken = paymentToken
             }
 
             /** Return Reason Code */
-            fun returnReasonCode(returnReasonCode: Optional<String>) =
-                returnReasonCode(returnReasonCode.orElse(null))
+            fun returnReasonCode(returnReasonCode: String) =
+                returnReasonCode(JsonField.of(returnReasonCode))
+
+            /** Return Reason Code */
+            fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
+                this.returnReasonCode = returnReasonCode
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -164,14 +201,39 @@ constructor(
         /** Payment Token */
         fun paymentToken(paymentToken: String) = apply { body.paymentToken(paymentToken) }
 
+        /** Payment Token */
+        fun paymentToken(paymentToken: JsonField<String>) = apply {
+            body.paymentToken(paymentToken)
+        }
+
         /** Return Reason Code */
-        fun returnReasonCode(returnReasonCode: String?) = apply {
+        fun returnReasonCode(returnReasonCode: String) = apply {
             body.returnReasonCode(returnReasonCode)
         }
 
         /** Return Reason Code */
-        fun returnReasonCode(returnReasonCode: Optional<String>) =
-            returnReasonCode(returnReasonCode.orElse(null))
+        fun returnReasonCode(returnReasonCode: JsonField<String>) = apply {
+            body.returnReasonCode(returnReasonCode)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -269,25 +331,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): PaymentSimulateReturnParams =

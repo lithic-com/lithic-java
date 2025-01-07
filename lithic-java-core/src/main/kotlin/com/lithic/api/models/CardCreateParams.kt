@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -159,11 +160,140 @@ constructor(
      */
     fun state(): Optional<State> = body.state()
 
+    /**
+     * Card types:
+     * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet like
+     *   Apple Pay or Google Pay (if the card program is digital wallet-enabled).
+     * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+     *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
+     *   [lithic.com/contact](https://lithic.com/contact) for more information.
+     * - `SINGLE_USE` - Card is closed upon first successful authorization.
+     * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that successfully
+     *   authorizes the card.
+     * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL instead.
+     * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+     *   instead.
+     */
+    fun _type(): JsonField<Type> = body._type()
+
+    /**
+     * Globally unique identifier for the account that the card will be associated with. Required
+     * for programs enrolling users using the
+     * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+     * [Managing Your Program](doc:managing-your-program) for more information.
+     */
+    fun _accountToken(): JsonField<String> = body._accountToken()
+
+    /**
+     * For card programs with more than one BIN range. This must be configured with Lithic before
+     * use. Identifies the card program/BIN range under which to create the card. If omitted, will
+     * utilize the program's default `card_program_token`. In Sandbox, use
+     * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
+     * creating cards on specific card programs.
+     */
+    fun _cardProgramToken(): JsonField<String> = body._cardProgramToken()
+
+    fun _carrier(): JsonField<Carrier> = body._carrier()
+
+    /**
+     * Specifies the digital card art to be displayed in the user’s digital wallet after
+     * tokenization. This artwork must be approved by Mastercard and configured by Lithic to use.
+     * See
+     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     */
+    fun _digitalCardArtToken(): JsonField<String> = body._digitalCardArtToken()
+
+    /**
+     * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an expiration
+     * date will be generated.
+     */
+    fun _expMonth(): JsonField<String> = body._expMonth()
+
+    /**
+     * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+     * expiration date will be generated.
+     */
+    fun _expYear(): JsonField<String> = body._expYear()
+
+    /** Friendly name to identify the card. */
+    fun _memo(): JsonField<String> = body._memo()
+
+    /**
+     * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
+     * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+     */
+    fun _pin(): JsonField<String> = body._pin()
+
+    /**
+     * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before use.
+     * Specifies the configuration (i.e., physical card art) that the card should be manufactured
+     * with.
+     */
+    fun _productId(): JsonField<String> = body._productId()
+
+    /**
+     * Restricted field limited to select use cases. Lithic will reach out directly if this field
+     * should be used. Globally unique identifier for the replacement card's account. If this field
+     * is specified, `replacement_for` must also be specified. If `replacement_for` is specified and
+     * this field is omitted, the replacement card's account will be inferred from the card being
+     * replaced.
+     */
+    fun _replacementAccountToken(): JsonField<String> = body._replacementAccountToken()
+
+    /**
+     * Globally unique identifier for the card that this card will replace. If the card type is
+     * `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL` it will be
+     * replaced by a `VIRTUAL` card.
+     */
+    fun _replacementFor(): JsonField<String> = body._replacementFor()
+
+    fun _shippingAddress(): JsonField<ShippingAddress> = body._shippingAddress()
+
+    /**
+     * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options besides
+     * `STANDARD` require additional permissions.
+     * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+     * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with tracking
+     * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+     * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
+     * - `2_DAY` - FedEx 2-day shipping, with tracking
+     * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+     */
+    fun _shippingMethod(): JsonField<ShippingMethod> = body._shippingMethod()
+
+    /**
+     * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
+     * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should only
+     * be used to reset or remove a prior limit. Only a limit of 1 or above will result in declined
+     * transactions due to checks against the card limit.
+     */
+    fun _spendLimit(): JsonField<Long> = body._spendLimit()
+
+    /**
+     * Spend limit duration values:
+     * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+     * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the card.
+     * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month. To
+     *   support recurring monthly payments, which can occur on different day every month, the time
+     *   window we consider for monthly velocity starts 6 days after the current calendar date one
+     *   month prior.
+     * - `TRANSACTION` - Card will authorize multiple transactions if each individual transaction is
+     *   under the spend limit.
+     */
+    fun _spendLimitDuration(): JsonField<SpendLimitDuration> = body._spendLimitDuration()
+
+    /**
+     * Card state values:
+     * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+     * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+     */
+    fun _state(): JsonField<State> = body._state()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): CardCreateBody = body
 
@@ -175,23 +305,53 @@ constructor(
     class CardCreateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("type") private val type: Type,
-        @JsonProperty("account_token") private val accountToken: String?,
-        @JsonProperty("card_program_token") private val cardProgramToken: String?,
-        @JsonProperty("carrier") private val carrier: Carrier?,
-        @JsonProperty("digital_card_art_token") private val digitalCardArtToken: String?,
-        @JsonProperty("exp_month") private val expMonth: String?,
-        @JsonProperty("exp_year") private val expYear: String?,
-        @JsonProperty("memo") private val memo: String?,
-        @JsonProperty("pin") private val pin: String?,
-        @JsonProperty("product_id") private val productId: String?,
-        @JsonProperty("replacement_account_token") private val replacementAccountToken: String?,
-        @JsonProperty("replacement_for") private val replacementFor: String?,
-        @JsonProperty("shipping_address") private val shippingAddress: ShippingAddress?,
-        @JsonProperty("shipping_method") private val shippingMethod: ShippingMethod?,
-        @JsonProperty("spend_limit") private val spendLimit: Long?,
-        @JsonProperty("spend_limit_duration") private val spendLimitDuration: SpendLimitDuration?,
-        @JsonProperty("state") private val state: State?,
+        @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
+        @JsonProperty("account_token")
+        @ExcludeMissing
+        private val accountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("card_program_token")
+        @ExcludeMissing
+        private val cardProgramToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("carrier")
+        @ExcludeMissing
+        private val carrier: JsonField<Carrier> = JsonMissing.of(),
+        @JsonProperty("digital_card_art_token")
+        @ExcludeMissing
+        private val digitalCardArtToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("exp_month")
+        @ExcludeMissing
+        private val expMonth: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("exp_year")
+        @ExcludeMissing
+        private val expYear: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("memo")
+        @ExcludeMissing
+        private val memo: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("pin") @ExcludeMissing private val pin: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("product_id")
+        @ExcludeMissing
+        private val productId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("replacement_account_token")
+        @ExcludeMissing
+        private val replacementAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("replacement_for")
+        @ExcludeMissing
+        private val replacementFor: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("shipping_address")
+        @ExcludeMissing
+        private val shippingAddress: JsonField<ShippingAddress> = JsonMissing.of(),
+        @JsonProperty("shipping_method")
+        @ExcludeMissing
+        private val shippingMethod: JsonField<ShippingMethod> = JsonMissing.of(),
+        @JsonProperty("spend_limit")
+        @ExcludeMissing
+        private val spendLimit: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("spend_limit_duration")
+        @ExcludeMissing
+        private val spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of(),
+        @JsonProperty("state")
+        @ExcludeMissing
+        private val state: JsonField<State> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -211,7 +371,148 @@ constructor(
          * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
          *   instead.
          */
-        @JsonProperty("type") fun type(): Type = type
+        fun type(): Type = type.getRequired("type")
+
+        /**
+         * Globally unique identifier for the account that the card will be associated with.
+         * Required for programs enrolling users using the
+         * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+         * [Managing Your Program](doc:managing-your-program) for more information.
+         */
+        fun accountToken(): Optional<String> =
+            Optional.ofNullable(accountToken.getNullable("account_token"))
+
+        /**
+         * For card programs with more than one BIN range. This must be configured with Lithic
+         * before use. Identifies the card program/BIN range under which to create the card. If
+         * omitted, will utilize the program's default `card_program_token`. In Sandbox, use
+         * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
+         * creating cards on specific card programs.
+         */
+        fun cardProgramToken(): Optional<String> =
+            Optional.ofNullable(cardProgramToken.getNullable("card_program_token"))
+
+        fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier.getNullable("carrier"))
+
+        /**
+         * Specifies the digital card art to be displayed in the user’s digital wallet after
+         * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         */
+        fun digitalCardArtToken(): Optional<String> =
+            Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
+
+        /**
+         * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date will be generated.
+         */
+        fun expMonth(): Optional<String> = Optional.ofNullable(expMonth.getNullable("exp_month"))
+
+        /**
+         * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
+         * expiration date will be generated.
+         */
+        fun expYear(): Optional<String> = Optional.ofNullable(expYear.getNullable("exp_year"))
+
+        /** Friendly name to identify the card. */
+        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+
+        /**
+         * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
+         * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
+         */
+        fun pin(): Optional<String> = Optional.ofNullable(pin.getNullable("pin"))
+
+        /**
+         * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
+         * use. Specifies the configuration (i.e., physical card art) that the card should be
+         * manufactured with.
+         */
+        fun productId(): Optional<String> = Optional.ofNullable(productId.getNullable("product_id"))
+
+        /**
+         * Restricted field limited to select use cases. Lithic will reach out directly if this
+         * field should be used. Globally unique identifier for the replacement card's account. If
+         * this field is specified, `replacement_for` must also be specified. If `replacement_for`
+         * is specified and this field is omitted, the replacement card's account will be inferred
+         * from the card being replaced.
+         */
+        fun replacementAccountToken(): Optional<String> =
+            Optional.ofNullable(replacementAccountToken.getNullable("replacement_account_token"))
+
+        /**
+         * Globally unique identifier for the card that this card will replace. If the card type is
+         * `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL` it
+         * will be replaced by a `VIRTUAL` card.
+         */
+        fun replacementFor(): Optional<String> =
+            Optional.ofNullable(replacementFor.getNullable("replacement_for"))
+
+        fun shippingAddress(): Optional<ShippingAddress> =
+            Optional.ofNullable(shippingAddress.getNullable("shipping_address"))
+
+        /**
+         * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
+         * besides `STANDARD` require additional permissions.
+         * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+         * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+         *   tracking
+         * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+         * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
+         * - `2_DAY` - FedEx 2-day shipping, with tracking
+         * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
+         */
+        fun shippingMethod(): Optional<ShippingMethod> =
+            Optional.ofNullable(shippingMethod.getNullable("shipping_method"))
+
+        /**
+         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
+         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
+         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
+         * declined transactions due to checks against the card limit.
+         */
+        fun spendLimit(): Optional<Long> =
+            Optional.ofNullable(spendLimit.getNullable("spend_limit"))
+
+        /**
+         * Spend limit duration values:
+         * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing year.
+         * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of the
+         *   card.
+         * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing month.
+         *   To support recurring monthly payments, which can occur on different day every month,
+         *   the time window we consider for monthly velocity starts 6 days after the current
+         *   calendar date one month prior.
+         * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+         *   transaction is under the spend limit.
+         */
+        fun spendLimitDuration(): Optional<SpendLimitDuration> =
+            Optional.ofNullable(spendLimitDuration.getNullable("spend_limit_duration"))
+
+        /**
+         * Card state values:
+         * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
+         * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
+         */
+        fun state(): Optional<State> = Optional.ofNullable(state.getNullable("state"))
+
+        /**
+         * Card types:
+         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
+         *   like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
+         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+         *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
+         *   [lithic.com/contact](https://lithic.com/contact) for more information.
+         * - `SINGLE_USE` - Card is closed upon first successful authorization.
+         * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
+         *   successfully authorizes the card.
+         * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         *   instead.
+         * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         *   instead.
+         */
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
 
         /**
          * Globally unique identifier for the account that the card will be associated with.
@@ -220,7 +521,8 @@ constructor(
          * [Managing Your Program](doc:managing-your-program) for more information.
          */
         @JsonProperty("account_token")
-        fun accountToken(): Optional<String> = Optional.ofNullable(accountToken)
+        @ExcludeMissing
+        fun _accountToken(): JsonField<String> = accountToken
 
         /**
          * For card programs with more than one BIN range. This must be configured with Lithic
@@ -230,9 +532,10 @@ constructor(
          * creating cards on specific card programs.
          */
         @JsonProperty("card_program_token")
-        fun cardProgramToken(): Optional<String> = Optional.ofNullable(cardProgramToken)
+        @ExcludeMissing
+        fun _cardProgramToken(): JsonField<String> = cardProgramToken
 
-        @JsonProperty("carrier") fun carrier(): Optional<Carrier> = Optional.ofNullable(carrier)
+        @JsonProperty("carrier") @ExcludeMissing fun _carrier(): JsonField<Carrier> = carrier
 
         /**
          * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -241,36 +544,36 @@ constructor(
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
         @JsonProperty("digital_card_art_token")
-        fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken)
+        @ExcludeMissing
+        fun _digitalCardArtToken(): JsonField<String> = digitalCardArtToken
 
         /**
          * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date will be generated.
          */
-        @JsonProperty("exp_month") fun expMonth(): Optional<String> = Optional.ofNullable(expMonth)
+        @JsonProperty("exp_month") @ExcludeMissing fun _expMonth(): JsonField<String> = expMonth
 
         /**
          * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date will be generated.
          */
-        @JsonProperty("exp_year") fun expYear(): Optional<String> = Optional.ofNullable(expYear)
+        @JsonProperty("exp_year") @ExcludeMissing fun _expYear(): JsonField<String> = expYear
 
         /** Friendly name to identify the card. */
-        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
+        @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
         /**
          * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
-        @JsonProperty("pin") fun pin(): Optional<String> = Optional.ofNullable(pin)
+        @JsonProperty("pin") @ExcludeMissing fun _pin(): JsonField<String> = pin
 
         /**
          * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
          * use. Specifies the configuration (i.e., physical card art) that the card should be
          * manufactured with.
          */
-        @JsonProperty("product_id")
-        fun productId(): Optional<String> = Optional.ofNullable(productId)
+        @JsonProperty("product_id") @ExcludeMissing fun _productId(): JsonField<String> = productId
 
         /**
          * Restricted field limited to select use cases. Lithic will reach out directly if this
@@ -280,8 +583,8 @@ constructor(
          * from the card being replaced.
          */
         @JsonProperty("replacement_account_token")
-        fun replacementAccountToken(): Optional<String> =
-            Optional.ofNullable(replacementAccountToken)
+        @ExcludeMissing
+        fun _replacementAccountToken(): JsonField<String> = replacementAccountToken
 
         /**
          * Globally unique identifier for the card that this card will replace. If the card type is
@@ -289,10 +592,12 @@ constructor(
          * will be replaced by a `VIRTUAL` card.
          */
         @JsonProperty("replacement_for")
-        fun replacementFor(): Optional<String> = Optional.ofNullable(replacementFor)
+        @ExcludeMissing
+        fun _replacementFor(): JsonField<String> = replacementFor
 
         @JsonProperty("shipping_address")
-        fun shippingAddress(): Optional<ShippingAddress> = Optional.ofNullable(shippingAddress)
+        @ExcludeMissing
+        fun _shippingAddress(): JsonField<ShippingAddress> = shippingAddress
 
         /**
          * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
@@ -306,7 +611,8 @@ constructor(
          * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
          */
         @JsonProperty("shipping_method")
-        fun shippingMethod(): Optional<ShippingMethod> = Optional.ofNullable(shippingMethod)
+        @ExcludeMissing
+        fun _shippingMethod(): JsonField<ShippingMethod> = shippingMethod
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -314,8 +620,7 @@ constructor(
          * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
          * declined transactions due to checks against the card limit.
          */
-        @JsonProperty("spend_limit")
-        fun spendLimit(): Optional<Long> = Optional.ofNullable(spendLimit)
+        @JsonProperty("spend_limit") @ExcludeMissing fun _spendLimit(): JsonField<Long> = spendLimit
 
         /**
          * Spend limit duration values:
@@ -330,19 +635,44 @@ constructor(
          *   transaction is under the spend limit.
          */
         @JsonProperty("spend_limit_duration")
-        fun spendLimitDuration(): Optional<SpendLimitDuration> =
-            Optional.ofNullable(spendLimitDuration)
+        @ExcludeMissing
+        fun _spendLimitDuration(): JsonField<SpendLimitDuration> = spendLimitDuration
 
         /**
          * Card state values:
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        @JsonProperty("state") fun state(): Optional<State> = Optional.ofNullable(state)
+        @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): CardCreateBody = apply {
+            if (!validated) {
+                type()
+                accountToken()
+                cardProgramToken()
+                carrier().map { it.validate() }
+                digitalCardArtToken()
+                expMonth()
+                expYear()
+                memo()
+                pin()
+                productId()
+                replacementAccountToken()
+                replacementFor()
+                shippingAddress().map { it.validate() }
+                shippingMethod()
+                spendLimit()
+                spendLimitDuration()
+                state()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -353,23 +683,23 @@ constructor(
 
         class Builder {
 
-            private var type: Type? = null
-            private var accountToken: String? = null
-            private var cardProgramToken: String? = null
-            private var carrier: Carrier? = null
-            private var digitalCardArtToken: String? = null
-            private var expMonth: String? = null
-            private var expYear: String? = null
-            private var memo: String? = null
-            private var pin: String? = null
-            private var productId: String? = null
-            private var replacementAccountToken: String? = null
-            private var replacementFor: String? = null
-            private var shippingAddress: ShippingAddress? = null
-            private var shippingMethod: ShippingMethod? = null
-            private var spendLimit: Long? = null
-            private var spendLimitDuration: SpendLimitDuration? = null
-            private var state: State? = null
+            private var type: JsonField<Type>? = null
+            private var accountToken: JsonField<String> = JsonMissing.of()
+            private var cardProgramToken: JsonField<String> = JsonMissing.of()
+            private var carrier: JsonField<Carrier> = JsonMissing.of()
+            private var digitalCardArtToken: JsonField<String> = JsonMissing.of()
+            private var expMonth: JsonField<String> = JsonMissing.of()
+            private var expYear: JsonField<String> = JsonMissing.of()
+            private var memo: JsonField<String> = JsonMissing.of()
+            private var pin: JsonField<String> = JsonMissing.of()
+            private var productId: JsonField<String> = JsonMissing.of()
+            private var replacementAccountToken: JsonField<String> = JsonMissing.of()
+            private var replacementFor: JsonField<String> = JsonMissing.of()
+            private var shippingAddress: JsonField<ShippingAddress> = JsonMissing.of()
+            private var shippingMethod: JsonField<ShippingMethod> = JsonMissing.of()
+            private var spendLimit: JsonField<Long> = JsonMissing.of()
+            private var spendLimitDuration: JsonField<SpendLimitDuration> = JsonMissing.of()
+            private var state: JsonField<State> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -410,7 +740,25 @@ constructor(
              * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use
              *   VIRTUAL instead.
              */
-            fun type(type: Type) = apply { this.type = type }
+            fun type(type: Type) = type(JsonField.of(type))
+
+            /**
+             * Card types:
+             * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital
+             *   wallet like Apple Pay or Google Pay (if the card program is digital
+             *   wallet-enabled).
+             * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label
+             *   branding, credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach
+             *   out at [lithic.com/contact](https://lithic.com/contact) for more information.
+             * - `SINGLE_USE` - Card is closed upon first successful authorization.
+             * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
+             *   successfully authorizes the card.
+             * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+             *   instead.
+             * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use
+             *   VIRTUAL instead.
+             */
+            fun type(type: JsonField<Type>) = apply { this.type = type }
 
             /**
              * Globally unique identifier for the account that the card will be associated with.
@@ -418,7 +766,7 @@ constructor(
              * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
              * [Managing Your Program](doc:managing-your-program) for more information.
              */
-            fun accountToken(accountToken: String?) = apply { this.accountToken = accountToken }
+            fun accountToken(accountToken: String) = accountToken(JsonField.of(accountToken))
 
             /**
              * Globally unique identifier for the account that the card will be associated with.
@@ -426,18 +774,8 @@ constructor(
              * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
              * [Managing Your Program](doc:managing-your-program) for more information.
              */
-            fun accountToken(accountToken: Optional<String>) =
-                accountToken(accountToken.orElse(null))
-
-            /**
-             * For card programs with more than one BIN range. This must be configured with Lithic
-             * before use. Identifies the card program/BIN range under which to create the card. If
-             * omitted, will utilize the program's default `card_program_token`. In Sandbox, use
-             * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
-             * creating cards on specific card programs.
-             */
-            fun cardProgramToken(cardProgramToken: String?) = apply {
-                this.cardProgramToken = cardProgramToken
+            fun accountToken(accountToken: JsonField<String>) = apply {
+                this.accountToken = accountToken
             }
 
             /**
@@ -447,12 +785,23 @@ constructor(
              * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
              * creating cards on specific card programs.
              */
-            fun cardProgramToken(cardProgramToken: Optional<String>) =
-                cardProgramToken(cardProgramToken.orElse(null))
+            fun cardProgramToken(cardProgramToken: String) =
+                cardProgramToken(JsonField.of(cardProgramToken))
 
-            fun carrier(carrier: Carrier?) = apply { this.carrier = carrier }
+            /**
+             * For card programs with more than one BIN range. This must be configured with Lithic
+             * before use. Identifies the card program/BIN range under which to create the card. If
+             * omitted, will utilize the program's default `card_program_token`. In Sandbox, use
+             * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
+             * creating cards on specific card programs.
+             */
+            fun cardProgramToken(cardProgramToken: JsonField<String>) = apply {
+                this.cardProgramToken = cardProgramToken
+            }
 
-            fun carrier(carrier: Optional<Carrier>) = carrier(carrier.orElse(null))
+            fun carrier(carrier: Carrier) = carrier(JsonField.of(carrier))
+
+            fun carrier(carrier: JsonField<Carrier>) = apply { this.carrier = carrier }
 
             /**
              * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -460,74 +809,74 @@ constructor(
              * use. See
              * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
-            fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
+            fun digitalCardArtToken(digitalCardArtToken: String) =
+                digitalCardArtToken(JsonField.of(digitalCardArtToken))
+
+            /**
+             * Specifies the digital card art to be displayed in the user’s digital wallet after
+             * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
+             * use. See
+             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+             */
+            fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
                 this.digitalCardArtToken = digitalCardArtToken
             }
 
             /**
-             * Specifies the digital card art to be displayed in the user’s digital wallet after
-             * tokenization. This artwork must be approved by Mastercard and configured by Lithic to
-             * use. See
-             * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+             * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
+             * expiration date will be generated.
              */
-            fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
-                digitalCardArtToken(digitalCardArtToken.orElse(null))
+            fun expMonth(expMonth: String) = expMonth(JsonField.of(expMonth))
 
             /**
              * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
              * expiration date will be generated.
              */
-            fun expMonth(expMonth: String?) = apply { this.expMonth = expMonth }
-
-            /**
-             * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
-             * expiration date will be generated.
-             */
-            fun expMonth(expMonth: Optional<String>) = expMonth(expMonth.orElse(null))
+            fun expMonth(expMonth: JsonField<String>) = apply { this.expMonth = expMonth }
 
             /**
              * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
              * expiration date will be generated.
              */
-            fun expYear(expYear: String?) = apply { this.expYear = expYear }
+            fun expYear(expYear: String) = expYear(JsonField.of(expYear))
 
             /**
              * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
              * expiration date will be generated.
              */
-            fun expYear(expYear: Optional<String>) = expYear(expYear.orElse(null))
+            fun expYear(expYear: JsonField<String>) = apply { this.expYear = expYear }
 
             /** Friendly name to identify the card. */
-            fun memo(memo: String?) = apply { this.memo = memo }
+            fun memo(memo: String) = memo(JsonField.of(memo))
 
             /** Friendly name to identify the card. */
-            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             /**
              * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`.
              * See [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
              */
-            fun pin(pin: String?) = apply { this.pin = pin }
+            fun pin(pin: String) = pin(JsonField.of(pin))
 
             /**
              * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`.
              * See [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
              */
-            fun pin(pin: Optional<String>) = pin(pin.orElse(null))
+            fun pin(pin: JsonField<String>) = apply { this.pin = pin }
 
             /**
              * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic
              * before use. Specifies the configuration (i.e., physical card art) that the card
              * should be manufactured with.
              */
-            fun productId(productId: String?) = apply { this.productId = productId }
+            fun productId(productId: String) = productId(JsonField.of(productId))
 
             /**
              * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic
              * before use. Specifies the configuration (i.e., physical card art) that the card
              * should be manufactured with.
              */
-            fun productId(productId: Optional<String>) = productId(productId.orElse(null))
+            fun productId(productId: JsonField<String>) = apply { this.productId = productId }
 
             /**
              * Restricted field limited to select use cases. Lithic will reach out directly if this
@@ -536,43 +885,43 @@ constructor(
              * `replacement_for` is specified and this field is omitted, the replacement card's
              * account will be inferred from the card being replaced.
              */
-            fun replacementAccountToken(replacementAccountToken: String?) = apply {
+            fun replacementAccountToken(replacementAccountToken: String) =
+                replacementAccountToken(JsonField.of(replacementAccountToken))
+
+            /**
+             * Restricted field limited to select use cases. Lithic will reach out directly if this
+             * field should be used. Globally unique identifier for the replacement card's account.
+             * If this field is specified, `replacement_for` must also be specified. If
+             * `replacement_for` is specified and this field is omitted, the replacement card's
+             * account will be inferred from the card being replaced.
+             */
+            fun replacementAccountToken(replacementAccountToken: JsonField<String>) = apply {
                 this.replacementAccountToken = replacementAccountToken
             }
 
             /**
-             * Restricted field limited to select use cases. Lithic will reach out directly if this
-             * field should be used. Globally unique identifier for the replacement card's account.
-             * If this field is specified, `replacement_for` must also be specified. If
-             * `replacement_for` is specified and this field is omitted, the replacement card's
-             * account will be inferred from the card being replaced.
+             * Globally unique identifier for the card that this card will replace. If the card type
+             * is `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL`
+             * it will be replaced by a `VIRTUAL` card.
              */
-            fun replacementAccountToken(replacementAccountToken: Optional<String>) =
-                replacementAccountToken(replacementAccountToken.orElse(null))
+            fun replacementFor(replacementFor: String) =
+                replacementFor(JsonField.of(replacementFor))
 
             /**
              * Globally unique identifier for the card that this card will replace. If the card type
              * is `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL`
              * it will be replaced by a `VIRTUAL` card.
              */
-            fun replacementFor(replacementFor: String?) = apply {
+            fun replacementFor(replacementFor: JsonField<String>) = apply {
                 this.replacementFor = replacementFor
             }
 
-            /**
-             * Globally unique identifier for the card that this card will replace. If the card type
-             * is `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL`
-             * it will be replaced by a `VIRTUAL` card.
-             */
-            fun replacementFor(replacementFor: Optional<String>) =
-                replacementFor(replacementFor.orElse(null))
+            fun shippingAddress(shippingAddress: ShippingAddress) =
+                shippingAddress(JsonField.of(shippingAddress))
 
-            fun shippingAddress(shippingAddress: ShippingAddress?) = apply {
+            fun shippingAddress(shippingAddress: JsonField<ShippingAddress>) = apply {
                 this.shippingAddress = shippingAddress
             }
-
-            fun shippingAddress(shippingAddress: Optional<ShippingAddress>) =
-                shippingAddress(shippingAddress.orElse(null))
 
             /**
              * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
@@ -586,24 +935,32 @@ constructor(
              * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
              *   tracking
              */
-            fun shippingMethod(shippingMethod: ShippingMethod?) = apply {
+            fun shippingMethod(shippingMethod: ShippingMethod) =
+                shippingMethod(JsonField.of(shippingMethod))
+
+            /**
+             * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
+             * besides `STANDARD` require additional permissions.
+             * - `STANDARD` - USPS regular mail or similar international option, with no tracking
+             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
+             *   tracking
+             * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
+             * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
+             * - `2_DAY` - FedEx 2-day shipping, with tracking
+             * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
+             *   tracking
+             */
+            fun shippingMethod(shippingMethod: JsonField<ShippingMethod>) = apply {
                 this.shippingMethod = shippingMethod
             }
 
             /**
-             * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
-             * besides `STANDARD` require additional permissions.
-             * - `STANDARD` - USPS regular mail or similar international option, with no tracking
-             * - `STANDARD_WITH_TRACKING` - USPS regular mail or similar international option, with
-             *   tracking
-             * - `PRIORITY` - USPS Priority, 1-3 day shipping, with tracking
-             * - `EXPRESS` - FedEx Express, 3-day shipping, with tracking
-             * - `2_DAY` - FedEx 2-day shipping, with tracking
-             * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with
-             *   tracking
+             * Amount (in cents) to limit approved authorizations. Transaction requests above the
+             * spend limit will be declined. Note that a spend limit of 0 is effectively no limit,
+             * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
+             * will result in declined transactions due to checks against the card limit.
              */
-            fun shippingMethod(shippingMethod: Optional<ShippingMethod>) =
-                shippingMethod(shippingMethod.orElse(null))
+            fun spendLimit(spendLimit: Long) = spendLimit(JsonField.of(spendLimit))
 
             /**
              * Amount (in cents) to limit approved authorizations. Transaction requests above the
@@ -611,25 +968,7 @@ constructor(
              * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
              * will result in declined transactions due to checks against the card limit.
              */
-            fun spendLimit(spendLimit: Long?) = apply { this.spendLimit = spendLimit }
-
-            /**
-             * Amount (in cents) to limit approved authorizations. Transaction requests above the
-             * spend limit will be declined. Note that a spend limit of 0 is effectively no limit,
-             * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
-             * will result in declined transactions due to checks against the card limit.
-             */
-            fun spendLimit(spendLimit: Long) = spendLimit(spendLimit as Long?)
-
-            /**
-             * Amount (in cents) to limit approved authorizations. Transaction requests above the
-             * spend limit will be declined. Note that a spend limit of 0 is effectively no limit,
-             * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
-             * will result in declined transactions due to checks against the card limit.
-             */
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-            fun spendLimit(spendLimit: Optional<Long>) =
-                spendLimit(spendLimit.orElse(null) as Long?)
+            fun spendLimit(spendLimit: JsonField<Long>) = apply { this.spendLimit = spendLimit }
 
             /**
              * Spend limit duration values:
@@ -644,25 +983,33 @@ constructor(
              * - `TRANSACTION` - Card will authorize multiple transactions if each individual
              *   transaction is under the spend limit.
              */
-            fun spendLimitDuration(spendLimitDuration: SpendLimitDuration?) = apply {
+            fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) =
+                spendLimitDuration(JsonField.of(spendLimitDuration))
+
+            /**
+             * Spend limit duration values:
+             * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
+             *   year.
+             * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
+             *   the card.
+             * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
+             *   month. To support recurring monthly payments, which can occur on different day
+             *   every month, the time window we consider for monthly velocity starts 6 days after
+             *   the current calendar date one month prior.
+             * - `TRANSACTION` - Card will authorize multiple transactions if each individual
+             *   transaction is under the spend limit.
+             */
+            fun spendLimitDuration(spendLimitDuration: JsonField<SpendLimitDuration>) = apply {
                 this.spendLimitDuration = spendLimitDuration
             }
 
             /**
-             * Spend limit duration values:
-             * - `ANNUALLY` - Card will authorize transactions up to spend limit for the trailing
-             *   year.
-             * - `FOREVER` - Card will authorize only up to spend limit for the entire lifetime of
-             *   the card.
-             * - `MONTHLY` - Card will authorize transactions up to spend limit for the trailing
-             *   month. To support recurring monthly payments, which can occur on different day
-             *   every month, the time window we consider for monthly velocity starts 6 days after
-             *   the current calendar date one month prior.
-             * - `TRANSACTION` - Card will authorize multiple transactions if each individual
-             *   transaction is under the spend limit.
+             * Card state values:
+             * - `OPEN` - Card will approve authorizations (if they match card and account
+             *   parameters).
+             * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
-            fun spendLimitDuration(spendLimitDuration: Optional<SpendLimitDuration>) =
-                spendLimitDuration(spendLimitDuration.orElse(null))
+            fun state(state: State) = state(JsonField.of(state))
 
             /**
              * Card state values:
@@ -670,15 +1017,7 @@ constructor(
              *   parameters).
              * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
              */
-            fun state(state: State?) = apply { this.state = state }
-
-            /**
-             * Card state values:
-             * - `OPEN` - Card will approve authorizations (if they match card and account
-             *   parameters).
-             * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
-             */
-            fun state(state: Optional<State>) = state(state.orElse(null))
+            fun state(state: JsonField<State>) = apply { this.state = state }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -779,12 +1118,21 @@ constructor(
         fun type(type: Type) = apply { body.type(type) }
 
         /**
-         * Globally unique identifier for the account that the card will be associated with.
-         * Required for programs enrolling users using the
-         * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
-         * [Managing Your Program](doc:managing-your-program) for more information.
+         * Card types:
+         * - `VIRTUAL` - Card will authorize at any merchant and can be added to a digital wallet
+         *   like Apple Pay or Google Pay (if the card program is digital wallet-enabled).
+         * - `PHYSICAL` - Manufactured and sent to the cardholder. We offer white label branding,
+         *   credit, ATM, PIN debit, chip/EMV, NFC and magstripe functionality. Reach out at
+         *   [lithic.com/contact](https://lithic.com/contact) for more information.
+         * - `SINGLE_USE` - Card is closed upon first successful authorization.
+         * - `MERCHANT_LOCKED` - _[Deprecated]_ Card is locked to the first merchant that
+         *   successfully authorizes the card.
+         * - `UNLOCKED` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         *   instead.
+         * - `DIGITAL_WALLET` - _[Deprecated]_ Similar behavior to VIRTUAL cards, please use VIRTUAL
+         *   instead.
          */
-        fun accountToken(accountToken: String?) = apply { body.accountToken(accountToken) }
+        fun type(type: JsonField<Type>) = apply { body.type(type) }
 
         /**
          * Globally unique identifier for the account that the card will be associated with.
@@ -792,7 +1140,17 @@ constructor(
          * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
          * [Managing Your Program](doc:managing-your-program) for more information.
          */
-        fun accountToken(accountToken: Optional<String>) = accountToken(accountToken.orElse(null))
+        fun accountToken(accountToken: String) = apply { body.accountToken(accountToken) }
+
+        /**
+         * Globally unique identifier for the account that the card will be associated with.
+         * Required for programs enrolling users using the
+         * [/account_holders endpoint](https://docs.lithic.com/docs/account-holders-kyc). See
+         * [Managing Your Program](doc:managing-your-program) for more information.
+         */
+        fun accountToken(accountToken: JsonField<String>) = apply {
+            body.accountToken(accountToken)
+        }
 
         /**
          * For card programs with more than one BIN range. This must be configured with Lithic
@@ -801,7 +1159,7 @@ constructor(
          * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
          * creating cards on specific card programs.
          */
-        fun cardProgramToken(cardProgramToken: String?) = apply {
+        fun cardProgramToken(cardProgramToken: String) = apply {
             body.cardProgramToken(cardProgramToken)
         }
 
@@ -812,12 +1170,13 @@ constructor(
          * 00000000-0000-0000-1000-000000000000 and 00000000-0000-0000-2000-000000000000 to test
          * creating cards on specific card programs.
          */
-        fun cardProgramToken(cardProgramToken: Optional<String>) =
-            cardProgramToken(cardProgramToken.orElse(null))
+        fun cardProgramToken(cardProgramToken: JsonField<String>) = apply {
+            body.cardProgramToken(cardProgramToken)
+        }
 
-        fun carrier(carrier: Carrier?) = apply { body.carrier(carrier) }
+        fun carrier(carrier: Carrier) = apply { body.carrier(carrier) }
 
-        fun carrier(carrier: Optional<Carrier>) = carrier(carrier.orElse(null))
+        fun carrier(carrier: JsonField<Carrier>) = apply { body.carrier(carrier) }
 
         /**
          * Specifies the digital card art to be displayed in the user’s digital wallet after
@@ -825,7 +1184,7 @@ constructor(
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
+        fun digitalCardArtToken(digitalCardArtToken: String) = apply {
             body.digitalCardArtToken(digitalCardArtToken)
         }
 
@@ -835,64 +1194,65 @@ constructor(
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
-            digitalCardArtToken(digitalCardArtToken.orElse(null))
+        fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
+            body.digitalCardArtToken(digitalCardArtToken)
+        }
 
         /**
          * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date will be generated.
          */
-        fun expMonth(expMonth: String?) = apply { body.expMonth(expMonth) }
+        fun expMonth(expMonth: String) = apply { body.expMonth(expMonth) }
 
         /**
          * Two digit (MM) expiry month. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date will be generated.
          */
-        fun expMonth(expMonth: Optional<String>) = expMonth(expMonth.orElse(null))
+        fun expMonth(expMonth: JsonField<String>) = apply { body.expMonth(expMonth) }
 
         /**
          * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date will be generated.
          */
-        fun expYear(expYear: String?) = apply { body.expYear(expYear) }
+        fun expYear(expYear: String) = apply { body.expYear(expYear) }
 
         /**
          * Four digit (yyyy) expiry year. If neither `exp_month` nor `exp_year` is provided, an
          * expiration date will be generated.
          */
-        fun expYear(expYear: Optional<String>) = expYear(expYear.orElse(null))
+        fun expYear(expYear: JsonField<String>) = apply { body.expYear(expYear) }
 
         /** Friendly name to identify the card. */
-        fun memo(memo: String?) = apply { body.memo(memo) }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         /** Friendly name to identify the card. */
-        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
         /**
          * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
-        fun pin(pin: String?) = apply { body.pin(pin) }
+        fun pin(pin: String) = apply { body.pin(pin) }
 
         /**
          * Encrypted PIN block (in base64). Applies to cards of type `PHYSICAL` and `VIRTUAL`. See
          * [Encrypted PIN Block](https://docs.lithic.com/docs/cards#encrypted-pin-block).
          */
-        fun pin(pin: Optional<String>) = pin(pin.orElse(null))
+        fun pin(pin: JsonField<String>) = apply { body.pin(pin) }
 
         /**
          * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
          * use. Specifies the configuration (i.e., physical card art) that the card should be
          * manufactured with.
          */
-        fun productId(productId: String?) = apply { body.productId(productId) }
+        fun productId(productId: String) = apply { body.productId(productId) }
 
         /**
          * Only applicable to cards of type `PHYSICAL`. This must be configured with Lithic before
          * use. Specifies the configuration (i.e., physical card art) that the card should be
          * manufactured with.
          */
-        fun productId(productId: Optional<String>) = productId(productId.orElse(null))
+        fun productId(productId: JsonField<String>) = apply { body.productId(productId) }
 
         /**
          * Restricted field limited to select use cases. Lithic will reach out directly if this
@@ -901,7 +1261,7 @@ constructor(
          * is specified and this field is omitted, the replacement card's account will be inferred
          * from the card being replaced.
          */
-        fun replacementAccountToken(replacementAccountToken: String?) = apply {
+        fun replacementAccountToken(replacementAccountToken: String) = apply {
             body.replacementAccountToken(replacementAccountToken)
         }
 
@@ -912,30 +1272,33 @@ constructor(
          * is specified and this field is omitted, the replacement card's account will be inferred
          * from the card being replaced.
          */
-        fun replacementAccountToken(replacementAccountToken: Optional<String>) =
-            replacementAccountToken(replacementAccountToken.orElse(null))
+        fun replacementAccountToken(replacementAccountToken: JsonField<String>) = apply {
+            body.replacementAccountToken(replacementAccountToken)
+        }
 
         /**
          * Globally unique identifier for the card that this card will replace. If the card type is
          * `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL` it
          * will be replaced by a `VIRTUAL` card.
          */
-        fun replacementFor(replacementFor: String?) = apply { body.replacementFor(replacementFor) }
+        fun replacementFor(replacementFor: String) = apply { body.replacementFor(replacementFor) }
 
         /**
          * Globally unique identifier for the card that this card will replace. If the card type is
          * `PHYSICAL` it will be replaced by a `PHYSICAL` card. If the card type is `VIRTUAL` it
          * will be replaced by a `VIRTUAL` card.
          */
-        fun replacementFor(replacementFor: Optional<String>) =
-            replacementFor(replacementFor.orElse(null))
+        fun replacementFor(replacementFor: JsonField<String>) = apply {
+            body.replacementFor(replacementFor)
+        }
 
-        fun shippingAddress(shippingAddress: ShippingAddress?) = apply {
+        fun shippingAddress(shippingAddress: ShippingAddress) = apply {
             body.shippingAddress(shippingAddress)
         }
 
-        fun shippingAddress(shippingAddress: Optional<ShippingAddress>) =
-            shippingAddress(shippingAddress.orElse(null))
+        fun shippingAddress(shippingAddress: JsonField<ShippingAddress>) = apply {
+            body.shippingAddress(shippingAddress)
+        }
 
         /**
          * Shipping method for the card. Only applies to cards of type PHYSICAL. Use of options
@@ -948,7 +1311,7 @@ constructor(
          * - `2_DAY` - FedEx 2-day shipping, with tracking
          * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
          */
-        fun shippingMethod(shippingMethod: ShippingMethod?) = apply {
+        fun shippingMethod(shippingMethod: ShippingMethod) = apply {
             body.shippingMethod(shippingMethod)
         }
 
@@ -963,8 +1326,9 @@ constructor(
          * - `2_DAY` - FedEx 2-day shipping, with tracking
          * - `EXPEDITED` - FedEx Standard Overnight or similar international option, with tracking
          */
-        fun shippingMethod(shippingMethod: Optional<ShippingMethod>) =
-            shippingMethod(shippingMethod.orElse(null))
+        fun shippingMethod(shippingMethod: JsonField<ShippingMethod>) = apply {
+            body.shippingMethod(shippingMethod)
+        }
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -972,7 +1336,7 @@ constructor(
          * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
          * declined transactions due to checks against the card limit.
          */
-        fun spendLimit(spendLimit: Long?) = apply { body.spendLimit(spendLimit) }
+        fun spendLimit(spendLimit: Long) = apply { body.spendLimit(spendLimit) }
 
         /**
          * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
@@ -980,16 +1344,7 @@ constructor(
          * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
          * declined transactions due to checks against the card limit.
          */
-        fun spendLimit(spendLimit: Long) = spendLimit(spendLimit as Long?)
-
-        /**
-         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
-         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
-         * declined transactions due to checks against the card limit.
-         */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun spendLimit(spendLimit: Optional<Long>) = spendLimit(spendLimit.orElse(null) as Long?)
+        fun spendLimit(spendLimit: JsonField<Long>) = apply { body.spendLimit(spendLimit) }
 
         /**
          * Spend limit duration values:
@@ -1003,7 +1358,7 @@ constructor(
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
          *   transaction is under the spend limit.
          */
-        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration?) = apply {
+        fun spendLimitDuration(spendLimitDuration: SpendLimitDuration) = apply {
             body.spendLimitDuration(spendLimitDuration)
         }
 
@@ -1019,22 +1374,42 @@ constructor(
          * - `TRANSACTION` - Card will authorize multiple transactions if each individual
          *   transaction is under the spend limit.
          */
-        fun spendLimitDuration(spendLimitDuration: Optional<SpendLimitDuration>) =
-            spendLimitDuration(spendLimitDuration.orElse(null))
+        fun spendLimitDuration(spendLimitDuration: JsonField<SpendLimitDuration>) = apply {
+            body.spendLimitDuration(spendLimitDuration)
+        }
 
         /**
          * Card state values:
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        fun state(state: State?) = apply { body.state(state) }
+        fun state(state: State) = apply { body.state(state) }
 
         /**
          * Card state values:
          * - `OPEN` - Card will approve authorizations (if they match card and account parameters).
          * - `PAUSED` - Card will decline authorizations, but can be resumed at a later time.
          */
-        fun state(state: Optional<State>) = state(state.orElse(null))
+        fun state(state: JsonField<State>) = apply { body.state(state) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -1132,25 +1507,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): CardCreateParams =

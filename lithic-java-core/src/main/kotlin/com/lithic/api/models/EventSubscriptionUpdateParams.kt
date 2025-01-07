@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -45,11 +46,26 @@ constructor(
      */
     fun eventTypes(): Optional<List<EventType>> = body.eventTypes()
 
+    /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
+    fun _url(): JsonField<String> = body._url()
+
+    /** Event subscription description. */
+    fun _description(): JsonField<String> = body._description()
+
+    /** Whether the event subscription is active (false) or inactive (true). */
+    fun _disabled(): JsonField<Boolean> = body._disabled()
+
+    /**
+     * Indicates types of events that will be sent to this subscription. If left blank, all types
+     * will be sent.
+     */
+    fun _eventTypes(): JsonField<List<EventType>> = body._eventTypes()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): EventSubscriptionUpdateBody = body
 
@@ -68,34 +84,71 @@ constructor(
     class EventSubscriptionUpdateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("url") private val url: String,
-        @JsonProperty("description") private val description: String?,
-        @JsonProperty("disabled") private val disabled: Boolean?,
-        @JsonProperty("event_types") private val eventTypes: List<EventType>?,
+        @JsonProperty("url") @ExcludeMissing private val url: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("description")
+        @ExcludeMissing
+        private val description: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("disabled")
+        @ExcludeMissing
+        private val disabled: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("event_types")
+        @ExcludeMissing
+        private val eventTypes: JsonField<List<EventType>> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
-        @JsonProperty("url") fun url(): String = url
+        fun url(): String = url.getRequired("url")
+
+        /** Event subscription description. */
+        fun description(): Optional<String> =
+            Optional.ofNullable(description.getNullable("description"))
+
+        /** Whether the event subscription is active (false) or inactive (true). */
+        fun disabled(): Optional<Boolean> = Optional.ofNullable(disabled.getNullable("disabled"))
+
+        /**
+         * Indicates types of events that will be sent to this subscription. If left blank, all
+         * types will be sent.
+         */
+        fun eventTypes(): Optional<List<EventType>> =
+            Optional.ofNullable(eventTypes.getNullable("event_types"))
+
+        /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
+        @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
         /** Event subscription description. */
         @JsonProperty("description")
-        fun description(): Optional<String> = Optional.ofNullable(description)
+        @ExcludeMissing
+        fun _description(): JsonField<String> = description
 
         /** Whether the event subscription is active (false) or inactive (true). */
-        @JsonProperty("disabled") fun disabled(): Optional<Boolean> = Optional.ofNullable(disabled)
+        @JsonProperty("disabled") @ExcludeMissing fun _disabled(): JsonField<Boolean> = disabled
 
         /**
          * Indicates types of events that will be sent to this subscription. If left blank, all
          * types will be sent.
          */
         @JsonProperty("event_types")
-        fun eventTypes(): Optional<List<EventType>> = Optional.ofNullable(eventTypes)
+        @ExcludeMissing
+        fun _eventTypes(): JsonField<List<EventType>> = eventTypes
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): EventSubscriptionUpdateBody = apply {
+            if (!validated) {
+                url()
+                description()
+                disabled()
+                eventTypes()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -106,10 +159,10 @@ constructor(
 
         class Builder {
 
-            private var url: String? = null
-            private var description: String? = null
-            private var disabled: Boolean? = null
-            private var eventTypes: MutableList<EventType>? = null
+            private var url: JsonField<String>? = null
+            private var description: JsonField<String> = JsonMissing.of()
+            private var disabled: JsonField<Boolean> = JsonMissing.of()
+            private var eventTypes: JsonField<MutableList<EventType>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -117,51 +170,60 @@ constructor(
                 url = eventSubscriptionUpdateBody.url
                 description = eventSubscriptionUpdateBody.description
                 disabled = eventSubscriptionUpdateBody.disabled
-                eventTypes = eventSubscriptionUpdateBody.eventTypes?.toMutableList()
+                eventTypes = eventSubscriptionUpdateBody.eventTypes.map { it.toMutableList() }
                 additionalProperties =
                     eventSubscriptionUpdateBody.additionalProperties.toMutableMap()
             }
 
             /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
-            fun url(url: String) = apply { this.url = url }
+            fun url(url: String) = url(JsonField.of(url))
+
+            /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
+            fun url(url: JsonField<String>) = apply { this.url = url }
 
             /** Event subscription description. */
-            fun description(description: String?) = apply { this.description = description }
+            fun description(description: String) = description(JsonField.of(description))
 
             /** Event subscription description. */
-            fun description(description: Optional<String>) = description(description.orElse(null))
-
-            /** Whether the event subscription is active (false) or inactive (true). */
-            fun disabled(disabled: Boolean?) = apply { this.disabled = disabled }
-
-            /** Whether the event subscription is active (false) or inactive (true). */
-            fun disabled(disabled: Boolean) = disabled(disabled as Boolean?)
-
-            /** Whether the event subscription is active (false) or inactive (true). */
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-            fun disabled(disabled: Optional<Boolean>) = disabled(disabled.orElse(null) as Boolean?)
-
-            /**
-             * Indicates types of events that will be sent to this subscription. If left blank, all
-             * types will be sent.
-             */
-            fun eventTypes(eventTypes: List<EventType>?) = apply {
-                this.eventTypes = eventTypes?.toMutableList()
+            fun description(description: JsonField<String>) = apply {
+                this.description = description
             }
 
+            /** Whether the event subscription is active (false) or inactive (true). */
+            fun disabled(disabled: Boolean) = disabled(JsonField.of(disabled))
+
+            /** Whether the event subscription is active (false) or inactive (true). */
+            fun disabled(disabled: JsonField<Boolean>) = apply { this.disabled = disabled }
+
             /**
              * Indicates types of events that will be sent to this subscription. If left blank, all
              * types will be sent.
              */
-            fun eventTypes(eventTypes: Optional<List<EventType>>) =
-                eventTypes(eventTypes.orElse(null))
+            fun eventTypes(eventTypes: List<EventType>) = eventTypes(JsonField.of(eventTypes))
+
+            /**
+             * Indicates types of events that will be sent to this subscription. If left blank, all
+             * types will be sent.
+             */
+            fun eventTypes(eventTypes: JsonField<List<EventType>>) = apply {
+                this.eventTypes = eventTypes.map { it.toMutableList() }
+            }
 
             /**
              * Indicates types of events that will be sent to this subscription. If left blank, all
              * types will be sent.
              */
             fun addEventType(eventType: EventType) = apply {
-                eventTypes = (eventTypes ?: mutableListOf()).apply { add(eventType) }
+                eventTypes =
+                    (eventTypes ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(eventType)
+                    }
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -188,7 +250,7 @@ constructor(
                     checkNotNull(url) { "`url` is required but was not set" },
                     description,
                     disabled,
-                    eventTypes?.toImmutable(),
+                    (eventTypes ?: JsonMissing.of()).map { it.toImmutable() },
                     additionalProperties.toImmutable(),
                 )
         }
@@ -242,39 +304,59 @@ constructor(
         /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
         fun url(url: String) = apply { body.url(url) }
 
-        /** Event subscription description. */
-        fun description(description: String?) = apply { body.description(description) }
+        /** URL to which event webhooks will be sent. URL must be a valid HTTPS address. */
+        fun url(url: JsonField<String>) = apply { body.url(url) }
 
         /** Event subscription description. */
-        fun description(description: Optional<String>) = description(description.orElse(null))
+        fun description(description: String) = apply { body.description(description) }
+
+        /** Event subscription description. */
+        fun description(description: JsonField<String>) = apply { body.description(description) }
 
         /** Whether the event subscription is active (false) or inactive (true). */
-        fun disabled(disabled: Boolean?) = apply { body.disabled(disabled) }
+        fun disabled(disabled: Boolean) = apply { body.disabled(disabled) }
 
         /** Whether the event subscription is active (false) or inactive (true). */
-        fun disabled(disabled: Boolean) = disabled(disabled as Boolean?)
-
-        /** Whether the event subscription is active (false) or inactive (true). */
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun disabled(disabled: Optional<Boolean>) = disabled(disabled.orElse(null) as Boolean?)
+        fun disabled(disabled: JsonField<Boolean>) = apply { body.disabled(disabled) }
 
         /**
          * Indicates types of events that will be sent to this subscription. If left blank, all
          * types will be sent.
          */
-        fun eventTypes(eventTypes: List<EventType>?) = apply { body.eventTypes(eventTypes) }
+        fun eventTypes(eventTypes: List<EventType>) = apply { body.eventTypes(eventTypes) }
 
         /**
          * Indicates types of events that will be sent to this subscription. If left blank, all
          * types will be sent.
          */
-        fun eventTypes(eventTypes: Optional<List<EventType>>) = eventTypes(eventTypes.orElse(null))
+        fun eventTypes(eventTypes: JsonField<List<EventType>>) = apply {
+            body.eventTypes(eventTypes)
+        }
 
         /**
          * Indicates types of events that will be sent to this subscription. If left blank, all
          * types will be sent.
          */
         fun addEventType(eventType: EventType) = apply { body.addEventType(eventType) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -372,25 +454,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): EventSubscriptionUpdateParams =

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -32,11 +34,15 @@ constructor(
 
     fun memo(): Optional<String> = body.memo()
 
+    fun _effectiveDate(): JsonField<LocalDate> = body._effectiveDate()
+
+    fun _memo(): JsonField<String> = body._memo()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): ExternalPaymentCancelBody = body
 
@@ -55,19 +61,39 @@ constructor(
     class ExternalPaymentCancelBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("effective_date") private val effectiveDate: LocalDate,
-        @JsonProperty("memo") private val memo: String?,
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("memo")
+        @ExcludeMissing
+        private val memo: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        @JsonProperty("effective_date") fun effectiveDate(): LocalDate = effectiveDate
+        fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
 
-        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
+        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
+
+        @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): ExternalPaymentCancelBody = apply {
+            if (!validated) {
+                effectiveDate()
+                memo()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -78,8 +104,8 @@ constructor(
 
         class Builder {
 
-            private var effectiveDate: LocalDate? = null
-            private var memo: String? = null
+            private var effectiveDate: JsonField<LocalDate>? = null
+            private var memo: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -89,13 +115,15 @@ constructor(
                 additionalProperties = externalPaymentCancelBody.additionalProperties.toMutableMap()
             }
 
-            fun effectiveDate(effectiveDate: LocalDate) = apply {
+            fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
+
+            fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
 
-            fun memo(memo: String?) = apply { this.memo = memo }
+            fun memo(memo: String) = memo(JsonField.of(memo))
 
-            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -171,9 +199,32 @@ constructor(
 
         fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
-        fun memo(memo: String?) = apply { body.memo(memo) }
+        fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
+            body.effectiveDate(effectiveDate)
+        }
 
-        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+        fun memo(memo: String) = apply { body.memo(memo) }
+
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -271,25 +322,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ExternalPaymentCancelParams =

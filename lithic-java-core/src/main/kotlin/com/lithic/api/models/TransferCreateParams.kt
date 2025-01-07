@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -51,11 +53,38 @@ constructor(
     /** Optional descriptor for the transfer. */
     fun memo(): Optional<String> = body.memo()
 
+    /**
+     * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This should
+     * always be a positive value.
+     */
+    fun _amount(): JsonField<Long> = body._amount()
+
+    /**
+     * Globally unique identifier for the financial account or card that will send the funds.
+     * Accepted type dependent on the program's use case.
+     */
+    fun _from(): JsonField<String> = body._from()
+
+    /**
+     * Globally unique identifier for the financial account or card that will receive the funds.
+     * Accepted type dependent on the program's use case.
+     */
+    fun _to(): JsonField<String> = body._to()
+
+    /**
+     * Customer-provided token that will serve as an idempotency token. This token will become the
+     * transaction token.
+     */
+    fun _token(): JsonField<String> = body._token()
+
+    /** Optional descriptor for the transfer. */
+    fun _memo(): JsonField<String> = body._memo()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): TransferCreateBody = body
 
@@ -67,11 +96,19 @@ constructor(
     class TransferCreateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("amount") private val amount: Long,
-        @JsonProperty("from") private val from: String,
-        @JsonProperty("to") private val to: String,
-        @JsonProperty("token") private val token: String?,
-        @JsonProperty("memo") private val memo: String?,
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("from")
+        @ExcludeMissing
+        private val from: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("to") @ExcludeMissing private val to: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("memo")
+        @ExcludeMissing
+        private val memo: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -80,32 +117,72 @@ constructor(
          * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
          * should always be a positive value.
          */
-        @JsonProperty("amount") fun amount(): Long = amount
+        fun amount(): Long = amount.getRequired("amount")
 
         /**
          * Globally unique identifier for the financial account or card that will send the funds.
          * Accepted type dependent on the program's use case.
          */
-        @JsonProperty("from") fun from(): String = from
+        fun from(): String = from.getRequired("from")
 
         /**
          * Globally unique identifier for the financial account or card that will receive the funds.
          * Accepted type dependent on the program's use case.
          */
-        @JsonProperty("to") fun to(): String = to
+        fun to(): String = to.getRequired("to")
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        @JsonProperty("token") fun token(): Optional<String> = Optional.ofNullable(token)
+        fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
 
         /** Optional descriptor for the transfer. */
-        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
+        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+
+        /**
+         * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
+         * should always be a positive value.
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+        /**
+         * Globally unique identifier for the financial account or card that will send the funds.
+         * Accepted type dependent on the program's use case.
+         */
+        @JsonProperty("from") @ExcludeMissing fun _from(): JsonField<String> = from
+
+        /**
+         * Globally unique identifier for the financial account or card that will receive the funds.
+         * Accepted type dependent on the program's use case.
+         */
+        @JsonProperty("to") @ExcludeMissing fun _to(): JsonField<String> = to
+
+        /**
+         * Customer-provided token that will serve as an idempotency token. This token will become
+         * the transaction token.
+         */
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+        /** Optional descriptor for the transfer. */
+        @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): TransferCreateBody = apply {
+            if (!validated) {
+                amount()
+                from()
+                to()
+                token()
+                memo()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -116,11 +193,11 @@ constructor(
 
         class Builder {
 
-            private var amount: Long? = null
-            private var from: String? = null
-            private var to: String? = null
-            private var token: String? = null
-            private var memo: String? = null
+            private var amount: JsonField<Long>? = null
+            private var from: JsonField<String>? = null
+            private var to: JsonField<String>? = null
+            private var token: JsonField<String> = JsonMissing.of()
+            private var memo: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -137,37 +214,55 @@ constructor(
              * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
              * should always be a positive value.
              */
-            fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = amount(JsonField.of(amount))
+
+            /**
+             * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
+             * should always be a positive value.
+             */
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /**
              * Globally unique identifier for the financial account or card that will send the
              * funds. Accepted type dependent on the program's use case.
              */
-            fun from(from: String) = apply { this.from = from }
+            fun from(from: String) = from(JsonField.of(from))
+
+            /**
+             * Globally unique identifier for the financial account or card that will send the
+             * funds. Accepted type dependent on the program's use case.
+             */
+            fun from(from: JsonField<String>) = apply { this.from = from }
 
             /**
              * Globally unique identifier for the financial account or card that will receive the
              * funds. Accepted type dependent on the program's use case.
              */
-            fun to(to: String) = apply { this.to = to }
+            fun to(to: String) = to(JsonField.of(to))
+
+            /**
+             * Globally unique identifier for the financial account or card that will receive the
+             * funds. Accepted type dependent on the program's use case.
+             */
+            fun to(to: JsonField<String>) = apply { this.to = to }
 
             /**
              * Customer-provided token that will serve as an idempotency token. This token will
              * become the transaction token.
              */
-            fun token(token: String?) = apply { this.token = token }
+            fun token(token: String) = token(JsonField.of(token))
 
             /**
              * Customer-provided token that will serve as an idempotency token. This token will
              * become the transaction token.
              */
-            fun token(token: Optional<String>) = token(token.orElse(null))
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             /** Optional descriptor for the transfer. */
-            fun memo(memo: String?) = apply { this.memo = memo }
+            fun memo(memo: String) = memo(JsonField.of(memo))
 
             /** Optional descriptor for the transfer. */
-            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -245,10 +340,22 @@ constructor(
         fun amount(amount: Long) = apply { body.amount(amount) }
 
         /**
+         * Amount to be transferred in the currency’s smallest unit (e.g., cents for USD). This
+         * should always be a positive value.
+         */
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
+
+        /**
          * Globally unique identifier for the financial account or card that will send the funds.
          * Accepted type dependent on the program's use case.
          */
         fun from(from: String) = apply { body.from(from) }
+
+        /**
+         * Globally unique identifier for the financial account or card that will send the funds.
+         * Accepted type dependent on the program's use case.
+         */
+        fun from(from: JsonField<String>) = apply { body.from(from) }
 
         /**
          * Globally unique identifier for the financial account or card that will receive the funds.
@@ -257,22 +364,47 @@ constructor(
         fun to(to: String) = apply { body.to(to) }
 
         /**
-         * Customer-provided token that will serve as an idempotency token. This token will become
-         * the transaction token.
+         * Globally unique identifier for the financial account or card that will receive the funds.
+         * Accepted type dependent on the program's use case.
          */
-        fun token(token: String?) = apply { body.token(token) }
+        fun to(to: JsonField<String>) = apply { body.to(to) }
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        fun token(token: Optional<String>) = token(token.orElse(null))
+        fun token(token: String) = apply { body.token(token) }
+
+        /**
+         * Customer-provided token that will serve as an idempotency token. This token will become
+         * the transaction token.
+         */
+        fun token(token: JsonField<String>) = apply { body.token(token) }
 
         /** Optional descriptor for the transfer. */
-        fun memo(memo: String?) = apply { body.memo(memo) }
+        fun memo(memo: String) = apply { body.memo(memo) }
 
         /** Optional descriptor for the transfer. */
-        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -370,25 +502,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransferCreateParams =

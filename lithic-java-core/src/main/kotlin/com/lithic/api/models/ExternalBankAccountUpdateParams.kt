@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -55,11 +57,38 @@ constructor(
     /** User Defined ID */
     fun userDefinedId(): Optional<String> = body.userDefinedId()
 
+    /** Address */
+    fun _address(): JsonField<ExternalBankAccountAddress> = body._address()
+
+    /** Optional field that helps identify bank accounts in receipts */
+    fun _companyId(): JsonField<String> = body._companyId()
+
+    /** Date of Birth of the Individual that owns the external bank account */
+    fun _dob(): JsonField<LocalDate> = body._dob()
+
+    /** Doing Business As */
+    fun _doingBusinessAs(): JsonField<String> = body._doingBusinessAs()
+
+    /** The nickname for this External Bank Account */
+    fun _name(): JsonField<String> = body._name()
+
+    /**
+     * Legal Name of the business or individual who owns the external account. This will appear in
+     * statements
+     */
+    fun _owner(): JsonField<String> = body._owner()
+
+    /** Owner Type */
+    fun _ownerType(): JsonField<OwnerType> = body._ownerType()
+
+    /** User Defined ID */
+    fun _userDefinedId(): JsonField<String> = body._userDefinedId()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): ExternalBankAccountUpdateBody = body
 
@@ -78,53 +107,119 @@ constructor(
     class ExternalBankAccountUpdateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("address") private val address: ExternalBankAccountAddress?,
-        @JsonProperty("company_id") private val companyId: String?,
-        @JsonProperty("dob") private val dob: LocalDate?,
-        @JsonProperty("doing_business_as") private val doingBusinessAs: String?,
-        @JsonProperty("name") private val name: String?,
-        @JsonProperty("owner") private val owner: String?,
-        @JsonProperty("owner_type") private val ownerType: OwnerType?,
-        @JsonProperty("user_defined_id") private val userDefinedId: String?,
+        @JsonProperty("address")
+        @ExcludeMissing
+        private val address: JsonField<ExternalBankAccountAddress> = JsonMissing.of(),
+        @JsonProperty("company_id")
+        @ExcludeMissing
+        private val companyId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("dob")
+        @ExcludeMissing
+        private val dob: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("doing_business_as")
+        @ExcludeMissing
+        private val doingBusinessAs: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("name")
+        @ExcludeMissing
+        private val name: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("owner")
+        @ExcludeMissing
+        private val owner: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("owner_type")
+        @ExcludeMissing
+        private val ownerType: JsonField<OwnerType> = JsonMissing.of(),
+        @JsonProperty("user_defined_id")
+        @ExcludeMissing
+        private val userDefinedId: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Address */
-        @JsonProperty("address")
-        fun address(): Optional<ExternalBankAccountAddress> = Optional.ofNullable(address)
+        fun address(): Optional<ExternalBankAccountAddress> =
+            Optional.ofNullable(address.getNullable("address"))
 
         /** Optional field that helps identify bank accounts in receipts */
-        @JsonProperty("company_id")
-        fun companyId(): Optional<String> = Optional.ofNullable(companyId)
+        fun companyId(): Optional<String> = Optional.ofNullable(companyId.getNullable("company_id"))
 
         /** Date of Birth of the Individual that owns the external bank account */
-        @JsonProperty("dob") fun dob(): Optional<LocalDate> = Optional.ofNullable(dob)
+        fun dob(): Optional<LocalDate> = Optional.ofNullable(dob.getNullable("dob"))
 
         /** Doing Business As */
-        @JsonProperty("doing_business_as")
-        fun doingBusinessAs(): Optional<String> = Optional.ofNullable(doingBusinessAs)
+        fun doingBusinessAs(): Optional<String> =
+            Optional.ofNullable(doingBusinessAs.getNullable("doing_business_as"))
 
         /** The nickname for this External Bank Account */
-        @JsonProperty("name") fun name(): Optional<String> = Optional.ofNullable(name)
+        fun name(): Optional<String> = Optional.ofNullable(name.getNullable("name"))
 
         /**
          * Legal Name of the business or individual who owns the external account. This will appear
          * in statements
          */
-        @JsonProperty("owner") fun owner(): Optional<String> = Optional.ofNullable(owner)
+        fun owner(): Optional<String> = Optional.ofNullable(owner.getNullable("owner"))
+
+        /** Owner Type */
+        fun ownerType(): Optional<OwnerType> =
+            Optional.ofNullable(ownerType.getNullable("owner_type"))
+
+        /** User Defined ID */
+        fun userDefinedId(): Optional<String> =
+            Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
+
+        /** Address */
+        @JsonProperty("address")
+        @ExcludeMissing
+        fun _address(): JsonField<ExternalBankAccountAddress> = address
+
+        /** Optional field that helps identify bank accounts in receipts */
+        @JsonProperty("company_id") @ExcludeMissing fun _companyId(): JsonField<String> = companyId
+
+        /** Date of Birth of the Individual that owns the external bank account */
+        @JsonProperty("dob") @ExcludeMissing fun _dob(): JsonField<LocalDate> = dob
+
+        /** Doing Business As */
+        @JsonProperty("doing_business_as")
+        @ExcludeMissing
+        fun _doingBusinessAs(): JsonField<String> = doingBusinessAs
+
+        /** The nickname for this External Bank Account */
+        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+        /**
+         * Legal Name of the business or individual who owns the external account. This will appear
+         * in statements
+         */
+        @JsonProperty("owner") @ExcludeMissing fun _owner(): JsonField<String> = owner
 
         /** Owner Type */
         @JsonProperty("owner_type")
-        fun ownerType(): Optional<OwnerType> = Optional.ofNullable(ownerType)
+        @ExcludeMissing
+        fun _ownerType(): JsonField<OwnerType> = ownerType
 
         /** User Defined ID */
         @JsonProperty("user_defined_id")
-        fun userDefinedId(): Optional<String> = Optional.ofNullable(userDefinedId)
+        @ExcludeMissing
+        fun _userDefinedId(): JsonField<String> = userDefinedId
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): ExternalBankAccountUpdateBody = apply {
+            if (!validated) {
+                address().map { it.validate() }
+                companyId()
+                dob()
+                doingBusinessAs()
+                name()
+                owner()
+                ownerType()
+                userDefinedId()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -135,14 +230,14 @@ constructor(
 
         class Builder {
 
-            private var address: ExternalBankAccountAddress? = null
-            private var companyId: String? = null
-            private var dob: LocalDate? = null
-            private var doingBusinessAs: String? = null
-            private var name: String? = null
-            private var owner: String? = null
-            private var ownerType: OwnerType? = null
-            private var userDefinedId: String? = null
+            private var address: JsonField<ExternalBankAccountAddress> = JsonMissing.of()
+            private var companyId: JsonField<String> = JsonMissing.of()
+            private var dob: JsonField<LocalDate> = JsonMissing.of()
+            private var doingBusinessAs: JsonField<String> = JsonMissing.of()
+            private var name: JsonField<String> = JsonMissing.of()
+            private var owner: JsonField<String> = JsonMissing.of()
+            private var ownerType: JsonField<OwnerType> = JsonMissing.of()
+            private var userDefinedId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -161,63 +256,65 @@ constructor(
                 }
 
             /** Address */
-            fun address(address: ExternalBankAccountAddress?) = apply { this.address = address }
+            fun address(address: ExternalBankAccountAddress) = address(JsonField.of(address))
 
             /** Address */
-            fun address(address: Optional<ExternalBankAccountAddress>) =
-                address(address.orElse(null))
+            fun address(address: JsonField<ExternalBankAccountAddress>) = apply {
+                this.address = address
+            }
 
             /** Optional field that helps identify bank accounts in receipts */
-            fun companyId(companyId: String?) = apply { this.companyId = companyId }
+            fun companyId(companyId: String) = companyId(JsonField.of(companyId))
 
             /** Optional field that helps identify bank accounts in receipts */
-            fun companyId(companyId: Optional<String>) = companyId(companyId.orElse(null))
+            fun companyId(companyId: JsonField<String>) = apply { this.companyId = companyId }
 
             /** Date of Birth of the Individual that owns the external bank account */
-            fun dob(dob: LocalDate?) = apply { this.dob = dob }
+            fun dob(dob: LocalDate) = dob(JsonField.of(dob))
 
             /** Date of Birth of the Individual that owns the external bank account */
-            fun dob(dob: Optional<LocalDate>) = dob(dob.orElse(null))
+            fun dob(dob: JsonField<LocalDate>) = apply { this.dob = dob }
 
             /** Doing Business As */
-            fun doingBusinessAs(doingBusinessAs: String?) = apply {
+            fun doingBusinessAs(doingBusinessAs: String) =
+                doingBusinessAs(JsonField.of(doingBusinessAs))
+
+            /** Doing Business As */
+            fun doingBusinessAs(doingBusinessAs: JsonField<String>) = apply {
                 this.doingBusinessAs = doingBusinessAs
             }
 
-            /** Doing Business As */
-            fun doingBusinessAs(doingBusinessAs: Optional<String>) =
-                doingBusinessAs(doingBusinessAs.orElse(null))
+            /** The nickname for this External Bank Account */
+            fun name(name: String) = name(JsonField.of(name))
 
             /** The nickname for this External Bank Account */
-            fun name(name: String?) = apply { this.name = name }
-
-            /** The nickname for this External Bank Account */
-            fun name(name: Optional<String>) = name(name.orElse(null))
+            fun name(name: JsonField<String>) = apply { this.name = name }
 
             /**
              * Legal Name of the business or individual who owns the external account. This will
              * appear in statements
              */
-            fun owner(owner: String?) = apply { this.owner = owner }
+            fun owner(owner: String) = owner(JsonField.of(owner))
 
             /**
              * Legal Name of the business or individual who owns the external account. This will
              * appear in statements
              */
-            fun owner(owner: Optional<String>) = owner(owner.orElse(null))
+            fun owner(owner: JsonField<String>) = apply { this.owner = owner }
 
             /** Owner Type */
-            fun ownerType(ownerType: OwnerType?) = apply { this.ownerType = ownerType }
+            fun ownerType(ownerType: OwnerType) = ownerType(JsonField.of(ownerType))
 
             /** Owner Type */
-            fun ownerType(ownerType: Optional<OwnerType>) = ownerType(ownerType.orElse(null))
+            fun ownerType(ownerType: JsonField<OwnerType>) = apply { this.ownerType = ownerType }
 
             /** User Defined ID */
-            fun userDefinedId(userDefinedId: String?) = apply { this.userDefinedId = userDefinedId }
+            fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
 
             /** User Defined ID */
-            fun userDefinedId(userDefinedId: Optional<String>) =
-                userDefinedId(userDefinedId.orElse(null))
+            fun userDefinedId(userDefinedId: JsonField<String>) = apply {
+                this.userDefinedId = userDefinedId
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -301,62 +398,85 @@ constructor(
         }
 
         /** Address */
-        fun address(address: ExternalBankAccountAddress?) = apply { body.address(address) }
+        fun address(address: ExternalBankAccountAddress) = apply { body.address(address) }
 
         /** Address */
-        fun address(address: Optional<ExternalBankAccountAddress>) = address(address.orElse(null))
+        fun address(address: JsonField<ExternalBankAccountAddress>) = apply {
+            body.address(address)
+        }
 
         /** Optional field that helps identify bank accounts in receipts */
-        fun companyId(companyId: String?) = apply { body.companyId(companyId) }
+        fun companyId(companyId: String) = apply { body.companyId(companyId) }
 
         /** Optional field that helps identify bank accounts in receipts */
-        fun companyId(companyId: Optional<String>) = companyId(companyId.orElse(null))
+        fun companyId(companyId: JsonField<String>) = apply { body.companyId(companyId) }
 
         /** Date of Birth of the Individual that owns the external bank account */
-        fun dob(dob: LocalDate?) = apply { body.dob(dob) }
+        fun dob(dob: LocalDate) = apply { body.dob(dob) }
 
         /** Date of Birth of the Individual that owns the external bank account */
-        fun dob(dob: Optional<LocalDate>) = dob(dob.orElse(null))
+        fun dob(dob: JsonField<LocalDate>) = apply { body.dob(dob) }
 
         /** Doing Business As */
-        fun doingBusinessAs(doingBusinessAs: String?) = apply {
+        fun doingBusinessAs(doingBusinessAs: String) = apply {
             body.doingBusinessAs(doingBusinessAs)
         }
 
         /** Doing Business As */
-        fun doingBusinessAs(doingBusinessAs: Optional<String>) =
-            doingBusinessAs(doingBusinessAs.orElse(null))
+        fun doingBusinessAs(doingBusinessAs: JsonField<String>) = apply {
+            body.doingBusinessAs(doingBusinessAs)
+        }
 
         /** The nickname for this External Bank Account */
-        fun name(name: String?) = apply { body.name(name) }
+        fun name(name: String) = apply { body.name(name) }
 
         /** The nickname for this External Bank Account */
-        fun name(name: Optional<String>) = name(name.orElse(null))
+        fun name(name: JsonField<String>) = apply { body.name(name) }
 
         /**
          * Legal Name of the business or individual who owns the external account. This will appear
          * in statements
          */
-        fun owner(owner: String?) = apply { body.owner(owner) }
+        fun owner(owner: String) = apply { body.owner(owner) }
 
         /**
          * Legal Name of the business or individual who owns the external account. This will appear
          * in statements
          */
-        fun owner(owner: Optional<String>) = owner(owner.orElse(null))
+        fun owner(owner: JsonField<String>) = apply { body.owner(owner) }
 
         /** Owner Type */
-        fun ownerType(ownerType: OwnerType?) = apply { body.ownerType(ownerType) }
+        fun ownerType(ownerType: OwnerType) = apply { body.ownerType(ownerType) }
 
         /** Owner Type */
-        fun ownerType(ownerType: Optional<OwnerType>) = ownerType(ownerType.orElse(null))
+        fun ownerType(ownerType: JsonField<OwnerType>) = apply { body.ownerType(ownerType) }
 
         /** User Defined ID */
-        fun userDefinedId(userDefinedId: String?) = apply { body.userDefinedId(userDefinedId) }
+        fun userDefinedId(userDefinedId: String) = apply { body.userDefinedId(userDefinedId) }
 
         /** User Defined ID */
-        fun userDefinedId(userDefinedId: Optional<String>) =
-            userDefinedId(userDefinedId.orElse(null))
+        fun userDefinedId(userDefinedId: JsonField<String>) = apply {
+            body.userDefinedId(userDefinedId)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -454,25 +574,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ExternalBankAccountUpdateParams =

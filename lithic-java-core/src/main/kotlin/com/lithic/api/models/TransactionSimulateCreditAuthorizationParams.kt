@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -50,11 +52,34 @@ constructor(
     /** Unique identifier to identify the payment card acceptor. */
     fun merchantAcceptorId(): Optional<String> = body.merchantAcceptorId()
 
+    /**
+     * Amount (in cents). Any value entered will be converted into a negative amount in the
+     * simulated transaction. For example, entering 100 in this field will appear as a -100 amount
+     * in the transaction.
+     */
+    fun _amount(): JsonField<Long> = body._amount()
+
+    /** Merchant descriptor. */
+    fun _descriptor(): JsonField<String> = body._descriptor()
+
+    /** Sixteen digit card number. */
+    fun _pan(): JsonField<String> = body._pan()
+
+    /**
+     * Merchant category code for the transaction to be simulated. A four-digit number listed in
+     * ISO 18245. Supported merchant category codes can be found
+     * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+     */
+    fun _mcc(): JsonField<String> = body._mcc()
+
+    /** Unique identifier to identify the payment card acceptor. */
+    fun _merchantAcceptorId(): JsonField<String> = body._merchantAcceptorId()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): TransactionSimulateCreditAuthorizationBody = body
 
@@ -66,11 +91,17 @@ constructor(
     class TransactionSimulateCreditAuthorizationBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("amount") private val amount: Long,
-        @JsonProperty("descriptor") private val descriptor: String,
-        @JsonProperty("pan") private val pan: String,
-        @JsonProperty("mcc") private val mcc: String?,
-        @JsonProperty("merchant_acceptor_id") private val merchantAcceptorId: String?,
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("descriptor")
+        @ExcludeMissing
+        private val descriptor: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("pan") @ExcludeMissing private val pan: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("mcc") @ExcludeMissing private val mcc: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("merchant_acceptor_id")
+        @ExcludeMissing
+        private val merchantAcceptorId: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -80,28 +111,68 @@ constructor(
          * simulated transaction. For example, entering 100 in this field will appear as a -100
          * amount in the transaction.
          */
-        @JsonProperty("amount") fun amount(): Long = amount
+        fun amount(): Long = amount.getRequired("amount")
 
         /** Merchant descriptor. */
-        @JsonProperty("descriptor") fun descriptor(): String = descriptor
+        fun descriptor(): String = descriptor.getRequired("descriptor")
 
         /** Sixteen digit card number. */
-        @JsonProperty("pan") fun pan(): String = pan
+        fun pan(): String = pan.getRequired("pan")
 
         /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
          * ISO 18245. Supported merchant category codes can be found
          * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
          */
-        @JsonProperty("mcc") fun mcc(): Optional<String> = Optional.ofNullable(mcc)
+        fun mcc(): Optional<String> = Optional.ofNullable(mcc.getNullable("mcc"))
+
+        /** Unique identifier to identify the payment card acceptor. */
+        fun merchantAcceptorId(): Optional<String> =
+            Optional.ofNullable(merchantAcceptorId.getNullable("merchant_acceptor_id"))
+
+        /**
+         * Amount (in cents). Any value entered will be converted into a negative amount in the
+         * simulated transaction. For example, entering 100 in this field will appear as a -100
+         * amount in the transaction.
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+        /** Merchant descriptor. */
+        @JsonProperty("descriptor")
+        @ExcludeMissing
+        fun _descriptor(): JsonField<String> = descriptor
+
+        /** Sixteen digit card number. */
+        @JsonProperty("pan") @ExcludeMissing fun _pan(): JsonField<String> = pan
+
+        /**
+         * Merchant category code for the transaction to be simulated. A four-digit number listed in
+         * ISO 18245. Supported merchant category codes can be found
+         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         */
+        @JsonProperty("mcc") @ExcludeMissing fun _mcc(): JsonField<String> = mcc
 
         /** Unique identifier to identify the payment card acceptor. */
         @JsonProperty("merchant_acceptor_id")
-        fun merchantAcceptorId(): Optional<String> = Optional.ofNullable(merchantAcceptorId)
+        @ExcludeMissing
+        fun _merchantAcceptorId(): JsonField<String> = merchantAcceptorId
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): TransactionSimulateCreditAuthorizationBody = apply {
+            if (!validated) {
+                amount()
+                descriptor()
+                pan()
+                mcc()
+                merchantAcceptorId()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -112,11 +183,11 @@ constructor(
 
         class Builder {
 
-            private var amount: Long? = null
-            private var descriptor: String? = null
-            private var pan: String? = null
-            private var mcc: String? = null
-            private var merchantAcceptorId: String? = null
+            private var amount: JsonField<Long>? = null
+            private var descriptor: JsonField<String>? = null
+            private var pan: JsonField<String>? = null
+            private var mcc: JsonField<String> = JsonMissing.of()
+            private var merchantAcceptorId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -138,36 +209,49 @@ constructor(
              * simulated transaction. For example, entering 100 in this field will appear as a -100
              * amount in the transaction.
              */
-            fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = amount(JsonField.of(amount))
+
+            /**
+             * Amount (in cents). Any value entered will be converted into a negative amount in the
+             * simulated transaction. For example, entering 100 in this field will appear as a -100
+             * amount in the transaction.
+             */
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
             /** Merchant descriptor. */
-            fun descriptor(descriptor: String) = apply { this.descriptor = descriptor }
+            fun descriptor(descriptor: String) = descriptor(JsonField.of(descriptor))
+
+            /** Merchant descriptor. */
+            fun descriptor(descriptor: JsonField<String>) = apply { this.descriptor = descriptor }
 
             /** Sixteen digit card number. */
-            fun pan(pan: String) = apply { this.pan = pan }
+            fun pan(pan: String) = pan(JsonField.of(pan))
+
+            /** Sixteen digit card number. */
+            fun pan(pan: JsonField<String>) = apply { this.pan = pan }
 
             /**
              * Merchant category code for the transaction to be simulated. A four-digit number
              * listed in ISO 18245. Supported merchant category codes can be found
              * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
              */
-            fun mcc(mcc: String?) = apply { this.mcc = mcc }
+            fun mcc(mcc: String) = mcc(JsonField.of(mcc))
 
             /**
              * Merchant category code for the transaction to be simulated. A four-digit number
              * listed in ISO 18245. Supported merchant category codes can be found
              * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
              */
-            fun mcc(mcc: Optional<String>) = mcc(mcc.orElse(null))
+            fun mcc(mcc: JsonField<String>) = apply { this.mcc = mcc }
 
             /** Unique identifier to identify the payment card acceptor. */
-            fun merchantAcceptorId(merchantAcceptorId: String?) = apply {
+            fun merchantAcceptorId(merchantAcceptorId: String) =
+                merchantAcceptorId(JsonField.of(merchantAcceptorId))
+
+            /** Unique identifier to identify the payment card acceptor. */
+            fun merchantAcceptorId(merchantAcceptorId: JsonField<String>) = apply {
                 this.merchantAcceptorId = merchantAcceptorId
             }
-
-            /** Unique identifier to identify the payment card acceptor. */
-            fun merchantAcceptorId(merchantAcceptorId: Optional<String>) =
-                merchantAcceptorId(merchantAcceptorId.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -251,34 +335,67 @@ constructor(
          */
         fun amount(amount: Long) = apply { body.amount(amount) }
 
+        /**
+         * Amount (in cents). Any value entered will be converted into a negative amount in the
+         * simulated transaction. For example, entering 100 in this field will appear as a -100
+         * amount in the transaction.
+         */
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
+
         /** Merchant descriptor. */
         fun descriptor(descriptor: String) = apply { body.descriptor(descriptor) }
+
+        /** Merchant descriptor. */
+        fun descriptor(descriptor: JsonField<String>) = apply { body.descriptor(descriptor) }
 
         /** Sixteen digit card number. */
         fun pan(pan: String) = apply { body.pan(pan) }
 
-        /**
-         * Merchant category code for the transaction to be simulated. A four-digit number listed in
-         * ISO 18245. Supported merchant category codes can be found
-         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
-         */
-        fun mcc(mcc: String?) = apply { body.mcc(mcc) }
+        /** Sixteen digit card number. */
+        fun pan(pan: JsonField<String>) = apply { body.pan(pan) }
 
         /**
          * Merchant category code for the transaction to be simulated. A four-digit number listed in
          * ISO 18245. Supported merchant category codes can be found
          * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
          */
-        fun mcc(mcc: Optional<String>) = mcc(mcc.orElse(null))
+        fun mcc(mcc: String) = apply { body.mcc(mcc) }
+
+        /**
+         * Merchant category code for the transaction to be simulated. A four-digit number listed in
+         * ISO 18245. Supported merchant category codes can be found
+         * [here](https://docs.lithic.com/docs/transactions#merchant-category-codes-mccs).
+         */
+        fun mcc(mcc: JsonField<String>) = apply { body.mcc(mcc) }
 
         /** Unique identifier to identify the payment card acceptor. */
-        fun merchantAcceptorId(merchantAcceptorId: String?) = apply {
+        fun merchantAcceptorId(merchantAcceptorId: String) = apply {
             body.merchantAcceptorId(merchantAcceptorId)
         }
 
         /** Unique identifier to identify the payment card acceptor. */
-        fun merchantAcceptorId(merchantAcceptorId: Optional<String>) =
-            merchantAcceptorId(merchantAcceptorId.orElse(null))
+        fun merchantAcceptorId(merchantAcceptorId: JsonField<String>) = apply {
+            body.merchantAcceptorId(merchantAcceptorId)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -376,25 +493,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TransactionSimulateCreditAuthorizationParams =

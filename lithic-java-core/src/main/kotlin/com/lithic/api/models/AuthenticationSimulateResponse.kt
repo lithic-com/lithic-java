@@ -34,7 +34,7 @@ private constructor(
      * A unique token to reference this transaction with later calls to void or clear the
      * authorization.
      */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     @JsonAnyGetter
     @ExcludeMissing

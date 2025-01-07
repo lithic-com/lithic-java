@@ -79,10 +79,12 @@ private constructor(
         Optional.ofNullable(requiredDocuments.getNullable("required_documents"))
 
     /** Globally unique identifier for the account holder. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Globally unique identifier for the account. */
-    @JsonProperty("account_token") @ExcludeMissing fun _accountToken() = accountToken
+    @JsonProperty("account_token")
+    @ExcludeMissing
+    fun _accountToken(): JsonField<String> = accountToken
 
     /**
      * KYC and KYB evaluation states.
@@ -90,25 +92,29 @@ private constructor(
      * Note:
      * - `PENDING_REVIEW` is only applicable for the `KYB_BASIC` workflow.
      */
-    @JsonProperty("status") @ExcludeMissing fun _status() = status
+    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
     /** Reason for the evaluation status. */
-    @JsonProperty("status_reasons") @ExcludeMissing fun _statusReasons() = statusReasons
+    @JsonProperty("status_reasons")
+    @ExcludeMissing
+    fun _statusReasons(): JsonField<List<StatusReasons>> = statusReasons
 
     /** Timestamp of when the account holder was created. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
      * Customer-provided token that indicates a relationship with an object outside of the Lithic
      * ecosystem.
      */
-    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId(): JsonField<String> = externalId
 
     /**
      * Only present for "KYB_BASIC" workflow. A list of documents required for the account holder to
      * be approved.
      */
-    @JsonProperty("required_documents") @ExcludeMissing fun _requiredDocuments() = requiredDocuments
+    @JsonProperty("required_documents")
+    @ExcludeMissing
+    fun _requiredDocuments(): JsonField<List<RequiredDocument>> = requiredDocuments
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -138,13 +144,13 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var accountToken: JsonField<String> = JsonMissing.of()
-        private var status: JsonField<Status> = JsonMissing.of()
-        private var statusReasons: JsonField<List<StatusReasons>> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var accountToken: JsonField<String>? = null
+        private var status: JsonField<Status>? = null
+        private var statusReasons: JsonField<MutableList<StatusReasons>>? = null
         private var created: JsonField<OffsetDateTime> = JsonMissing.of()
         private var externalId: JsonField<String> = JsonMissing.of()
-        private var requiredDocuments: JsonField<List<RequiredDocument>> = JsonMissing.of()
+        private var requiredDocuments: JsonField<MutableList<RequiredDocument>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -152,10 +158,11 @@ private constructor(
             token = accountHolderCreateResponse.token
             accountToken = accountHolderCreateResponse.accountToken
             status = accountHolderCreateResponse.status
-            statusReasons = accountHolderCreateResponse.statusReasons
+            statusReasons = accountHolderCreateResponse.statusReasons.map { it.toMutableList() }
             created = accountHolderCreateResponse.created
             externalId = accountHolderCreateResponse.externalId
-            requiredDocuments = accountHolderCreateResponse.requiredDocuments
+            requiredDocuments =
+                accountHolderCreateResponse.requiredDocuments.map { it.toMutableList() }
             additionalProperties = accountHolderCreateResponse.additionalProperties.toMutableMap()
         }
 
@@ -195,7 +202,21 @@ private constructor(
 
         /** Reason for the evaluation status. */
         fun statusReasons(statusReasons: JsonField<List<StatusReasons>>) = apply {
-            this.statusReasons = statusReasons
+            this.statusReasons = statusReasons.map { it.toMutableList() }
+        }
+
+        /** Reason for the evaluation status. */
+        fun addStatusReason(statusReason: StatusReasons) = apply {
+            statusReasons =
+                (statusReasons ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(statusReason)
+                }
         }
 
         /** Timestamp of when the account holder was created. */
@@ -228,7 +249,24 @@ private constructor(
          * holder to be approved.
          */
         fun requiredDocuments(requiredDocuments: JsonField<List<RequiredDocument>>) = apply {
-            this.requiredDocuments = requiredDocuments
+            this.requiredDocuments = requiredDocuments.map { it.toMutableList() }
+        }
+
+        /**
+         * Only present for "KYB_BASIC" workflow. A list of documents required for the account
+         * holder to be approved.
+         */
+        fun addRequiredDocument(requiredDocument: RequiredDocument) = apply {
+            requiredDocuments =
+                (requiredDocuments ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(requiredDocument)
+                }
         }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -252,13 +290,14 @@ private constructor(
 
         fun build(): AccountHolderCreateResponse =
             AccountHolderCreateResponse(
-                token,
-                accountToken,
-                status,
-                statusReasons.map { it.toImmutable() },
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(accountToken) { "`accountToken` is required but was not set" },
+                checkNotNull(status) { "`status` is required but was not set" },
+                checkNotNull(statusReasons) { "`statusReasons` is required but was not set" }
+                    .map { it.toImmutable() },
                 created,
                 externalId,
-                requiredDocuments.map { it.toImmutable() },
+                (requiredDocuments ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }

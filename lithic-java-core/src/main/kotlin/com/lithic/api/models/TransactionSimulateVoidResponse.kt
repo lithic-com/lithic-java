@@ -33,7 +33,7 @@ private constructor(
     /** Debugging request ID to share with Lithic Support team. */
     @JsonProperty("debugging_request_id")
     @ExcludeMissing
-    fun _debuggingRequestId() = debuggingRequestId
+    fun _debuggingRequestId(): JsonField<String> = debuggingRequestId
 
     @JsonAnyGetter
     @ExcludeMissing

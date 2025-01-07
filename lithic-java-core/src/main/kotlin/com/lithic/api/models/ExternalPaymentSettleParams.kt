@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -37,11 +38,17 @@ constructor(
 
     fun progressTo(): Optional<ExternalPaymentProgressTo> = body.progressTo()
 
+    fun _effectiveDate(): JsonField<LocalDate> = body._effectiveDate()
+
+    fun _memo(): JsonField<String> = body._memo()
+
+    fun _progressTo(): JsonField<ExternalPaymentProgressTo> = body._progressTo()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): ExternalPaymentSettleBody = body
 
@@ -60,23 +67,50 @@ constructor(
     class ExternalPaymentSettleBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("effective_date") private val effectiveDate: LocalDate,
-        @JsonProperty("memo") private val memo: String?,
-        @JsonProperty("progress_to") private val progressTo: ExternalPaymentProgressTo?,
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        private val effectiveDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("memo")
+        @ExcludeMissing
+        private val memo: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("progress_to")
+        @ExcludeMissing
+        private val progressTo: JsonField<ExternalPaymentProgressTo> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        @JsonProperty("effective_date") fun effectiveDate(): LocalDate = effectiveDate
+        fun effectiveDate(): LocalDate = effectiveDate.getRequired("effective_date")
 
-        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
+        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+
+        fun progressTo(): Optional<ExternalPaymentProgressTo> =
+            Optional.ofNullable(progressTo.getNullable("progress_to"))
+
+        @JsonProperty("effective_date")
+        @ExcludeMissing
+        fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
+
+        @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
         @JsonProperty("progress_to")
-        fun progressTo(): Optional<ExternalPaymentProgressTo> = Optional.ofNullable(progressTo)
+        @ExcludeMissing
+        fun _progressTo(): JsonField<ExternalPaymentProgressTo> = progressTo
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): ExternalPaymentSettleBody = apply {
+            if (!validated) {
+                effectiveDate()
+                memo()
+                progressTo()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -87,9 +121,9 @@ constructor(
 
         class Builder {
 
-            private var effectiveDate: LocalDate? = null
-            private var memo: String? = null
-            private var progressTo: ExternalPaymentProgressTo? = null
+            private var effectiveDate: JsonField<LocalDate>? = null
+            private var memo: JsonField<String> = JsonMissing.of()
+            private var progressTo: JsonField<ExternalPaymentProgressTo> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -100,20 +134,22 @@ constructor(
                 additionalProperties = externalPaymentSettleBody.additionalProperties.toMutableMap()
             }
 
-            fun effectiveDate(effectiveDate: LocalDate) = apply {
+            fun effectiveDate(effectiveDate: LocalDate) = effectiveDate(JsonField.of(effectiveDate))
+
+            fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
                 this.effectiveDate = effectiveDate
             }
 
-            fun memo(memo: String?) = apply { this.memo = memo }
+            fun memo(memo: String) = memo(JsonField.of(memo))
 
-            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
 
-            fun progressTo(progressTo: ExternalPaymentProgressTo?) = apply {
+            fun progressTo(progressTo: ExternalPaymentProgressTo) =
+                progressTo(JsonField.of(progressTo))
+
+            fun progressTo(progressTo: JsonField<ExternalPaymentProgressTo>) = apply {
                 this.progressTo = progressTo
             }
-
-            fun progressTo(progressTo: Optional<ExternalPaymentProgressTo>) =
-                progressTo(progressTo.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -190,16 +226,40 @@ constructor(
 
         fun effectiveDate(effectiveDate: LocalDate) = apply { body.effectiveDate(effectiveDate) }
 
-        fun memo(memo: String?) = apply { body.memo(memo) }
+        fun effectiveDate(effectiveDate: JsonField<LocalDate>) = apply {
+            body.effectiveDate(effectiveDate)
+        }
 
-        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+        fun memo(memo: String) = apply { body.memo(memo) }
 
-        fun progressTo(progressTo: ExternalPaymentProgressTo?) = apply {
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
+
+        fun progressTo(progressTo: ExternalPaymentProgressTo) = apply {
             body.progressTo(progressTo)
         }
 
-        fun progressTo(progressTo: Optional<ExternalPaymentProgressTo>) =
-            progressTo(progressTo.orElse(null))
+        fun progressTo(progressTo: JsonField<ExternalPaymentProgressTo>) = apply {
+            body.progressTo(progressTo)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -297,25 +357,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ExternalPaymentSettleParams =

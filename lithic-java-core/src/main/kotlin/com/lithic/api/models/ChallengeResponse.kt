@@ -41,10 +41,12 @@ private constructor(
      * initial 3DS Decisioning Request and as part of the 3DS Challenge Event in the
      * [ThreeDSAuthentication](#/components/schemas/ThreeDSAuthentication) object
      */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Whether the Cardholder has Approved or Declined the issued Challenge */
-    @JsonProperty("challenge_response") @ExcludeMissing fun _challengeResponse() = challengeResponse
+    @JsonProperty("challenge_response")
+    @ExcludeMissing
+    fun _challengeResponse(): JsonField<ChallengeResult> = challengeResponse
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -69,8 +71,8 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var challengeResponse: JsonField<ChallengeResult> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var challengeResponse: JsonField<ChallengeResult>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -124,8 +126,10 @@ private constructor(
 
         fun build(): ChallengeResponse =
             ChallengeResponse(
-                token,
-                challengeResponse,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(challengeResponse) {
+                    "`challengeResponse` is required but was not set"
+                },
                 additionalProperties.toImmutable(),
             )
     }

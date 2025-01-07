@@ -85,33 +85,35 @@ private constructor(
         Optional.ofNullable(transactionsGrossAmount.getNullable("transactions_gross_amount"))
 
     /** ISO 4217 alpha 3 code. */
-    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+    @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /** The total gross amount of disputes settlements. */
     @JsonProperty("disputes_gross_amount")
     @ExcludeMissing
-    fun _disputesGrossAmount() = disputesGrossAmount
+    fun _disputesGrossAmount(): JsonField<Long> = disputesGrossAmount
 
     /** The most granular ID the network settles with (e.g., ICA for Mastercard, FTSRE for Visa). */
-    @JsonProperty("institution") @ExcludeMissing fun _institution() = institution
+    @JsonProperty("institution") @ExcludeMissing fun _institution(): JsonField<String> = institution
 
     /** The total amount of interchange. */
     @JsonProperty("interchange_gross_amount")
     @ExcludeMissing
-    fun _interchangeGrossAmount() = interchangeGrossAmount
+    fun _interchangeGrossAmount(): JsonField<Long> = interchangeGrossAmount
 
     /** Card network where the transaction took place */
-    @JsonProperty("network") @ExcludeMissing fun _network() = network
+    @JsonProperty("network") @ExcludeMissing fun _network(): JsonField<Network> = network
 
     /** Total amount of gross other fees outside of interchange. */
     @JsonProperty("other_fees_gross_amount")
     @ExcludeMissing
-    fun _otherFeesGrossAmount() = otherFeesGrossAmount
+    fun _otherFeesGrossAmount(): JsonField<Long> = otherFeesGrossAmount
 
     /**
      * The total net amount of cash moved. (net value of settled_gross_amount, interchange, fees).
      */
-    @JsonProperty("settled_net_amount") @ExcludeMissing fun _settledNetAmount() = settledNetAmount
+    @JsonProperty("settled_net_amount")
+    @ExcludeMissing
+    fun _settledNetAmount(): JsonField<Long> = settledNetAmount
 
     /**
      * The total amount of settlement impacting transactions (excluding interchange, fees, and
@@ -119,7 +121,7 @@ private constructor(
      */
     @JsonProperty("transactions_gross_amount")
     @ExcludeMissing
-    fun _transactionsGrossAmount() = transactionsGrossAmount
+    fun _transactionsGrossAmount(): JsonField<Long> = transactionsGrossAmount
 
     @JsonAnyGetter
     @ExcludeMissing

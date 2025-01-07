@@ -50,7 +50,7 @@ private constructor(
         Optional.ofNullable(phoneNumber.getNullable("phone_number"))
 
     /** The token for the account holder that was updated */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
      * Only applicable for customers using the KYC-Exempt workflow to enroll businesses with
@@ -59,13 +59,15 @@ private constructor(
      */
     @JsonProperty("business_account_token")
     @ExcludeMissing
-    fun _businessAccountToken() = businessAccountToken
+    fun _businessAccountToken(): JsonField<String> = businessAccountToken
 
     /** The newly updated email for the account holder */
-    @JsonProperty("email") @ExcludeMissing fun _email() = email
+    @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
     /** The newly updated phone_number for the account holder */
-    @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
+    @JsonProperty("phone_number")
+    @ExcludeMissing
+    fun _phoneNumber(): JsonField<String> = phoneNumber
 
     @JsonAnyGetter
     @ExcludeMissing

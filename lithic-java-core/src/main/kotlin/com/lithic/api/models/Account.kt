@@ -101,13 +101,13 @@ private constructor(
      * Globally unique identifier for the account. This is the same as the account_token returned by
      * the enroll endpoint. If using this parameter, do not include pagination.
      */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
      * Timestamp of when the account was created. For accounts created before 2023-05-11, this field
      * will be null.
      */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /**
      * Spend limit information for the user containing the daily, monthly, and lifetime spend limit
@@ -115,7 +115,9 @@ private constructor(
      * transaction volume has surpassed the value in the applicable time limit (rolling). A lifetime
      * limit of 0 indicates that the lifetime limit feature is disabled.
      */
-    @JsonProperty("spend_limit") @ExcludeMissing fun _spendLimit() = spendLimit
+    @JsonProperty("spend_limit")
+    @ExcludeMissing
+    fun _spendLimit(): JsonField<SpendLimit> = spendLimit
 
     /**
      * Account state:
@@ -127,9 +129,11 @@ private constructor(
      *   from failing to pass KYB/KYC or Lithic closing for risk/compliance reasons. Please contact
      *   [support@lithic.com](mailto:support@lithic.com) if you believe this was in error.
      */
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
+    @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<State> = state
 
-    @JsonProperty("account_holder") @ExcludeMissing fun _accountHolder() = accountHolder
+    @JsonProperty("account_holder")
+    @ExcludeMissing
+    fun _accountHolder(): JsonField<AccountHolder> = accountHolder
 
     /**
      * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
@@ -137,16 +141,18 @@ private constructor(
      * removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch Auth
      * Rule information instead.
      */
-    @JsonProperty("auth_rule_tokens") @ExcludeMissing fun _authRuleTokens() = authRuleTokens
+    @JsonProperty("auth_rule_tokens")
+    @ExcludeMissing
+    fun _authRuleTokens(): JsonField<List<String>> = authRuleTokens
 
     /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
     @JsonProperty("cardholder_currency")
     @ExcludeMissing
-    fun _cardholderCurrency() = cardholderCurrency
+    fun _cardholderCurrency(): JsonField<String> = cardholderCurrency
 
     @JsonProperty("verification_address")
     @ExcludeMissing
-    fun _verificationAddress() = verificationAddress
+    fun _verificationAddress(): JsonField<VerificationAddress> = verificationAddress
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -177,12 +183,12 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var spendLimit: JsonField<SpendLimit> = JsonMissing.of()
-        private var state: JsonField<State> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var spendLimit: JsonField<SpendLimit>? = null
+        private var state: JsonField<State>? = null
         private var accountHolder: JsonField<AccountHolder> = JsonMissing.of()
-        private var authRuleTokens: JsonField<List<String>> = JsonMissing.of()
+        private var authRuleTokens: JsonField<MutableList<String>>? = null
         private var cardholderCurrency: JsonField<String> = JsonMissing.of()
         private var verificationAddress: JsonField<VerificationAddress> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -194,7 +200,7 @@ private constructor(
             spendLimit = account.spendLimit
             state = account.state
             accountHolder = account.accountHolder
-            authRuleTokens = account.authRuleTokens
+            authRuleTokens = account.authRuleTokens.map { it.toMutableList() }
             cardholderCurrency = account.cardholderCurrency
             verificationAddress = account.verificationAddress
             additionalProperties = account.additionalProperties.toMutableMap()
@@ -216,7 +222,13 @@ private constructor(
          * Timestamp of when the account was created. For accounts created before 2023-05-11, this
          * field will be null.
          */
-        fun created(created: OffsetDateTime) = created(JsonField.of(created))
+        fun created(created: OffsetDateTime?) = created(JsonField.ofNullable(created))
+
+        /**
+         * Timestamp of when the account was created. For accounts created before 2023-05-11, this
+         * field will be null.
+         */
+        fun created(created: Optional<OffsetDateTime>) = created(created.orElse(null))
 
         /**
          * Timestamp of when the account was created. For accounts created before 2023-05-11, this
@@ -288,7 +300,26 @@ private constructor(
          * Auth Rule information instead.
          */
         fun authRuleTokens(authRuleTokens: JsonField<List<String>>) = apply {
-            this.authRuleTokens = authRuleTokens
+            this.authRuleTokens = authRuleTokens.map { it.toMutableList() }
+        }
+
+        /**
+         * List of identifiers for the Auth Rule(s) that are applied on the account. This field is
+         * deprecated and will no longer be populated in the `account_holder` object. The key will
+         * be removed from the schema in a future release. Use the `/auth_rules` endpoints to fetch
+         * Auth Rule information instead.
+         */
+        fun addAuthRuleToken(authRuleToken: String) = apply {
+            authRuleTokens =
+                (authRuleTokens ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(authRuleToken)
+                }
         }
 
         /** 3-digit alphabetic ISO 4217 code for the currency of the cardholder. */
@@ -328,12 +359,12 @@ private constructor(
 
         fun build(): Account =
             Account(
-                token,
-                created,
-                spendLimit,
-                state,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(spendLimit) { "`spendLimit` is required but was not set" },
+                checkNotNull(state) { "`state` is required but was not set" },
                 accountHolder,
-                authRuleTokens.map { it.toImmutable() },
+                (authRuleTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 cardholderCurrency,
                 verificationAddress,
                 additionalProperties.toImmutable(),
@@ -373,13 +404,13 @@ private constructor(
         fun monthly(): Long = monthly.getRequired("monthly")
 
         /** Daily spend limit (in cents). */
-        @JsonProperty("daily") @ExcludeMissing fun _daily() = daily
+        @JsonProperty("daily") @ExcludeMissing fun _daily(): JsonField<Long> = daily
 
         /** Total spend limit over account lifetime (in cents). */
-        @JsonProperty("lifetime") @ExcludeMissing fun _lifetime() = lifetime
+        @JsonProperty("lifetime") @ExcludeMissing fun _lifetime(): JsonField<Long> = lifetime
 
         /** Monthly spend limit (in cents). */
-        @JsonProperty("monthly") @ExcludeMissing fun _monthly() = monthly
+        @JsonProperty("monthly") @ExcludeMissing fun _monthly(): JsonField<Long> = monthly
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -405,9 +436,9 @@ private constructor(
 
         class Builder {
 
-            private var daily: JsonField<Long> = JsonMissing.of()
-            private var lifetime: JsonField<Long> = JsonMissing.of()
-            private var monthly: JsonField<Long> = JsonMissing.of()
+            private var daily: JsonField<Long>? = null
+            private var lifetime: JsonField<Long>? = null
+            private var monthly: JsonField<Long>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -457,9 +488,9 @@ private constructor(
 
             fun build(): SpendLimit =
                 SpendLimit(
-                    daily,
-                    lifetime,
-                    monthly,
+                    checkNotNull(daily) { "`daily` is required but was not set" },
+                    checkNotNull(lifetime) { "`lifetime` is required but was not set" },
+                    checkNotNull(monthly) { "`monthly` is required but was not set" },
                     additionalProperties.toImmutable(),
                 )
         }
@@ -583,7 +614,7 @@ private constructor(
         fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
 
         /** Globally unique identifier for the account holder. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
          * Only applicable for customers using the KYC-Exempt workflow to enroll authorized users of
@@ -592,13 +623,15 @@ private constructor(
          */
         @JsonProperty("business_account_token")
         @ExcludeMissing
-        fun _businessAccountToken() = businessAccountToken
+        fun _businessAccountToken(): JsonField<String> = businessAccountToken
 
         /** Email address. */
-        @JsonProperty("email") @ExcludeMissing fun _email() = email
+        @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
         /** Phone number of the individual. */
-        @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
+        @JsonProperty("phone_number")
+        @ExcludeMissing
+        fun _phoneNumber(): JsonField<String> = phoneNumber
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -625,10 +658,10 @@ private constructor(
 
         class Builder {
 
-            private var token: JsonField<String> = JsonMissing.of()
-            private var businessAccountToken: JsonField<String> = JsonMissing.of()
-            private var email: JsonField<String> = JsonMissing.of()
-            private var phoneNumber: JsonField<String> = JsonMissing.of()
+            private var token: JsonField<String>? = null
+            private var businessAccountToken: JsonField<String>? = null
+            private var email: JsonField<String>? = null
+            private var phoneNumber: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -698,10 +731,12 @@ private constructor(
 
             fun build(): AccountHolder =
                 AccountHolder(
-                    token,
-                    businessAccountToken,
-                    email,
-                    phoneNumber,
+                    checkNotNull(token) { "`token` is required but was not set" },
+                    checkNotNull(businessAccountToken) {
+                        "`businessAccountToken` is required but was not set"
+                    },
+                    checkNotNull(email) { "`email` is required but was not set" },
+                    checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
                     additionalProperties.toImmutable(),
                 )
         }
@@ -775,28 +810,30 @@ private constructor(
         fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
 
         /** Valid deliverable address (no PO boxes). */
-        @JsonProperty("address1") @ExcludeMissing fun _address1() = address1
+        @JsonProperty("address1") @ExcludeMissing fun _address1(): JsonField<String> = address1
 
         /** City name. */
-        @JsonProperty("city") @ExcludeMissing fun _city() = city
+        @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
 
         /** Country name. Only USA is currently supported. */
-        @JsonProperty("country") @ExcludeMissing fun _country() = country
+        @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
         /**
          * Valid postal code. Only USA postal codes (ZIP codes) are currently supported, entered as
          * a five-digit postal code or nine-digit postal code (ZIP+4) using the format 12345-1234.
          */
-        @JsonProperty("postal_code") @ExcludeMissing fun _postalCode() = postalCode
+        @JsonProperty("postal_code")
+        @ExcludeMissing
+        fun _postalCode(): JsonField<String> = postalCode
 
         /**
          * Valid state code. Only USA state codes are currently supported, entered in uppercase ISO
          * 3166-2 two-character format.
          */
-        @JsonProperty("state") @ExcludeMissing fun _state() = state
+        @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
 
         /** Unit or apartment number (if applicable). */
-        @JsonProperty("address2") @ExcludeMissing fun _address2() = address2
+        @JsonProperty("address2") @ExcludeMissing fun _address2(): JsonField<String> = address2
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -825,11 +862,11 @@ private constructor(
 
         class Builder {
 
-            private var address1: JsonField<String> = JsonMissing.of()
-            private var city: JsonField<String> = JsonMissing.of()
-            private var country: JsonField<String> = JsonMissing.of()
-            private var postalCode: JsonField<String> = JsonMissing.of()
-            private var state: JsonField<String> = JsonMissing.of()
+            private var address1: JsonField<String>? = null
+            private var city: JsonField<String>? = null
+            private var country: JsonField<String>? = null
+            private var postalCode: JsonField<String>? = null
+            private var state: JsonField<String>? = null
             private var address2: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -915,11 +952,11 @@ private constructor(
 
             fun build(): VerificationAddress =
                 VerificationAddress(
-                    address1,
-                    city,
-                    country,
-                    postalCode,
-                    state,
+                    checkNotNull(address1) { "`address1` is required but was not set" },
+                    checkNotNull(city) { "`city` is required but was not set" },
+                    checkNotNull(country) { "`country` is required but was not set" },
+                    checkNotNull(postalCode) { "`postalCode` is required but was not set" },
+                    checkNotNull(state) { "`state` is required but was not set" },
                     address2,
                     additionalProperties.toImmutable(),
                 )

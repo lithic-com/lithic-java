@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -29,11 +31,13 @@ constructor(
 
     fun nickname(): Optional<String> = body.nickname()
 
+    fun _nickname(): JsonField<String> = body._nickname()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): FinancialAccountUpdateBody = body
 
@@ -52,16 +56,29 @@ constructor(
     class FinancialAccountUpdateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("nickname") private val nickname: String?,
+        @JsonProperty("nickname")
+        @ExcludeMissing
+        private val nickname: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        @JsonProperty("nickname") fun nickname(): Optional<String> = Optional.ofNullable(nickname)
+        fun nickname(): Optional<String> = Optional.ofNullable(nickname.getNullable("nickname"))
+
+        @JsonProperty("nickname") @ExcludeMissing fun _nickname(): JsonField<String> = nickname
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): FinancialAccountUpdateBody = apply {
+            if (!validated) {
+                nickname()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -72,7 +89,7 @@ constructor(
 
         class Builder {
 
-            private var nickname: String? = null
+            private var nickname: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -82,9 +99,9 @@ constructor(
                     financialAccountUpdateBody.additionalProperties.toMutableMap()
             }
 
-            fun nickname(nickname: String?) = apply { this.nickname = nickname }
+            fun nickname(nickname: String) = nickname(JsonField.of(nickname))
 
-            fun nickname(nickname: Optional<String>) = nickname(nickname.orElse(null))
+            fun nickname(nickname: JsonField<String>) = apply { this.nickname = nickname }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -154,9 +171,28 @@ constructor(
             this.financialAccountToken = financialAccountToken
         }
 
-        fun nickname(nickname: String?) = apply { body.nickname(nickname) }
+        fun nickname(nickname: String) = apply { body.nickname(nickname) }
 
-        fun nickname(nickname: Optional<String>) = nickname(nickname.orElse(null))
+        fun nickname(nickname: JsonField<String>) = apply { body.nickname(nickname) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -254,25 +290,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): FinancialAccountUpdateParams =
