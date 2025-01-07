@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/** List all events. */
 class EventListParams
 constructor(
     private val begin: OffsetDateTime?,

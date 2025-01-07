@@ -19,6 +19,10 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Create a new virtual or physical card. Parameters `shipping_address` and `product_id` only apply
+ * to physical cards.
+ */
 class CardCreateParams
 constructor(
     private val body: CardCreateBody,

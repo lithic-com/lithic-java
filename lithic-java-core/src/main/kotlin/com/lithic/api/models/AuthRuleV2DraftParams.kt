@@ -29,6 +29,12 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Creates a new draft version of an authorization rules that will be ran in shadow mode.
+ *
+ * This can also be utilized to reset the draft parameters, causing a draft version to no longer be
+ * ran in shadow mode.
+ */
 class AuthRuleV2DraftParams
 constructor(
     private val authRuleToken: String,

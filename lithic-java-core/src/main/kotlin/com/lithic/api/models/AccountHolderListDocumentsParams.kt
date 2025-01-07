@@ -7,6 +7,21 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/**
+ * Retrieve the status of account holder document uploads, or retrieve the upload URLs to process
+ * your image uploads.
+ *
+ * Note that this is not equivalent to checking the status of the KYC evaluation overall (a document
+ * may be successfully uploaded but not be sufficient for KYC to pass).
+ *
+ * In the event your upload URLs have expired, calling this endpoint will refresh them. Similarly,
+ * in the event a previous account holder document upload has failed, you can use this endpoint to
+ * get a new upload URL for the failed image upload.
+ *
+ * When a new document upload is generated for a failed attempt, the response will show an
+ * additional entry in the `required_document_uploads` list in a `PENDING` state for the
+ * corresponding `image_type`.
+ */
 class AccountHolderListDocumentsParams
 constructor(
     private val accountHolderToken: String,

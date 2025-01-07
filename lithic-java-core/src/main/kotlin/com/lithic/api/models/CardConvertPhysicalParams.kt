@@ -19,6 +19,16 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Convert a virtual card into a physical card and manufacture it. Customer must supply relevant
+ * fields for physical card creation including `product_id`, `carrier`, `shipping_method`, and
+ * `shipping_address`. The card token will be unchanged. The card's type will be altered to
+ * `PHYSICAL`. The card will be set to state `PENDING_FULFILLMENT` and fulfilled at next fulfillment
+ * cycle. Virtual cards created on card programs which do not support physical cards cannot be
+ * converted. The card program cannot be changed as part of the conversion. Cards must be in a state
+ * of either `OPEN` or `PAUSED` to be converted. Only applies to cards of type `VIRTUAL` (or
+ * existing cards with deprecated types of `DIGITAL_WALLET` and `UNLOCKED`).
+ */
 class CardConvertPhysicalParams
 constructor(
     private val cardToken: String,

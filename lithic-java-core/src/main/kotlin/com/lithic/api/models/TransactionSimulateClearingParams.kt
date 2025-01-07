@@ -16,6 +16,13 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Clears an existing authorization, either debit or credit. After this event, the transaction
+ * transitions from `PENDING` to `SETTLED` status.
+ *
+ * If `amount` is not set, the full amount of the transaction will be cleared. Transactions that
+ * have already cleared, either partially or fully, cannot be cleared again using this endpoint.
+ */
 class TransactionSimulateClearingParams
 constructor(
     private val body: TransactionSimulateClearingBody,

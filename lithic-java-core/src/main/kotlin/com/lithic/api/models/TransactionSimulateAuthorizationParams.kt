@@ -19,6 +19,14 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Simulates an authorization request from the card network as if it came from a merchant acquirer.
+ * If you are configured for ASA, simulating authorizations requires your ASA client to be set up
+ * properly, i.e. be able to respond to the ASA request with a valid JSON. For users that are not
+ * configured for ASA, a daily transaction limit of $5000 USD is applied by default. You can update
+ * this limit via the [update account](https://docs.lithic.com/reference/patchaccountbytoken)
+ * endpoint.
+ */
 class TransactionSimulateAuthorizationParams
 constructor(
     private val body: TransactionSimulateAuthorizationBody,

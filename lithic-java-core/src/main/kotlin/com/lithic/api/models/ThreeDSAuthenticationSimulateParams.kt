@@ -19,6 +19,11 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Simulates a 3DS authentication request from the payment network as if it came from an ACS. If
+ * you're configured for 3DS Customer Decisioning, simulating authentications requires your customer
+ * decisioning endpoint to be set up properly (respond with a valid JSON).
+ */
 class ThreeDSAuthenticationSimulateParams
 constructor(
     private val body: ThreeDSAuthenticationSimulateBody,

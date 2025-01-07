@@ -16,6 +16,7 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/** Update a financial account */
 class FinancialAccountUpdateParams
 constructor(
     private val financialAccountToken: String,

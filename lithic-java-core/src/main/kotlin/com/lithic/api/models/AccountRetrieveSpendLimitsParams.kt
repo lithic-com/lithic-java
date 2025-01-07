@@ -7,6 +7,12 @@ import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
 
+/**
+ * Get an Account's available spend limits, which is based on the spend limit configured on the
+ * Account and the amount already spent over the spend limit's duration. For example, if the Account
+ * has a daily spend limit of $1000 configured, and has spent $600 in the last 24 hours, the
+ * available spend limit returned would be $400.
+ */
 class AccountRetrieveSpendLimitsParams
 constructor(
     private val accountToken: String,

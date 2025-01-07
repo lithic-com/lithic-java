@@ -16,6 +16,7 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/** Update the information associated with a particular account holder. */
 class AccountHolderUpdateParams
 constructor(
     private val accountHolderToken: String,

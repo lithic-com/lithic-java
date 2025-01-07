@@ -10,6 +10,7 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/** Retry an origination which has been returned. */
 class PaymentRetryParams
 constructor(
     private val paymentToken: String,

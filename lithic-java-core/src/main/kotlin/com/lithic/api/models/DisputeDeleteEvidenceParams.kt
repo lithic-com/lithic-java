@@ -10,6 +10,10 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Soft delete evidence for a dispute. Evidence will not be reviewed or submitted by Lithic after it
+ * is withdrawn.
+ */
 class DisputeDeleteEvidenceParams
 constructor(
     private val disputeToken: String,

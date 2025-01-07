@@ -15,6 +15,10 @@ import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
 
+/**
+ * Simulates an authorization advice from the card network as if it came from a merchant acquirer.
+ * An authorization advice changes the pending amount of the transaction.
+ */
 class TransactionSimulateAuthorizationAdviceParams
 constructor(
     private val body: TransactionSimulateAuthorizationAdviceBody,

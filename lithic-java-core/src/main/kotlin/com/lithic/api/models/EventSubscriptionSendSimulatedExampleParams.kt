@@ -19,6 +19,7 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/** Send an example message for event. */
 class EventSubscriptionSendSimulatedExampleParams
 constructor(
     private val eventSubscriptionToken: String,

@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/** List disputes. */
 class DisputeListParams
 constructor(
     private val begin: OffsetDateTime?,

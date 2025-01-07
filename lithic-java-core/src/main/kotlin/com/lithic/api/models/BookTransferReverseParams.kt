@@ -16,6 +16,7 @@ import com.lithic.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
 
+/** Reverse a book transfer */
 class BookTransferReverseParams
 constructor(
     private val bookTransferToken: String,

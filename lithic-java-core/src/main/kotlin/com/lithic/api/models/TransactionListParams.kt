@@ -14,6 +14,10 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * List card transactions. All amounts are in the smallest unit of their respective currency (e.g.,
+ * cents for USD) and inclusive of any acquirer fees.
+ */
 class TransactionListParams
 constructor(
     private val accountToken: String?,

@@ -18,6 +18,24 @@ import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 
+/**
+ * Use this endpoint to identify which type of supported government-issued documentation you will
+ * upload for further verification. It will return two URLs to upload your document images to - one
+ * for the front image and one for the back image.
+ *
+ * This endpoint is only valid for evaluations in a `PENDING_DOCUMENT` state.
+ *
+ * Uploaded images must either be a `jpg` or `png` file, and each must be less than 15 MiB. Once
+ * both required uploads have been successfully completed, your document will be run through KYC
+ * verification.
+ *
+ * If you have registered a webhook, you will receive evaluation updates for any document submission
+ * evaluations, as well as for any failed document uploads.
+ *
+ * Two document submission attempts are permitted via this endpoint before a `REJECTED` status is
+ * returned and the account creation process is ended. Currently only one type of account holder
+ * document is supported per KYC verification.
+ */
 class AccountHolderUploadDocumentParams
 constructor(
     private val accountHolderToken: String,

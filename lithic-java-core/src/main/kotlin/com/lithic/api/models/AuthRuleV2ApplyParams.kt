@@ -27,6 +27,11 @@ import com.lithic.api.errors.LithicInvalidDataException
 import java.util.Objects
 import java.util.Optional
 
+/**
+ * Associates an authorization rules with a card program, the provided account(s) or card(s).
+ *
+ * This endpoint will replace any existing associations with the provided list of entities.
+ */
 class AuthRuleV2ApplyParams
 constructor(
     private val authRuleToken: String,

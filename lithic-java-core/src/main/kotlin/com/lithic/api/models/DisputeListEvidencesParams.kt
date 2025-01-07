@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Objects
 import java.util.Optional
 
+/** List evidence metadata for a dispute. */
 class DisputeListEvidencesParams
 constructor(
     private val disputeToken: String,
