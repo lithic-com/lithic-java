@@ -34,10 +34,10 @@ private constructor(
     fun url(): Optional<String> = Optional.ofNullable(url.getNullable("url"))
 
     /** True if the instance has an endpoint enrolled. */
-    @JsonProperty("enrolled") @ExcludeMissing fun _enrolled() = enrolled
+    @JsonProperty("enrolled") @ExcludeMissing fun _enrolled(): JsonField<Boolean> = enrolled
 
     /** The URL of the currently enrolled endpoint or null. */
-    @JsonProperty("url") @ExcludeMissing fun _url() = url
+    @JsonProperty("url") @ExcludeMissing fun _url(): JsonField<String> = url
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -80,7 +80,10 @@ private constructor(
         fun enrolled(enrolled: JsonField<Boolean>) = apply { this.enrolled = enrolled }
 
         /** The URL of the currently enrolled endpoint or null. */
-        fun url(url: String) = url(JsonField.of(url))
+        fun url(url: String?) = url(JsonField.ofNullable(url))
+
+        /** The URL of the currently enrolled endpoint or null. */
+        fun url(url: Optional<String>) = url(url.orElse(null))
 
         /** The URL of the currently enrolled endpoint or null. */
         fun url(url: JsonField<String>) = apply { this.url = url }

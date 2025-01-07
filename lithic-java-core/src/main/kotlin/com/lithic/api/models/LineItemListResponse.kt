@@ -96,43 +96,49 @@ private constructor(
     fun descriptor(): Optional<String> = Optional.ofNullable(descriptor.getNullable("descriptor"))
 
     /** Globally unique identifier for a Statement Line Item */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Transaction amount in cents */
-    @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+    @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
-    @JsonProperty("category") @ExcludeMissing fun _category() = category
+    @JsonProperty("category")
+    @ExcludeMissing
+    fun _category(): JsonField<TransactionCategory> = category
 
     /** Timestamp of when the line item was generated */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction */
-    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+    @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /** Date that the transaction effected the account balance */
-    @JsonProperty("effective_date") @ExcludeMissing fun _effectiveDate() = effectiveDate
+    @JsonProperty("effective_date")
+    @ExcludeMissing
+    fun _effectiveDate(): JsonField<LocalDate> = effectiveDate
 
-    @JsonProperty("event_type") @ExcludeMissing fun _eventType() = eventType
+    @JsonProperty("event_type")
+    @ExcludeMissing
+    fun _eventType(): JsonField<FinancialEventType> = eventType
 
     /** Globally unique identifier for a financial account */
     @JsonProperty("financial_account_token")
     @ExcludeMissing
-    fun _financialAccountToken() = financialAccountToken
+    fun _financialAccountToken(): JsonField<String> = financialAccountToken
 
     /** Globally unique identifier for a financial transaction event */
     @JsonProperty("financial_transaction_event_token")
     @ExcludeMissing
-    fun _financialTransactionEventToken() = financialTransactionEventToken
+    fun _financialTransactionEventToken(): JsonField<String> = financialTransactionEventToken
 
     /** Globally unique identifier for a financial transaction */
     @JsonProperty("financial_transaction_token")
     @ExcludeMissing
-    fun _financialTransactionToken() = financialTransactionToken
+    fun _financialTransactionToken(): JsonField<String> = financialTransactionToken
 
     /** Globally unique identifier for a card */
-    @JsonProperty("card_token") @ExcludeMissing fun _cardToken() = cardToken
+    @JsonProperty("card_token") @ExcludeMissing fun _cardToken(): JsonField<String> = cardToken
 
-    @JsonProperty("descriptor") @ExcludeMissing fun _descriptor() = descriptor
+    @JsonProperty("descriptor") @ExcludeMissing fun _descriptor(): JsonField<String> = descriptor
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -167,16 +173,16 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var amount: JsonField<Long> = JsonMissing.of()
-        private var category: JsonField<TransactionCategory> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var currency: JsonField<String> = JsonMissing.of()
-        private var effectiveDate: JsonField<LocalDate> = JsonMissing.of()
-        private var eventType: JsonField<FinancialEventType> = JsonMissing.of()
-        private var financialAccountToken: JsonField<String> = JsonMissing.of()
-        private var financialTransactionEventToken: JsonField<String> = JsonMissing.of()
-        private var financialTransactionToken: JsonField<String> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var amount: JsonField<Long>? = null
+        private var category: JsonField<TransactionCategory>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var currency: JsonField<String>? = null
+        private var effectiveDate: JsonField<LocalDate>? = null
+        private var eventType: JsonField<FinancialEventType>? = null
+        private var financialAccountToken: JsonField<String>? = null
+        private var financialTransactionEventToken: JsonField<String>? = null
+        private var financialTransactionToken: JsonField<String>? = null
         private var cardToken: JsonField<String> = JsonMissing.of()
         private var descriptor: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -299,16 +305,22 @@ private constructor(
 
         fun build(): LineItemListResponse =
             LineItemListResponse(
-                token,
-                amount,
-                category,
-                created,
-                currency,
-                effectiveDate,
-                eventType,
-                financialAccountToken,
-                financialTransactionEventToken,
-                financialTransactionToken,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(amount) { "`amount` is required but was not set" },
+                checkNotNull(category) { "`category` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(currency) { "`currency` is required but was not set" },
+                checkNotNull(effectiveDate) { "`effectiveDate` is required but was not set" },
+                checkNotNull(eventType) { "`eventType` is required but was not set" },
+                checkNotNull(financialAccountToken) {
+                    "`financialAccountToken` is required but was not set"
+                },
+                checkNotNull(financialTransactionEventToken) {
+                    "`financialTransactionEventToken` is required but was not set"
+                },
+                checkNotNull(financialTransactionToken) {
+                    "`financialTransactionToken` is required but was not set"
+                },
                 cardToken,
                 descriptor,
                 additionalProperties.toImmutable(),

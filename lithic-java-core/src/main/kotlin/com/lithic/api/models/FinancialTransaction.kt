@@ -117,7 +117,7 @@ private constructor(
     fun updated(): OffsetDateTime = updated.getRequired("updated")
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /**
      * Status types:
@@ -125,41 +125,45 @@ private constructor(
      * - `ACH` - Transaction over ACH.
      * - `TRANSFER` - Internal transfer of funds between financial accounts in your program.
      */
-    @JsonProperty("category") @ExcludeMissing fun _category() = category
+    @JsonProperty("category") @ExcludeMissing fun _category(): JsonField<Category> = category
 
     /** Date and time when the financial transaction first occurred. UTC time zone. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** 3-digit alphabetic ISO 4217 code for the settling currency of the transaction. */
-    @JsonProperty("currency") @ExcludeMissing fun _currency() = currency
+    @JsonProperty("currency") @ExcludeMissing fun _currency(): JsonField<String> = currency
 
     /**
      * A string that provides a description of the financial transaction; may be useful to display
      * to users.
      */
-    @JsonProperty("descriptor") @ExcludeMissing fun _descriptor() = descriptor
+    @JsonProperty("descriptor") @ExcludeMissing fun _descriptor(): JsonField<String> = descriptor
 
     /** A list of all financial events that have modified this financial transaction. */
-    @JsonProperty("events") @ExcludeMissing fun _events() = events
+    @JsonProperty("events") @ExcludeMissing fun _events(): JsonField<List<FinancialEvent>> = events
 
     /**
      * Pending amount of the transaction in the currency's smallest unit (e.g., cents), including
      * any acquirer fees. The value of this field will go to zero over time once the financial
      * transaction is settled.
      */
-    @JsonProperty("pending_amount") @ExcludeMissing fun _pendingAmount() = pendingAmount
+    @JsonProperty("pending_amount")
+    @ExcludeMissing
+    fun _pendingAmount(): JsonField<Long> = pendingAmount
 
     /**
      * APPROVED transactions were successful while DECLINED transactions were declined by user,
      * Lithic, or the network.
      */
-    @JsonProperty("result") @ExcludeMissing fun _result() = result
+    @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
 
     /**
      * Amount of the transaction that has been settled in the currency's smallest unit (e.g.,
      * cents), including any acquirer fees. This may change over time.
      */
-    @JsonProperty("settled_amount") @ExcludeMissing fun _settledAmount() = settledAmount
+    @JsonProperty("settled_amount")
+    @ExcludeMissing
+    fun _settledAmount(): JsonField<Long> = settledAmount
 
     /**
      * Status types:
@@ -170,10 +174,10 @@ private constructor(
      * - `SETTLED` - The transaction is completed.
      * - `VOIDED` - The transaction was voided. Card transaction only.
      */
-    @JsonProperty("status") @ExcludeMissing fun _status() = status
+    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
     /** Date and time when the financial transaction was last updated. UTC time zone. */
-    @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+    @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -207,17 +211,17 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var category: JsonField<Category> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var currency: JsonField<String> = JsonMissing.of()
-        private var descriptor: JsonField<String> = JsonMissing.of()
-        private var events: JsonField<List<FinancialEvent>> = JsonMissing.of()
-        private var pendingAmount: JsonField<Long> = JsonMissing.of()
-        private var result: JsonField<Result> = JsonMissing.of()
-        private var settledAmount: JsonField<Long> = JsonMissing.of()
-        private var status: JsonField<Status> = JsonMissing.of()
-        private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var category: JsonField<Category>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var currency: JsonField<String>? = null
+        private var descriptor: JsonField<String>? = null
+        private var events: JsonField<MutableList<FinancialEvent>>? = null
+        private var pendingAmount: JsonField<Long>? = null
+        private var result: JsonField<Result>? = null
+        private var settledAmount: JsonField<Long>? = null
+        private var status: JsonField<Status>? = null
+        private var updated: JsonField<OffsetDateTime>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -227,7 +231,7 @@ private constructor(
             created = financialTransaction.created
             currency = financialTransaction.currency
             descriptor = financialTransaction.descriptor
-            events = financialTransaction.events
+            events = financialTransaction.events.map { it.toMutableList() }
             pendingAmount = financialTransaction.pendingAmount
             result = financialTransaction.result
             settledAmount = financialTransaction.settledAmount
@@ -286,7 +290,23 @@ private constructor(
         fun events(events: List<FinancialEvent>) = events(JsonField.of(events))
 
         /** A list of all financial events that have modified this financial transaction. */
-        fun events(events: JsonField<List<FinancialEvent>>) = apply { this.events = events }
+        fun events(events: JsonField<List<FinancialEvent>>) = apply {
+            this.events = events.map { it.toMutableList() }
+        }
+
+        /** A list of all financial events that have modified this financial transaction. */
+        fun addEvent(event: FinancialEvent) = apply {
+            events =
+                (events ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(event)
+                }
+        }
 
         /**
          * Pending amount of the transaction in the currency's smallest unit (e.g., cents),
@@ -381,17 +401,18 @@ private constructor(
 
         fun build(): FinancialTransaction =
             FinancialTransaction(
-                token,
-                category,
-                created,
-                currency,
-                descriptor,
-                events.map { it.toImmutable() },
-                pendingAmount,
-                result,
-                settledAmount,
-                status,
-                updated,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(category) { "`category` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(currency) { "`currency` is required but was not set" },
+                checkNotNull(descriptor) { "`descriptor` is required but was not set" },
+                checkNotNull(events) { "`events` is required but was not set" }
+                    .map { it.toImmutable() },
+                checkNotNull(pendingAmount) { "`pendingAmount` is required but was not set" },
+                checkNotNull(result) { "`result` is required but was not set" },
+                checkNotNull(settledAmount) { "`settledAmount` is required but was not set" },
+                checkNotNull(status) { "`status` is required but was not set" },
+                checkNotNull(updated) { "`updated` is required but was not set" },
                 additionalProperties.toImmutable(),
             )
     }
@@ -504,24 +525,24 @@ private constructor(
         fun type(): Optional<FinancialEventType> = Optional.ofNullable(type.getNullable("type"))
 
         /** Globally unique identifier. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
          * Amount of the financial event that has been settled in the currency's smallest unit
          * (e.g., cents).
          */
-        @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
         /** Date and time when the financial event occurred. UTC time zone. */
-        @JsonProperty("created") @ExcludeMissing fun _created() = created
+        @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
         /**
          * APPROVED financial events were successful while DECLINED financial events were declined
          * by user, Lithic, or the network.
          */
-        @JsonProperty("result") @ExcludeMissing fun _result() = result
+        @JsonProperty("result") @ExcludeMissing fun _result(): JsonField<Result> = result
 
-        @JsonProperty("type") @ExcludeMissing fun _type() = type
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<FinancialEventType> = type
 
         @JsonAnyGetter
         @ExcludeMissing

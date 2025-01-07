@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -37,11 +39,21 @@ constructor(
     /** Tier to assign to a financial account */
     fun tier(): Optional<String> = body.tier()
 
+    fun _creditLimit(): JsonField<Long> = body._creditLimit()
+
+    /** Globally unique identifier for the credit product */
+    fun _creditProductToken(): JsonField<String> = body._creditProductToken()
+
+    fun _externalBankAccountToken(): JsonField<String> = body._externalBankAccountToken()
+
+    /** Tier to assign to a financial account */
+    fun _tier(): JsonField<String> = body._tier()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): FinancialAccountCreditConfigurationUpdateBody = body
 
@@ -60,31 +72,66 @@ constructor(
     class FinancialAccountCreditConfigurationUpdateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("credit_limit") private val creditLimit: Long?,
-        @JsonProperty("credit_product_token") private val creditProductToken: String?,
-        @JsonProperty("external_bank_account_token") private val externalBankAccountToken: String?,
-        @JsonProperty("tier") private val tier: String?,
+        @JsonProperty("credit_limit")
+        @ExcludeMissing
+        private val creditLimit: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("credit_product_token")
+        @ExcludeMissing
+        private val creditProductToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("external_bank_account_token")
+        @ExcludeMissing
+        private val externalBankAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("tier")
+        @ExcludeMissing
+        private val tier: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
+        fun creditLimit(): Optional<Long> =
+            Optional.ofNullable(creditLimit.getNullable("credit_limit"))
+
+        /** Globally unique identifier for the credit product */
+        fun creditProductToken(): Optional<String> =
+            Optional.ofNullable(creditProductToken.getNullable("credit_product_token"))
+
+        fun externalBankAccountToken(): Optional<String> =
+            Optional.ofNullable(externalBankAccountToken.getNullable("external_bank_account_token"))
+
+        /** Tier to assign to a financial account */
+        fun tier(): Optional<String> = Optional.ofNullable(tier.getNullable("tier"))
+
         @JsonProperty("credit_limit")
-        fun creditLimit(): Optional<Long> = Optional.ofNullable(creditLimit)
+        @ExcludeMissing
+        fun _creditLimit(): JsonField<Long> = creditLimit
 
         /** Globally unique identifier for the credit product */
         @JsonProperty("credit_product_token")
-        fun creditProductToken(): Optional<String> = Optional.ofNullable(creditProductToken)
+        @ExcludeMissing
+        fun _creditProductToken(): JsonField<String> = creditProductToken
 
         @JsonProperty("external_bank_account_token")
-        fun externalBankAccountToken(): Optional<String> =
-            Optional.ofNullable(externalBankAccountToken)
+        @ExcludeMissing
+        fun _externalBankAccountToken(): JsonField<String> = externalBankAccountToken
 
         /** Tier to assign to a financial account */
-        @JsonProperty("tier") fun tier(): Optional<String> = Optional.ofNullable(tier)
+        @JsonProperty("tier") @ExcludeMissing fun _tier(): JsonField<String> = tier
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): FinancialAccountCreditConfigurationUpdateBody = apply {
+            if (!validated) {
+                creditLimit()
+                creditProductToken()
+                externalBankAccountToken()
+                tier()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -95,10 +142,10 @@ constructor(
 
         class Builder {
 
-            private var creditLimit: Long? = null
-            private var creditProductToken: String? = null
-            private var externalBankAccountToken: String? = null
-            private var tier: String? = null
+            private var creditLimit: JsonField<Long> = JsonMissing.of()
+            private var creditProductToken: JsonField<String> = JsonMissing.of()
+            private var externalBankAccountToken: JsonField<String> = JsonMissing.of()
+            private var tier: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -117,35 +164,31 @@ constructor(
                         .toMutableMap()
             }
 
-            fun creditLimit(creditLimit: Long?) = apply { this.creditLimit = creditLimit }
+            fun creditLimit(creditLimit: Long) = creditLimit(JsonField.of(creditLimit))
 
-            fun creditLimit(creditLimit: Long) = creditLimit(creditLimit as Long?)
-
-            @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-            fun creditLimit(creditLimit: Optional<Long>) =
-                creditLimit(creditLimit.orElse(null) as Long?)
+            fun creditLimit(creditLimit: JsonField<Long>) = apply { this.creditLimit = creditLimit }
 
             /** Globally unique identifier for the credit product */
-            fun creditProductToken(creditProductToken: String?) = apply {
+            fun creditProductToken(creditProductToken: String) =
+                creditProductToken(JsonField.of(creditProductToken))
+
+            /** Globally unique identifier for the credit product */
+            fun creditProductToken(creditProductToken: JsonField<String>) = apply {
                 this.creditProductToken = creditProductToken
             }
 
-            /** Globally unique identifier for the credit product */
-            fun creditProductToken(creditProductToken: Optional<String>) =
-                creditProductToken(creditProductToken.orElse(null))
+            fun externalBankAccountToken(externalBankAccountToken: String) =
+                externalBankAccountToken(JsonField.of(externalBankAccountToken))
 
-            fun externalBankAccountToken(externalBankAccountToken: String?) = apply {
+            fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
                 this.externalBankAccountToken = externalBankAccountToken
             }
 
-            fun externalBankAccountToken(externalBankAccountToken: Optional<String>) =
-                externalBankAccountToken(externalBankAccountToken.orElse(null))
+            /** Tier to assign to a financial account */
+            fun tier(tier: String) = tier(JsonField.of(tier))
 
             /** Tier to assign to a financial account */
-            fun tier(tier: String?) = apply { this.tier = tier }
-
-            /** Tier to assign to a financial account */
-            fun tier(tier: Optional<String>) = tier(tier.orElse(null))
+            fun tier(tier: JsonField<String>) = apply { this.tier = tier }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -228,35 +271,52 @@ constructor(
             this.financialAccountToken = financialAccountToken
         }
 
-        fun creditLimit(creditLimit: Long?) = apply { body.creditLimit(creditLimit) }
+        fun creditLimit(creditLimit: Long) = apply { body.creditLimit(creditLimit) }
 
-        fun creditLimit(creditLimit: Long) = creditLimit(creditLimit as Long?)
-
-        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
-        fun creditLimit(creditLimit: Optional<Long>) =
-            creditLimit(creditLimit.orElse(null) as Long?)
+        fun creditLimit(creditLimit: JsonField<Long>) = apply { body.creditLimit(creditLimit) }
 
         /** Globally unique identifier for the credit product */
-        fun creditProductToken(creditProductToken: String?) = apply {
+        fun creditProductToken(creditProductToken: String) = apply {
             body.creditProductToken(creditProductToken)
         }
 
         /** Globally unique identifier for the credit product */
-        fun creditProductToken(creditProductToken: Optional<String>) =
-            creditProductToken(creditProductToken.orElse(null))
+        fun creditProductToken(creditProductToken: JsonField<String>) = apply {
+            body.creditProductToken(creditProductToken)
+        }
 
-        fun externalBankAccountToken(externalBankAccountToken: String?) = apply {
+        fun externalBankAccountToken(externalBankAccountToken: String) = apply {
             body.externalBankAccountToken(externalBankAccountToken)
         }
 
-        fun externalBankAccountToken(externalBankAccountToken: Optional<String>) =
-            externalBankAccountToken(externalBankAccountToken.orElse(null))
+        fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
+            body.externalBankAccountToken(externalBankAccountToken)
+        }
 
         /** Tier to assign to a financial account */
-        fun tier(tier: String?) = apply { body.tier(tier) }
+        fun tier(tier: String) = apply { body.tier(tier) }
 
         /** Tier to assign to a financial account */
-        fun tier(tier: Optional<String>) = tier(tier.orElse(null))
+        fun tier(tier: JsonField<String>) = apply { body.tier(tier) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -354,25 +414,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): FinancialAccountCreditConfigurationUpdateParams =

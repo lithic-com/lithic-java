@@ -202,46 +202,56 @@ private constructor(
     fun transactionToken(): String = transactionToken.getRequired("transaction_token")
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Amount under dispute. May be different from the original transaction amount. */
-    @JsonProperty("amount") @ExcludeMissing fun _amount() = amount
+    @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
 
     /** Date dispute entered arbitration. */
-    @JsonProperty("arbitration_date") @ExcludeMissing fun _arbitrationDate() = arbitrationDate
+    @JsonProperty("arbitration_date")
+    @ExcludeMissing
+    fun _arbitrationDate(): JsonField<OffsetDateTime> = arbitrationDate
 
     /** Timestamp of when first Dispute was reported. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** Date that the dispute was filed by the customer making the dispute. */
     @JsonProperty("customer_filed_date")
     @ExcludeMissing
-    fun _customerFiledDate() = customerFiledDate
+    fun _customerFiledDate(): JsonField<OffsetDateTime> = customerFiledDate
 
     /** End customer description of the reason for the dispute. */
-    @JsonProperty("customer_note") @ExcludeMissing fun _customerNote() = customerNote
+    @JsonProperty("customer_note")
+    @ExcludeMissing
+    fun _customerNote(): JsonField<String> = customerNote
 
     /** Unique identifiers for the dispute from the network. */
-    @JsonProperty("network_claim_ids") @ExcludeMissing fun _networkClaimIds() = networkClaimIds
+    @JsonProperty("network_claim_ids")
+    @ExcludeMissing
+    fun _networkClaimIds(): JsonField<List<String>> = networkClaimIds
 
     /** Date that the dispute was submitted to the network. */
-    @JsonProperty("network_filed_date") @ExcludeMissing fun _networkFiledDate() = networkFiledDate
+    @JsonProperty("network_filed_date")
+    @ExcludeMissing
+    fun _networkFiledDate(): JsonField<OffsetDateTime> = networkFiledDate
 
     /** Network reason code used to file the dispute. */
     @JsonProperty("network_reason_code")
     @ExcludeMissing
-    fun _networkReasonCode() = networkReasonCode
+    fun _networkReasonCode(): JsonField<String> = networkReasonCode
 
     /** Date dispute entered pre-arbitration. */
     @JsonProperty("prearbitration_date")
     @ExcludeMissing
-    fun _prearbitrationDate() = prearbitrationDate
+    fun _prearbitrationDate(): JsonField<OffsetDateTime> = prearbitrationDate
 
     /**
      * Unique identifier for the dispute from the network. If there are multiple, this will be the
      * first claim id set by the network
      */
-    @JsonProperty("primary_claim_id") @ExcludeMissing fun _primaryClaimId() = primaryClaimId
+    @JsonProperty("primary_claim_id")
+    @ExcludeMissing
+    fun _primaryClaimId(): JsonField<String> = primaryClaimId
 
     /**
      * Dispute reason:
@@ -260,19 +270,27 @@ private constructor(
      * - `REFUND_NOT_PROCESSED`: The refund was not processed.
      * - `RECURRING_TRANSACTION_NOT_CANCELLED`: The recurring transaction was not cancelled.
      */
-    @JsonProperty("reason") @ExcludeMissing fun _reason() = reason
+    @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<Reason> = reason
 
     /** Date the representment was received. */
-    @JsonProperty("representment_date") @ExcludeMissing fun _representmentDate() = representmentDate
+    @JsonProperty("representment_date")
+    @ExcludeMissing
+    fun _representmentDate(): JsonField<OffsetDateTime> = representmentDate
 
     /** Resolution amount net of network fees. */
-    @JsonProperty("resolution_amount") @ExcludeMissing fun _resolutionAmount() = resolutionAmount
+    @JsonProperty("resolution_amount")
+    @ExcludeMissing
+    fun _resolutionAmount(): JsonField<Long> = resolutionAmount
 
     /** Date that the dispute was resolved. */
-    @JsonProperty("resolution_date") @ExcludeMissing fun _resolutionDate() = resolutionDate
+    @JsonProperty("resolution_date")
+    @ExcludeMissing
+    fun _resolutionDate(): JsonField<OffsetDateTime> = resolutionDate
 
     /** Note by Dispute team on the case resolution. */
-    @JsonProperty("resolution_note") @ExcludeMissing fun _resolutionNote() = resolutionNote
+    @JsonProperty("resolution_note")
+    @ExcludeMissing
+    fun _resolutionNote(): JsonField<String> = resolutionNote
 
     /**
      * Reason for the dispute resolution:
@@ -294,7 +312,9 @@ private constructor(
      * - `WON_FIRST_CHARGEBACK`: Won first chargeback.
      * - `WON_PREARBITRATION`: Won prearbitration.
      */
-    @JsonProperty("resolution_reason") @ExcludeMissing fun _resolutionReason() = resolutionReason
+    @JsonProperty("resolution_reason")
+    @ExcludeMissing
+    fun _resolutionReason(): JsonField<ResolutionReason> = resolutionReason
 
     /**
      * Status types:
@@ -307,13 +327,15 @@ private constructor(
      * - `CASE_WON` - Case was won and credit will be issued.
      * - `CASE_CLOSED` - Case was lost or withdrawn.
      */
-    @JsonProperty("status") @ExcludeMissing fun _status() = status
+    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
     /**
      * The transaction that is being disputed. A transaction can only be disputed once but may have
      * multiple dispute cases.
      */
-    @JsonProperty("transaction_token") @ExcludeMissing fun _transactionToken() = transactionToken
+    @JsonProperty("transaction_token")
+    @ExcludeMissing
+    fun _transactionToken(): JsonField<String> = transactionToken
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -355,25 +377,25 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var amount: JsonField<Long> = JsonMissing.of()
-        private var arbitrationDate: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var customerFiledDate: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var customerNote: JsonField<String> = JsonMissing.of()
-        private var networkClaimIds: JsonField<List<String>> = JsonMissing.of()
-        private var networkFiledDate: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var networkReasonCode: JsonField<String> = JsonMissing.of()
-        private var prearbitrationDate: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var primaryClaimId: JsonField<String> = JsonMissing.of()
-        private var reason: JsonField<Reason> = JsonMissing.of()
-        private var representmentDate: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var resolutionAmount: JsonField<Long> = JsonMissing.of()
-        private var resolutionDate: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var resolutionNote: JsonField<String> = JsonMissing.of()
-        private var resolutionReason: JsonField<ResolutionReason> = JsonMissing.of()
-        private var status: JsonField<Status> = JsonMissing.of()
-        private var transactionToken: JsonField<String> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var amount: JsonField<Long>? = null
+        private var arbitrationDate: JsonField<OffsetDateTime>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var customerFiledDate: JsonField<OffsetDateTime>? = null
+        private var customerNote: JsonField<String>? = null
+        private var networkClaimIds: JsonField<MutableList<String>>? = null
+        private var networkFiledDate: JsonField<OffsetDateTime>? = null
+        private var networkReasonCode: JsonField<String>? = null
+        private var prearbitrationDate: JsonField<OffsetDateTime>? = null
+        private var primaryClaimId: JsonField<String>? = null
+        private var reason: JsonField<Reason>? = null
+        private var representmentDate: JsonField<OffsetDateTime>? = null
+        private var resolutionAmount: JsonField<Long>? = null
+        private var resolutionDate: JsonField<OffsetDateTime>? = null
+        private var resolutionNote: JsonField<String>? = null
+        private var resolutionReason: JsonField<ResolutionReason>? = null
+        private var status: JsonField<Status>? = null
+        private var transactionToken: JsonField<String>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -384,7 +406,7 @@ private constructor(
             created = dispute.created
             customerFiledDate = dispute.customerFiledDate
             customerNote = dispute.customerNote
-            networkClaimIds = dispute.networkClaimIds
+            networkClaimIds = dispute.networkClaimIds.map { it.toMutableList() }
             networkFiledDate = dispute.networkFiledDate
             networkReasonCode = dispute.networkReasonCode
             prearbitrationDate = dispute.prearbitrationDate
@@ -413,8 +435,12 @@ private constructor(
         fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
 
         /** Date dispute entered arbitration. */
-        fun arbitrationDate(arbitrationDate: OffsetDateTime) =
-            arbitrationDate(JsonField.of(arbitrationDate))
+        fun arbitrationDate(arbitrationDate: OffsetDateTime?) =
+            arbitrationDate(JsonField.ofNullable(arbitrationDate))
+
+        /** Date dispute entered arbitration. */
+        fun arbitrationDate(arbitrationDate: Optional<OffsetDateTime>) =
+            arbitrationDate(arbitrationDate.orElse(null))
 
         /** Date dispute entered arbitration. */
         fun arbitrationDate(arbitrationDate: JsonField<OffsetDateTime>) = apply {
@@ -428,8 +454,12 @@ private constructor(
         fun created(created: JsonField<OffsetDateTime>) = apply { this.created = created }
 
         /** Date that the dispute was filed by the customer making the dispute. */
-        fun customerFiledDate(customerFiledDate: OffsetDateTime) =
-            customerFiledDate(JsonField.of(customerFiledDate))
+        fun customerFiledDate(customerFiledDate: OffsetDateTime?) =
+            customerFiledDate(JsonField.ofNullable(customerFiledDate))
+
+        /** Date that the dispute was filed by the customer making the dispute. */
+        fun customerFiledDate(customerFiledDate: Optional<OffsetDateTime>) =
+            customerFiledDate(customerFiledDate.orElse(null))
 
         /** Date that the dispute was filed by the customer making the dispute. */
         fun customerFiledDate(customerFiledDate: JsonField<OffsetDateTime>) = apply {
@@ -437,7 +467,10 @@ private constructor(
         }
 
         /** End customer description of the reason for the dispute. */
-        fun customerNote(customerNote: String) = customerNote(JsonField.of(customerNote))
+        fun customerNote(customerNote: String?) = customerNote(JsonField.ofNullable(customerNote))
+
+        /** End customer description of the reason for the dispute. */
+        fun customerNote(customerNote: Optional<String>) = customerNote(customerNote.orElse(null))
 
         /** End customer description of the reason for the dispute. */
         fun customerNote(customerNote: JsonField<String>) = apply {
@@ -445,17 +478,39 @@ private constructor(
         }
 
         /** Unique identifiers for the dispute from the network. */
-        fun networkClaimIds(networkClaimIds: List<String>) =
-            networkClaimIds(JsonField.of(networkClaimIds))
+        fun networkClaimIds(networkClaimIds: List<String>?) =
+            networkClaimIds(JsonField.ofNullable(networkClaimIds))
+
+        /** Unique identifiers for the dispute from the network. */
+        fun networkClaimIds(networkClaimIds: Optional<List<String>>) =
+            networkClaimIds(networkClaimIds.orElse(null))
 
         /** Unique identifiers for the dispute from the network. */
         fun networkClaimIds(networkClaimIds: JsonField<List<String>>) = apply {
-            this.networkClaimIds = networkClaimIds
+            this.networkClaimIds = networkClaimIds.map { it.toMutableList() }
+        }
+
+        /** Unique identifiers for the dispute from the network. */
+        fun addNetworkClaimId(networkClaimId: String) = apply {
+            networkClaimIds =
+                (networkClaimIds ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(networkClaimId)
+                }
         }
 
         /** Date that the dispute was submitted to the network. */
-        fun networkFiledDate(networkFiledDate: OffsetDateTime) =
-            networkFiledDate(JsonField.of(networkFiledDate))
+        fun networkFiledDate(networkFiledDate: OffsetDateTime?) =
+            networkFiledDate(JsonField.ofNullable(networkFiledDate))
+
+        /** Date that the dispute was submitted to the network. */
+        fun networkFiledDate(networkFiledDate: Optional<OffsetDateTime>) =
+            networkFiledDate(networkFiledDate.orElse(null))
 
         /** Date that the dispute was submitted to the network. */
         fun networkFiledDate(networkFiledDate: JsonField<OffsetDateTime>) = apply {
@@ -463,8 +518,12 @@ private constructor(
         }
 
         /** Network reason code used to file the dispute. */
-        fun networkReasonCode(networkReasonCode: String) =
-            networkReasonCode(JsonField.of(networkReasonCode))
+        fun networkReasonCode(networkReasonCode: String?) =
+            networkReasonCode(JsonField.ofNullable(networkReasonCode))
+
+        /** Network reason code used to file the dispute. */
+        fun networkReasonCode(networkReasonCode: Optional<String>) =
+            networkReasonCode(networkReasonCode.orElse(null))
 
         /** Network reason code used to file the dispute. */
         fun networkReasonCode(networkReasonCode: JsonField<String>) = apply {
@@ -472,8 +531,12 @@ private constructor(
         }
 
         /** Date dispute entered pre-arbitration. */
-        fun prearbitrationDate(prearbitrationDate: OffsetDateTime) =
-            prearbitrationDate(JsonField.of(prearbitrationDate))
+        fun prearbitrationDate(prearbitrationDate: OffsetDateTime?) =
+            prearbitrationDate(JsonField.ofNullable(prearbitrationDate))
+
+        /** Date dispute entered pre-arbitration. */
+        fun prearbitrationDate(prearbitrationDate: Optional<OffsetDateTime>) =
+            prearbitrationDate(prearbitrationDate.orElse(null))
 
         /** Date dispute entered pre-arbitration. */
         fun prearbitrationDate(prearbitrationDate: JsonField<OffsetDateTime>) = apply {
@@ -484,7 +547,15 @@ private constructor(
          * Unique identifier for the dispute from the network. If there are multiple, this will be
          * the first claim id set by the network
          */
-        fun primaryClaimId(primaryClaimId: String) = primaryClaimId(JsonField.of(primaryClaimId))
+        fun primaryClaimId(primaryClaimId: String?) =
+            primaryClaimId(JsonField.ofNullable(primaryClaimId))
+
+        /**
+         * Unique identifier for the dispute from the network. If there are multiple, this will be
+         * the first claim id set by the network
+         */
+        fun primaryClaimId(primaryClaimId: Optional<String>) =
+            primaryClaimId(primaryClaimId.orElse(null))
 
         /**
          * Unique identifier for the dispute from the network. If there are multiple, this will be
@@ -535,8 +606,12 @@ private constructor(
         fun reason(reason: JsonField<Reason>) = apply { this.reason = reason }
 
         /** Date the representment was received. */
-        fun representmentDate(representmentDate: OffsetDateTime) =
-            representmentDate(JsonField.of(representmentDate))
+        fun representmentDate(representmentDate: OffsetDateTime?) =
+            representmentDate(JsonField.ofNullable(representmentDate))
+
+        /** Date the representment was received. */
+        fun representmentDate(representmentDate: Optional<OffsetDateTime>) =
+            representmentDate(representmentDate.orElse(null))
 
         /** Date the representment was received. */
         fun representmentDate(representmentDate: JsonField<OffsetDateTime>) = apply {
@@ -544,8 +619,16 @@ private constructor(
         }
 
         /** Resolution amount net of network fees. */
-        fun resolutionAmount(resolutionAmount: Long) =
-            resolutionAmount(JsonField.of(resolutionAmount))
+        fun resolutionAmount(resolutionAmount: Long?) =
+            resolutionAmount(JsonField.ofNullable(resolutionAmount))
+
+        /** Resolution amount net of network fees. */
+        fun resolutionAmount(resolutionAmount: Long) = resolutionAmount(resolutionAmount as Long?)
+
+        /** Resolution amount net of network fees. */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun resolutionAmount(resolutionAmount: Optional<Long>) =
+            resolutionAmount(resolutionAmount.orElse(null) as Long?)
 
         /** Resolution amount net of network fees. */
         fun resolutionAmount(resolutionAmount: JsonField<Long>) = apply {
@@ -553,8 +636,12 @@ private constructor(
         }
 
         /** Date that the dispute was resolved. */
-        fun resolutionDate(resolutionDate: OffsetDateTime) =
-            resolutionDate(JsonField.of(resolutionDate))
+        fun resolutionDate(resolutionDate: OffsetDateTime?) =
+            resolutionDate(JsonField.ofNullable(resolutionDate))
+
+        /** Date that the dispute was resolved. */
+        fun resolutionDate(resolutionDate: Optional<OffsetDateTime>) =
+            resolutionDate(resolutionDate.orElse(null))
 
         /** Date that the dispute was resolved. */
         fun resolutionDate(resolutionDate: JsonField<OffsetDateTime>) = apply {
@@ -562,7 +649,12 @@ private constructor(
         }
 
         /** Note by Dispute team on the case resolution. */
-        fun resolutionNote(resolutionNote: String) = resolutionNote(JsonField.of(resolutionNote))
+        fun resolutionNote(resolutionNote: String?) =
+            resolutionNote(JsonField.ofNullable(resolutionNote))
+
+        /** Note by Dispute team on the case resolution. */
+        fun resolutionNote(resolutionNote: Optional<String>) =
+            resolutionNote(resolutionNote.orElse(null))
 
         /** Note by Dispute team on the case resolution. */
         fun resolutionNote(resolutionNote: JsonField<String>) = apply {
@@ -589,8 +681,31 @@ private constructor(
          * - `WON_FIRST_CHARGEBACK`: Won first chargeback.
          * - `WON_PREARBITRATION`: Won prearbitration.
          */
-        fun resolutionReason(resolutionReason: ResolutionReason) =
-            resolutionReason(JsonField.of(resolutionReason))
+        fun resolutionReason(resolutionReason: ResolutionReason?) =
+            resolutionReason(JsonField.ofNullable(resolutionReason))
+
+        /**
+         * Reason for the dispute resolution:
+         * - `CASE_LOST`: This case was lost at final arbitration.
+         * - `NETWORK_REJECTED`: Network rejected.
+         * - `NO_DISPUTE_RIGHTS_3DS`: No dispute rights, 3DS.
+         * - `NO_DISPUTE_RIGHTS_BELOW_THRESHOLD`: No dispute rights, below threshold.
+         * - `NO_DISPUTE_RIGHTS_CONTACTLESS`: No dispute rights, contactless.
+         * - `NO_DISPUTE_RIGHTS_HYBRID`: No dispute rights, hybrid.
+         * - `NO_DISPUTE_RIGHTS_MAX_CHARGEBACKS`: No dispute rights, max chargebacks.
+         * - `NO_DISPUTE_RIGHTS_OTHER`: No dispute rights, other.
+         * - `PAST_FILING_DATE`: Past filing date.
+         * - `PREARBITRATION_REJECTED`: Prearbitration rejected.
+         * - `PROCESSOR_REJECTED_OTHER`: Processor rejected, other.
+         * - `REFUNDED`: Refunded.
+         * - `REFUNDED_AFTER_CHARGEBACK`: Refunded after chargeback.
+         * - `WITHDRAWN`: Withdrawn.
+         * - `WON_ARBITRATION`: Won arbitration.
+         * - `WON_FIRST_CHARGEBACK`: Won first chargeback.
+         * - `WON_PREARBITRATION`: Won prearbitration.
+         */
+        fun resolutionReason(resolutionReason: Optional<ResolutionReason>) =
+            resolutionReason(resolutionReason.orElse(null))
 
         /**
          * Reason for the dispute resolution:
@@ -678,25 +793,34 @@ private constructor(
 
         fun build(): Dispute =
             Dispute(
-                token,
-                amount,
-                arbitrationDate,
-                created,
-                customerFiledDate,
-                customerNote,
-                networkClaimIds.map { it.toImmutable() },
-                networkFiledDate,
-                networkReasonCode,
-                prearbitrationDate,
-                primaryClaimId,
-                reason,
-                representmentDate,
-                resolutionAmount,
-                resolutionDate,
-                resolutionNote,
-                resolutionReason,
-                status,
-                transactionToken,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(amount) { "`amount` is required but was not set" },
+                checkNotNull(arbitrationDate) { "`arbitrationDate` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(customerFiledDate) {
+                    "`customerFiledDate` is required but was not set"
+                },
+                checkNotNull(customerNote) { "`customerNote` is required but was not set" },
+                checkNotNull(networkClaimIds) { "`networkClaimIds` is required but was not set" }
+                    .map { it.toImmutable() },
+                checkNotNull(networkFiledDate) { "`networkFiledDate` is required but was not set" },
+                checkNotNull(networkReasonCode) {
+                    "`networkReasonCode` is required but was not set"
+                },
+                checkNotNull(prearbitrationDate) {
+                    "`prearbitrationDate` is required but was not set"
+                },
+                checkNotNull(primaryClaimId) { "`primaryClaimId` is required but was not set" },
+                checkNotNull(reason) { "`reason` is required but was not set" },
+                checkNotNull(representmentDate) {
+                    "`representmentDate` is required but was not set"
+                },
+                checkNotNull(resolutionAmount) { "`resolutionAmount` is required but was not set" },
+                checkNotNull(resolutionDate) { "`resolutionDate` is required but was not set" },
+                checkNotNull(resolutionNote) { "`resolutionNote` is required but was not set" },
+                checkNotNull(resolutionReason) { "`resolutionReason` is required but was not set" },
+                checkNotNull(status) { "`status` is required but was not set" },
+                checkNotNull(transactionToken) { "`transactionToken` is required but was not set" },
                 additionalProperties.toImmutable(),
             )
     }

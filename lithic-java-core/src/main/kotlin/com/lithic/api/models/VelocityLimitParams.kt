@@ -72,21 +72,21 @@ private constructor(
      */
     fun limitCount(): Optional<Long> = Optional.ofNullable(limitCount.getNullable("limit_count"))
 
-    @JsonProperty("filters") @ExcludeMissing fun _filters() = filters
+    @JsonProperty("filters") @ExcludeMissing fun _filters(): JsonField<Filters> = filters
 
     /**
      * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
      * value is 10 seconds, and the maximum value is 2678400 seconds.
      */
-    @JsonProperty("period") @ExcludeMissing fun _period() = period
+    @JsonProperty("period") @ExcludeMissing fun _period(): JsonField<Period> = period
 
-    @JsonProperty("scope") @ExcludeMissing fun _scope() = scope
+    @JsonProperty("scope") @ExcludeMissing fun _scope(): JsonField<Scope> = scope
 
     /**
      * The maximum amount of spend velocity allowed in the period in minor units (the smallest unit
      * of a currency, e.g. cents for USD). Transactions exceeding this limit will be declined.
      */
-    @JsonProperty("limit_amount") @ExcludeMissing fun _limitAmount() = limitAmount
+    @JsonProperty("limit_amount") @ExcludeMissing fun _limitAmount(): JsonField<Long> = limitAmount
 
     /**
      * The number of spend velocity impacting transactions may not exceed this limit in the period.
@@ -94,7 +94,7 @@ private constructor(
      * a transaction that has been authorized, and optionally settled, or a force post (a
      * transaction that settled without prior authorization).
      */
-    @JsonProperty("limit_count") @ExcludeMissing fun _limitCount() = limitCount
+    @JsonProperty("limit_count") @ExcludeMissing fun _limitCount(): JsonField<Long> = limitCount
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -122,9 +122,9 @@ private constructor(
 
     class Builder {
 
-        private var filters: JsonField<Filters> = JsonMissing.of()
-        private var period: JsonField<Period> = JsonMissing.of()
-        private var scope: JsonField<Scope> = JsonMissing.of()
+        private var filters: JsonField<Filters>? = null
+        private var period: JsonField<Period>? = null
+        private var scope: JsonField<Scope>? = null
         private var limitAmount: JsonField<Long> = JsonMissing.of()
         private var limitCount: JsonField<Long> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -155,6 +155,21 @@ private constructor(
          */
         fun period(period: JsonField<Period>) = apply { this.period = period }
 
+        /**
+         * The size of the trailing window to calculate Spend Velocity over in seconds. The minimum
+         * value is 10 seconds, and the maximum value is 2678400 seconds.
+         */
+        fun period(integer: Long) = period(Period.ofInteger(integer))
+
+        /**
+         * The window of time to calculate Spend Velocity over.
+         * - `DAY`: Velocity over the current day since midnight Eastern Time.
+         * - `MONTH`: Velocity over the current month since 00:00 / 12 AM on the first of the month
+         *   in Eastern Time.
+         */
+        fun period(velocityLimitParamsPeriodWindow: VelocityLimitParamsPeriodWindow) =
+            period(Period.ofVelocityLimitParamsPeriodWindow(velocityLimitParamsPeriodWindow))
+
         fun scope(scope: Scope) = scope(JsonField.of(scope))
 
         fun scope(scope: JsonField<Scope>) = apply { this.scope = scope }
@@ -164,7 +179,23 @@ private constructor(
          * unit of a currency, e.g. cents for USD). Transactions exceeding this limit will be
          * declined.
          */
-        fun limitAmount(limitAmount: Long) = limitAmount(JsonField.of(limitAmount))
+        fun limitAmount(limitAmount: Long?) = limitAmount(JsonField.ofNullable(limitAmount))
+
+        /**
+         * The maximum amount of spend velocity allowed in the period in minor units (the smallest
+         * unit of a currency, e.g. cents for USD). Transactions exceeding this limit will be
+         * declined.
+         */
+        fun limitAmount(limitAmount: Long) = limitAmount(limitAmount as Long?)
+
+        /**
+         * The maximum amount of spend velocity allowed in the period in minor units (the smallest
+         * unit of a currency, e.g. cents for USD). Transactions exceeding this limit will be
+         * declined.
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun limitAmount(limitAmount: Optional<Long>) =
+            limitAmount(limitAmount.orElse(null) as Long?)
 
         /**
          * The maximum amount of spend velocity allowed in the period in minor units (the smallest
@@ -179,7 +210,24 @@ private constructor(
          * transaction is a transaction that has been authorized, and optionally settled, or a force
          * post (a transaction that settled without prior authorization).
          */
-        fun limitCount(limitCount: Long) = limitCount(JsonField.of(limitCount))
+        fun limitCount(limitCount: Long?) = limitCount(JsonField.ofNullable(limitCount))
+
+        /**
+         * The number of spend velocity impacting transactions may not exceed this limit in the
+         * period. Transactions exceeding this limit will be declined. A spend velocity impacting
+         * transaction is a transaction that has been authorized, and optionally settled, or a force
+         * post (a transaction that settled without prior authorization).
+         */
+        fun limitCount(limitCount: Long) = limitCount(limitCount as Long?)
+
+        /**
+         * The number of spend velocity impacting transactions may not exceed this limit in the
+         * period. Transactions exceeding this limit will be declined. A spend velocity impacting
+         * transaction is a transaction that has been authorized, and optionally settled, or a force
+         * post (a transaction that settled without prior authorization).
+         */
+        @Suppress("USELESS_CAST") // See https://youtrack.jetbrains.com/issue/KT-74228
+        fun limitCount(limitCount: Optional<Long>) = limitCount(limitCount.orElse(null) as Long?)
 
         /**
          * The number of spend velocity impacting transactions may not exceed this limit in the
@@ -210,9 +258,9 @@ private constructor(
 
         fun build(): VelocityLimitParams =
             VelocityLimitParams(
-                filters,
-                period,
-                scope,
+                checkNotNull(filters) { "`filters` is required but was not set" },
+                checkNotNull(period) { "`period` is required but was not set" },
+                checkNotNull(scope) { "`scope` is required but was not set" },
                 limitAmount,
                 limitCount,
                 additionalProperties.toImmutable(),
@@ -253,13 +301,15 @@ private constructor(
          */
         @JsonProperty("include_countries")
         @ExcludeMissing
-        fun _includeCountries() = includeCountries
+        fun _includeCountries(): JsonField<List<String>> = includeCountries
 
         /**
          * Merchant Category Codes to include in the velocity calculation. Transactions not matching
          * this MCC will not be included in the calculated velocity.
          */
-        @JsonProperty("include_mccs") @ExcludeMissing fun _includeMccs() = includeMccs
+        @JsonProperty("include_mccs")
+        @ExcludeMissing
+        fun _includeMccs(): JsonField<List<String>> = includeMccs
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -284,14 +334,14 @@ private constructor(
 
         class Builder {
 
-            private var includeCountries: JsonField<List<String>> = JsonMissing.of()
-            private var includeMccs: JsonField<List<String>> = JsonMissing.of()
+            private var includeCountries: JsonField<MutableList<String>>? = null
+            private var includeMccs: JsonField<MutableList<String>>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(filters: Filters) = apply {
-                includeCountries = filters.includeCountries
-                includeMccs = filters.includeMccs
+                includeCountries = filters.includeCountries.map { it.toMutableList() }
+                includeMccs = filters.includeMccs.map { it.toMutableList() }
                 additionalProperties = filters.additionalProperties.toMutableMap()
             }
 
@@ -299,29 +349,78 @@ private constructor(
              * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions
              * not matching any of the provided will not be included in the calculated velocity.
              */
-            fun includeCountries(includeCountries: List<String>) =
-                includeCountries(JsonField.of(includeCountries))
+            fun includeCountries(includeCountries: List<String>?) =
+                includeCountries(JsonField.ofNullable(includeCountries))
+
+            /**
+             * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions
+             * not matching any of the provided will not be included in the calculated velocity.
+             */
+            fun includeCountries(includeCountries: Optional<List<String>>) =
+                includeCountries(includeCountries.orElse(null))
 
             /**
              * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions
              * not matching any of the provided will not be included in the calculated velocity.
              */
             fun includeCountries(includeCountries: JsonField<List<String>>) = apply {
-                this.includeCountries = includeCountries
+                this.includeCountries = includeCountries.map { it.toMutableList() }
+            }
+
+            /**
+             * ISO-3166-1 alpha-3 Country Codes to include in the velocity calculation. Transactions
+             * not matching any of the provided will not be included in the calculated velocity.
+             */
+            fun addIncludeCountry(includeCountry: String) = apply {
+                includeCountries =
+                    (includeCountries ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(includeCountry)
+                    }
             }
 
             /**
              * Merchant Category Codes to include in the velocity calculation. Transactions not
              * matching this MCC will not be included in the calculated velocity.
              */
-            fun includeMccs(includeMccs: List<String>) = includeMccs(JsonField.of(includeMccs))
+            fun includeMccs(includeMccs: List<String>?) =
+                includeMccs(JsonField.ofNullable(includeMccs))
+
+            /**
+             * Merchant Category Codes to include in the velocity calculation. Transactions not
+             * matching this MCC will not be included in the calculated velocity.
+             */
+            fun includeMccs(includeMccs: Optional<List<String>>) =
+                includeMccs(includeMccs.orElse(null))
 
             /**
              * Merchant Category Codes to include in the velocity calculation. Transactions not
              * matching this MCC will not be included in the calculated velocity.
              */
             fun includeMccs(includeMccs: JsonField<List<String>>) = apply {
-                this.includeMccs = includeMccs
+                this.includeMccs = includeMccs.map { it.toMutableList() }
+            }
+
+            /**
+             * Merchant Category Codes to include in the velocity calculation. Transactions not
+             * matching this MCC will not be included in the calculated velocity.
+             */
+            fun addIncludeMcc(includeMcc: String) = apply {
+                includeMccs =
+                    (includeMccs ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(includeMcc)
+                    }
             }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
@@ -345,8 +444,8 @@ private constructor(
 
             fun build(): Filters =
                 Filters(
-                    includeCountries.map { it.toImmutable() },
-                    includeMccs.map { it.toImmutable() },
+                    (includeCountries ?: JsonMissing.of()).map { it.toImmutable() },
+                    (includeMccs ?: JsonMissing.of()).map { it.toImmutable() },
                     additionalProperties.toImmutable(),
                 )
         }

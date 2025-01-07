@@ -28,7 +28,7 @@ private constructor(
 
     fun message(): Optional<String> = Optional.ofNullable(message.getNullable("message"))
 
-    @JsonProperty("message") @ExcludeMissing fun _message() = message
+    @JsonProperty("message") @ExcludeMissing fun _message(): JsonField<String> = message
 
     @JsonAnyGetter
     @ExcludeMissing

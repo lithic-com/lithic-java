@@ -56,23 +56,28 @@ private constructor(
         requiredDocumentUploads.getRequired("required_document_uploads")
 
     /** Globally unique identifier for the document. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Globally unique identifier for the account holder. */
     @JsonProperty("account_holder_token")
     @ExcludeMissing
-    fun _accountHolderToken() = accountHolderToken
+    fun _accountHolderToken(): JsonField<String> = accountHolderToken
 
     /** Type of documentation to be submitted for verification of an account holder */
-    @JsonProperty("document_type") @ExcludeMissing fun _documentType() = documentType
+    @JsonProperty("document_type")
+    @ExcludeMissing
+    fun _documentType(): JsonField<DocumentType> = documentType
 
     /** Globally unique identifier for an entity. */
-    @JsonProperty("entity_token") @ExcludeMissing fun _entityToken() = entityToken
+    @JsonProperty("entity_token")
+    @ExcludeMissing
+    fun _entityToken(): JsonField<String> = entityToken
 
     /** Represents a single image of the document to upload. */
     @JsonProperty("required_document_uploads")
     @ExcludeMissing
-    fun _requiredDocumentUploads() = requiredDocumentUploads
+    fun _requiredDocumentUploads(): JsonField<List<RequiredDocumentUpload>> =
+        requiredDocumentUploads
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -100,12 +105,11 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var accountHolderToken: JsonField<String> = JsonMissing.of()
-        private var documentType: JsonField<DocumentType> = JsonMissing.of()
-        private var entityToken: JsonField<String> = JsonMissing.of()
-        private var requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>> =
-            JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var accountHolderToken: JsonField<String>? = null
+        private var documentType: JsonField<DocumentType>? = null
+        private var entityToken: JsonField<String>? = null
+        private var requiredDocumentUploads: JsonField<MutableList<RequiredDocumentUpload>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -114,7 +118,7 @@ private constructor(
             accountHolderToken = document.accountHolderToken
             documentType = document.documentType
             entityToken = document.entityToken
-            requiredDocumentUploads = document.requiredDocumentUploads
+            requiredDocumentUploads = document.requiredDocumentUploads.map { it.toMutableList() }
             additionalProperties = document.additionalProperties.toMutableMap()
         }
 
@@ -154,7 +158,23 @@ private constructor(
         /** Represents a single image of the document to upload. */
         fun requiredDocumentUploads(
             requiredDocumentUploads: JsonField<List<RequiredDocumentUpload>>
-        ) = apply { this.requiredDocumentUploads = requiredDocumentUploads }
+        ) = apply {
+            this.requiredDocumentUploads = requiredDocumentUploads.map { it.toMutableList() }
+        }
+
+        /** Represents a single image of the document to upload. */
+        fun addRequiredDocumentUpload(requiredDocumentUpload: RequiredDocumentUpload) = apply {
+            requiredDocumentUploads =
+                (requiredDocumentUploads ?: JsonField.of(mutableListOf())).apply {
+                    asKnown()
+                        .orElseThrow {
+                            IllegalStateException(
+                                "Field was set to non-list type: ${javaClass.simpleName}"
+                            )
+                        }
+                        .add(requiredDocumentUpload)
+                }
+        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -177,11 +197,16 @@ private constructor(
 
         fun build(): Document =
             Document(
-                token,
-                accountHolderToken,
-                documentType,
-                entityToken,
-                requiredDocumentUploads.map { it.toImmutable() },
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(accountHolderToken) {
+                    "`accountHolderToken` is required but was not set"
+                },
+                checkNotNull(documentType) { "`documentType` is required but was not set" },
+                checkNotNull(entityToken) { "`entityToken` is required but was not set" },
+                checkNotNull(requiredDocumentUploads) {
+                        "`requiredDocumentUploads` is required but was not set"
+                    }
+                    .map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }
@@ -418,7 +443,7 @@ private constructor(
         fun uploadUrl(): String = uploadUrl.getRequired("upload_url")
 
         /** Globally unique identifier for the document upload. */
-        @JsonProperty("token") @ExcludeMissing fun _token() = token
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         /**
          * A list of status reasons associated with a KYB account holder that have been satisfied by
@@ -426,13 +451,15 @@ private constructor(
          */
         @JsonProperty("accepted_entity_status_reasons")
         @ExcludeMissing
-        fun _acceptedEntityStatusReasons() = acceptedEntityStatusReasons
+        fun _acceptedEntityStatusReasons(): JsonField<List<String>> = acceptedEntityStatusReasons
 
         /** When the document upload was created */
-        @JsonProperty("created") @ExcludeMissing fun _created() = created
+        @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
         /** Type of image to upload. */
-        @JsonProperty("image_type") @ExcludeMissing fun _imageType() = imageType
+        @JsonProperty("image_type")
+        @ExcludeMissing
+        fun _imageType(): JsonField<ImageType> = imageType
 
         /**
          * A list of status reasons associated with a KYB account holder that have not been
@@ -440,16 +467,20 @@ private constructor(
          */
         @JsonProperty("rejected_entity_status_reasons")
         @ExcludeMissing
-        fun _rejectedEntityStatusReasons() = rejectedEntityStatusReasons
+        fun _rejectedEntityStatusReasons(): JsonField<List<String>> = rejectedEntityStatusReasons
 
         /** Status of an account holder's document upload. */
-        @JsonProperty("status") @ExcludeMissing fun _status() = status
+        @JsonProperty("status")
+        @ExcludeMissing
+        fun _status(): JsonField<DocumentUploadStatus> = status
 
         /** Reasons for document image upload status. */
-        @JsonProperty("status_reasons") @ExcludeMissing fun _statusReasons() = statusReasons
+        @JsonProperty("status_reasons")
+        @ExcludeMissing
+        fun _statusReasons(): JsonField<List<DocumentUploadStatusReasons>> = statusReasons
 
         /** When the document upload was last updated */
-        @JsonProperty("updated") @ExcludeMissing fun _updated() = updated
+        @JsonProperty("updated") @ExcludeMissing fun _updated(): JsonField<OffsetDateTime> = updated
 
         /**
          * URL to upload document image to.
@@ -458,7 +489,7 @@ private constructor(
          * the URLs by retrieving the document upload from `GET
          * /account_holders/{account_holder_token}/documents`.
          */
-        @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl() = uploadUrl
+        @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl(): JsonField<String> = uploadUrl
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -490,27 +521,28 @@ private constructor(
 
         class Builder {
 
-            private var token: JsonField<String> = JsonMissing.of()
-            private var acceptedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of()
-            private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var imageType: JsonField<ImageType> = JsonMissing.of()
-            private var rejectedEntityStatusReasons: JsonField<List<String>> = JsonMissing.of()
-            private var status: JsonField<DocumentUploadStatus> = JsonMissing.of()
-            private var statusReasons: JsonField<List<DocumentUploadStatusReasons>> =
-                JsonMissing.of()
-            private var updated: JsonField<OffsetDateTime> = JsonMissing.of()
-            private var uploadUrl: JsonField<String> = JsonMissing.of()
+            private var token: JsonField<String>? = null
+            private var acceptedEntityStatusReasons: JsonField<MutableList<String>>? = null
+            private var created: JsonField<OffsetDateTime>? = null
+            private var imageType: JsonField<ImageType>? = null
+            private var rejectedEntityStatusReasons: JsonField<MutableList<String>>? = null
+            private var status: JsonField<DocumentUploadStatus>? = null
+            private var statusReasons: JsonField<MutableList<DocumentUploadStatusReasons>>? = null
+            private var updated: JsonField<OffsetDateTime>? = null
+            private var uploadUrl: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(requiredDocumentUpload: RequiredDocumentUpload) = apply {
                 token = requiredDocumentUpload.token
-                acceptedEntityStatusReasons = requiredDocumentUpload.acceptedEntityStatusReasons
+                acceptedEntityStatusReasons =
+                    requiredDocumentUpload.acceptedEntityStatusReasons.map { it.toMutableList() }
                 created = requiredDocumentUpload.created
                 imageType = requiredDocumentUpload.imageType
-                rejectedEntityStatusReasons = requiredDocumentUpload.rejectedEntityStatusReasons
+                rejectedEntityStatusReasons =
+                    requiredDocumentUpload.rejectedEntityStatusReasons.map { it.toMutableList() }
                 status = requiredDocumentUpload.status
-                statusReasons = requiredDocumentUpload.statusReasons
+                statusReasons = requiredDocumentUpload.statusReasons.map { it.toMutableList() }
                 updated = requiredDocumentUpload.updated
                 uploadUrl = requiredDocumentUpload.uploadUrl
                 additionalProperties = requiredDocumentUpload.additionalProperties.toMutableMap()
@@ -535,8 +567,26 @@ private constructor(
              */
             fun acceptedEntityStatusReasons(acceptedEntityStatusReasons: JsonField<List<String>>) =
                 apply {
-                    this.acceptedEntityStatusReasons = acceptedEntityStatusReasons
+                    this.acceptedEntityStatusReasons =
+                        acceptedEntityStatusReasons.map { it.toMutableList() }
                 }
+
+            /**
+             * A list of status reasons associated with a KYB account holder that have been
+             * satisfied by the document upload
+             */
+            fun addAcceptedEntityStatusReason(acceptedEntityStatusReason: String) = apply {
+                acceptedEntityStatusReasons =
+                    (acceptedEntityStatusReasons ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(acceptedEntityStatusReason)
+                    }
+            }
 
             /** When the document upload was created */
             fun created(created: OffsetDateTime) = created(JsonField.of(created))
@@ -563,8 +613,26 @@ private constructor(
              */
             fun rejectedEntityStatusReasons(rejectedEntityStatusReasons: JsonField<List<String>>) =
                 apply {
-                    this.rejectedEntityStatusReasons = rejectedEntityStatusReasons
+                    this.rejectedEntityStatusReasons =
+                        rejectedEntityStatusReasons.map { it.toMutableList() }
                 }
+
+            /**
+             * A list of status reasons associated with a KYB account holder that have not been
+             * satisfied by the document upload
+             */
+            fun addRejectedEntityStatusReason(rejectedEntityStatusReason: String) = apply {
+                rejectedEntityStatusReasons =
+                    (rejectedEntityStatusReasons ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(rejectedEntityStatusReason)
+                    }
+            }
 
             /** Status of an account holder's document upload. */
             fun status(status: DocumentUploadStatus) = status(JsonField.of(status))
@@ -578,7 +646,21 @@ private constructor(
 
             /** Reasons for document image upload status. */
             fun statusReasons(statusReasons: JsonField<List<DocumentUploadStatusReasons>>) = apply {
-                this.statusReasons = statusReasons
+                this.statusReasons = statusReasons.map { it.toMutableList() }
+            }
+
+            /** Reasons for document image upload status. */
+            fun addStatusReason(statusReason: DocumentUploadStatusReasons) = apply {
+                statusReasons =
+                    (statusReasons ?: JsonField.of(mutableListOf())).apply {
+                        asKnown()
+                            .orElseThrow {
+                                IllegalStateException(
+                                    "Field was set to non-list type: ${javaClass.simpleName}"
+                                )
+                            }
+                            .add(statusReason)
+                    }
             }
 
             /** When the document upload was last updated */
@@ -626,15 +708,22 @@ private constructor(
 
             fun build(): RequiredDocumentUpload =
                 RequiredDocumentUpload(
-                    token,
-                    acceptedEntityStatusReasons.map { it.toImmutable() },
-                    created,
-                    imageType,
-                    rejectedEntityStatusReasons.map { it.toImmutable() },
-                    status,
-                    statusReasons.map { it.toImmutable() },
-                    updated,
-                    uploadUrl,
+                    checkNotNull(token) { "`token` is required but was not set" },
+                    checkNotNull(acceptedEntityStatusReasons) {
+                            "`acceptedEntityStatusReasons` is required but was not set"
+                        }
+                        .map { it.toImmutable() },
+                    checkNotNull(created) { "`created` is required but was not set" },
+                    checkNotNull(imageType) { "`imageType` is required but was not set" },
+                    checkNotNull(rejectedEntityStatusReasons) {
+                            "`rejectedEntityStatusReasons` is required but was not set"
+                        }
+                        .map { it.toImmutable() },
+                    checkNotNull(status) { "`status` is required but was not set" },
+                    checkNotNull(statusReasons) { "`statusReasons` is required but was not set" }
+                        .map { it.toImmutable() },
+                    checkNotNull(updated) { "`updated` is required but was not set" },
+                    checkNotNull(uploadUrl) { "`uploadUrl` is required but was not set" },
                     additionalProperties.toImmutable(),
                 )
         }

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -26,11 +28,14 @@ constructor(
     /** Payment Token */
     fun paymentToken(): String = body.paymentToken()
 
+    /** Payment Token */
+    fun _paymentToken(): JsonField<String> = body._paymentToken()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): PaymentSimulateReleaseBody = body
 
@@ -42,17 +47,33 @@ constructor(
     class PaymentSimulateReleaseBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("payment_token") private val paymentToken: String,
+        @JsonProperty("payment_token")
+        @ExcludeMissing
+        private val paymentToken: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
         /** Payment Token */
-        @JsonProperty("payment_token") fun paymentToken(): String = paymentToken
+        fun paymentToken(): String = paymentToken.getRequired("payment_token")
+
+        /** Payment Token */
+        @JsonProperty("payment_token")
+        @ExcludeMissing
+        fun _paymentToken(): JsonField<String> = paymentToken
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): PaymentSimulateReleaseBody = apply {
+            if (!validated) {
+                paymentToken()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -63,7 +84,7 @@ constructor(
 
         class Builder {
 
-            private var paymentToken: String? = null
+            private var paymentToken: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -74,7 +95,12 @@ constructor(
             }
 
             /** Payment Token */
-            fun paymentToken(paymentToken: String) = apply { this.paymentToken = paymentToken }
+            fun paymentToken(paymentToken: String) = paymentToken(JsonField.of(paymentToken))
+
+            /** Payment Token */
+            fun paymentToken(paymentToken: JsonField<String>) = apply {
+                this.paymentToken = paymentToken
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -143,6 +169,30 @@ constructor(
 
         /** Payment Token */
         fun paymentToken(paymentToken: String) = apply { body.paymentToken(paymentToken) }
+
+        /** Payment Token */
+        fun paymentToken(paymentToken: JsonField<String>) = apply {
+            body.paymentToken(paymentToken)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -240,25 +290,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): PaymentSimulateReleaseParams =

@@ -43,11 +43,15 @@ private constructor(
 
     @JsonProperty("available_spend_limit")
     @ExcludeMissing
-    fun _availableSpendLimit() = availableSpendLimit
+    fun _availableSpendLimit(): JsonField<AvailableSpendLimit> = availableSpendLimit
 
-    @JsonProperty("spend_limit") @ExcludeMissing fun _spendLimit() = spendLimit
+    @JsonProperty("spend_limit")
+    @ExcludeMissing
+    fun _spendLimit(): JsonField<SpendLimit> = spendLimit
 
-    @JsonProperty("spend_velocity") @ExcludeMissing fun _spendVelocity() = spendVelocity
+    @JsonProperty("spend_velocity")
+    @ExcludeMissing
+    fun _spendVelocity(): JsonField<SpendVelocity> = spendVelocity
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -73,7 +77,7 @@ private constructor(
 
     class Builder {
 
-        private var availableSpendLimit: JsonField<AvailableSpendLimit> = JsonMissing.of()
+        private var availableSpendLimit: JsonField<AvailableSpendLimit>? = null
         private var spendLimit: JsonField<SpendLimit> = JsonMissing.of()
         private var spendVelocity: JsonField<SpendVelocity> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -124,7 +128,9 @@ private constructor(
 
         fun build(): AccountSpendLimits =
             AccountSpendLimits(
-                availableSpendLimit,
+                checkNotNull(availableSpendLimit) {
+                    "`availableSpendLimit` is required but was not set"
+                },
                 spendLimit,
                 spendVelocity,
                 additionalProperties.toImmutable(),
@@ -170,19 +176,19 @@ private constructor(
          * The available spend limit (in cents) relative to the daily limit configured on the
          * Account.
          */
-        @JsonProperty("daily") @ExcludeMissing fun _daily() = daily
+        @JsonProperty("daily") @ExcludeMissing fun _daily(): JsonField<Long> = daily
 
         /**
          * The available spend limit (in cents) relative to the lifetime limit configured on the
          * Account.
          */
-        @JsonProperty("lifetime") @ExcludeMissing fun _lifetime() = lifetime
+        @JsonProperty("lifetime") @ExcludeMissing fun _lifetime(): JsonField<Long> = lifetime
 
         /**
          * The available spend limit (in cents) relative to the monthly limit configured on the
          * Account.
          */
-        @JsonProperty("monthly") @ExcludeMissing fun _monthly() = monthly
+        @JsonProperty("monthly") @ExcludeMissing fun _monthly(): JsonField<Long> = monthly
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -330,13 +336,13 @@ private constructor(
         fun monthly(): Optional<Long> = Optional.ofNullable(monthly.getNullable("monthly"))
 
         /** The configured daily spend limit (in cents) on the Account. */
-        @JsonProperty("daily") @ExcludeMissing fun _daily() = daily
+        @JsonProperty("daily") @ExcludeMissing fun _daily(): JsonField<Long> = daily
 
         /** The configured lifetime spend limit (in cents) on the Account. */
-        @JsonProperty("lifetime") @ExcludeMissing fun _lifetime() = lifetime
+        @JsonProperty("lifetime") @ExcludeMissing fun _lifetime(): JsonField<Long> = lifetime
 
         /** The configured monthly spend limit (in cents) on the Account. */
-        @JsonProperty("monthly") @ExcludeMissing fun _monthly() = monthly
+        @JsonProperty("monthly") @ExcludeMissing fun _monthly(): JsonField<Long> = monthly
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -478,19 +484,19 @@ private constructor(
          * Current daily spend velocity (in cents) on the Account. Present if daily spend limit is
          * set.
          */
-        @JsonProperty("daily") @ExcludeMissing fun _daily() = daily
+        @JsonProperty("daily") @ExcludeMissing fun _daily(): JsonField<Long> = daily
 
         /**
          * Current lifetime spend velocity (in cents) on the Account. Present if lifetime spend
          * limit is set.
          */
-        @JsonProperty("lifetime") @ExcludeMissing fun _lifetime() = lifetime
+        @JsonProperty("lifetime") @ExcludeMissing fun _lifetime(): JsonField<Long> = lifetime
 
         /**
          * Current monthly spend velocity (in cents) on the Account. Present if monthly spend limit
          * is set.
          */
-        @JsonProperty("monthly") @ExcludeMissing fun _monthly() = monthly
+        @JsonProperty("monthly") @ExcludeMissing fun _monthly(): JsonField<Long> = monthly
 
         @JsonAnyGetter
         @ExcludeMissing

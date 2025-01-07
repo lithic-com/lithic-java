@@ -66,20 +66,24 @@ private constructor(
         Optional.ofNullable(kycPassedTimestamp.getNullable("kyc_passed_timestamp"))
 
     /** Information on individual for whom the account is being opened and KYC is being run. */
-    @JsonProperty("individual") @ExcludeMissing fun _individual() = individual
+    @JsonProperty("individual")
+    @ExcludeMissing
+    fun _individual(): JsonField<Individual> = individual
 
     /**
      * An RFC 3339 timestamp indicating when the account holder accepted the applicable legal
      * agreements (e.g., cardholder terms) as agreed upon during API customer's implementation with
      * Lithic.
      */
-    @JsonProperty("tos_timestamp") @ExcludeMissing fun _tosTimestamp() = tosTimestamp
+    @JsonProperty("tos_timestamp")
+    @ExcludeMissing
+    fun _tosTimestamp(): JsonField<String> = tosTimestamp
 
     /** Specifies the type of KYC workflow to run. */
-    @JsonProperty("workflow") @ExcludeMissing fun _workflow() = workflow
+    @JsonProperty("workflow") @ExcludeMissing fun _workflow(): JsonField<Workflow> = workflow
 
     /** A user provided id that can be used to link an account holder with an external system */
-    @JsonProperty("external_id") @ExcludeMissing fun _externalId() = externalId
+    @JsonProperty("external_id") @ExcludeMissing fun _externalId(): JsonField<String> = externalId
 
     /**
      * An RFC 3339 timestamp indicating when precomputed KYC was completed on the individual with a
@@ -89,7 +93,7 @@ private constructor(
      */
     @JsonProperty("kyc_passed_timestamp")
     @ExcludeMissing
-    fun _kycPassedTimestamp() = kycPassedTimestamp
+    fun _kycPassedTimestamp(): JsonField<String> = kycPassedTimestamp
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -117,9 +121,9 @@ private constructor(
 
     class Builder {
 
-        private var individual: JsonField<Individual> = JsonMissing.of()
-        private var tosTimestamp: JsonField<String> = JsonMissing.of()
-        private var workflow: JsonField<Workflow> = JsonMissing.of()
+        private var individual: JsonField<Individual>? = null
+        private var tosTimestamp: JsonField<String>? = null
+        private var workflow: JsonField<Workflow>? = null
         private var externalId: JsonField<String> = JsonMissing.of()
         private var kycPassedTimestamp: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -208,9 +212,9 @@ private constructor(
 
         fun build(): Kyc =
             Kyc(
-                individual,
-                tosTimestamp,
-                workflow,
+                checkNotNull(individual) { "`individual` is required but was not set" },
+                checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
+                checkNotNull(workflow) { "`workflow` is required but was not set" },
                 externalId,
                 kycPassedTimestamp,
                 additionalProperties.toImmutable(),
@@ -281,19 +285,19 @@ private constructor(
          * Individual's current address - PO boxes, UPS drops, and FedEx drops are not acceptable;
          * APO/FPO are acceptable. Only USA addresses are currently supported.
          */
-        @JsonProperty("address") @ExcludeMissing fun _address() = address
+        @JsonProperty("address") @ExcludeMissing fun _address(): JsonField<Address> = address
 
         /** Individual's date of birth, as an RFC 3339 date. */
-        @JsonProperty("dob") @ExcludeMissing fun _dob() = dob
+        @JsonProperty("dob") @ExcludeMissing fun _dob(): JsonField<String> = dob
 
         /**
          * Individual's email address. If utilizing Lithic for chargeback processing, this customer
          * email address may be used to communicate dispute status and resolution.
          */
-        @JsonProperty("email") @ExcludeMissing fun _email() = email
+        @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
         /** Individual's first name, as it appears on government-issued identity documents. */
-        @JsonProperty("first_name") @ExcludeMissing fun _firstName() = firstName
+        @JsonProperty("first_name") @ExcludeMissing fun _firstName(): JsonField<String> = firstName
 
         /**
          * Government-issued identification number (required for identity verification and
@@ -301,13 +305,17 @@ private constructor(
          * Taxpayer Identification Numbers (ITIN) are currently supported, entered as full
          * nine-digits, with or without hyphens
          */
-        @JsonProperty("government_id") @ExcludeMissing fun _governmentId() = governmentId
+        @JsonProperty("government_id")
+        @ExcludeMissing
+        fun _governmentId(): JsonField<String> = governmentId
 
         /** Individual's last name, as it appears on government-issued identity documents. */
-        @JsonProperty("last_name") @ExcludeMissing fun _lastName() = lastName
+        @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
 
         /** Individual's phone number, entered in E.164 format. */
-        @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
+        @JsonProperty("phone_number")
+        @ExcludeMissing
+        fun _phoneNumber(): JsonField<String> = phoneNumber
 
         @JsonAnyGetter
         @ExcludeMissing
@@ -337,13 +345,13 @@ private constructor(
 
         class Builder {
 
-            private var address: JsonField<Address> = JsonMissing.of()
-            private var dob: JsonField<String> = JsonMissing.of()
-            private var email: JsonField<String> = JsonMissing.of()
-            private var firstName: JsonField<String> = JsonMissing.of()
-            private var governmentId: JsonField<String> = JsonMissing.of()
-            private var lastName: JsonField<String> = JsonMissing.of()
-            private var phoneNumber: JsonField<String> = JsonMissing.of()
+            private var address: JsonField<Address>? = null
+            private var dob: JsonField<String>? = null
+            private var email: JsonField<String>? = null
+            private var firstName: JsonField<String>? = null
+            private var governmentId: JsonField<String>? = null
+            private var lastName: JsonField<String>? = null
+            private var phoneNumber: JsonField<String>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -447,13 +455,13 @@ private constructor(
 
             fun build(): Individual =
                 Individual(
-                    address,
-                    dob,
-                    email,
-                    firstName,
-                    governmentId,
-                    lastName,
-                    phoneNumber,
+                    checkNotNull(address) { "`address` is required but was not set" },
+                    checkNotNull(dob) { "`dob` is required but was not set" },
+                    checkNotNull(email) { "`email` is required but was not set" },
+                    checkNotNull(firstName) { "`firstName` is required but was not set" },
+                    checkNotNull(governmentId) { "`governmentId` is required but was not set" },
+                    checkNotNull(lastName) { "`lastName` is required but was not set" },
+                    checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
                     additionalProperties.toImmutable(),
                 )
         }

@@ -78,13 +78,15 @@ private constructor(
     fun uploadUrl(): Optional<String> = Optional.ofNullable(uploadUrl.getNullable("upload_url"))
 
     /** Globally unique identifier. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Timestamp of when dispute evidence was created. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** Dispute token evidence is attached to. */
-    @JsonProperty("dispute_token") @ExcludeMissing fun _disputeToken() = disputeToken
+    @JsonProperty("dispute_token")
+    @ExcludeMissing
+    fun _disputeToken(): JsonField<String> = disputeToken
 
     /**
      * Upload status types:
@@ -94,18 +96,22 @@ private constructor(
      * - `REJECTED` - Evidence was rejected.
      * - `UPLOADED` - Evidence was uploaded.
      */
-    @JsonProperty("upload_status") @ExcludeMissing fun _uploadStatus() = uploadStatus
+    @JsonProperty("upload_status")
+    @ExcludeMissing
+    fun _uploadStatus(): JsonField<UploadStatus> = uploadStatus
 
     /** URL to download evidence. Only shown when `upload_status` is `UPLOADED`. */
-    @JsonProperty("download_url") @ExcludeMissing fun _downloadUrl() = downloadUrl
+    @JsonProperty("download_url")
+    @ExcludeMissing
+    fun _downloadUrl(): JsonField<String> = downloadUrl
 
     /**
      * File name of evidence. Recommended to give the dispute evidence a human-readable identifier.
      */
-    @JsonProperty("filename") @ExcludeMissing fun _filename() = filename
+    @JsonProperty("filename") @ExcludeMissing fun _filename(): JsonField<String> = filename
 
     /** URL to upload evidence. Only shown when `upload_status` is `PENDING`. */
-    @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl() = uploadUrl
+    @JsonProperty("upload_url") @ExcludeMissing fun _uploadUrl(): JsonField<String> = uploadUrl
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -135,10 +141,10 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var disputeToken: JsonField<String> = JsonMissing.of()
-        private var uploadStatus: JsonField<UploadStatus> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var disputeToken: JsonField<String>? = null
+        private var uploadStatus: JsonField<UploadStatus>? = null
         private var downloadUrl: JsonField<String> = JsonMissing.of()
         private var filename: JsonField<String> = JsonMissing.of()
         private var uploadUrl: JsonField<String> = JsonMissing.of()
@@ -243,10 +249,10 @@ private constructor(
 
         fun build(): DisputeEvidence =
             DisputeEvidence(
-                token,
-                created,
-                disputeToken,
-                uploadStatus,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(disputeToken) { "`disputeToken` is required but was not set" },
+                checkNotNull(uploadStatus) { "`uploadStatus` is required but was not set" },
                 downloadUrl,
                 filename,
                 uploadUrl,

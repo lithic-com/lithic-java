@@ -31,7 +31,9 @@ private constructor(
         Optional.ofNullable(backtestToken.getNullable("backtest_token"))
 
     /** Auth Rule Backtest Token */
-    @JsonProperty("backtest_token") @ExcludeMissing fun _backtestToken() = backtestToken
+    @JsonProperty("backtest_token")
+    @ExcludeMissing
+    fun _backtestToken(): JsonField<String> = backtestToken
 
     @JsonAnyGetter
     @ExcludeMissing

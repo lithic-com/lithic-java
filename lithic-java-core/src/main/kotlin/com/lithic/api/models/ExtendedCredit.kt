@@ -27,7 +27,9 @@ private constructor(
 
     fun creditExtended(): Long = creditExtended.getRequired("credit_extended")
 
-    @JsonProperty("credit_extended") @ExcludeMissing fun _creditExtended() = creditExtended
+    @JsonProperty("credit_extended")
+    @ExcludeMissing
+    fun _creditExtended(): JsonField<Long> = creditExtended
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -51,7 +53,7 @@ private constructor(
 
     class Builder {
 
-        private var creditExtended: JsonField<Long> = JsonMissing.of()
+        private var creditExtended: JsonField<Long>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -86,7 +88,10 @@ private constructor(
         }
 
         fun build(): ExtendedCredit =
-            ExtendedCredit(creditExtended, additionalProperties.toImmutable())
+            ExtendedCredit(
+                checkNotNull(creditExtended) { "`creditExtended` is required but was not set" },
+                additionalProperties.toImmutable()
+            )
     }
 
     override fun equals(other: Any?): Boolean {

@@ -68,27 +68,29 @@ private constructor(
         Optional.ofNullable(isCardProgramDefault.getNullable("is_card_program_default"))
 
     /** Globally unique identifier for the card art. */
-    @JsonProperty("token") @ExcludeMissing fun _token() = token
+    @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
     /** Globally unique identifier for the card program. */
-    @JsonProperty("card_program_token") @ExcludeMissing fun _cardProgramToken() = cardProgramToken
+    @JsonProperty("card_program_token")
+    @ExcludeMissing
+    fun _cardProgramToken(): JsonField<String> = cardProgramToken
 
     /** Timestamp of when card art was created. */
-    @JsonProperty("created") @ExcludeMissing fun _created() = created
+    @JsonProperty("created") @ExcludeMissing fun _created(): JsonField<OffsetDateTime> = created
 
     /** Description of the card art. */
-    @JsonProperty("description") @ExcludeMissing fun _description() = description
+    @JsonProperty("description") @ExcludeMissing fun _description(): JsonField<String> = description
 
     /** Whether the card art is enabled. */
-    @JsonProperty("is_enabled") @ExcludeMissing fun _isEnabled() = isEnabled
+    @JsonProperty("is_enabled") @ExcludeMissing fun _isEnabled(): JsonField<Boolean> = isEnabled
 
     /** Card network. */
-    @JsonProperty("network") @ExcludeMissing fun _network() = network
+    @JsonProperty("network") @ExcludeMissing fun _network(): JsonField<Network> = network
 
     /** Whether the card art is the default card art to be added upon tokenization. */
     @JsonProperty("is_card_program_default")
     @ExcludeMissing
-    fun _isCardProgramDefault() = isCardProgramDefault
+    fun _isCardProgramDefault(): JsonField<Boolean> = isCardProgramDefault
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -118,12 +120,12 @@ private constructor(
 
     class Builder {
 
-        private var token: JsonField<String> = JsonMissing.of()
-        private var cardProgramToken: JsonField<String> = JsonMissing.of()
-        private var created: JsonField<OffsetDateTime> = JsonMissing.of()
-        private var description: JsonField<String> = JsonMissing.of()
-        private var isEnabled: JsonField<Boolean> = JsonMissing.of()
-        private var network: JsonField<Network> = JsonMissing.of()
+        private var token: JsonField<String>? = null
+        private var cardProgramToken: JsonField<String>? = null
+        private var created: JsonField<OffsetDateTime>? = null
+        private var description: JsonField<String>? = null
+        private var isEnabled: JsonField<Boolean>? = null
+        private var network: JsonField<Network>? = null
         private var isCardProgramDefault: JsonField<Boolean> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -208,12 +210,12 @@ private constructor(
 
         fun build(): DigitalCardArt =
             DigitalCardArt(
-                token,
-                cardProgramToken,
-                created,
-                description,
-                isEnabled,
-                network,
+                checkNotNull(token) { "`token` is required but was not set" },
+                checkNotNull(cardProgramToken) { "`cardProgramToken` is required but was not set" },
+                checkNotNull(created) { "`created` is required but was not set" },
+                checkNotNull(description) { "`description` is required but was not set" },
+                checkNotNull(isEnabled) { "`isEnabled` is required but was not set" },
+                checkNotNull(network) { "`network` is required but was not set" },
                 isCardProgramDefault,
                 additionalProperties.toImmutable(),
             )

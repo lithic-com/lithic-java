@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.Enum
 import com.lithic.api.core.ExcludeMissing
 import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -49,11 +50,33 @@ constructor(
 
     fun userDefinedId(): Optional<String> = body.userDefinedId()
 
+    fun _amount(): JsonField<Long> = body._amount()
+
+    fun _externalBankAccountToken(): JsonField<String> = body._externalBankAccountToken()
+
+    fun _financialAccountToken(): JsonField<String> = body._financialAccountToken()
+
+    fun _method(): JsonField<Method> = body._method()
+
+    fun _methodAttributes(): JsonField<PaymentMethodRequestAttributes> = body._methodAttributes()
+
+    fun _type(): JsonField<Type> = body._type()
+
+    /**
+     * Customer-provided token that will serve as an idempotency token. This token will become the
+     * transaction token.
+     */
+    fun _token(): JsonField<String> = body._token()
+
+    fun _memo(): JsonField<String> = body._memo()
+
+    fun _userDefinedId(): JsonField<String> = body._userDefinedId()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): PaymentCreateBody = body
 
@@ -65,49 +88,111 @@ constructor(
     class PaymentCreateBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("amount") private val amount: Long,
-        @JsonProperty("external_bank_account_token") private val externalBankAccountToken: String,
-        @JsonProperty("financial_account_token") private val financialAccountToken: String,
-        @JsonProperty("method") private val method: Method,
+        @JsonProperty("amount")
+        @ExcludeMissing
+        private val amount: JsonField<Long> = JsonMissing.of(),
+        @JsonProperty("external_bank_account_token")
+        @ExcludeMissing
+        private val externalBankAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("financial_account_token")
+        @ExcludeMissing
+        private val financialAccountToken: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("method")
+        @ExcludeMissing
+        private val method: JsonField<Method> = JsonMissing.of(),
         @JsonProperty("method_attributes")
-        private val methodAttributes: PaymentMethodRequestAttributes,
-        @JsonProperty("type") private val type: Type,
-        @JsonProperty("token") private val token: String?,
-        @JsonProperty("memo") private val memo: String?,
-        @JsonProperty("user_defined_id") private val userDefinedId: String?,
+        @ExcludeMissing
+        private val methodAttributes: JsonField<PaymentMethodRequestAttributes> = JsonMissing.of(),
+        @JsonProperty("type") @ExcludeMissing private val type: JsonField<Type> = JsonMissing.of(),
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("memo")
+        @ExcludeMissing
+        private val memo: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("user_defined_id")
+        @ExcludeMissing
+        private val userDefinedId: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        @JsonProperty("amount") fun amount(): Long = amount
+        fun amount(): Long = amount.getRequired("amount")
 
-        @JsonProperty("external_bank_account_token")
-        fun externalBankAccountToken(): String = externalBankAccountToken
+        fun externalBankAccountToken(): String =
+            externalBankAccountToken.getRequired("external_bank_account_token")
 
-        @JsonProperty("financial_account_token")
-        fun financialAccountToken(): String = financialAccountToken
+        fun financialAccountToken(): String =
+            financialAccountToken.getRequired("financial_account_token")
 
-        @JsonProperty("method") fun method(): Method = method
+        fun method(): Method = method.getRequired("method")
 
-        @JsonProperty("method_attributes")
-        fun methodAttributes(): PaymentMethodRequestAttributes = methodAttributes
+        fun methodAttributes(): PaymentMethodRequestAttributes =
+            methodAttributes.getRequired("method_attributes")
 
-        @JsonProperty("type") fun type(): Type = type
+        fun type(): Type = type.getRequired("type")
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        @JsonProperty("token") fun token(): Optional<String> = Optional.ofNullable(token)
+        fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
 
-        @JsonProperty("memo") fun memo(): Optional<String> = Optional.ofNullable(memo)
+        fun memo(): Optional<String> = Optional.ofNullable(memo.getNullable("memo"))
+
+        fun userDefinedId(): Optional<String> =
+            Optional.ofNullable(userDefinedId.getNullable("user_defined_id"))
+
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Long> = amount
+
+        @JsonProperty("external_bank_account_token")
+        @ExcludeMissing
+        fun _externalBankAccountToken(): JsonField<String> = externalBankAccountToken
+
+        @JsonProperty("financial_account_token")
+        @ExcludeMissing
+        fun _financialAccountToken(): JsonField<String> = financialAccountToken
+
+        @JsonProperty("method") @ExcludeMissing fun _method(): JsonField<Method> = method
+
+        @JsonProperty("method_attributes")
+        @ExcludeMissing
+        fun _methodAttributes(): JsonField<PaymentMethodRequestAttributes> = methodAttributes
+
+        @JsonProperty("type") @ExcludeMissing fun _type(): JsonField<Type> = type
+
+        /**
+         * Customer-provided token that will serve as an idempotency token. This token will become
+         * the transaction token.
+         */
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
+
+        @JsonProperty("memo") @ExcludeMissing fun _memo(): JsonField<String> = memo
 
         @JsonProperty("user_defined_id")
-        fun userDefinedId(): Optional<String> = Optional.ofNullable(userDefinedId)
+        @ExcludeMissing
+        fun _userDefinedId(): JsonField<String> = userDefinedId
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): PaymentCreateBody = apply {
+            if (!validated) {
+                amount()
+                externalBankAccountToken()
+                financialAccountToken()
+                method()
+                methodAttributes().validate()
+                type()
+                token()
+                memo()
+                userDefinedId()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -118,15 +203,15 @@ constructor(
 
         class Builder {
 
-            private var amount: Long? = null
-            private var externalBankAccountToken: String? = null
-            private var financialAccountToken: String? = null
-            private var method: Method? = null
-            private var methodAttributes: PaymentMethodRequestAttributes? = null
-            private var type: Type? = null
-            private var token: String? = null
-            private var memo: String? = null
-            private var userDefinedId: String? = null
+            private var amount: JsonField<Long>? = null
+            private var externalBankAccountToken: JsonField<String>? = null
+            private var financialAccountToken: JsonField<String>? = null
+            private var method: JsonField<Method>? = null
+            private var methodAttributes: JsonField<PaymentMethodRequestAttributes>? = null
+            private var type: JsonField<Type>? = null
+            private var token: JsonField<String> = JsonMissing.of()
+            private var memo: JsonField<String> = JsonMissing.of()
+            private var userDefinedId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -143,44 +228,61 @@ constructor(
                 additionalProperties = paymentCreateBody.additionalProperties.toMutableMap()
             }
 
-            fun amount(amount: Long) = apply { this.amount = amount }
+            fun amount(amount: Long) = amount(JsonField.of(amount))
 
-            fun externalBankAccountToken(externalBankAccountToken: String) = apply {
+            fun amount(amount: JsonField<Long>) = apply { this.amount = amount }
+
+            fun externalBankAccountToken(externalBankAccountToken: String) =
+                externalBankAccountToken(JsonField.of(externalBankAccountToken))
+
+            fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
                 this.externalBankAccountToken = externalBankAccountToken
             }
 
-            fun financialAccountToken(financialAccountToken: String) = apply {
+            fun financialAccountToken(financialAccountToken: String) =
+                financialAccountToken(JsonField.of(financialAccountToken))
+
+            fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
                 this.financialAccountToken = financialAccountToken
             }
 
-            fun method(method: Method) = apply { this.method = method }
+            fun method(method: Method) = method(JsonField.of(method))
 
-            fun methodAttributes(methodAttributes: PaymentMethodRequestAttributes) = apply {
-                this.methodAttributes = methodAttributes
+            fun method(method: JsonField<Method>) = apply { this.method = method }
+
+            fun methodAttributes(methodAttributes: PaymentMethodRequestAttributes) =
+                methodAttributes(JsonField.of(methodAttributes))
+
+            fun methodAttributes(methodAttributes: JsonField<PaymentMethodRequestAttributes>) =
+                apply {
+                    this.methodAttributes = methodAttributes
+                }
+
+            fun type(type: Type) = type(JsonField.of(type))
+
+            fun type(type: JsonField<Type>) = apply { this.type = type }
+
+            /**
+             * Customer-provided token that will serve as an idempotency token. This token will
+             * become the transaction token.
+             */
+            fun token(token: String) = token(JsonField.of(token))
+
+            /**
+             * Customer-provided token that will serve as an idempotency token. This token will
+             * become the transaction token.
+             */
+            fun token(token: JsonField<String>) = apply { this.token = token }
+
+            fun memo(memo: String) = memo(JsonField.of(memo))
+
+            fun memo(memo: JsonField<String>) = apply { this.memo = memo }
+
+            fun userDefinedId(userDefinedId: String) = userDefinedId(JsonField.of(userDefinedId))
+
+            fun userDefinedId(userDefinedId: JsonField<String>) = apply {
+                this.userDefinedId = userDefinedId
             }
-
-            fun type(type: Type) = apply { this.type = type }
-
-            /**
-             * Customer-provided token that will serve as an idempotency token. This token will
-             * become the transaction token.
-             */
-            fun token(token: String?) = apply { this.token = token }
-
-            /**
-             * Customer-provided token that will serve as an idempotency token. This token will
-             * become the transaction token.
-             */
-            fun token(token: Optional<String>) = token(token.orElse(null))
-
-            fun memo(memo: String?) = apply { this.memo = memo }
-
-            fun memo(memo: Optional<String>) = memo(memo.orElse(null))
-
-            fun userDefinedId(userDefinedId: String?) = apply { this.userDefinedId = userDefinedId }
-
-            fun userDefinedId(userDefinedId: Optional<String>) =
-                userDefinedId(userDefinedId.orElse(null))
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -263,7 +365,13 @@ constructor(
 
         fun amount(amount: Long) = apply { body.amount(amount) }
 
+        fun amount(amount: JsonField<Long>) = apply { body.amount(amount) }
+
         fun externalBankAccountToken(externalBankAccountToken: String) = apply {
+            body.externalBankAccountToken(externalBankAccountToken)
+        }
+
+        fun externalBankAccountToken(externalBankAccountToken: JsonField<String>) = apply {
             body.externalBankAccountToken(externalBankAccountToken)
         }
 
@@ -271,34 +379,66 @@ constructor(
             body.financialAccountToken(financialAccountToken)
         }
 
+        fun financialAccountToken(financialAccountToken: JsonField<String>) = apply {
+            body.financialAccountToken(financialAccountToken)
+        }
+
         fun method(method: Method) = apply { body.method(method) }
+
+        fun method(method: JsonField<Method>) = apply { body.method(method) }
 
         fun methodAttributes(methodAttributes: PaymentMethodRequestAttributes) = apply {
             body.methodAttributes(methodAttributes)
         }
 
+        fun methodAttributes(methodAttributes: JsonField<PaymentMethodRequestAttributes>) = apply {
+            body.methodAttributes(methodAttributes)
+        }
+
         fun type(type: Type) = apply { body.type(type) }
 
-        /**
-         * Customer-provided token that will serve as an idempotency token. This token will become
-         * the transaction token.
-         */
-        fun token(token: String?) = apply { body.token(token) }
+        fun type(type: JsonField<Type>) = apply { body.type(type) }
 
         /**
          * Customer-provided token that will serve as an idempotency token. This token will become
          * the transaction token.
          */
-        fun token(token: Optional<String>) = token(token.orElse(null))
+        fun token(token: String) = apply { body.token(token) }
 
-        fun memo(memo: String?) = apply { body.memo(memo) }
+        /**
+         * Customer-provided token that will serve as an idempotency token. This token will become
+         * the transaction token.
+         */
+        fun token(token: JsonField<String>) = apply { body.token(token) }
 
-        fun memo(memo: Optional<String>) = memo(memo.orElse(null))
+        fun memo(memo: String) = apply { body.memo(memo) }
 
-        fun userDefinedId(userDefinedId: String?) = apply { body.userDefinedId(userDefinedId) }
+        fun memo(memo: JsonField<String>) = apply { body.memo(memo) }
 
-        fun userDefinedId(userDefinedId: Optional<String>) =
-            userDefinedId(userDefinedId.orElse(null))
+        fun userDefinedId(userDefinedId: String) = apply { body.userDefinedId(userDefinedId) }
+
+        fun userDefinedId(userDefinedId: JsonField<String>) = apply {
+            body.userDefinedId(userDefinedId)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -398,25 +538,6 @@ constructor(
             additionalQueryParams.removeAll(keys)
         }
 
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
-        }
-
         fun build(): PaymentCreateParams =
             PaymentCreateParams(
                 body.build(),
@@ -486,16 +607,29 @@ constructor(
     class PaymentMethodRequestAttributes
     @JsonCreator
     private constructor(
-        @JsonProperty("sec_code") private val secCode: SecCode,
+        @JsonProperty("sec_code")
+        @ExcludeMissing
+        private val secCode: JsonField<SecCode> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
 
-        @JsonProperty("sec_code") fun secCode(): SecCode = secCode
+        fun secCode(): SecCode = secCode.getRequired("sec_code")
+
+        @JsonProperty("sec_code") @ExcludeMissing fun _secCode(): JsonField<SecCode> = secCode
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): PaymentMethodRequestAttributes = apply {
+            if (!validated) {
+                secCode()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -506,7 +640,7 @@ constructor(
 
         class Builder {
 
-            private var secCode: SecCode? = null
+            private var secCode: JsonField<SecCode>? = null
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -517,7 +651,9 @@ constructor(
                         paymentMethodRequestAttributes.additionalProperties.toMutableMap()
                 }
 
-            fun secCode(secCode: SecCode) = apply { this.secCode = secCode }
+            fun secCode(secCode: SecCode) = secCode(JsonField.of(secCode))
+
+            fun secCode(secCode: JsonField<SecCode>) = apply { this.secCode = secCode }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()

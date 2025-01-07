@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -34,11 +36,17 @@ constructor(
      */
     fun token(): Optional<String> = body.token()
 
+    /**
+     * A unique token returned as part of a /v1/three_ds_authentication/simulate call that responded
+     * with a CHALLENGE_REQUESTED status.
+     */
+    fun _token(): JsonField<String> = body._token()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): ThreeDSDecisioningSimulateChallengeBody = body
 
@@ -50,7 +58,9 @@ constructor(
     class ThreeDSDecisioningSimulateChallengeBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("token") private val token: String?,
+        @JsonProperty("token")
+        @ExcludeMissing
+        private val token: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -59,11 +69,26 @@ constructor(
          * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
          * responded with a CHALLENGE_REQUESTED status.
          */
-        @JsonProperty("token") fun token(): Optional<String> = Optional.ofNullable(token)
+        fun token(): Optional<String> = Optional.ofNullable(token.getNullable("token"))
+
+        /**
+         * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
+         * responded with a CHALLENGE_REQUESTED status.
+         */
+        @JsonProperty("token") @ExcludeMissing fun _token(): JsonField<String> = token
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): ThreeDSDecisioningSimulateChallengeBody = apply {
+            if (!validated) {
+                token()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -74,7 +99,7 @@ constructor(
 
         class Builder {
 
-            private var token: String? = null
+            private var token: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -90,13 +115,13 @@ constructor(
              * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
              * responded with a CHALLENGE_REQUESTED status.
              */
-            fun token(token: String?) = apply { this.token = token }
+            fun token(token: String) = token(JsonField.of(token))
 
             /**
              * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
              * responded with a CHALLENGE_REQUESTED status.
              */
-            fun token(token: Optional<String>) = token(token.orElse(null))
+            fun token(token: JsonField<String>) = apply { this.token = token }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -169,13 +194,32 @@ constructor(
          * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
          * responded with a CHALLENGE_REQUESTED status.
          */
-        fun token(token: String?) = apply { body.token(token) }
+        fun token(token: String) = apply { body.token(token) }
 
         /**
          * A unique token returned as part of a /v1/three_ds_authentication/simulate call that
          * responded with a CHALLENGE_REQUESTED status.
          */
-        fun token(token: Optional<String>) = token(token.orElse(null))
+        fun token(token: JsonField<String>) = apply { body.token(token) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -273,25 +317,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): ThreeDSDecisioningSimulateChallengeParams =

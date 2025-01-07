@@ -66,32 +66,32 @@ private constructor(
     fun address2(): Optional<String> = Optional.ofNullable(address2.getNullable("address2"))
 
     /** Valid deliverable address (no PO boxes). */
-    @JsonProperty("address1") @ExcludeMissing fun _address1() = address1
+    @JsonProperty("address1") @ExcludeMissing fun _address1(): JsonField<String> = address1
 
     /** Name of city. */
-    @JsonProperty("city") @ExcludeMissing fun _city() = city
+    @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
 
     /**
      * Valid country code, entered in uppercase ISO 3166-1 alpha-3 three-character format. Only USA
      * is currently supported for all workflows. KYC_EXEMPT supports CAN additionally.
      */
-    @JsonProperty("country") @ExcludeMissing fun _country() = country
+    @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
     /**
      * Valid postal code. USA postal codes (ZIP codes) are supported, entered as a five-digit postal
      * code or nine-digit postal code (ZIP+4) using the format 12345-1234. KYC_EXEMPT supports
      * Canadian postal codes.
      */
-    @JsonProperty("postal_code") @ExcludeMissing fun _postalCode() = postalCode
+    @JsonProperty("postal_code") @ExcludeMissing fun _postalCode(): JsonField<String> = postalCode
 
     /**
      * Valid state code. USA state codes are supported, entered in uppercase ISO 3166-2
      * two-character format. KYC_EXEMPT supports Canadian province codes.
      */
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
+    @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
 
     /** Unit or apartment number (if applicable). */
-    @JsonProperty("address2") @ExcludeMissing fun _address2() = address2
+    @JsonProperty("address2") @ExcludeMissing fun _address2(): JsonField<String> = address2
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -120,11 +120,11 @@ private constructor(
 
     class Builder {
 
-        private var address1: JsonField<String> = JsonMissing.of()
-        private var city: JsonField<String> = JsonMissing.of()
-        private var country: JsonField<String> = JsonMissing.of()
-        private var postalCode: JsonField<String> = JsonMissing.of()
-        private var state: JsonField<String> = JsonMissing.of()
+        private var address1: JsonField<String>? = null
+        private var city: JsonField<String>? = null
+        private var country: JsonField<String>? = null
+        private var postalCode: JsonField<String>? = null
+        private var state: JsonField<String>? = null
         private var address2: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -216,11 +216,11 @@ private constructor(
 
         fun build(): Address =
             Address(
-                address1,
-                city,
-                country,
-                postalCode,
-                state,
+                checkNotNull(address1) { "`address1` is required but was not set" },
+                checkNotNull(city) { "`city` is required but was not set" },
+                checkNotNull(country) { "`country` is required but was not set" },
+                checkNotNull(postalCode) { "`postalCode` is required but was not set" },
+                checkNotNull(state) { "`state` is required but was not set" },
                 address2,
                 additionalProperties.toImmutable(),
             )

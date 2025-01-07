@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lithic.api.core.ExcludeMissing
+import com.lithic.api.core.JsonField
+import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
 import com.lithic.api.core.http.Headers
@@ -43,11 +45,19 @@ constructor(
      */
     fun digitalCardArtToken(): Optional<String> = body.digitalCardArtToken()
 
+    /**
+     * Specifies the digital card art to be displayed in the user’s digital wallet for a
+     * tokenization. This artwork must be approved by the network and configured by Lithic to use.
+     * See
+     * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+     */
+    fun _digitalCardArtToken(): JsonField<String> = body._digitalCardArtToken()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
-
-    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     @JvmSynthetic internal fun getBody(): TokenizationUpdateDigitalCardArtBody = body
 
@@ -66,7 +76,9 @@ constructor(
     class TokenizationUpdateDigitalCardArtBody
     @JsonCreator
     internal constructor(
-        @JsonProperty("digital_card_art_token") private val digitalCardArtToken: String?,
+        @JsonProperty("digital_card_art_token")
+        @ExcludeMissing
+        private val digitalCardArtToken: JsonField<String> = JsonMissing.of(),
         @JsonAnySetter
         private val additionalProperties: Map<String, JsonValue> = immutableEmptyMap(),
     ) {
@@ -77,12 +89,31 @@ constructor(
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
+        fun digitalCardArtToken(): Optional<String> =
+            Optional.ofNullable(digitalCardArtToken.getNullable("digital_card_art_token"))
+
+        /**
+         * Specifies the digital card art to be displayed in the user’s digital wallet for a
+         * tokenization. This artwork must be approved by the network and configured by Lithic to
+         * use. See
+         * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
+         */
         @JsonProperty("digital_card_art_token")
-        fun digitalCardArtToken(): Optional<String> = Optional.ofNullable(digitalCardArtToken)
+        @ExcludeMissing
+        fun _digitalCardArtToken(): JsonField<String> = digitalCardArtToken
 
         @JsonAnyGetter
         @ExcludeMissing
         fun _additionalProperties(): Map<String, JsonValue> = additionalProperties
+
+        private var validated: Boolean = false
+
+        fun validate(): TokenizationUpdateDigitalCardArtBody = apply {
+            if (!validated) {
+                digitalCardArtToken()
+                validated = true
+            }
+        }
 
         fun toBuilder() = Builder().from(this)
 
@@ -93,7 +124,7 @@ constructor(
 
         class Builder {
 
-            private var digitalCardArtToken: String? = null
+            private var digitalCardArtToken: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -111,9 +142,8 @@ constructor(
              * to use. See
              * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
-            fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
-                this.digitalCardArtToken = digitalCardArtToken
-            }
+            fun digitalCardArtToken(digitalCardArtToken: String) =
+                digitalCardArtToken(JsonField.of(digitalCardArtToken))
 
             /**
              * Specifies the digital card art to be displayed in the user’s digital wallet for a
@@ -121,8 +151,9 @@ constructor(
              * to use. See
              * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
              */
-            fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
-                digitalCardArtToken(digitalCardArtToken.orElse(null))
+            fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
+                this.digitalCardArtToken = digitalCardArtToken
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -205,7 +236,7 @@ constructor(
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        fun digitalCardArtToken(digitalCardArtToken: String?) = apply {
+        fun digitalCardArtToken(digitalCardArtToken: String) = apply {
             body.digitalCardArtToken(digitalCardArtToken)
         }
 
@@ -215,8 +246,28 @@ constructor(
          * use. See
          * [Flexible Card Art Guide](https://docs.lithic.com/docs/about-digital-wallets#flexible-card-art).
          */
-        fun digitalCardArtToken(digitalCardArtToken: Optional<String>) =
-            digitalCardArtToken(digitalCardArtToken.orElse(null))
+        fun digitalCardArtToken(digitalCardArtToken: JsonField<String>) = apply {
+            body.digitalCardArtToken(digitalCardArtToken)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -314,25 +365,6 @@ constructor(
 
         fun removeAllAdditionalQueryParams(keys: Set<String>) = apply {
             additionalQueryParams.removeAll(keys)
-        }
-
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            body.additionalProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            body.putAdditionalProperty(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                body.putAllAdditionalProperties(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            body.removeAllAdditionalProperties(keys)
         }
 
         fun build(): TokenizationUpdateDigitalCardArtParams =

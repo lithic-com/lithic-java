@@ -106,58 +106,60 @@ private constructor(
         Optional.ofNullable(phoneNumber.getNullable("phone_number"))
 
     /** Valid USPS routable address. */
-    @JsonProperty("address1") @ExcludeMissing fun _address1() = address1
+    @JsonProperty("address1") @ExcludeMissing fun _address1(): JsonField<String> = address1
 
     /** City */
-    @JsonProperty("city") @ExcludeMissing fun _city() = city
+    @JsonProperty("city") @ExcludeMissing fun _city(): JsonField<String> = city
 
     /** Uppercase ISO 3166-1 alpha-3 three character abbreviation. */
-    @JsonProperty("country") @ExcludeMissing fun _country() = country
+    @JsonProperty("country") @ExcludeMissing fun _country(): JsonField<String> = country
 
     /**
      * Customer's first name. This will be the first name printed on the physical card. The combined
      * length of `first_name` and `last_name` may not exceed 25 characters.
      */
-    @JsonProperty("first_name") @ExcludeMissing fun _firstName() = firstName
+    @JsonProperty("first_name") @ExcludeMissing fun _firstName(): JsonField<String> = firstName
 
     /**
      * Customer's surname (family name). This will be the last name printed on the physical card.
      * The combined length of `first_name` and `last_name` may not exceed 25 characters.
      */
-    @JsonProperty("last_name") @ExcludeMissing fun _lastName() = lastName
+    @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
 
     /**
      * Postal code (formerly zipcode). For US addresses, either five-digit postal code or nine-digit
      * postal code (ZIP+4) using the format 12345-1234.
      */
-    @JsonProperty("postal_code") @ExcludeMissing fun _postalCode() = postalCode
+    @JsonProperty("postal_code") @ExcludeMissing fun _postalCode(): JsonField<String> = postalCode
 
     /**
      * Uppercase ISO 3166-2 two character abbreviation for US and CA. Optional with a limit of 24
      * characters for other countries.
      */
-    @JsonProperty("state") @ExcludeMissing fun _state() = state
+    @JsonProperty("state") @ExcludeMissing fun _state(): JsonField<String> = state
 
     /** Unit number (if applicable). */
-    @JsonProperty("address2") @ExcludeMissing fun _address2() = address2
+    @JsonProperty("address2") @ExcludeMissing fun _address2(): JsonField<String> = address2
 
     /**
      * Email address to be contacted for expedited shipping process purposes. Required if
      * `shipping_method` is `EXPEDITED`.
      */
-    @JsonProperty("email") @ExcludeMissing fun _email() = email
+    @JsonProperty("email") @ExcludeMissing fun _email(): JsonField<String> = email
 
     /**
      * Text to be printed on line two of the physical card. Use of this field requires additional
      * permissions.
      */
-    @JsonProperty("line2_text") @ExcludeMissing fun _line2Text() = line2Text
+    @JsonProperty("line2_text") @ExcludeMissing fun _line2Text(): JsonField<String> = line2Text
 
     /**
      * Cardholder's phone number in E.164 format to be contacted for expedited shipping process
      * purposes. Required if `shipping_method` is `EXPEDITED`.
      */
-    @JsonProperty("phone_number") @ExcludeMissing fun _phoneNumber() = phoneNumber
+    @JsonProperty("phone_number")
+    @ExcludeMissing
+    fun _phoneNumber(): JsonField<String> = phoneNumber
 
     @JsonAnyGetter
     @ExcludeMissing
@@ -191,13 +193,13 @@ private constructor(
 
     class Builder {
 
-        private var address1: JsonField<String> = JsonMissing.of()
-        private var city: JsonField<String> = JsonMissing.of()
-        private var country: JsonField<String> = JsonMissing.of()
-        private var firstName: JsonField<String> = JsonMissing.of()
-        private var lastName: JsonField<String> = JsonMissing.of()
-        private var postalCode: JsonField<String> = JsonMissing.of()
-        private var state: JsonField<String> = JsonMissing.of()
+        private var address1: JsonField<String>? = null
+        private var city: JsonField<String>? = null
+        private var country: JsonField<String>? = null
+        private var firstName: JsonField<String>? = null
+        private var lastName: JsonField<String>? = null
+        private var postalCode: JsonField<String>? = null
+        private var state: JsonField<String>? = null
         private var address2: JsonField<String> = JsonMissing.of()
         private var email: JsonField<String> = JsonMissing.of()
         private var line2Text: JsonField<String> = JsonMissing.of()
@@ -349,13 +351,13 @@ private constructor(
 
         fun build(): ShippingAddress =
             ShippingAddress(
-                address1,
-                city,
-                country,
-                firstName,
-                lastName,
-                postalCode,
-                state,
+                checkNotNull(address1) { "`address1` is required but was not set" },
+                checkNotNull(city) { "`city` is required but was not set" },
+                checkNotNull(country) { "`country` is required but was not set" },
+                checkNotNull(firstName) { "`firstName` is required but was not set" },
+                checkNotNull(lastName) { "`lastName` is required but was not set" },
+                checkNotNull(postalCode) { "`postalCode` is required but was not set" },
+                checkNotNull(state) { "`state` is required but was not set" },
                 address2,
                 email,
                 line2Text,
