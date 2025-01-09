@@ -488,6 +488,7 @@ private constructor(
          * value is 10 seconds, and the maximum value is 2678400 seconds.
          */
         fun integer(): Optional<Long> = Optional.ofNullable(integer)
+
         /**
          * The window of time to calculate Spend Velocity over.
          * - `DAY`: Velocity over the current day since midnight Eastern Time.
@@ -506,6 +507,7 @@ private constructor(
          * value is 10 seconds, and the maximum value is 2678400 seconds.
          */
         fun asInteger(): Long = integer.getOrThrow("integer")
+
         /**
          * The window of time to calculate Spend Velocity over.
          * - `DAY`: Velocity over the current day since midnight Eastern Time.
