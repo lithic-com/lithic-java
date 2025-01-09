@@ -83,10 +83,12 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): DisputeInitiateEvidenceUploadBody = apply {
-            if (!validated) {
-                filename()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            filename()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

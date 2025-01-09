@@ -146,19 +146,21 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): BalanceListResponse = apply {
-        if (!validated) {
-            token()
-            availableAmount()
-            created()
-            currency()
-            lastTransactionEventToken()
-            lastTransactionToken()
-            pendingAmount()
-            totalAmount()
-            type()
-            updated()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        availableAmount()
+        created()
+        currency()
+        lastTransactionEventToken()
+        lastTransactionToken()
+        pendingAmount()
+        totalAmount()
+        type()
+        updated()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

@@ -191,20 +191,22 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): SettlementReport = apply {
-        if (!validated) {
-            created()
-            currency()
-            details().forEach { it.validate() }
-            disputesGrossAmount()
-            interchangeGrossAmount()
-            isComplete()
-            otherFeesGrossAmount()
-            reportDate()
-            settledNetAmount()
-            transactionsGrossAmount()
-            updated()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        created()
+        currency()
+        details().forEach { it.validate() }
+        disputesGrossAmount()
+        interchangeGrossAmount()
+        isComplete()
+        otherFeesGrossAmount()
+        reportDate()
+        settledNetAmount()
+        transactionsGrossAmount()
+        updated()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

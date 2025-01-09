@@ -108,10 +108,12 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): TokenizationResendActivationCodeBody = apply {
-            if (!validated) {
-                activationMethodType()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            activationMethodType()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

@@ -346,19 +346,21 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): TransactionSimulateAuthorizationBody = apply {
-            if (!validated) {
-                amount()
-                descriptor()
-                pan()
-                mcc()
-                merchantAcceptorId()
-                merchantAmount()
-                merchantCurrency()
-                partialApprovalCapable()
-                pin()
-                status()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amount()
+            descriptor()
+            pan()
+            mcc()
+            merchantAcceptorId()
+            merchantAmount()
+            merchantCurrency()
+            partialApprovalCapable()
+            pin()
+            status()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

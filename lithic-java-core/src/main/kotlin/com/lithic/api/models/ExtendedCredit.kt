@@ -38,10 +38,12 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ExtendedCredit = apply {
-        if (!validated) {
-            creditExtended()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        creditExtended()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

@@ -123,16 +123,18 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AccountHolderCreateResponse = apply {
-        if (!validated) {
-            token()
-            accountToken()
-            status()
-            statusReasons()
-            created()
-            externalId()
-            requiredDocuments().map { it.forEach { it.validate() } }
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        accountToken()
+        status()
+        statusReasons()
+        created()
+        externalId()
+        requiredDocuments().ifPresent { it.forEach { it.validate() } }
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

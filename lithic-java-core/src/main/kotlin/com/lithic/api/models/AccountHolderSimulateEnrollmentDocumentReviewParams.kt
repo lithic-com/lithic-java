@@ -138,13 +138,15 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): AccountHolderSimulateEnrollmentDocumentReviewBody = apply {
-            if (!validated) {
-                documentUploadToken()
-                status()
-                acceptedEntityStatusReasons()
-                statusReason()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            documentUploadToken()
+            status()
+            acceptedEntityStatusReasons()
+            statusReason()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

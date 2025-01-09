@@ -48,11 +48,13 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): PrimeRateRetrieveResponse = apply {
-        if (!validated) {
-            data().forEach { it.validate() }
-            hasMore()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        data().forEach { it.validate() }
+        hasMore()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -166,11 +168,13 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): InterestRate = apply {
-            if (!validated) {
-                effectiveDate()
-                rate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            effectiveDate()
+            rate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

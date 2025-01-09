@@ -76,13 +76,15 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AccountHolderUpdateResponse = apply {
-        if (!validated) {
-            token()
-            businessAccountToken()
-            email()
-            phoneNumber()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        businessAccountToken()
+        email()
+        phoneNumber()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

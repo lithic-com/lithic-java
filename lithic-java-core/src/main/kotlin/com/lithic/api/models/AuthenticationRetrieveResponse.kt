@@ -272,26 +272,28 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AuthenticationRetrieveResponse = apply {
-        if (!validated) {
-            token()
-            accountType()
-            authenticationResult()
-            cardExpiryCheck()
-            cardToken()
-            cardholder().validate()
-            channel()
-            created()
-            decisionMadeBy()
-            merchant().validate()
-            messageCategory()
-            additionalData().map { it.validate() }
-            app().map { it.validate() }
-            authenticationRequestType()
-            browser().map { it.validate() }
-            threeRiRequestType()
-            transaction().map { it.validate() }
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        accountType()
+        authenticationResult()
+        cardExpiryCheck()
+        cardToken()
+        cardholder().validate()
+        channel()
+        created()
+        decisionMadeBy()
+        merchant().validate()
+        messageCategory()
+        additionalData().ifPresent { it.validate() }
+        app().ifPresent { it.validate() }
+        authenticationRequestType()
+        browser().ifPresent { it.validate() }
+        threeRiRequestType()
+        transaction().ifPresent { it.validate() }
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -948,17 +950,19 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Cardholder = apply {
-            if (!validated) {
-                addressMatch()
-                billingAddress().map { it.validate() }
-                email()
-                name()
-                phoneNumberHome()
-                phoneNumberMobile()
-                phoneNumberWork()
-                shippingAddress().map { it.validate() }
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            addressMatch()
+            billingAddress().ifPresent { it.validate() }
+            email()
+            name()
+            phoneNumberHome()
+            phoneNumberMobile()
+            phoneNumberWork()
+            shippingAddress().ifPresent { it.validate() }
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -1253,15 +1257,17 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): ThreeDSAddress = apply {
-                if (!validated) {
-                    address1()
-                    address2()
-                    address3()
-                    city()
-                    country()
-                    postalCode()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                address1()
+                address2()
+                address3()
+                city()
+                country()
+                postalCode()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -1648,14 +1654,16 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Merchant = apply {
-            if (!validated) {
-                id()
-                country()
-                mcc()
-                name()
-                riskIndicator().validate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            id()
+            country()
+            mcc()
+            name()
+            riskIndicator().validate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -1954,18 +1962,20 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): RiskIndicator = apply {
-                if (!validated) {
-                    deliveryEmailAddress()
-                    deliveryTimeFrame()
-                    giftCardAmount()
-                    giftCardCount()
-                    giftCardCurrency()
-                    orderAvailability()
-                    preOrderAvailableDate()
-                    reorderItems()
-                    shippingMethod()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                deliveryEmailAddress()
+                deliveryTimeFrame()
+                giftCardAmount()
+                giftCardCount()
+                giftCardCurrency()
+                orderAvailability()
+                preOrderAvailableDate()
+                reorderItems()
+                shippingMethod()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -2696,11 +2706,13 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): AdditionalData = apply {
-            if (!validated) {
-                networkDecision()
-                networkRiskScore()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            networkDecision()
+            networkRiskScore()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -2927,11 +2939,13 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): App = apply {
-            if (!validated) {
-                deviceInfo()
-                ip()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            deviceInfo()
+            ip()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -3245,15 +3259,17 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Browser = apply {
-            if (!validated) {
-                ip()
-                javaEnabled()
-                javascriptEnabled()
-                language()
-                timeZone()
-                userAgent()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            ip()
+            javaEnabled()
+            javascriptEnabled()
+            language()
+            timeZone()
+            userAgent()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -3688,14 +3704,16 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Transaction = apply {
-            if (!validated) {
-                amount()
-                currency()
-                currencyExponent()
-                dateTime()
-                type()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amount()
+            currency()
+            currencyExponent()
+            dateTime()
+            type()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

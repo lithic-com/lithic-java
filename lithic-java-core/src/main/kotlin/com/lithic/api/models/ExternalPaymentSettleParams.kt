@@ -104,12 +104,14 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): ExternalPaymentSettleBody = apply {
-            if (!validated) {
-                effectiveDate()
-                memo()
-                progressTo()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            effectiveDate()
+            memo()
+            progressTo()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

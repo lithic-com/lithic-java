@@ -49,11 +49,13 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): TransactionSimulateAuthorizationAdviceResponse = apply {
-        if (!validated) {
-            token()
-            debuggingRequestId()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        debuggingRequestId()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

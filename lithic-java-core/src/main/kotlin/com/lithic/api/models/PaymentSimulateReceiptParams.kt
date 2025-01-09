@@ -135,14 +135,16 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): PaymentSimulateReceiptBody = apply {
-            if (!validated) {
-                token()
-                amount()
-                financialAccountToken()
-                receiptType()
-                memo()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            token()
+            amount()
+            financialAccountToken()
+            receiptType()
+            memo()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

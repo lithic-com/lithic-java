@@ -60,12 +60,14 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AccountSpendLimits = apply {
-        if (!validated) {
-            availableSpendLimit().validate()
-            spendLimit().map { it.validate() }
-            spendVelocity().map { it.validate() }
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        availableSpendLimit().validate()
+        spendLimit().ifPresent { it.validate() }
+        spendVelocity().ifPresent { it.validate() }
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -197,12 +199,14 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): AvailableSpendLimit = apply {
-            if (!validated) {
-                daily()
-                lifetime()
-                monthly()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            daily()
+            lifetime()
+            monthly()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -351,12 +355,14 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): SpendLimit = apply {
-            if (!validated) {
-                daily()
-                lifetime()
-                monthly()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            daily()
+            lifetime()
+            monthly()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -505,12 +511,14 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): SpendVelocity = apply {
-            if (!validated) {
-                daily()
-                lifetime()
-                monthly()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            daily()
+            lifetime()
+            monthly()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

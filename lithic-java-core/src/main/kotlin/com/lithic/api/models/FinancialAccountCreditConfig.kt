@@ -112,17 +112,19 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): FinancialAccountCreditConfig = apply {
-        if (!validated) {
-            accountToken()
-            chargedOffReason()
-            creditLimit()
-            creditProductToken()
-            externalBankAccountToken()
-            financialAccountState()
-            isSpendBlocked()
-            tier()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        accountToken()
+        chargedOffReason()
+        creditLimit()
+        creditProductToken()
+        externalBankAccountToken()
+        financialAccountState()
+        isSpendBlocked()
+        tier()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

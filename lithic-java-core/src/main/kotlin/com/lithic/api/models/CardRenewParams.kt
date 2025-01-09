@@ -244,15 +244,17 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): CardRenewBody = apply {
-            if (!validated) {
-                shippingAddress().validate()
-                carrier().map { it.validate() }
-                expMonth()
-                expYear()
-                productId()
-                shippingMethod()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            shippingAddress().validate()
+            carrier().ifPresent { it.validate() }
+            expMonth()
+            expYear()
+            productId()
+            shippingMethod()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

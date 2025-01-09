@@ -139,22 +139,24 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ManagementOperationTransaction = apply {
-        if (!validated) {
-            token()
-            category()
-            created()
-            currency()
-            direction()
-            events().forEach { it.validate() }
-            financialAccountToken()
-            pendingAmount()
-            result()
-            settledAmount()
-            status()
-            updated()
-            userDefinedId()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        category()
+        created()
+        currency()
+        direction()
+        events().forEach { it.validate() }
+        financialAccountToken()
+        pendingAmount()
+        result()
+        settledAmount()
+        status()
+        updated()
+        userDefinedId()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -534,18 +536,20 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): ManagementOperationEvent = apply {
-            if (!validated) {
-                token()
-                amount()
-                created()
-                detailedResults()
-                effectiveDate()
-                memo()
-                result()
-                type()
-                subtype()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            token()
+            amount()
+            created()
+            detailedResults()
+            effectiveDate()
+            memo()
+            result()
+            type()
+            subtype()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

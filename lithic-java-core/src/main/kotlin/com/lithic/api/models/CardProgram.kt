@@ -106,16 +106,18 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): CardProgram = apply {
-        if (!validated) {
-            token()
-            created()
-            name()
-            panRangeEnd()
-            panRangeStart()
-            cardholderCurrency()
-            settlementCurrencies()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        created()
+        name()
+        panRangeEnd()
+        panRangeStart()
+        cardholderCurrency()
+        settlementCurrencies()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

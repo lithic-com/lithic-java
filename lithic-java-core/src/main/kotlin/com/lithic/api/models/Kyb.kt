@@ -205,19 +205,21 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): Kyb = apply {
-        if (!validated) {
-            beneficialOwnerEntities().forEach { it.validate() }
-            beneficialOwnerIndividuals().forEach { it.validate() }
-            businessEntity().validate()
-            controlPerson().validate()
-            natureOfBusiness()
-            tosTimestamp()
-            workflow()
-            externalId()
-            kybPassedTimestamp()
-            websiteUrl()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        beneficialOwnerEntities().forEach { it.validate() }
+        beneficialOwnerIndividuals().forEach { it.validate() }
+        businessEntity().validate()
+        controlPerson().validate()
+        natureOfBusiness()
+        tosTimestamp()
+        workflow()
+        externalId()
+        kybPassedTimestamp()
+        websiteUrl()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -594,15 +596,17 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): BusinessEntity = apply {
-            if (!validated) {
-                address().validate()
-                governmentId()
-                legalBusinessName()
-                phoneNumbers()
-                dbaBusinessName()
-                parentCompany()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            address().validate()
+            governmentId()
+            legalBusinessName()
+            phoneNumbers()
+            dbaBusinessName()
+            parentCompany()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -869,16 +873,18 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): KybIndividual = apply {
-            if (!validated) {
-                address().validate()
-                dob()
-                email()
-                firstName()
-                governmentId()
-                lastName()
-                phoneNumber()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            address().validate()
+            dob()
+            email()
+            firstName()
+            governmentId()
+            lastName()
+            phoneNumber()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

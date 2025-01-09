@@ -168,20 +168,22 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ShippingAddress = apply {
-        if (!validated) {
-            address1()
-            city()
-            country()
-            firstName()
-            lastName()
-            postalCode()
-            state()
-            address2()
-            email()
-            line2Text()
-            phoneNumber()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        address1()
+        city()
+        country()
+        firstName()
+        lastName()
+        postalCode()
+        state()
+        address2()
+        email()
+        line2Text()
+        phoneNumber()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

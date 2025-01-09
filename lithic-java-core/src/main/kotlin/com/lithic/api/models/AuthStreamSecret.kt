@@ -39,10 +39,12 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AuthStreamSecret = apply {
-        if (!validated) {
-            secret()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        secret()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

@@ -258,30 +258,32 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): SettlementDetail = apply {
-        if (!validated) {
-            token()
-            accountToken()
-            cardProgramToken()
-            cardToken()
-            created()
-            currency()
-            disputesGrossAmount()
-            eventTokens()
-            institution()
-            interchangeFeeExtendedPrecision()
-            interchangeGrossAmount()
-            network()
-            otherFeesDetails().validate()
-            otherFeesGrossAmount()
-            reportDate()
-            settlementDate()
-            transactionToken()
-            transactionsGrossAmount()
-            type()
-            updated()
-            feeDescription()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        accountToken()
+        cardProgramToken()
+        cardToken()
+        created()
+        currency()
+        disputesGrossAmount()
+        eventTokens()
+        institution()
+        interchangeFeeExtendedPrecision()
+        interchangeGrossAmount()
+        network()
+        otherFeesDetails().validate()
+        otherFeesGrossAmount()
+        reportDate()
+        settlementDate()
+        transactionToken()
+        transactionsGrossAmount()
+        type()
+        updated()
+        feeDescription()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -692,10 +694,12 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): OtherFeesDetails = apply {
-            if (!validated) {
-                isa()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            isa()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

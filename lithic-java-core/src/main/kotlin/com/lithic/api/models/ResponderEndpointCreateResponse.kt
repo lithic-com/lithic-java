@@ -39,10 +39,12 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ResponderEndpointCreateResponse = apply {
-        if (!validated) {
-            enrolled()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        enrolled()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
