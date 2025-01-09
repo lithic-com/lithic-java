@@ -652,26 +652,28 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): CardCreateBody = apply {
-            if (!validated) {
-                type()
-                accountToken()
-                cardProgramToken()
-                carrier().map { it.validate() }
-                digitalCardArtToken()
-                expMonth()
-                expYear()
-                memo()
-                pin()
-                productId()
-                replacementAccountToken()
-                replacementFor()
-                shippingAddress().map { it.validate() }
-                shippingMethod()
-                spendLimit()
-                spendLimitDuration()
-                state()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            type()
+            accountToken()
+            cardProgramToken()
+            carrier().ifPresent { it.validate() }
+            digitalCardArtToken()
+            expMonth()
+            expYear()
+            memo()
+            pin()
+            productId()
+            replacementAccountToken()
+            replacementFor()
+            shippingAddress().ifPresent { it.validate() }
+            shippingMethod()
+            spendLimit()
+            spendLimitDuration()
+            state()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

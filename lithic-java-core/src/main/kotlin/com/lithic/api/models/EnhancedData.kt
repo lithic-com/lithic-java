@@ -74,14 +74,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): EnhancedData = apply {
-        if (!validated) {
-            token()
-            common().validate()
-            eventToken()
-            fleet().forEach { it.validate() }
-            transactionToken()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        common().validate()
+        eventToken()
+        fleet().forEach { it.validate() }
+        transactionToken()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -250,14 +252,16 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): CommonData = apply {
-            if (!validated) {
-                lineItems().forEach { it.validate() }
-                tax().validate()
-                customerReferenceNumber()
-                merchantReferenceNumber()
-                orderDate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            lineItems().forEach { it.validate() }
+            tax().validate()
+            customerReferenceNumber()
+            merchantReferenceNumber()
+            orderDate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -422,13 +426,15 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): LineItem = apply {
-                if (!validated) {
-                    amount()
-                    description()
-                    productCode()
-                    quantity()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                amount()
+                description()
+                productCode()
+                quantity()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -581,12 +587,14 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): TaxData = apply {
-                if (!validated) {
-                    amount()
-                    exempt()
-                    merchantTaxId()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                amount()
+                exempt()
+                merchantTaxId()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -851,15 +859,17 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Fleet = apply {
-            if (!validated) {
-                amountTotals().validate()
-                fuel().validate()
-                driverNumber()
-                odometer()
-                serviceType()
-                vehicleNumber()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amountTotals().validate()
+            fuel().validate()
+            driverNumber()
+            odometer()
+            serviceType()
+            vehicleNumber()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -1018,12 +1028,14 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): AmountTotals = apply {
-                if (!validated) {
-                    discount()
-                    grossSale()
-                    netSale()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                discount()
+                grossSale()
+                netSale()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -1172,13 +1184,15 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): FuelData = apply {
-                if (!validated) {
-                    quantity()
-                    type()
-                    unitOfMeasure()
-                    unitPrice()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                quantity()
+                type()
+                unitOfMeasure()
+                unitPrice()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)

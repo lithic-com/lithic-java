@@ -39,10 +39,12 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): Carrier = apply {
-        if (!validated) {
-            qrCodeUrl()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        qrCodeUrl()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

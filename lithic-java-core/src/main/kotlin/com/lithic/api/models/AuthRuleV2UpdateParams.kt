@@ -119,11 +119,13 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): AuthRuleV2UpdateBody = apply {
-            if (!validated) {
-                name()
-                state()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            name()
+            state()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

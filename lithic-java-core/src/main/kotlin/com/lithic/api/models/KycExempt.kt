@@ -132,18 +132,20 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): KycExempt = apply {
-        if (!validated) {
-            address().validate()
-            email()
-            firstName()
-            kycExemptionType()
-            lastName()
-            phoneNumber()
-            workflow()
-            businessAccountToken()
-            externalId()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        address().validate()
+        email()
+        firstName()
+        kycExemptionType()
+        lastName()
+        phoneNumber()
+        workflow()
+        businessAccountToken()
+        externalId()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

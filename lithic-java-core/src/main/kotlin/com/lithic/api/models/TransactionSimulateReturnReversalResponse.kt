@@ -42,10 +42,12 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): TransactionSimulateReturnReversalResponse = apply {
-        if (!validated) {
-            debuggingRequestId()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        debuggingRequestId()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

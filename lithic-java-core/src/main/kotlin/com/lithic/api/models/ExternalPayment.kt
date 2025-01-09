@@ -139,22 +139,24 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ExternalPayment = apply {
-        if (!validated) {
-            token()
-            category()
-            created()
-            currency()
-            events().forEach { it.validate() }
-            financialAccountToken()
-            paymentType()
-            pendingAmount()
-            result()
-            settledAmount()
-            status()
-            updated()
-            userDefinedId()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        category()
+        created()
+        currency()
+        events().forEach { it.validate() }
+        financialAccountToken()
+        paymentType()
+        pendingAmount()
+        result()
+        settledAmount()
+        status()
+        updated()
+        userDefinedId()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -468,17 +470,19 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): ExternalPaymentEvent = apply {
-            if (!validated) {
-                token()
-                amount()
-                created()
-                detailedResults()
-                effectiveDate()
-                memo()
-                result()
-                type()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            token()
+            amount()
+            created()
+            detailedResults()
+            effectiveDate()
+            memo()
+            result()
+            type()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

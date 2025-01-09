@@ -120,16 +120,18 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): DisputeEvidence = apply {
-        if (!validated) {
-            token()
-            created()
-            disputeToken()
-            uploadStatus()
-            downloadUrl()
-            filename()
-            uploadUrl()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        created()
+        disputeToken()
+        uploadStatus()
+        downloadUrl()
+        filename()
+        uploadUrl()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

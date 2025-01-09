@@ -43,10 +43,12 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AuthenticationSimulateResponse = apply {
-        if (!validated) {
-            token()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

@@ -180,19 +180,21 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): ManagementOperationCreateBody = apply {
-            if (!validated) {
-                amount()
-                category()
-                direction()
-                effectiveDate()
-                eventType()
-                financialAccountToken()
-                token()
-                memo()
-                subtype()
-                userDefinedId()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amount()
+            category()
+            direction()
+            effectiveDate()
+            eventType()
+            financialAccountToken()
+            token()
+            memo()
+            subtype()
+            userDefinedId()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

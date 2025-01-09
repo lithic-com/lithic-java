@@ -208,17 +208,19 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): ExternalBankAccountUpdateBody = apply {
-            if (!validated) {
-                address().map { it.validate() }
-                companyId()
-                dob()
-                doingBusinessAs()
-                name()
-                owner()
-                ownerType()
-                userDefinedId()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            address().ifPresent { it.validate() }
+            companyId()
+            dob()
+            doingBusinessAs()
+            name()
+            owner()
+            ownerType()
+            userDefinedId()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

@@ -130,17 +130,19 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): SettlementSummaryDetails = apply {
-        if (!validated) {
-            currency()
-            disputesGrossAmount()
-            institution()
-            interchangeGrossAmount()
-            network()
-            otherFeesGrossAmount()
-            settledNetAmount()
-            transactionsGrossAmount()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        currency()
+        disputesGrossAmount()
+        institution()
+        interchangeGrossAmount()
+        network()
+        otherFeesGrossAmount()
+        settledNetAmount()
+        transactionsGrossAmount()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

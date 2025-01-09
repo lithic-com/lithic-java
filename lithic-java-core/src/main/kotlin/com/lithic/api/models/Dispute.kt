@@ -344,28 +344,30 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): Dispute = apply {
-        if (!validated) {
-            token()
-            amount()
-            arbitrationDate()
-            created()
-            customerFiledDate()
-            customerNote()
-            networkClaimIds()
-            networkFiledDate()
-            networkReasonCode()
-            prearbitrationDate()
-            primaryClaimId()
-            reason()
-            representmentDate()
-            resolutionAmount()
-            resolutionDate()
-            resolutionNote()
-            resolutionReason()
-            status()
-            transactionToken()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        amount()
+        arbitrationDate()
+        created()
+        customerFiledDate()
+        customerNote()
+        networkClaimIds()
+        networkFiledDate()
+        networkReasonCode()
+        prearbitrationDate()
+        primaryClaimId()
+        reason()
+        representmentDate()
+        resolutionAmount()
+        resolutionDate()
+        resolutionNote()
+        resolutionReason()
+        status()
+        transactionToken()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

@@ -161,17 +161,19 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): Account = apply {
-        if (!validated) {
-            token()
-            created()
-            spendLimit().validate()
-            state()
-            accountHolder().map { it.validate() }
-            authRuleTokens()
-            cardholderCurrency()
-            verificationAddress().map { it.validate() }
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        created()
+        spendLimit().validate()
+        state()
+        accountHolder().ifPresent { it.validate() }
+        authRuleTokens()
+        cardholderCurrency()
+        verificationAddress().ifPresent { it.validate() }
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -419,12 +421,14 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): SpendLimit = apply {
-            if (!validated) {
-                daily()
-                lifetime()
-                monthly()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            daily()
+            lifetime()
+            monthly()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -640,13 +644,15 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): AccountHolder = apply {
-            if (!validated) {
-                token()
-                businessAccountToken()
-                email()
-                phoneNumber()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            token()
+            businessAccountToken()
+            email()
+            phoneNumber()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -842,15 +848,17 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): VerificationAddress = apply {
-            if (!validated) {
-                address1()
-                city()
-                country()
-                postalCode()
-                state()
-                address2()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            address1()
+            city()
+            country()
+            postalCode()
+            state()
+            address2()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

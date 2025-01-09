@@ -83,10 +83,12 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): EventSubscriptionSendSimulatedExampleBody = apply {
-            if (!validated) {
-                eventType()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            eventType()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

@@ -40,10 +40,12 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): V2ReportResponse = apply {
-        if (!validated) {
-            reportToken()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        reportToken()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

@@ -224,14 +224,16 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): AccountUpdateBody = apply {
-            if (!validated) {
-                dailySpendLimit()
-                lifetimeSpendLimit()
-                monthlySpendLimit()
-                state()
-                verificationAddress().map { it.validate() }
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            dailySpendLimit()
+            lifetimeSpendLimit()
+            monthlySpendLimit()
+            state()
+            verificationAddress().ifPresent { it.validate() }
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -737,15 +739,17 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): VerificationAddress = apply {
-            if (!validated) {
-                address1()
-                address2()
-                city()
-                country()
-                postalCode()
-                state()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            address1()
+            address2()
+            city()
+            country()
+            postalCode()
+            state()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

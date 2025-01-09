@@ -23,6 +23,11 @@ class AuthRuleV2ApplyParamsTest {
     fun getPathParam() {
         val params =
             AuthRuleV2ApplyParams.builder()
+                .forApplyAuthRuleRequestAccountTokens(
+                    AuthRuleV2ApplyParams.ApplyAuthRuleRequestAccountTokens.builder()
+                        .accountTokens(listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"))
+                        .build()
+                )
                 .authRuleToken("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
         assertThat(params).isNotNull

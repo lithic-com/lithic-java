@@ -139,14 +139,16 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): DisputeCreateBody = apply {
-            if (!validated) {
-                amount()
-                reason()
-                transactionToken()
-                customerFiledDate()
-                customerNote()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amount()
+            reason()
+            transactionToken()
+            customerFiledDate()
+            customerNote()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

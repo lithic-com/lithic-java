@@ -127,11 +127,13 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): TransactionSimulateClearingBody = apply {
-            if (!validated) {
-                token()
-                amount()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            token()
+            amount()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

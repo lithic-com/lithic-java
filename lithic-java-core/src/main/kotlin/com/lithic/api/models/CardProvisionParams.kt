@@ -243,15 +243,17 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): CardProvisionBody = apply {
-            if (!validated) {
-                certificate()
-                clientDeviceId()
-                clientWalletAccountId()
-                digitalWallet()
-                nonce()
-                nonceSignature()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            certificate()
+            clientDeviceId()
+            clientWalletAccountId()
+            digitalWallet()
+            nonce()
+            nonceSignature()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

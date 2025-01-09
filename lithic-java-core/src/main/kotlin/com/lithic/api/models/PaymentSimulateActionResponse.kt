@@ -63,12 +63,14 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): PaymentSimulateActionResponse = apply {
-        if (!validated) {
-            debuggingRequestId()
-            result()
-            transactionEventToken()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        debuggingRequestId()
+        result()
+        transactionEventToken()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

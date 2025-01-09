@@ -70,12 +70,14 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): RequiredDocument = apply {
-        if (!validated) {
-            entityToken()
-            statusReasons()
-            validDocuments()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        entityToken()
+        statusReasons()
+        validDocuments()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

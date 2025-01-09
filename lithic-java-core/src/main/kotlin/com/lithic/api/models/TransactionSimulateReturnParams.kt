@@ -100,12 +100,14 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): TransactionSimulateReturnBody = apply {
-            if (!validated) {
-                amount()
-                descriptor()
-                pan()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amount()
+            descriptor()
+            pan()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
