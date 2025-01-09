@@ -112,17 +112,19 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): MessageAttempt = apply {
-        if (!validated) {
-            token()
-            created()
-            eventSubscriptionToken()
-            eventToken()
-            response()
-            responseStatusCode()
-            status()
-            url()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        created()
+        eventSubscriptionToken()
+        eventToken()
+        response()
+        responseStatusCode()
+        status()
+        url()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

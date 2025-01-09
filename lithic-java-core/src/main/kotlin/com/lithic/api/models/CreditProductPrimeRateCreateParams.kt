@@ -96,11 +96,13 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): CreditProductPrimeRateCreateBody = apply {
-            if (!validated) {
-                effectiveDate()
-                rate()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            effectiveDate()
+            rate()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

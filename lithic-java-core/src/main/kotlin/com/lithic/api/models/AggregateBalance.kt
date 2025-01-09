@@ -156,19 +156,21 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AggregateBalance = apply {
-        if (!validated) {
-            availableAmount()
-            created()
-            currency()
-            financialAccountType()
-            lastFinancialAccountToken()
-            lastTransactionEventToken()
-            lastTransactionToken()
-            pendingAmount()
-            totalAmount()
-            updated()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        availableAmount()
+        created()
+        currency()
+        financialAccountType()
+        lastFinancialAccountToken()
+        lastTransactionEventToken()
+        lastTransactionToken()
+        pendingAmount()
+        totalAmount()
+        updated()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

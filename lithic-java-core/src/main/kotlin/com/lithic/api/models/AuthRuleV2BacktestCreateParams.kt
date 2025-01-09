@@ -116,11 +116,13 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): AuthRuleV2BacktestCreateBody = apply {
-            if (!validated) {
-                end()
-                start()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            end()
+            start()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

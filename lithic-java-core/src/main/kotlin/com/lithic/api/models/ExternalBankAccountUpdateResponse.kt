@@ -281,31 +281,33 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ExternalBankAccountUpdateResponse = apply {
-        if (!validated) {
-            token()
-            country()
-            created()
-            currency()
-            lastFour()
-            owner()
-            ownerType()
-            routingNumber()
-            state()
-            type()
-            verificationAttempts()
-            verificationMethod()
-            verificationState()
-            accountToken()
-            address().map { it.validate() }
-            companyId()
-            dob()
-            doingBusinessAs()
-            financialAccountToken()
-            name()
-            userDefinedId()
-            verificationFailedReason()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        country()
+        created()
+        currency()
+        lastFour()
+        owner()
+        ownerType()
+        routingNumber()
+        state()
+        type()
+        verificationAttempts()
+        verificationMethod()
+        verificationState()
+        accountToken()
+        address().ifPresent { it.validate() }
+        companyId()
+        dob()
+        doingBusinessAs()
+        financialAccountToken()
+        name()
+        userDefinedId()
+        verificationFailedReason()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

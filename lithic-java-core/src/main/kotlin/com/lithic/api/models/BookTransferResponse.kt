@@ -187,20 +187,22 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): BookTransferResponse = apply {
-        if (!validated) {
-            token()
-            category()
-            created()
-            currency()
-            events().forEach { it.validate() }
-            fromFinancialAccountToken()
-            pendingAmount()
-            result()
-            settledAmount()
-            status()
-            updated()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        category()
+        created()
+        currency()
+        events().forEach { it.validate() }
+        fromFinancialAccountToken()
+        pendingAmount()
+        result()
+        settledAmount()
+        status()
+        updated()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -609,17 +611,19 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): BookTransferEvent = apply {
-            if (!validated) {
-                token()
-                amount()
-                created()
-                detailedResults()
-                memo()
-                result()
-                subtype()
-                type()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            token()
+            amount()
+            created()
+            detailedResults()
+            memo()
+            result()
+            subtype()
+            type()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

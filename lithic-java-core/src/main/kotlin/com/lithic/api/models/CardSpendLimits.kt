@@ -60,12 +60,14 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): CardSpendLimits = apply {
-        if (!validated) {
-            availableSpendLimit().validate()
-            spendLimit().map { it.validate() }
-            spendVelocity().map { it.validate() }
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        availableSpendLimit().validate()
+        spendLimit().ifPresent { it.validate() }
+        spendVelocity().ifPresent { it.validate() }
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -195,12 +197,14 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): AvailableSpendLimit = apply {
-            if (!validated) {
-                annually()
-                forever()
-                monthly()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            annually()
+            forever()
+            monthly()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -349,12 +353,14 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): SpendLimit = apply {
-            if (!validated) {
-                annually()
-                forever()
-                monthly()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            annually()
+            forever()
+            monthly()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -503,12 +509,14 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): SpendVelocity = apply {
-            if (!validated) {
-                annually()
-                forever()
-                monthly()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            annually()
+            forever()
+            monthly()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

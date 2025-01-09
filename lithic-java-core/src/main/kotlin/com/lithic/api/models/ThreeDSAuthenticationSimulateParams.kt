@@ -126,13 +126,15 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): ThreeDSAuthenticationSimulateBody = apply {
-            if (!validated) {
-                merchant().validate()
-                pan()
-                transaction().validate()
-                cardExpiryCheck()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            merchant().validate()
+            pan()
+            transaction().validate()
+            cardExpiryCheck()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -487,13 +489,15 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): Merchant = apply {
-            if (!validated) {
-                id()
-                country()
-                mcc()
-                name()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            id()
+            country()
+            mcc()
+            name()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -644,11 +648,13 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): Transaction = apply {
-            if (!validated) {
-                amount()
-                currency()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amount()
+            currency()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

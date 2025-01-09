@@ -170,18 +170,20 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): ExternalPaymentCreateBody = apply {
-            if (!validated) {
-                amount()
-                category()
-                effectiveDate()
-                financialAccountToken()
-                paymentType()
-                token()
-                memo()
-                progressTo()
-                userDefinedId()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amount()
+            category()
+            effectiveDate()
+            financialAccountToken()
+            paymentType()
+            token()
+            memo()
+            progressTo()
+            userDefinedId()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

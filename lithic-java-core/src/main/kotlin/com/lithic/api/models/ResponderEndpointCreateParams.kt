@@ -81,11 +81,13 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): ResponderEndpointCreateBody = apply {
-            if (!validated) {
-                type()
-                url()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            type()
+            url()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

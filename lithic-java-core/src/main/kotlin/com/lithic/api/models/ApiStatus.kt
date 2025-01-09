@@ -37,10 +37,12 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ApiStatus = apply {
-        if (!validated) {
-            message()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        message()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

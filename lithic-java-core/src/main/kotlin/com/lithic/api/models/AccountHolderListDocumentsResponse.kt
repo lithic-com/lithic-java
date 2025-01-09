@@ -37,10 +37,12 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AccountHolderListDocumentsResponse = apply {
-        if (!validated) {
-            data().map { it.forEach { it.validate() } }
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        data().ifPresent { it.forEach { it.validate() } }
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

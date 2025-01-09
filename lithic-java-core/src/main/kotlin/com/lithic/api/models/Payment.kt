@@ -225,27 +225,29 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): Payment = apply {
-        if (!validated) {
-            token()
-            category()
-            created()
-            currency()
-            descriptor()
-            direction()
-            events().forEach { it.validate() }
-            externalBankAccountToken()
-            financialAccountToken()
-            method()
-            methodAttributes().validate()
-            pendingAmount()
-            result()
-            settledAmount()
-            source()
-            status()
-            updated()
-            userDefinedId()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        category()
+        created()
+        currency()
+        descriptor()
+        direction()
+        events().forEach { it.validate() }
+        externalBankAccountToken()
+        financialAccountToken()
+        method()
+        methodAttributes().validate()
+        pendingAmount()
+        result()
+        settledAmount()
+        source()
+        status()
+        updated()
+        userDefinedId()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -740,15 +742,17 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): PaymentEvent = apply {
-            if (!validated) {
-                token()
-                amount()
-                created()
-                result()
-                type()
-                detailedResults()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            token()
+            amount()
+            created()
+            result()
+            type()
+            detailedResults()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -1293,15 +1297,17 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): PaymentMethodAttributes = apply {
-            if (!validated) {
-                companyId()
-                receiptRoutingNumber()
-                retries()
-                returnReasonCode()
-                secCode()
-                traceNumbers()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            companyId()
+            receiptRoutingNumber()
+            retries()
+            returnReasonCode()
+            secCode()
+            traceNumbers()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

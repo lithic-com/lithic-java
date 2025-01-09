@@ -435,13 +435,15 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): CreateAuthRuleRequestAccountTokens = apply {
-            if (!validated) {
-                accountTokens()
-                name()
-                parameters()
-                type()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            accountTokens()
+            name()
+            parameters().ifPresent { it.validate() }
+            type()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -566,8 +568,6 @@ constructor(
             private val _json: JsonValue? = null,
         ) {
 
-            private var validated: Boolean = false
-
             fun conditionalBlockParameters(): Optional<ConditionalBlockParameters> =
                 Optional.ofNullable(conditionalBlockParameters)
 
@@ -596,15 +596,29 @@ constructor(
                 }
             }
 
+            private var validated: Boolean = false
+
             fun validate(): Parameters = apply {
-                if (!validated) {
-                    if (conditionalBlockParameters == null && velocityLimitParams == null) {
-                        throw LithicInvalidDataException("Unknown Parameters: $_json")
-                    }
-                    conditionalBlockParameters?.validate()
-                    velocityLimitParams?.validate()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                accept(
+                    object : Visitor<Unit> {
+                        override fun visitConditionalBlockParameters(
+                            conditionalBlockParameters: ConditionalBlockParameters
+                        ) {
+                            conditionalBlockParameters.validate()
+                        }
+
+                        override fun visitVelocityLimitParams(
+                            velocityLimitParams: VelocityLimitParams
+                        ) {
+                            velocityLimitParams.validate()
+                        }
+                    }
+                )
+                validated = true
             }
 
             override fun equals(other: Any?): Boolean {
@@ -714,10 +728,12 @@ constructor(
                 private var validated: Boolean = false
 
                 fun validate(): ConditionalBlockParameters = apply {
-                    if (!validated) {
-                        conditions().forEach { it.validate() }
-                        validated = true
+                    if (validated) {
+                        return@apply
                     }
+
+                    conditions().forEach { it.validate() }
+                    validated = true
                 }
 
                 fun toBuilder() = Builder().from(this)
@@ -909,12 +925,14 @@ constructor(
                     private var validated: Boolean = false
 
                     fun validate(): Condition = apply {
-                        if (!validated) {
-                            attribute()
-                            operation()
-                            value()
-                            validated = true
+                        if (validated) {
+                            return@apply
                         }
+
+                        attribute()
+                        operation()
+                        value().ifPresent { it.validate() }
+                        validated = true
                     }
 
                     fun toBuilder() = Builder().from(this)
@@ -1283,8 +1301,6 @@ constructor(
                         private val _json: JsonValue? = null,
                     ) {
 
-                        private var validated: Boolean = false
-
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                         fun string(): Optional<String> = Optional.ofNullable(string)
 
@@ -1320,13 +1336,23 @@ constructor(
                             }
                         }
 
+                        private var validated: Boolean = false
+
                         fun validate(): Value = apply {
-                            if (!validated) {
-                                if (string == null && integer == null && strings == null) {
-                                    throw LithicInvalidDataException("Unknown Value: $_json")
-                                }
-                                validated = true
+                            if (validated) {
+                                return@apply
                             }
+
+                            accept(
+                                object : Visitor<Unit> {
+                                    override fun visitString(string: String) {}
+
+                                    override fun visitInteger(integer: Long) {}
+
+                                    override fun visitStrings(strings: List<String>) {}
+                                }
+                            )
+                            validated = true
                         }
 
                         override fun equals(other: Any?): Boolean {
@@ -1581,13 +1607,15 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): CreateAuthRuleRequestCardTokens = apply {
-            if (!validated) {
-                cardTokens()
-                name()
-                parameters()
-                type()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            cardTokens()
+            name()
+            parameters().ifPresent { it.validate() }
+            type()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -1710,8 +1738,6 @@ constructor(
             private val _json: JsonValue? = null,
         ) {
 
-            private var validated: Boolean = false
-
             fun conditionalBlockParameters(): Optional<ConditionalBlockParameters> =
                 Optional.ofNullable(conditionalBlockParameters)
 
@@ -1740,15 +1766,29 @@ constructor(
                 }
             }
 
+            private var validated: Boolean = false
+
             fun validate(): Parameters = apply {
-                if (!validated) {
-                    if (conditionalBlockParameters == null && velocityLimitParams == null) {
-                        throw LithicInvalidDataException("Unknown Parameters: $_json")
-                    }
-                    conditionalBlockParameters?.validate()
-                    velocityLimitParams?.validate()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                accept(
+                    object : Visitor<Unit> {
+                        override fun visitConditionalBlockParameters(
+                            conditionalBlockParameters: ConditionalBlockParameters
+                        ) {
+                            conditionalBlockParameters.validate()
+                        }
+
+                        override fun visitVelocityLimitParams(
+                            velocityLimitParams: VelocityLimitParams
+                        ) {
+                            velocityLimitParams.validate()
+                        }
+                    }
+                )
+                validated = true
             }
 
             override fun equals(other: Any?): Boolean {
@@ -1858,10 +1898,12 @@ constructor(
                 private var validated: Boolean = false
 
                 fun validate(): ConditionalBlockParameters = apply {
-                    if (!validated) {
-                        conditions().forEach { it.validate() }
-                        validated = true
+                    if (validated) {
+                        return@apply
                     }
+
+                    conditions().forEach { it.validate() }
+                    validated = true
                 }
 
                 fun toBuilder() = Builder().from(this)
@@ -2053,12 +2095,14 @@ constructor(
                     private var validated: Boolean = false
 
                     fun validate(): Condition = apply {
-                        if (!validated) {
-                            attribute()
-                            operation()
-                            value()
-                            validated = true
+                        if (validated) {
+                            return@apply
                         }
+
+                        attribute()
+                        operation()
+                        value().ifPresent { it.validate() }
+                        validated = true
                     }
 
                     fun toBuilder() = Builder().from(this)
@@ -2427,8 +2471,6 @@ constructor(
                         private val _json: JsonValue? = null,
                     ) {
 
-                        private var validated: Boolean = false
-
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                         fun string(): Optional<String> = Optional.ofNullable(string)
 
@@ -2464,13 +2506,23 @@ constructor(
                             }
                         }
 
+                        private var validated: Boolean = false
+
                         fun validate(): Value = apply {
-                            if (!validated) {
-                                if (string == null && integer == null && strings == null) {
-                                    throw LithicInvalidDataException("Unknown Value: $_json")
-                                }
-                                validated = true
+                            if (validated) {
+                                return@apply
                             }
+
+                            accept(
+                                object : Visitor<Unit> {
+                                    override fun visitString(string: String) {}
+
+                                    override fun visitInteger(integer: Long) {}
+
+                                    override fun visitStrings(strings: List<String>) {}
+                                }
+                            )
+                            validated = true
                         }
 
                         override fun equals(other: Any?): Boolean {
@@ -2737,14 +2789,16 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): CreateAuthRuleRequestProgramLevel = apply {
-            if (!validated) {
-                programLevel()
-                excludedCardTokens()
-                name()
-                parameters()
-                type()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            programLevel()
+            excludedCardTokens()
+            name()
+            parameters().ifPresent { it.validate() }
+            type()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -2879,8 +2933,6 @@ constructor(
             private val _json: JsonValue? = null,
         ) {
 
-            private var validated: Boolean = false
-
             fun conditionalBlockParameters(): Optional<ConditionalBlockParameters> =
                 Optional.ofNullable(conditionalBlockParameters)
 
@@ -2909,15 +2961,29 @@ constructor(
                 }
             }
 
+            private var validated: Boolean = false
+
             fun validate(): Parameters = apply {
-                if (!validated) {
-                    if (conditionalBlockParameters == null && velocityLimitParams == null) {
-                        throw LithicInvalidDataException("Unknown Parameters: $_json")
-                    }
-                    conditionalBlockParameters?.validate()
-                    velocityLimitParams?.validate()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                accept(
+                    object : Visitor<Unit> {
+                        override fun visitConditionalBlockParameters(
+                            conditionalBlockParameters: ConditionalBlockParameters
+                        ) {
+                            conditionalBlockParameters.validate()
+                        }
+
+                        override fun visitVelocityLimitParams(
+                            velocityLimitParams: VelocityLimitParams
+                        ) {
+                            velocityLimitParams.validate()
+                        }
+                    }
+                )
+                validated = true
             }
 
             override fun equals(other: Any?): Boolean {
@@ -3027,10 +3093,12 @@ constructor(
                 private var validated: Boolean = false
 
                 fun validate(): ConditionalBlockParameters = apply {
-                    if (!validated) {
-                        conditions().forEach { it.validate() }
-                        validated = true
+                    if (validated) {
+                        return@apply
                     }
+
+                    conditions().forEach { it.validate() }
+                    validated = true
                 }
 
                 fun toBuilder() = Builder().from(this)
@@ -3222,12 +3290,14 @@ constructor(
                     private var validated: Boolean = false
 
                     fun validate(): Condition = apply {
-                        if (!validated) {
-                            attribute()
-                            operation()
-                            value()
-                            validated = true
+                        if (validated) {
+                            return@apply
                         }
+
+                        attribute()
+                        operation()
+                        value().ifPresent { it.validate() }
+                        validated = true
                     }
 
                     fun toBuilder() = Builder().from(this)
@@ -3596,8 +3666,6 @@ constructor(
                         private val _json: JsonValue? = null,
                     ) {
 
-                        private var validated: Boolean = false
-
                         /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                         fun string(): Optional<String> = Optional.ofNullable(string)
 
@@ -3633,13 +3701,23 @@ constructor(
                             }
                         }
 
+                        private var validated: Boolean = false
+
                         fun validate(): Value = apply {
-                            if (!validated) {
-                                if (string == null && integer == null && strings == null) {
-                                    throw LithicInvalidDataException("Unknown Value: $_json")
-                                }
-                                validated = true
+                            if (validated) {
+                                return@apply
                             }
+
+                            accept(
+                                object : Visitor<Unit> {
+                                    override fun visitString(string: String) {}
+
+                                    override fun visitInteger(integer: Long) {}
+
+                                    override fun visitStrings(strings: List<String>) {}
+                                }
+                            )
+                            validated = true
                         }
 
                         override fun equals(other: Any?): Boolean {

@@ -88,11 +88,13 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): ExternalPaymentCancelBody = apply {
-            if (!validated) {
-                effectiveDate()
-                memo()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            effectiveDate()
+            memo()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

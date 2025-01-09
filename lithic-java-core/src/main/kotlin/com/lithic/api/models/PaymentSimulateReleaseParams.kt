@@ -69,10 +69,12 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): PaymentSimulateReleaseBody = apply {
-            if (!validated) {
-                paymentToken()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            paymentToken()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

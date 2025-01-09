@@ -40,10 +40,12 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): CardProvisionResponse = apply {
-        if (!validated) {
-            provisioningPayload()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        provisioningPayload()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

@@ -174,14 +174,16 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): TransferCreateBody = apply {
-            if (!validated) {
-                amount()
-                from()
-                to()
-                token()
-                memo()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amount()
+            from()
+            to()
+            token()
+            memo()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

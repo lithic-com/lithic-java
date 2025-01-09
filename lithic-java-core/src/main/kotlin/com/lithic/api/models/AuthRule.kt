@@ -150,18 +150,20 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AuthRule = apply {
-        if (!validated) {
-            token()
-            state()
-            accountTokens()
-            allowedCountries()
-            allowedMcc()
-            blockedCountries()
-            blockedMcc()
-            cardTokens()
-            programLevel()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        state()
+        accountTokens()
+        allowedCountries()
+        allowedMcc()
+        blockedCountries()
+        blockedMcc()
+        cardTokens()
+        programLevel()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
