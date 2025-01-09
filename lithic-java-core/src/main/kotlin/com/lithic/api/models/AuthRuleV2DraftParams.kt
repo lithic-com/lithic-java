@@ -1070,8 +1070,10 @@ constructor(
 
                     /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                     fun string(): Optional<String> = Optional.ofNullable(string)
+
                     /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
                     fun integer(): Optional<Long> = Optional.ofNullable(integer)
+
                     /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
                     fun strings(): Optional<List<String>> = Optional.ofNullable(strings)
 
@@ -1083,8 +1085,10 @@ constructor(
 
                     /** A regex string, to be used with `MATCHES` or `DOES_NOT_MATCH` */
                     fun asString(): String = string.getOrThrow("string")
+
                     /** A number, to be used with `IS_GREATER_THAN` or `IS_LESS_THAN` */
                     fun asInteger(): Long = integer.getOrThrow("integer")
+
                     /** An array of strings, to be used with `IS_ONE_OF` or `IS_NOT_ONE_OF` */
                     fun asStrings(): List<String> = strings.getOrThrow("strings")
 
