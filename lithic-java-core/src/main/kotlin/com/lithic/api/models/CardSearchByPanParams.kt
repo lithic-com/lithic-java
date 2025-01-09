@@ -70,10 +70,12 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): CardSearchByPanBody = apply {
-            if (!validated) {
-                pan()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            pan()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

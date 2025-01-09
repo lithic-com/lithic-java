@@ -127,13 +127,15 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): Event = apply {
-        if (!validated) {
-            token()
-            created()
-            eventType()
-            payload().validate()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        created()
+        eventType()
+        payload().validate()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -595,9 +597,11 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Payload = apply {
-            if (!validated) {
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

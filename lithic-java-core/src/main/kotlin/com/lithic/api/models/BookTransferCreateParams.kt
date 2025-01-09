@@ -227,17 +227,19 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): BookTransferCreateBody = apply {
-            if (!validated) {
-                amount()
-                category()
-                fromFinancialAccountToken()
-                subtype()
-                toFinancialAccountToken()
-                type()
-                token()
-                memo()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amount()
+            category()
+            fromFinancialAccountToken()
+            subtype()
+            toFinancialAccountToken()
+            type()
+            token()
+            memo()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

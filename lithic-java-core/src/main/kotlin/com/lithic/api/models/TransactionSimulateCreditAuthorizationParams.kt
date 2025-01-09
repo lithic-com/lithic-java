@@ -164,14 +164,16 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): TransactionSimulateCreditAuthorizationBody = apply {
-            if (!validated) {
-                amount()
-                descriptor()
-                pan()
-                mcc()
-                merchantAcceptorId()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amount()
+            descriptor()
+            pan()
+            mcc()
+            merchantAcceptorId()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

@@ -99,16 +99,18 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): DigitalCardArt = apply {
-        if (!validated) {
-            token()
-            cardProgramToken()
-            created()
-            description()
-            isEnabled()
-            network()
-            isCardProgramDefault()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        cardProgramToken()
+        created()
+        description()
+        isEnabled()
+        network()
+        isCardProgramDefault()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

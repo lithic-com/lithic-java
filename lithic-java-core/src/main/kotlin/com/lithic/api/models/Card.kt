@@ -388,32 +388,34 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): Card = apply {
-        if (!validated) {
-            token()
-            accountToken()
-            cardProgramToken()
-            created()
-            funding().validate()
-            lastFour()
-            pinStatus()
-            spendLimit()
-            spendLimitDuration()
-            state()
-            type()
-            authRuleTokens()
-            cardholderCurrency()
-            cvv()
-            digitalCardArtToken()
-            expMonth()
-            expYear()
-            hostname()
-            memo()
-            pan()
-            pendingCommands()
-            productId()
-            replacementFor()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        accountToken()
+        cardProgramToken()
+        created()
+        funding().validate()
+        lastFour()
+        pinStatus()
+        spendLimit()
+        spendLimitDuration()
+        state()
+        type()
+        authRuleTokens()
+        cardholderCurrency()
+        cvv()
+        digitalCardArtToken()
+        expMonth()
+        expYear()
+        hostname()
+        memo()
+        pan()
+        pendingCommands()
+        productId()
+        replacementFor()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -997,16 +999,18 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): FundingAccount = apply {
-            if (!validated) {
-                token()
-                created()
-                lastFour()
-                state()
-                type()
-                accountName()
-                nickname()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            token()
+            created()
+            lastFour()
+            state()
+            type()
+            accountName()
+            nickname()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

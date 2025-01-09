@@ -109,10 +109,12 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): TokenizationUpdateDigitalCardArtBody = apply {
-            if (!validated) {
-                digitalCardArtToken()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            digitalCardArtToken()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

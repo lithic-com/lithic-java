@@ -55,11 +55,13 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ChallengeResponse = apply {
-        if (!validated) {
-            token()
-            challengeResponse()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        challengeResponse()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

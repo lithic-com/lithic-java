@@ -356,29 +356,31 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): AccountHolder = apply {
-        if (!validated) {
-            token()
-            created()
-            accountToken()
-            beneficialOwnerEntities().map { it.forEach { it.validate() } }
-            beneficialOwnerIndividuals().map { it.forEach { it.validate() } }
-            businessAccountToken()
-            businessEntity().map { it.validate() }
-            controlPerson().map { it.validate() }
-            email()
-            exemptionType()
-            externalId()
-            individual().map { it.validate() }
-            natureOfBusiness()
-            phoneNumber()
-            requiredDocuments().map { it.forEach { it.validate() } }
-            status()
-            statusReasons()
-            userType()
-            verificationApplication().map { it.validate() }
-            websiteUrl()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        created()
+        accountToken()
+        beneficialOwnerEntities().ifPresent { it.forEach { it.validate() } }
+        beneficialOwnerIndividuals().ifPresent { it.forEach { it.validate() } }
+        businessAccountToken()
+        businessEntity().ifPresent { it.validate() }
+        controlPerson().ifPresent { it.validate() }
+        email()
+        exemptionType()
+        externalId()
+        individual().ifPresent { it.validate() }
+        natureOfBusiness()
+        phoneNumber()
+        requiredDocuments().ifPresent { it.forEach { it.validate() } }
+        status()
+        statusReasons()
+        userType()
+        verificationApplication().ifPresent { it.validate() }
+        websiteUrl()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -935,16 +937,18 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): AccountHolderBusinessResponse = apply {
-            if (!validated) {
-                address().validate()
-                dbaBusinessName()
-                entityToken()
-                governmentId()
-                legalBusinessName()
-                phoneNumbers()
-                parentCompany()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            address().validate()
+            dbaBusinessName()
+            entityToken()
+            governmentId()
+            legalBusinessName()
+            phoneNumbers()
+            parentCompany()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -1207,16 +1211,18 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): AccountHolderIndividualResponse = apply {
-            if (!validated) {
-                address().validate()
-                dob()
-                email()
-                entityToken()
-                firstName()
-                lastName()
-                phoneNumber()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            address().validate()
+            dob()
+            email()
+            entityToken()
+            firstName()
+            lastName()
+            phoneNumber()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -1714,13 +1720,15 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): AccountHolderVerificationApplication = apply {
-            if (!validated) {
-                created()
-                status()
-                statusReasons()
-                updated()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            created()
+            status()
+            statusReasons()
+            updated()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

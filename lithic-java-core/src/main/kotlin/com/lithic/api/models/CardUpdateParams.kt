@@ -312,16 +312,18 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): CardUpdateBody = apply {
-            if (!validated) {
-                digitalCardArtToken()
-                memo()
-                pin()
-                pinStatus()
-                spendLimit()
-                spendLimitDuration()
-                state()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            digitalCardArtToken()
+            memo()
+            pin()
+            pinStatus()
+            spendLimit()
+            spendLimitDuration()
+            state()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

@@ -59,12 +59,14 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): BacktestResults = apply {
-        if (!validated) {
-            backtestToken()
-            results().validate()
-            simulationParameters().validate()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        backtestToken()
+        results().validate()
+        simulationParameters().validate()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -173,11 +175,13 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): Results = apply {
-            if (!validated) {
-                currentVersion().map { it.validate() }
-                draftVersion().map { it.validate() }
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            currentVersion().ifPresent { it.validate() }
+            draftVersion().ifPresent { it.validate() }
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -321,13 +325,15 @@ private constructor(
             private var validated: Boolean = false
 
             fun validate(): RuleStats = apply {
-                if (!validated) {
-                    approved()
-                    declined()
-                    examples().map { it.forEach { it.validate() } }
-                    version()
-                    validated = true
+                if (validated) {
+                    return@apply
                 }
+
+                approved()
+                declined()
+                examples().ifPresent { it.forEach { it.validate() } }
+                version()
+                validated = true
             }
 
             fun toBuilder() = Builder().from(this)
@@ -505,12 +511,14 @@ private constructor(
                 private var validated: Boolean = false
 
                 fun validate(): Example = apply {
-                    if (!validated) {
-                        approved()
-                        eventToken()
-                        timestamp()
-                        validated = true
+                    if (validated) {
+                        return@apply
                     }
+
+                    approved()
+                    eventToken()
+                    timestamp()
+                    validated = true
                 }
 
                 fun toBuilder() = Builder().from(this)
@@ -687,12 +695,14 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): SimulationParameters = apply {
-            if (!validated) {
-                authRuleToken()
-                end()
-                start()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            authRuleToken()
+            end()
+            start()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

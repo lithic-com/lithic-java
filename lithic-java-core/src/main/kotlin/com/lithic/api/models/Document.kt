@@ -86,14 +86,16 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): Document = apply {
-        if (!validated) {
-            token()
-            accountHolderToken()
-            documentType()
-            entityToken()
-            requiredDocumentUploads().forEach { it.validate() }
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        accountHolderToken()
+        documentType()
+        entityToken()
+        requiredDocumentUploads().forEach { it.validate() }
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)
@@ -498,18 +500,20 @@ private constructor(
         private var validated: Boolean = false
 
         fun validate(): RequiredDocumentUpload = apply {
-            if (!validated) {
-                token()
-                acceptedEntityStatusReasons()
-                created()
-                imageType()
-                rejectedEntityStatusReasons()
-                status()
-                statusReasons()
-                updated()
-                uploadUrl()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            token()
+            acceptedEntityStatusReasons()
+            created()
+            imageType()
+            rejectedEntityStatusReasons()
+            status()
+            statusReasons()
+            updated()
+            uploadUrl()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

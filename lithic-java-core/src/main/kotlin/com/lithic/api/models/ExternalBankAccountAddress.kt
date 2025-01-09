@@ -68,15 +68,17 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): ExternalBankAccountAddress = apply {
-        if (!validated) {
-            address1()
-            city()
-            country()
-            postalCode()
-            state()
-            address2()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        address1()
+        city()
+        country()
+        postalCode()
+        state()
+        address2()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

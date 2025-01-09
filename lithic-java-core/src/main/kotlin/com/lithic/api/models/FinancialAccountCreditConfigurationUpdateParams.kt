@@ -124,13 +124,15 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): FinancialAccountCreditConfigurationUpdateBody = apply {
-            if (!validated) {
-                creditLimit()
-                creditProductToken()
-                externalBankAccountToken()
-                tier()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            creditLimit()
+            creditProductToken()
+            externalBankAccountToken()
+            tier()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

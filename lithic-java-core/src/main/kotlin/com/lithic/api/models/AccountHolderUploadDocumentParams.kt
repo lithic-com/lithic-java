@@ -115,11 +115,13 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): AccountHolderUploadDocumentBody = apply {
-            if (!validated) {
-                documentType()
-                entityToken()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            documentType()
+            entityToken()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

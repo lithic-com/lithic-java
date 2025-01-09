@@ -147,21 +147,23 @@ private constructor(
     private var validated: Boolean = false
 
     fun validate(): LineItemListResponse = apply {
-        if (!validated) {
-            token()
-            amount()
-            category()
-            created()
-            currency()
-            effectiveDate()
-            eventType()
-            financialAccountToken()
-            financialTransactionEventToken()
-            financialTransactionToken()
-            cardToken()
-            descriptor()
-            validated = true
+        if (validated) {
+            return@apply
         }
+
+        token()
+        amount()
+        category()
+        created()
+        currency()
+        effectiveDate()
+        eventType()
+        financialAccountToken()
+        financialTransactionEventToken()
+        financialTransactionToken()
+        cardToken()
+        descriptor()
+        validated = true
     }
 
     fun toBuilder() = Builder().from(this)

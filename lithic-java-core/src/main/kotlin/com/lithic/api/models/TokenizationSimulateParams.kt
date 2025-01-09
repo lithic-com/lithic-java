@@ -230,17 +230,19 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): TokenizationSimulateBody = apply {
-            if (!validated) {
-                cvv()
-                expirationDate()
-                pan()
-                tokenizationSource()
-                accountScore()
-                deviceScore()
-                entity()
-                walletRecommendedDecision()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            cvv()
+            expirationDate()
+            pan()
+            tokenizationSource()
+            accountScore()
+            deviceScore()
+            entity()
+            walletRecommendedDecision()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)

@@ -180,18 +180,20 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): PaymentCreateBody = apply {
-            if (!validated) {
-                amount()
-                externalBankAccountToken()
-                financialAccountToken()
-                method()
-                methodAttributes().validate()
-                type()
-                token()
-                memo()
-                userDefinedId()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            amount()
+            externalBankAccountToken()
+            financialAccountToken()
+            method()
+            methodAttributes().validate()
+            type()
+            token()
+            memo()
+            userDefinedId()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
@@ -625,10 +627,12 @@ constructor(
         private var validated: Boolean = false
 
         fun validate(): PaymentMethodRequestAttributes = apply {
-            if (!validated) {
-                secCode()
-                validated = true
+            if (validated) {
+                return@apply
             }
+
+            secCode()
+            validated = true
         }
 
         fun toBuilder() = Builder().from(this)
