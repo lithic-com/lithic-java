@@ -18,7 +18,7 @@ configure<MavenPublishBaseExtension> {
     signAllPublications()
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-    this.coordinates(project.group.toString(), project.name, project.version.toString())
+    coordinates(project.group.toString(), project.name, project.version.toString())
 
     pom {
         name.set("Lithic Developer API")
