@@ -60,10 +60,10 @@ constructor(
     fun pinStatus(): Optional<PinStatus> = body.pinStatus()
 
     /**
-     * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-     * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should only
-     * be used to reset or remove a prior limit. Only a limit of 1 or above will result in declined
-     * transactions due to checks against the card limit.
+     * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
+     * Transaction requests above the spend limit will be declined. Note that a spend limit of 0 is
+     * effectively no limit, and should only be used to reset or remove a prior limit. Only a limit
+     * of 1 or above will result in declined transactions due to checks against the card limit.
      */
     fun spendLimit(): Optional<Long> = body.spendLimit()
 
@@ -113,10 +113,10 @@ constructor(
     fun _pinStatus(): JsonField<PinStatus> = body._pinStatus()
 
     /**
-     * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-     * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should only
-     * be used to reset or remove a prior limit. Only a limit of 1 or above will result in declined
-     * transactions due to checks against the card limit.
+     * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
+     * Transaction requests above the spend limit will be declined. Note that a spend limit of 0 is
+     * effectively no limit, and should only be used to reset or remove a prior limit. Only a limit
+     * of 1 or above will result in declined transactions due to checks against the card limit.
      */
     fun _spendLimit(): JsonField<Long> = body._spendLimit()
 
@@ -214,10 +214,11 @@ constructor(
             Optional.ofNullable(pinStatus.getNullable("pin_status"))
 
         /**
-         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
-         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
-         * declined transactions due to checks against the card limit.
+         * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
+         * Transaction requests above the spend limit will be declined. Note that a spend limit of 0
+         * is effectively no limit, and should only be used to reset or remove a prior limit. Only a
+         * limit of 1 or above will result in declined transactions due to checks against the card
+         * limit.
          */
         fun spendLimit(): Optional<Long> =
             Optional.ofNullable(spendLimit.getNullable("spend_limit"))
@@ -274,10 +275,11 @@ constructor(
         fun _pinStatus(): JsonField<PinStatus> = pinStatus
 
         /**
-         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
-         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
-         * declined transactions due to checks against the card limit.
+         * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
+         * Transaction requests above the spend limit will be declined. Note that a spend limit of 0
+         * is effectively no limit, and should only be used to reset or remove a prior limit. Only a
+         * limit of 1 or above will result in declined transactions due to checks against the card
+         * limit.
          */
         @JsonProperty("spend_limit") @ExcludeMissing fun _spendLimit(): JsonField<Long> = spendLimit
 
@@ -408,18 +410,20 @@ constructor(
             fun pinStatus(pinStatus: JsonField<PinStatus>) = apply { this.pinStatus = pinStatus }
 
             /**
-             * Amount (in cents) to limit approved authorizations. Transaction requests above the
-             * spend limit will be declined. Note that a spend limit of 0 is effectively no limit,
-             * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
-             * will result in declined transactions due to checks against the card limit.
+             * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000
+             * limit). Transaction requests above the spend limit will be declined. Note that a
+             * spend limit of 0 is effectively no limit, and should only be used to reset or remove
+             * a prior limit. Only a limit of 1 or above will result in declined transactions due to
+             * checks against the card limit.
              */
             fun spendLimit(spendLimit: Long) = spendLimit(JsonField.of(spendLimit))
 
             /**
-             * Amount (in cents) to limit approved authorizations. Transaction requests above the
-             * spend limit will be declined. Note that a spend limit of 0 is effectively no limit,
-             * and should only be used to reset or remove a prior limit. Only a limit of 1 or above
-             * will result in declined transactions due to checks against the card limit.
+             * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000
+             * limit). Transaction requests above the spend limit will be declined. Note that a
+             * spend limit of 0 is effectively no limit, and should only be used to reset or remove
+             * a prior limit. Only a limit of 1 or above will result in declined transactions due to
+             * checks against the card limit.
              */
             fun spendLimit(spendLimit: JsonField<Long>) = apply { this.spendLimit = spendLimit }
 
@@ -604,18 +608,20 @@ constructor(
         fun pinStatus(pinStatus: JsonField<PinStatus>) = apply { body.pinStatus(pinStatus) }
 
         /**
-         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
-         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
-         * declined transactions due to checks against the card limit.
+         * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
+         * Transaction requests above the spend limit will be declined. Note that a spend limit of 0
+         * is effectively no limit, and should only be used to reset or remove a prior limit. Only a
+         * limit of 1 or above will result in declined transactions due to checks against the card
+         * limit.
          */
         fun spendLimit(spendLimit: Long) = apply { body.spendLimit(spendLimit) }
 
         /**
-         * Amount (in cents) to limit approved authorizations. Transaction requests above the spend
-         * limit will be declined. Note that a spend limit of 0 is effectively no limit, and should
-         * only be used to reset or remove a prior limit. Only a limit of 1 or above will result in
-         * declined transactions due to checks against the card limit.
+         * Amount (in cents) to limit approved authorizations (e.g. 100000 would be a $1,000 limit).
+         * Transaction requests above the spend limit will be declined. Note that a spend limit of 0
+         * is effectively no limit, and should only be used to reset or remove a prior limit. Only a
+         * limit of 1 or above will result in declined transactions due to checks against the card
+         * limit.
          */
         fun spendLimit(spendLimit: JsonField<Long>) = apply { body.spendLimit(spendLimit) }
 

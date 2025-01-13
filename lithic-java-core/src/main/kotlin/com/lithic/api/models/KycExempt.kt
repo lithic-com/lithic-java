@@ -68,7 +68,7 @@ private constructor(
     /** The KYC Exempt user's last name */
     fun lastName(): String = lastName.getRequired("last_name")
 
-    /** The KYC Exempt user's phone number */
+    /** The KYC Exempt user's phone number, entered in E.164 format. */
     fun phoneNumber(): String = phoneNumber.getRequired("phone_number")
 
     /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
@@ -105,7 +105,7 @@ private constructor(
     /** The KYC Exempt user's last name */
     @JsonProperty("last_name") @ExcludeMissing fun _lastName(): JsonField<String> = lastName
 
-    /** The KYC Exempt user's phone number */
+    /** The KYC Exempt user's phone number, entered in E.164 format. */
     @JsonProperty("phone_number")
     @ExcludeMissing
     fun _phoneNumber(): JsonField<String> = phoneNumber
@@ -221,10 +221,10 @@ private constructor(
         /** The KYC Exempt user's last name */
         fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
-        /** The KYC Exempt user's phone number */
+        /** The KYC Exempt user's phone number, entered in E.164 format. */
         fun phoneNumber(phoneNumber: String) = phoneNumber(JsonField.of(phoneNumber))
 
-        /** The KYC Exempt user's phone number */
+        /** The KYC Exempt user's phone number, entered in E.164 format. */
         fun phoneNumber(phoneNumber: JsonField<String>) = apply { this.phoneNumber = phoneNumber }
 
         /** Specifies the workflow type. This must be 'KYC_EXEMPT' */
