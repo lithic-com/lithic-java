@@ -36,24 +36,24 @@ constructor(
     fun accountToken(): String = accountToken
 
     /**
-     * Amount (in cents) for the account's daily spend limit. By default the daily spend limit is
-     * set to $1,250.
+     * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000 limit).
+     * By default the daily spend limit is set to $1,250.
      */
     fun dailySpendLimit(): Optional<Long> = body.dailySpendLimit()
 
     /**
-     * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached, no
-     * transactions will be accepted on any card created for this account until the limit is
-     * updated. Note that a spend limit of 0 is effectively no limit, and should only be used to
-     * reset or remove a prior limit. Only a limit of 1 or above will result in declined
-     * transactions due to checks against the account limit. This behavior differs from the daily
-     * spend limit and the monthly spend limit.
+     * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a $1,000
+     * limit). Once this limit is reached, no transactions will be accepted on any card created for
+     * this account until the limit is updated. Note that a spend limit of 0 is effectively no
+     * limit, and should only be used to reset or remove a prior limit. Only a limit of 1 or above
+     * will result in declined transactions due to checks against the account limit. This behavior
+     * differs from the daily spend limit and the monthly spend limit.
      */
     fun lifetimeSpendLimit(): Optional<Long> = body.lifetimeSpendLimit()
 
     /**
-     * Amount (in cents) for the account's monthly spend limit. By default the monthly spend limit
-     * is set to $5,000.
+     * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a $1,000
+     * limit). By default the monthly spend limit is set to $5,000.
      */
     fun monthlySpendLimit(): Optional<Long> = body.monthlySpendLimit()
 
@@ -68,24 +68,24 @@ constructor(
     fun verificationAddress(): Optional<VerificationAddress> = body.verificationAddress()
 
     /**
-     * Amount (in cents) for the account's daily spend limit. By default the daily spend limit is
-     * set to $1,250.
+     * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000 limit).
+     * By default the daily spend limit is set to $1,250.
      */
     fun _dailySpendLimit(): JsonField<Long> = body._dailySpendLimit()
 
     /**
-     * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached, no
-     * transactions will be accepted on any card created for this account until the limit is
-     * updated. Note that a spend limit of 0 is effectively no limit, and should only be used to
-     * reset or remove a prior limit. Only a limit of 1 or above will result in declined
-     * transactions due to checks against the account limit. This behavior differs from the daily
-     * spend limit and the monthly spend limit.
+     * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a $1,000
+     * limit). Once this limit is reached, no transactions will be accepted on any card created for
+     * this account until the limit is updated. Note that a spend limit of 0 is effectively no
+     * limit, and should only be used to reset or remove a prior limit. Only a limit of 1 or above
+     * will result in declined transactions due to checks against the account limit. This behavior
+     * differs from the daily spend limit and the monthly spend limit.
      */
     fun _lifetimeSpendLimit(): JsonField<Long> = body._lifetimeSpendLimit()
 
     /**
-     * Amount (in cents) for the account's monthly spend limit. By default the monthly spend limit
-     * is set to $5,000.
+     * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a $1,000
+     * limit). By default the monthly spend limit is set to $5,000.
      */
     fun _monthlySpendLimit(): JsonField<Long> = body._monthlySpendLimit()
 
@@ -142,26 +142,26 @@ constructor(
     ) {
 
         /**
-         * Amount (in cents) for the account's daily spend limit. By default the daily spend limit
-         * is set to $1,250.
+         * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
+         * limit). By default the daily spend limit is set to $1,250.
          */
         fun dailySpendLimit(): Optional<Long> =
             Optional.ofNullable(dailySpendLimit.getNullable("daily_spend_limit"))
 
         /**
-         * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached, no
-         * transactions will be accepted on any card created for this account until the limit is
-         * updated. Note that a spend limit of 0 is effectively no limit, and should only be used to
-         * reset or remove a prior limit. Only a limit of 1 or above will result in declined
-         * transactions due to checks against the account limit. This behavior differs from the
-         * daily spend limit and the monthly spend limit.
+         * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a $1,000
+         * limit). Once this limit is reached, no transactions will be accepted on any card created
+         * for this account until the limit is updated. Note that a spend limit of 0 is effectively
+         * no limit, and should only be used to reset or remove a prior limit. Only a limit of 1 or
+         * above will result in declined transactions due to checks against the account limit. This
+         * behavior differs from the daily spend limit and the monthly spend limit.
          */
         fun lifetimeSpendLimit(): Optional<Long> =
             Optional.ofNullable(lifetimeSpendLimit.getNullable("lifetime_spend_limit"))
 
         /**
-         * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
-         * limit is set to $5,000.
+         * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a $1,000
+         * limit). By default the monthly spend limit is set to $5,000.
          */
         fun monthlySpendLimit(): Optional<Long> =
             Optional.ofNullable(monthlySpendLimit.getNullable("monthly_spend_limit"))
@@ -178,28 +178,28 @@ constructor(
             Optional.ofNullable(verificationAddress.getNullable("verification_address"))
 
         /**
-         * Amount (in cents) for the account's daily spend limit. By default the daily spend limit
-         * is set to $1,250.
+         * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
+         * limit). By default the daily spend limit is set to $1,250.
          */
         @JsonProperty("daily_spend_limit")
         @ExcludeMissing
         fun _dailySpendLimit(): JsonField<Long> = dailySpendLimit
 
         /**
-         * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached, no
-         * transactions will be accepted on any card created for this account until the limit is
-         * updated. Note that a spend limit of 0 is effectively no limit, and should only be used to
-         * reset or remove a prior limit. Only a limit of 1 or above will result in declined
-         * transactions due to checks against the account limit. This behavior differs from the
-         * daily spend limit and the monthly spend limit.
+         * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a $1,000
+         * limit). Once this limit is reached, no transactions will be accepted on any card created
+         * for this account until the limit is updated. Note that a spend limit of 0 is effectively
+         * no limit, and should only be used to reset or remove a prior limit. Only a limit of 1 or
+         * above will result in declined transactions due to checks against the account limit. This
+         * behavior differs from the daily spend limit and the monthly spend limit.
          */
         @JsonProperty("lifetime_spend_limit")
         @ExcludeMissing
         fun _lifetimeSpendLimit(): JsonField<Long> = lifetimeSpendLimit
 
         /**
-         * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
-         * limit is set to $5,000.
+         * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a $1,000
+         * limit). By default the monthly spend limit is set to $5,000.
          */
         @JsonProperty("monthly_spend_limit")
         @ExcludeMissing
@@ -263,53 +263,55 @@ constructor(
             }
 
             /**
-             * Amount (in cents) for the account's daily spend limit. By default the daily spend
-             * limit is set to $1,250.
+             * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
+             * limit). By default the daily spend limit is set to $1,250.
              */
             fun dailySpendLimit(dailySpendLimit: Long) =
                 dailySpendLimit(JsonField.of(dailySpendLimit))
 
             /**
-             * Amount (in cents) for the account's daily spend limit. By default the daily spend
-             * limit is set to $1,250.
+             * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
+             * limit). By default the daily spend limit is set to $1,250.
              */
             fun dailySpendLimit(dailySpendLimit: JsonField<Long>) = apply {
                 this.dailySpendLimit = dailySpendLimit
             }
 
             /**
-             * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached,
-             * no transactions will be accepted on any card created for this account until the limit
-             * is updated. Note that a spend limit of 0 is effectively no limit, and should only be
-             * used to reset or remove a prior limit. Only a limit of 1 or above will result in
-             * declined transactions due to checks against the account limit. This behavior differs
-             * from the daily spend limit and the monthly spend limit.
+             * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a
+             * $1,000 limit). Once this limit is reached, no transactions will be accepted on any
+             * card created for this account until the limit is updated. Note that a spend limit of
+             * 0 is effectively no limit, and should only be used to reset or remove a prior limit.
+             * Only a limit of 1 or above will result in declined transactions due to checks against
+             * the account limit. This behavior differs from the daily spend limit and the monthly
+             * spend limit.
              */
             fun lifetimeSpendLimit(lifetimeSpendLimit: Long) =
                 lifetimeSpendLimit(JsonField.of(lifetimeSpendLimit))
 
             /**
-             * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached,
-             * no transactions will be accepted on any card created for this account until the limit
-             * is updated. Note that a spend limit of 0 is effectively no limit, and should only be
-             * used to reset or remove a prior limit. Only a limit of 1 or above will result in
-             * declined transactions due to checks against the account limit. This behavior differs
-             * from the daily spend limit and the monthly spend limit.
+             * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a
+             * $1,000 limit). Once this limit is reached, no transactions will be accepted on any
+             * card created for this account until the limit is updated. Note that a spend limit of
+             * 0 is effectively no limit, and should only be used to reset or remove a prior limit.
+             * Only a limit of 1 or above will result in declined transactions due to checks against
+             * the account limit. This behavior differs from the daily spend limit and the monthly
+             * spend limit.
              */
             fun lifetimeSpendLimit(lifetimeSpendLimit: JsonField<Long>) = apply {
                 this.lifetimeSpendLimit = lifetimeSpendLimit
             }
 
             /**
-             * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
-             * limit is set to $5,000.
+             * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a
+             * $1,000 limit). By default the monthly spend limit is set to $5,000.
              */
             fun monthlySpendLimit(monthlySpendLimit: Long) =
                 monthlySpendLimit(JsonField.of(monthlySpendLimit))
 
             /**
-             * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
-             * limit is set to $5,000.
+             * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a
+             * $1,000 limit). By default the monthly spend limit is set to $5,000.
              */
             fun monthlySpendLimit(monthlySpendLimit: JsonField<Long>) = apply {
                 this.monthlySpendLimit = monthlySpendLimit
@@ -414,54 +416,54 @@ constructor(
         fun accountToken(accountToken: String) = apply { this.accountToken = accountToken }
 
         /**
-         * Amount (in cents) for the account's daily spend limit. By default the daily spend limit
-         * is set to $1,250.
+         * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
+         * limit). By default the daily spend limit is set to $1,250.
          */
         fun dailySpendLimit(dailySpendLimit: Long) = apply { body.dailySpendLimit(dailySpendLimit) }
 
         /**
-         * Amount (in cents) for the account's daily spend limit. By default the daily spend limit
-         * is set to $1,250.
+         * Amount (in cents) for the account's daily spend limit (e.g. 100000 would be a $1,000
+         * limit). By default the daily spend limit is set to $1,250.
          */
         fun dailySpendLimit(dailySpendLimit: JsonField<Long>) = apply {
             body.dailySpendLimit(dailySpendLimit)
         }
 
         /**
-         * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached, no
-         * transactions will be accepted on any card created for this account until the limit is
-         * updated. Note that a spend limit of 0 is effectively no limit, and should only be used to
-         * reset or remove a prior limit. Only a limit of 1 or above will result in declined
-         * transactions due to checks against the account limit. This behavior differs from the
-         * daily spend limit and the monthly spend limit.
+         * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a $1,000
+         * limit). Once this limit is reached, no transactions will be accepted on any card created
+         * for this account until the limit is updated. Note that a spend limit of 0 is effectively
+         * no limit, and should only be used to reset or remove a prior limit. Only a limit of 1 or
+         * above will result in declined transactions due to checks against the account limit. This
+         * behavior differs from the daily spend limit and the monthly spend limit.
          */
         fun lifetimeSpendLimit(lifetimeSpendLimit: Long) = apply {
             body.lifetimeSpendLimit(lifetimeSpendLimit)
         }
 
         /**
-         * Amount (in cents) for the account's lifetime spend limit. Once this limit is reached, no
-         * transactions will be accepted on any card created for this account until the limit is
-         * updated. Note that a spend limit of 0 is effectively no limit, and should only be used to
-         * reset or remove a prior limit. Only a limit of 1 or above will result in declined
-         * transactions due to checks against the account limit. This behavior differs from the
-         * daily spend limit and the monthly spend limit.
+         * Amount (in cents) for the account's lifetime spend limit (e.g. 100000 would be a $1,000
+         * limit). Once this limit is reached, no transactions will be accepted on any card created
+         * for this account until the limit is updated. Note that a spend limit of 0 is effectively
+         * no limit, and should only be used to reset or remove a prior limit. Only a limit of 1 or
+         * above will result in declined transactions due to checks against the account limit. This
+         * behavior differs from the daily spend limit and the monthly spend limit.
          */
         fun lifetimeSpendLimit(lifetimeSpendLimit: JsonField<Long>) = apply {
             body.lifetimeSpendLimit(lifetimeSpendLimit)
         }
 
         /**
-         * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
-         * limit is set to $5,000.
+         * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a $1,000
+         * limit). By default the monthly spend limit is set to $5,000.
          */
         fun monthlySpendLimit(monthlySpendLimit: Long) = apply {
             body.monthlySpendLimit(monthlySpendLimit)
         }
 
         /**
-         * Amount (in cents) for the account's monthly spend limit. By default the monthly spend
-         * limit is set to $5,000.
+         * Amount (in cents) for the account's monthly spend limit (e.g. 100000 would be a $1,000
+         * limit). By default the monthly spend limit is set to $5,000.
          */
         fun monthlySpendLimit(monthlySpendLimit: JsonField<Long>) = apply {
             body.monthlySpendLimit(monthlySpendLimit)

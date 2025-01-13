@@ -43,11 +43,12 @@ constructor(
             .withErrorHandler(errorHandler)
 
     /**
-     * Run an individual or business's information through the Customer Identification Program
-     * (CIP). All calls to this endpoint will return an immediate response - though in some cases,
-     * the response may indicate the enrollment is under review or further action will be needed to
-     * complete the account enrollment process. This endpoint can only be used on accounts that are
-     * part of the program that the calling API key manages.
+     * Create an account holder and initiate the appropriate onboarding workflow. Account holders
+     * and accounts have a 1:1 relationship. When an account holder is successfully created an
+     * associated account is also created. All calls to this endpoint will return an immediate
+     * response - though in some cases, the response may indicate the enrollment is under review or
+     * further action will be needed to complete the account enrollment process. This endpoint can
+     * only be used on accounts that are part of the program that the calling API key manages.
      */
     override fun create(
         params: AccountHolderCreateParams,
