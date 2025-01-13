@@ -28,6 +28,7 @@ constructor(
     private val pageSize: Long?,
     private val result: Result?,
     private val startingAfter: String?,
+    private val status: CardTransactionStatusFilter?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) {
@@ -71,6 +72,9 @@ constructor(
      */
     fun startingAfter(): Optional<String> = Optional.ofNullable(startingAfter)
 
+    /** Filters for transactions using transaction status field. */
+    fun status(): Optional<CardTransactionStatusFilter> = Optional.ofNullable(status)
+
     fun _additionalHeaders(): Headers = additionalHeaders
 
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
@@ -92,6 +96,7 @@ constructor(
         this.pageSize?.let { queryParams.put("page_size", listOf(it.toString())) }
         this.result?.let { queryParams.put("result", listOf(it.toString())) }
         this.startingAfter?.let { queryParams.put("starting_after", listOf(it.toString())) }
+        this.status?.let { queryParams.put("status", listOf(it.toString())) }
         queryParams.putAll(additionalQueryParams)
         return queryParams.build()
     }
@@ -114,6 +119,7 @@ constructor(
         private var pageSize: Long? = null
         private var result: Result? = null
         private var startingAfter: String? = null
+        private var status: CardTransactionStatusFilter? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -127,6 +133,7 @@ constructor(
             pageSize = transactionListParams.pageSize
             result = transactionListParams.result
             startingAfter = transactionListParams.startingAfter
+            status = transactionListParams.status
             additionalHeaders = transactionListParams.additionalHeaders.toBuilder()
             additionalQueryParams = transactionListParams.additionalQueryParams.toBuilder()
         }
@@ -213,6 +220,12 @@ constructor(
          */
         fun startingAfter(startingAfter: Optional<String>) =
             startingAfter(startingAfter.orElse(null))
+
+        /** Filters for transactions using transaction status field. */
+        fun status(status: CardTransactionStatusFilter?) = apply { this.status = status }
+
+        /** Filters for transactions using transaction status field. */
+        fun status(status: Optional<CardTransactionStatusFilter>) = status(status.orElse(null))
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -322,6 +335,7 @@ constructor(
                 pageSize,
                 result,
                 startingAfter,
+                status,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -384,16 +398,92 @@ constructor(
         override fun toString() = value.toString()
     }
 
+    class CardTransactionStatusFilter
+    @JsonCreator
+    private constructor(
+        private val value: JsonField<String>,
+    ) : Enum {
+
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val PENDING = of("PENDING")
+
+            @JvmField val VOIDED = of("VOIDED")
+
+            @JvmField val SETTLED = of("SETTLED")
+
+            @JvmField val DECLINED = of("DECLINED")
+
+            @JvmField val EXPIRED = of("EXPIRED")
+
+            @JvmStatic fun of(value: String) = CardTransactionStatusFilter(JsonField.of(value))
+        }
+
+        enum class Known {
+            PENDING,
+            VOIDED,
+            SETTLED,
+            DECLINED,
+            EXPIRED,
+        }
+
+        enum class Value {
+            PENDING,
+            VOIDED,
+            SETTLED,
+            DECLINED,
+            EXPIRED,
+            _UNKNOWN,
+        }
+
+        fun value(): Value =
+            when (this) {
+                PENDING -> Value.PENDING
+                VOIDED -> Value.VOIDED
+                SETTLED -> Value.SETTLED
+                DECLINED -> Value.DECLINED
+                EXPIRED -> Value.EXPIRED
+                else -> Value._UNKNOWN
+            }
+
+        fun known(): Known =
+            when (this) {
+                PENDING -> Known.PENDING
+                VOIDED -> Known.VOIDED
+                SETTLED -> Known.SETTLED
+                DECLINED -> Known.DECLINED
+                EXPIRED -> Known.EXPIRED
+                else ->
+                    throw LithicInvalidDataException("Unknown CardTransactionStatusFilter: $value")
+            }
+
+        fun asString(): String = _value().asStringOrThrow()
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is CardTransactionStatusFilter && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is TransactionListParams && accountToken == other.accountToken && begin == other.begin && cardToken == other.cardToken && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && result == other.result && startingAfter == other.startingAfter && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is TransactionListParams && accountToken == other.accountToken && begin == other.begin && cardToken == other.cardToken && end == other.end && endingBefore == other.endingBefore && pageSize == other.pageSize && result == other.result && startingAfter == other.startingAfter && status == other.status && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, result, startingAfter, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountToken, begin, cardToken, end, endingBefore, pageSize, result, startingAfter, status, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "TransactionListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "TransactionListParams{accountToken=$accountToken, begin=$begin, cardToken=$cardToken, end=$end, endingBefore=$endingBefore, pageSize=$pageSize, result=$result, startingAfter=$startingAfter, status=$status, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

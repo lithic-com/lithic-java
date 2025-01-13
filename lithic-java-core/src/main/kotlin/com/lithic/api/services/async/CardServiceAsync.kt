@@ -77,8 +77,8 @@ interface CardServiceAsync {
      * `PHYSICAL`. The card will be set to state `PENDING_FULFILLMENT` and fulfilled at next
      * fulfillment cycle. Virtual cards created on card programs which do not support physical cards
      * cannot be converted. The card program cannot be changed as part of the conversion. Cards must
-     * be in a state of either `OPEN` or `PAUSED` to be converted. Only applies to cards of type
-     * `VIRTUAL` (or existing cards with deprecated types of `DIGITAL_WALLET` and `UNLOCKED`).
+     * be in an `OPEN` state to be converted. Only applies to cards of type `VIRTUAL` (or existing
+     * cards with deprecated types of `DIGITAL_WALLET` and `UNLOCKED`).
      */
     @JvmOverloads
     fun convertPhysical(
