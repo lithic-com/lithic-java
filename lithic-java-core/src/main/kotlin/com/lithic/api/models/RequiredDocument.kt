@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
@@ -192,11 +193,9 @@ private constructor(
 
         fun build(): RequiredDocument =
             RequiredDocument(
-                checkNotNull(entityToken) { "`entityToken` is required but was not set" },
-                checkNotNull(statusReasons) { "`statusReasons` is required but was not set" }
-                    .map { it.toImmutable() },
-                checkNotNull(validDocuments) { "`validDocuments` is required but was not set" }
-                    .map { it.toImmutable() },
+                checkRequired("entityToken", entityToken),
+                checkRequired("statusReasons", statusReasons).map { it.toImmutable() },
+                checkRequired("validDocuments", validDocuments).map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )
     }

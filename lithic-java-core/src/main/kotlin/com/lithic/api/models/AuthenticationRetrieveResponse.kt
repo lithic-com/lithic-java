@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -604,19 +605,17 @@ private constructor(
 
         fun build(): AuthenticationRetrieveResponse =
             AuthenticationRetrieveResponse(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(accountType) { "`accountType` is required but was not set" },
-                checkNotNull(authenticationResult) {
-                    "`authenticationResult` is required but was not set"
-                },
-                checkNotNull(cardExpiryCheck) { "`cardExpiryCheck` is required but was not set" },
-                checkNotNull(cardToken) { "`cardToken` is required but was not set" },
-                checkNotNull(cardholder) { "`cardholder` is required but was not set" },
-                checkNotNull(channel) { "`channel` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(decisionMadeBy) { "`decisionMadeBy` is required but was not set" },
-                checkNotNull(merchant) { "`merchant` is required but was not set" },
-                checkNotNull(messageCategory) { "`messageCategory` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("accountType", accountType),
+                checkRequired("authenticationResult", authenticationResult),
+                checkRequired("cardExpiryCheck", cardExpiryCheck),
+                checkRequired("cardToken", cardToken),
+                checkRequired("cardholder", cardholder),
+                checkRequired("channel", channel),
+                checkRequired("created", created),
+                checkRequired("decisionMadeBy", decisionMadeBy),
+                checkRequired("merchant", merchant),
+                checkRequired("messageCategory", messageCategory),
                 additionalData,
                 app,
                 authenticationRequestType,
@@ -1770,11 +1769,11 @@ private constructor(
 
             fun build(): Merchant =
                 Merchant(
-                    checkNotNull(id) { "`id` is required but was not set" },
-                    checkNotNull(country) { "`country` is required but was not set" },
-                    checkNotNull(mcc) { "`mcc` is required but was not set" },
-                    checkNotNull(name) { "`name` is required but was not set" },
-                    checkNotNull(riskIndicator) { "`riskIndicator` is required but was not set" },
+                    checkRequired("id", id),
+                    checkRequired("country", country),
+                    checkRequired("mcc", mcc),
+                    checkRequired("name", name),
+                    checkRequired("riskIndicator", riskIndicator),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -3826,13 +3825,11 @@ private constructor(
 
             fun build(): Transaction =
                 Transaction(
-                    checkNotNull(amount) { "`amount` is required but was not set" },
-                    checkNotNull(currency) { "`currency` is required but was not set" },
-                    checkNotNull(currencyExponent) {
-                        "`currencyExponent` is required but was not set"
-                    },
-                    checkNotNull(dateTime) { "`dateTime` is required but was not set" },
-                    checkNotNull(type) { "`type` is required but was not set" },
+                    checkRequired("amount", amount),
+                    checkRequired("currency", currency),
+                    checkRequired("currencyExponent", currencyExponent),
+                    checkRequired("dateTime", dateTime),
+                    checkRequired("type", type),
                     additionalProperties.toImmutable(),
                 )
         }

@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -177,12 +178,11 @@ private constructor(
 
         fun build(): EnhancedData =
             EnhancedData(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(common) { "`common` is required but was not set" },
-                checkNotNull(eventToken) { "`eventToken` is required but was not set" },
-                checkNotNull(fleet) { "`fleet` is required but was not set" }
-                    .map { it.toImmutable() },
-                checkNotNull(transactionToken) { "`transactionToken` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("common", common),
+                checkRequired("eventToken", eventToken),
+                checkRequired("fleet", fleet).map { it.toImmutable() },
+                checkRequired("transactionToken", transactionToken),
                 additionalProperties.toImmutable(),
             )
     }
@@ -358,9 +358,8 @@ private constructor(
 
             fun build(): CommonData =
                 CommonData(
-                    checkNotNull(lineItems) { "`lineItems` is required but was not set" }
-                        .map { it.toImmutable() },
-                    checkNotNull(tax) { "`tax` is required but was not set" },
+                    checkRequired("lineItems", lineItems).map { it.toImmutable() },
+                    checkRequired("tax", tax),
                     customerReferenceNumber,
                     merchantReferenceNumber,
                     orderDate,
@@ -973,8 +972,8 @@ private constructor(
 
             fun build(): Fleet =
                 Fleet(
-                    checkNotNull(amountTotals) { "`amountTotals` is required but was not set" },
-                    checkNotNull(fuel) { "`fuel` is required but was not set" },
+                    checkRequired("amountTotals", amountTotals),
+                    checkRequired("fuel", fuel),
                     driverNumber,
                     odometer,
                     serviceType,

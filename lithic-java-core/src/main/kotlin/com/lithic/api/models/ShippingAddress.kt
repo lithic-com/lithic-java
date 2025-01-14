@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
@@ -353,13 +354,13 @@ private constructor(
 
         fun build(): ShippingAddress =
             ShippingAddress(
-                checkNotNull(address1) { "`address1` is required but was not set" },
-                checkNotNull(city) { "`city` is required but was not set" },
-                checkNotNull(country) { "`country` is required but was not set" },
-                checkNotNull(firstName) { "`firstName` is required but was not set" },
-                checkNotNull(lastName) { "`lastName` is required but was not set" },
-                checkNotNull(postalCode) { "`postalCode` is required but was not set" },
-                checkNotNull(state) { "`state` is required but was not set" },
+                checkRequired("address1", address1),
+                checkRequired("city", city),
+                checkRequired("country", country),
+                checkRequired("firstName", firstName),
+                checkRequired("lastName", lastName),
+                checkRequired("postalCode", postalCode),
+                checkRequired("state", state),
                 address2,
                 email,
                 line2Text,

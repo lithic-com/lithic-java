@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -240,18 +241,14 @@ private constructor(
 
         fun build(): MessageAttempt =
             MessageAttempt(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(eventSubscriptionToken) {
-                    "`eventSubscriptionToken` is required but was not set"
-                },
-                checkNotNull(eventToken) { "`eventToken` is required but was not set" },
-                checkNotNull(response) { "`response` is required but was not set" },
-                checkNotNull(responseStatusCode) {
-                    "`responseStatusCode` is required but was not set"
-                },
-                checkNotNull(status) { "`status` is required but was not set" },
-                checkNotNull(url) { "`url` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("created", created),
+                checkRequired("eventSubscriptionToken", eventSubscriptionToken),
+                checkRequired("eventToken", eventToken),
+                checkRequired("response", response),
+                checkRequired("responseStatusCode", responseStatusCode),
+                checkRequired("status", status),
+                checkRequired("url", url),
                 additionalProperties.toImmutable(),
             )
     }

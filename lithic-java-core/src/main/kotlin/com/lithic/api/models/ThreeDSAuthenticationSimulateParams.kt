@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -216,9 +217,9 @@ constructor(
 
             fun build(): ThreeDSAuthenticationSimulateBody =
                 ThreeDSAuthenticationSimulateBody(
-                    checkNotNull(merchant) { "`merchant` is required but was not set" },
-                    checkNotNull(pan) { "`pan` is required but was not set" },
-                    checkNotNull(transaction) { "`transaction` is required but was not set" },
+                    checkRequired("merchant", merchant),
+                    checkRequired("pan", pan),
+                    checkRequired("transaction", transaction),
                     cardExpiryCheck,
                     additionalProperties.toImmutable(),
                 )
@@ -589,10 +590,10 @@ constructor(
 
             fun build(): Merchant =
                 Merchant(
-                    checkNotNull(id) { "`id` is required but was not set" },
-                    checkNotNull(country) { "`country` is required but was not set" },
-                    checkNotNull(mcc) { "`mcc` is required but was not set" },
-                    checkNotNull(name) { "`name` is required but was not set" },
+                    checkRequired("id", id),
+                    checkRequired("country", country),
+                    checkRequired("mcc", mcc),
+                    checkRequired("name", name),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -710,8 +711,8 @@ constructor(
 
             fun build(): Transaction =
                 Transaction(
-                    checkNotNull(amount) { "`amount` is required but was not set" },
-                    checkNotNull(currency) { "`currency` is required but was not set" },
+                    checkRequired("amount", amount),
+                    checkRequired("currency", currency),
                     additionalProperties.toImmutable(),
                 )
         }

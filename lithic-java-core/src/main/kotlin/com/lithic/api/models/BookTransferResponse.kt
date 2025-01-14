@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -401,23 +402,18 @@ private constructor(
 
         fun build(): BookTransferResponse =
             BookTransferResponse(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(category) { "`category` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(currency) { "`currency` is required but was not set" },
-                checkNotNull(events) { "`events` is required but was not set" }
-                    .map { it.toImmutable() },
-                checkNotNull(fromFinancialAccountToken) {
-                    "`fromFinancialAccountToken` is required but was not set"
-                },
-                checkNotNull(pendingAmount) { "`pendingAmount` is required but was not set" },
-                checkNotNull(result) { "`result` is required but was not set" },
-                checkNotNull(settledAmount) { "`settledAmount` is required but was not set" },
-                checkNotNull(status) { "`status` is required but was not set" },
-                checkNotNull(toFinancialAccountToken) {
-                    "`toFinancialAccountToken` is required but was not set"
-                },
-                checkNotNull(updated) { "`updated` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("category", category),
+                checkRequired("created", created),
+                checkRequired("currency", currency),
+                checkRequired("events", events).map { it.toImmutable() },
+                checkRequired("fromFinancialAccountToken", fromFinancialAccountToken),
+                checkRequired("pendingAmount", pendingAmount),
+                checkRequired("result", result),
+                checkRequired("settledAmount", settledAmount),
+                checkRequired("status", status),
+                checkRequired("toFinancialAccountToken", toFinancialAccountToken),
+                checkRequired("updated", updated),
                 additionalProperties.toImmutable(),
             )
     }
@@ -756,17 +752,14 @@ private constructor(
 
             fun build(): BookTransferEvent =
                 BookTransferEvent(
-                    checkNotNull(token) { "`token` is required but was not set" },
-                    checkNotNull(amount) { "`amount` is required but was not set" },
-                    checkNotNull(created) { "`created` is required but was not set" },
-                    checkNotNull(detailedResults) {
-                            "`detailedResults` is required but was not set"
-                        }
-                        .map { it.toImmutable() },
-                    checkNotNull(memo) { "`memo` is required but was not set" },
-                    checkNotNull(result) { "`result` is required but was not set" },
-                    checkNotNull(subtype) { "`subtype` is required but was not set" },
-                    checkNotNull(type) { "`type` is required but was not set" },
+                    checkRequired("token", token),
+                    checkRequired("amount", amount),
+                    checkRequired("created", created),
+                    checkRequired("detailedResults", detailedResults).map { it.toImmutable() },
+                    checkRequired("memo", memo),
+                    checkRequired("result", result),
+                    checkRequired("subtype", subtype),
+                    checkRequired("type", type),
                     additionalProperties.toImmutable(),
                 )
         }

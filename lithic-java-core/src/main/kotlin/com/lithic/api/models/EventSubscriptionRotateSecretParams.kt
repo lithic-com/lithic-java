@@ -4,6 +4,7 @@ package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
@@ -198,9 +199,7 @@ constructor(
 
         fun build(): EventSubscriptionRotateSecretParams =
             EventSubscriptionRotateSecretParams(
-                checkNotNull(eventSubscriptionToken) {
-                    "`eventSubscriptionToken` is required but was not set"
-                },
+                checkRequired("eventSubscriptionToken", eventSubscriptionToken),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),

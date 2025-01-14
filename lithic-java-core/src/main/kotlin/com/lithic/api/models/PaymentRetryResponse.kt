@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.time.OffsetDateTime
@@ -537,29 +538,24 @@ private constructor(
 
         fun build(): PaymentRetryResponse =
             PaymentRetryResponse(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(category) { "`category` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(currency) { "`currency` is required but was not set" },
-                checkNotNull(descriptor) { "`descriptor` is required but was not set" },
-                checkNotNull(direction) { "`direction` is required but was not set" },
-                checkNotNull(events) { "`events` is required but was not set" }
-                    .map { it.toImmutable() },
-                checkNotNull(externalBankAccountToken) {
-                    "`externalBankAccountToken` is required but was not set"
-                },
-                checkNotNull(financialAccountToken) {
-                    "`financialAccountToken` is required but was not set"
-                },
-                checkNotNull(method) { "`method` is required but was not set" },
-                checkNotNull(methodAttributes) { "`methodAttributes` is required but was not set" },
-                checkNotNull(pendingAmount) { "`pendingAmount` is required but was not set" },
-                checkNotNull(result) { "`result` is required but was not set" },
-                checkNotNull(settledAmount) { "`settledAmount` is required but was not set" },
-                checkNotNull(source) { "`source` is required but was not set" },
-                checkNotNull(status) { "`status` is required but was not set" },
-                checkNotNull(updated) { "`updated` is required but was not set" },
-                checkNotNull(userDefinedId) { "`userDefinedId` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("category", category),
+                checkRequired("created", created),
+                checkRequired("currency", currency),
+                checkRequired("descriptor", descriptor),
+                checkRequired("direction", direction),
+                checkRequired("events", events).map { it.toImmutable() },
+                checkRequired("externalBankAccountToken", externalBankAccountToken),
+                checkRequired("financialAccountToken", financialAccountToken),
+                checkRequired("method", method),
+                checkRequired("methodAttributes", methodAttributes),
+                checkRequired("pendingAmount", pendingAmount),
+                checkRequired("result", result),
+                checkRequired("settledAmount", settledAmount),
+                checkRequired("source", source),
+                checkRequired("status", status),
+                checkRequired("updated", updated),
+                checkRequired("userDefinedId", userDefinedId),
                 balance,
                 additionalProperties.toImmutable(),
             )

@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -307,18 +308,12 @@ constructor(
 
             fun build(): PaymentCreateBody =
                 PaymentCreateBody(
-                    checkNotNull(amount) { "`amount` is required but was not set" },
-                    checkNotNull(externalBankAccountToken) {
-                        "`externalBankAccountToken` is required but was not set"
-                    },
-                    checkNotNull(financialAccountToken) {
-                        "`financialAccountToken` is required but was not set"
-                    },
-                    checkNotNull(method) { "`method` is required but was not set" },
-                    checkNotNull(methodAttributes) {
-                        "`methodAttributes` is required but was not set"
-                    },
-                    checkNotNull(type) { "`type` is required but was not set" },
+                    checkRequired("amount", amount),
+                    checkRequired("externalBankAccountToken", externalBankAccountToken),
+                    checkRequired("financialAccountToken", financialAccountToken),
+                    checkRequired("method", method),
+                    checkRequired("methodAttributes", methodAttributes),
+                    checkRequired("type", type),
                     token,
                     memo,
                     userDefinedId,
@@ -680,7 +675,7 @@ constructor(
 
             fun build(): PaymentMethodRequestAttributes =
                 PaymentMethodRequestAttributes(
-                    checkNotNull(secCode) { "`secCode` is required but was not set" },
+                    checkRequired("secCode", secCode),
                     additionalProperties.toImmutable()
                 )
         }

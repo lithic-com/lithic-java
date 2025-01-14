@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -520,32 +521,24 @@ private constructor(
 
         fun build(): Statement =
             Statement(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(accountStanding) { "`accountStanding` is required but was not set" },
-                checkNotNull(amountDue) { "`amountDue` is required but was not set" },
-                checkNotNull(availableCredit) { "`availableCredit` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(creditLimit) { "`creditLimit` is required but was not set" },
-                checkNotNull(creditProductToken) {
-                    "`creditProductToken` is required but was not set"
-                },
-                checkNotNull(daysInBillingCycle) {
-                    "`daysInBillingCycle` is required but was not set"
-                },
-                checkNotNull(endingBalance) { "`endingBalance` is required but was not set" },
-                checkNotNull(financialAccountToken) {
-                    "`financialAccountToken` is required but was not set"
-                },
-                checkNotNull(paymentDueDate) { "`paymentDueDate` is required but was not set" },
-                checkNotNull(periodTotals) { "`periodTotals` is required but was not set" },
-                checkNotNull(startingBalance) { "`startingBalance` is required but was not set" },
-                checkNotNull(statementEndDate) { "`statementEndDate` is required but was not set" },
-                checkNotNull(statementStartDate) {
-                    "`statementStartDate` is required but was not set"
-                },
-                checkNotNull(statementType) { "`statementType` is required but was not set" },
-                checkNotNull(updated) { "`updated` is required but was not set" },
-                checkNotNull(ytdTotals) { "`ytdTotals` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("accountStanding", accountStanding),
+                checkRequired("amountDue", amountDue),
+                checkRequired("availableCredit", availableCredit),
+                checkRequired("created", created),
+                checkRequired("creditLimit", creditLimit),
+                checkRequired("creditProductToken", creditProductToken),
+                checkRequired("daysInBillingCycle", daysInBillingCycle),
+                checkRequired("endingBalance", endingBalance),
+                checkRequired("financialAccountToken", financialAccountToken),
+                checkRequired("paymentDueDate", paymentDueDate),
+                checkRequired("periodTotals", periodTotals),
+                checkRequired("startingBalance", startingBalance),
+                checkRequired("statementEndDate", statementEndDate),
+                checkRequired("statementStartDate", statementStartDate),
+                checkRequired("statementType", statementType),
+                checkRequired("updated", updated),
+                checkRequired("ytdTotals", ytdTotals),
                 interestDetails,
                 nextPaymentDueDate,
                 nextStatementEndDate,
@@ -763,19 +756,16 @@ private constructor(
 
             fun build(): AccountStanding =
                 AccountStanding(
-                    checkNotNull(consecutiveFullPaymentsMade) {
-                        "`consecutiveFullPaymentsMade` is required but was not set"
-                    },
-                    checkNotNull(consecutiveMinimumPaymentsMade) {
-                        "`consecutiveMinimumPaymentsMade` is required but was not set"
-                    },
-                    checkNotNull(consecutiveMinimumPaymentsMissed) {
-                        "`consecutiveMinimumPaymentsMissed` is required but was not set"
-                    },
-                    checkNotNull(daysPastDue) { "`daysPastDue` is required but was not set" },
-                    checkNotNull(hasGrace) { "`hasGrace` is required but was not set" },
-                    checkNotNull(periodNumber) { "`periodNumber` is required but was not set" },
-                    checkNotNull(periodState) { "`periodState` is required but was not set" },
+                    checkRequired("consecutiveFullPaymentsMade", consecutiveFullPaymentsMade),
+                    checkRequired("consecutiveMinimumPaymentsMade", consecutiveMinimumPaymentsMade),
+                    checkRequired(
+                        "consecutiveMinimumPaymentsMissed",
+                        consecutiveMinimumPaymentsMissed
+                    ),
+                    checkRequired("daysPastDue", daysPastDue),
+                    checkRequired("hasGrace", hasGrace),
+                    checkRequired("periodNumber", periodNumber),
+                    checkRequired("periodState", periodState),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -976,8 +966,8 @@ private constructor(
 
             fun build(): AmountDue =
                 AmountDue(
-                    checkNotNull(amount) { "`amount` is required but was not set" },
-                    checkNotNull(pastDue) { "`pastDue` is required but was not set" },
+                    checkRequired("amount", amount),
+                    checkRequired("pastDue", pastDue),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -1202,15 +1192,13 @@ private constructor(
 
             fun build(): StatementTotals =
                 StatementTotals(
-                    checkNotNull(balanceTransfers) {
-                        "`balanceTransfers` is required but was not set"
-                    },
-                    checkNotNull(cashAdvances) { "`cashAdvances` is required but was not set" },
-                    checkNotNull(credits) { "`credits` is required but was not set" },
-                    checkNotNull(fees) { "`fees` is required but was not set" },
-                    checkNotNull(interest) { "`interest` is required but was not set" },
-                    checkNotNull(payments) { "`payments` is required but was not set" },
-                    checkNotNull(purchases) { "`purchases` is required but was not set" },
+                    checkRequired("balanceTransfers", balanceTransfers),
+                    checkRequired("cashAdvances", cashAdvances),
+                    checkRequired("credits", credits),
+                    checkRequired("fees", fees),
+                    checkRequired("interest", interest),
+                    checkRequired("payments", payments),
+                    checkRequired("purchases", purchases),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -1500,20 +1488,12 @@ private constructor(
 
             fun build(): InterestDetails =
                 InterestDetails(
-                    checkNotNull(actualInterestCharged) {
-                        "`actualInterestCharged` is required but was not set"
-                    },
-                    checkNotNull(dailyBalanceAmounts) {
-                        "`dailyBalanceAmounts` is required but was not set"
-                    },
-                    checkNotNull(effectiveApr) { "`effectiveApr` is required but was not set" },
-                    checkNotNull(interestCalculationMethod) {
-                        "`interestCalculationMethod` is required but was not set"
-                    },
-                    checkNotNull(interestForPeriod) {
-                        "`interestForPeriod` is required but was not set"
-                    },
-                    checkNotNull(primeRate) { "`primeRate` is required but was not set" },
+                    checkRequired("actualInterestCharged", actualInterestCharged),
+                    checkRequired("dailyBalanceAmounts", dailyBalanceAmounts),
+                    checkRequired("effectiveApr", effectiveApr),
+                    checkRequired("interestCalculationMethod", interestCalculationMethod),
+                    checkRequired("interestForPeriod", interestForPeriod),
+                    checkRequired("primeRate", primeRate),
                     minimumInterestCharged,
                     additionalProperties.toImmutable(),
                 )
@@ -1634,11 +1614,9 @@ private constructor(
 
                 fun build(): CategoryDetails =
                     CategoryDetails(
-                        checkNotNull(balanceTransfers) {
-                            "`balanceTransfers` is required but was not set"
-                        },
-                        checkNotNull(cashAdvances) { "`cashAdvances` is required but was not set" },
-                        checkNotNull(purchases) { "`purchases` is required but was not set" },
+                        checkRequired("balanceTransfers", balanceTransfers),
+                        checkRequired("cashAdvances", cashAdvances),
+                        checkRequired("purchases", purchases),
                         additionalProperties.toImmutable(),
                     )
             }

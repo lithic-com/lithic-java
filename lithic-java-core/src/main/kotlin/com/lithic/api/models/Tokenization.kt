@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -341,21 +342,15 @@ private constructor(
 
         fun build(): Tokenization =
             Tokenization(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(accountToken) { "`accountToken` is required but was not set" },
-                checkNotNull(cardToken) { "`cardToken` is required but was not set" },
-                checkNotNull(createdAt) { "`createdAt` is required but was not set" },
-                checkNotNull(status) { "`status` is required but was not set" },
-                checkNotNull(tokenRequestorName) {
-                    "`tokenRequestorName` is required but was not set"
-                },
-                checkNotNull(tokenUniqueReference) {
-                    "`tokenUniqueReference` is required but was not set"
-                },
-                checkNotNull(tokenizationChannel) {
-                    "`tokenizationChannel` is required but was not set"
-                },
-                checkNotNull(updatedAt) { "`updatedAt` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("accountToken", accountToken),
+                checkRequired("cardToken", cardToken),
+                checkRequired("createdAt", createdAt),
+                checkRequired("status", status),
+                checkRequired("tokenRequestorName", tokenRequestorName),
+                checkRequired("tokenUniqueReference", tokenUniqueReference),
+                checkRequired("tokenizationChannel", tokenizationChannel),
+                checkRequired("updatedAt", updatedAt),
                 digitalCardArtToken,
                 (events ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toImmutable(),

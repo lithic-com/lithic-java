@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -258,20 +259,14 @@ private constructor(
 
         fun build(): FinancialAccountCreditConfig =
             FinancialAccountCreditConfig(
-                checkNotNull(accountToken) { "`accountToken` is required but was not set" },
-                checkNotNull(chargedOffReason) { "`chargedOffReason` is required but was not set" },
-                checkNotNull(creditLimit) { "`creditLimit` is required but was not set" },
-                checkNotNull(creditProductToken) {
-                    "`creditProductToken` is required but was not set"
-                },
-                checkNotNull(externalBankAccountToken) {
-                    "`externalBankAccountToken` is required but was not set"
-                },
-                checkNotNull(financialAccountState) {
-                    "`financialAccountState` is required but was not set"
-                },
-                checkNotNull(isSpendBlocked) { "`isSpendBlocked` is required but was not set" },
-                checkNotNull(tier) { "`tier` is required but was not set" },
+                checkRequired("accountToken", accountToken),
+                checkRequired("chargedOffReason", chargedOffReason),
+                checkRequired("creditLimit", creditLimit),
+                checkRequired("creditProductToken", creditProductToken),
+                checkRequired("externalBankAccountToken", externalBankAccountToken),
+                checkRequired("financialAccountState", financialAccountState),
+                checkRequired("isSpendBlocked", isSpendBlocked),
+                checkRequired("tier", tier),
                 additionalProperties.toImmutable(),
             )
     }

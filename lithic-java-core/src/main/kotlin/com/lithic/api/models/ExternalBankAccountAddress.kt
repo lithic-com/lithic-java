@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
@@ -154,11 +155,11 @@ private constructor(
 
         fun build(): ExternalBankAccountAddress =
             ExternalBankAccountAddress(
-                checkNotNull(address1) { "`address1` is required but was not set" },
-                checkNotNull(city) { "`city` is required but was not set" },
-                checkNotNull(country) { "`country` is required but was not set" },
-                checkNotNull(postalCode) { "`postalCode` is required but was not set" },
-                checkNotNull(state) { "`state` is required but was not set" },
+                checkRequired("address1", address1),
+                checkRequired("city", city),
+                checkRequired("country", country),
+                checkRequired("postalCode", postalCode),
+                checkRequired("state", state),
                 address2,
                 additionalProperties.toImmutable(),
             )

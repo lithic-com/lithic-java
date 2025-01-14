@@ -21,6 +21,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
@@ -260,9 +261,9 @@ private constructor(
 
         fun build(): VelocityLimitParams =
             VelocityLimitParams(
-                checkNotNull(filters) { "`filters` is required but was not set" },
-                checkNotNull(period) { "`period` is required but was not set" },
-                checkNotNull(scope) { "`scope` is required but was not set" },
+                checkRequired("filters", filters),
+                checkRequired("period", period),
+                checkRequired("scope", scope),
                 limitAmount,
                 limitCount,
                 additionalProperties.toImmutable(),

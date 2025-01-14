@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
@@ -172,10 +173,8 @@ constructor(
 
         fun build(): FinancialAccountLoanTapeRetrieveParams =
             FinancialAccountLoanTapeRetrieveParams(
-                checkNotNull(financialAccountToken) {
-                    "`financialAccountToken` is required but was not set"
-                },
-                checkNotNull(loanTapeToken) { "`loanTapeToken` is required but was not set" },
+                checkRequired("financialAccountToken", financialAccountToken),
+                checkRequired("loanTapeToken", loanTapeToken),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

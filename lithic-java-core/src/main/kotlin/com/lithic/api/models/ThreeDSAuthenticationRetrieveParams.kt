@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
@@ -161,9 +162,7 @@ constructor(
 
         fun build(): ThreeDSAuthenticationRetrieveParams =
             ThreeDSAuthenticationRetrieveParams(
-                checkNotNull(threeDSAuthenticationToken) {
-                    "`threeDSAuthenticationToken` is required but was not set"
-                },
+                checkRequired("threeDSAuthenticationToken", threeDSAuthenticationToken),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

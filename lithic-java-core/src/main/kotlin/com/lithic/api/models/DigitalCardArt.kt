@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -212,12 +213,12 @@ private constructor(
 
         fun build(): DigitalCardArt =
             DigitalCardArt(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(cardProgramToken) { "`cardProgramToken` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(description) { "`description` is required but was not set" },
-                checkNotNull(isEnabled) { "`isEnabled` is required but was not set" },
-                checkNotNull(network) { "`network` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("cardProgramToken", cardProgramToken),
+                checkRequired("created", created),
+                checkRequired("description", description),
+                checkRequired("isEnabled", isEnabled),
+                checkRequired("network", network),
                 isCardProgramDefault,
                 additionalProperties.toImmutable(),
             )
