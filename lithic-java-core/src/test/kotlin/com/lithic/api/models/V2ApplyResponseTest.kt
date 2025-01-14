@@ -18,35 +18,13 @@ class V2ApplyResponseTest {
                     V2ApplyResponse.CurrentVersion.builder()
                         .parameters(
                             V2ApplyResponse.CurrentVersion.Parameters.ofConditionalBlockParameters(
-                                V2ApplyResponse.CurrentVersion.Parameters.ConditionalBlockParameters
-                                    .builder()
+                                ConditionalBlockParameters.builder()
                                     .conditions(
                                         listOf(
-                                            V2ApplyResponse.CurrentVersion.Parameters
-                                                .ConditionalBlockParameters
-                                                .Condition
-                                                .builder()
-                                                .attribute(
-                                                    V2ApplyResponse.CurrentVersion.Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Attribute
-                                                        .MCC
-                                                )
-                                                .operation(
-                                                    V2ApplyResponse.CurrentVersion.Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Operation
-                                                        .IS_ONE_OF
-                                                )
-                                                .value(
-                                                    V2ApplyResponse.CurrentVersion.Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Value
-                                                        .ofString("string")
-                                                )
+                                            AuthRuleCondition.builder()
+                                                .attribute(ConditionalAttribute.MCC)
+                                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                                .value(AuthRuleCondition.Value.ofString("string"))
                                                 .build()
                                         )
                                     )
@@ -60,35 +38,13 @@ class V2ApplyResponseTest {
                     V2ApplyResponse.DraftVersion.builder()
                         .parameters(
                             V2ApplyResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
-                                V2ApplyResponse.DraftVersion.Parameters.ConditionalBlockParameters
-                                    .builder()
+                                ConditionalBlockParameters.builder()
                                     .conditions(
                                         listOf(
-                                            V2ApplyResponse.DraftVersion.Parameters
-                                                .ConditionalBlockParameters
-                                                .Condition
-                                                .builder()
-                                                .attribute(
-                                                    V2ApplyResponse.DraftVersion.Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Attribute
-                                                        .MCC
-                                                )
-                                                .operation(
-                                                    V2ApplyResponse.DraftVersion.Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Operation
-                                                        .IS_ONE_OF
-                                                )
-                                                .value(
-                                                    V2ApplyResponse.DraftVersion.Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Value
-                                                        .ofString("string")
-                                                )
+                                            AuthRuleCondition.builder()
+                                                .attribute(ConditionalAttribute.MCC)
+                                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                                .value(AuthRuleCondition.Value.ofString("string"))
                                                 .build()
                                         )
                                     )
@@ -115,35 +71,13 @@ class V2ApplyResponseTest {
                 V2ApplyResponse.CurrentVersion.builder()
                     .parameters(
                         V2ApplyResponse.CurrentVersion.Parameters.ofConditionalBlockParameters(
-                            V2ApplyResponse.CurrentVersion.Parameters.ConditionalBlockParameters
-                                .builder()
+                            ConditionalBlockParameters.builder()
                                 .conditions(
                                     listOf(
-                                        V2ApplyResponse.CurrentVersion.Parameters
-                                            .ConditionalBlockParameters
-                                            .Condition
-                                            .builder()
-                                            .attribute(
-                                                V2ApplyResponse.CurrentVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Attribute
-                                                    .MCC
-                                            )
-                                            .operation(
-                                                V2ApplyResponse.CurrentVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Operation
-                                                    .IS_ONE_OF
-                                            )
-                                            .value(
-                                                V2ApplyResponse.CurrentVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Value
-                                                    .ofString("string")
-                                            )
+                                        AuthRuleCondition.builder()
+                                            .attribute(ConditionalAttribute.MCC)
+                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                            .value(AuthRuleCondition.Value.ofString("string"))
                                             .build()
                                     )
                                 )
@@ -158,35 +92,13 @@ class V2ApplyResponseTest {
                 V2ApplyResponse.DraftVersion.builder()
                     .parameters(
                         V2ApplyResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
-                            V2ApplyResponse.DraftVersion.Parameters.ConditionalBlockParameters
-                                .builder()
+                            ConditionalBlockParameters.builder()
                                 .conditions(
                                     listOf(
-                                        V2ApplyResponse.DraftVersion.Parameters
-                                            .ConditionalBlockParameters
-                                            .Condition
-                                            .builder()
-                                            .attribute(
-                                                V2ApplyResponse.DraftVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Attribute
-                                                    .MCC
-                                            )
-                                            .operation(
-                                                V2ApplyResponse.DraftVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Operation
-                                                    .IS_ONE_OF
-                                            )
-                                            .value(
-                                                V2ApplyResponse.DraftVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Value
-                                                    .ofString("string")
-                                            )
+                                        AuthRuleCondition.builder()
+                                            .attribute(ConditionalAttribute.MCC)
+                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                            .value(AuthRuleCondition.Value.ofString("string"))
                                             .build()
                                     )
                                 )
