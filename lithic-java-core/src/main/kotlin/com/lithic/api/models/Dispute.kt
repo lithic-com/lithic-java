@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -795,34 +796,25 @@ private constructor(
 
         fun build(): Dispute =
             Dispute(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(amount) { "`amount` is required but was not set" },
-                checkNotNull(arbitrationDate) { "`arbitrationDate` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(customerFiledDate) {
-                    "`customerFiledDate` is required but was not set"
-                },
-                checkNotNull(customerNote) { "`customerNote` is required but was not set" },
-                checkNotNull(networkClaimIds) { "`networkClaimIds` is required but was not set" }
-                    .map { it.toImmutable() },
-                checkNotNull(networkFiledDate) { "`networkFiledDate` is required but was not set" },
-                checkNotNull(networkReasonCode) {
-                    "`networkReasonCode` is required but was not set"
-                },
-                checkNotNull(prearbitrationDate) {
-                    "`prearbitrationDate` is required but was not set"
-                },
-                checkNotNull(primaryClaimId) { "`primaryClaimId` is required but was not set" },
-                checkNotNull(reason) { "`reason` is required but was not set" },
-                checkNotNull(representmentDate) {
-                    "`representmentDate` is required but was not set"
-                },
-                checkNotNull(resolutionAmount) { "`resolutionAmount` is required but was not set" },
-                checkNotNull(resolutionDate) { "`resolutionDate` is required but was not set" },
-                checkNotNull(resolutionNote) { "`resolutionNote` is required but was not set" },
-                checkNotNull(resolutionReason) { "`resolutionReason` is required but was not set" },
-                checkNotNull(status) { "`status` is required but was not set" },
-                checkNotNull(transactionToken) { "`transactionToken` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("amount", amount),
+                checkRequired("arbitrationDate", arbitrationDate),
+                checkRequired("created", created),
+                checkRequired("customerFiledDate", customerFiledDate),
+                checkRequired("customerNote", customerNote),
+                checkRequired("networkClaimIds", networkClaimIds).map { it.toImmutable() },
+                checkRequired("networkFiledDate", networkFiledDate),
+                checkRequired("networkReasonCode", networkReasonCode),
+                checkRequired("prearbitrationDate", prearbitrationDate),
+                checkRequired("primaryClaimId", primaryClaimId),
+                checkRequired("reason", reason),
+                checkRequired("representmentDate", representmentDate),
+                checkRequired("resolutionAmount", resolutionAmount),
+                checkRequired("resolutionDate", resolutionDate),
+                checkRequired("resolutionNote", resolutionNote),
+                checkRequired("resolutionReason", resolutionReason),
+                checkRequired("status", status),
+                checkRequired("transactionToken", transactionToken),
                 additionalProperties.toImmutable(),
             )
     }

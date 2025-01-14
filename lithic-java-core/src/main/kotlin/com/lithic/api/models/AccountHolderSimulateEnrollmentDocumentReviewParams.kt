@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -257,10 +258,8 @@ constructor(
 
             fun build(): AccountHolderSimulateEnrollmentDocumentReviewBody =
                 AccountHolderSimulateEnrollmentDocumentReviewBody(
-                    checkNotNull(documentUploadToken) {
-                        "`documentUploadToken` is required but was not set"
-                    },
-                    checkNotNull(status) { "`status` is required but was not set" },
+                    checkRequired("documentUploadToken", documentUploadToken),
+                    checkRequired("status", status),
                     (acceptedEntityStatusReasons ?: JsonMissing.of()).map { it.toImmutable() },
                     statusReason,
                     additionalProperties.toImmutable(),

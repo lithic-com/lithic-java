@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -173,9 +174,9 @@ constructor(
 
             fun build(): TransactionSimulateReturnBody =
                 TransactionSimulateReturnBody(
-                    checkNotNull(amount) { "`amount` is required but was not set" },
-                    checkNotNull(descriptor) { "`descriptor` is required but was not set" },
-                    checkNotNull(pan) { "`pan` is required but was not set" },
+                    checkRequired("amount", amount),
+                    checkRequired("descriptor", descriptor),
+                    checkRequired("pan", pan),
                     additionalProperties.toImmutable(),
                 )
         }

@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -148,7 +149,7 @@ constructor(
 
             fun build(): ExternalPaymentCancelBody =
                 ExternalPaymentCancelBody(
-                    checkNotNull(effectiveDate) { "`effectiveDate` is required but was not set" },
+                    checkRequired("effectiveDate", effectiveDate),
                     memo,
                     additionalProperties.toImmutable(),
                 )
@@ -328,9 +329,7 @@ constructor(
 
         fun build(): ExternalPaymentCancelParams =
             ExternalPaymentCancelParams(
-                checkNotNull(externalPaymentToken) {
-                    "`externalPaymentToken` is required but was not set"
-                },
+                checkRequired("externalPaymentToken", externalPaymentToken),
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

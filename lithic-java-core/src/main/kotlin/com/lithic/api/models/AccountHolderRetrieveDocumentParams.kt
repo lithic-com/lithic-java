@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
@@ -182,10 +183,8 @@ constructor(
 
         fun build(): AccountHolderRetrieveDocumentParams =
             AccountHolderRetrieveDocumentParams(
-                checkNotNull(accountHolderToken) {
-                    "`accountHolderToken` is required but was not set"
-                },
-                checkNotNull(documentToken) { "`documentToken` is required but was not set" },
+                checkRequired("accountHolderToken", accountHolderToken),
+                checkRequired("documentToken", documentToken),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

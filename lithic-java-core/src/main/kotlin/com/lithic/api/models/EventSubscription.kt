@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -175,10 +176,10 @@ private constructor(
 
         fun build(): EventSubscription =
             EventSubscription(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(description) { "`description` is required but was not set" },
-                checkNotNull(disabled) { "`disabled` is required but was not set" },
-                checkNotNull(url) { "`url` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("description", description),
+                checkRequired("disabled", disabled),
+                checkRequired("url", url),
                 (eventTypes ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toImmutable(),
             )

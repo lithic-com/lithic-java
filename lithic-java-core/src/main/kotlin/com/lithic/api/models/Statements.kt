@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.util.Objects
@@ -116,9 +117,8 @@ private constructor(
 
         fun build(): Statements =
             Statements(
-                checkNotNull(data) { "`data` is required but was not set" }
-                    .map { it.toImmutable() },
-                checkNotNull(hasMore) { "`hasMore` is required but was not set" },
+                checkRequired("data", data).map { it.toImmutable() },
+                checkRequired("hasMore", hasMore),
                 additionalProperties.toImmutable(),
             )
     }

@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -1107,13 +1108,10 @@ private constructor(
 
             fun build(): KybBusinessEntity =
                 KybBusinessEntity(
-                    checkNotNull(address) { "`address` is required but was not set" },
-                    checkNotNull(governmentId) { "`governmentId` is required but was not set" },
-                    checkNotNull(legalBusinessName) {
-                        "`legalBusinessName` is required but was not set"
-                    },
-                    checkNotNull(phoneNumbers) { "`phoneNumbers` is required but was not set" }
-                        .map { it.toImmutable() },
+                    checkRequired("address", address),
+                    checkRequired("governmentId", governmentId),
+                    checkRequired("legalBusinessName", legalBusinessName),
+                    checkRequired("phoneNumbers", phoneNumbers).map { it.toImmutable() },
                     dbaBusinessName,
                     parentCompany,
                     additionalProperties.toImmutable(),
@@ -1334,11 +1332,11 @@ private constructor(
 
                 fun build(): Address2 =
                     Address2(
-                        checkNotNull(address1) { "`address1` is required but was not set" },
-                        checkNotNull(city) { "`city` is required but was not set" },
-                        checkNotNull(country) { "`country` is required but was not set" },
-                        checkNotNull(postalCode) { "`postalCode` is required but was not set" },
-                        checkNotNull(state) { "`state` is required but was not set" },
+                        checkRequired("address1", address1),
+                        checkRequired("city", city),
+                        checkRequired("country", country),
+                        checkRequired("postalCode", postalCode),
+                        checkRequired("state", state),
                         address2,
                         additionalProperties.toImmutable(),
                     )
@@ -1842,11 +1840,11 @@ private constructor(
 
                 fun build(): Address2 =
                     Address2(
-                        checkNotNull(address1) { "`address1` is required but was not set" },
-                        checkNotNull(city) { "`city` is required but was not set" },
-                        checkNotNull(country) { "`country` is required but was not set" },
-                        checkNotNull(postalCode) { "`postalCode` is required but was not set" },
-                        checkNotNull(state) { "`state` is required but was not set" },
+                        checkRequired("address1", address1),
+                        checkRequired("city", city),
+                        checkRequired("country", country),
+                        checkRequired("postalCode", postalCode),
+                        checkRequired("state", state),
                         address2,
                         additionalProperties.toImmutable(),
                     )
@@ -2480,11 +2478,10 @@ private constructor(
 
             fun build(): VerificationApplication =
                 VerificationApplication(
-                    checkNotNull(created) { "`created` is required but was not set" },
-                    checkNotNull(status) { "`status` is required but was not set" },
-                    checkNotNull(statusReasons) { "`statusReasons` is required but was not set" }
-                        .map { it.toImmutable() },
-                    checkNotNull(updated) { "`updated` is required but was not set" },
+                    checkRequired("created", created),
+                    checkRequired("status", status),
+                    checkRequired("statusReasons", statusReasons).map { it.toImmutable() },
+                    checkRequired("updated", updated),
                     additionalProperties.toImmutable(),
                 )
         }

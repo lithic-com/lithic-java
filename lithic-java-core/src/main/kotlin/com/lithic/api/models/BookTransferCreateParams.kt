@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -373,16 +374,12 @@ constructor(
 
             fun build(): BookTransferCreateBody =
                 BookTransferCreateBody(
-                    checkNotNull(amount) { "`amount` is required but was not set" },
-                    checkNotNull(category) { "`category` is required but was not set" },
-                    checkNotNull(fromFinancialAccountToken) {
-                        "`fromFinancialAccountToken` is required but was not set"
-                    },
-                    checkNotNull(subtype) { "`subtype` is required but was not set" },
-                    checkNotNull(toFinancialAccountToken) {
-                        "`toFinancialAccountToken` is required but was not set"
-                    },
-                    checkNotNull(type) { "`type` is required but was not set" },
+                    checkRequired("amount", amount),
+                    checkRequired("category", category),
+                    checkRequired("fromFinancialAccountToken", fromFinancialAccountToken),
+                    checkRequired("subtype", subtype),
+                    checkRequired("toFinancialAccountToken", toFinancialAccountToken),
+                    checkRequired("type", type),
                     token,
                     memo,
                     additionalProperties.toImmutable(),

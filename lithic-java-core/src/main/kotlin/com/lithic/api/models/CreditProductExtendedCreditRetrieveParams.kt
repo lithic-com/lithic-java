@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
@@ -161,9 +162,7 @@ constructor(
 
         fun build(): CreditProductExtendedCreditRetrieveParams =
             CreditProductExtendedCreditRetrieveParams(
-                checkNotNull(creditProductToken) {
-                    "`creditProductToken` is required but was not set"
-                },
+                checkRequired("creditProductToken", creditProductToken),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

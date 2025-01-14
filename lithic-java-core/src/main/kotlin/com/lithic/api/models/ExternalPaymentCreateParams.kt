@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -292,13 +293,11 @@ constructor(
 
             fun build(): ExternalPaymentCreateBody =
                 ExternalPaymentCreateBody(
-                    checkNotNull(amount) { "`amount` is required but was not set" },
-                    checkNotNull(category) { "`category` is required but was not set" },
-                    checkNotNull(effectiveDate) { "`effectiveDate` is required but was not set" },
-                    checkNotNull(financialAccountToken) {
-                        "`financialAccountToken` is required but was not set"
-                    },
-                    checkNotNull(paymentType) { "`paymentType` is required but was not set" },
+                    checkRequired("amount", amount),
+                    checkRequired("category", category),
+                    checkRequired("effectiveDate", effectiveDate),
+                    checkRequired("financialAccountToken", financialAccountToken),
+                    checkRequired("paymentType", paymentType),
                     token,
                     memo,
                     progressTo,

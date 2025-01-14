@@ -7,6 +7,7 @@ import com.lithic.api.core.Enum
 import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
@@ -195,7 +196,7 @@ constructor(
 
         fun build(): ResponderEndpointDeleteParams =
             ResponderEndpointDeleteParams(
-                checkNotNull(type) { "`type` is required but was not set" },
+                checkRequired("type", type),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),

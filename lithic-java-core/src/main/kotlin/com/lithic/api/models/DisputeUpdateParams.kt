@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -417,7 +418,7 @@ constructor(
 
         fun build(): DisputeUpdateParams =
             DisputeUpdateParams(
-                checkNotNull(disputeToken) { "`disputeToken` is required but was not set" },
+                checkRequired("disputeToken", disputeToken),
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

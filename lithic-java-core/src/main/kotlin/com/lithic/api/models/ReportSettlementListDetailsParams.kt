@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.time.LocalDate
@@ -226,7 +227,7 @@ constructor(
 
         fun build(): ReportSettlementListDetailsParams =
             ReportSettlementListDetailsParams(
-                checkNotNull(reportDate) { "`reportDate` is required but was not set" },
+                checkRequired("reportDate", reportDate),
                 endingBefore,
                 pageSize,
                 startingAfter,

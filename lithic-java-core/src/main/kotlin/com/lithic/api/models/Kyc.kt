@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -214,9 +215,9 @@ private constructor(
 
         fun build(): Kyc =
             Kyc(
-                checkNotNull(individual) { "`individual` is required but was not set" },
-                checkNotNull(tosTimestamp) { "`tosTimestamp` is required but was not set" },
-                checkNotNull(workflow) { "`workflow` is required but was not set" },
+                checkRequired("individual", individual),
+                checkRequired("tosTimestamp", tosTimestamp),
+                checkRequired("workflow", workflow),
                 externalId,
                 kycPassedTimestamp,
                 additionalProperties.toImmutable(),
@@ -459,13 +460,13 @@ private constructor(
 
             fun build(): Individual =
                 Individual(
-                    checkNotNull(address) { "`address` is required but was not set" },
-                    checkNotNull(dob) { "`dob` is required but was not set" },
-                    checkNotNull(email) { "`email` is required but was not set" },
-                    checkNotNull(firstName) { "`firstName` is required but was not set" },
-                    checkNotNull(governmentId) { "`governmentId` is required but was not set" },
-                    checkNotNull(lastName) { "`lastName` is required but was not set" },
-                    checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
+                    checkRequired("address", address),
+                    checkRequired("dob", dob),
+                    checkRequired("email", email),
+                    checkRequired("firstName", firstName),
+                    checkRequired("governmentId", governmentId),
+                    checkRequired("lastName", lastName),
+                    checkRequired("phoneNumber", phoneNumber),
                     additionalProperties.toImmutable(),
                 )
         }

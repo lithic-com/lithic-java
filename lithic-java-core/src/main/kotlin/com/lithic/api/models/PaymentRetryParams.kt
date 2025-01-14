@@ -4,6 +4,7 @@ package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
@@ -189,7 +190,7 @@ constructor(
 
         fun build(): PaymentRetryParams =
             PaymentRetryParams(
-                checkNotNull(paymentToken) { "`paymentToken` is required but was not set" },
+                checkRequired("paymentToken", paymentToken),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
