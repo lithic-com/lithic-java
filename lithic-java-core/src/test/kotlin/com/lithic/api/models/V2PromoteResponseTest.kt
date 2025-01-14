@@ -19,35 +19,16 @@ class V2PromoteResponseTest {
                         .parameters(
                             V2PromoteResponse.CurrentVersion.Parameters
                                 .ofConditionalBlockParameters(
-                                    V2PromoteResponse.CurrentVersion.Parameters
-                                        .ConditionalBlockParameters
-                                        .builder()
+                                    ConditionalBlockParameters.builder()
                                         .conditions(
                                             listOf(
-                                                V2PromoteResponse.CurrentVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .builder()
-                                                    .attribute(
-                                                        V2PromoteResponse.CurrentVersion.Parameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Attribute
-                                                            .MCC
-                                                    )
+                                                AuthRuleCondition.builder()
+                                                    .attribute(ConditionalAttribute.MCC)
                                                     .operation(
-                                                        V2PromoteResponse.CurrentVersion.Parameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Operation
-                                                            .IS_ONE_OF
+                                                        AuthRuleCondition.Operation.IS_ONE_OF
                                                     )
                                                     .value(
-                                                        V2PromoteResponse.CurrentVersion.Parameters
-                                                            .ConditionalBlockParameters
-                                                            .Condition
-                                                            .Value
-                                                            .ofString("string")
+                                                        AuthRuleCondition.Value.ofString("string")
                                                     )
                                                     .build()
                                             )
@@ -62,35 +43,13 @@ class V2PromoteResponseTest {
                     V2PromoteResponse.DraftVersion.builder()
                         .parameters(
                             V2PromoteResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
-                                V2PromoteResponse.DraftVersion.Parameters.ConditionalBlockParameters
-                                    .builder()
+                                ConditionalBlockParameters.builder()
                                     .conditions(
                                         listOf(
-                                            V2PromoteResponse.DraftVersion.Parameters
-                                                .ConditionalBlockParameters
-                                                .Condition
-                                                .builder()
-                                                .attribute(
-                                                    V2PromoteResponse.DraftVersion.Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Attribute
-                                                        .MCC
-                                                )
-                                                .operation(
-                                                    V2PromoteResponse.DraftVersion.Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Operation
-                                                        .IS_ONE_OF
-                                                )
-                                                .value(
-                                                    V2PromoteResponse.DraftVersion.Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Value
-                                                        .ofString("string")
-                                                )
+                                            AuthRuleCondition.builder()
+                                                .attribute(ConditionalAttribute.MCC)
+                                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                                .value(AuthRuleCondition.Value.ofString("string"))
                                                 .build()
                                         )
                                     )
@@ -117,35 +76,13 @@ class V2PromoteResponseTest {
                 V2PromoteResponse.CurrentVersion.builder()
                     .parameters(
                         V2PromoteResponse.CurrentVersion.Parameters.ofConditionalBlockParameters(
-                            V2PromoteResponse.CurrentVersion.Parameters.ConditionalBlockParameters
-                                .builder()
+                            ConditionalBlockParameters.builder()
                                 .conditions(
                                     listOf(
-                                        V2PromoteResponse.CurrentVersion.Parameters
-                                            .ConditionalBlockParameters
-                                            .Condition
-                                            .builder()
-                                            .attribute(
-                                                V2PromoteResponse.CurrentVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Attribute
-                                                    .MCC
-                                            )
-                                            .operation(
-                                                V2PromoteResponse.CurrentVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Operation
-                                                    .IS_ONE_OF
-                                            )
-                                            .value(
-                                                V2PromoteResponse.CurrentVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Value
-                                                    .ofString("string")
-                                            )
+                                        AuthRuleCondition.builder()
+                                            .attribute(ConditionalAttribute.MCC)
+                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                            .value(AuthRuleCondition.Value.ofString("string"))
                                             .build()
                                     )
                                 )
@@ -160,35 +97,13 @@ class V2PromoteResponseTest {
                 V2PromoteResponse.DraftVersion.builder()
                     .parameters(
                         V2PromoteResponse.DraftVersion.Parameters.ofConditionalBlockParameters(
-                            V2PromoteResponse.DraftVersion.Parameters.ConditionalBlockParameters
-                                .builder()
+                            ConditionalBlockParameters.builder()
                                 .conditions(
                                     listOf(
-                                        V2PromoteResponse.DraftVersion.Parameters
-                                            .ConditionalBlockParameters
-                                            .Condition
-                                            .builder()
-                                            .attribute(
-                                                V2PromoteResponse.DraftVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Attribute
-                                                    .MCC
-                                            )
-                                            .operation(
-                                                V2PromoteResponse.DraftVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Operation
-                                                    .IS_ONE_OF
-                                            )
-                                            .value(
-                                                V2PromoteResponse.DraftVersion.Parameters
-                                                    .ConditionalBlockParameters
-                                                    .Condition
-                                                    .Value
-                                                    .ofString("string")
-                                            )
+                                        AuthRuleCondition.builder()
+                                            .attribute(ConditionalAttribute.MCC)
+                                            .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                            .value(AuthRuleCondition.Value.ofString("string"))
                                             .build()
                                     )
                                 )

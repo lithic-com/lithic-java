@@ -1,0 +1,119 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package com.lithic.api.models
+
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.lithic.api.core.Enum
+import com.lithic.api.core.JsonField
+import com.lithic.api.errors.LithicInvalidDataException
+
+class ConditionalAttribute
+@JsonCreator
+private constructor(
+    private val value: JsonField<String>,
+) : Enum {
+
+    @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+    companion object {
+
+        @JvmField val MCC = of("MCC")
+
+        @JvmField val COUNTRY = of("COUNTRY")
+
+        @JvmField val CURRENCY = of("CURRENCY")
+
+        @JvmField val MERCHANT_ID = of("MERCHANT_ID")
+
+        @JvmField val DESCRIPTOR = of("DESCRIPTOR")
+
+        @JvmField val LIABILITY_SHIFT = of("LIABILITY_SHIFT")
+
+        @JvmField val PAN_ENTRY_MODE = of("PAN_ENTRY_MODE")
+
+        @JvmField val TRANSACTION_AMOUNT = of("TRANSACTION_AMOUNT")
+
+        @JvmField val RISK_SCORE = of("RISK_SCORE")
+
+        @JvmField val CARD_TRANSACTION_COUNT_1_H = of("CARD_TRANSACTION_COUNT_1H")
+
+        @JvmField val CARD_TRANSACTION_COUNT_24_H = of("CARD_TRANSACTION_COUNT_24H")
+
+        @JvmStatic fun of(value: String) = ConditionalAttribute(JsonField.of(value))
+    }
+
+    enum class Known {
+        MCC,
+        COUNTRY,
+        CURRENCY,
+        MERCHANT_ID,
+        DESCRIPTOR,
+        LIABILITY_SHIFT,
+        PAN_ENTRY_MODE,
+        TRANSACTION_AMOUNT,
+        RISK_SCORE,
+        CARD_TRANSACTION_COUNT_1_H,
+        CARD_TRANSACTION_COUNT_24_H,
+    }
+
+    enum class Value {
+        MCC,
+        COUNTRY,
+        CURRENCY,
+        MERCHANT_ID,
+        DESCRIPTOR,
+        LIABILITY_SHIFT,
+        PAN_ENTRY_MODE,
+        TRANSACTION_AMOUNT,
+        RISK_SCORE,
+        CARD_TRANSACTION_COUNT_1_H,
+        CARD_TRANSACTION_COUNT_24_H,
+        _UNKNOWN,
+    }
+
+    fun value(): Value =
+        when (this) {
+            MCC -> Value.MCC
+            COUNTRY -> Value.COUNTRY
+            CURRENCY -> Value.CURRENCY
+            MERCHANT_ID -> Value.MERCHANT_ID
+            DESCRIPTOR -> Value.DESCRIPTOR
+            LIABILITY_SHIFT -> Value.LIABILITY_SHIFT
+            PAN_ENTRY_MODE -> Value.PAN_ENTRY_MODE
+            TRANSACTION_AMOUNT -> Value.TRANSACTION_AMOUNT
+            RISK_SCORE -> Value.RISK_SCORE
+            CARD_TRANSACTION_COUNT_1_H -> Value.CARD_TRANSACTION_COUNT_1_H
+            CARD_TRANSACTION_COUNT_24_H -> Value.CARD_TRANSACTION_COUNT_24_H
+            else -> Value._UNKNOWN
+        }
+
+    fun known(): Known =
+        when (this) {
+            MCC -> Known.MCC
+            COUNTRY -> Known.COUNTRY
+            CURRENCY -> Known.CURRENCY
+            MERCHANT_ID -> Known.MERCHANT_ID
+            DESCRIPTOR -> Known.DESCRIPTOR
+            LIABILITY_SHIFT -> Known.LIABILITY_SHIFT
+            PAN_ENTRY_MODE -> Known.PAN_ENTRY_MODE
+            TRANSACTION_AMOUNT -> Known.TRANSACTION_AMOUNT
+            RISK_SCORE -> Known.RISK_SCORE
+            CARD_TRANSACTION_COUNT_1_H -> Known.CARD_TRANSACTION_COUNT_1_H
+            CARD_TRANSACTION_COUNT_24_H -> Known.CARD_TRANSACTION_COUNT_24_H
+            else -> throw LithicInvalidDataException("Unknown ConditionalAttribute: $value")
+        }
+
+    fun asString(): String = _value().asStringOrThrow()
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) {
+            return true
+        }
+
+        return /* spotless:off */ other is ConditionalAttribute && value == other.value /* spotless:on */
+    }
+
+    override fun hashCode() = value.hashCode()
+
+    override fun toString() = value.toString()
+}
