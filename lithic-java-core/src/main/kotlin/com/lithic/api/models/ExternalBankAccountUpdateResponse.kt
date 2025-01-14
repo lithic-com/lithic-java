@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -594,25 +595,19 @@ private constructor(
 
         fun build(): ExternalBankAccountUpdateResponse =
             ExternalBankAccountUpdateResponse(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(country) { "`country` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(currency) { "`currency` is required but was not set" },
-                checkNotNull(lastFour) { "`lastFour` is required but was not set" },
-                checkNotNull(owner) { "`owner` is required but was not set" },
-                checkNotNull(ownerType) { "`ownerType` is required but was not set" },
-                checkNotNull(routingNumber) { "`routingNumber` is required but was not set" },
-                checkNotNull(state) { "`state` is required but was not set" },
-                checkNotNull(type) { "`type` is required but was not set" },
-                checkNotNull(verificationAttempts) {
-                    "`verificationAttempts` is required but was not set"
-                },
-                checkNotNull(verificationMethod) {
-                    "`verificationMethod` is required but was not set"
-                },
-                checkNotNull(verificationState) {
-                    "`verificationState` is required but was not set"
-                },
+                checkRequired("token", token),
+                checkRequired("country", country),
+                checkRequired("created", created),
+                checkRequired("currency", currency),
+                checkRequired("lastFour", lastFour),
+                checkRequired("owner", owner),
+                checkRequired("ownerType", ownerType),
+                checkRequired("routingNumber", routingNumber),
+                checkRequired("state", state),
+                checkRequired("type", type),
+                checkRequired("verificationAttempts", verificationAttempts),
+                checkRequired("verificationMethod", verificationMethod),
+                checkRequired("verificationState", verificationState),
                 accountToken,
                 address,
                 companyId,

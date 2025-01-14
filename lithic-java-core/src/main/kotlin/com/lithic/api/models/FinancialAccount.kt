@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -262,16 +263,14 @@ private constructor(
 
         fun build(): FinancialAccount =
             FinancialAccount(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(accountToken) { "`accountToken` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(creditConfiguration) {
-                    "`creditConfiguration` is required but was not set"
-                },
-                checkNotNull(isForBenefitOf) { "`isForBenefitOf` is required but was not set" },
-                checkNotNull(nickname) { "`nickname` is required but was not set" },
-                checkNotNull(type) { "`type` is required but was not set" },
-                checkNotNull(updated) { "`updated` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("accountToken", accountToken),
+                checkRequired("created", created),
+                checkRequired("creditConfiguration", creditConfiguration),
+                checkRequired("isForBenefitOf", isForBenefitOf),
+                checkRequired("nickname", nickname),
+                checkRequired("type", type),
+                checkRequired("updated", updated),
                 accountNumber,
                 routingNumber,
                 additionalProperties.toImmutable(),
@@ -509,21 +508,13 @@ private constructor(
 
             fun build(): FinancialAccountCreditConfig =
                 FinancialAccountCreditConfig(
-                    checkNotNull(chargedOffReason) {
-                        "`chargedOffReason` is required but was not set"
-                    },
-                    checkNotNull(creditLimit) { "`creditLimit` is required but was not set" },
-                    checkNotNull(creditProductToken) {
-                        "`creditProductToken` is required but was not set"
-                    },
-                    checkNotNull(externalBankAccountToken) {
-                        "`externalBankAccountToken` is required but was not set"
-                    },
-                    checkNotNull(financialAccountState) {
-                        "`financialAccountState` is required but was not set"
-                    },
-                    checkNotNull(isSpendBlocked) { "`isSpendBlocked` is required but was not set" },
-                    checkNotNull(tier) { "`tier` is required but was not set" },
+                    checkRequired("chargedOffReason", chargedOffReason),
+                    checkRequired("creditLimit", creditLimit),
+                    checkRequired("creditProductToken", creditProductToken),
+                    checkRequired("externalBankAccountToken", externalBankAccountToken),
+                    checkRequired("financialAccountState", financialAccountState),
+                    checkRequired("isSpendBlocked", isSpendBlocked),
+                    checkRequired("tier", tier),
                     additionalProperties.toImmutable(),
                 )
         }

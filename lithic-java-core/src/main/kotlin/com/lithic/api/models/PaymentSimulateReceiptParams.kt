@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -230,12 +231,10 @@ constructor(
 
             fun build(): PaymentSimulateReceiptBody =
                 PaymentSimulateReceiptBody(
-                    checkNotNull(token) { "`token` is required but was not set" },
-                    checkNotNull(amount) { "`amount` is required but was not set" },
-                    checkNotNull(financialAccountToken) {
-                        "`financialAccountToken` is required but was not set"
-                    },
-                    checkNotNull(receiptType) { "`receiptType` is required but was not set" },
+                    checkRequired("token", token),
+                    checkRequired("amount", amount),
+                    checkRequired("financialAccountToken", financialAccountToken),
+                    checkRequired("receiptType", receiptType),
                     memo,
                     additionalProperties.toImmutable(),
                 )

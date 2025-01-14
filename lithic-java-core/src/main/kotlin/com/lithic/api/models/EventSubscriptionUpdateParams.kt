@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -249,7 +250,7 @@ constructor(
 
             fun build(): EventSubscriptionUpdateBody =
                 EventSubscriptionUpdateBody(
-                    checkNotNull(url) { "`url` is required but was not set" },
+                    checkRequired("url", url),
                     description,
                     disabled,
                     (eventTypes ?: JsonMissing.of()).map { it.toImmutable() },
@@ -460,9 +461,7 @@ constructor(
 
         fun build(): EventSubscriptionUpdateParams =
             EventSubscriptionUpdateParams(
-                checkNotNull(eventSubscriptionToken) {
-                    "`eventSubscriptionToken` is required but was not set"
-                },
+                checkRequired("eventSubscriptionToken", eventSubscriptionToken),
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -804,8 +805,8 @@ private constructor(
 
         fun build(): AccountHolder =
             AccountHolder(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("created", created),
                 accountToken,
                 (beneficialOwnerEntities ?: JsonMissing.of()).map { it.toImmutable() },
                 (beneficialOwnerIndividuals ?: JsonMissing.of()).map { it.toImmutable() },
@@ -1093,17 +1094,12 @@ private constructor(
 
             fun build(): AccountHolderBusinessResponse =
                 AccountHolderBusinessResponse(
-                    checkNotNull(address) { "`address` is required but was not set" },
-                    checkNotNull(dbaBusinessName) {
-                        "`dbaBusinessName` is required but was not set"
-                    },
-                    checkNotNull(entityToken) { "`entityToken` is required but was not set" },
-                    checkNotNull(governmentId) { "`governmentId` is required but was not set" },
-                    checkNotNull(legalBusinessName) {
-                        "`legalBusinessName` is required but was not set"
-                    },
-                    checkNotNull(phoneNumbers) { "`phoneNumbers` is required but was not set" }
-                        .map { it.toImmutable() },
+                    checkRequired("address", address),
+                    checkRequired("dbaBusinessName", dbaBusinessName),
+                    checkRequired("entityToken", entityToken),
+                    checkRequired("governmentId", governmentId),
+                    checkRequired("legalBusinessName", legalBusinessName),
+                    checkRequired("phoneNumbers", phoneNumbers).map { it.toImmutable() },
                     parentCompany,
                     additionalProperties.toImmutable(),
                 )
@@ -1324,13 +1320,13 @@ private constructor(
 
             fun build(): AccountHolderIndividualResponse =
                 AccountHolderIndividualResponse(
-                    checkNotNull(address) { "`address` is required but was not set" },
-                    checkNotNull(dob) { "`dob` is required but was not set" },
-                    checkNotNull(email) { "`email` is required but was not set" },
-                    checkNotNull(entityToken) { "`entityToken` is required but was not set" },
-                    checkNotNull(firstName) { "`firstName` is required but was not set" },
-                    checkNotNull(lastName) { "`lastName` is required but was not set" },
-                    checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
+                    checkRequired("address", address),
+                    checkRequired("dob", dob),
+                    checkRequired("email", email),
+                    checkRequired("entityToken", entityToken),
+                    checkRequired("firstName", firstName),
+                    checkRequired("lastName", lastName),
+                    checkRequired("phoneNumber", phoneNumber),
                     additionalProperties.toImmutable(),
                 )
         }

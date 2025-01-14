@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.time.OffsetDateTime
@@ -210,7 +211,7 @@ constructor(
 
         fun build(): CardBalanceListParams =
             CardBalanceListParams(
-                checkNotNull(cardToken) { "`cardToken` is required but was not set" },
+                checkRequired("cardToken", cardToken),
                 balanceDate,
                 lastTransactionEventToken,
                 additionalHeaders.build(),

@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -251,10 +252,10 @@ private constructor(
 
         fun build(): DisputeEvidence =
             DisputeEvidence(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(disputeToken) { "`disputeToken` is required but was not set" },
-                checkNotNull(uploadStatus) { "`uploadStatus` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("created", created),
+                checkRequired("disputeToken", disputeToken),
+                checkRequired("uploadStatus", uploadStatus),
                 downloadUrl,
                 filename,
                 uploadUrl,

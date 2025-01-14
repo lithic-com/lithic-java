@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -361,10 +362,10 @@ private constructor(
 
         fun build(): Account =
             Account(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(spendLimit) { "`spendLimit` is required but was not set" },
-                checkNotNull(state) { "`state` is required but was not set" },
+                checkRequired("token", token),
+                checkRequired("created", created),
+                checkRequired("spendLimit", spendLimit),
+                checkRequired("state", state),
                 accountHolder,
                 (authRuleTokens ?: JsonMissing.of()).map { it.toImmutable() },
                 cardholderCurrency,
@@ -492,9 +493,9 @@ private constructor(
 
             fun build(): SpendLimit =
                 SpendLimit(
-                    checkNotNull(daily) { "`daily` is required but was not set" },
-                    checkNotNull(lifetime) { "`lifetime` is required but was not set" },
-                    checkNotNull(monthly) { "`monthly` is required but was not set" },
+                    checkRequired("daily", daily),
+                    checkRequired("lifetime", lifetime),
+                    checkRequired("monthly", monthly),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -737,12 +738,10 @@ private constructor(
 
             fun build(): AccountHolder =
                 AccountHolder(
-                    checkNotNull(token) { "`token` is required but was not set" },
-                    checkNotNull(businessAccountToken) {
-                        "`businessAccountToken` is required but was not set"
-                    },
-                    checkNotNull(email) { "`email` is required but was not set" },
-                    checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
+                    checkRequired("token", token),
+                    checkRequired("businessAccountToken", businessAccountToken),
+                    checkRequired("email", email),
+                    checkRequired("phoneNumber", phoneNumber),
                     additionalProperties.toImmutable(),
                 )
         }
@@ -960,11 +959,11 @@ private constructor(
 
             fun build(): VerificationAddress =
                 VerificationAddress(
-                    checkNotNull(address1) { "`address1` is required but was not set" },
-                    checkNotNull(city) { "`city` is required but was not set" },
-                    checkNotNull(country) { "`country` is required but was not set" },
-                    checkNotNull(postalCode) { "`postalCode` is required but was not set" },
-                    checkNotNull(state) { "`state` is required but was not set" },
+                    checkRequired("address1", address1),
+                    checkRequired("city", city),
+                    checkRequired("country", country),
+                    checkRequired("postalCode", postalCode),
+                    checkRequired("state", state),
                     address2,
                     additionalProperties.toImmutable(),
                 )

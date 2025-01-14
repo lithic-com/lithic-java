@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -292,11 +293,10 @@ private constructor(
 
         fun build(): AccountHolderCreateResponse =
             AccountHolderCreateResponse(
-                checkNotNull(token) { "`token` is required but was not set" },
-                checkNotNull(accountToken) { "`accountToken` is required but was not set" },
-                checkNotNull(status) { "`status` is required but was not set" },
-                checkNotNull(statusReasons) { "`statusReasons` is required but was not set" }
-                    .map { it.toImmutable() },
+                checkRequired("token", token),
+                checkRequired("accountToken", accountToken),
+                checkRequired("status", status),
+                checkRequired("statusReasons", statusReasons).map { it.toImmutable() },
                 created,
                 externalId,
                 (requiredDocuments ?: JsonMissing.of()).map { it.toImmutable() },

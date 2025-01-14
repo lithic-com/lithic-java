@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.time.LocalDate
@@ -197,9 +198,7 @@ constructor(
 
         fun build(): CreditProductPrimeRateRetrieveParams =
             CreditProductPrimeRateRetrieveParams(
-                checkNotNull(creditProductToken) {
-                    "`creditProductToken` is required but was not set"
-                },
+                checkRequired("creditProductToken", creditProductToken),
                 endingBefore,
                 startingAfter,
                 additionalHeaders.build(),

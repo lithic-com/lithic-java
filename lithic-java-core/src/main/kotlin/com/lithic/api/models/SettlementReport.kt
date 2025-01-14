@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import java.time.OffsetDateTime
@@ -412,26 +413,17 @@ private constructor(
 
         fun build(): SettlementReport =
             SettlementReport(
-                checkNotNull(created) { "`created` is required but was not set" },
-                checkNotNull(currency) { "`currency` is required but was not set" },
-                checkNotNull(details) { "`details` is required but was not set" }
-                    .map { it.toImmutable() },
-                checkNotNull(disputesGrossAmount) {
-                    "`disputesGrossAmount` is required but was not set"
-                },
-                checkNotNull(interchangeGrossAmount) {
-                    "`interchangeGrossAmount` is required but was not set"
-                },
-                checkNotNull(isComplete) { "`isComplete` is required but was not set" },
-                checkNotNull(otherFeesGrossAmount) {
-                    "`otherFeesGrossAmount` is required but was not set"
-                },
-                checkNotNull(reportDate) { "`reportDate` is required but was not set" },
-                checkNotNull(settledNetAmount) { "`settledNetAmount` is required but was not set" },
-                checkNotNull(transactionsGrossAmount) {
-                    "`transactionsGrossAmount` is required but was not set"
-                },
-                checkNotNull(updated) { "`updated` is required but was not set" },
+                checkRequired("created", created),
+                checkRequired("currency", currency),
+                checkRequired("details", details).map { it.toImmutable() },
+                checkRequired("disputesGrossAmount", disputesGrossAmount),
+                checkRequired("interchangeGrossAmount", interchangeGrossAmount),
+                checkRequired("isComplete", isComplete),
+                checkRequired("otherFeesGrossAmount", otherFeesGrossAmount),
+                checkRequired("reportDate", reportDate),
+                checkRequired("settledNetAmount", settledNetAmount),
+                checkRequired("transactionsGrossAmount", transactionsGrossAmount),
+                checkRequired("updated", updated),
                 additionalProperties.toImmutable(),
             )
     }

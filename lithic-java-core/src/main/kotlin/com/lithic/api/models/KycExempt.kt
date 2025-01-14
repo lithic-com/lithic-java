@@ -12,6 +12,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.immutableEmptyMap
 import com.lithic.api.core.toImmutable
 import com.lithic.api.errors.LithicInvalidDataException
@@ -277,13 +278,13 @@ private constructor(
 
         fun build(): KycExempt =
             KycExempt(
-                checkNotNull(address) { "`address` is required but was not set" },
-                checkNotNull(email) { "`email` is required but was not set" },
-                checkNotNull(firstName) { "`firstName` is required but was not set" },
-                checkNotNull(kycExemptionType) { "`kycExemptionType` is required but was not set" },
-                checkNotNull(lastName) { "`lastName` is required but was not set" },
-                checkNotNull(phoneNumber) { "`phoneNumber` is required but was not set" },
-                checkNotNull(workflow) { "`workflow` is required but was not set" },
+                checkRequired("address", address),
+                checkRequired("email", email),
+                checkRequired("firstName", firstName),
+                checkRequired("kycExemptionType", kycExemptionType),
+                checkRequired("lastName", lastName),
+                checkRequired("phoneNumber", phoneNumber),
+                checkRequired("workflow", workflow),
                 businessAccountToken,
                 externalId,
                 additionalProperties.toImmutable(),

@@ -11,6 +11,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.immutableEmptyMap
@@ -580,9 +581,7 @@ constructor(
 
         fun build(): ExternalBankAccountUpdateParams =
             ExternalBankAccountUpdateParams(
-                checkNotNull(externalBankAccountToken) {
-                    "`externalBankAccountToken` is required but was not set"
-                },
+                checkRequired("externalBankAccountToken", externalBankAccountToken),
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),

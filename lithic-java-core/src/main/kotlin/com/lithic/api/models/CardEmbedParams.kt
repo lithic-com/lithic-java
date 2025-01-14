@@ -3,6 +3,7 @@
 package com.lithic.api.models
 
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import java.util.Objects
@@ -190,8 +191,8 @@ constructor(
 
         fun build(): CardEmbedParams =
             CardEmbedParams(
-                checkNotNull(embedRequest) { "`embedRequest` is required but was not set" },
-                checkNotNull(hmac) { "`hmac` is required but was not set" },
+                checkRequired("embedRequest", embedRequest),
+                checkRequired("hmac", hmac),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )

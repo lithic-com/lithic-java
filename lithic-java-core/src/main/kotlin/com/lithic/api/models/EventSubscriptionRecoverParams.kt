@@ -4,6 +4,7 @@ package com.lithic.api.models
 
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
 import com.lithic.api.core.toImmutable
@@ -247,9 +248,7 @@ constructor(
 
         fun build(): EventSubscriptionRecoverParams =
             EventSubscriptionRecoverParams(
-                checkNotNull(eventSubscriptionToken) {
-                    "`eventSubscriptionToken` is required but was not set"
-                },
+                checkRequired("eventSubscriptionToken", eventSubscriptionToken),
                 begin,
                 end,
                 additionalHeaders.build(),

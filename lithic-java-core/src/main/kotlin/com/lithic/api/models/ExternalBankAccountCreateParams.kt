@@ -21,6 +21,7 @@ import com.lithic.api.core.JsonField
 import com.lithic.api.core.JsonMissing
 import com.lithic.api.core.JsonValue
 import com.lithic.api.core.NoAutoDetect
+import com.lithic.api.core.checkRequired
 import com.lithic.api.core.getOrThrow
 import com.lithic.api.core.http.Headers
 import com.lithic.api.core.http.QueryParams
@@ -869,19 +870,15 @@ constructor(
 
             fun build(): BankVerifiedCreateBankAccountApiRequest =
                 BankVerifiedCreateBankAccountApiRequest(
-                    checkNotNull(accountNumber) { "`accountNumber` is required but was not set" },
-                    checkNotNull(country) { "`country` is required but was not set" },
-                    checkNotNull(currency) { "`currency` is required but was not set" },
-                    checkNotNull(financialAccountToken) {
-                        "`financialAccountToken` is required but was not set"
-                    },
-                    checkNotNull(owner) { "`owner` is required but was not set" },
-                    checkNotNull(ownerType) { "`ownerType` is required but was not set" },
-                    checkNotNull(routingNumber) { "`routingNumber` is required but was not set" },
-                    checkNotNull(type) { "`type` is required but was not set" },
-                    checkNotNull(verificationMethod) {
-                        "`verificationMethod` is required but was not set"
-                    },
+                    checkRequired("accountNumber", accountNumber),
+                    checkRequired("country", country),
+                    checkRequired("currency", currency),
+                    checkRequired("financialAccountToken", financialAccountToken),
+                    checkRequired("owner", owner),
+                    checkRequired("ownerType", ownerType),
+                    checkRequired("routingNumber", routingNumber),
+                    checkRequired("type", type),
+                    checkRequired("verificationMethod", verificationMethod),
                     accountToken,
                     address,
                     companyId,
@@ -1243,12 +1240,10 @@ constructor(
 
             fun build(): PlaidCreateBankAccountApiRequest =
                 PlaidCreateBankAccountApiRequest(
-                    checkNotNull(owner) { "`owner` is required but was not set" },
-                    checkNotNull(ownerType) { "`ownerType` is required but was not set" },
-                    checkNotNull(processorToken) { "`processorToken` is required but was not set" },
-                    checkNotNull(verificationMethod) {
-                        "`verificationMethod` is required but was not set"
-                    },
+                    checkRequired("owner", owner),
+                    checkRequired("ownerType", ownerType),
+                    checkRequired("processorToken", processorToken),
+                    checkRequired("verificationMethod", verificationMethod),
                     accountToken,
                     companyId,
                     dob,
@@ -1686,16 +1681,14 @@ constructor(
 
             fun build(): ExternallyVerifiedCreateBankAccountApiRequest =
                 ExternallyVerifiedCreateBankAccountApiRequest(
-                    checkNotNull(accountNumber) { "`accountNumber` is required but was not set" },
-                    checkNotNull(country) { "`country` is required but was not set" },
-                    checkNotNull(currency) { "`currency` is required but was not set" },
-                    checkNotNull(owner) { "`owner` is required but was not set" },
-                    checkNotNull(ownerType) { "`ownerType` is required but was not set" },
-                    checkNotNull(routingNumber) { "`routingNumber` is required but was not set" },
-                    checkNotNull(type) { "`type` is required but was not set" },
-                    checkNotNull(verificationMethod) {
-                        "`verificationMethod` is required but was not set"
-                    },
+                    checkRequired("accountNumber", accountNumber),
+                    checkRequired("country", country),
+                    checkRequired("currency", currency),
+                    checkRequired("owner", owner),
+                    checkRequired("ownerType", ownerType),
+                    checkRequired("routingNumber", routingNumber),
+                    checkRequired("type", type),
+                    checkRequired("verificationMethod", verificationMethod),
                     accountToken,
                     address,
                     companyId,
