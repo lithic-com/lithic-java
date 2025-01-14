@@ -16,44 +16,13 @@ class AuthRuleV2CreateParamsTest {
                     .parameters(
                         AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.Parameters
                             .ofConditionalBlockParameters(
-                                AuthRuleV2CreateParams.CreateAuthRuleRequestAccountTokens.Parameters
-                                    .ConditionalBlockParameters
-                                    .builder()
+                                ConditionalBlockParameters.builder()
                                     .conditions(
                                         listOf(
-                                            AuthRuleV2CreateParams
-                                                .CreateAuthRuleRequestAccountTokens
-                                                .Parameters
-                                                .ConditionalBlockParameters
-                                                .Condition
-                                                .builder()
-                                                .attribute(
-                                                    AuthRuleV2CreateParams
-                                                        .CreateAuthRuleRequestAccountTokens
-                                                        .Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Attribute
-                                                        .MCC
-                                                )
-                                                .operation(
-                                                    AuthRuleV2CreateParams
-                                                        .CreateAuthRuleRequestAccountTokens
-                                                        .Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Operation
-                                                        .IS_ONE_OF
-                                                )
-                                                .value(
-                                                    AuthRuleV2CreateParams
-                                                        .CreateAuthRuleRequestAccountTokens
-                                                        .Parameters
-                                                        .ConditionalBlockParameters
-                                                        .Condition
-                                                        .Value
-                                                        .ofString("string")
-                                                )
+                                            AuthRuleCondition.builder()
+                                                .attribute(ConditionalAttribute.MCC)
+                                                .operation(AuthRuleCondition.Operation.IS_ONE_OF)
+                                                .value(AuthRuleCondition.Value.ofString("string"))
                                                 .build()
                                         )
                                     )
